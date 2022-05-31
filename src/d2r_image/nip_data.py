@@ -18,234 +18,234 @@ NTIP_ALIAS_QUALITY_MAP = {
 }
 
 NIP_ALIAS_STAT_PATTERNS = {
-    "Defense: {}": [
+    "Defense: {:d}": [
         "31"
     ],
-    "+{} Defense vs. Missile": [
+    "+{:d} Defense vs. Missile": [
         "32"
     ],
-    "+{} Defense vs. Melee": [
+    "+{:d} Defense vs. Melee": [
         "33"
     ],
-    "Damage Reduced by {}": [
+    "Damage Reduced by {:d}": [
         "34"
     ],
-    "Damage Reduced by {}%": [
+    "Damage Reduced by {:d}%": [
         "36"
     ],
-    "+{}% Enhanced Defense": [
+    "+{:d}% Enhanced Defense": [
         "16"
     ],
-    "Magic Damage Reduced by {}": [
+    "Magic Damage Reduced by {:d}": [
         "35"
     ],
-    "+{} to Strength": [
+    "+{:d} to Strength": [
         "0"
     ],
-    "+{} to Dexterity": [
+    "+{:d} to Dexterity": [
         "2"
     ],
-    "+{} to Vitality": [
+    "+{:d} to Vitality": [
         "3"
     ],
-    "+{} to Energy": [
+    "+{:d} to Energy": [
         "1"
     ],
-    "+{} to Mana": [
+    "+{:d} to Mana": [
         "9"
     ],
-    "Increase Maximum Mana {}%": [
+    "Increase Maximum Mana {:d}%": [
         "77"
     ],
-    "+{} to Life": [
+    "+{:d} to Life": [
         "7"
     ],
-    "Increase Maximum Life {}%": [
+    "Increase Maximum Life {:d}%": [
         "76"
     ],
-    "+{} to Attack Rating": [
+    "+{:d} to Attack Rating": [
         "19"
     ],
-    "{}% Increased Chance of Blocking": [
+    "{:d}% Increased Chance of Blocking": [
         "20"
     ],
-    "+{} to Minimum Cold Damage": [
+    "+{:d} to Minimum Cold Damage": [
         "54"
     ],
-    "+{} to Maximum Cold Damage": [
+    "+{:d} to Maximum Cold Damage": [
         "55"
     ],
-    "+{} to Minimum Fire Damage": [
+    "+{:d} to Minimum Fire Damage": [
         "48"
     ],
-    "+{} to Maximum Fire Damage": [
+    "+{:d} to Maximum Fire Damage": [
         "49"
     ],
-    "+{} to Minimum Lightning Damage": [
+    "+{:d} to Minimum Lightning Damage": [
         "50"
     ],
-    "+{} to Maximum Lightning Damage": [
+    "+{:d} to Maximum Lightning Damage": [
         "51"
     ],
-    "+{} to Minimum Poison Damage": [
+    "+{:d} to Minimum Poison Damage": [
         "57"
     ],
-    "+{} to Maximum Poison Damage": [
+    "+{:d} to Maximum Poison Damage": [
         "58"
     ],
-    "{}% Damage Taken Goes To Mana": [
+    "{:d}% Damage Taken Goes To Mana": [
         "114"
     ],
-    "Fire Resist +{}%": [
+    "Fire Resist +{:d}%": [
         "39"
     ],
-    "+{}% to Maximum Fire Resist": [
+    "+{:d}% to Maximum Fire Resist": [
         "40"
     ],
-    "Lightning Resist +{}%": [
+    "Lightning Resist +{:d}%": [
         "41"
     ],
-    "+{}% to Maximum Lightning Resist": [
+    "+{:d}% to Maximum Lightning Resist": [
         "42"
     ],
-    "Cold Resist +{}%": [
+    "Cold Resist +{:d}%": [
         "43"
     ],
-    "+{}% to Maximum Cold Resist": [
+    "+{:d}% to Maximum Cold Resist": [
         "44"
     ],
-    "Magic Resist +{}%": [
+    "Magic Resist +{:d}%": [
         "37"
     ],
-    "+{}% to Maximum Magic Resist": [
+    "+{:d}% to Maximum Magic Resist": [
         "38"
     ],
-    "Poison Resist +{}%": [
+    "Poison Resist +{:d}%": [
         "45"
     ],
-    "+{}% to Maximum Poison Resist": [
+    "+{:d}% to Maximum Poison Resist": [
         "46"
     ],
-    "All Resistances +{}": [
+    "All Resistances +{:d}": [
         "6969",
         "39",
         "41",
         "43",
         "45"
     ],
-    "+{} Fire Absorb": [
+    "+{:d} Fire Absorb": [
         "142"
     ],
-    "Fire Absorb {}%": [
+    "Fire Absorb {:d}%": [
         "143"
     ],
-    "+{} Lightning Absorb": [
+    "+{:d} Lightning Absorb": [
         "144"
     ],
-    "Lightning Absorb {}%": [
+    "Lightning Absorb {:d}%": [
         "145"
     ],
-    "+{} Magic Absorb": [
+    "+{:d} Magic Absorb": [
         "146"
     ],
-    "Magic Absorb {}%": [
+    "Magic Absorb {:d}%": [
         "147"
     ],
-    "+{} Cold Absorb": [
+    "+{:d} Cold Absorb": [
         "148"
     ],
-    "Cold Absorb {}%": [
+    "Cold Absorb {:d}%": [
         "149"
     ],
-    "Durability: {} of {}": [
+    "Durability: {:d} of {:d}": [
         "72",
         "73"
     ],
-    "Increase Maximum Durability {}%": [
+    "Increase Maximum Durability {:d}%": [
         "75"
     ],
-    "Replenish Life +{}": [
+    "Replenish Life +{:d}": [
         "74"
     ],
-    "Attacker Takes Damage of {}": [
+    "Attacker Takes Damage of {:d}": [
         "78"
     ],
-    "+{}% Increased Attack Speed": [
+    "+{:d}% Increased Attack Speed": [
         "93"
     ],
-    "{}% Extra Gold from Monsters": [
+    "{:d}% Extra Gold from Monsters": [
         "79"
     ],
-    "{}% Better Chance of Getting Magic Items": [
+    "{:d}% Better Chance of Getting Magic Items": [
         "80"
     ],
     "Knockback": [
         "81"
     ],
-    "Heal Stamina Plus {}%": [
+    "Heal Stamina Plus {:d}%": [
         "28"
     ],
-    "Regenerate Mana {}%": [
+    "Regenerate Mana {:d}%": [
         "27"
     ],
-    "+{} Maximum Stamina": [
+    "+{:d} Maximum Stamina": [
         "11"
     ],
-    "{}% Mana stolen per hit": [
+    "{:d}% Mana stolen per hit": [
         "62"
     ],
-    "{}% Life stolen per hit": [
+    "{:d}% Life stolen per hit": [
         "60"
     ],
-    "+{} to Amazon Skill Levels": [
+    "+{:d} to Amazon Skill Levels": [
         "83,0"
     ],
-    "+{} to Paladin Skill Levels": [
+    "+{:d} to Paladin Skill Levels": [
         "83,3"
     ],
-    "+{} to Necromancer Skill Levels": [
+    "+{:d} to Necromancer Skill Levels": [
         "83,2"
     ],
-    "+{} to Sorceress Skill Levels": [
+    "+{:d} to Sorceress Skill Levels": [
         "83,1"
     ],
-    "+{} to Barbarian Skill Levels": [
+    "+{:d} to Barbarian Skill Levels": [
         "83,4"
     ],
-    "+{} to Light Radius": [
+    "+{:d} to Light Radius": [
         "89"
     ],
-    "Requirements -{}%": [
+    "Requirements -{:d}%": [
         "91"
     ],
-    "+{}% Faster Run/Walk": [
+    "+{:d}% Faster Run/Walk": [
         "96"
     ],
-    "+{}% Faster Hit Recovery": [
+    "+{:d}% Faster Hit Recovery": [
         "99"
     ],
-    "+{}% Faster Block Rate": [
+    "+{:d}% Faster Block Rate": [
         "102"
     ],
-    "+{}% Faster Cast Rate": [
+    "+{:d}% Faster Cast Rate": [
         "105"
     ],
-    "Poison Length Reduced by {}%": [
+    "Poison Length Reduced by {:d}%": [
         "110"
     ],
-    "Damage +{}": [
+    "Damage +{:d}": [
         "111"
     ],
-    "Hit Causes Monster to Flee {}%": [
+    "Hit Causes Monster to Flee {:d}%": [
         "112"
     ],
-    "Hit Blinds Target +{}": [
+    "Hit Blinds Target +{:d}": [
         "113"
     ],
     "Ignore Target's Defense": [
         "115"
     ],
-    "-{}% Target Defense": [
+    "-{:d}% Target Defense": [
         "116"
     ],
     "Prevent Monster Heal": [
@@ -254,61 +254,61 @@ NIP_ALIAS_STAT_PATTERNS = {
     "Half Freeze Duration": [
         "118"
     ],
-    "{}% Bonus to Attack Rating": [
+    "{:d}% Bonus to Attack Rating": [
         "119"
     ],
-    "-{} to Monster Defense Per Hit": [
+    "-{:d} to Monster Defense Per Hit": [
         "120"
     ],
-    "+{}% Damage to Demons": [
+    "+{:d}% Damage to Demons": [
         "121"
     ],
-    "+{}% Damage to Undead": [
+    "+{:d}% Damage to Undead": [
         "122"
     ],
-    "+{} to Attack Rating against Demons": [
+    "+{:d} to Attack Rating against Demons": [
         "123"
     ],
-    "+{} to Attack Rating against Undead": [
+    "+{:d} to Attack Rating against Undead": [
         "124"
     ],
-    "+{} to Fire Skills": [
+    "+{:d} to Fire Skills": [
         "126"
     ],
-    "+{} to All Skills": [
+    "+{:d} to All Skills": [
         "127"
     ],
-    "Attacker Takes Lightning Damage of {}": [
+    "Attacker Takes Lightning Damage of {:d}": [
         "128"
     ],
-    "Freezes Target +{}": [
+    "Freezes Target +{:d}": [
         "134"
     ],
-    "{}% Chance of Open Wounds": [
+    "{:d}% Chance of Open Wounds": [
         "135"
     ],
-    "{}% Chance of Crushing Blow": [
+    "{:d}% Chance of Crushing Blow": [
         "136"
     ],
-    "+{} Kick Damage": [
+    "+{:d} Kick Damage": [
         "137"
     ],
-    "+{} to Mana after each Kill": [
+    "+{:d} to Mana after each Kill": [
         "138"
     ],
-    "+{} Life after each Demon Kill": [
+    "+{:d} Life after each Demon Kill": [
         "139"
     ],
-    "{}% Deadly Strike": [
+    "{:d}% Deadly Strike": [
         "141"
     ],
-    "Slows Target by {}%": [
+    "Slows Target by {:d}%": [
         "150"
     ],
     "Cannot Be Frozen": [
         "153"
     ],
-    "{}% Slower Stamina Drain": [
+    "{:d}% Slower Stamina Drain": [
         "154"
     ],
     "Reanimate As: [Returned]": [
@@ -323,3296 +323,3296 @@ NIP_ALIAS_STAT_PATTERNS = {
     "Fires Explosive Arrows or Bolts": [
         "158"
     ],
-    "+{} to Druid Skill Levels": [
+    "+{:d} to Druid Skill Levels": [
         "83,5"
     ],
-    "+{} to Assassin Skill Levels": [
+    "+{:d} to Assassin Skill Levels": [
         "83,6"
     ],
-    "+{} to Magic Arrow (Amazon only)": [
+    "+{:d} to Magic Arrow (Amazon only)": [
         "107,6"
     ],
-    "+{} to Fire Arrow (Amazon only)": [
+    "+{:d} to Fire Arrow (Amazon only)": [
         "107,7"
     ],
-    "+{} to Inner Sight (Amazon only)": [
+    "+{:d} to Inner Sight (Amazon only)": [
         "107,8"
     ],
-    "+{} to Critical Strike (Amazon only)": [
+    "+{:d} to Critical Strike (Amazon only)": [
         "107,9"
     ],
-    "+{} to Jab (Amazon only)": [
+    "+{:d} to Jab (Amazon only)": [
         "107,10"
     ],
-    "+{} to Cold Arrow (Amazon only)": [
+    "+{:d} to Cold Arrow (Amazon only)": [
         "107,11"
     ],
-    "+{} to Multiple Shot (Amazon only)": [
+    "+{:d} to Multiple Shot (Amazon only)": [
         "107,12"
     ],
-    "+{} to Dodge (Amazon only)": [
+    "+{:d} to Dodge (Amazon only)": [
         "107,13"
     ],
-    "+{} to Power Strike (Amazon only)": [
+    "+{:d} to Power Strike (Amazon only)": [
         "107,14"
     ],
-    "+{} to Poison Javelin (Amazon only)": [
+    "+{:d} to Poison Javelin (Amazon only)": [
         "107,15"
     ],
-    "+{} to Exploding Arrow (Amazon only)": [
+    "+{:d} to Exploding Arrow (Amazon only)": [
         "107,16"
     ],
-    "+{} to Slow Missiles (Amazon only)": [
+    "+{:d} to Slow Missiles (Amazon only)": [
         "107,17"
     ],
-    "+{} to Avoid (Amazon only)": [
+    "+{:d} to Avoid (Amazon only)": [
         "107,18"
     ],
-    "+{} to Impale (Amazon only)": [
+    "+{:d} to Impale (Amazon only)": [
         "107,19"
     ],
-    "+{} to Lightning Bolt (Amazon only)": [
+    "+{:d} to Lightning Bolt (Amazon only)": [
         "107,20"
     ],
-    "+{} to Ice Arrow (Amazon only)": [
+    "+{:d} to Ice Arrow (Amazon only)": [
         "107,21"
     ],
-    "+{} to Guided Arrow (Amazon only)": [
+    "+{:d} to Guided Arrow (Amazon only)": [
         "107,22"
     ],
-    "+{} to Penetrate (Amazon only)": [
+    "+{:d} to Penetrate (Amazon only)": [
         "107,23"
     ],
-    "+{} to Charged Strike (Amazon only)": [
+    "+{:d} to Charged Strike (Amazon only)": [
         "107,24"
     ],
-    "+{} to Plague Javelin (Amazon only)": [
+    "+{:d} to Plague Javelin (Amazon only)": [
         "107,25"
     ],
-    "+{} to Strafe (Amazon only)": [
+    "+{:d} to Strafe (Amazon only)": [
         "107,26"
     ],
-    "+{} to Immolation Arrow (Amazon only)": [
+    "+{:d} to Immolation Arrow (Amazon only)": [
         "107,27"
     ],
-    "+{} to Decoy (Amazon only)": [
+    "+{:d} to Decoy (Amazon only)": [
         "107,28"
     ],
-    "+{} to Evade (Amazon only)": [
+    "+{:d} to Evade (Amazon only)": [
         "107,29"
     ],
-    "+{} to Fend (Amazon only)": [
+    "+{:d} to Fend (Amazon only)": [
         "107,30"
     ],
-    "+{} to Freezing Arrow (Amazon only)": [
+    "+{:d} to Freezing Arrow (Amazon only)": [
         "107,31"
     ],
-    "+{} to Valkyrie (Amazon only)": [
+    "+{:d} to Valkyrie (Amazon only)": [
         "107,32"
     ],
-    "+{} to Pierce (Amazon only)": [
+    "+{:d} to Pierce (Amazon only)": [
         "107,33"
     ],
-    "+{} to Lightning Strike (Amazon only)": [
+    "+{:d} to Lightning Strike (Amazon only)": [
         "107,34"
     ],
-    "+{} to Lightning Fury (Amazon only)": [
+    "+{:d} to Lightning Fury (Amazon only)": [
         "107,35"
     ],
-    "+{} to Fire Bolt (Sorceress only)": [
+    "+{:d} to Fire Bolt (Sorceress only)": [
         "107,36"
     ],
-    "+{} to Warmth (Sorceress only)": [
+    "+{:d} to Warmth (Sorceress only)": [
         "107,37"
     ],
-    "+{} to Charged Bolt (Sorceress only)": [
+    "+{:d} to Charged Bolt (Sorceress only)": [
         "107,38"
     ],
-    "+{} to Ice Bolt (Sorceress only)": [
+    "+{:d} to Ice Bolt (Sorceress only)": [
         "107,39"
     ],
-    "+{} to Frozen Armor (Sorceress only)": [
+    "+{:d} to Frozen Armor (Sorceress only)": [
         "107,40"
     ],
-    "+{} to Inferno (Sorceress only)": [
+    "+{:d} to Inferno (Sorceress only)": [
         "107,41"
     ],
-    "+{} to Static Field (Sorceress only)": [
+    "+{:d} to Static Field (Sorceress only)": [
         "107,42"
     ],
-    "+{} to Telekinesis (Sorceress only)": [
+    "+{:d} to Telekinesis (Sorceress only)": [
         "107,43"
     ],
-    "+{} to Frost Nova (Sorceress only)": [
+    "+{:d} to Frost Nova (Sorceress only)": [
         "107,44"
     ],
-    "+{} to Ice Blast (Sorceress only)": [
+    "+{:d} to Ice Blast (Sorceress only)": [
         "107,45"
     ],
-    "+{} to Blaze (Sorceress only)": [
+    "+{:d} to Blaze (Sorceress only)": [
         "107,46"
     ],
-    "+{} to Fire Ball (Sorceress only)": [
+    "+{:d} to Fire Ball (Sorceress only)": [
         "107,47"
     ],
-    "+{} to Nova (Sorceress only)": [
+    "+{:d} to Nova (Sorceress only)": [
         "107,48"
     ],
-    "+{} to Lightning (Sorceress only)": [
+    "+{:d} to Lightning (Sorceress only)": [
         "107,49"
     ],
-    "+{} to Shiver Armor (Sorceress only)": [
+    "+{:d} to Shiver Armor (Sorceress only)": [
         "107,50"
     ],
-    "+{} to Fire Wall (Sorceress only)": [
+    "+{:d} to Fire Wall (Sorceress only)": [
         "107,51"
     ],
-    "+{} to Enchant (Sorceress only)": [
+    "+{:d} to Enchant (Sorceress only)": [
         "107,52"
     ],
-    "+{} to Chain Lightning (Sorceress only)": [
+    "+{:d} to Chain Lightning (Sorceress only)": [
         "107,53"
     ],
-    "+{} to Teleport (Sorceress only)": [
+    "+{:d} to Teleport (Sorceress only)": [
         "107,54"
     ],
-    "+{} to Glacial Spike (Sorceress only)": [
+    "+{:d} to Glacial Spike (Sorceress only)": [
         "107,55"
     ],
-    "+{} to Meteor (Sorceress only)": [
+    "+{:d} to Meteor (Sorceress only)": [
         "107,56"
     ],
-    "+{} to Thunder Storm (Sorceress only)": [
+    "+{:d} to Thunder Storm (Sorceress only)": [
         "107,57"
     ],
-    "+{} to Energy Shield (Sorceress only)": [
+    "+{:d} to Energy Shield (Sorceress only)": [
         "107,58"
     ],
-    "+{} to Blizzard (Sorceress only)": [
+    "+{:d} to Blizzard (Sorceress only)": [
         "107,59"
     ],
-    "+{} to Chilling Armor (Sorceress only)": [
+    "+{:d} to Chilling Armor (Sorceress only)": [
         "107,60"
     ],
-    "+{} to Fire Mastery (Sorceress only)": [
+    "+{:d} to Fire Mastery (Sorceress only)": [
         "107,61"
     ],
-    "+{} to Hydra (Sorceress only)": [
+    "+{:d} to Hydra (Sorceress only)": [
         "107,62"
     ],
-    "+{} to Lightning Mastery (Sorceress only)": [
+    "+{:d} to Lightning Mastery (Sorceress only)": [
         "107,63"
     ],
-    "+{} to Frozen Orb (Sorceress only)": [
+    "+{:d} to Frozen Orb (Sorceress only)": [
         "107,64"
     ],
-    "+{} to Cold Mastery (Sorceress only)": [
+    "+{:d} to Cold Mastery (Sorceress only)": [
         "107,65"
     ],
-    "+{} to Amplify Damage (Necromancer only)": [
+    "+{:d} to Amplify Damage (Necromancer only)": [
         "107,66"
     ],
-    "+{} to Teeth (Necromancer only)": [
+    "+{:d} to Teeth (Necromancer only)": [
         "107,67"
     ],
-    "+{} to Bone Armor (Necromancer only)": [
+    "+{:d} to Bone Armor (Necromancer only)": [
         "107,68"
     ],
-    "+{} to Skeleton Mastery (Necromancer only)": [
+    "+{:d} to Skeleton Mastery (Necromancer only)": [
         "107,69"
     ],
-    "+{} to Raise Skeleton (Necromancer only)": [
+    "+{:d} to Raise Skeleton (Necromancer only)": [
         "107,70"
     ],
-    "+{} to Dim Vision (Necromancer only)": [
+    "+{:d} to Dim Vision (Necromancer only)": [
         "107,71"
     ],
-    "+{} to Weaken (Necromancer only)": [
+    "+{:d} to Weaken (Necromancer only)": [
         "107,72"
     ],
-    "+{} to Poison Dagger (Necromancer only)": [
+    "+{:d} to Poison Dagger (Necromancer only)": [
         "107,73"
     ],
-    "+{} to Corpse Explosion (Necromancer only)": [
+    "+{:d} to Corpse Explosion (Necromancer only)": [
         "107,74"
     ],
-    "+{} to Clay Golem (Necromancer only)": [
+    "+{:d} to Clay Golem (Necromancer only)": [
         "107,75"
     ],
-    "+{} to Iron Maiden (Necromancer only)": [
+    "+{:d} to Iron Maiden (Necromancer only)": [
         "107,76"
     ],
-    "+{} to Terror (Necromancer only)": [
+    "+{:d} to Terror (Necromancer only)": [
         "107,77"
     ],
-    "+{} to Bone Wall (Necromancer only)": [
+    "+{:d} to Bone Wall (Necromancer only)": [
         "107,78"
     ],
-    "+{} to Golem Mastery (Necromancer only)": [
+    "+{:d} to Golem Mastery (Necromancer only)": [
         "107,79"
     ],
-    "+{} to Raise Skeletal Mage (Necromancer only)": [
+    "+{:d} to Raise Skeletal Mage (Necromancer only)": [
         "107,80"
     ],
-    "+{} to Confuse (Necromancer only)": [
+    "+{:d} to Confuse (Necromancer only)": [
         "107,81"
     ],
-    "+{} to Life Tap (Necromancer only)": [
+    "+{:d} to Life Tap (Necromancer only)": [
         "107,82"
     ],
-    "+{} to Poison Explosion (Necromancer only)": [
+    "+{:d} to Poison Explosion (Necromancer only)": [
         "107,83"
     ],
-    "+{} to Bone Spear (Necromancer only)": [
+    "+{:d} to Bone Spear (Necromancer only)": [
         "107,84"
     ],
-    "+{} to Blood Golem (Necromancer only)": [
+    "+{:d} to Blood Golem (Necromancer only)": [
         "107,85"
     ],
-    "+{} to Attract (Necromancer only)": [
+    "+{:d} to Attract (Necromancer only)": [
         "107,86"
     ],
-    "+{} to Decrepify (Necromancer only)": [
+    "+{:d} to Decrepify (Necromancer only)": [
         "107,87"
     ],
-    "+{} to Bone Prison (Necromancer only)": [
+    "+{:d} to Bone Prison (Necromancer only)": [
         "107,88"
     ],
-    "+{} to Summon Resist (Necromancer only)": [
+    "+{:d} to Summon Resist (Necromancer only)": [
         "107,89"
     ],
-    "+{} to Iron Golem (Necromancer only)": [
+    "+{:d} to Iron Golem (Necromancer only)": [
         "107,90"
     ],
-    "+{} to Lower Resist (Necromancer only)": [
+    "+{:d} to Lower Resist (Necromancer only)": [
         "107,91"
     ],
-    "+{} to Poison Nova (Necromancer only)": [
+    "+{:d} to Poison Nova (Necromancer only)": [
         "107,92"
     ],
-    "+{} to Bone Spirit (Necromancer only)": [
+    "+{:d} to Bone Spirit (Necromancer only)": [
         "107,93"
     ],
-    "+{} to Fire Golem (Necromancer only)": [
+    "+{:d} to Fire Golem (Necromancer only)": [
         "107,94"
     ],
-    "+{} to Revive (Necromancer only)": [
+    "+{:d} to Revive (Necromancer only)": [
         "107,95"
     ],
-    "+{} to Sacrifice (Paladin only)": [
+    "+{:d} to Sacrifice (Paladin only)": [
         "107,96"
     ],
-    "+{} to Smite (Paladin only)": [
+    "+{:d} to Smite (Paladin only)": [
         "107,97"
     ],
-    "+{} to Might (Paladin only)": [
+    "+{:d} to Might (Paladin only)": [
         "107,98"
     ],
-    "+{} to Prayer (Paladin only)": [
+    "+{:d} to Prayer (Paladin only)": [
         "107,99"
     ],
-    "+{} to Resist Fire (Paladin only)": [
+    "+{:d} to Resist Fire (Paladin only)": [
         "107,100"
     ],
-    "+{} to Holy Bolt (Paladin only)": [
+    "+{:d} to Holy Bolt (Paladin only)": [
         "107,101"
     ],
-    "+{} to Holy Fire (Paladin only)": [
+    "+{:d} to Holy Fire (Paladin only)": [
         "107,102"
     ],
-    "+{} to Thorns (Paladin only)": [
+    "+{:d} to Thorns (Paladin only)": [
         "107,103"
     ],
-    "+{} to Defiance (Paladin only)": [
+    "+{:d} to Defiance (Paladin only)": [
         "107,104"
     ],
-    "+{} to Resist Cold (Paladin only)": [
+    "+{:d} to Resist Cold (Paladin only)": [
         "107,105"
     ],
-    "+{} to Zeal (Paladin only)": [
+    "+{:d} to Zeal (Paladin only)": [
         "107,106"
     ],
-    "+{} to Charge (Paladin only)": [
+    "+{:d} to Charge (Paladin only)": [
         "107,107"
     ],
-    "+{} to Blessed Aim (Paladin only)": [
+    "+{:d} to Blessed Aim (Paladin only)": [
         "107,108"
     ],
-    "+{} to Cleansing (Paladin only)": [
+    "+{:d} to Cleansing (Paladin only)": [
         "107,109"
     ],
-    "+{} to Resist Lightning (Paladin only)": [
+    "+{:d} to Resist Lightning (Paladin only)": [
         "107,110"
     ],
-    "+{} to Vengeance (Paladin only)": [
+    "+{:d} to Vengeance (Paladin only)": [
         "107,111"
     ],
-    "+{} to Blessed Hammer (Paladin only)": [
+    "+{:d} to Blessed Hammer (Paladin only)": [
         "107,112"
     ],
-    "+{} to Concentration (Paladin only)": [
+    "+{:d} to Concentration (Paladin only)": [
         "107,113"
     ],
-    "+{} to Holy Freeze (Paladin only)": [
+    "+{:d} to Holy Freeze (Paladin only)": [
         "107,114"
     ],
-    "+{} to Vigor (Paladin only)": [
+    "+{:d} to Vigor (Paladin only)": [
         "107,115"
     ],
-    "+{} to Conversion (Paladin only)": [
+    "+{:d} to Conversion (Paladin only)": [
         "107,116"
     ],
-    "+{} to Holy Shield (Paladin only)": [
+    "+{:d} to Holy Shield (Paladin only)": [
         "107,117"
     ],
-    "+{} to Holy Shock (Paladin only)": [
+    "+{:d} to Holy Shock (Paladin only)": [
         "107,118"
     ],
-    "+{} to Sanctuary (Paladin only)": [
+    "+{:d} to Sanctuary (Paladin only)": [
         "107,119"
     ],
-    "+{} to Meditation (Paladin only)": [
+    "+{:d} to Meditation (Paladin only)": [
         "107,120"
     ],
-    "+{} to Fist of the Heavens (Paladin only)": [
+    "+{:d} to Fist of the Heavens (Paladin only)": [
         "107,121"
     ],
-    "+{} to Fanaticism (Paladin only)": [
+    "+{:d} to Fanaticism (Paladin only)": [
         "107,122"
     ],
-    "+{} to Conviction (Paladin only)": [
+    "+{:d} to Conviction (Paladin only)": [
         "107,123"
     ],
-    "+{} to Redemption (Paladin only)": [
+    "+{:d} to Redemption (Paladin only)": [
         "107,124"
     ],
-    "+{} to Salvation (Paladin only)": [
+    "+{:d} to Salvation (Paladin only)": [
         "107,125"
     ],
-    "+{} to Bash (Barbarian only)": [
+    "+{:d} to Bash (Barbarian only)": [
         "107,126"
     ],
-    "+{} to Blade Mastery (Barbarian only)": [
+    "+{:d} to Blade Mastery (Barbarian only)": [
         "107,127"
     ],
-    "+{} to Axe Mastery (Barbarian only)": [
+    "+{:d} to Axe Mastery (Barbarian only)": [
         "107,128"
     ],
-    "+{} to Mace Mastery (Barbarian only)": [
+    "+{:d} to Mace Mastery (Barbarian only)": [
         "107,129"
     ],
-    "+{} to Howl (Barbarian only)": [
+    "+{:d} to Howl (Barbarian only)": [
         "107,130"
     ],
-    "+{} to Find Potion (Barbarian only)": [
+    "+{:d} to Find Potion (Barbarian only)": [
         "107,131"
     ],
-    "+{} to Leap (Barbarian only)": [
+    "+{:d} to Leap (Barbarian only)": [
         "107,132"
     ],
-    "+{} to Double Swing (Barbarian only)": [
+    "+{:d} to Double Swing (Barbarian only)": [
         "107,133"
     ],
-    "+{} to Polearm Mastery (Barbarian only)": [
+    "+{:d} to Polearm Mastery (Barbarian only)": [
         "107,134"
     ],
-    "+{} to Throwing Mastery (Barbarian only)": [
+    "+{:d} to Throwing Mastery (Barbarian only)": [
         "107,135"
     ],
-    "+{} to Spear Mastery (Barbarian only)": [
+    "+{:d} to Spear Mastery (Barbarian only)": [
         "107,136"
     ],
-    "+{} to Taunt (Barbarian only)": [
+    "+{:d} to Taunt (Barbarian only)": [
         "107,137"
     ],
-    "+{} to Shout (Barbarian only)": [
+    "+{:d} to Shout (Barbarian only)": [
         "107,138"
     ],
-    "+{} to Stun (Barbarian only)": [
+    "+{:d} to Stun (Barbarian only)": [
         "107,139"
     ],
-    "+{} to Double Throw (Barbarian only)": [
+    "+{:d} to Double Throw (Barbarian only)": [
         "107,140"
     ],
-    "+{} to Increased Stamina (Barbarian only)": [
+    "+{:d} to Increased Stamina (Barbarian only)": [
         "107,141"
     ],
-    "+{} to Find Item (Barbarian only)": [
+    "+{:d} to Find Item (Barbarian only)": [
         "107,142"
     ],
-    "+{} to Leap Attack (Barbarian only)": [
+    "+{:d} to Leap Attack (Barbarian only)": [
         "107,143"
     ],
-    "+{} to Concentrate (Barbarian only)": [
+    "+{:d} to Concentrate (Barbarian only)": [
         "107,144"
     ],
-    "+{} to Iron Skin (Barbarian only)": [
+    "+{:d} to Iron Skin (Barbarian only)": [
         "107,145"
     ],
-    "+{} to Battle Cry (Barbarian only)": [
+    "+{:d} to Battle Cry (Barbarian only)": [
         "107,146"
     ],
-    "+{} to Frenzy (Barbarian only)": [
+    "+{:d} to Frenzy (Barbarian only)": [
         "107,147"
     ],
-    "+{} to Increased Speed (Barbarian only)": [
+    "+{:d} to Increased Speed (Barbarian only)": [
         "107,148"
     ],
-    "+{} to Battle Orders (Barbarian only)": [
+    "+{:d} to Battle Orders (Barbarian only)": [
         "107,149"
     ],
-    "+{} to Grim Ward (Barbarian only)": [
+    "+{:d} to Grim Ward (Barbarian only)": [
         "107,150"
     ],
-    "+{} to Whirlwind (Barbarian only)": [
+    "+{:d} to Whirlwind (Barbarian only)": [
         "107,151"
     ],
-    "+{} to Berserk (Barbarian only)": [
+    "+{:d} to Berserk (Barbarian only)": [
         "107,152"
     ],
-    "+{} to Natural Resistance (Barbarian only)": [
+    "+{:d} to Natural Resistance (Barbarian only)": [
         "107,153"
     ],
-    "+{} to War Cry (Barbarian only)": [
+    "+{:d} to War Cry (Barbarian only)": [
         "107,154"
     ],
-    "+{} to Battle Command (Barbarian only)": [
+    "+{:d} to Battle Command (Barbarian only)": [
         "107,155"
     ],
-    "+{} to Raven (Druid only)": [
+    "+{:d} to Raven (Druid only)": [
         "107,221"
     ],
-    "+{} to Poison Creeper (Druid only)": [
+    "+{:d} to Poison Creeper (Druid only)": [
         "107,222"
     ],
-    "+{} to Werewolf (Druid only)": [
+    "+{:d} to Werewolf (Druid only)": [
         "107,223"
     ],
-    "+{} to Lycanthropy (Druid only)": [
+    "+{:d} to Lycanthropy (Druid only)": [
         "107,224"
     ],
-    "+{} to Firestorm (Druid only)": [
+    "+{:d} to Firestorm (Druid only)": [
         "107,225"
     ],
-    "+{} to Oak Sage (Druid only)": [
+    "+{:d} to Oak Sage (Druid only)": [
         "107,226"
     ],
-    "+{} to Summon Spirit Wolf (Druid only)": [
+    "+{:d} to Summon Spirit Wolf (Druid only)": [
         "107,227"
     ],
-    "+{} to Werebear (Druid only)": [
+    "+{:d} to Werebear (Druid only)": [
         "107,228"
     ],
-    "+{} to Molten Boulder (Druid only)": [
+    "+{:d} to Molten Boulder (Druid only)": [
         "107,229"
     ],
-    "+{} to Arctic Blast (Druid only)": [
+    "+{:d} to Arctic Blast (Druid only)": [
         "107,230"
     ],
-    "+{} to Carrion Vine (Druid only)": [
+    "+{:d} to Carrion Vine (Druid only)": [
         "107,231"
     ],
-    "+{} to Feral Rage (Druid only)": [
+    "+{:d} to Feral Rage (Druid only)": [
         "107,232"
     ],
-    "+{} to Maul (Druid only)": [
+    "+{:d} to Maul (Druid only)": [
         "107,233"
     ],
-    "+{} to Fissure (Druid only)": [
+    "+{:d} to Fissure (Druid only)": [
         "107,234"
     ],
-    "+{} to Cyclone Armor (Druid only)": [
+    "+{:d} to Cyclone Armor (Druid only)": [
         "107,235"
     ],
-    "+{} to Heart of Wolverine (Druid only)": [
+    "+{:d} to Heart of Wolverine (Druid only)": [
         "107,236"
     ],
-    "+{} to Summon Dire Wolf (Druid only)": [
+    "+{:d} to Summon Dire Wolf (Druid only)": [
         "107,237"
     ],
-    "+{} to Rabies (Druid only)": [
+    "+{:d} to Rabies (Druid only)": [
         "107,238"
     ],
-    "+{} to Fire Claws (Druid only)": [
+    "+{:d} to Fire Claws (Druid only)": [
         "107,239"
     ],
-    "+{} to Twister (Druid only)": [
+    "+{:d} to Twister (Druid only)": [
         "107,240"
     ],
-    "+{} to Solar Creeper (Druid only)": [
+    "+{:d} to Solar Creeper (Druid only)": [
         "107,241"
     ],
-    "+{} to Hunger (Druid only)": [
+    "+{:d} to Hunger (Druid only)": [
         "107,242"
     ],
-    "+{} to Shock Wave (Druid only)": [
+    "+{:d} to Shock Wave (Druid only)": [
         "107,243"
     ],
-    "+{} to Volcano (Druid only)": [
+    "+{:d} to Volcano (Druid only)": [
         "107,244"
     ],
-    "+{} to Tornado (Druid only)": [
+    "+{:d} to Tornado (Druid only)": [
         "107,245"
     ],
-    "+{} to Spirit of Barbs (Druid only)": [
+    "+{:d} to Spirit of Barbs (Druid only)": [
         "107,246"
     ],
-    "+{} to Summon Grizzly (Druid only)": [
+    "+{:d} to Summon Grizzly (Druid only)": [
         "107,247"
     ],
-    "+{} to Fury (Druid only)": [
+    "+{:d} to Fury (Druid only)": [
         "107,248"
     ],
-    "+{} to Armageddon (Druid only)": [
+    "+{:d} to Armageddon (Druid only)": [
         "107,249"
     ],
-    "+{} to Hurricane (Druid only)": [
+    "+{:d} to Hurricane (Druid only)": [
         "107,250"
     ],
-    "+{} to Fire Blast (Assassin only)": [
+    "+{:d} to Fire Blast (Assassin only)": [
         "107,251"
     ],
-    "+{} to Claw Mastery (Assassin only)": [
+    "+{:d} to Claw Mastery (Assassin only)": [
         "107,252"
     ],
-    "+{} to Psychic Hammer (Assassin only)": [
+    "+{:d} to Psychic Hammer (Assassin only)": [
         "107,253"
     ],
-    "+{} to Tiger Strike (Assassin only)": [
+    "+{:d} to Tiger Strike (Assassin only)": [
         "107,254"
     ],
-    "+{} to Dragon Talon (Assassin only)": [
+    "+{:d} to Dragon Talon (Assassin only)": [
         "107,255"
     ],
-    "+{} to Shock Web (Assassin only)": [
+    "+{:d} to Shock Web (Assassin only)": [
         "107,256"
     ],
-    "+{} to Blade Sentinel (Assassin only)": [
+    "+{:d} to Blade Sentinel (Assassin only)": [
         "107,257"
     ],
-    "+{} to Burst of Speed (Assassin only)": [
+    "+{:d} to Burst of Speed (Assassin only)": [
         "107,258"
     ],
-    "+{} to Fists of Fire (Assassin only)": [
+    "+{:d} to Fists of Fire (Assassin only)": [
         "107,259"
     ],
-    "+{} to Dragon Claw (Assassin only)": [
+    "+{:d} to Dragon Claw (Assassin only)": [
         "107,260"
     ],
-    "+{} to Charged Bolt Sentry (Assassin only)": [
+    "+{:d} to Charged Bolt Sentry (Assassin only)": [
         "107,261"
     ],
-    "+{} to Wake of Fire (Assassin only)": [
+    "+{:d} to Wake of Fire (Assassin only)": [
         "107,262"
     ],
-    "+{} to Weapon Block (Assassin only)": [
+    "+{:d} to Weapon Block (Assassin only)": [
         "107,263"
     ],
-    "+{} to Cloak of Shadows (Assassin only)": [
+    "+{:d} to Cloak of Shadows (Assassin only)": [
         "107,264"
     ],
-    "+{} to Cobra Strike (Assassin only)": [
+    "+{:d} to Cobra Strike (Assassin only)": [
         "107,265"
     ],
-    "+{} to Blade Fury (Assassin only)": [
+    "+{:d} to Blade Fury (Assassin only)": [
         "107,266"
     ],
-    "+{} to Fade (Assassin only)": [
+    "+{:d} to Fade (Assassin only)": [
         "107,267"
     ],
-    "+{} to Shadow Warrior (Assassin only)": [
+    "+{:d} to Shadow Warrior (Assassin only)": [
         "107,268"
     ],
-    "+{} to Claws of Thunder (Assassin only)": [
+    "+{:d} to Claws of Thunder (Assassin only)": [
         "107,269"
     ],
-    "+{} to Dragon Tail (Assassin only)": [
+    "+{:d} to Dragon Tail (Assassin only)": [
         "107,270"
     ],
-    "+{} to Lightning Sentry (Assassin only)": [
+    "+{:d} to Lightning Sentry (Assassin only)": [
         "107,271"
     ],
-    "+{} to Wake of Inferno (Assassin only)": [
+    "+{:d} to Wake of Inferno (Assassin only)": [
         "107,272"
     ],
-    "+{} to Mind Blast (Assassin only)": [
+    "+{:d} to Mind Blast (Assassin only)": [
         "107,273"
     ],
-    "+{} to Blades of Ice (Assassin only)": [
+    "+{:d} to Blades of Ice (Assassin only)": [
         "107,274"
     ],
-    "+{} to Dragon Flight (Assassin only)": [
+    "+{:d} to Dragon Flight (Assassin only)": [
         "107,275"
     ],
-    "+{} to Death Sentry (Assassin only)": [
+    "+{:d} to Death Sentry (Assassin only)": [
         "107,276"
     ],
-    "+{} to Blade Shield (Assassin only)": [
+    "+{:d} to Blade Shield (Assassin only)": [
         "107,277"
     ],
-    "+{} to Venom (Assassin only)": [
+    "+{:d} to Venom (Assassin only)": [
         "107,278"
     ],
-    "+{} to Shadow Master (Assassin only)": [
+    "+{:d} to Shadow Master (Assassin only)": [
         "107,279"
     ],
-    "+{} to Phoenix Strike (Assassin only)": [
+    "+{:d} to Phoenix Strike (Assassin only)": [
         "107,280"
     ],
-    "{} to Bow and Crossbow Skills (Amazon Only)": [
+    "{:d} to Bow and Crossbow Skills (Amazon Only)": [
         "188,0"
     ],
-    "{} to Passive and Magic Skills (Amazon Only)": [
+    "{:d} to Passive and Magic Skills (Amazon Only)": [
         "188,1"
     ],
-    "{} to Javelin and Spear Skills (Amazon Only)": [
+    "{:d} to Javelin and Spear Skills (Amazon Only)": [
         "188,2"
     ],
-    "{} to Fire Skills (Sorceress Only)": [
+    "{:d} to Fire Skills (Sorceress Only)": [
         "188,3"
     ],
-    "{} to Lightning Skills (Sorceress Only)": [
+    "{:d} to Lightning Skills (Sorceress Only)": [
         "188,4"
     ],
-    "{} to Cold Skills (Sorceress Only)": [
+    "{:d} to Cold Skills (Sorceress Only)": [
         "188,5"
     ],
-    "{} to Curses (Necromancer Only)": [
+    "{:d} to Curses (Necromancer Only)": [
         "188,6"
     ],
-    "{} to Poison and Bone Skills (Necromancer Only)": [
+    "{:d} to Poison and Bone Skills (Necromancer Only)": [
         "188,7"
     ],
-    "{} to Combat Skills (Necromancer Only)": [
+    "{:d} to Combat Skills (Necromancer Only)": [
         "188,8"
     ],
-    "{} to Combat Skills (Paladin Only)": [
+    "{:d} to Combat Skills (Paladin Only)": [
         "188,9"
     ],
-    "{} to Offensive Auras (Paladin Only)": [
+    "{:d} to Offensive Auras (Paladin Only)": [
         "188,10"
     ],
-    "{} to Defensive Auras (Paladin Only)": [
+    "{:d} to Defensive Auras (Paladin Only)": [
         "188,11"
     ],
-    "{} to Combat Skills (Barbarian Only)": [
+    "{:d} to Combat Skills (Barbarian Only)": [
         "188,12"
     ],
-    "{} to Masteries (Barbarian Only)": [
+    "{:d} to Masteries (Barbarian Only)": [
         "188,13"
     ],
-    "{} to Warcries (Barbarian Only)": [
+    "{:d} to Warcries (Barbarian Only)": [
         "188,14"
     ],
-    "{} to Summoning Skills (Druid Only)": [
+    "{:d} to Summoning Skills (Druid Only)": [
         "188,15"
     ],
-    "{} to Shape Shifting Skills (Druid Only)": [
+    "{:d} to Shape Shifting Skills (Druid Only)": [
         "188,16"
     ],
-    "{} to Elemental Skills (Druid Only)": [
+    "{:d} to Elemental Skills (Druid Only)": [
         "188,17"
     ],
-    "{} to Traps (Assassin Only)": [
+    "{:d} to Traps (Assassin Only)": [
         "188,18"
     ],
-    "{} to Shadow Disciplines (Assassin Only)": [
+    "{:d} to Shadow Disciplines (Assassin Only)": [
         "188,19"
     ],
-    "{} to Martial Arts (Assassin Only)": [
+    "{:d} to Martial Arts (Assassin Only)": [
         "188,20"
     ],
-    "Level {} Magic Arrow Aura When Equipped": [
+    "Level {:d} Magic Arrow Aura When Equipped": [
         "151,6"
     ],
-    "Level {} Fire Arrow Aura When Equipped": [
+    "Level {:d} Fire Arrow Aura When Equipped": [
         "151,7"
     ],
-    "Level {} Inner Sight Aura When Equipped": [
+    "Level {:d} Inner Sight Aura When Equipped": [
         "151,8"
     ],
-    "Level {} Critical Strike Aura When Equipped": [
+    "Level {:d} Critical Strike Aura When Equipped": [
         "151,9"
     ],
-    "Level {} Jab Aura When Equipped": [
+    "Level {:d} Jab Aura When Equipped": [
         "151,10"
     ],
-    "Level {} Cold Arrow Aura When Equipped": [
+    "Level {:d} Cold Arrow Aura When Equipped": [
         "151,11"
     ],
-    "Level {} Multiple Shot Aura When Equipped": [
+    "Level {:d} Multiple Shot Aura When Equipped": [
         "151,12"
     ],
-    "Level {} Dodge Aura When Equipped": [
+    "Level {:d} Dodge Aura When Equipped": [
         "151,13"
     ],
-    "Level {} Power Strike Aura When Equipped": [
+    "Level {:d} Power Strike Aura When Equipped": [
         "151,14"
     ],
-    "Level {} Poison Javelin Aura When Equipped": [
+    "Level {:d} Poison Javelin Aura When Equipped": [
         "151,15"
     ],
-    "Level {} Exploding Arrow Aura When Equipped": [
+    "Level {:d} Exploding Arrow Aura When Equipped": [
         "151,16"
     ],
-    "Level {} Slow Missiles Aura When Equipped": [
+    "Level {:d} Slow Missiles Aura When Equipped": [
         "151,17"
     ],
-    "Level {} Avoid Aura When Equipped": [
+    "Level {:d} Avoid Aura When Equipped": [
         "151,18"
     ],
-    "Level {} Impale Aura When Equipped": [
+    "Level {:d} Impale Aura When Equipped": [
         "151,19"
     ],
-    "Level {} Lightning Bolt Aura When Equipped": [
+    "Level {:d} Lightning Bolt Aura When Equipped": [
         "151,20"
     ],
-    "Level {} Ice Arrow Aura When Equipped": [
+    "Level {:d} Ice Arrow Aura When Equipped": [
         "151,21"
     ],
-    "Level {} Guided Arrow Aura When Equipped": [
+    "Level {:d} Guided Arrow Aura When Equipped": [
         "151,22"
     ],
-    "Level {} Penetrate Aura When Equipped": [
+    "Level {:d} Penetrate Aura When Equipped": [
         "151,23"
     ],
-    "Level {} Charged Strike Aura When Equipped": [
+    "Level {:d} Charged Strike Aura When Equipped": [
         "151,24"
     ],
-    "Level {} Plague Javelin Aura When Equipped": [
+    "Level {:d} Plague Javelin Aura When Equipped": [
         "151,25"
     ],
-    "Level {} Strafe Aura When Equipped": [
+    "Level {:d} Strafe Aura When Equipped": [
         "151,26"
     ],
-    "Level {} Immolation Arrow Aura When Equipped": [
+    "Level {:d} Immolation Arrow Aura When Equipped": [
         "151,27"
     ],
-    "Level {} Decoy Aura When Equipped": [
+    "Level {:d} Decoy Aura When Equipped": [
         "151,28"
     ],
-    "Level {} Evade Aura When Equipped": [
+    "Level {:d} Evade Aura When Equipped": [
         "151,29"
     ],
-    "Level {} Fend Aura When Equipped": [
+    "Level {:d} Fend Aura When Equipped": [
         "151,30"
     ],
-    "Level {} Freezing Arrow Aura When Equipped": [
+    "Level {:d} Freezing Arrow Aura When Equipped": [
         "151,31"
     ],
-    "Level {} Valkyrie Aura When Equipped": [
+    "Level {:d} Valkyrie Aura When Equipped": [
         "151,32"
     ],
-    "Level {} Pierce Aura When Equipped": [
+    "Level {:d} Pierce Aura When Equipped": [
         "151,33"
     ],
-    "Level {} Lightning Strike Aura When Equipped": [
+    "Level {:d} Lightning Strike Aura When Equipped": [
         "151,34"
     ],
-    "Level {} Lightning Fury Aura When Equipped": [
+    "Level {:d} Lightning Fury Aura When Equipped": [
         "151,35"
     ],
-    "Level {} Fire Bolt Aura When Equipped": [
+    "Level {:d} Fire Bolt Aura When Equipped": [
         "151,36"
     ],
-    "Level {} Warmth Aura When Equipped": [
+    "Level {:d} Warmth Aura When Equipped": [
         "151,37"
     ],
-    "Level {} Charged Bolt Aura When Equipped": [
+    "Level {:d} Charged Bolt Aura When Equipped": [
         "151,38"
     ],
-    "Level {} Ice Bolt Aura When Equipped": [
+    "Level {:d} Ice Bolt Aura When Equipped": [
         "151,39"
     ],
-    "Level {} Frozen Armor Aura When Equipped": [
+    "Level {:d} Frozen Armor Aura When Equipped": [
         "151,40"
     ],
-    "Level {} Inferno Aura When Equipped": [
+    "Level {:d} Inferno Aura When Equipped": [
         "151,41"
     ],
-    "Level {} Static Field Aura When Equipped": [
+    "Level {:d} Static Field Aura When Equipped": [
         "151,42"
     ],
-    "Level {} Telekinesis Aura When Equipped": [
+    "Level {:d} Telekinesis Aura When Equipped": [
         "151,43"
     ],
-    "Level {} Frost Nova Aura When Equipped": [
+    "Level {:d} Frost Nova Aura When Equipped": [
         "151,44"
     ],
-    "Level {} Ice Blast Aura When Equipped": [
+    "Level {:d} Ice Blast Aura When Equipped": [
         "151,45"
     ],
-    "Level {} Blaze Aura When Equipped": [
+    "Level {:d} Blaze Aura When Equipped": [
         "151,46"
     ],
-    "Level {} Fire Ball Aura When Equipped": [
+    "Level {:d} Fire Ball Aura When Equipped": [
         "151,47"
     ],
-    "Level {} Nova Aura When Equipped": [
+    "Level {:d} Nova Aura When Equipped": [
         "151,48"
     ],
-    "Level {} Lightning Aura When Equipped": [
+    "Level {:d} Lightning Aura When Equipped": [
         "151,49"
     ],
-    "Level {} Shiver Armor Aura When Equipped": [
+    "Level {:d} Shiver Armor Aura When Equipped": [
         "151,50"
     ],
-    "Level {} Fire Wall Aura When Equipped": [
+    "Level {:d} Fire Wall Aura When Equipped": [
         "151,51"
     ],
-    "Level {} Enchant Aura When Equipped": [
+    "Level {:d} Enchant Aura When Equipped": [
         "151,52"
     ],
-    "Level {} Chain Lightning Aura When Equipped": [
+    "Level {:d} Chain Lightning Aura When Equipped": [
         "151,53"
     ],
-    "Level {} Teleport Aura When Equipped": [
+    "Level {:d} Teleport Aura When Equipped": [
         "151,54"
     ],
-    "Level {} Glacial Spike Aura When Equipped": [
+    "Level {:d} Glacial Spike Aura When Equipped": [
         "151,55"
     ],
-    "Level {} Meteor Aura When Equipped": [
+    "Level {:d} Meteor Aura When Equipped": [
         "151,56"
     ],
-    "Level {} Thunder Storm Aura When Equipped": [
+    "Level {:d} Thunder Storm Aura When Equipped": [
         "151,57"
     ],
-    "Level {} Energy Shield Aura When Equipped": [
+    "Level {:d} Energy Shield Aura When Equipped": [
         "151,58"
     ],
-    "Level {} Blizzard Aura When Equipped": [
+    "Level {:d} Blizzard Aura When Equipped": [
         "151,59"
     ],
-    "Level {} Chilling Armor Aura When Equipped": [
+    "Level {:d} Chilling Armor Aura When Equipped": [
         "151,60"
     ],
-    "Level {} Fire Mastery Aura When Equipped": [
+    "Level {:d} Fire Mastery Aura When Equipped": [
         "151,61"
     ],
-    "Level {} Hydra Aura When Equipped": [
+    "Level {:d} Hydra Aura When Equipped": [
         "151,62"
     ],
-    "Level {} Lightning Mastery Aura When Equipped": [
+    "Level {:d} Lightning Mastery Aura When Equipped": [
         "151,63"
     ],
-    "Level {} Frozen Orb Aura When Equipped": [
+    "Level {:d} Frozen Orb Aura When Equipped": [
         "151,64"
     ],
-    "Level {} Cold Mastery Aura When Equipped": [
+    "Level {:d} Cold Mastery Aura When Equipped": [
         "151,65"
     ],
-    "Level {} Amplify Damage Aura When Equipped": [
+    "Level {:d} Amplify Damage Aura When Equipped": [
         "151,66"
     ],
-    "Level {} Teeth Aura When Equipped": [
+    "Level {:d} Teeth Aura When Equipped": [
         "151,67"
     ],
-    "Level {} Bone Armor Aura When Equipped": [
+    "Level {:d} Bone Armor Aura When Equipped": [
         "151,68"
     ],
-    "Level {} Skeleton Mastery Aura When Equipped": [
+    "Level {:d} Skeleton Mastery Aura When Equipped": [
         "151,69"
     ],
-    "Level {} Raise Skeleton Aura When Equipped": [
+    "Level {:d} Raise Skeleton Aura When Equipped": [
         "151,70"
     ],
-    "Level {} Dim Vision Aura When Equipped": [
+    "Level {:d} Dim Vision Aura When Equipped": [
         "151,71"
     ],
-    "Level {} Weaken Aura When Equipped": [
+    "Level {:d} Weaken Aura When Equipped": [
         "151,72"
     ],
-    "Level {} Poison Dagger Aura When Equipped": [
+    "Level {:d} Poison Dagger Aura When Equipped": [
         "151,73"
     ],
-    "Level {} Corpse Explosion Aura When Equipped": [
+    "Level {:d} Corpse Explosion Aura When Equipped": [
         "151,74"
     ],
-    "Level {} Clay Golem Aura When Equipped": [
+    "Level {:d} Clay Golem Aura When Equipped": [
         "151,75"
     ],
-    "Level {} Iron Maiden Aura When Equipped": [
+    "Level {:d} Iron Maiden Aura When Equipped": [
         "151,76"
     ],
-    "Level {} Terror Aura When Equipped": [
+    "Level {:d} Terror Aura When Equipped": [
         "151,77"
     ],
-    "Level {} Bone Wall Aura When Equipped": [
+    "Level {:d} Bone Wall Aura When Equipped": [
         "151,78"
     ],
-    "Level {} Golem Mastery Aura When Equipped": [
+    "Level {:d} Golem Mastery Aura When Equipped": [
         "151,79"
     ],
-    "Level {} Raise Skeletal Mage Aura When Equipped": [
+    "Level {:d} Raise Skeletal Mage Aura When Equipped": [
         "151,80"
     ],
-    "Level {} Confuse Aura When Equipped": [
+    "Level {:d} Confuse Aura When Equipped": [
         "151,81"
     ],
-    "Level {} Life Tap Aura When Equipped": [
+    "Level {:d} Life Tap Aura When Equipped": [
         "151,82"
     ],
-    "Level {} Poison Explosion Aura When Equipped": [
+    "Level {:d} Poison Explosion Aura When Equipped": [
         "151,83"
     ],
-    "Level {} Bone Spear Aura When Equipped": [
+    "Level {:d} Bone Spear Aura When Equipped": [
         "151,84"
     ],
-    "Level {} Blood Golem Aura When Equipped": [
+    "Level {:d} Blood Golem Aura When Equipped": [
         "151,85"
     ],
-    "Level {} Attract Aura When Equipped": [
+    "Level {:d} Attract Aura When Equipped": [
         "151,86"
     ],
-    "Level {} Decrepify Aura When Equipped": [
+    "Level {:d} Decrepify Aura When Equipped": [
         "151,87"
     ],
-    "Level {} Bone Prison Aura When Equipped": [
+    "Level {:d} Bone Prison Aura When Equipped": [
         "151,88"
     ],
-    "Level {} Summon Resist Aura When Equipped": [
+    "Level {:d} Summon Resist Aura When Equipped": [
         "151,89"
     ],
-    "Level {} Iron Golem Aura When Equipped": [
+    "Level {:d} Iron Golem Aura When Equipped": [
         "151,90"
     ],
-    "Level {} Lower Resist Aura When Equipped": [
+    "Level {:d} Lower Resist Aura When Equipped": [
         "151,91"
     ],
-    "Level {} Poison Nova Aura When Equipped": [
+    "Level {:d} Poison Nova Aura When Equipped": [
         "151,92"
     ],
-    "Level {} Bone Spirit Aura When Equipped": [
+    "Level {:d} Bone Spirit Aura When Equipped": [
         "151,93"
     ],
-    "Level {} Fire Golem Aura When Equipped": [
+    "Level {:d} Fire Golem Aura When Equipped": [
         "151,94"
     ],
-    "Level {} Revive Aura When Equipped": [
+    "Level {:d} Revive Aura When Equipped": [
         "151,95"
     ],
-    "Level {} Sacrifice Aura When Equipped": [
+    "Level {:d} Sacrifice Aura When Equipped": [
         "151,96"
     ],
-    "Level {} Smite Aura When Equipped": [
+    "Level {:d} Smite Aura When Equipped": [
         "151,97"
     ],
-    "Level {} Might Aura When Equipped": [
+    "Level {:d} Might Aura When Equipped": [
         "151,98"
     ],
-    "Level {} Prayer Aura When Equipped": [
+    "Level {:d} Prayer Aura When Equipped": [
         "151,99"
     ],
-    "Level {} Resist Fire Aura When Equipped": [
+    "Level {:d} Resist Fire Aura When Equipped": [
         "151,100"
     ],
-    "Level {} Holy Bolt Aura When Equipped": [
+    "Level {:d} Holy Bolt Aura When Equipped": [
         "151,101"
     ],
-    "Level {} Holy Fire Aura When Equipped": [
+    "Level {:d} Holy Fire Aura When Equipped": [
         "151,102"
     ],
-    "Level {} Thorns Aura When Equipped": [
+    "Level {:d} Thorns Aura When Equipped": [
         "151,103"
     ],
-    "Level {} Defiance Aura When Equipped": [
+    "Level {:d} Defiance Aura When Equipped": [
         "151,104"
     ],
-    "Level {} Resist Cold Aura When Equipped": [
+    "Level {:d} Resist Cold Aura When Equipped": [
         "151,105"
     ],
-    "Level {} Zeal Aura When Equipped": [
+    "Level {:d} Zeal Aura When Equipped": [
         "151,106"
     ],
-    "Level {} Charge Aura When Equipped": [
+    "Level {:d} Charge Aura When Equipped": [
         "151,107"
     ],
-    "Level {} Blessed Aim Aura When Equipped": [
+    "Level {:d} Blessed Aim Aura When Equipped": [
         "151,108"
     ],
-    "Level {} Cleansing Aura When Equipped": [
+    "Level {:d} Cleansing Aura When Equipped": [
         "151,109"
     ],
-    "Level {} Resist Lightning Aura When Equipped": [
+    "Level {:d} Resist Lightning Aura When Equipped": [
         "151,110"
     ],
-    "Level {} Vengeance Aura When Equipped": [
+    "Level {:d} Vengeance Aura When Equipped": [
         "151,111"
     ],
-    "Level {} Blessed Hammer Aura When Equipped": [
+    "Level {:d} Blessed Hammer Aura When Equipped": [
         "151,112"
     ],
-    "Level {} Concentration Aura When Equipped": [
+    "Level {:d} Concentration Aura When Equipped": [
         "151,113"
     ],
-    "Level {} Holy Freeze Aura When Equipped": [
+    "Level {:d} Holy Freeze Aura When Equipped": [
         "151,114"
     ],
-    "Level {} Vigor Aura When Equipped": [
+    "Level {:d} Vigor Aura When Equipped": [
         "151,115"
     ],
-    "Level {} Conversion Aura When Equipped": [
+    "Level {:d} Conversion Aura When Equipped": [
         "151,116"
     ],
-    "Level {} Holy Shield Aura When Equipped": [
+    "Level {:d} Holy Shield Aura When Equipped": [
         "151,117"
     ],
-    "Level {} Holy Shock Aura When Equipped": [
+    "Level {:d} Holy Shock Aura When Equipped": [
         "151,118"
     ],
-    "Level {} Sanctuary Aura When Equipped": [
+    "Level {:d} Sanctuary Aura When Equipped": [
         "151,119"
     ],
-    "Level {} Meditation Aura When Equipped": [
+    "Level {:d} Meditation Aura When Equipped": [
         "151,120"
     ],
-    "Level {} Fist of the Heavens Aura When Equipped": [
+    "Level {:d} Fist of the Heavens Aura When Equipped": [
         "151,121"
     ],
-    "Level {} Fanaticism Aura When Equipped": [
+    "Level {:d} Fanaticism Aura When Equipped": [
         "151,122"
     ],
-    "Level {} Conviction Aura When Equipped": [
+    "Level {:d} Conviction Aura When Equipped": [
         "151,123"
     ],
-    "Level {} Redemption Aura When Equipped": [
+    "Level {:d} Redemption Aura When Equipped": [
         "151,124"
     ],
-    "Level {} Salvation Aura When Equipped": [
+    "Level {:d} Salvation Aura When Equipped": [
         "151,125"
     ],
-    "Level {} Bash Aura When Equipped": [
+    "Level {:d} Bash Aura When Equipped": [
         "151,126"
     ],
-    "Level {} Blade Mastery Aura When Equipped": [
+    "Level {:d} Blade Mastery Aura When Equipped": [
         "151,127"
     ],
-    "Level {} Axe Mastery Aura When Equipped": [
+    "Level {:d} Axe Mastery Aura When Equipped": [
         "151,128"
     ],
-    "Level {} Mace Mastery Aura When Equipped": [
+    "Level {:d} Mace Mastery Aura When Equipped": [
         "151,129"
     ],
-    "Level {} Howl Aura When Equipped": [
+    "Level {:d} Howl Aura When Equipped": [
         "151,130"
     ],
-    "Level {} Find Potion Aura When Equipped": [
+    "Level {:d} Find Potion Aura When Equipped": [
         "151,131"
     ],
-    "Level {} Leap Aura When Equipped": [
+    "Level {:d} Leap Aura When Equipped": [
         "151,132"
     ],
-    "Level {} Double Swing Aura When Equipped": [
+    "Level {:d} Double Swing Aura When Equipped": [
         "151,133"
     ],
-    "Level {} Polearm Mastery Aura When Equipped": [
+    "Level {:d} Polearm Mastery Aura When Equipped": [
         "151,134"
     ],
-    "Level {} Throwing Mastery Aura When Equipped": [
+    "Level {:d} Throwing Mastery Aura When Equipped": [
         "151,135"
     ],
-    "Level {} Spear Mastery Aura When Equipped": [
+    "Level {:d} Spear Mastery Aura When Equipped": [
         "151,136"
     ],
-    "Level {} Taunt Aura When Equipped": [
+    "Level {:d} Taunt Aura When Equipped": [
         "151,137"
     ],
-    "Level {} Shout Aura When Equipped": [
+    "Level {:d} Shout Aura When Equipped": [
         "151,138"
     ],
-    "Level {} Stun Aura When Equipped": [
+    "Level {:d} Stun Aura When Equipped": [
         "151,139"
     ],
-    "Level {} Double Throw Aura When Equipped": [
+    "Level {:d} Double Throw Aura When Equipped": [
         "151,140"
     ],
-    "Level {} Increased Stamina Aura When Equipped": [
+    "Level {:d} Increased Stamina Aura When Equipped": [
         "151,141"
     ],
-    "Level {} Find Item Aura When Equipped": [
+    "Level {:d} Find Item Aura When Equipped": [
         "151,142"
     ],
-    "Level {} Leap Attack Aura When Equipped": [
+    "Level {:d} Leap Attack Aura When Equipped": [
         "151,143"
     ],
-    "Level {} Concentrate Aura When Equipped": [
+    "Level {:d} Concentrate Aura When Equipped": [
         "151,144"
     ],
-    "Level {} Iron Skin Aura When Equipped": [
+    "Level {:d} Iron Skin Aura When Equipped": [
         "151,145"
     ],
-    "Level {} Battle Cry Aura When Equipped": [
+    "Level {:d} Battle Cry Aura When Equipped": [
         "151,146"
     ],
-    "Level {} Frenzy Aura When Equipped": [
+    "Level {:d} Frenzy Aura When Equipped": [
         "151,147"
     ],
-    "Level {} Increased Speed Aura When Equipped": [
+    "Level {:d} Increased Speed Aura When Equipped": [
         "151,148"
     ],
-    "Level {} Battle Orders Aura When Equipped": [
+    "Level {:d} Battle Orders Aura When Equipped": [
         "151,149"
     ],
-    "Level {} Grim Ward Aura When Equipped": [
+    "Level {:d} Grim Ward Aura When Equipped": [
         "151,150"
     ],
-    "Level {} Whirlwind Aura When Equipped": [
+    "Level {:d} Whirlwind Aura When Equipped": [
         "151,151"
     ],
-    "Level {} Berserk Aura When Equipped": [
+    "Level {:d} Berserk Aura When Equipped": [
         "151,152"
     ],
-    "Level {} Natural Resistance Aura When Equipped": [
+    "Level {:d} Natural Resistance Aura When Equipped": [
         "151,153"
     ],
-    "Level {} War Cry Aura When Equipped": [
+    "Level {:d} War Cry Aura When Equipped": [
         "151,154"
     ],
-    "Level {} Battle Command Aura When Equipped": [
+    "Level {:d} Battle Command Aura When Equipped": [
         "151,155"
     ],
-    "Level {} Raven Aura When Equipped": [
+    "Level {:d} Raven Aura When Equipped": [
         "151,221"
     ],
-    "Level {} Poison Creeper Aura When Equipped": [
+    "Level {:d} Poison Creeper Aura When Equipped": [
         "151,222"
     ],
-    "Level {} Werewolf Aura When Equipped": [
+    "Level {:d} Werewolf Aura When Equipped": [
         "151,223"
     ],
-    "Level {} Lycanthropy Aura When Equipped": [
+    "Level {:d} Lycanthropy Aura When Equipped": [
         "151,224"
     ],
-    "Level {} Firestorm Aura When Equipped": [
+    "Level {:d} Firestorm Aura When Equipped": [
         "151,225"
     ],
-    "Level {} Oak Sage Aura When Equipped": [
+    "Level {:d} Oak Sage Aura When Equipped": [
         "151,226"
     ],
-    "Level {} Summon Spirit Wolf Aura When Equipped": [
+    "Level {:d} Summon Spirit Wolf Aura When Equipped": [
         "151,227"
     ],
-    "Level {} Werebear Aura When Equipped": [
+    "Level {:d} Werebear Aura When Equipped": [
         "151,228"
     ],
-    "Level {} Molten Boulder Aura When Equipped": [
+    "Level {:d} Molten Boulder Aura When Equipped": [
         "151,229"
     ],
-    "Level {} Arctic Blast Aura When Equipped": [
+    "Level {:d} Arctic Blast Aura When Equipped": [
         "151,230"
     ],
-    "Level {} Carrion Vine Aura When Equipped": [
+    "Level {:d} Carrion Vine Aura When Equipped": [
         "151,231"
     ],
-    "Level {} Feral Rage Aura When Equipped": [
+    "Level {:d} Feral Rage Aura When Equipped": [
         "151,232"
     ],
-    "Level {} Maul Aura When Equipped": [
+    "Level {:d} Maul Aura When Equipped": [
         "151,233"
     ],
-    "Level {} Fissure Aura When Equipped": [
+    "Level {:d} Fissure Aura When Equipped": [
         "151,234"
     ],
-    "Level {} Cyclone Armor Aura When Equipped": [
+    "Level {:d} Cyclone Armor Aura When Equipped": [
         "151,235"
     ],
-    "Level {} Heart of Wolverine Aura When Equipped": [
+    "Level {:d} Heart of Wolverine Aura When Equipped": [
         "151,236"
     ],
-    "Level {} Summon Dire Wolf Aura When Equipped": [
+    "Level {:d} Summon Dire Wolf Aura When Equipped": [
         "151,237"
     ],
-    "Level {} Rabies Aura When Equipped": [
+    "Level {:d} Rabies Aura When Equipped": [
         "151,238"
     ],
-    "Level {} Fire Claws Aura When Equipped": [
+    "Level {:d} Fire Claws Aura When Equipped": [
         "151,239"
     ],
-    "Level {} Twister Aura When Equipped": [
+    "Level {:d} Twister Aura When Equipped": [
         "151,240"
     ],
-    "Level {} Solar Creeper Aura When Equipped": [
+    "Level {:d} Solar Creeper Aura When Equipped": [
         "151,241"
     ],
-    "Level {} Hunger Aura When Equipped": [
+    "Level {:d} Hunger Aura When Equipped": [
         "151,242"
     ],
-    "Level {} Shock Wave Aura When Equipped": [
+    "Level {:d} Shock Wave Aura When Equipped": [
         "151,243"
     ],
-    "Level {} Volcano Aura When Equipped": [
+    "Level {:d} Volcano Aura When Equipped": [
         "151,244"
     ],
-    "Level {} Tornado Aura When Equipped": [
+    "Level {:d} Tornado Aura When Equipped": [
         "151,245"
     ],
-    "Level {} Spirit of Barbs Aura When Equipped": [
+    "Level {:d} Spirit of Barbs Aura When Equipped": [
         "151,246"
     ],
-    "Level {} Summon Grizzly Aura When Equipped": [
+    "Level {:d} Summon Grizzly Aura When Equipped": [
         "151,247"
     ],
-    "Level {} Fury Aura When Equipped": [
+    "Level {:d} Fury Aura When Equipped": [
         "151,248"
     ],
-    "Level {} Armageddon Aura When Equipped": [
+    "Level {:d} Armageddon Aura When Equipped": [
         "151,249"
     ],
-    "Level {} Hurricane Aura When Equipped": [
+    "Level {:d} Hurricane Aura When Equipped": [
         "151,250"
     ],
-    "Level {} Fire Blast Aura When Equipped": [
+    "Level {:d} Fire Blast Aura When Equipped": [
         "151,251"
     ],
-    "Level {} Claw Mastery Aura When Equipped": [
+    "Level {:d} Claw Mastery Aura When Equipped": [
         "151,252"
     ],
-    "Level {} Psychic Hammer Aura When Equipped": [
+    "Level {:d} Psychic Hammer Aura When Equipped": [
         "151,253"
     ],
-    "Level {} Tiger Strike Aura When Equipped": [
+    "Level {:d} Tiger Strike Aura When Equipped": [
         "151,254"
     ],
-    "Level {} Dragon Talon Aura When Equipped": [
+    "Level {:d} Dragon Talon Aura When Equipped": [
         "151,255"
     ],
-    "Level {} Shock Web Aura When Equipped": [
+    "Level {:d} Shock Web Aura When Equipped": [
         "151,256"
     ],
-    "Level {} Blade Sentinel Aura When Equipped": [
+    "Level {:d} Blade Sentinel Aura When Equipped": [
         "151,257"
     ],
-    "Level {} Burst of Speed Aura When Equipped": [
+    "Level {:d} Burst of Speed Aura When Equipped": [
         "151,258"
     ],
-    "Level {} Fists of Fire Aura When Equipped": [
+    "Level {:d} Fists of Fire Aura When Equipped": [
         "151,259"
     ],
-    "Level {} Dragon Claw Aura When Equipped": [
+    "Level {:d} Dragon Claw Aura When Equipped": [
         "151,260"
     ],
-    "Level {} Charged Bolt Sentry Aura When Equipped": [
+    "Level {:d} Charged Bolt Sentry Aura When Equipped": [
         "151,261"
     ],
-    "Level {} Wake of Fire Aura When Equipped": [
+    "Level {:d} Wake of Fire Aura When Equipped": [
         "151,262"
     ],
-    "Level {} Weapon Block Aura When Equipped": [
+    "Level {:d} Weapon Block Aura When Equipped": [
         "151,263"
     ],
-    "Level {} Cloak of Shadows Aura When Equipped": [
+    "Level {:d} Cloak of Shadows Aura When Equipped": [
         "151,264"
     ],
-    "Level {} Cobra Strike Aura When Equipped": [
+    "Level {:d} Cobra Strike Aura When Equipped": [
         "151,265"
     ],
-    "Level {} Blade Fury Aura When Equipped": [
+    "Level {:d} Blade Fury Aura When Equipped": [
         "151,266"
     ],
-    "Level {} Fade Aura When Equipped": [
+    "Level {:d} Fade Aura When Equipped": [
         "151,267"
     ],
-    "Level {} Shadow Warrior Aura When Equipped": [
+    "Level {:d} Shadow Warrior Aura When Equipped": [
         "151,268"
     ],
-    "Level {} Claws of Thunder Aura When Equipped": [
+    "Level {:d} Claws of Thunder Aura When Equipped": [
         "151,269"
     ],
-    "Level {} Dragon Tail Aura When Equipped": [
+    "Level {:d} Dragon Tail Aura When Equipped": [
         "151,270"
     ],
-    "Level {} Lightning Sentry Aura When Equipped": [
+    "Level {:d} Lightning Sentry Aura When Equipped": [
         "151,271"
     ],
-    "Level {} Wake of Inferno Aura When Equipped": [
+    "Level {:d} Wake of Inferno Aura When Equipped": [
         "151,272"
     ],
-    "Level {} Mind Blast Aura When Equipped": [
+    "Level {:d} Mind Blast Aura When Equipped": [
         "151,273"
     ],
-    "Level {} Blades of Ice Aura When Equipped": [
+    "Level {:d} Blades of Ice Aura When Equipped": [
         "151,274"
     ],
-    "Level {} Dragon Flight Aura When Equipped": [
+    "Level {:d} Dragon Flight Aura When Equipped": [
         "151,275"
     ],
-    "Level {} Death Sentry Aura When Equipped": [
+    "Level {:d} Death Sentry Aura When Equipped": [
         "151,276"
     ],
-    "Level {} Blade Shield Aura When Equipped": [
+    "Level {:d} Blade Shield Aura When Equipped": [
         "151,277"
     ],
-    "Level {} Venom Aura When Equipped": [
+    "Level {:d} Venom Aura When Equipped": [
         "151,278"
     ],
-    "Level {} Shadow Master Aura When Equipped": [
+    "Level {:d} Shadow Master Aura When Equipped": [
         "151,279"
     ],
-    "Level {} Phoenix Strike Aura When Equipped": [
+    "Level {:d} Phoenix Strike Aura When Equipped": [
         "151,280"
     ],
-    "{}% Chance to cast level {} Magic Arrow on attack": [
+    "{:d}% Chance to cast level {:d} Magic Arrow on attack": [
         "195,6"
     ],
-    "{}% Chance to cast level {} Fire Arrow on attack": [
+    "{:d}% Chance to cast level {:d} Fire Arrow on attack": [
         "195,7"
     ],
-    "{}% Chance to cast level {} Inner Sight on attack": [
+    "{:d}% Chance to cast level {:d} Inner Sight on attack": [
         "195,8"
     ],
-    "{}% Chance to cast level {} Critical Strike on attack": [
+    "{:d}% Chance to cast level {:d} Critical Strike on attack": [
         "195,9"
     ],
-    "{}% Chance to cast level {} Jab on attack": [
+    "{:d}% Chance to cast level {:d} Jab on attack": [
         "195,10"
     ],
-    "{}% Chance to cast level {} Cold Arrow on attack": [
+    "{:d}% Chance to cast level {:d} Cold Arrow on attack": [
         "195,11"
     ],
-    "{}% Chance to cast level {} Multiple Shot on attack": [
+    "{:d}% Chance to cast level {:d} Multiple Shot on attack": [
         "195,12"
     ],
-    "{}% Chance to cast level {} Dodge on attack": [
+    "{:d}% Chance to cast level {:d} Dodge on attack": [
         "195,13"
     ],
-    "{}% Chance to cast level {} Power Strike on attack": [
+    "{:d}% Chance to cast level {:d} Power Strike on attack": [
         "195,14"
     ],
-    "{}% Chance to cast level {} Poison Javelin on attack": [
+    "{:d}% Chance to cast level {:d} Poison Javelin on attack": [
         "195,15"
     ],
-    "{}% Chance to cast level {} Exploding Arrow on attack": [
+    "{:d}% Chance to cast level {:d} Exploding Arrow on attack": [
         "195,16"
     ],
-    "{}% Chance to cast level {} Slow Missiles on attack": [
+    "{:d}% Chance to cast level {:d} Slow Missiles on attack": [
         "195,17"
     ],
-    "{}% Chance to cast level {} Avoid on attack": [
+    "{:d}% Chance to cast level {:d} Avoid on attack": [
         "195,18"
     ],
-    "{}% Chance to cast level {} Impale on attack": [
+    "{:d}% Chance to cast level {:d} Impale on attack": [
         "195,19"
     ],
-    "{}% Chance to cast level {} Lightning Bolt on attack": [
+    "{:d}% Chance to cast level {:d} Lightning Bolt on attack": [
         "195,20"
     ],
-    "{}% Chance to cast level {} Ice Arrow on attack": [
+    "{:d}% Chance to cast level {:d} Ice Arrow on attack": [
         "195,21"
     ],
-    "{}% Chance to cast level {} Guided Arrow on attack": [
+    "{:d}% Chance to cast level {:d} Guided Arrow on attack": [
         "195,22"
     ],
-    "{}% Chance to cast level {} Penetrate on attack": [
+    "{:d}% Chance to cast level {:d} Penetrate on attack": [
         "195,23"
     ],
-    "{}% Chance to cast level {} Charged Strike on attack": [
+    "{:d}% Chance to cast level {:d} Charged Strike on attack": [
         "195,24"
     ],
-    "{}% Chance to cast level {} Plague Javelin on attack": [
+    "{:d}% Chance to cast level {:d} Plague Javelin on attack": [
         "195,25"
     ],
-    "{}% Chance to cast level {} Strafe on attack": [
+    "{:d}% Chance to cast level {:d} Strafe on attack": [
         "195,26"
     ],
-    "{}% Chance to cast level {} Immolation Arrow on attack": [
+    "{:d}% Chance to cast level {:d} Immolation Arrow on attack": [
         "195,27"
     ],
-    "{}% Chance to cast level {} Decoy on attack": [
+    "{:d}% Chance to cast level {:d} Decoy on attack": [
         "195,28"
     ],
-    "{}% Chance to cast level {} Evade on attack": [
+    "{:d}% Chance to cast level {:d} Evade on attack": [
         "195,29"
     ],
-    "{}% Chance to cast level {} Fend on attack": [
+    "{:d}% Chance to cast level {:d} Fend on attack": [
         "195,30"
     ],
-    "{}% Chance to cast level {} Freezing Arrow on attack": [
+    "{:d}% Chance to cast level {:d} Freezing Arrow on attack": [
         "195,31"
     ],
-    "{}% Chance to cast level {} Valkyrie on attack": [
+    "{:d}% Chance to cast level {:d} Valkyrie on attack": [
         "195,32"
     ],
-    "{}% Chance to cast level {} Pierce on attack": [
+    "{:d}% Chance to cast level {:d} Pierce on attack": [
         "195,33"
     ],
-    "{}% Chance to cast level {} Lightning Strike on attack": [
+    "{:d}% Chance to cast level {:d} Lightning Strike on attack": [
         "195,34"
     ],
-    "{}% Chance to cast level {} Lightning Fury on attack": [
+    "{:d}% Chance to cast level {:d} Lightning Fury on attack": [
         "195,35"
     ],
-    "{}% Chance to cast level {} Fire Bolt on attack": [
+    "{:d}% Chance to cast level {:d} Fire Bolt on attack": [
         "195,36"
     ],
-    "{}% Chance to cast level {} Warmth on attack": [
+    "{:d}% Chance to cast level {:d} Warmth on attack": [
         "195,37"
     ],
-    "{}% Chance to cast level {} Charged Bolt on attack": [
+    "{:d}% Chance to cast level {:d} Charged Bolt on attack": [
         "195,38"
     ],
-    "{}% Chance to cast level {} Ice Bolt on attack": [
+    "{:d}% Chance to cast level {:d} Ice Bolt on attack": [
         "195,39"
     ],
-    "{}% Chance to cast level {} Frozen Armor on attack": [
+    "{:d}% Chance to cast level {:d} Frozen Armor on attack": [
         "195,40"
     ],
-    "{}% Chance to cast level {} Inferno on attack": [
+    "{:d}% Chance to cast level {:d} Inferno on attack": [
         "195,41"
     ],
-    "{}% Chance to cast level {} Static Field on attack": [
+    "{:d}% Chance to cast level {:d} Static Field on attack": [
         "195,42"
     ],
-    "{}% Chance to cast level {} Telekinesis on attack": [
+    "{:d}% Chance to cast level {:d} Telekinesis on attack": [
         "195,43"
     ],
-    "{}% Chance to cast level {} Frost Nova on attack": [
+    "{:d}% Chance to cast level {:d} Frost Nova on attack": [
         "195,44"
     ],
-    "{}% Chance to cast level {} Ice Blast on attack": [
+    "{:d}% Chance to cast level {:d} Ice Blast on attack": [
         "195,45"
     ],
-    "{}% Chance to cast level {} Blaze on attack": [
+    "{:d}% Chance to cast level {:d} Blaze on attack": [
         "195,46"
     ],
-    "{}% Chance to cast level {} Fire Ball on attack": [
+    "{:d}% Chance to cast level {:d} Fire Ball on attack": [
         "195,47"
     ],
-    "{}% Chance to cast level {} Nova on attack": [
+    "{:d}% Chance to cast level {:d} Nova on attack": [
         "195,48"
     ],
-    "{}% Chance to cast level {} Lightning on attack": [
+    "{:d}% Chance to cast level {:d} Lightning on attack": [
         "195,49"
     ],
-    "{}% Chance to cast level {} Shiver Armor on attack": [
+    "{:d}% Chance to cast level {:d} Shiver Armor on attack": [
         "195,50"
     ],
-    "{}% Chance to cast level {} Fire Wall on attack": [
+    "{:d}% Chance to cast level {:d} Fire Wall on attack": [
         "195,51"
     ],
-    "{}% Chance to cast level {} Enchant on attack": [
+    "{:d}% Chance to cast level {:d} Enchant on attack": [
         "195,52"
     ],
-    "{}% Chance to cast level {} Chain Lightning on attack": [
+    "{:d}% Chance to cast level {:d} Chain Lightning on attack": [
         "195,53"
     ],
-    "{}% Chance to cast level {} Teleport on attack": [
+    "{:d}% Chance to cast level {:d} Teleport on attack": [
         "195,54"
     ],
-    "{}% Chance to cast level {} Glacial Spike on attack": [
+    "{:d}% Chance to cast level {:d} Glacial Spike on attack": [
         "195,55"
     ],
-    "{}% Chance to cast level {} Meteor on attack": [
+    "{:d}% Chance to cast level {:d} Meteor on attack": [
         "195,56"
     ],
-    "{}% Chance to cast level {} Thunder Storm on attack": [
+    "{:d}% Chance to cast level {:d} Thunder Storm on attack": [
         "195,57"
     ],
-    "{}% Chance to cast level {} Energy Shield on attack": [
+    "{:d}% Chance to cast level {:d} Energy Shield on attack": [
         "195,58"
     ],
-    "{}% Chance to cast level {} Blizzard on attack": [
+    "{:d}% Chance to cast level {:d} Blizzard on attack": [
         "195,59"
     ],
-    "{}% Chance to cast level {} Chilling Armor on attack": [
+    "{:d}% Chance to cast level {:d} Chilling Armor on attack": [
         "195,60"
     ],
-    "{}% Chance to cast level {} Fire Mastery on attack": [
+    "{:d}% Chance to cast level {:d} Fire Mastery on attack": [
         "195,61"
     ],
-    "{}% Chance to cast level {} Hydra on attack": [
+    "{:d}% Chance to cast level {:d} Hydra on attack": [
         "195,62"
     ],
-    "{}% Chance to cast level {} Lightning Mastery on attack": [
+    "{:d}% Chance to cast level {:d} Lightning Mastery on attack": [
         "195,63"
     ],
-    "{}% Chance to cast level {} Frozen Orb on attack": [
+    "{:d}% Chance to cast level {:d} Frozen Orb on attack": [
         "195,64"
     ],
-    "{}% Chance to cast level {} Cold Mastery on attack": [
+    "{:d}% Chance to cast level {:d} Cold Mastery on attack": [
         "195,65"
     ],
-    "{}% Chance to cast level {} Amplify Damage on attack": [
+    "{:d}% Chance to cast level {:d} Amplify Damage on attack": [
         "195,66"
     ],
-    "{}% Chance to cast level {} Teeth on attack": [
+    "{:d}% Chance to cast level {:d} Teeth on attack": [
         "195,67"
     ],
-    "{}% Chance to cast level {} Bone Armor on attack": [
+    "{:d}% Chance to cast level {:d} Bone Armor on attack": [
         "195,68"
     ],
-    "{}% Chance to cast level {} Skeleton Mastery on attack": [
+    "{:d}% Chance to cast level {:d} Skeleton Mastery on attack": [
         "195,69"
     ],
-    "{}% Chance to cast level {} Raise Skeleton on attack": [
+    "{:d}% Chance to cast level {:d} Raise Skeleton on attack": [
         "195,70"
     ],
-    "{}% Chance to cast level {} Dim Vision on attack": [
+    "{:d}% Chance to cast level {:d} Dim Vision on attack": [
         "195,71"
     ],
-    "{}% Chance to cast level {} Weaken on attack": [
+    "{:d}% Chance to cast level {:d} Weaken on attack": [
         "195,72"
     ],
-    "{}% Chance to cast level {} Poison Dagger on attack": [
+    "{:d}% Chance to cast level {:d} Poison Dagger on attack": [
         "195,73"
     ],
-    "{}% Chance to cast level {} Corpse Explosion on attack": [
+    "{:d}% Chance to cast level {:d} Corpse Explosion on attack": [
         "195,74"
     ],
-    "{}% Chance to cast level {} Clay Golem on attack": [
+    "{:d}% Chance to cast level {:d} Clay Golem on attack": [
         "195,75"
     ],
-    "{}% Chance to cast level {} Iron Maiden on attack": [
+    "{:d}% Chance to cast level {:d} Iron Maiden on attack": [
         "195,76"
     ],
-    "{}% Chance to cast level {} Terror on attack": [
+    "{:d}% Chance to cast level {:d} Terror on attack": [
         "195,77"
     ],
-    "{}% Chance to cast level {} Bone Wall on attack": [
+    "{:d}% Chance to cast level {:d} Bone Wall on attack": [
         "195,78"
     ],
-    "{}% Chance to cast level {} Golem Mastery on attack": [
+    "{:d}% Chance to cast level {:d} Golem Mastery on attack": [
         "195,79"
     ],
-    "{}% Chance to cast level {} Raise Skeletal Mage on attack": [
+    "{:d}% Chance to cast level {:d} Raise Skeletal Mage on attack": [
         "195,80"
     ],
-    "{}% Chance to cast level {} Confuse on attack": [
+    "{:d}% Chance to cast level {:d} Confuse on attack": [
         "195,81"
     ],
-    "{}% Chance to cast level {} Life Tap on attack": [
+    "{:d}% Chance to cast level {:d} Life Tap on attack": [
         "195,82"
     ],
-    "{}% Chance to cast level {} Poison Explosion on attack": [
+    "{:d}% Chance to cast level {:d} Poison Explosion on attack": [
         "195,83"
     ],
-    "{}% Chance to cast level {} Bone Spear on attack": [
+    "{:d}% Chance to cast level {:d} Bone Spear on attack": [
         "195,84"
     ],
-    "{}% Chance to cast level {} Blood Golem on attack": [
+    "{:d}% Chance to cast level {:d} Blood Golem on attack": [
         "195,85"
     ],
-    "{}% Chance to cast level {} Attract on attack": [
+    "{:d}% Chance to cast level {:d} Attract on attack": [
         "195,86"
     ],
-    "{}% Chance to cast level {} Decrepify on attack": [
+    "{:d}% Chance to cast level {:d} Decrepify on attack": [
         "195,87"
     ],
-    "{}% Chance to cast level {} Bone Prison on attack": [
+    "{:d}% Chance to cast level {:d} Bone Prison on attack": [
         "195,88"
     ],
-    "{}% Chance to cast level {} Summon Resist on attack": [
+    "{:d}% Chance to cast level {:d} Summon Resist on attack": [
         "195,89"
     ],
-    "{}% Chance to cast level {} Iron Golem on attack": [
+    "{:d}% Chance to cast level {:d} Iron Golem on attack": [
         "195,90"
     ],
-    "{}% Chance to cast level {} Lower Resist on attack": [
+    "{:d}% Chance to cast level {:d} Lower Resist on attack": [
         "195,91"
     ],
-    "{}% Chance to cast level {} Poison Nova on attack": [
+    "{:d}% Chance to cast level {:d} Poison Nova on attack": [
         "195,92"
     ],
-    "{}% Chance to cast level {} Bone Spirit on attack": [
+    "{:d}% Chance to cast level {:d} Bone Spirit on attack": [
         "195,93"
     ],
-    "{}% Chance to cast level {} Fire Golem on attack": [
+    "{:d}% Chance to cast level {:d} Fire Golem on attack": [
         "195,94"
     ],
-    "{}% Chance to cast level {} Revive on attack": [
+    "{:d}% Chance to cast level {:d} Revive on attack": [
         "195,95"
     ],
-    "{}% Chance to cast level {} Sacrifice on attack": [
+    "{:d}% Chance to cast level {:d} Sacrifice on attack": [
         "195,96"
     ],
-    "{}% Chance to cast level {} Smite on attack": [
+    "{:d}% Chance to cast level {:d} Smite on attack": [
         "195,97"
     ],
-    "{}% Chance to cast level {} Might on attack": [
+    "{:d}% Chance to cast level {:d} Might on attack": [
         "195,98"
     ],
-    "{}% Chance to cast level {} Prayer on attack": [
+    "{:d}% Chance to cast level {:d} Prayer on attack": [
         "195,99"
     ],
-    "{}% Chance to cast level {} Resist Fire on attack": [
+    "{:d}% Chance to cast level {:d} Resist Fire on attack": [
         "195,100"
     ],
-    "{}% Chance to cast level {} Holy Bolt on attack": [
+    "{:d}% Chance to cast level {:d} Holy Bolt on attack": [
         "195,101"
     ],
-    "{}% Chance to cast level {} Holy Fire on attack": [
+    "{:d}% Chance to cast level {:d} Holy Fire on attack": [
         "195,102"
     ],
-    "{}% Chance to cast level {} Thorns on attack": [
+    "{:d}% Chance to cast level {:d} Thorns on attack": [
         "195,103"
     ],
-    "{}% Chance to cast level {} Defiance on attack": [
+    "{:d}% Chance to cast level {:d} Defiance on attack": [
         "195,104"
     ],
-    "{}% Chance to cast level {} Resist Cold on attack": [
+    "{:d}% Chance to cast level {:d} Resist Cold on attack": [
         "195,105"
     ],
-    "{}% Chance to cast level {} Zeal on attack": [
+    "{:d}% Chance to cast level {:d} Zeal on attack": [
         "195,106"
     ],
-    "{}% Chance to cast level {} Charge on attack": [
+    "{:d}% Chance to cast level {:d} Charge on attack": [
         "195,107"
     ],
-    "{}% Chance to cast level {} Blessed Aim on attack": [
+    "{:d}% Chance to cast level {:d} Blessed Aim on attack": [
         "195,108"
     ],
-    "{}% Chance to cast level {} Cleansing on attack": [
+    "{:d}% Chance to cast level {:d} Cleansing on attack": [
         "195,109"
     ],
-    "{}% Chance to cast level {} Resist Lightning on attack": [
+    "{:d}% Chance to cast level {:d} Resist Lightning on attack": [
         "195,110"
     ],
-    "{}% Chance to cast level {} Vengeance on attack": [
+    "{:d}% Chance to cast level {:d} Vengeance on attack": [
         "195,111"
     ],
-    "{}% Chance to cast level {} Blessed Hammer on attack": [
+    "{:d}% Chance to cast level {:d} Blessed Hammer on attack": [
         "195,112"
     ],
-    "{}% Chance to cast level {} Concentration on attack": [
+    "{:d}% Chance to cast level {:d} Concentration on attack": [
         "195,113"
     ],
-    "{}% Chance to cast level {} Holy Freeze on attack": [
+    "{:d}% Chance to cast level {:d} Holy Freeze on attack": [
         "195,114"
     ],
-    "{}% Chance to cast level {} Vigor on attack": [
+    "{:d}% Chance to cast level {:d} Vigor on attack": [
         "195,115"
     ],
-    "{}% Chance to cast level {} Conversion on attack": [
+    "{:d}% Chance to cast level {:d} Conversion on attack": [
         "195,116"
     ],
-    "{}% Chance to cast level {} Holy Shield on attack": [
+    "{:d}% Chance to cast level {:d} Holy Shield on attack": [
         "195,117"
     ],
-    "{}% Chance to cast level {} Holy Shock on attack": [
+    "{:d}% Chance to cast level {:d} Holy Shock on attack": [
         "195,118"
     ],
-    "{}% Chance to cast level {} Sanctuary on attack": [
+    "{:d}% Chance to cast level {:d} Sanctuary on attack": [
         "195,119"
     ],
-    "{}% Chance to cast level {} Meditation on attack": [
+    "{:d}% Chance to cast level {:d} Meditation on attack": [
         "195,120"
     ],
-    "{}% Chance to cast level {} Fist of the Heavens on attack": [
+    "{:d}% Chance to cast level {:d} Fist of the Heavens on attack": [
         "195,121"
     ],
-    "{}% Chance to cast level {} Fanaticism on attack": [
+    "{:d}% Chance to cast level {:d} Fanaticism on attack": [
         "195,122"
     ],
-    "{}% Chance to cast level {} Conviction on attack": [
+    "{:d}% Chance to cast level {:d} Conviction on attack": [
         "195,123"
     ],
-    "{}% Chance to cast level {} Redemption on attack": [
+    "{:d}% Chance to cast level {:d} Redemption on attack": [
         "195,124"
     ],
-    "{}% Chance to cast level {} Salvation on attack": [
+    "{:d}% Chance to cast level {:d} Salvation on attack": [
         "195,125"
     ],
-    "{}% Chance to cast level {} Bash on attack": [
+    "{:d}% Chance to cast level {:d} Bash on attack": [
         "195,126"
     ],
-    "{}% Chance to cast level {} Blade Mastery on attack": [
+    "{:d}% Chance to cast level {:d} Blade Mastery on attack": [
         "195,127"
     ],
-    "{}% Chance to cast level {} Axe Mastery on attack": [
+    "{:d}% Chance to cast level {:d} Axe Mastery on attack": [
         "195,128"
     ],
-    "{}% Chance to cast level {} Mace Mastery on attack": [
+    "{:d}% Chance to cast level {:d} Mace Mastery on attack": [
         "195,129"
     ],
-    "{}% Chance to cast level {} Howl on attack": [
+    "{:d}% Chance to cast level {:d} Howl on attack": [
         "195,130"
     ],
-    "{}% Chance to cast level {} Find Potion on attack": [
+    "{:d}% Chance to cast level {:d} Find Potion on attack": [
         "195,131"
     ],
-    "{}% Chance to cast level {} Leap on attack": [
+    "{:d}% Chance to cast level {:d} Leap on attack": [
         "195,132"
     ],
-    "{}% Chance to cast level {} Double Swing on attack": [
+    "{:d}% Chance to cast level {:d} Double Swing on attack": [
         "195,133"
     ],
-    "{}% Chance to cast level {} Polearm Mastery on attack": [
+    "{:d}% Chance to cast level {:d} Polearm Mastery on attack": [
         "195,134"
     ],
-    "{}% Chance to cast level {} Throwing Mastery on attack": [
+    "{:d}% Chance to cast level {:d} Throwing Mastery on attack": [
         "195,135"
     ],
-    "{}% Chance to cast level {} Spear Mastery on attack": [
+    "{:d}% Chance to cast level {:d} Spear Mastery on attack": [
         "195,136"
     ],
-    "{}% Chance to cast level {} Taunt on attack": [
+    "{:d}% Chance to cast level {:d} Taunt on attack": [
         "195,137"
     ],
-    "{}% Chance to cast level {} Shout on attack": [
+    "{:d}% Chance to cast level {:d} Shout on attack": [
         "195,138"
     ],
-    "{}% Chance to cast level {} Stun on attack": [
+    "{:d}% Chance to cast level {:d} Stun on attack": [
         "195,139"
     ],
-    "{}% Chance to cast level {} Double Throw on attack": [
+    "{:d}% Chance to cast level {:d} Double Throw on attack": [
         "195,140"
     ],
-    "{}% Chance to cast level {} Increased Stamina on attack": [
+    "{:d}% Chance to cast level {:d} Increased Stamina on attack": [
         "195,141"
     ],
-    "{}% Chance to cast level {} Find Item on attack": [
+    "{:d}% Chance to cast level {:d} Find Item on attack": [
         "195,142"
     ],
-    "{}% Chance to cast level {} Leap Attack on attack": [
+    "{:d}% Chance to cast level {:d} Leap Attack on attack": [
         "195,143"
     ],
-    "{}% Chance to cast level {} Concentrate on attack": [
+    "{:d}% Chance to cast level {:d} Concentrate on attack": [
         "195,144"
     ],
-    "{}% Chance to cast level {} Iron Skin on attack": [
+    "{:d}% Chance to cast level {:d} Iron Skin on attack": [
         "195,145"
     ],
-    "{}% Chance to cast level {} Battle Cry on attack": [
+    "{:d}% Chance to cast level {:d} Battle Cry on attack": [
         "195,146"
     ],
-    "{}% Chance to cast level {} Frenzy on attack": [
+    "{:d}% Chance to cast level {:d} Frenzy on attack": [
         "195,147"
     ],
-    "{}% Chance to cast level {} Increased Speed on attack": [
+    "{:d}% Chance to cast level {:d} Increased Speed on attack": [
         "195,148"
     ],
-    "{}% Chance to cast level {} Battle Orders on attack": [
+    "{:d}% Chance to cast level {:d} Battle Orders on attack": [
         "195,149"
     ],
-    "{}% Chance to cast level {} Grim Ward on attack": [
+    "{:d}% Chance to cast level {:d} Grim Ward on attack": [
         "195,150"
     ],
-    "{}% Chance to cast level {} Whirlwind on attack": [
+    "{:d}% Chance to cast level {:d} Whirlwind on attack": [
         "195,151"
     ],
-    "{}% Chance to cast level {} Berserk on attack": [
+    "{:d}% Chance to cast level {:d} Berserk on attack": [
         "195,152"
     ],
-    "{}% Chance to cast level {} Natural Resistance on attack": [
+    "{:d}% Chance to cast level {:d} Natural Resistance on attack": [
         "195,153"
     ],
-    "{}% Chance to cast level {} War Cry on attack": [
+    "{:d}% Chance to cast level {:d} War Cry on attack": [
         "195,154"
     ],
-    "{}% Chance to cast level {} Battle Command on attack": [
+    "{:d}% Chance to cast level {:d} Battle Command on attack": [
         "195,155"
     ],
-    "{}% Chance to cast level {} Raven on attack": [
+    "{:d}% Chance to cast level {:d} Raven on attack": [
         "195,221"
     ],
-    "{}% Chance to cast level {} Poison Creeper on attack": [
+    "{:d}% Chance to cast level {:d} Poison Creeper on attack": [
         "195,222"
     ],
-    "{}% Chance to cast level {} Werewolf on attack": [
+    "{:d}% Chance to cast level {:d} Werewolf on attack": [
         "195,223"
     ],
-    "{}% Chance to cast level {} Lycanthropy on attack": [
+    "{:d}% Chance to cast level {:d} Lycanthropy on attack": [
         "195,224"
     ],
-    "{}% Chance to cast level {} Firestorm on attack": [
+    "{:d}% Chance to cast level {:d} Firestorm on attack": [
         "195,225"
     ],
-    "{}% Chance to cast level {} Oak Sage on attack": [
+    "{:d}% Chance to cast level {:d} Oak Sage on attack": [
         "195,226"
     ],
-    "{}% Chance to cast level {} Summon Spirit Wolf on attack": [
+    "{:d}% Chance to cast level {:d} Summon Spirit Wolf on attack": [
         "195,227"
     ],
-    "{}% Chance to cast level {} Werebear on attack": [
+    "{:d}% Chance to cast level {:d} Werebear on attack": [
         "195,228"
     ],
-    "{}% Chance to cast level {} Molten Boulder on attack": [
+    "{:d}% Chance to cast level {:d} Molten Boulder on attack": [
         "195,229"
     ],
-    "{}% Chance to cast level {} Arctic Blast on attack": [
+    "{:d}% Chance to cast level {:d} Arctic Blast on attack": [
         "195,230"
     ],
-    "{}% Chance to cast level {} Carrion Vine on attack": [
+    "{:d}% Chance to cast level {:d} Carrion Vine on attack": [
         "195,231"
     ],
-    "{}% Chance to cast level {} Feral Rage on attack": [
+    "{:d}% Chance to cast level {:d} Feral Rage on attack": [
         "195,232"
     ],
-    "{}% Chance to cast level {} Maul on attack": [
+    "{:d}% Chance to cast level {:d} Maul on attack": [
         "195,233"
     ],
-    "{}% Chance to cast level {} Fissure on attack": [
+    "{:d}% Chance to cast level {:d} Fissure on attack": [
         "195,234"
     ],
-    "{}% Chance to cast level {} Cyclone Armor on attack": [
+    "{:d}% Chance to cast level {:d} Cyclone Armor on attack": [
         "195,235"
     ],
-    "{}% Chance to cast level {} Heart of Wolverine on attack": [
+    "{:d}% Chance to cast level {:d} Heart of Wolverine on attack": [
         "195,236"
     ],
-    "{}% Chance to cast level {} Summon Dire Wolf on attack": [
+    "{:d}% Chance to cast level {:d} Summon Dire Wolf on attack": [
         "195,237"
     ],
-    "{}% Chance to cast level {} Rabies on attack": [
+    "{:d}% Chance to cast level {:d} Rabies on attack": [
         "195,238"
     ],
-    "{}% Chance to cast level {} Fire Claws on attack": [
+    "{:d}% Chance to cast level {:d} Fire Claws on attack": [
         "195,239"
     ],
-    "{}% Chance to cast level {} Twister on attack": [
+    "{:d}% Chance to cast level {:d} Twister on attack": [
         "195,240"
     ],
-    "{}% Chance to cast level {} Solar Creeper on attack": [
+    "{:d}% Chance to cast level {:d} Solar Creeper on attack": [
         "195,241"
     ],
-    "{}% Chance to cast level {} Hunger on attack": [
+    "{:d}% Chance to cast level {:d} Hunger on attack": [
         "195,242"
     ],
-    "{}% Chance to cast level {} Shock Wave on attack": [
+    "{:d}% Chance to cast level {:d} Shock Wave on attack": [
         "195,243"
     ],
-    "{}% Chance to cast level {} Volcano on attack": [
+    "{:d}% Chance to cast level {:d} Volcano on attack": [
         "195,244"
     ],
-    "{}% Chance to cast level {} Tornado on attack": [
+    "{:d}% Chance to cast level {:d} Tornado on attack": [
         "195,245"
     ],
-    "{}% Chance to cast level {} Spirit of Barbs on attack": [
+    "{:d}% Chance to cast level {:d} Spirit of Barbs on attack": [
         "195,246"
     ],
-    "{}% Chance to cast level {} Summon Grizzly on attack": [
+    "{:d}% Chance to cast level {:d} Summon Grizzly on attack": [
         "195,247"
     ],
-    "{}% Chance to cast level {} Fury on attack": [
+    "{:d}% Chance to cast level {:d} Fury on attack": [
         "195,248"
     ],
-    "{}% Chance to cast level {} Armageddon on attack": [
+    "{:d}% Chance to cast level {:d} Armageddon on attack": [
         "195,249"
     ],
-    "{}% Chance to cast level {} Hurricane on attack": [
+    "{:d}% Chance to cast level {:d} Hurricane on attack": [
         "195,250"
     ],
-    "{}% Chance to cast level {} Fire Blast on attack": [
+    "{:d}% Chance to cast level {:d} Fire Blast on attack": [
         "195,251"
     ],
-    "{}% Chance to cast level {} Claw Mastery on attack": [
+    "{:d}% Chance to cast level {:d} Claw Mastery on attack": [
         "195,252"
     ],
-    "{}% Chance to cast level {} Psychic Hammer on attack": [
+    "{:d}% Chance to cast level {:d} Psychic Hammer on attack": [
         "195,253"
     ],
-    "{}% Chance to cast level {} Tiger Strike on attack": [
+    "{:d}% Chance to cast level {:d} Tiger Strike on attack": [
         "195,254"
     ],
-    "{}% Chance to cast level {} Dragon Talon on attack": [
+    "{:d}% Chance to cast level {:d} Dragon Talon on attack": [
         "195,255"
     ],
-    "{}% Chance to cast level {} Shock Web on attack": [
+    "{:d}% Chance to cast level {:d} Shock Web on attack": [
         "195,256"
     ],
-    "{}% Chance to cast level {} Blade Sentinel on attack": [
+    "{:d}% Chance to cast level {:d} Blade Sentinel on attack": [
         "195,257"
     ],
-    "{}% Chance to cast level {} Burst of Speed on attack": [
+    "{:d}% Chance to cast level {:d} Burst of Speed on attack": [
         "195,258"
     ],
-    "{}% Chance to cast level {} Fists of Fire on attack": [
+    "{:d}% Chance to cast level {:d} Fists of Fire on attack": [
         "195,259"
     ],
-    "{}% Chance to cast level {} Dragon Claw on attack": [
+    "{:d}% Chance to cast level {:d} Dragon Claw on attack": [
         "195,260"
     ],
-    "{}% Chance to cast level {} Charged Bolt Sentry on attack": [
+    "{:d}% Chance to cast level {:d} Charged Bolt Sentry on attack": [
         "195,261"
     ],
-    "{}% Chance to cast level {} Wake of Fire on attack": [
+    "{:d}% Chance to cast level {:d} Wake of Fire on attack": [
         "195,262"
     ],
-    "{}% Chance to cast level {} Weapon Block on attack": [
+    "{:d}% Chance to cast level {:d} Weapon Block on attack": [
         "195,263"
     ],
-    "{}% Chance to cast level {} Cloak of Shadows on attack": [
+    "{:d}% Chance to cast level {:d} Cloak of Shadows on attack": [
         "195,264"
     ],
-    "{}% Chance to cast level {} Cobra Strike on attack": [
+    "{:d}% Chance to cast level {:d} Cobra Strike on attack": [
         "195,265"
     ],
-    "{}% Chance to cast level {} Blade Fury on attack": [
+    "{:d}% Chance to cast level {:d} Blade Fury on attack": [
         "195,266"
     ],
-    "{}% Chance to cast level {} Fade on attack": [
+    "{:d}% Chance to cast level {:d} Fade on attack": [
         "195,267"
     ],
-    "{}% Chance to cast level {} Shadow Warrior on attack": [
+    "{:d}% Chance to cast level {:d} Shadow Warrior on attack": [
         "195,268"
     ],
-    "{}% Chance to cast level {} Claws of Thunder on attack": [
+    "{:d}% Chance to cast level {:d} Claws of Thunder on attack": [
         "195,269"
     ],
-    "{}% Chance to cast level {} Dragon Tail on attack": [
+    "{:d}% Chance to cast level {:d} Dragon Tail on attack": [
         "195,270"
     ],
-    "{}% Chance to cast level {} Lightning Sentry on attack": [
+    "{:d}% Chance to cast level {:d} Lightning Sentry on attack": [
         "195,271"
     ],
-    "{}% Chance to cast level {} Wake of Inferno on attack": [
+    "{:d}% Chance to cast level {:d} Wake of Inferno on attack": [
         "195,272"
     ],
-    "{}% Chance to cast level {} Mind Blast on attack": [
+    "{:d}% Chance to cast level {:d} Mind Blast on attack": [
         "195,273"
     ],
-    "{}% Chance to cast level {} Blades of Ice on attack": [
+    "{:d}% Chance to cast level {:d} Blades of Ice on attack": [
         "195,274"
     ],
-    "{}% Chance to cast level {} Dragon Flight on attack": [
+    "{:d}% Chance to cast level {:d} Dragon Flight on attack": [
         "195,275"
     ],
-    "{}% Chance to cast level {} Death Sentry on attack": [
+    "{:d}% Chance to cast level {:d} Death Sentry on attack": [
         "195,276"
     ],
-    "{}% Chance to cast level {} Blade Shield on attack": [
+    "{:d}% Chance to cast level {:d} Blade Shield on attack": [
         "195,277"
     ],
-    "{}% Chance to cast level {} Venom on attack": [
+    "{:d}% Chance to cast level {:d} Venom on attack": [
         "195,278"
     ],
-    "{}% Chance to cast level {} Shadow Master on attack": [
+    "{:d}% Chance to cast level {:d} Shadow Master on attack": [
         "195,279"
     ],
-    "{}% Chance to cast level {} Phoenix Strike on attack": [
+    "{:d}% Chance to cast level {:d} Phoenix Strike on attack": [
         "195,280"
     ],
-    "{}% Chance to cast level {} Magic Arrow on striking": [
+    "{:d}% Chance to cast level {:d} Magic Arrow on striking": [
         "198,6"
     ],
-    "{}% Chance to cast level {} Fire Arrow on striking": [
+    "{:d}% Chance to cast level {:d} Fire Arrow on striking": [
         "198,7"
     ],
-    "{}% Chance to cast level {} Inner Sight on striking": [
+    "{:d}% Chance to cast level {:d} Inner Sight on striking": [
         "198,8"
     ],
-    "{}% Chance to cast level {} Critical Strike on striking": [
+    "{:d}% Chance to cast level {:d} Critical Strike on striking": [
         "198,9"
     ],
-    "{}% Chance to cast level {} Jab on striking": [
+    "{:d}% Chance to cast level {:d} Jab on striking": [
         "198,10"
     ],
-    "{}% Chance to cast level {} Cold Arrow on striking": [
+    "{:d}% Chance to cast level {:d} Cold Arrow on striking": [
         "198,11"
     ],
-    "{}% Chance to cast level {} Multiple Shot on striking": [
+    "{:d}% Chance to cast level {:d} Multiple Shot on striking": [
         "198,12"
     ],
-    "{}% Chance to cast level {} Dodge on striking": [
+    "{:d}% Chance to cast level {:d} Dodge on striking": [
         "198,13"
     ],
-    "{}% Chance to cast level {} Power Strike on striking": [
+    "{:d}% Chance to cast level {:d} Power Strike on striking": [
         "198,14"
     ],
-    "{}% Chance to cast level {} Poison Javelin on striking": [
+    "{:d}% Chance to cast level {:d} Poison Javelin on striking": [
         "198,15"
     ],
-    "{}% Chance to cast level {} Exploding Arrow on striking": [
+    "{:d}% Chance to cast level {:d} Exploding Arrow on striking": [
         "198,16"
     ],
-    "{}% Chance to cast level {} Slow Missiles on striking": [
+    "{:d}% Chance to cast level {:d} Slow Missiles on striking": [
         "198,17"
     ],
-    "{}% Chance to cast level {} Avoid on striking": [
+    "{:d}% Chance to cast level {:d} Avoid on striking": [
         "198,18"
     ],
-    "{}% Chance to cast level {} Impale on striking": [
+    "{:d}% Chance to cast level {:d} Impale on striking": [
         "198,19"
     ],
-    "{}% Chance to cast level {} Lightning Bolt on striking": [
+    "{:d}% Chance to cast level {:d} Lightning Bolt on striking": [
         "198,20"
     ],
-    "{}% Chance to cast level {} Ice Arrow on striking": [
+    "{:d}% Chance to cast level {:d} Ice Arrow on striking": [
         "198,21"
     ],
-    "{}% Chance to cast level {} Guided Arrow on striking": [
+    "{:d}% Chance to cast level {:d} Guided Arrow on striking": [
         "198,22"
     ],
-    "{}% Chance to cast level {} Penetrate on striking": [
+    "{:d}% Chance to cast level {:d} Penetrate on striking": [
         "198,23"
     ],
-    "{}% Chance to cast level {} Charged Strike on striking": [
+    "{:d}% Chance to cast level {:d} Charged Strike on striking": [
         "198,24"
     ],
-    "{}% Chance to cast level {} Plague Javelin on striking": [
+    "{:d}% Chance to cast level {:d} Plague Javelin on striking": [
         "198,25"
     ],
-    "{}% Chance to cast level {} Strafe on striking": [
+    "{:d}% Chance to cast level {:d} Strafe on striking": [
         "198,26"
     ],
-    "{}% Chance to cast level {} Immolation Arrow on striking": [
+    "{:d}% Chance to cast level {:d} Immolation Arrow on striking": [
         "198,27"
     ],
-    "{}% Chance to cast level {} Decoy on striking": [
+    "{:d}% Chance to cast level {:d} Decoy on striking": [
         "198,28"
     ],
-    "{}% Chance to cast level {} Evade on striking": [
+    "{:d}% Chance to cast level {:d} Evade on striking": [
         "198,29"
     ],
-    "{}% Chance to cast level {} Fend on striking": [
+    "{:d}% Chance to cast level {:d} Fend on striking": [
         "198,30"
     ],
-    "{}% Chance to cast level {} Freezing Arrow on striking": [
+    "{:d}% Chance to cast level {:d} Freezing Arrow on striking": [
         "198,31"
     ],
-    "{}% Chance to cast level {} Valkyrie on striking": [
+    "{:d}% Chance to cast level {:d} Valkyrie on striking": [
         "198,32"
     ],
-    "{}% Chance to cast level {} Pierce on striking": [
+    "{:d}% Chance to cast level {:d} Pierce on striking": [
         "198,33"
     ],
-    "{}% Chance to cast level {} Lightning Strike on striking": [
+    "{:d}% Chance to cast level {:d} Lightning Strike on striking": [
         "198,34"
     ],
-    "{}% Chance to cast level {} Lightning Fury on striking": [
+    "{:d}% Chance to cast level {:d} Lightning Fury on striking": [
         "198,35"
     ],
-    "{}% Chance to cast level {} Fire Bolt on striking": [
+    "{:d}% Chance to cast level {:d} Fire Bolt on striking": [
         "198,36"
     ],
-    "{}% Chance to cast level {} Warmth on striking": [
+    "{:d}% Chance to cast level {:d} Warmth on striking": [
         "198,37"
     ],
-    "{}% Chance to cast level {} Charged Bolt on striking": [
+    "{:d}% Chance to cast level {:d} Charged Bolt on striking": [
         "198,38"
     ],
-    "{}% Chance to cast level {} Ice Bolt on striking": [
+    "{:d}% Chance to cast level {:d} Ice Bolt on striking": [
         "198,39"
     ],
-    "{}% Chance to cast level {} Frozen Armor on striking": [
+    "{:d}% Chance to cast level {:d} Frozen Armor on striking": [
         "198,40"
     ],
-    "{}% Chance to cast level {} Inferno on striking": [
+    "{:d}% Chance to cast level {:d} Inferno on striking": [
         "198,41"
     ],
-    "{}% Chance to cast level {} Static Field on striking": [
+    "{:d}% Chance to cast level {:d} Static Field on striking": [
         "198,42"
     ],
-    "{}% Chance to cast level {} Telekinesis on striking": [
+    "{:d}% Chance to cast level {:d} Telekinesis on striking": [
         "198,43"
     ],
-    "{}% Chance to cast level {} Frost Nova on striking": [
+    "{:d}% Chance to cast level {:d} Frost Nova on striking": [
         "198,44"
     ],
-    "{}% Chance to cast level {} Ice Blast on striking": [
+    "{:d}% Chance to cast level {:d} Ice Blast on striking": [
         "198,45"
     ],
-    "{}% Chance to cast level {} Blaze on striking": [
+    "{:d}% Chance to cast level {:d} Blaze on striking": [
         "198,46"
     ],
-    "{}% Chance to cast level {} Fire Ball on striking": [
+    "{:d}% Chance to cast level {:d} Fire Ball on striking": [
         "198,47"
     ],
-    "{}% Chance to cast level {} Nova on striking": [
+    "{:d}% Chance to cast level {:d} Nova on striking": [
         "198,48"
     ],
-    "{}% Chance to cast level {} Lightning on striking": [
+    "{:d}% Chance to cast level {:d} Lightning on striking": [
         "198,49"
     ],
-    "{}% Chance to cast level {} Shiver Armor on striking": [
+    "{:d}% Chance to cast level {:d} Shiver Armor on striking": [
         "198,50"
     ],
-    "{}% Chance to cast level {} Fire Wall on striking": [
+    "{:d}% Chance to cast level {:d} Fire Wall on striking": [
         "198,51"
     ],
-    "{}% Chance to cast level {} Enchant on striking": [
+    "{:d}% Chance to cast level {:d} Enchant on striking": [
         "198,52"
     ],
-    "{}% Chance to cast level {} Chain Lightning on striking": [
+    "{:d}% Chance to cast level {:d} Chain Lightning on striking": [
         "198,53"
     ],
-    "{}% Chance to cast level {} Teleport on striking": [
+    "{:d}% Chance to cast level {:d} Teleport on striking": [
         "198,54"
     ],
-    "{}% Chance to cast level {} Glacial Spike on striking": [
+    "{:d}% Chance to cast level {:d} Glacial Spike on striking": [
         "198,55"
     ],
-    "{}% Chance to cast level {} Meteor on striking": [
+    "{:d}% Chance to cast level {:d} Meteor on striking": [
         "198,56"
     ],
-    "{}% Chance to cast level {} Thunder Storm on striking": [
+    "{:d}% Chance to cast level {:d} Thunder Storm on striking": [
         "198,57"
     ],
-    "{}% Chance to cast level {} Energy Shield on striking": [
+    "{:d}% Chance to cast level {:d} Energy Shield on striking": [
         "198,58"
     ],
-    "{}% Chance to cast level {} Blizzard on striking": [
+    "{:d}% Chance to cast level {:d} Blizzard on striking": [
         "198,59"
     ],
-    "{}% Chance to cast level {} Chilling Armor on striking": [
+    "{:d}% Chance to cast level {:d} Chilling Armor on striking": [
         "198,60"
     ],
-    "{}% Chance to cast level {} Fire Mastery on striking": [
+    "{:d}% Chance to cast level {:d} Fire Mastery on striking": [
         "198,61"
     ],
-    "{}% Chance to cast level {} Hydra on striking": [
+    "{:d}% Chance to cast level {:d} Hydra on striking": [
         "198,62"
     ],
-    "{}% Chance to cast level {} Lightning Mastery on striking": [
+    "{:d}% Chance to cast level {:d} Lightning Mastery on striking": [
         "198,63"
     ],
-    "{}% Chance to cast level {} Frozen Orb on striking": [
+    "{:d}% Chance to cast level {:d} Frozen Orb on striking": [
         "198,64"
     ],
-    "{}% Chance to cast level {} Cold Mastery on striking": [
+    "{:d}% Chance to cast level {:d} Cold Mastery on striking": [
         "198,65"
     ],
-    "{}% Chance to cast level {} Amplify Damage on striking": [
+    "{:d}% Chance to cast level {:d} Amplify Damage on striking": [
         "198,66"
     ],
-    "{}% Chance to cast level {} Teeth on striking": [
+    "{:d}% Chance to cast level {:d} Teeth on striking": [
         "198,67"
     ],
-    "{}% Chance to cast level {} Bone Armor on striking": [
+    "{:d}% Chance to cast level {:d} Bone Armor on striking": [
         "198,68"
     ],
-    "{}% Chance to cast level {} Skeleton Mastery on striking": [
+    "{:d}% Chance to cast level {:d} Skeleton Mastery on striking": [
         "198,69"
     ],
-    "{}% Chance to cast level {} Raise Skeleton on striking": [
+    "{:d}% Chance to cast level {:d} Raise Skeleton on striking": [
         "198,70"
     ],
-    "{}% Chance to cast level {} Dim Vision on striking": [
+    "{:d}% Chance to cast level {:d} Dim Vision on striking": [
         "198,71"
     ],
-    "{}% Chance to cast level {} Weaken on striking": [
+    "{:d}% Chance to cast level {:d} Weaken on striking": [
         "198,72"
     ],
-    "{}% Chance to cast level {} Poison Dagger on striking": [
+    "{:d}% Chance to cast level {:d} Poison Dagger on striking": [
         "198,73"
     ],
-    "{}% Chance to cast level {} Corpse Explosion on striking": [
+    "{:d}% Chance to cast level {:d} Corpse Explosion on striking": [
         "198,74"
     ],
-    "{}% Chance to cast level {} Clay Golem on striking": [
+    "{:d}% Chance to cast level {:d} Clay Golem on striking": [
         "198,75"
     ],
-    "{}% Chance to cast level {} Iron Maiden on striking": [
+    "{:d}% Chance to cast level {:d} Iron Maiden on striking": [
         "198,76"
     ],
-    "{}% Chance to cast level {} Terror on striking": [
+    "{:d}% Chance to cast level {:d} Terror on striking": [
         "198,77"
     ],
-    "{}% Chance to cast level {} Bone Wall on striking": [
+    "{:d}% Chance to cast level {:d} Bone Wall on striking": [
         "198,78"
     ],
-    "{}% Chance to cast level {} Golem Mastery on striking": [
+    "{:d}% Chance to cast level {:d} Golem Mastery on striking": [
         "198,79"
     ],
-    "{}% Chance to cast level {} Raise Skeletal Mage on striking": [
+    "{:d}% Chance to cast level {:d} Raise Skeletal Mage on striking": [
         "198,80"
     ],
-    "{}% Chance to cast level {} Confuse on striking": [
+    "{:d}% Chance to cast level {:d} Confuse on striking": [
         "198,81"
     ],
-    "{}% Chance to cast level {} Life Tap on striking": [
+    "{:d}% Chance to cast level {:d} Life Tap on striking": [
         "198,82"
     ],
-    "{}% Chance to cast level {} Poison Explosion on striking": [
+    "{:d}% Chance to cast level {:d} Poison Explosion on striking": [
         "198,83"
     ],
-    "{}% Chance to cast level {} Bone Spear on striking": [
+    "{:d}% Chance to cast level {:d} Bone Spear on striking": [
         "198,84"
     ],
-    "{}% Chance to cast level {} Blood Golem on striking": [
+    "{:d}% Chance to cast level {:d} Blood Golem on striking": [
         "198,85"
     ],
-    "{}% Chance to cast level {} Attract on striking": [
+    "{:d}% Chance to cast level {:d} Attract on striking": [
         "198,86"
     ],
-    "{}% Chance to cast level {} Decrepify on striking": [
+    "{:d}% Chance to cast level {:d} Decrepify on striking": [
         "198,87"
     ],
-    "{}% Chance to cast level {} Bone Prison on striking": [
+    "{:d}% Chance to cast level {:d} Bone Prison on striking": [
         "198,88"
     ],
-    "{}% Chance to cast level {} Summon Resist on striking": [
+    "{:d}% Chance to cast level {:d} Summon Resist on striking": [
         "198,89"
     ],
-    "{}% Chance to cast level {} Iron Golem on striking": [
+    "{:d}% Chance to cast level {:d} Iron Golem on striking": [
         "198,90"
     ],
-    "{}% Chance to cast level {} Lower Resist on striking": [
+    "{:d}% Chance to cast level {:d} Lower Resist on striking": [
         "198,91"
     ],
-    "{}% Chance to cast level {} Poison Nova on striking": [
+    "{:d}% Chance to cast level {:d} Poison Nova on striking": [
         "198,92"
     ],
-    "{}% Chance to cast level {} Bone Spirit on striking": [
+    "{:d}% Chance to cast level {:d} Bone Spirit on striking": [
         "198,93"
     ],
-    "{}% Chance to cast level {} Fire Golem on striking": [
+    "{:d}% Chance to cast level {:d} Fire Golem on striking": [
         "198,94"
     ],
-    "{}% Chance to cast level {} Revive on striking": [
+    "{:d}% Chance to cast level {:d} Revive on striking": [
         "198,95"
     ],
-    "{}% Chance to cast level {} Sacrifice on striking": [
+    "{:d}% Chance to cast level {:d} Sacrifice on striking": [
         "198,96"
     ],
-    "{}% Chance to cast level {} Smite on striking": [
+    "{:d}% Chance to cast level {:d} Smite on striking": [
         "198,97"
     ],
-    "{}% Chance to cast level {} Might on striking": [
+    "{:d}% Chance to cast level {:d} Might on striking": [
         "198,98"
     ],
-    "{}% Chance to cast level {} Prayer on striking": [
+    "{:d}% Chance to cast level {:d} Prayer on striking": [
         "198,99"
     ],
-    "{}% Chance to cast level {} Resist Fire on striking": [
+    "{:d}% Chance to cast level {:d} Resist Fire on striking": [
         "198,100"
     ],
-    "{}% Chance to cast level {} Holy Bolt on striking": [
+    "{:d}% Chance to cast level {:d} Holy Bolt on striking": [
         "198,101"
     ],
-    "{}% Chance to cast level {} Holy Fire on striking": [
+    "{:d}% Chance to cast level {:d} Holy Fire on striking": [
         "198,102"
     ],
-    "{}% Chance to cast level {} Thorns on striking": [
+    "{:d}% Chance to cast level {:d} Thorns on striking": [
         "198,103"
     ],
-    "{}% Chance to cast level {} Defiance on striking": [
+    "{:d}% Chance to cast level {:d} Defiance on striking": [
         "198,104"
     ],
-    "{}% Chance to cast level {} Resist Cold on striking": [
+    "{:d}% Chance to cast level {:d} Resist Cold on striking": [
         "198,105"
     ],
-    "{}% Chance to cast level {} Zeal on striking": [
+    "{:d}% Chance to cast level {:d} Zeal on striking": [
         "198,106"
     ],
-    "{}% Chance to cast level {} Charge on striking": [
+    "{:d}% Chance to cast level {:d} Charge on striking": [
         "198,107"
     ],
-    "{}% Chance to cast level {} Blessed Aim on striking": [
+    "{:d}% Chance to cast level {:d} Blessed Aim on striking": [
         "198,108"
     ],
-    "{}% Chance to cast level {} Cleansing on striking": [
+    "{:d}% Chance to cast level {:d} Cleansing on striking": [
         "198,109"
     ],
-    "{}% Chance to cast level {} Resist Lightning on striking": [
+    "{:d}% Chance to cast level {:d} Resist Lightning on striking": [
         "198,110"
     ],
-    "{}% Chance to cast level {} Vengeance on striking": [
+    "{:d}% Chance to cast level {:d} Vengeance on striking": [
         "198,111"
     ],
-    "{}% Chance to cast level {} Blessed Hammer on striking": [
+    "{:d}% Chance to cast level {:d} Blessed Hammer on striking": [
         "198,112"
     ],
-    "{}% Chance to cast level {} Concentration on striking": [
+    "{:d}% Chance to cast level {:d} Concentration on striking": [
         "198,113"
     ],
-    "{}% Chance to cast level {} Holy Freeze on striking": [
+    "{:d}% Chance to cast level {:d} Holy Freeze on striking": [
         "198,114"
     ],
-    "{}% Chance to cast level {} Vigor on striking": [
+    "{:d}% Chance to cast level {:d} Vigor on striking": [
         "198,115"
     ],
-    "{}% Chance to cast level {} Conversion on striking": [
+    "{:d}% Chance to cast level {:d} Conversion on striking": [
         "198,116"
     ],
-    "{}% Chance to cast level {} Holy Shield on striking": [
+    "{:d}% Chance to cast level {:d} Holy Shield on striking": [
         "198,117"
     ],
-    "{}% Chance to cast level {} Holy Shock on striking": [
+    "{:d}% Chance to cast level {:d} Holy Shock on striking": [
         "198,118"
     ],
-    "{}% Chance to cast level {} Sanctuary on striking": [
+    "{:d}% Chance to cast level {:d} Sanctuary on striking": [
         "198,119"
     ],
-    "{}% Chance to cast level {} Meditation on striking": [
+    "{:d}% Chance to cast level {:d} Meditation on striking": [
         "198,120"
     ],
-    "{}% Chance to cast level {} Fist of the Heavens on striking": [
+    "{:d}% Chance to cast level {:d} Fist of the Heavens on striking": [
         "198,121"
     ],
-    "{}% Chance to cast level {} Fanaticism on striking": [
+    "{:d}% Chance to cast level {:d} Fanaticism on striking": [
         "198,122"
     ],
-    "{}% Chance to cast level {} Conviction on striking": [
+    "{:d}% Chance to cast level {:d} Conviction on striking": [
         "198,123"
     ],
-    "{}% Chance to cast level {} Redemption on striking": [
+    "{:d}% Chance to cast level {:d} Redemption on striking": [
         "198,124"
     ],
-    "{}% Chance to cast level {} Salvation on striking": [
+    "{:d}% Chance to cast level {:d} Salvation on striking": [
         "198,125"
     ],
-    "{}% Chance to cast level {} Bash on striking": [
+    "{:d}% Chance to cast level {:d} Bash on striking": [
         "198,126"
     ],
-    "{}% Chance to cast level {} Blade Mastery on striking": [
+    "{:d}% Chance to cast level {:d} Blade Mastery on striking": [
         "198,127"
     ],
-    "{}% Chance to cast level {} Axe Mastery on striking": [
+    "{:d}% Chance to cast level {:d} Axe Mastery on striking": [
         "198,128"
     ],
-    "{}% Chance to cast level {} Mace Mastery on striking": [
+    "{:d}% Chance to cast level {:d} Mace Mastery on striking": [
         "198,129"
     ],
-    "{}% Chance to cast level {} Howl on striking": [
+    "{:d}% Chance to cast level {:d} Howl on striking": [
         "198,130"
     ],
-    "{}% Chance to cast level {} Find Potion on striking": [
+    "{:d}% Chance to cast level {:d} Find Potion on striking": [
         "198,131"
     ],
-    "{}% Chance to cast level {} Leap on striking": [
+    "{:d}% Chance to cast level {:d} Leap on striking": [
         "198,132"
     ],
-    "{}% Chance to cast level {} Double Swing on striking": [
+    "{:d}% Chance to cast level {:d} Double Swing on striking": [
         "198,133"
     ],
-    "{}% Chance to cast level {} Polearm Mastery on striking": [
+    "{:d}% Chance to cast level {:d} Polearm Mastery on striking": [
         "198,134"
     ],
-    "{}% Chance to cast level {} Throwing Mastery on striking": [
+    "{:d}% Chance to cast level {:d} Throwing Mastery on striking": [
         "198,135"
     ],
-    "{}% Chance to cast level {} Spear Mastery on striking": [
+    "{:d}% Chance to cast level {:d} Spear Mastery on striking": [
         "198,136"
     ],
-    "{}% Chance to cast level {} Taunt on striking": [
+    "{:d}% Chance to cast level {:d} Taunt on striking": [
         "198,137"
     ],
-    "{}% Chance to cast level {} Shout on striking": [
+    "{:d}% Chance to cast level {:d} Shout on striking": [
         "198,138"
     ],
-    "{}% Chance to cast level {} Stun on striking": [
+    "{:d}% Chance to cast level {:d} Stun on striking": [
         "198,139"
     ],
-    "{}% Chance to cast level {} Double Throw on striking": [
+    "{:d}% Chance to cast level {:d} Double Throw on striking": [
         "198,140"
     ],
-    "{}% Chance to cast level {} Increased Stamina on striking": [
+    "{:d}% Chance to cast level {:d} Increased Stamina on striking": [
         "198,141"
     ],
-    "{}% Chance to cast level {} Find Item on striking": [
+    "{:d}% Chance to cast level {:d} Find Item on striking": [
         "198,142"
     ],
-    "{}% Chance to cast level {} Leap Attack on striking": [
+    "{:d}% Chance to cast level {:d} Leap Attack on striking": [
         "198,143"
     ],
-    "{}% Chance to cast level {} Concentrate on striking": [
+    "{:d}% Chance to cast level {:d} Concentrate on striking": [
         "198,144"
     ],
-    "{}% Chance to cast level {} Iron Skin on striking": [
+    "{:d}% Chance to cast level {:d} Iron Skin on striking": [
         "198,145"
     ],
-    "{}% Chance to cast level {} Battle Cry on striking": [
+    "{:d}% Chance to cast level {:d} Battle Cry on striking": [
         "198,146"
     ],
-    "{}% Chance to cast level {} Frenzy on striking": [
+    "{:d}% Chance to cast level {:d} Frenzy on striking": [
         "198,147"
     ],
-    "{}% Chance to cast level {} Increased Speed on striking": [
+    "{:d}% Chance to cast level {:d} Increased Speed on striking": [
         "198,148"
     ],
-    "{}% Chance to cast level {} Battle Orders on striking": [
+    "{:d}% Chance to cast level {:d} Battle Orders on striking": [
         "198,149"
     ],
-    "{}% Chance to cast level {} Grim Ward on striking": [
+    "{:d}% Chance to cast level {:d} Grim Ward on striking": [
         "198,150"
     ],
-    "{}% Chance to cast level {} Whirlwind on striking": [
+    "{:d}% Chance to cast level {:d} Whirlwind on striking": [
         "198,151"
     ],
-    "{}% Chance to cast level {} Berserk on striking": [
+    "{:d}% Chance to cast level {:d} Berserk on striking": [
         "198,152"
     ],
-    "{}% Chance to cast level {} Natural Resistance on striking": [
+    "{:d}% Chance to cast level {:d} Natural Resistance on striking": [
         "198,153"
     ],
-    "{}% Chance to cast level {} War Cry on striking": [
+    "{:d}% Chance to cast level {:d} War Cry on striking": [
         "198,154"
     ],
-    "{}% Chance to cast level {} Battle Command on striking": [
+    "{:d}% Chance to cast level {:d} Battle Command on striking": [
         "198,155"
     ],
-    "{}% Chance to cast level {} Raven on striking": [
+    "{:d}% Chance to cast level {:d} Raven on striking": [
         "198,221"
     ],
-    "{}% Chance to cast level {} Poison Creeper on striking": [
+    "{:d}% Chance to cast level {:d} Poison Creeper on striking": [
         "198,222"
     ],
-    "{}% Chance to cast level {} Werewolf on striking": [
+    "{:d}% Chance to cast level {:d} Werewolf on striking": [
         "198,223"
     ],
-    "{}% Chance to cast level {} Lycanthropy on striking": [
+    "{:d}% Chance to cast level {:d} Lycanthropy on striking": [
         "198,224"
     ],
-    "{}% Chance to cast level {} Firestorm on striking": [
+    "{:d}% Chance to cast level {:d} Firestorm on striking": [
         "198,225"
     ],
-    "{}% Chance to cast level {} Oak Sage on striking": [
+    "{:d}% Chance to cast level {:d} Oak Sage on striking": [
         "198,226"
     ],
-    "{}% Chance to cast level {} Summon Spirit Wolf on striking": [
+    "{:d}% Chance to cast level {:d} Summon Spirit Wolf on striking": [
         "198,227"
     ],
-    "{}% Chance to cast level {} Werebear on striking": [
+    "{:d}% Chance to cast level {:d} Werebear on striking": [
         "198,228"
     ],
-    "{}% Chance to cast level {} Molten Boulder on striking": [
+    "{:d}% Chance to cast level {:d} Molten Boulder on striking": [
         "198,229"
     ],
-    "{}% Chance to cast level {} Arctic Blast on striking": [
+    "{:d}% Chance to cast level {:d} Arctic Blast on striking": [
         "198,230"
     ],
-    "{}% Chance to cast level {} Carrion Vine on striking": [
+    "{:d}% Chance to cast level {:d} Carrion Vine on striking": [
         "198,231"
     ],
-    "{}% Chance to cast level {} Feral Rage on striking": [
+    "{:d}% Chance to cast level {:d} Feral Rage on striking": [
         "198,232"
     ],
-    "{}% Chance to cast level {} Maul on striking": [
+    "{:d}% Chance to cast level {:d} Maul on striking": [
         "198,233"
     ],
-    "{}% Chance to cast level {} Fissure on striking": [
+    "{:d}% Chance to cast level {:d} Fissure on striking": [
         "198,234"
     ],
-    "{}% Chance to cast level {} Cyclone Armor on striking": [
+    "{:d}% Chance to cast level {:d} Cyclone Armor on striking": [
         "198,235"
     ],
-    "{}% Chance to cast level {} Heart of Wolverine on striking": [
+    "{:d}% Chance to cast level {:d} Heart of Wolverine on striking": [
         "198,236"
     ],
-    "{}% Chance to cast level {} Summon Dire Wolf on striking": [
+    "{:d}% Chance to cast level {:d} Summon Dire Wolf on striking": [
         "198,237"
     ],
-    "{}% Chance to cast level {} Rabies on striking": [
+    "{:d}% Chance to cast level {:d} Rabies on striking": [
         "198,238"
     ],
-    "{}% Chance to cast level {} Fire Claws on striking": [
+    "{:d}% Chance to cast level {:d} Fire Claws on striking": [
         "198,239"
     ],
-    "{}% Chance to cast level {} Twister on striking": [
+    "{:d}% Chance to cast level {:d} Twister on striking": [
         "198,240"
     ],
-    "{}% Chance to cast level {} Solar Creeper on striking": [
+    "{:d}% Chance to cast level {:d} Solar Creeper on striking": [
         "198,241"
     ],
-    "{}% Chance to cast level {} Hunger on striking": [
+    "{:d}% Chance to cast level {:d} Hunger on striking": [
         "198,242"
     ],
-    "{}% Chance to cast level {} Shock Wave on striking": [
+    "{:d}% Chance to cast level {:d} Shock Wave on striking": [
         "198,243"
     ],
-    "{}% Chance to cast level {} Volcano on striking": [
+    "{:d}% Chance to cast level {:d} Volcano on striking": [
         "198,244"
     ],
-    "{}% Chance to cast level {} Tornado on striking": [
+    "{:d}% Chance to cast level {:d} Tornado on striking": [
         "198,245"
     ],
-    "{}% Chance to cast level {} Spirit of Barbs on striking": [
+    "{:d}% Chance to cast level {:d} Spirit of Barbs on striking": [
         "198,246"
     ],
-    "{}% Chance to cast level {} Summon Grizzly on striking": [
+    "{:d}% Chance to cast level {:d} Summon Grizzly on striking": [
         "198,247"
     ],
-    "{}% Chance to cast level {} Fury on striking": [
+    "{:d}% Chance to cast level {:d} Fury on striking": [
         "198,248"
     ],
-    "{}% Chance to cast level {} Armageddon on striking": [
+    "{:d}% Chance to cast level {:d} Armageddon on striking": [
         "198,249"
     ],
-    "{}% Chance to cast level {} Hurricane on striking": [
+    "{:d}% Chance to cast level {:d} Hurricane on striking": [
         "198,250"
     ],
-    "{}% Chance to cast level {} Fire Blast on striking": [
+    "{:d}% Chance to cast level {:d} Fire Blast on striking": [
         "198,251"
     ],
-    "{}% Chance to cast level {} Claw Mastery on striking": [
+    "{:d}% Chance to cast level {:d} Claw Mastery on striking": [
         "198,252"
     ],
-    "{}% Chance to cast level {} Psychic Hammer on striking": [
+    "{:d}% Chance to cast level {:d} Psychic Hammer on striking": [
         "198,253"
     ],
-    "{}% Chance to cast level {} Tiger Strike on striking": [
+    "{:d}% Chance to cast level {:d} Tiger Strike on striking": [
         "198,254"
     ],
-    "{}% Chance to cast level {} Dragon Talon on striking": [
+    "{:d}% Chance to cast level {:d} Dragon Talon on striking": [
         "198,255"
     ],
-    "{}% Chance to cast level {} Shock Web on striking": [
+    "{:d}% Chance to cast level {:d} Shock Web on striking": [
         "198,256"
     ],
-    "{}% Chance to cast level {} Blade Sentinel on striking": [
+    "{:d}% Chance to cast level {:d} Blade Sentinel on striking": [
         "198,257"
     ],
-    "{}% Chance to cast level {} Burst of Speed on striking": [
+    "{:d}% Chance to cast level {:d} Burst of Speed on striking": [
         "198,258"
     ],
-    "{}% Chance to cast level {} Fists of Fire on striking": [
+    "{:d}% Chance to cast level {:d} Fists of Fire on striking": [
         "198,259"
     ],
-    "{}% Chance to cast level {} Dragon Claw on striking": [
+    "{:d}% Chance to cast level {:d} Dragon Claw on striking": [
         "198,260"
     ],
-    "{}% Chance to cast level {} Charged Bolt Sentry on striking": [
+    "{:d}% Chance to cast level {:d} Charged Bolt Sentry on striking": [
         "198,261"
     ],
-    "{}% Chance to cast level {} Wake of Fire on striking": [
+    "{:d}% Chance to cast level {:d} Wake of Fire on striking": [
         "198,262"
     ],
-    "{}% Chance to cast level {} Weapon Block on striking": [
+    "{:d}% Chance to cast level {:d} Weapon Block on striking": [
         "198,263"
     ],
-    "{}% Chance to cast level {} Cloak of Shadows on striking": [
+    "{:d}% Chance to cast level {:d} Cloak of Shadows on striking": [
         "198,264"
     ],
-    "{}% Chance to cast level {} Cobra Strike on striking": [
+    "{:d}% Chance to cast level {:d} Cobra Strike on striking": [
         "198,265"
     ],
-    "{}% Chance to cast level {} Blade Fury on striking": [
+    "{:d}% Chance to cast level {:d} Blade Fury on striking": [
         "198,266"
     ],
-    "{}% Chance to cast level {} Fade on striking": [
+    "{:d}% Chance to cast level {:d} Fade on striking": [
         "198,267"
     ],
-    "{}% Chance to cast level {} Shadow Warrior on striking": [
+    "{:d}% Chance to cast level {:d} Shadow Warrior on striking": [
         "198,268"
     ],
-    "{}% Chance to cast level {} Claws of Thunder on striking": [
+    "{:d}% Chance to cast level {:d} Claws of Thunder on striking": [
         "198,269"
     ],
-    "{}% Chance to cast level {} Dragon Tail on striking": [
+    "{:d}% Chance to cast level {:d} Dragon Tail on striking": [
         "198,270"
     ],
-    "{}% Chance to cast level {} Lightning Sentry on striking": [
+    "{:d}% Chance to cast level {:d} Lightning Sentry on striking": [
         "198,271"
     ],
-    "{}% Chance to cast level {} Wake of Inferno on striking": [
+    "{:d}% Chance to cast level {:d} Wake of Inferno on striking": [
         "198,272"
     ],
-    "{}% Chance to cast level {} Mind Blast on striking": [
+    "{:d}% Chance to cast level {:d} Mind Blast on striking": [
         "198,273"
     ],
-    "{}% Chance to cast level {} Blades of Ice on striking": [
+    "{:d}% Chance to cast level {:d} Blades of Ice on striking": [
         "198,274"
     ],
-    "{}% Chance to cast level {} Dragon Flight on striking": [
+    "{:d}% Chance to cast level {:d} Dragon Flight on striking": [
         "198,275"
     ],
-    "{}% Chance to cast level {} Death Sentry on striking": [
+    "{:d}% Chance to cast level {:d} Death Sentry on striking": [
         "198,276"
     ],
-    "{}% Chance to cast level {} Blade Shield on striking": [
+    "{:d}% Chance to cast level {:d} Blade Shield on striking": [
         "198,277"
     ],
-    "{}% Chance to cast level {} Venom on striking": [
+    "{:d}% Chance to cast level {:d} Venom on striking": [
         "198,278"
     ],
-    "{}% Chance to cast level {} Shadow Master on striking": [
+    "{:d}% Chance to cast level {:d} Shadow Master on striking": [
         "198,279"
     ],
-    "{}% Chance to cast level {} Phoenix Strike on striking": [
+    "{:d}% Chance to cast level {:d} Phoenix Strike on striking": [
         "198,280"
     ],
-    "{}% Chance to cast level {} Magic Arrow when struck": [
+    "{:d}% Chance to cast level {:d} Magic Arrow when struck": [
         "201,6"
     ],
-    "{}% Chance to cast level {} Fire Arrow when struck": [
+    "{:d}% Chance to cast level {:d} Fire Arrow when struck": [
         "201,7"
     ],
-    "{}% Chance to cast level {} Inner Sight when struck": [
+    "{:d}% Chance to cast level {:d} Inner Sight when struck": [
         "201,8"
     ],
-    "{}% Chance to cast level {} Critical Strike when struck": [
+    "{:d}% Chance to cast level {:d} Critical Strike when struck": [
         "201,9"
     ],
-    "{}% Chance to cast level {} Jab when struck": [
+    "{:d}% Chance to cast level {:d} Jab when struck": [
         "201,10"
     ],
-    "{}% Chance to cast level {} Cold Arrow when struck": [
+    "{:d}% Chance to cast level {:d} Cold Arrow when struck": [
         "201,11"
     ],
-    "{}% Chance to cast level {} Multiple Shot when struck": [
+    "{:d}% Chance to cast level {:d} Multiple Shot when struck": [
         "201,12"
     ],
-    "{}% Chance to cast level {} Dodge when struck": [
+    "{:d}% Chance to cast level {:d} Dodge when struck": [
         "201,13"
     ],
-    "{}% Chance to cast level {} Power Strike when struck": [
+    "{:d}% Chance to cast level {:d} Power Strike when struck": [
         "201,14"
     ],
-    "{}% Chance to cast level {} Poison Javelin when struck": [
+    "{:d}% Chance to cast level {:d} Poison Javelin when struck": [
         "201,15"
     ],
-    "{}% Chance to cast level {} Exploding Arrow when struck": [
+    "{:d}% Chance to cast level {:d} Exploding Arrow when struck": [
         "201,16"
     ],
-    "{}% Chance to cast level {} Slow Missiles when struck": [
+    "{:d}% Chance to cast level {:d} Slow Missiles when struck": [
         "201,17"
     ],
-    "{}% Chance to cast level {} Avoid when struck": [
+    "{:d}% Chance to cast level {:d} Avoid when struck": [
         "201,18"
     ],
-    "{}% Chance to cast level {} Impale when struck": [
+    "{:d}% Chance to cast level {:d} Impale when struck": [
         "201,19"
     ],
-    "{}% Chance to cast level {} Lightning Bolt when struck": [
+    "{:d}% Chance to cast level {:d} Lightning Bolt when struck": [
         "201,20"
     ],
-    "{}% Chance to cast level {} Ice Arrow when struck": [
+    "{:d}% Chance to cast level {:d} Ice Arrow when struck": [
         "201,21"
     ],
-    "{}% Chance to cast level {} Guided Arrow when struck": [
+    "{:d}% Chance to cast level {:d} Guided Arrow when struck": [
         "201,22"
     ],
-    "{}% Chance to cast level {} Penetrate when struck": [
+    "{:d}% Chance to cast level {:d} Penetrate when struck": [
         "201,23"
     ],
-    "{}% Chance to cast level {} Charged Strike when struck": [
+    "{:d}% Chance to cast level {:d} Charged Strike when struck": [
         "201,24"
     ],
-    "{}% Chance to cast level {} Plague Javelin when struck": [
+    "{:d}% Chance to cast level {:d} Plague Javelin when struck": [
         "201,25"
     ],
-    "{}% Chance to cast level {} Strafe when struck": [
+    "{:d}% Chance to cast level {:d} Strafe when struck": [
         "201,26"
     ],
-    "{}% Chance to cast level {} Immolation Arrow when struck": [
+    "{:d}% Chance to cast level {:d} Immolation Arrow when struck": [
         "201,27"
     ],
-    "{}% Chance to cast level {} Decoy when struck": [
+    "{:d}% Chance to cast level {:d} Decoy when struck": [
         "201,28"
     ],
-    "{}% Chance to cast level {} Evade when struck": [
+    "{:d}% Chance to cast level {:d} Evade when struck": [
         "201,29"
     ],
-    "{}% Chance to cast level {} Fend when struck": [
+    "{:d}% Chance to cast level {:d} Fend when struck": [
         "201,30"
     ],
-    "{}% Chance to cast level {} Freezing Arrow when struck": [
+    "{:d}% Chance to cast level {:d} Freezing Arrow when struck": [
         "201,31"
     ],
-    "{}% Chance to cast level {} Valkyrie when struck": [
+    "{:d}% Chance to cast level {:d} Valkyrie when struck": [
         "201,32"
     ],
-    "{}% Chance to cast level {} Pierce when struck": [
+    "{:d}% Chance to cast level {:d} Pierce when struck": [
         "201,33"
     ],
-    "{}% Chance to cast level {} Lightning Strike when struck": [
+    "{:d}% Chance to cast level {:d} Lightning Strike when struck": [
         "201,34"
     ],
-    "{}% Chance to cast level {} Lightning Fury when struck": [
+    "{:d}% Chance to cast level {:d} Lightning Fury when struck": [
         "201,35"
     ],
-    "{}% Chance to cast level {} Fire Bolt when struck": [
+    "{:d}% Chance to cast level {:d} Fire Bolt when struck": [
         "201,36"
     ],
-    "{}% Chance to cast level {} Warmth when struck": [
+    "{:d}% Chance to cast level {:d} Warmth when struck": [
         "201,37"
     ],
-    "{}% Chance to cast level {} Charged Bolt when struck": [
+    "{:d}% Chance to cast level {:d} Charged Bolt when struck": [
         "201,38"
     ],
-    "{}% Chance to cast level {} Ice Bolt when struck": [
+    "{:d}% Chance to cast level {:d} Ice Bolt when struck": [
         "201,39"
     ],
-    "{}% Chance to cast level {} Frozen Armor when struck": [
+    "{:d}% Chance to cast level {:d} Frozen Armor when struck": [
         "201,40"
     ],
-    "{}% Chance to cast level {} Inferno when struck": [
+    "{:d}% Chance to cast level {:d} Inferno when struck": [
         "201,41"
     ],
-    "{}% Chance to cast level {} Static Field when struck": [
+    "{:d}% Chance to cast level {:d} Static Field when struck": [
         "201,42"
     ],
-    "{}% Chance to cast level {} Telekinesis when struck": [
+    "{:d}% Chance to cast level {:d} Telekinesis when struck": [
         "201,43"
     ],
-    "{}% Chance to cast level {} Frost Nova when struck": [
+    "{:d}% Chance to cast level {:d} Frost Nova when struck": [
         "201,44"
     ],
-    "{}% Chance to cast level {} Ice Blast when struck": [
+    "{:d}% Chance to cast level {:d} Ice Blast when struck": [
         "201,45"
     ],
-    "{}% Chance to cast level {} Blaze when struck": [
+    "{:d}% Chance to cast level {:d} Blaze when struck": [
         "201,46"
     ],
-    "{}% Chance to cast level {} Fire Ball when struck": [
+    "{:d}% Chance to cast level {:d} Fire Ball when struck": [
         "201,47"
     ],
-    "{}% Chance to cast level {} Nova when struck": [
+    "{:d}% Chance to cast level {:d} Nova when struck": [
         "201,48"
     ],
-    "{}% Chance to cast level {} Lightning when struck": [
+    "{:d}% Chance to cast level {:d} Lightning when struck": [
         "201,49"
     ],
-    "{}% Chance to cast level {} Shiver Armor when struck": [
+    "{:d}% Chance to cast level {:d} Shiver Armor when struck": [
         "201,50"
     ],
-    "{}% Chance to cast level {} Fire Wall when struck": [
+    "{:d}% Chance to cast level {:d} Fire Wall when struck": [
         "201,51"
     ],
-    "{}% Chance to cast level {} Enchant when struck": [
+    "{:d}% Chance to cast level {:d} Enchant when struck": [
         "201,52"
     ],
-    "{}% Chance to cast level {} Chain Lightning when struck": [
+    "{:d}% Chance to cast level {:d} Chain Lightning when struck": [
         "201,53"
     ],
-    "{}% Chance to cast level {} Teleport when struck": [
+    "{:d}% Chance to cast level {:d} Teleport when struck": [
         "201,54"
     ],
-    "{}% Chance to cast level {} Glacial Spike when struck": [
+    "{:d}% Chance to cast level {:d} Glacial Spike when struck": [
         "201,55"
     ],
-    "{}% Chance to cast level {} Meteor when struck": [
+    "{:d}% Chance to cast level {:d} Meteor when struck": [
         "201,56"
     ],
-    "{}% Chance to cast level {} Thunder Storm when struck": [
+    "{:d}% Chance to cast level {:d} Thunder Storm when struck": [
         "201,57"
     ],
-    "{}% Chance to cast level {} Energy Shield when struck": [
+    "{:d}% Chance to cast level {:d} Energy Shield when struck": [
         "201,58"
     ],
-    "{}% Chance to cast level {} Blizzard when struck": [
+    "{:d}% Chance to cast level {:d} Blizzard when struck": [
         "201,59"
     ],
-    "{}% Chance to cast level {} Chilling Armor when struck": [
+    "{:d}% Chance to cast level {:d} Chilling Armor when struck": [
         "201,60"
     ],
-    "{}% Chance to cast level {} Fire Mastery when struck": [
+    "{:d}% Chance to cast level {:d} Fire Mastery when struck": [
         "201,61"
     ],
-    "{}% Chance to cast level {} Hydra when struck": [
+    "{:d}% Chance to cast level {:d} Hydra when struck": [
         "201,62"
     ],
-    "{}% Chance to cast level {} Lightning Mastery when struck": [
+    "{:d}% Chance to cast level {:d} Lightning Mastery when struck": [
         "201,63"
     ],
-    "{}% Chance to cast level {} Frozen Orb when struck": [
+    "{:d}% Chance to cast level {:d} Frozen Orb when struck": [
         "201,64"
     ],
-    "{}% Chance to cast level {} Cold Mastery when struck": [
+    "{:d}% Chance to cast level {:d} Cold Mastery when struck": [
         "201,65"
     ],
-    "{}% Chance to cast level {} Amplify Damage when struck": [
+    "{:d}% Chance to cast level {:d} Amplify Damage when struck": [
         "201,66"
     ],
-    "{}% Chance to cast level {} Teeth when struck": [
+    "{:d}% Chance to cast level {:d} Teeth when struck": [
         "201,67"
     ],
-    "{}% Chance to cast level {} Bone Armor when struck": [
+    "{:d}% Chance to cast level {:d} Bone Armor when struck": [
         "201,68"
     ],
-    "{}% Chance to cast level {} Skeleton Mastery when struck": [
+    "{:d}% Chance to cast level {:d} Skeleton Mastery when struck": [
         "201,69"
     ],
-    "{}% Chance to cast level {} Raise Skeleton when struck": [
+    "{:d}% Chance to cast level {:d} Raise Skeleton when struck": [
         "201,70"
     ],
-    "{}% Chance to cast level {} Dim Vision when struck": [
+    "{:d}% Chance to cast level {:d} Dim Vision when struck": [
         "201,71"
     ],
-    "{}% Chance to cast level {} Weaken when struck": [
+    "{:d}% Chance to cast level {:d} Weaken when struck": [
         "201,72"
     ],
-    "{}% Chance to cast level {} Poison Dagger when struck": [
+    "{:d}% Chance to cast level {:d} Poison Dagger when struck": [
         "201,73"
     ],
-    "{}% Chance to cast level {} Corpse Explosion when struck": [
+    "{:d}% Chance to cast level {:d} Corpse Explosion when struck": [
         "201,74"
     ],
-    "{}% Chance to cast level {} Clay Golem when struck": [
+    "{:d}% Chance to cast level {:d} Clay Golem when struck": [
         "201,75"
     ],
-    "{}% Chance to cast level {} Iron Maiden when struck": [
+    "{:d}% Chance to cast level {:d} Iron Maiden when struck": [
         "201,76"
     ],
-    "{}% Chance to cast level {} Terror when struck": [
+    "{:d}% Chance to cast level {:d} Terror when struck": [
         "201,77"
     ],
-    "{}% Chance to cast level {} Bone Wall when struck": [
+    "{:d}% Chance to cast level {:d} Bone Wall when struck": [
         "201,78"
     ],
-    "{}% Chance to cast level {} Golem Mastery when struck": [
+    "{:d}% Chance to cast level {:d} Golem Mastery when struck": [
         "201,79"
     ],
-    "{}% Chance to cast level {} Raise Skeletal Mage when struck": [
+    "{:d}% Chance to cast level {:d} Raise Skeletal Mage when struck": [
         "201,80"
     ],
-    "{}% Chance to cast level {} Confuse when struck": [
+    "{:d}% Chance to cast level {:d} Confuse when struck": [
         "201,81"
     ],
-    "{}% Chance to cast level {} Life Tap when struck": [
+    "{:d}% Chance to cast level {:d} Life Tap when struck": [
         "201,82"
     ],
-    "{}% Chance to cast level {} Poison Explosion when struck": [
+    "{:d}% Chance to cast level {:d} Poison Explosion when struck": [
         "201,83"
     ],
-    "{}% Chance to cast level {} Bone Spear when struck": [
+    "{:d}% Chance to cast level {:d} Bone Spear when struck": [
         "201,84"
     ],
-    "{}% Chance to cast level {} Blood Golem when struck": [
+    "{:d}% Chance to cast level {:d} Blood Golem when struck": [
         "201,85"
     ],
-    "{}% Chance to cast level {} Attract when struck": [
+    "{:d}% Chance to cast level {:d} Attract when struck": [
         "201,86"
     ],
-    "{}% Chance to cast level {} Decrepify when struck": [
+    "{:d}% Chance to cast level {:d} Decrepify when struck": [
         "201,87"
     ],
-    "{}% Chance to cast level {} Bone Prison when struck": [
+    "{:d}% Chance to cast level {:d} Bone Prison when struck": [
         "201,88"
     ],
-    "{}% Chance to cast level {} Summon Resist when struck": [
+    "{:d}% Chance to cast level {:d} Summon Resist when struck": [
         "201,89"
     ],
-    "{}% Chance to cast level {} Iron Golem when struck": [
+    "{:d}% Chance to cast level {:d} Iron Golem when struck": [
         "201,90"
     ],
-    "{}% Chance to cast level {} Lower Resist when struck": [
+    "{:d}% Chance to cast level {:d} Lower Resist when struck": [
         "201,91"
     ],
-    "{}% Chance to cast level {} Poison Nova when struck": [
+    "{:d}% Chance to cast level {:d} Poison Nova when struck": [
         "201,92"
     ],
-    "{}% Chance to cast level {} Bone Spirit when struck": [
+    "{:d}% Chance to cast level {:d} Bone Spirit when struck": [
         "201,93"
     ],
-    "{}% Chance to cast level {} Fire Golem when struck": [
+    "{:d}% Chance to cast level {:d} Fire Golem when struck": [
         "201,94"
     ],
-    "{}% Chance to cast level {} Revive when struck": [
+    "{:d}% Chance to cast level {:d} Revive when struck": [
         "201,95"
     ],
-    "{}% Chance to cast level {} Sacrifice when struck": [
+    "{:d}% Chance to cast level {:d} Sacrifice when struck": [
         "201,96"
     ],
-    "{}% Chance to cast level {} Smite when struck": [
+    "{:d}% Chance to cast level {:d} Smite when struck": [
         "201,97"
     ],
-    "{}% Chance to cast level {} Might when struck": [
+    "{:d}% Chance to cast level {:d} Might when struck": [
         "201,98"
     ],
-    "{}% Chance to cast level {} Prayer when struck": [
+    "{:d}% Chance to cast level {:d} Prayer when struck": [
         "201,99"
     ],
-    "{}% Chance to cast level {} Resist Fire when struck": [
+    "{:d}% Chance to cast level {:d} Resist Fire when struck": [
         "201,100"
     ],
-    "{}% Chance to cast level {} Holy Bolt when struck": [
+    "{:d}% Chance to cast level {:d} Holy Bolt when struck": [
         "201,101"
     ],
-    "{}% Chance to cast level {} Holy Fire when struck": [
+    "{:d}% Chance to cast level {:d} Holy Fire when struck": [
         "201,102"
     ],
-    "{}% Chance to cast level {} Thorns when struck": [
+    "{:d}% Chance to cast level {:d} Thorns when struck": [
         "201,103"
     ],
-    "{}% Chance to cast level {} Defiance when struck": [
+    "{:d}% Chance to cast level {:d} Defiance when struck": [
         "201,104"
     ],
-    "{}% Chance to cast level {} Resist Cold when struck": [
+    "{:d}% Chance to cast level {:d} Resist Cold when struck": [
         "201,105"
     ],
-    "{}% Chance to cast level {} Zeal when struck": [
+    "{:d}% Chance to cast level {:d} Zeal when struck": [
         "201,106"
     ],
-    "{}% Chance to cast level {} Charge when struck": [
+    "{:d}% Chance to cast level {:d} Charge when struck": [
         "201,107"
     ],
-    "{}% Chance to cast level {} Blessed Aim when struck": [
+    "{:d}% Chance to cast level {:d} Blessed Aim when struck": [
         "201,108"
     ],
-    "{}% Chance to cast level {} Cleansing when struck": [
+    "{:d}% Chance to cast level {:d} Cleansing when struck": [
         "201,109"
     ],
-    "{}% Chance to cast level {} Resist Lightning when struck": [
+    "{:d}% Chance to cast level {:d} Resist Lightning when struck": [
         "201,110"
     ],
-    "{}% Chance to cast level {} Vengeance when struck": [
+    "{:d}% Chance to cast level {:d} Vengeance when struck": [
         "201,111"
     ],
-    "{}% Chance to cast level {} Blessed Hammer when struck": [
+    "{:d}% Chance to cast level {:d} Blessed Hammer when struck": [
         "201,112"
     ],
-    "{}% Chance to cast level {} Concentration when struck": [
+    "{:d}% Chance to cast level {:d} Concentration when struck": [
         "201,113"
     ],
-    "{}% Chance to cast level {} Holy Freeze when struck": [
+    "{:d}% Chance to cast level {:d} Holy Freeze when struck": [
         "201,114"
     ],
-    "{}% Chance to cast level {} Vigor when struck": [
+    "{:d}% Chance to cast level {:d} Vigor when struck": [
         "201,115"
     ],
-    "{}% Chance to cast level {} Conversion when struck": [
+    "{:d}% Chance to cast level {:d} Conversion when struck": [
         "201,116"
     ],
-    "{}% Chance to cast level {} Holy Shield when struck": [
+    "{:d}% Chance to cast level {:d} Holy Shield when struck": [
         "201,117"
     ],
-    "{}% Chance to cast level {} Holy Shock when struck": [
+    "{:d}% Chance to cast level {:d} Holy Shock when struck": [
         "201,118"
     ],
-    "{}% Chance to cast level {} Sanctuary when struck": [
+    "{:d}% Chance to cast level {:d} Sanctuary when struck": [
         "201,119"
     ],
-    "{}% Chance to cast level {} Meditation when struck": [
+    "{:d}% Chance to cast level {:d} Meditation when struck": [
         "201,120"
     ],
-    "{}% Chance to cast level {} Fist of the Heavens when struck": [
+    "{:d}% Chance to cast level {:d} Fist of the Heavens when struck": [
         "201,121"
     ],
-    "{}% Chance to cast level {} Fanaticism when struck": [
+    "{:d}% Chance to cast level {:d} Fanaticism when struck": [
         "201,122"
     ],
-    "{}% Chance to cast level {} Conviction when struck": [
+    "{:d}% Chance to cast level {:d} Conviction when struck": [
         "201,123"
     ],
-    "{}% Chance to cast level {} Redemption when struck": [
+    "{:d}% Chance to cast level {:d} Redemption when struck": [
         "201,124"
     ],
-    "{}% Chance to cast level {} Salvation when struck": [
+    "{:d}% Chance to cast level {:d} Salvation when struck": [
         "201,125"
     ],
-    "{}% Chance to cast level {} Bash when struck": [
+    "{:d}% Chance to cast level {:d} Bash when struck": [
         "201,126"
     ],
-    "{}% Chance to cast level {} Blade Mastery when struck": [
+    "{:d}% Chance to cast level {:d} Blade Mastery when struck": [
         "201,127"
     ],
-    "{}% Chance to cast level {} Axe Mastery when struck": [
+    "{:d}% Chance to cast level {:d} Axe Mastery when struck": [
         "201,128"
     ],
-    "{}% Chance to cast level {} Mace Mastery when struck": [
+    "{:d}% Chance to cast level {:d} Mace Mastery when struck": [
         "201,129"
     ],
-    "{}% Chance to cast level {} Howl when struck": [
+    "{:d}% Chance to cast level {:d} Howl when struck": [
         "201,130"
     ],
-    "{}% Chance to cast level {} Find Potion when struck": [
+    "{:d}% Chance to cast level {:d} Find Potion when struck": [
         "201,131"
     ],
-    "{}% Chance to cast level {} Leap when struck": [
+    "{:d}% Chance to cast level {:d} Leap when struck": [
         "201,132"
     ],
-    "{}% Chance to cast level {} Double Swing when struck": [
+    "{:d}% Chance to cast level {:d} Double Swing when struck": [
         "201,133"
     ],
-    "{}% Chance to cast level {} Polearm Mastery when struck": [
+    "{:d}% Chance to cast level {:d} Polearm Mastery when struck": [
         "201,134"
     ],
-    "{}% Chance to cast level {} Throwing Mastery when struck": [
+    "{:d}% Chance to cast level {:d} Throwing Mastery when struck": [
         "201,135"
     ],
-    "{}% Chance to cast level {} Spear Mastery when struck": [
+    "{:d}% Chance to cast level {:d} Spear Mastery when struck": [
         "201,136"
     ],
-    "{}% Chance to cast level {} Taunt when struck": [
+    "{:d}% Chance to cast level {:d} Taunt when struck": [
         "201,137"
     ],
-    "{}% Chance to cast level {} Shout when struck": [
+    "{:d}% Chance to cast level {:d} Shout when struck": [
         "201,138"
     ],
-    "{}% Chance to cast level {} Stun when struck": [
+    "{:d}% Chance to cast level {:d} Stun when struck": [
         "201,139"
     ],
-    "{}% Chance to cast level {} Double Throw when struck": [
+    "{:d}% Chance to cast level {:d} Double Throw when struck": [
         "201,140"
     ],
-    "{}% Chance to cast level {} Increased Stamina when struck": [
+    "{:d}% Chance to cast level {:d} Increased Stamina when struck": [
         "201,141"
     ],
-    "{}% Chance to cast level {} Find Item when struck": [
+    "{:d}% Chance to cast level {:d} Find Item when struck": [
         "201,142"
     ],
-    "{}% Chance to cast level {} Leap Attack when struck": [
+    "{:d}% Chance to cast level {:d} Leap Attack when struck": [
         "201,143"
     ],
-    "{}% Chance to cast level {} Concentrate when struck": [
+    "{:d}% Chance to cast level {:d} Concentrate when struck": [
         "201,144"
     ],
-    "{}% Chance to cast level {} Iron Skin when struck": [
+    "{:d}% Chance to cast level {:d} Iron Skin when struck": [
         "201,145"
     ],
-    "{}% Chance to cast level {} Battle Cry when struck": [
+    "{:d}% Chance to cast level {:d} Battle Cry when struck": [
         "201,146"
     ],
-    "{}% Chance to cast level {} Frenzy when struck": [
+    "{:d}% Chance to cast level {:d} Frenzy when struck": [
         "201,147"
     ],
-    "{}% Chance to cast level {} Increased Speed when struck": [
+    "{:d}% Chance to cast level {:d} Increased Speed when struck": [
         "201,148"
     ],
-    "{}% Chance to cast level {} Battle Orders when struck": [
+    "{:d}% Chance to cast level {:d} Battle Orders when struck": [
         "201,149"
     ],
-    "{}% Chance to cast level {} Grim Ward when struck": [
+    "{:d}% Chance to cast level {:d} Grim Ward when struck": [
         "201,150"
     ],
-    "{}% Chance to cast level {} Whirlwind when struck": [
+    "{:d}% Chance to cast level {:d} Whirlwind when struck": [
         "201,151"
     ],
-    "{}% Chance to cast level {} Berserk when struck": [
+    "{:d}% Chance to cast level {:d} Berserk when struck": [
         "201,152"
     ],
-    "{}% Chance to cast level {} Natural Resistance when struck": [
+    "{:d}% Chance to cast level {:d} Natural Resistance when struck": [
         "201,153"
     ],
-    "{}% Chance to cast level {} War Cry when struck": [
+    "{:d}% Chance to cast level {:d} War Cry when struck": [
         "201,154"
     ],
-    "{}% Chance to cast level {} Battle Command when struck": [
+    "{:d}% Chance to cast level {:d} Battle Command when struck": [
         "201,155"
     ],
-    "{}% Chance to cast level {} Raven when struck": [
+    "{:d}% Chance to cast level {:d} Raven when struck": [
         "201,221"
     ],
-    "{}% Chance to cast level {} Poison Creeper when struck": [
+    "{:d}% Chance to cast level {:d} Poison Creeper when struck": [
         "201,222"
     ],
-    "{}% Chance to cast level {} Werewolf when struck": [
+    "{:d}% Chance to cast level {:d} Werewolf when struck": [
         "201,223"
     ],
-    "{}% Chance to cast level {} Lycanthropy when struck": [
+    "{:d}% Chance to cast level {:d} Lycanthropy when struck": [
         "201,224"
     ],
-    "{}% Chance to cast level {} Firestorm when struck": [
+    "{:d}% Chance to cast level {:d} Firestorm when struck": [
         "201,225"
     ],
-    "{}% Chance to cast level {} Oak Sage when struck": [
+    "{:d}% Chance to cast level {:d} Oak Sage when struck": [
         "201,226"
     ],
-    "{}% Chance to cast level {} Summon Spirit Wolf when struck": [
+    "{:d}% Chance to cast level {:d} Summon Spirit Wolf when struck": [
         "201,227"
     ],
-    "{}% Chance to cast level {} Werebear when struck": [
+    "{:d}% Chance to cast level {:d} Werebear when struck": [
         "201,228"
     ],
-    "{}% Chance to cast level {} Molten Boulder when struck": [
+    "{:d}% Chance to cast level {:d} Molten Boulder when struck": [
         "201,229"
     ],
-    "{}% Chance to cast level {} Arctic Blast when struck": [
+    "{:d}% Chance to cast level {:d} Arctic Blast when struck": [
         "201,230"
     ],
-    "{}% Chance to cast level {} Carrion Vine when struck": [
+    "{:d}% Chance to cast level {:d} Carrion Vine when struck": [
         "201,231"
     ],
-    "{}% Chance to cast level {} Feral Rage when struck": [
+    "{:d}% Chance to cast level {:d} Feral Rage when struck": [
         "201,232"
     ],
-    "{}% Chance to cast level {} Maul when struck": [
+    "{:d}% Chance to cast level {:d} Maul when struck": [
         "201,233"
     ],
-    "{}% Chance to cast level {} Fissure when struck": [
+    "{:d}% Chance to cast level {:d} Fissure when struck": [
         "201,234"
     ],
-    "{}% Chance to cast level {} Cyclone Armor when struck": [
+    "{:d}% Chance to cast level {:d} Cyclone Armor when struck": [
         "201,235"
     ],
-    "{}% Chance to cast level {} Heart of Wolverine when struck": [
+    "{:d}% Chance to cast level {:d} Heart of Wolverine when struck": [
         "201,236"
     ],
-    "{}% Chance to cast level {} Summon Dire Wolf when struck": [
+    "{:d}% Chance to cast level {:d} Summon Dire Wolf when struck": [
         "201,237"
     ],
-    "{}% Chance to cast level {} Rabies when struck": [
+    "{:d}% Chance to cast level {:d} Rabies when struck": [
         "201,238"
     ],
-    "{}% Chance to cast level {} Fire Claws when struck": [
+    "{:d}% Chance to cast level {:d} Fire Claws when struck": [
         "201,239"
     ],
-    "{}% Chance to cast level {} Twister when struck": [
+    "{:d}% Chance to cast level {:d} Twister when struck": [
         "201,240"
     ],
-    "{}% Chance to cast level {} Solar Creeper when struck": [
+    "{:d}% Chance to cast level {:d} Solar Creeper when struck": [
         "201,241"
     ],
-    "{}% Chance to cast level {} Hunger when struck": [
+    "{:d}% Chance to cast level {:d} Hunger when struck": [
         "201,242"
     ],
-    "{}% Chance to cast level {} Shock Wave when struck": [
+    "{:d}% Chance to cast level {:d} Shock Wave when struck": [
         "201,243"
     ],
-    "{}% Chance to cast level {} Volcano when struck": [
+    "{:d}% Chance to cast level {:d} Volcano when struck": [
         "201,244"
     ],
-    "{}% Chance to cast level {} Tornado when struck": [
+    "{:d}% Chance to cast level {:d} Tornado when struck": [
         "201,245"
     ],
-    "{}% Chance to cast level {} Spirit of Barbs when struck": [
+    "{:d}% Chance to cast level {:d} Spirit of Barbs when struck": [
         "201,246"
     ],
-    "{}% Chance to cast level {} Summon Grizzly when struck": [
+    "{:d}% Chance to cast level {:d} Summon Grizzly when struck": [
         "201,247"
     ],
-    "{}% Chance to cast level {} Fury when struck": [
+    "{:d}% Chance to cast level {:d} Fury when struck": [
         "201,248"
     ],
-    "{}% Chance to cast level {} Armageddon when struck": [
+    "{:d}% Chance to cast level {:d} Armageddon when struck": [
         "201,249"
     ],
-    "{}% Chance to cast level {} Hurricane when struck": [
+    "{:d}% Chance to cast level {:d} Hurricane when struck": [
         "201,250"
     ],
-    "{}% Chance to cast level {} Fire Blast when struck": [
+    "{:d}% Chance to cast level {:d} Fire Blast when struck": [
         "201,251"
     ],
-    "{}% Chance to cast level {} Claw Mastery when struck": [
+    "{:d}% Chance to cast level {:d} Claw Mastery when struck": [
         "201,252"
     ],
-    "{}% Chance to cast level {} Psychic Hammer when struck": [
+    "{:d}% Chance to cast level {:d} Psychic Hammer when struck": [
         "201,253"
     ],
-    "{}% Chance to cast level {} Tiger Strike when struck": [
+    "{:d}% Chance to cast level {:d} Tiger Strike when struck": [
         "201,254"
     ],
-    "{}% Chance to cast level {} Dragon Talon when struck": [
+    "{:d}% Chance to cast level {:d} Dragon Talon when struck": [
         "201,255"
     ],
-    "{}% Chance to cast level {} Shock Web when struck": [
+    "{:d}% Chance to cast level {:d} Shock Web when struck": [
         "201,256"
     ],
-    "{}% Chance to cast level {} Blade Sentinel when struck": [
+    "{:d}% Chance to cast level {:d} Blade Sentinel when struck": [
         "201,257"
     ],
-    "{}% Chance to cast level {} Burst of Speed when struck": [
+    "{:d}% Chance to cast level {:d} Burst of Speed when struck": [
         "201,258"
     ],
-    "{}% Chance to cast level {} Fists of Fire when struck": [
+    "{:d}% Chance to cast level {:d} Fists of Fire when struck": [
         "201,259"
     ],
-    "{}% Chance to cast level {} Dragon Claw when struck": [
+    "{:d}% Chance to cast level {:d} Dragon Claw when struck": [
         "201,260"
     ],
-    "{}% Chance to cast level {} Charged Bolt Sentry when struck": [
+    "{:d}% Chance to cast level {:d} Charged Bolt Sentry when struck": [
         "201,261"
     ],
-    "{}% Chance to cast level {} Wake of Fire when struck": [
+    "{:d}% Chance to cast level {:d} Wake of Fire when struck": [
         "201,262"
     ],
-    "{}% Chance to cast level {} Weapon Block when struck": [
+    "{:d}% Chance to cast level {:d} Weapon Block when struck": [
         "201,263"
     ],
-    "{}% Chance to cast level {} Cloak of Shadows when struck": [
+    "{:d}% Chance to cast level {:d} Cloak of Shadows when struck": [
         "201,264"
     ],
-    "{}% Chance to cast level {} Cobra Strike when struck": [
+    "{:d}% Chance to cast level {:d} Cobra Strike when struck": [
         "201,265"
     ],
-    "{}% Chance to cast level {} Blade Fury when struck": [
+    "{:d}% Chance to cast level {:d} Blade Fury when struck": [
         "201,266"
     ],
-    "{}% Chance to cast level {} Fade when struck": [
+    "{:d}% Chance to cast level {:d} Fade when struck": [
         "201,267"
     ],
-    "{}% Chance to cast level {} Shadow Warrior when struck": [
+    "{:d}% Chance to cast level {:d} Shadow Warrior when struck": [
         "201,268"
     ],
-    "{}% Chance to cast level {} Claws of Thunder when struck": [
+    "{:d}% Chance to cast level {:d} Claws of Thunder when struck": [
         "201,269"
     ],
-    "{}% Chance to cast level {} Dragon Tail when struck": [
+    "{:d}% Chance to cast level {:d} Dragon Tail when struck": [
         "201,270"
     ],
-    "{}% Chance to cast level {} Lightning Sentry when struck": [
+    "{:d}% Chance to cast level {:d} Lightning Sentry when struck": [
         "201,271"
     ],
-    "{}% Chance to cast level {} Wake of Inferno when struck": [
+    "{:d}% Chance to cast level {:d} Wake of Inferno when struck": [
         "201,272"
     ],
-    "{}% Chance to cast level {} Mind Blast when struck": [
+    "{:d}% Chance to cast level {:d} Mind Blast when struck": [
         "201,273"
     ],
-    "{}% Chance to cast level {} Blades of Ice when struck": [
+    "{:d}% Chance to cast level {:d} Blades of Ice when struck": [
         "201,274"
     ],
-    "{}% Chance to cast level {} Dragon Flight when struck": [
+    "{:d}% Chance to cast level {:d} Dragon Flight when struck": [
         "201,275"
     ],
-    "{}% Chance to cast level {} Death Sentry when struck": [
+    "{:d}% Chance to cast level {:d} Death Sentry when struck": [
         "201,276"
     ],
-    "{}% Chance to cast level {} Blade Shield when struck": [
+    "{:d}% Chance to cast level {:d} Blade Shield when struck": [
         "201,277"
     ],
-    "{}% Chance to cast level {} Venom when struck": [
+    "{:d}% Chance to cast level {:d} Venom when struck": [
         "201,278"
     ],
-    "{}% Chance to cast level {} Shadow Master when struck": [
+    "{:d}% Chance to cast level {:d} Shadow Master when struck": [
         "201,279"
     ],
-    "{}% Chance to cast level {} Phoenix Strike when struck": [
+    "{:d}% Chance to cast level {:d} Phoenix Strike when struck": [
         "201,280"
     ],
-    "Socketed ({})": [
+    "Socketed ({:d})": [
         "194"
     ],
-    "Adds {}-{} Fire Damage": [
+    "Adds {:d}-{:d} Fire Damage": [
         "48",
         "49"
     ],
-    "Adds {}-{} Lightning Damage": [
+    "Adds {:d}-{:d} Lightning Damage": [
         "50",
         "51"
     ],
-    "Adds {}-{} Magic Damage": [
+    "Adds {:d}-{:d} Magic Damage": [
         "52",
         "53"
     ],
-    "Adds {}-{} Cold Damage": [
+    "Adds {:d}-{:d} Cold Damage": [
         "54",
         "55"
     ],
-    "Adds {}-{} Poison Damage Over {} Seconds": [
+    "Adds {:d}-{:d} Poison Damage Over {:d} Seconds": [
         "57",
         "58",
         "59"
     ],
-    "Adds {}-{} Damage": [
+    "Adds {:d}-{:d} Damage": [
         "21",
         "22"
     ],
-    "+{} Defense (Based on Character Level)": [
+    "+{:d} Defense (Based on Character Level)": [
         "214"
     ],
-    "+{}% Enhanced Defense (Based on Character Level)": [
+    "+{:d}% Enhanced Defense (Based on Character Level)": [
         "215"
     ],
-    "+{} to Life (Based on Character Level)": [
+    "+{:d} to Life (Based on Character Level)": [
         "216"
     ],
-    "+{} to Mana (Based on Character Level)": [
+    "+{:d} to Mana (Based on Character Level)": [
         "217"
     ],
-    "+{} to Maximum Damage (Based on Character Level)": [
+    "+{:d} to Maximum Damage (Based on Character Level)": [
         "218"
     ],
-    "+{}% Enhanced Maximum Damage (Based on Character Level)": [
+    "+{:d}% Enhanced Maximum Damage (Based on Character Level)": [
         "219"
     ],
-    "+{} to Strength (Based on Character Level)": [
+    "+{:d} to Strength (Based on Character Level)": [
         "220"
     ],
-    "+{} to Dexterity (Based on Character Level)": [
+    "+{:d} to Dexterity (Based on Character Level)": [
         "221"
     ],
-    "+{} to Vitality (Based on Character Level)": [
+    "+{:d} to Vitality (Based on Character Level)": [
         "223"
     ],
-    "+{} to Attack Rating (Based on Character Level)": [
+    "+{:d} to Attack Rating (Based on Character Level)": [
         "224"
     ],
-    "{}% Bonus to Attack Rating (Based on Character Level)": [
+    "{:d}% Bonus to Attack Rating (Based on Character Level)": [
         "225"
     ],
-    "Cold Resist +{}% (Based on Character Level)": [
+    "Cold Resist +{:d}% (Based on Character Level)": [
         "230"
     ],
-    "Fire Resist +{}% (Based on Character Level)": [
+    "Fire Resist +{:d}% (Based on Character Level)": [
         "231"
     ],
-    "Lightning Resist +{}% (Based on Character Level)": [
+    "Lightning Resist +{:d}% (Based on Character Level)": [
         "232"
     ],
-    "Poison Resist +{}% (Based on Character Level)": [
+    "Poison Resist +{:d}% (Based on Character Level)": [
         "233"
     ],
     "Absorbs Cold Damage (Based on Character Level)": [
@@ -3621,37 +3621,37 @@ NIP_ALIAS_STAT_PATTERNS = {
     "Absorbs Fire Damage (Based on Character Level)": [
         "235"
     ],
-    "Attacker Takes Damage of {} (Based on Character Level)": [
+    "Attacker Takes Damage of {:d} (Based on Character Level)": [
         "238"
     ],
-    "{}% Extra Gold from Monsters (Based on Character Level)": [
+    "{:d}% Extra Gold from Monsters (Based on Character Level)": [
         "239"
     ],
-    "{}% Better Chance of Getting Magic Items (Based on Character Level)": [
+    "{:d}% Better Chance of Getting Magic Items (Based on Character Level)": [
         "240"
     ],
-    "Heal Stamina Plus {}% (Based on Character Level)": [
+    "Heal Stamina Plus {:d}% (Based on Character Level)": [
         "241"
     ],
-    "+{} Maximum Stamina (Based on Character Level)": [
+    "+{:d} Maximum Stamina (Based on Character Level)": [
         "242"
     ],
-    "+{}% Damage to Demons (Based on Character Level)": [
+    "+{:d}% Damage to Demons (Based on Character Level)": [
         "243"
     ],
-    "+{}% Damage to Undead (Based on Character Level)": [
+    "+{:d}% Damage to Undead (Based on Character Level)": [
         "244"
     ],
-    "+{} to Attack Rating against Demons (Based on Character Level)": [
+    "+{:d} to Attack Rating against Demons (Based on Character Level)": [
         "245"
     ],
-    "+{} to Attack Rating against Undead (Based on Character Level)": [
+    "+{:d} to Attack Rating against Undead (Based on Character Level)": [
         "246"
     ],
-    "{}% Deadly Strike (Based on Character Level)": [
+    "{:d}% Deadly Strike (Based on Character Level)": [
         "250"
     ],
-    "Repairs 1 durability in {} seconds": [
+    "Repairs 1 durability in {:d} seconds": [
         "252"
     ],
     "Replenishes quantity": [
@@ -3660,64 +3660,64 @@ NIP_ALIAS_STAT_PATTERNS = {
     "Increased Stack Size": [
         "254"
     ],
-    "+{} Defense (Increases near [Day/Dusk/Night/Dawn])": [
+    "+{:d} Defense (Increases near [Day/Dusk/Night/Dawn])": [
         "268"
     ],
-    "+{}% Enhanced Defense (Increases near [Day/Dusk/Night/Dawn])": [
+    "+{:d}% Enhanced Defense (Increases near [Day/Dusk/Night/Dawn])": [
         "269"
     ],
-    "+{} to Life (Increases near [Day/Dusk/Night/Dawn])": [
+    "+{:d} to Life (Increases near [Day/Dusk/Night/Dawn])": [
         "270"
     ],
-    "+{} to Mana (Increases near [Day/Dusk/Night/Dawn])": [
+    "+{:d} to Mana (Increases near [Day/Dusk/Night/Dawn])": [
         "271"
     ],
-    "+{} to Maximum Damage (Increases near [Day/Dusk/Night/Dawn])": [
+    "+{:d} to Maximum Damage (Increases near [Day/Dusk/Night/Dawn])": [
         "272"
     ],
-    "+{}% Enhanced Maximum Damage (Increases near [Day/Dusk/Night/Dawn])": [
+    "+{:d}% Enhanced Maximum Damage (Increases near [Day/Dusk/Night/Dawn])": [
         "273"
     ],
-    "+{} to Strength (Increases near [Day/Dusk/Night/Dawn])": [
+    "+{:d} to Strength (Increases near [Day/Dusk/Night/Dawn])": [
         "274"
     ],
-    "+{} to Dexterity (Increases near [Day/Dusk/Night/Dawn])": [
+    "+{:d} to Dexterity (Increases near [Day/Dusk/Night/Dawn])": [
         "275"
     ],
-    "+{} to Energy (Increases near [Day/Dusk/Night/Dawn])": [
+    "+{:d} to Energy (Increases near [Day/Dusk/Night/Dawn])": [
         "276"
     ],
-    "+{} to Vitality (Increases near [Day/Dusk/Night/Dawn])": [
+    "+{:d} to Vitality (Increases near [Day/Dusk/Night/Dawn])": [
         "277"
     ],
-    "+{} to Attack Rating (Increases near [Day/Dusk/Night/Dawn])": [
+    "+{:d} to Attack Rating (Increases near [Day/Dusk/Night/Dawn])": [
         "278"
     ],
-    "{}% Bonus to Attack Rating (Increases near [Day/Dusk/Night/Dawn])": [
+    "{:d}% Bonus to Attack Rating (Increases near [Day/Dusk/Night/Dawn])": [
         "279"
     ],
-    "+{} to Maximum Cold Damage (Increases near [Day/Dusk/Night/Dawn])": [
+    "+{:d} to Maximum Cold Damage (Increases near [Day/Dusk/Night/Dawn])": [
         "280"
     ],
-    "+{} to Maximum Fire Damage (Increases near [Day/Dusk/Night/Dawn])": [
+    "+{:d} to Maximum Fire Damage (Increases near [Day/Dusk/Night/Dawn])": [
         "281"
     ],
-    "+{} to Maximum Lightning Damage (Increases near [Day/Dusk/Night/Dawn])": [
+    "+{:d} to Maximum Lightning Damage (Increases near [Day/Dusk/Night/Dawn])": [
         "282"
     ],
-    "+{} to Maximum Poison Damage (Increases near [Day/Dusk/Night/Dawn])": [
+    "+{:d} to Maximum Poison Damage (Increases near [Day/Dusk/Night/Dawn])": [
         "283"
     ],
-    "Cold Resist +{}% (Increases near [Day/Dusk/Night/Dawn])": [
+    "Cold Resist +{:d}% (Increases near [Day/Dusk/Night/Dawn])": [
         "284"
     ],
-    "Fire Resist +{}% (Increases near [Day/Dusk/Night/Dawn])": [
+    "Fire Resist +{:d}% (Increases near [Day/Dusk/Night/Dawn])": [
         "285"
     ],
-    "Lightning Resist +{}% (Increases near [Day/Dusk/Night/Dawn])": [
+    "Lightning Resist +{:d}% (Increases near [Day/Dusk/Night/Dawn])": [
         "286"
     ],
-    "Poison Resist +{}% (Increases near [Day/Dusk/Night/Dawn])": [
+    "Poison Resist +{:d}% (Increases near [Day/Dusk/Night/Dawn])": [
         "287"
     ],
     "Absorbs Cold Damage (Increases near [Day/Dusk/Night/Dawn])": [
@@ -3732,3243 +3732,3243 @@ NIP_ALIAS_STAT_PATTERNS = {
     "Absorbs Poison Damage (Increases near [Day/Dusk/Night/Dawn])": [
         "291"
     ],
-    "{}% Extra Gold from Monsters (Increases near [Day/Dusk/Night/Dawn])": [
+    "{:d}% Extra Gold from Monsters (Increases near [Day/Dusk/Night/Dawn])": [
         "292"
     ],
-    "{}% Better Chance of Getting Magic Items (Increases near [Day/Dusk/Night/Dawn])": [
+    "{:d}% Better Chance of Getting Magic Items (Increases near [Day/Dusk/Night/Dawn])": [
         "293"
     ],
-    "Heal Stamina Plus {}% (Increases near [Day/Dusk/Night/Dawn])": [
+    "Heal Stamina Plus {:d}% (Increases near [Day/Dusk/Night/Dawn])": [
         "294"
     ],
-    "+{} Maximum Stamina (Increases near [Day/Dusk/Night/Dawn])": [
+    "+{:d} Maximum Stamina (Increases near [Day/Dusk/Night/Dawn])": [
         "295"
     ],
-    "+{}% Damage to Demons (Increases near [Day/Dusk/Night/Dawn])": [
+    "+{:d}% Damage to Demons (Increases near [Day/Dusk/Night/Dawn])": [
         "296"
     ],
-    "+{}% Damage to Undead (Increases near [Day/Dusk/Night/Dawn])": [
+    "+{:d}% Damage to Undead (Increases near [Day/Dusk/Night/Dawn])": [
         "297"
     ],
-    "+{} to Attack Rating against Demons (Increases near [Day/Dusk/Night/Dawn])": [
+    "+{:d} to Attack Rating against Demons (Increases near [Day/Dusk/Night/Dawn])": [
         "298"
     ],
-    "+{} to Attack Rating against Undead (Increases near [Day/Dusk/Night/Dawn])": [
+    "+{:d} to Attack Rating against Undead (Increases near [Day/Dusk/Night/Dawn])": [
         "299"
     ],
-    "{}% Chance of Crushing Blow (Increases near [Day/Dusk/Night/Dawn])": [
+    "{:d}% Chance of Crushing Blow (Increases near [Day/Dusk/Night/Dawn])": [
         "300"
     ],
-    "{}% Chance of Open Wounds (Increases near [Day/Dusk/Night/Dawn])": [
+    "{:d}% Chance of Open Wounds (Increases near [Day/Dusk/Night/Dawn])": [
         "301"
     ],
-    "+{} Kick Damage (Increases near [Day/Dusk/Night/Dawn])": [
+    "+{:d} Kick Damage (Increases near [Day/Dusk/Night/Dawn])": [
         "302"
     ],
-    "{}% Deadly Strike (Increases near [Day/Dusk/Night/Dawn])": [
+    "{:d}% Deadly Strike (Increases near [Day/Dusk/Night/Dawn])": [
         "303"
     ],
-    "-{}% to Enemy Fire Resistance": [
+    "-{:d}% to Enemy Fire Resistance": [
         "333"
     ],
-    "-{}% to Enemy Lightning Resistance": [
+    "-{:d}% to Enemy Lightning Resistance": [
         "334"
     ],
-    "-{}% to Enemy Cold Resistance": [
+    "-{:d}% to Enemy Cold Resistance": [
         "335"
     ],
-    "-{}% to Enemy Poison Resistance": [
+    "-{:d}% to Enemy Poison Resistance": [
         "336"
     ],
-    "Level {} Magic Arrow ({}/{} Charges)": [
+    "Level {:d} Magic Arrow ({:d}/{:d} Charges)": [
         "204,6"
     ],
-    "Level {} Fire Arrow ({}/{} Charges)": [
+    "Level {:d} Fire Arrow ({:d}/{:d} Charges)": [
         "204,7"
     ],
-    "Level {} Inner Sight ({}/{} Charges)": [
+    "Level {:d} Inner Sight ({:d}/{:d} Charges)": [
         "204,8"
     ],
-    "Level {} Critical Strike ({}/{} Charges)": [
+    "Level {:d} Critical Strike ({:d}/{:d} Charges)": [
         "204,9"
     ],
-    "Level {} Jab ({}/{} Charges)": [
+    "Level {:d} Jab ({:d}/{:d} Charges)": [
         "204,10"
     ],
-    "Level {} Cold Arrow ({}/{} Charges)": [
+    "Level {:d} Cold Arrow ({:d}/{:d} Charges)": [
         "204,11"
     ],
-    "Level {} Multiple Shot ({}/{} Charges)": [
+    "Level {:d} Multiple Shot ({:d}/{:d} Charges)": [
         "204,12"
     ],
-    "Level {} Dodge ({}/{} Charges)": [
+    "Level {:d} Dodge ({:d}/{:d} Charges)": [
         "204,13"
     ],
-    "Level {} Power Strike ({}/{} Charges)": [
+    "Level {:d} Power Strike ({:d}/{:d} Charges)": [
         "204,14"
     ],
-    "Level {} Poison Javelin ({}/{} Charges)": [
+    "Level {:d} Poison Javelin ({:d}/{:d} Charges)": [
         "204,15"
     ],
-    "Level {} Exploding Arrow ({}/{} Charges)": [
+    "Level {:d} Exploding Arrow ({:d}/{:d} Charges)": [
         "204,16"
     ],
-    "Level {} Slow Missiles ({}/{} Charges)": [
+    "Level {:d} Slow Missiles ({:d}/{:d} Charges)": [
         "204,17"
     ],
-    "Level {} Avoid ({}/{} Charges)": [
+    "Level {:d} Avoid ({:d}/{:d} Charges)": [
         "204,18"
     ],
-    "Level {} Impale ({}/{} Charges)": [
+    "Level {:d} Impale ({:d}/{:d} Charges)": [
         "204,19"
     ],
-    "Level {} Lightning Bolt ({}/{} Charges)": [
+    "Level {:d} Lightning Bolt ({:d}/{:d} Charges)": [
         "204,20"
     ],
-    "Level {} Ice Arrow ({}/{} Charges)": [
+    "Level {:d} Ice Arrow ({:d}/{:d} Charges)": [
         "204,21"
     ],
-    "Level {} Guided Arrow ({}/{} Charges)": [
+    "Level {:d} Guided Arrow ({:d}/{:d} Charges)": [
         "204,22"
     ],
-    "Level {} Penetrate ({}/{} Charges)": [
+    "Level {:d} Penetrate ({:d}/{:d} Charges)": [
         "204,23"
     ],
-    "Level {} Charged Strike ({}/{} Charges)": [
+    "Level {:d} Charged Strike ({:d}/{:d} Charges)": [
         "204,24"
     ],
-    "Level {} Plague Javelin ({}/{} Charges)": [
+    "Level {:d} Plague Javelin ({:d}/{:d} Charges)": [
         "204,25"
     ],
-    "Level {} Strafe ({}/{} Charges)": [
+    "Level {:d} Strafe ({:d}/{:d} Charges)": [
         "204,26"
     ],
-    "Level {} Immolation Arrow ({}/{} Charges)": [
+    "Level {:d} Immolation Arrow ({:d}/{:d} Charges)": [
         "204,27"
     ],
-    "Level {} Decoy ({}/{} Charges)": [
+    "Level {:d} Decoy ({:d}/{:d} Charges)": [
         "204,28"
     ],
-    "Level {} Evade ({}/{} Charges)": [
+    "Level {:d} Evade ({:d}/{:d} Charges)": [
         "204,29"
     ],
-    "Level {} Fend ({}/{} Charges)": [
+    "Level {:d} Fend ({:d}/{:d} Charges)": [
         "204,30"
     ],
-    "Level {} Freezing Arrow ({}/{} Charges)": [
+    "Level {:d} Freezing Arrow ({:d}/{:d} Charges)": [
         "204,31"
     ],
-    "Level {} Valkyrie ({}/{} Charges)": [
+    "Level {:d} Valkyrie ({:d}/{:d} Charges)": [
         "204,32"
     ],
-    "Level {} Pierce ({}/{} Charges)": [
+    "Level {:d} Pierce ({:d}/{:d} Charges)": [
         "204,33"
     ],
-    "Level {} Lightning Strike ({}/{} Charges)": [
+    "Level {:d} Lightning Strike ({:d}/{:d} Charges)": [
         "204,34"
     ],
-    "Level {} Lightning Fury ({}/{} Charges)": [
+    "Level {:d} Lightning Fury ({:d}/{:d} Charges)": [
         "204,35"
     ],
-    "Level {} Fire Bolt ({}/{} Charges)": [
+    "Level {:d} Fire Bolt ({:d}/{:d} Charges)": [
         "204,36"
     ],
-    "Level {} Warmth ({}/{} Charges)": [
+    "Level {:d} Warmth ({:d}/{:d} Charges)": [
         "204,37"
     ],
-    "Level {} Charged Bolt ({}/{} Charges)": [
+    "Level {:d} Charged Bolt ({:d}/{:d} Charges)": [
         "204,38"
     ],
-    "Level {} Ice Bolt ({}/{} Charges)": [
+    "Level {:d} Ice Bolt ({:d}/{:d} Charges)": [
         "204,39"
     ],
-    "Level {} Frozen Armor ({}/{} Charges)": [
+    "Level {:d} Frozen Armor ({:d}/{:d} Charges)": [
         "204,40"
     ],
-    "Level {} Inferno ({}/{} Charges)": [
+    "Level {:d} Inferno ({:d}/{:d} Charges)": [
         "204,41"
     ],
-    "Level {} Static Field ({}/{} Charges)": [
+    "Level {:d} Static Field ({:d}/{:d} Charges)": [
         "204,42"
     ],
-    "Level {} Telekinesis ({}/{} Charges)": [
+    "Level {:d} Telekinesis ({:d}/{:d} Charges)": [
         "204,43"
     ],
-    "Level {} Frost Nova ({}/{} Charges)": [
+    "Level {:d} Frost Nova ({:d}/{:d} Charges)": [
         "204,44"
     ],
-    "Level {} Ice Blast ({}/{} Charges)": [
+    "Level {:d} Ice Blast ({:d}/{:d} Charges)": [
         "204,45"
     ],
-    "Level {} Blaze ({}/{} Charges)": [
+    "Level {:d} Blaze ({:d}/{:d} Charges)": [
         "204,46"
     ],
-    "Level {} Fire Ball ({}/{} Charges)": [
+    "Level {:d} Fire Ball ({:d}/{:d} Charges)": [
         "204,47"
     ],
-    "Level {} Nova ({}/{} Charges)": [
+    "Level {:d} Nova ({:d}/{:d} Charges)": [
         "204,48"
     ],
-    "Level {} Lightning ({}/{} Charges)": [
+    "Level {:d} Lightning ({:d}/{:d} Charges)": [
         "204,49"
     ],
-    "Level {} Shiver Armor ({}/{} Charges)": [
+    "Level {:d} Shiver Armor ({:d}/{:d} Charges)": [
         "204,50"
     ],
-    "Level {} Fire Wall ({}/{} Charges)": [
+    "Level {:d} Fire Wall ({:d}/{:d} Charges)": [
         "204,51"
     ],
-    "Level {} Enchant ({}/{} Charges)": [
+    "Level {:d} Enchant ({:d}/{:d} Charges)": [
         "204,52"
     ],
-    "Level {} Chain Lightning ({}/{} Charges)": [
+    "Level {:d} Chain Lightning ({:d}/{:d} Charges)": [
         "204,53"
     ],
-    "Level {} Teleport ({}/{} Charges)": [
+    "Level {:d} Teleport ({:d}/{:d} Charges)": [
         "204,54"
     ],
-    "Level {} Glacial Spike ({}/{} Charges)": [
+    "Level {:d} Glacial Spike ({:d}/{:d} Charges)": [
         "204,55"
     ],
-    "Level {} Meteor ({}/{} Charges)": [
+    "Level {:d} Meteor ({:d}/{:d} Charges)": [
         "204,56"
     ],
-    "Level {} Thunder Storm ({}/{} Charges)": [
+    "Level {:d} Thunder Storm ({:d}/{:d} Charges)": [
         "204,57"
     ],
-    "Level {} Energy Shield ({}/{} Charges)": [
+    "Level {:d} Energy Shield ({:d}/{:d} Charges)": [
         "204,58"
     ],
-    "Level {} Blizzard ({}/{} Charges)": [
+    "Level {:d} Blizzard ({:d}/{:d} Charges)": [
         "204,59"
     ],
-    "Level {} Chilling Armor ({}/{} Charges)": [
+    "Level {:d} Chilling Armor ({:d}/{:d} Charges)": [
         "204,60"
     ],
-    "Level {} Fire Mastery ({}/{} Charges)": [
+    "Level {:d} Fire Mastery ({:d}/{:d} Charges)": [
         "204,61"
     ],
-    "Level {} Hydra ({}/{} Charges)": [
+    "Level {:d} Hydra ({:d}/{:d} Charges)": [
         "204,62"
     ],
-    "Level {} Lightning Mastery ({}/{} Charges)": [
+    "Level {:d} Lightning Mastery ({:d}/{:d} Charges)": [
         "204,63"
     ],
-    "Level {} Frozen Orb ({}/{} Charges)": [
+    "Level {:d} Frozen Orb ({:d}/{:d} Charges)": [
         "204,64"
     ],
-    "Level {} Cold Mastery ({}/{} Charges)": [
+    "Level {:d} Cold Mastery ({:d}/{:d} Charges)": [
         "204,65"
     ],
-    "Level {} Amplify Damage ({}/{} Charges)": [
+    "Level {:d} Amplify Damage ({:d}/{:d} Charges)": [
         "204,66"
     ],
-    "Level {} Teeth ({}/{} Charges)": [
+    "Level {:d} Teeth ({:d}/{:d} Charges)": [
         "204,67"
     ],
-    "Level {} Bone Armor ({}/{} Charges)": [
+    "Level {:d} Bone Armor ({:d}/{:d} Charges)": [
         "204,68"
     ],
-    "Level {} Skeleton Mastery ({}/{} Charges)": [
+    "Level {:d} Skeleton Mastery ({:d}/{:d} Charges)": [
         "204,69"
     ],
-    "Level {} Raise Skeleton ({}/{} Charges)": [
+    "Level {:d} Raise Skeleton ({:d}/{:d} Charges)": [
         "204,70"
     ],
-    "Level {} Dim Vision ({}/{} Charges)": [
+    "Level {:d} Dim Vision ({:d}/{:d} Charges)": [
         "204,71"
     ],
-    "Level {} Weaken ({}/{} Charges)": [
+    "Level {:d} Weaken ({:d}/{:d} Charges)": [
         "204,72"
     ],
-    "Level {} Poison Dagger ({}/{} Charges)": [
+    "Level {:d} Poison Dagger ({:d}/{:d} Charges)": [
         "204,73"
     ],
-    "Level {} Corpse Explosion ({}/{} Charges)": [
+    "Level {:d} Corpse Explosion ({:d}/{:d} Charges)": [
         "204,74"
     ],
-    "Level {} Clay Golem ({}/{} Charges)": [
+    "Level {:d} Clay Golem ({:d}/{:d} Charges)": [
         "204,75"
     ],
-    "Level {} Iron Maiden ({}/{} Charges)": [
+    "Level {:d} Iron Maiden ({:d}/{:d} Charges)": [
         "204,76"
     ],
-    "Level {} Terror ({}/{} Charges)": [
+    "Level {:d} Terror ({:d}/{:d} Charges)": [
         "204,77"
     ],
-    "Level {} Bone Wall ({}/{} Charges)": [
+    "Level {:d} Bone Wall ({:d}/{:d} Charges)": [
         "204,78"
     ],
-    "Level {} Golem Mastery ({}/{} Charges)": [
+    "Level {:d} Golem Mastery ({:d}/{:d} Charges)": [
         "204,79"
     ],
-    "Level {} Raise Skeletal Mage ({}/{} Charges)": [
+    "Level {:d} Raise Skeletal Mage ({:d}/{:d} Charges)": [
         "204,80"
     ],
-    "Level {} Confuse ({}/{} Charges)": [
+    "Level {:d} Confuse ({:d}/{:d} Charges)": [
         "204,81"
     ],
-    "Level {} Life Tap ({}/{} Charges)": [
+    "Level {:d} Life Tap ({:d}/{:d} Charges)": [
         "204,82"
     ],
-    "Level {} Poison Explosion ({}/{} Charges)": [
+    "Level {:d} Poison Explosion ({:d}/{:d} Charges)": [
         "204,83"
     ],
-    "Level {} Bone Spear ({}/{} Charges)": [
+    "Level {:d} Bone Spear ({:d}/{:d} Charges)": [
         "204,84"
     ],
-    "Level {} Blood Golem ({}/{} Charges)": [
+    "Level {:d} Blood Golem ({:d}/{:d} Charges)": [
         "204,85"
     ],
-    "Level {} Attract ({}/{} Charges)": [
+    "Level {:d} Attract ({:d}/{:d} Charges)": [
         "204,86"
     ],
-    "Level {} Decrepify ({}/{} Charges)": [
+    "Level {:d} Decrepify ({:d}/{:d} Charges)": [
         "204,87"
     ],
-    "Level {} Bone Prison ({}/{} Charges)": [
+    "Level {:d} Bone Prison ({:d}/{:d} Charges)": [
         "204,88"
     ],
-    "Level {} Summon Resist ({}/{} Charges)": [
+    "Level {:d} Summon Resist ({:d}/{:d} Charges)": [
         "204,89"
     ],
-    "Level {} Iron Golem ({}/{} Charges)": [
+    "Level {:d} Iron Golem ({:d}/{:d} Charges)": [
         "204,90"
     ],
-    "Level {} Lower Resist ({}/{} Charges)": [
+    "Level {:d} Lower Resist ({:d}/{:d} Charges)": [
         "204,91"
     ],
-    "Level {} Poison Nova ({}/{} Charges)": [
+    "Level {:d} Poison Nova ({:d}/{:d} Charges)": [
         "204,92"
     ],
-    "Level {} Bone Spirit ({}/{} Charges)": [
+    "Level {:d} Bone Spirit ({:d}/{:d} Charges)": [
         "204,93"
     ],
-    "Level {} Fire Golem ({}/{} Charges)": [
+    "Level {:d} Fire Golem ({:d}/{:d} Charges)": [
         "204,94"
     ],
-    "Level {} Revive ({}/{} Charges)": [
+    "Level {:d} Revive ({:d}/{:d} Charges)": [
         "204,95"
     ],
-    "Level {} Sacrifice ({}/{} Charges)": [
+    "Level {:d} Sacrifice ({:d}/{:d} Charges)": [
         "204,96"
     ],
-    "Level {} Smite ({}/{} Charges)": [
+    "Level {:d} Smite ({:d}/{:d} Charges)": [
         "204,97"
     ],
-    "Level {} Might ({}/{} Charges)": [
+    "Level {:d} Might ({:d}/{:d} Charges)": [
         "204,98"
     ],
-    "Level {} Prayer ({}/{} Charges)": [
+    "Level {:d} Prayer ({:d}/{:d} Charges)": [
         "204,99"
     ],
-    "Level {} Resist Fire ({}/{} Charges)": [
+    "Level {:d} Resist Fire ({:d}/{:d} Charges)": [
         "204,100"
     ],
-    "Level {} Holy Bolt ({}/{} Charges)": [
+    "Level {:d} Holy Bolt ({:d}/{:d} Charges)": [
         "204,101"
     ],
-    "Level {} Holy Fire ({}/{} Charges)": [
+    "Level {:d} Holy Fire ({:d}/{:d} Charges)": [
         "204,102"
     ],
-    "Level {} Thorns ({}/{} Charges)": [
+    "Level {:d} Thorns ({:d}/{:d} Charges)": [
         "204,103"
     ],
-    "Level {} Defiance ({}/{} Charges)": [
+    "Level {:d} Defiance ({:d}/{:d} Charges)": [
         "204,104"
     ],
-    "Level {} Resist Cold ({}/{} Charges)": [
+    "Level {:d} Resist Cold ({:d}/{:d} Charges)": [
         "204,105"
     ],
-    "Level {} Zeal ({}/{} Charges)": [
+    "Level {:d} Zeal ({:d}/{:d} Charges)": [
         "204,106"
     ],
-    "Level {} Charge ({}/{} Charges)": [
+    "Level {:d} Charge ({:d}/{:d} Charges)": [
         "204,107"
     ],
-    "Level {} Blessed Aim ({}/{} Charges)": [
+    "Level {:d} Blessed Aim ({:d}/{:d} Charges)": [
         "204,108"
     ],
-    "Level {} Cleansing ({}/{} Charges)": [
+    "Level {:d} Cleansing ({:d}/{:d} Charges)": [
         "204,109"
     ],
-    "Level {} Resist Lightning ({}/{} Charges)": [
+    "Level {:d} Resist Lightning ({:d}/{:d} Charges)": [
         "204,110"
     ],
-    "Level {} Vengeance ({}/{} Charges)": [
+    "Level {:d} Vengeance ({:d}/{:d} Charges)": [
         "204,111"
     ],
-    "Level {} Blessed Hammer ({}/{} Charges)": [
+    "Level {:d} Blessed Hammer ({:d}/{:d} Charges)": [
         "204,112"
     ],
-    "Level {} Concentration ({}/{} Charges)": [
+    "Level {:d} Concentration ({:d}/{:d} Charges)": [
         "204,113"
     ],
-    "Level {} Holy Freeze ({}/{} Charges)": [
+    "Level {:d} Holy Freeze ({:d}/{:d} Charges)": [
         "204,114"
     ],
-    "Level {} Vigor ({}/{} Charges)": [
+    "Level {:d} Vigor ({:d}/{:d} Charges)": [
         "204,115"
     ],
-    "Level {} Conversion ({}/{} Charges)": [
+    "Level {:d} Conversion ({:d}/{:d} Charges)": [
         "204,116"
     ],
-    "Level {} Holy Shield ({}/{} Charges)": [
+    "Level {:d} Holy Shield ({:d}/{:d} Charges)": [
         "204,117"
     ],
-    "Level {} Holy Shock ({}/{} Charges)": [
+    "Level {:d} Holy Shock ({:d}/{:d} Charges)": [
         "204,118"
     ],
-    "Level {} Sanctuary ({}/{} Charges)": [
+    "Level {:d} Sanctuary ({:d}/{:d} Charges)": [
         "204,119"
     ],
-    "Level {} Meditation ({}/{} Charges)": [
+    "Level {:d} Meditation ({:d}/{:d} Charges)": [
         "204,120"
     ],
-    "Level {} Fist of the Heavens ({}/{} Charges)": [
+    "Level {:d} Fist of the Heavens ({:d}/{:d} Charges)": [
         "204,121"
     ],
-    "Level {} Fanaticism ({}/{} Charges)": [
+    "Level {:d} Fanaticism ({:d}/{:d} Charges)": [
         "204,122"
     ],
-    "Level {} Conviction ({}/{} Charges)": [
+    "Level {:d} Conviction ({:d}/{:d} Charges)": [
         "204,123"
     ],
-    "Level {} Redemption ({}/{} Charges)": [
+    "Level {:d} Redemption ({:d}/{:d} Charges)": [
         "204,124"
     ],
-    "Level {} Salvation ({}/{} Charges)": [
+    "Level {:d} Salvation ({:d}/{:d} Charges)": [
         "204,125"
     ],
-    "Level {} Bash ({}/{} Charges)": [
+    "Level {:d} Bash ({:d}/{:d} Charges)": [
         "204,126"
     ],
-    "Level {} Blade Mastery ({}/{} Charges)": [
+    "Level {:d} Blade Mastery ({:d}/{:d} Charges)": [
         "204,127"
     ],
-    "Level {} Axe Mastery ({}/{} Charges)": [
+    "Level {:d} Axe Mastery ({:d}/{:d} Charges)": [
         "204,128"
     ],
-    "Level {} Mace Mastery ({}/{} Charges)": [
+    "Level {:d} Mace Mastery ({:d}/{:d} Charges)": [
         "204,129"
     ],
-    "Level {} Howl ({}/{} Charges)": [
+    "Level {:d} Howl ({:d}/{:d} Charges)": [
         "204,130"
     ],
-    "Level {} Find Potion ({}/{} Charges)": [
+    "Level {:d} Find Potion ({:d}/{:d} Charges)": [
         "204,131"
     ],
-    "Level {} Leap ({}/{} Charges)": [
+    "Level {:d} Leap ({:d}/{:d} Charges)": [
         "204,132"
     ],
-    "Level {} Double Swing ({}/{} Charges)": [
+    "Level {:d} Double Swing ({:d}/{:d} Charges)": [
         "204,133"
     ],
-    "Level {} Polearm Mastery ({}/{} Charges)": [
+    "Level {:d} Polearm Mastery ({:d}/{:d} Charges)": [
         "204,134"
     ],
-    "Level {} Throwing Mastery ({}/{} Charges)": [
+    "Level {:d} Throwing Mastery ({:d}/{:d} Charges)": [
         "204,135"
     ],
-    "Level {} Spear Mastery ({}/{} Charges)": [
+    "Level {:d} Spear Mastery ({:d}/{:d} Charges)": [
         "204,136"
     ],
-    "Level {} Taunt ({}/{} Charges)": [
+    "Level {:d} Taunt ({:d}/{:d} Charges)": [
         "204,137"
     ],
-    "Level {} Shout ({}/{} Charges)": [
+    "Level {:d} Shout ({:d}/{:d} Charges)": [
         "204,138"
     ],
-    "Level {} Stun ({}/{} Charges)": [
+    "Level {:d} Stun ({:d}/{:d} Charges)": [
         "204,139"
     ],
-    "Level {} Double Throw ({}/{} Charges)": [
+    "Level {:d} Double Throw ({:d}/{:d} Charges)": [
         "204,140"
     ],
-    "Level {} Increased Stamina ({}/{} Charges)": [
+    "Level {:d} Increased Stamina ({:d}/{:d} Charges)": [
         "204,141"
     ],
-    "Level {} Find Item ({}/{} Charges)": [
+    "Level {:d} Find Item ({:d}/{:d} Charges)": [
         "204,142"
     ],
-    "Level {} Leap Attack ({}/{} Charges)": [
+    "Level {:d} Leap Attack ({:d}/{:d} Charges)": [
         "204,143"
     ],
-    "Level {} Concentrate ({}/{} Charges)": [
+    "Level {:d} Concentrate ({:d}/{:d} Charges)": [
         "204,144"
     ],
-    "Level {} Iron Skin ({}/{} Charges)": [
+    "Level {:d} Iron Skin ({:d}/{:d} Charges)": [
         "204,145"
     ],
-    "Level {} Battle Cry ({}/{} Charges)": [
+    "Level {:d} Battle Cry ({:d}/{:d} Charges)": [
         "204,146"
     ],
-    "Level {} Frenzy ({}/{} Charges)": [
+    "Level {:d} Frenzy ({:d}/{:d} Charges)": [
         "204,147"
     ],
-    "Level {} Increased Speed ({}/{} Charges)": [
+    "Level {:d} Increased Speed ({:d}/{:d} Charges)": [
         "204,148"
     ],
-    "Level {} Battle Orders ({}/{} Charges)": [
+    "Level {:d} Battle Orders ({:d}/{:d} Charges)": [
         "204,149"
     ],
-    "Level {} Grim Ward ({}/{} Charges)": [
+    "Level {:d} Grim Ward ({:d}/{:d} Charges)": [
         "204,150"
     ],
-    "Level {} Whirlwind ({}/{} Charges)": [
+    "Level {:d} Whirlwind ({:d}/{:d} Charges)": [
         "204,151"
     ],
-    "Level {} Berserk ({}/{} Charges)": [
+    "Level {:d} Berserk ({:d}/{:d} Charges)": [
         "204,152"
     ],
-    "Level {} Natural Resistance ({}/{} Charges)": [
+    "Level {:d} Natural Resistance ({:d}/{:d} Charges)": [
         "204,153"
     ],
-    "Level {} War Cry ({}/{} Charges)": [
+    "Level {:d} War Cry ({:d}/{:d} Charges)": [
         "204,154"
     ],
-    "Level {} Battle Command ({}/{} Charges)": [
+    "Level {:d} Battle Command ({:d}/{:d} Charges)": [
         "204,155"
     ],
-    "Level {} Raven ({}/{} Charges)": [
+    "Level {:d} Raven ({:d}/{:d} Charges)": [
         "204,221"
     ],
-    "Level {} Poison Creeper ({}/{} Charges)": [
+    "Level {:d} Poison Creeper ({:d}/{:d} Charges)": [
         "204,222"
     ],
-    "Level {} Werewolf ({}/{} Charges)": [
+    "Level {:d} Werewolf ({:d}/{:d} Charges)": [
         "204,223"
     ],
-    "Level {} Lycanthropy ({}/{} Charges)": [
+    "Level {:d} Lycanthropy ({:d}/{:d} Charges)": [
         "204,224"
     ],
-    "Level {} Firestorm ({}/{} Charges)": [
+    "Level {:d} Firestorm ({:d}/{:d} Charges)": [
         "204,225"
     ],
-    "Level {} Oak Sage ({}/{} Charges)": [
+    "Level {:d} Oak Sage ({:d}/{:d} Charges)": [
         "204,226"
     ],
-    "Level {} Summon Spirit Wolf ({}/{} Charges)": [
+    "Level {:d} Summon Spirit Wolf ({:d}/{:d} Charges)": [
         "204,227"
     ],
-    "Level {} Werebear ({}/{} Charges)": [
+    "Level {:d} Werebear ({:d}/{:d} Charges)": [
         "204,228"
     ],
-    "Level {} Molten Boulder ({}/{} Charges)": [
+    "Level {:d} Molten Boulder ({:d}/{:d} Charges)": [
         "204,229"
     ],
-    "Level {} Arctic Blast ({}/{} Charges)": [
+    "Level {:d} Arctic Blast ({:d}/{:d} Charges)": [
         "204,230"
     ],
-    "Level {} Carrion Vine ({}/{} Charges)": [
+    "Level {:d} Carrion Vine ({:d}/{:d} Charges)": [
         "204,231"
     ],
-    "Level {} Feral Rage ({}/{} Charges)": [
+    "Level {:d} Feral Rage ({:d}/{:d} Charges)": [
         "204,232"
     ],
-    "Level {} Maul ({}/{} Charges)": [
+    "Level {:d} Maul ({:d}/{:d} Charges)": [
         "204,233"
     ],
-    "Level {} Fissure ({}/{} Charges)": [
+    "Level {:d} Fissure ({:d}/{:d} Charges)": [
         "204,234"
     ],
-    "Level {} Cyclone Armor ({}/{} Charges)": [
+    "Level {:d} Cyclone Armor ({:d}/{:d} Charges)": [
         "204,235"
     ],
-    "Level {} Heart of Wolverine ({}/{} Charges)": [
+    "Level {:d} Heart of Wolverine ({:d}/{:d} Charges)": [
         "204,236"
     ],
-    "Level {} Summon Dire Wolf ({}/{} Charges)": [
+    "Level {:d} Summon Dire Wolf ({:d}/{:d} Charges)": [
         "204,237"
     ],
-    "Level {} Rabies ({}/{} Charges)": [
+    "Level {:d} Rabies ({:d}/{:d} Charges)": [
         "204,238"
     ],
-    "Level {} Fire Claws ({}/{} Charges)": [
+    "Level {:d} Fire Claws ({:d}/{:d} Charges)": [
         "204,239"
     ],
-    "Level {} Twister ({}/{} Charges)": [
+    "Level {:d} Twister ({:d}/{:d} Charges)": [
         "204,240"
     ],
-    "Level {} Solar Creeper ({}/{} Charges)": [
+    "Level {:d} Solar Creeper ({:d}/{:d} Charges)": [
         "204,241"
     ],
-    "Level {} Hunger ({}/{} Charges)": [
+    "Level {:d} Hunger ({:d}/{:d} Charges)": [
         "204,242"
     ],
-    "Level {} Shock Wave ({}/{} Charges)": [
+    "Level {:d} Shock Wave ({:d}/{:d} Charges)": [
         "204,243"
     ],
-    "Level {} Volcano ({}/{} Charges)": [
+    "Level {:d} Volcano ({:d}/{:d} Charges)": [
         "204,244"
     ],
-    "Level {} Tornado ({}/{} Charges)": [
+    "Level {:d} Tornado ({:d}/{:d} Charges)": [
         "204,245"
     ],
-    "Level {} Spirit of Barbs ({}/{} Charges)": [
+    "Level {:d} Spirit of Barbs ({:d}/{:d} Charges)": [
         "204,246"
     ],
-    "Level {} Summon Grizzly ({}/{} Charges)": [
+    "Level {:d} Summon Grizzly ({:d}/{:d} Charges)": [
         "204,247"
     ],
-    "Level {} Fury ({}/{} Charges)": [
+    "Level {:d} Fury ({:d}/{:d} Charges)": [
         "204,248"
     ],
-    "Level {} Armageddon ({}/{} Charges)": [
+    "Level {:d} Armageddon ({:d}/{:d} Charges)": [
         "204,249"
     ],
-    "Level {} Hurricane ({}/{} Charges)": [
+    "Level {:d} Hurricane ({:d}/{:d} Charges)": [
         "204,250"
     ],
-    "Level {} Fire Blast ({}/{} Charges)": [
+    "Level {:d} Fire Blast ({:d}/{:d} Charges)": [
         "204,251"
     ],
-    "Level {} Claw Mastery ({}/{} Charges)": [
+    "Level {:d} Claw Mastery ({:d}/{:d} Charges)": [
         "204,252"
     ],
-    "Level {} Psychic Hammer ({}/{} Charges)": [
+    "Level {:d} Psychic Hammer ({:d}/{:d} Charges)": [
         "204,253"
     ],
-    "Level {} Tiger Strike ({}/{} Charges)": [
+    "Level {:d} Tiger Strike ({:d}/{:d} Charges)": [
         "204,254"
     ],
-    "Level {} Dragon Talon ({}/{} Charges)": [
+    "Level {:d} Dragon Talon ({:d}/{:d} Charges)": [
         "204,255"
     ],
-    "Level {} Shock Web ({}/{} Charges)": [
+    "Level {:d} Shock Web ({:d}/{:d} Charges)": [
         "204,256"
     ],
-    "Level {} Blade Sentinel ({}/{} Charges)": [
+    "Level {:d} Blade Sentinel ({:d}/{:d} Charges)": [
         "204,257"
     ],
-    "Level {} Burst of Speed ({}/{} Charges)": [
+    "Level {:d} Burst of Speed ({:d}/{:d} Charges)": [
         "204,258"
     ],
-    "Level {} Fists of Fire ({}/{} Charges)": [
+    "Level {:d} Fists of Fire ({:d}/{:d} Charges)": [
         "204,259"
     ],
-    "Level {} Dragon Claw ({}/{} Charges)": [
+    "Level {:d} Dragon Claw ({:d}/{:d} Charges)": [
         "204,260"
     ],
-    "Level {} Charged Bolt Sentry ({}/{} Charges)": [
+    "Level {:d} Charged Bolt Sentry ({:d}/{:d} Charges)": [
         "204,261"
     ],
-    "Level {} Wake of Fire ({}/{} Charges)": [
+    "Level {:d} Wake of Fire ({:d}/{:d} Charges)": [
         "204,262"
     ],
-    "Level {} Weapon Block ({}/{} Charges)": [
+    "Level {:d} Weapon Block ({:d}/{:d} Charges)": [
         "204,263"
     ],
-    "Level {} Cloak of Shadows ({}/{} Charges)": [
+    "Level {:d} Cloak of Shadows ({:d}/{:d} Charges)": [
         "204,264"
     ],
-    "Level {} Cobra Strike ({}/{} Charges)": [
+    "Level {:d} Cobra Strike ({:d}/{:d} Charges)": [
         "204,265"
     ],
-    "Level {} Blade Fury ({}/{} Charges)": [
+    "Level {:d} Blade Fury ({:d}/{:d} Charges)": [
         "204,266"
     ],
-    "Level {} Fade ({}/{} Charges)": [
+    "Level {:d} Fade ({:d}/{:d} Charges)": [
         "204,267"
     ],
-    "Level {} Shadow Warrior ({}/{} Charges)": [
+    "Level {:d} Shadow Warrior ({:d}/{:d} Charges)": [
         "204,268"
     ],
-    "Level {} Claws of Thunder ({}/{} Charges)": [
+    "Level {:d} Claws of Thunder ({:d}/{:d} Charges)": [
         "204,269"
     ],
-    "Level {} Dragon Tail ({}/{} Charges)": [
+    "Level {:d} Dragon Tail ({:d}/{:d} Charges)": [
         "204,270"
     ],
-    "Level {} Lightning Sentry ({}/{} Charges)": [
+    "Level {:d} Lightning Sentry ({:d}/{:d} Charges)": [
         "204,271"
     ],
-    "Level {} Wake of Inferno ({}/{} Charges)": [
+    "Level {:d} Wake of Inferno ({:d}/{:d} Charges)": [
         "204,272"
     ],
-    "Level {} Mind Blast ({}/{} Charges)": [
+    "Level {:d} Mind Blast ({:d}/{:d} Charges)": [
         "204,273"
     ],
-    "Level {} Blades of Ice ({}/{} Charges)": [
+    "Level {:d} Blades of Ice ({:d}/{:d} Charges)": [
         "204,274"
     ],
-    "Level {} Dragon Flight ({}/{} Charges)": [
+    "Level {:d} Dragon Flight ({:d}/{:d} Charges)": [
         "204,275"
     ],
-    "Level {} Death Sentry ({}/{} Charges)": [
+    "Level {:d} Death Sentry ({:d}/{:d} Charges)": [
         "204,276"
     ],
-    "Level {} Blade Shield ({}/{} Charges)": [
+    "Level {:d} Blade Shield ({:d}/{:d} Charges)": [
         "204,277"
     ],
-    "Level {} Venom ({}/{} Charges)": [
+    "Level {:d} Venom ({:d}/{:d} Charges)": [
         "204,278"
     ],
-    "Level {} Shadow Master ({}/{} Charges)": [
+    "Level {:d} Shadow Master ({:d}/{:d} Charges)": [
         "204,279"
     ],
-    "Level {} Phoenix Strike ({}/{} Charges)": [
+    "Level {:d} Phoenix Strike ({:d}/{:d} Charges)": [
         "204,280"
     ],
-    "+{}% to Fire Skill Damage": [
+    "+{:d}% to Fire Skill Damage": [
         "329"
     ],
-    "+{}% to Lightning Skill Damage": [
+    "+{:d}% to Lightning Skill Damage": [
         "330"
     ],
-    "+{}% to Cold Skill Damage": [
+    "+{:d}% to Cold Skill Damage": [
         "331"
     ],
-    "+{}% to Poison Skill Damage": [
+    "+{:d}% to Poison Skill Damage": [
         "332"
     ],
-    "Adds {}-{} Fire/Lightning/Cold Damage": [
+    "Adds {:d}-{:d} Fire/Lightning/Cold Damage": [
         "48",
         "49"
     ],
-    "+{} to all Attributes": [
+    "+{:d} to all Attributes": [
         "420",
         "0",
         "2",
         "3",
         "1"
     ],
-    "+{}% to Experience Gained": [
+    "+{:d}% to Experience Gained": [
         "85"
     ],
-    "+{} Life after each Kill": [
+    "+{:d} Life after each Kill": [
         "86"
     ],
-    "Reduces all Vendor Prices {}%": [
+    "Reduces all Vendor Prices {:d}%": [
         "87"
     ],
     "Slain Monsters Rest in Peace": [
         "108"
     ],
-    "{}% Chance to cast level {} Magic Arrow when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Magic Arrow when you Kill an Enemy": [
         "196,6"
     ],
-    "{}% Chance to cast level {} Fire Arrow when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Fire Arrow when you Kill an Enemy": [
         "196,7"
     ],
-    "{}% Chance to cast level {} Inner Sight when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Inner Sight when you Kill an Enemy": [
         "196,8"
     ],
-    "{}% Chance to cast level {} Critical Strike when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Critical Strike when you Kill an Enemy": [
         "196,9"
     ],
-    "{}% Chance to cast level {} Jab when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Jab when you Kill an Enemy": [
         "196,10"
     ],
-    "{}% Chance to cast level {} Cold Arrow when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Cold Arrow when you Kill an Enemy": [
         "196,11"
     ],
-    "{}% Chance to cast level {} Multiple Shot when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Multiple Shot when you Kill an Enemy": [
         "196,12"
     ],
-    "{}% Chance to cast level {} Dodge when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Dodge when you Kill an Enemy": [
         "196,13"
     ],
-    "{}% Chance to cast level {} Power Strike when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Power Strike when you Kill an Enemy": [
         "196,14"
     ],
-    "{}% Chance to cast level {} Poison Javelin when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Poison Javelin when you Kill an Enemy": [
         "196,15"
     ],
-    "{}% Chance to cast level {} Exploding Arrow when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Exploding Arrow when you Kill an Enemy": [
         "196,16"
     ],
-    "{}% Chance to cast level {} Slow Missiles when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Slow Missiles when you Kill an Enemy": [
         "196,17"
     ],
-    "{}% Chance to cast level {} Avoid when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Avoid when you Kill an Enemy": [
         "196,18"
     ],
-    "{}% Chance to cast level {} Impale when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Impale when you Kill an Enemy": [
         "196,19"
     ],
-    "{}% Chance to cast level {} Lightning Bolt when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Lightning Bolt when you Kill an Enemy": [
         "196,20"
     ],
-    "{}% Chance to cast level {} Ice Arrow when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Ice Arrow when you Kill an Enemy": [
         "196,21"
     ],
-    "{}% Chance to cast level {} Guided Arrow when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Guided Arrow when you Kill an Enemy": [
         "196,22"
     ],
-    "{}% Chance to cast level {} Penetrate when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Penetrate when you Kill an Enemy": [
         "196,23"
     ],
-    "{}% Chance to cast level {} Charged Strike when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Charged Strike when you Kill an Enemy": [
         "196,24"
     ],
-    "{}% Chance to cast level {} Plague Javelin when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Plague Javelin when you Kill an Enemy": [
         "196,25"
     ],
-    "{}% Chance to cast level {} Strafe when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Strafe when you Kill an Enemy": [
         "196,26"
     ],
-    "{}% Chance to cast level {} Immolation Arrow when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Immolation Arrow when you Kill an Enemy": [
         "196,27"
     ],
-    "{}% Chance to cast level {} Decoy when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Decoy when you Kill an Enemy": [
         "196,28"
     ],
-    "{}% Chance to cast level {} Evade when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Evade when you Kill an Enemy": [
         "196,29"
     ],
-    "{}% Chance to cast level {} Fend when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Fend when you Kill an Enemy": [
         "196,30"
     ],
-    "{}% Chance to cast level {} Freezing Arrow when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Freezing Arrow when you Kill an Enemy": [
         "196,31"
     ],
-    "{}% Chance to cast level {} Valkyrie when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Valkyrie when you Kill an Enemy": [
         "196,32"
     ],
-    "{}% Chance to cast level {} Pierce when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Pierce when you Kill an Enemy": [
         "196,33"
     ],
-    "{}% Chance to cast level {} Lightning Strike when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Lightning Strike when you Kill an Enemy": [
         "196,34"
     ],
-    "{}% Chance to cast level {} Lightning Fury when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Lightning Fury when you Kill an Enemy": [
         "196,35"
     ],
-    "{}% Chance to cast level {} Fire Bolt when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Fire Bolt when you Kill an Enemy": [
         "196,36"
     ],
-    "{}% Chance to cast level {} Warmth when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Warmth when you Kill an Enemy": [
         "196,37"
     ],
-    "{}% Chance to cast level {} Charged Bolt when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Charged Bolt when you Kill an Enemy": [
         "196,38"
     ],
-    "{}% Chance to cast level {} Ice Bolt when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Ice Bolt when you Kill an Enemy": [
         "196,39"
     ],
-    "{}% Chance to cast level {} Frozen Armor when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Frozen Armor when you Kill an Enemy": [
         "196,40"
     ],
-    "{}% Chance to cast level {} Inferno when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Inferno when you Kill an Enemy": [
         "196,41"
     ],
-    "{}% Chance to cast level {} Static Field when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Static Field when you Kill an Enemy": [
         "196,42"
     ],
-    "{}% Chance to cast level {} Telekinesis when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Telekinesis when you Kill an Enemy": [
         "196,43"
     ],
-    "{}% Chance to cast level {} Frost Nova when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Frost Nova when you Kill an Enemy": [
         "196,44"
     ],
-    "{}% Chance to cast level {} Ice Blast when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Ice Blast when you Kill an Enemy": [
         "196,45"
     ],
-    "{}% Chance to cast level {} Blaze when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Blaze when you Kill an Enemy": [
         "196,46"
     ],
-    "{}% Chance to cast level {} Fire Ball when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Fire Ball when you Kill an Enemy": [
         "196,47"
     ],
-    "{}% Chance to cast level {} Nova when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Nova when you Kill an Enemy": [
         "196,48"
     ],
-    "{}% Chance to cast level {} Lightning when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Lightning when you Kill an Enemy": [
         "196,49"
     ],
-    "{}% Chance to cast level {} Shiver Armor when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Shiver Armor when you Kill an Enemy": [
         "196,50"
     ],
-    "{}% Chance to cast level {} Fire Wall when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Fire Wall when you Kill an Enemy": [
         "196,51"
     ],
-    "{}% Chance to cast level {} Enchant when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Enchant when you Kill an Enemy": [
         "196,52"
     ],
-    "{}% Chance to cast level {} Chain Lightning when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Chain Lightning when you Kill an Enemy": [
         "196,53"
     ],
-    "{}% Chance to cast level {} Teleport when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Teleport when you Kill an Enemy": [
         "196,54"
     ],
-    "{}% Chance to cast level {} Glacial Spike when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Glacial Spike when you Kill an Enemy": [
         "196,55"
     ],
-    "{}% Chance to cast level {} Meteor when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Meteor when you Kill an Enemy": [
         "196,56"
     ],
-    "{}% Chance to cast level {} Thunder Storm when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Thunder Storm when you Kill an Enemy": [
         "196,57"
     ],
-    "{}% Chance to cast level {} Energy Shield when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Energy Shield when you Kill an Enemy": [
         "196,58"
     ],
-    "{}% Chance to cast level {} Blizzard when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Blizzard when you Kill an Enemy": [
         "196,59"
     ],
-    "{}% Chance to cast level {} Chilling Armor when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Chilling Armor when you Kill an Enemy": [
         "196,60"
     ],
-    "{}% Chance to cast level {} Fire Mastery when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Fire Mastery when you Kill an Enemy": [
         "196,61"
     ],
-    "{}% Chance to cast level {} Hydra when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Hydra when you Kill an Enemy": [
         "196,62"
     ],
-    "{}% Chance to cast level {} Lightning Mastery when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Lightning Mastery when you Kill an Enemy": [
         "196,63"
     ],
-    "{}% Chance to cast level {} Frozen Orb when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Frozen Orb when you Kill an Enemy": [
         "196,64"
     ],
-    "{}% Chance to cast level {} Cold Mastery when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Cold Mastery when you Kill an Enemy": [
         "196,65"
     ],
-    "{}% Chance to cast level {} Amplify Damage when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Amplify Damage when you Kill an Enemy": [
         "196,66"
     ],
-    "{}% Chance to cast level {} Teeth when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Teeth when you Kill an Enemy": [
         "196,67"
     ],
-    "{}% Chance to cast level {} Bone Armor when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Bone Armor when you Kill an Enemy": [
         "196,68"
     ],
-    "{}% Chance to cast level {} Skeleton Mastery when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Skeleton Mastery when you Kill an Enemy": [
         "196,69"
     ],
-    "{}% Chance to cast level {} Raise Skeleton when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Raise Skeleton when you Kill an Enemy": [
         "196,70"
     ],
-    "{}% Chance to cast level {} Dim Vision when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Dim Vision when you Kill an Enemy": [
         "196,71"
     ],
-    "{}% Chance to cast level {} Weaken when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Weaken when you Kill an Enemy": [
         "196,72"
     ],
-    "{}% Chance to cast level {} Poison Dagger when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Poison Dagger when you Kill an Enemy": [
         "196,73"
     ],
-    "{}% Chance to cast level {} Corpse Explosion when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Corpse Explosion when you Kill an Enemy": [
         "196,74"
     ],
-    "{}% Chance to cast level {} Clay Golem when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Clay Golem when you Kill an Enemy": [
         "196,75"
     ],
-    "{}% Chance to cast level {} Iron Maiden when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Iron Maiden when you Kill an Enemy": [
         "196,76"
     ],
-    "{}% Chance to cast level {} Terror when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Terror when you Kill an Enemy": [
         "196,77"
     ],
-    "{}% Chance to cast level {} Bone Wall when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Bone Wall when you Kill an Enemy": [
         "196,78"
     ],
-    "{}% Chance to cast level {} Golem Mastery when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Golem Mastery when you Kill an Enemy": [
         "196,79"
     ],
-    "{}% Chance to cast level {} Raise Skeletal Mage when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Raise Skeletal Mage when you Kill an Enemy": [
         "196,80"
     ],
-    "{}% Chance to cast level {} Confuse when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Confuse when you Kill an Enemy": [
         "196,81"
     ],
-    "{}% Chance to cast level {} Life Tap when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Life Tap when you Kill an Enemy": [
         "196,82"
     ],
-    "{}% Chance to cast level {} Poison Explosion when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Poison Explosion when you Kill an Enemy": [
         "196,83"
     ],
-    "{}% Chance to cast level {} Bone Spear when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Bone Spear when you Kill an Enemy": [
         "196,84"
     ],
-    "{}% Chance to cast level {} Blood Golem when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Blood Golem when you Kill an Enemy": [
         "196,85"
     ],
-    "{}% Chance to cast level {} Attract when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Attract when you Kill an Enemy": [
         "196,86"
     ],
-    "{}% Chance to cast level {} Decrepify when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Decrepify when you Kill an Enemy": [
         "196,87"
     ],
-    "{}% Chance to cast level {} Bone Prison when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Bone Prison when you Kill an Enemy": [
         "196,88"
     ],
-    "{}% Chance to cast level {} Summon Resist when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Summon Resist when you Kill an Enemy": [
         "196,89"
     ],
-    "{}% Chance to cast level {} Iron Golem when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Iron Golem when you Kill an Enemy": [
         "196,90"
     ],
-    "{}% Chance to cast level {} Lower Resist when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Lower Resist when you Kill an Enemy": [
         "196,91"
     ],
-    "{}% Chance to cast level {} Poison Nova when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Poison Nova when you Kill an Enemy": [
         "196,92"
     ],
-    "{}% Chance to cast level {} Bone Spirit when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Bone Spirit when you Kill an Enemy": [
         "196,93"
     ],
-    "{}% Chance to cast level {} Fire Golem when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Fire Golem when you Kill an Enemy": [
         "196,94"
     ],
-    "{}% Chance to cast level {} Revive when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Revive when you Kill an Enemy": [
         "196,95"
     ],
-    "{}% Chance to cast level {} Sacrifice when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Sacrifice when you Kill an Enemy": [
         "196,96"
     ],
-    "{}% Chance to cast level {} Smite when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Smite when you Kill an Enemy": [
         "196,97"
     ],
-    "{}% Chance to cast level {} Might when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Might when you Kill an Enemy": [
         "196,98"
     ],
-    "{}% Chance to cast level {} Prayer when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Prayer when you Kill an Enemy": [
         "196,99"
     ],
-    "{}% Chance to cast level {} Resist Fire when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Resist Fire when you Kill an Enemy": [
         "196,100"
     ],
-    "{}% Chance to cast level {} Holy Bolt when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Holy Bolt when you Kill an Enemy": [
         "196,101"
     ],
-    "{}% Chance to cast level {} Holy Fire when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Holy Fire when you Kill an Enemy": [
         "196,102"
     ],
-    "{}% Chance to cast level {} Thorns when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Thorns when you Kill an Enemy": [
         "196,103"
     ],
-    "{}% Chance to cast level {} Defiance when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Defiance when you Kill an Enemy": [
         "196,104"
     ],
-    "{}% Chance to cast level {} Resist Cold when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Resist Cold when you Kill an Enemy": [
         "196,105"
     ],
-    "{}% Chance to cast level {} Zeal when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Zeal when you Kill an Enemy": [
         "196,106"
     ],
-    "{}% Chance to cast level {} Charge when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Charge when you Kill an Enemy": [
         "196,107"
     ],
-    "{}% Chance to cast level {} Blessed Aim when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Blessed Aim when you Kill an Enemy": [
         "196,108"
     ],
-    "{}% Chance to cast level {} Cleansing when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Cleansing when you Kill an Enemy": [
         "196,109"
     ],
-    "{}% Chance to cast level {} Resist Lightning when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Resist Lightning when you Kill an Enemy": [
         "196,110"
     ],
-    "{}% Chance to cast level {} Vengeance when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Vengeance when you Kill an Enemy": [
         "196,111"
     ],
-    "{}% Chance to cast level {} Blessed Hammer when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Blessed Hammer when you Kill an Enemy": [
         "196,112"
     ],
-    "{}% Chance to cast level {} Concentration when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Concentration when you Kill an Enemy": [
         "196,113"
     ],
-    "{}% Chance to cast level {} Holy Freeze when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Holy Freeze when you Kill an Enemy": [
         "196,114"
     ],
-    "{}% Chance to cast level {} Vigor when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Vigor when you Kill an Enemy": [
         "196,115"
     ],
-    "{}% Chance to cast level {} Conversion when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Conversion when you Kill an Enemy": [
         "196,116"
     ],
-    "{}% Chance to cast level {} Holy Shield when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Holy Shield when you Kill an Enemy": [
         "196,117"
     ],
-    "{}% Chance to cast level {} Holy Shock when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Holy Shock when you Kill an Enemy": [
         "196,118"
     ],
-    "{}% Chance to cast level {} Sanctuary when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Sanctuary when you Kill an Enemy": [
         "196,119"
     ],
-    "{}% Chance to cast level {} Meditation when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Meditation when you Kill an Enemy": [
         "196,120"
     ],
-    "{}% Chance to cast level {} Fist of the Heavens when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Fist of the Heavens when you Kill an Enemy": [
         "196,121"
     ],
-    "{}% Chance to cast level {} Fanaticism when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Fanaticism when you Kill an Enemy": [
         "196,122"
     ],
-    "{}% Chance to cast level {} Conviction when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Conviction when you Kill an Enemy": [
         "196,123"
     ],
-    "{}% Chance to cast level {} Redemption when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Redemption when you Kill an Enemy": [
         "196,124"
     ],
-    "{}% Chance to cast level {} Salvation when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Salvation when you Kill an Enemy": [
         "196,125"
     ],
-    "{}% Chance to cast level {} Bash when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Bash when you Kill an Enemy": [
         "196,126"
     ],
-    "{}% Chance to cast level {} Blade Mastery when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Blade Mastery when you Kill an Enemy": [
         "196,127"
     ],
-    "{}% Chance to cast level {} Axe Mastery when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Axe Mastery when you Kill an Enemy": [
         "196,128"
     ],
-    "{}% Chance to cast level {} Mace Mastery when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Mace Mastery when you Kill an Enemy": [
         "196,129"
     ],
-    "{}% Chance to cast level {} Howl when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Howl when you Kill an Enemy": [
         "196,130"
     ],
-    "{}% Chance to cast level {} Find Potion when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Find Potion when you Kill an Enemy": [
         "196,131"
     ],
-    "{}% Chance to cast level {} Leap when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Leap when you Kill an Enemy": [
         "196,132"
     ],
-    "{}% Chance to cast level {} Double Swing when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Double Swing when you Kill an Enemy": [
         "196,133"
     ],
-    "{}% Chance to cast level {} Polearm Mastery when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Polearm Mastery when you Kill an Enemy": [
         "196,134"
     ],
-    "{}% Chance to cast level {} Throwing Mastery when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Throwing Mastery when you Kill an Enemy": [
         "196,135"
     ],
-    "{}% Chance to cast level {} Spear Mastery when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Spear Mastery when you Kill an Enemy": [
         "196,136"
     ],
-    "{}% Chance to cast level {} Taunt when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Taunt when you Kill an Enemy": [
         "196,137"
     ],
-    "{}% Chance to cast level {} Shout when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Shout when you Kill an Enemy": [
         "196,138"
     ],
-    "{}% Chance to cast level {} Stun when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Stun when you Kill an Enemy": [
         "196,139"
     ],
-    "{}% Chance to cast level {} Double Throw when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Double Throw when you Kill an Enemy": [
         "196,140"
     ],
-    "{}% Chance to cast level {} Increased Stamina when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Increased Stamina when you Kill an Enemy": [
         "196,141"
     ],
-    "{}% Chance to cast level {} Find Item when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Find Item when you Kill an Enemy": [
         "196,142"
     ],
-    "{}% Chance to cast level {} Leap Attack when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Leap Attack when you Kill an Enemy": [
         "196,143"
     ],
-    "{}% Chance to cast level {} Concentrate when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Concentrate when you Kill an Enemy": [
         "196,144"
     ],
-    "{}% Chance to cast level {} Iron Skin when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Iron Skin when you Kill an Enemy": [
         "196,145"
     ],
-    "{}% Chance to cast level {} Battle Cry when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Battle Cry when you Kill an Enemy": [
         "196,146"
     ],
-    "{}% Chance to cast level {} Frenzy when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Frenzy when you Kill an Enemy": [
         "196,147"
     ],
-    "{}% Chance to cast level {} Increased Speed when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Increased Speed when you Kill an Enemy": [
         "196,148"
     ],
-    "{}% Chance to cast level {} Battle Orders when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Battle Orders when you Kill an Enemy": [
         "196,149"
     ],
-    "{}% Chance to cast level {} Grim Ward when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Grim Ward when you Kill an Enemy": [
         "196,150"
     ],
-    "{}% Chance to cast level {} Whirlwind when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Whirlwind when you Kill an Enemy": [
         "196,151"
     ],
-    "{}% Chance to cast level {} Berserk when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Berserk when you Kill an Enemy": [
         "196,152"
     ],
-    "{}% Chance to cast level {} Natural Resistance when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Natural Resistance when you Kill an Enemy": [
         "196,153"
     ],
-    "{}% Chance to cast level {} War Cry when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} War Cry when you Kill an Enemy": [
         "196,154"
     ],
-    "{}% Chance to cast level {} Battle Command when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Battle Command when you Kill an Enemy": [
         "196,155"
     ],
-    "{}% Chance to cast level {} Raven when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Raven when you Kill an Enemy": [
         "196,221"
     ],
-    "{}% Chance to cast level {} Poison Creeper when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Poison Creeper when you Kill an Enemy": [
         "196,222"
     ],
-    "{}% Chance to cast level {} Werewolf when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Werewolf when you Kill an Enemy": [
         "196,223"
     ],
-    "{}% Chance to cast level {} Lycanthropy when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Lycanthropy when you Kill an Enemy": [
         "196,224"
     ],
-    "{}% Chance to cast level {} Firestorm when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Firestorm when you Kill an Enemy": [
         "196,225"
     ],
-    "{}% Chance to cast level {} Oak Sage when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Oak Sage when you Kill an Enemy": [
         "196,226"
     ],
-    "{}% Chance to cast level {} Summon Spirit Wolf when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Summon Spirit Wolf when you Kill an Enemy": [
         "196,227"
     ],
-    "{}% Chance to cast level {} Werebear when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Werebear when you Kill an Enemy": [
         "196,228"
     ],
-    "{}% Chance to cast level {} Molten Boulder when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Molten Boulder when you Kill an Enemy": [
         "196,229"
     ],
-    "{}% Chance to cast level {} Arctic Blast when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Arctic Blast when you Kill an Enemy": [
         "196,230"
     ],
-    "{}% Chance to cast level {} Carrion Vine when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Carrion Vine when you Kill an Enemy": [
         "196,231"
     ],
-    "{}% Chance to cast level {} Feral Rage when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Feral Rage when you Kill an Enemy": [
         "196,232"
     ],
-    "{}% Chance to cast level {} Maul when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Maul when you Kill an Enemy": [
         "196,233"
     ],
-    "{}% Chance to cast level {} Fissure when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Fissure when you Kill an Enemy": [
         "196,234"
     ],
-    "{}% Chance to cast level {} Cyclone Armor when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Cyclone Armor when you Kill an Enemy": [
         "196,235"
     ],
-    "{}% Chance to cast level {} Heart of Wolverine when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Heart of Wolverine when you Kill an Enemy": [
         "196,236"
     ],
-    "{}% Chance to cast level {} Summon Dire Wolf when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Summon Dire Wolf when you Kill an Enemy": [
         "196,237"
     ],
-    "{}% Chance to cast level {} Rabies when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Rabies when you Kill an Enemy": [
         "196,238"
     ],
-    "{}% Chance to cast level {} Fire Claws when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Fire Claws when you Kill an Enemy": [
         "196,239"
     ],
-    "{}% Chance to cast level {} Twister when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Twister when you Kill an Enemy": [
         "196,240"
     ],
-    "{}% Chance to cast level {} Solar Creeper when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Solar Creeper when you Kill an Enemy": [
         "196,241"
     ],
-    "{}% Chance to cast level {} Hunger when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Hunger when you Kill an Enemy": [
         "196,242"
     ],
-    "{}% Chance to cast level {} Shock Wave when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Shock Wave when you Kill an Enemy": [
         "196,243"
     ],
-    "{}% Chance to cast level {} Volcano when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Volcano when you Kill an Enemy": [
         "196,244"
     ],
-    "{}% Chance to cast level {} Tornado when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Tornado when you Kill an Enemy": [
         "196,245"
     ],
-    "{}% Chance to cast level {} Spirit of Barbs when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Spirit of Barbs when you Kill an Enemy": [
         "196,246"
     ],
-    "{}% Chance to cast level {} Summon Grizzly when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Summon Grizzly when you Kill an Enemy": [
         "196,247"
     ],
-    "{}% Chance to cast level {} Fury when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Fury when you Kill an Enemy": [
         "196,248"
     ],
-    "{}% Chance to cast level {} Armageddon when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Armageddon when you Kill an Enemy": [
         "196,249"
     ],
-    "{}% Chance to cast level {} Hurricane when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Hurricane when you Kill an Enemy": [
         "196,250"
     ],
-    "{}% Chance to cast level {} Fire Blast when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Fire Blast when you Kill an Enemy": [
         "196,251"
     ],
-    "{}% Chance to cast level {} Claw Mastery when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Claw Mastery when you Kill an Enemy": [
         "196,252"
     ],
-    "{}% Chance to cast level {} Psychic Hammer when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Psychic Hammer when you Kill an Enemy": [
         "196,253"
     ],
-    "{}% Chance to cast level {} Tiger Strike when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Tiger Strike when you Kill an Enemy": [
         "196,254"
     ],
-    "{}% Chance to cast level {} Dragon Talon when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Dragon Talon when you Kill an Enemy": [
         "196,255"
     ],
-    "{}% Chance to cast level {} Shock Web when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Shock Web when you Kill an Enemy": [
         "196,256"
     ],
-    "{}% Chance to cast level {} Blade Sentinel when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Blade Sentinel when you Kill an Enemy": [
         "196,257"
     ],
-    "{}% Chance to cast level {} Burst of Speed when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Burst of Speed when you Kill an Enemy": [
         "196,258"
     ],
-    "{}% Chance to cast level {} Fists of Fire when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Fists of Fire when you Kill an Enemy": [
         "196,259"
     ],
-    "{}% Chance to cast level {} Dragon Claw when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Dragon Claw when you Kill an Enemy": [
         "196,260"
     ],
-    "{}% Chance to cast level {} Charged Bolt Sentry when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Charged Bolt Sentry when you Kill an Enemy": [
         "196,261"
     ],
-    "{}% Chance to cast level {} Wake of Fire when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Wake of Fire when you Kill an Enemy": [
         "196,262"
     ],
-    "{}% Chance to cast level {} Weapon Block when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Weapon Block when you Kill an Enemy": [
         "196,263"
     ],
-    "{}% Chance to cast level {} Cloak of Shadows when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Cloak of Shadows when you Kill an Enemy": [
         "196,264"
     ],
-    "{}% Chance to cast level {} Cobra Strike when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Cobra Strike when you Kill an Enemy": [
         "196,265"
     ],
-    "{}% Chance to cast level {} Blade Fury when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Blade Fury when you Kill an Enemy": [
         "196,266"
     ],
-    "{}% Chance to cast level {} Fade when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Fade when you Kill an Enemy": [
         "196,267"
     ],
-    "{}% Chance to cast level {} Shadow Warrior when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Shadow Warrior when you Kill an Enemy": [
         "196,268"
     ],
-    "{}% Chance to cast level {} Claws of Thunder when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Claws of Thunder when you Kill an Enemy": [
         "196,269"
     ],
-    "{}% Chance to cast level {} Dragon Tail when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Dragon Tail when you Kill an Enemy": [
         "196,270"
     ],
-    "{}% Chance to cast level {} Lightning Sentry when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Lightning Sentry when you Kill an Enemy": [
         "196,271"
     ],
-    "{}% Chance to cast level {} Wake of Inferno when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Wake of Inferno when you Kill an Enemy": [
         "196,272"
     ],
-    "{}% Chance to cast level {} Mind Blast when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Mind Blast when you Kill an Enemy": [
         "196,273"
     ],
-    "{}% Chance to cast level {} Blades of Ice when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Blades of Ice when you Kill an Enemy": [
         "196,274"
     ],
-    "{}% Chance to cast level {} Dragon Flight when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Dragon Flight when you Kill an Enemy": [
         "196,275"
     ],
-    "{}% Chance to cast level {} Death Sentry when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Death Sentry when you Kill an Enemy": [
         "196,276"
     ],
-    "{}% Chance to cast level {} Blade Shield when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Blade Shield when you Kill an Enemy": [
         "196,277"
     ],
-    "{}% Chance to cast level {} Venom when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Venom when you Kill an Enemy": [
         "196,278"
     ],
-    "{}% Chance to cast level {} Shadow Master when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Shadow Master when you Kill an Enemy": [
         "196,279"
     ],
-    "{}% Chance to cast level {} Phoenix Strike when you Kill an Enemy": [
+    "{:d}% Chance to cast level {:d} Phoenix Strike when you Kill an Enemy": [
         "196,280"
     ],
-    "{}% Chance to cast level {} Magic Arrow when you Die": [
+    "{:d}% Chance to cast level {:d} Magic Arrow when you Die": [
         "197,6"
     ],
-    "{}% Chance to cast level {} Fire Arrow when you Die": [
+    "{:d}% Chance to cast level {:d} Fire Arrow when you Die": [
         "197,7"
     ],
-    "{}% Chance to cast level {} Inner Sight when you Die": [
+    "{:d}% Chance to cast level {:d} Inner Sight when you Die": [
         "197,8"
     ],
-    "{}% Chance to cast level {} Critical Strike when you Die": [
+    "{:d}% Chance to cast level {:d} Critical Strike when you Die": [
         "197,9"
     ],
-    "{}% Chance to cast level {} Jab when you Die": [
+    "{:d}% Chance to cast level {:d} Jab when you Die": [
         "197,10"
     ],
-    "{}% Chance to cast level {} Cold Arrow when you Die": [
+    "{:d}% Chance to cast level {:d} Cold Arrow when you Die": [
         "197,11"
     ],
-    "{}% Chance to cast level {} Multiple Shot when you Die": [
+    "{:d}% Chance to cast level {:d} Multiple Shot when you Die": [
         "197,12"
     ],
-    "{}% Chance to cast level {} Dodge when you Die": [
+    "{:d}% Chance to cast level {:d} Dodge when you Die": [
         "197,13"
     ],
-    "{}% Chance to cast level {} Power Strike when you Die": [
+    "{:d}% Chance to cast level {:d} Power Strike when you Die": [
         "197,14"
     ],
-    "{}% Chance to cast level {} Poison Javelin when you Die": [
+    "{:d}% Chance to cast level {:d} Poison Javelin when you Die": [
         "197,15"
     ],
-    "{}% Chance to cast level {} Exploding Arrow when you Die": [
+    "{:d}% Chance to cast level {:d} Exploding Arrow when you Die": [
         "197,16"
     ],
-    "{}% Chance to cast level {} Slow Missiles when you Die": [
+    "{:d}% Chance to cast level {:d} Slow Missiles when you Die": [
         "197,17"
     ],
-    "{}% Chance to cast level {} Avoid when you Die": [
+    "{:d}% Chance to cast level {:d} Avoid when you Die": [
         "197,18"
     ],
-    "{}% Chance to cast level {} Impale when you Die": [
+    "{:d}% Chance to cast level {:d} Impale when you Die": [
         "197,19"
     ],
-    "{}% Chance to cast level {} Lightning Bolt when you Die": [
+    "{:d}% Chance to cast level {:d} Lightning Bolt when you Die": [
         "197,20"
     ],
-    "{}% Chance to cast level {} Ice Arrow when you Die": [
+    "{:d}% Chance to cast level {:d} Ice Arrow when you Die": [
         "197,21"
     ],
-    "{}% Chance to cast level {} Guided Arrow when you Die": [
+    "{:d}% Chance to cast level {:d} Guided Arrow when you Die": [
         "197,22"
     ],
-    "{}% Chance to cast level {} Penetrate when you Die": [
+    "{:d}% Chance to cast level {:d} Penetrate when you Die": [
         "197,23"
     ],
-    "{}% Chance to cast level {} Charged Strike when you Die": [
+    "{:d}% Chance to cast level {:d} Charged Strike when you Die": [
         "197,24"
     ],
-    "{}% Chance to cast level {} Plague Javelin when you Die": [
+    "{:d}% Chance to cast level {:d} Plague Javelin when you Die": [
         "197,25"
     ],
-    "{}% Chance to cast level {} Strafe when you Die": [
+    "{:d}% Chance to cast level {:d} Strafe when you Die": [
         "197,26"
     ],
-    "{}% Chance to cast level {} Immolation Arrow when you Die": [
+    "{:d}% Chance to cast level {:d} Immolation Arrow when you Die": [
         "197,27"
     ],
-    "{}% Chance to cast level {} Decoy when you Die": [
+    "{:d}% Chance to cast level {:d} Decoy when you Die": [
         "197,28"
     ],
-    "{}% Chance to cast level {} Evade when you Die": [
+    "{:d}% Chance to cast level {:d} Evade when you Die": [
         "197,29"
     ],
-    "{}% Chance to cast level {} Fend when you Die": [
+    "{:d}% Chance to cast level {:d} Fend when you Die": [
         "197,30"
     ],
-    "{}% Chance to cast level {} Freezing Arrow when you Die": [
+    "{:d}% Chance to cast level {:d} Freezing Arrow when you Die": [
         "197,31"
     ],
-    "{}% Chance to cast level {} Valkyrie when you Die": [
+    "{:d}% Chance to cast level {:d} Valkyrie when you Die": [
         "197,32"
     ],
-    "{}% Chance to cast level {} Pierce when you Die": [
+    "{:d}% Chance to cast level {:d} Pierce when you Die": [
         "197,33"
     ],
-    "{}% Chance to cast level {} Lightning Strike when you Die": [
+    "{:d}% Chance to cast level {:d} Lightning Strike when you Die": [
         "197,34"
     ],
-    "{}% Chance to cast level {} Lightning Fury when you Die": [
+    "{:d}% Chance to cast level {:d} Lightning Fury when you Die": [
         "197,35"
     ],
-    "{}% Chance to cast level {} Fire Bolt when you Die": [
+    "{:d}% Chance to cast level {:d} Fire Bolt when you Die": [
         "197,36"
     ],
-    "{}% Chance to cast level {} Warmth when you Die": [
+    "{:d}% Chance to cast level {:d} Warmth when you Die": [
         "197,37"
     ],
-    "{}% Chance to cast level {} Charged Bolt when you Die": [
+    "{:d}% Chance to cast level {:d} Charged Bolt when you Die": [
         "197,38"
     ],
-    "{}% Chance to cast level {} Ice Bolt when you Die": [
+    "{:d}% Chance to cast level {:d} Ice Bolt when you Die": [
         "197,39"
     ],
-    "{}% Chance to cast level {} Frozen Armor when you Die": [
+    "{:d}% Chance to cast level {:d} Frozen Armor when you Die": [
         "197,40"
     ],
-    "{}% Chance to cast level {} Inferno when you Die": [
+    "{:d}% Chance to cast level {:d} Inferno when you Die": [
         "197,41"
     ],
-    "{}% Chance to cast level {} Static Field when you Die": [
+    "{:d}% Chance to cast level {:d} Static Field when you Die": [
         "197,42"
     ],
-    "{}% Chance to cast level {} Telekinesis when you Die": [
+    "{:d}% Chance to cast level {:d} Telekinesis when you Die": [
         "197,43"
     ],
-    "{}% Chance to cast level {} Frost Nova when you Die": [
+    "{:d}% Chance to cast level {:d} Frost Nova when you Die": [
         "197,44"
     ],
-    "{}% Chance to cast level {} Ice Blast when you Die": [
+    "{:d}% Chance to cast level {:d} Ice Blast when you Die": [
         "197,45"
     ],
-    "{}% Chance to cast level {} Blaze when you Die": [
+    "{:d}% Chance to cast level {:d} Blaze when you Die": [
         "197,46"
     ],
-    "{}% Chance to cast level {} Fire Ball when you Die": [
+    "{:d}% Chance to cast level {:d} Fire Ball when you Die": [
         "197,47"
     ],
-    "{}% Chance to cast level {} Nova when you Die": [
+    "{:d}% Chance to cast level {:d} Nova when you Die": [
         "197,48"
     ],
-    "{}% Chance to cast level {} Lightning when you Die": [
+    "{:d}% Chance to cast level {:d} Lightning when you Die": [
         "197,49"
     ],
-    "{}% Chance to cast level {} Shiver Armor when you Die": [
+    "{:d}% Chance to cast level {:d} Shiver Armor when you Die": [
         "197,50"
     ],
-    "{}% Chance to cast level {} Fire Wall when you Die": [
+    "{:d}% Chance to cast level {:d} Fire Wall when you Die": [
         "197,51"
     ],
-    "{}% Chance to cast level {} Enchant when you Die": [
+    "{:d}% Chance to cast level {:d} Enchant when you Die": [
         "197,52"
     ],
-    "{}% Chance to cast level {} Chain Lightning when you Die": [
+    "{:d}% Chance to cast level {:d} Chain Lightning when you Die": [
         "197,53"
     ],
-    "{}% Chance to cast level {} Teleport when you Die": [
+    "{:d}% Chance to cast level {:d} Teleport when you Die": [
         "197,54"
     ],
-    "{}% Chance to cast level {} Glacial Spike when you Die": [
+    "{:d}% Chance to cast level {:d} Glacial Spike when you Die": [
         "197,55"
     ],
-    "{}% Chance to cast level {} Meteor when you Die": [
+    "{:d}% Chance to cast level {:d} Meteor when you Die": [
         "197,56"
     ],
-    "{}% Chance to cast level {} Thunder Storm when you Die": [
+    "{:d}% Chance to cast level {:d} Thunder Storm when you Die": [
         "197,57"
     ],
-    "{}% Chance to cast level {} Energy Shield when you Die": [
+    "{:d}% Chance to cast level {:d} Energy Shield when you Die": [
         "197,58"
     ],
-    "{}% Chance to cast level {} Blizzard when you Die": [
+    "{:d}% Chance to cast level {:d} Blizzard when you Die": [
         "197,59"
     ],
-    "{}% Chance to cast level {} Chilling Armor when you Die": [
+    "{:d}% Chance to cast level {:d} Chilling Armor when you Die": [
         "197,60"
     ],
-    "{}% Chance to cast level {} Fire Mastery when you Die": [
+    "{:d}% Chance to cast level {:d} Fire Mastery when you Die": [
         "197,61"
     ],
-    "{}% Chance to cast level {} Hydra when you Die": [
+    "{:d}% Chance to cast level {:d} Hydra when you Die": [
         "197,62"
     ],
-    "{}% Chance to cast level {} Lightning Mastery when you Die": [
+    "{:d}% Chance to cast level {:d} Lightning Mastery when you Die": [
         "197,63"
     ],
-    "{}% Chance to cast level {} Frozen Orb when you Die": [
+    "{:d}% Chance to cast level {:d} Frozen Orb when you Die": [
         "197,64"
     ],
-    "{}% Chance to cast level {} Cold Mastery when you Die": [
+    "{:d}% Chance to cast level {:d} Cold Mastery when you Die": [
         "197,65"
     ],
-    "{}% Chance to cast level {} Amplify Damage when you Die": [
+    "{:d}% Chance to cast level {:d} Amplify Damage when you Die": [
         "197,66"
     ],
-    "{}% Chance to cast level {} Teeth when you Die": [
+    "{:d}% Chance to cast level {:d} Teeth when you Die": [
         "197,67"
     ],
-    "{}% Chance to cast level {} Bone Armor when you Die": [
+    "{:d}% Chance to cast level {:d} Bone Armor when you Die": [
         "197,68"
     ],
-    "{}% Chance to cast level {} Skeleton Mastery when you Die": [
+    "{:d}% Chance to cast level {:d} Skeleton Mastery when you Die": [
         "197,69"
     ],
-    "{}% Chance to cast level {} Raise Skeleton when you Die": [
+    "{:d}% Chance to cast level {:d} Raise Skeleton when you Die": [
         "197,70"
     ],
-    "{}% Chance to cast level {} Dim Vision when you Die": [
+    "{:d}% Chance to cast level {:d} Dim Vision when you Die": [
         "197,71"
     ],
-    "{}% Chance to cast level {} Weaken when you Die": [
+    "{:d}% Chance to cast level {:d} Weaken when you Die": [
         "197,72"
     ],
-    "{}% Chance to cast level {} Poison Dagger when you Die": [
+    "{:d}% Chance to cast level {:d} Poison Dagger when you Die": [
         "197,73"
     ],
-    "{}% Chance to cast level {} Corpse Explosion when you Die": [
+    "{:d}% Chance to cast level {:d} Corpse Explosion when you Die": [
         "197,74"
     ],
-    "{}% Chance to cast level {} Clay Golem when you Die": [
+    "{:d}% Chance to cast level {:d} Clay Golem when you Die": [
         "197,75"
     ],
-    "{}% Chance to cast level {} Iron Maiden when you Die": [
+    "{:d}% Chance to cast level {:d} Iron Maiden when you Die": [
         "197,76"
     ],
-    "{}% Chance to cast level {} Terror when you Die": [
+    "{:d}% Chance to cast level {:d} Terror when you Die": [
         "197,77"
     ],
-    "{}% Chance to cast level {} Bone Wall when you Die": [
+    "{:d}% Chance to cast level {:d} Bone Wall when you Die": [
         "197,78"
     ],
-    "{}% Chance to cast level {} Golem Mastery when you Die": [
+    "{:d}% Chance to cast level {:d} Golem Mastery when you Die": [
         "197,79"
     ],
-    "{}% Chance to cast level {} Raise Skeletal Mage when you Die": [
+    "{:d}% Chance to cast level {:d} Raise Skeletal Mage when you Die": [
         "197,80"
     ],
-    "{}% Chance to cast level {} Confuse when you Die": [
+    "{:d}% Chance to cast level {:d} Confuse when you Die": [
         "197,81"
     ],
-    "{}% Chance to cast level {} Life Tap when you Die": [
+    "{:d}% Chance to cast level {:d} Life Tap when you Die": [
         "197,82"
     ],
-    "{}% Chance to cast level {} Poison Explosion when you Die": [
+    "{:d}% Chance to cast level {:d} Poison Explosion when you Die": [
         "197,83"
     ],
-    "{}% Chance to cast level {} Bone Spear when you Die": [
+    "{:d}% Chance to cast level {:d} Bone Spear when you Die": [
         "197,84"
     ],
-    "{}% Chance to cast level {} Blood Golem when you Die": [
+    "{:d}% Chance to cast level {:d} Blood Golem when you Die": [
         "197,85"
     ],
-    "{}% Chance to cast level {} Attract when you Die": [
+    "{:d}% Chance to cast level {:d} Attract when you Die": [
         "197,86"
     ],
-    "{}% Chance to cast level {} Decrepify when you Die": [
+    "{:d}% Chance to cast level {:d} Decrepify when you Die": [
         "197,87"
     ],
-    "{}% Chance to cast level {} Bone Prison when you Die": [
+    "{:d}% Chance to cast level {:d} Bone Prison when you Die": [
         "197,88"
     ],
-    "{}% Chance to cast level {} Summon Resist when you Die": [
+    "{:d}% Chance to cast level {:d} Summon Resist when you Die": [
         "197,89"
     ],
-    "{}% Chance to cast level {} Iron Golem when you Die": [
+    "{:d}% Chance to cast level {:d} Iron Golem when you Die": [
         "197,90"
     ],
-    "{}% Chance to cast level {} Lower Resist when you Die": [
+    "{:d}% Chance to cast level {:d} Lower Resist when you Die": [
         "197,91"
     ],
-    "{}% Chance to cast level {} Poison Nova when you Die": [
+    "{:d}% Chance to cast level {:d} Poison Nova when you Die": [
         "197,92"
     ],
-    "{}% Chance to cast level {} Bone Spirit when you Die": [
+    "{:d}% Chance to cast level {:d} Bone Spirit when you Die": [
         "197,93"
     ],
-    "{}% Chance to cast level {} Fire Golem when you Die": [
+    "{:d}% Chance to cast level {:d} Fire Golem when you Die": [
         "197,94"
     ],
-    "{}% Chance to cast level {} Revive when you Die": [
+    "{:d}% Chance to cast level {:d} Revive when you Die": [
         "197,95"
     ],
-    "{}% Chance to cast level {} Sacrifice when you Die": [
+    "{:d}% Chance to cast level {:d} Sacrifice when you Die": [
         "197,96"
     ],
-    "{}% Chance to cast level {} Smite when you Die": [
+    "{:d}% Chance to cast level {:d} Smite when you Die": [
         "197,97"
     ],
-    "{}% Chance to cast level {} Might when you Die": [
+    "{:d}% Chance to cast level {:d} Might when you Die": [
         "197,98"
     ],
-    "{}% Chance to cast level {} Prayer when you Die": [
+    "{:d}% Chance to cast level {:d} Prayer when you Die": [
         "197,99"
     ],
-    "{}% Chance to cast level {} Resist Fire when you Die": [
+    "{:d}% Chance to cast level {:d} Resist Fire when you Die": [
         "197,100"
     ],
-    "{}% Chance to cast level {} Holy Bolt when you Die": [
+    "{:d}% Chance to cast level {:d} Holy Bolt when you Die": [
         "197,101"
     ],
-    "{}% Chance to cast level {} Holy Fire when you Die": [
+    "{:d}% Chance to cast level {:d} Holy Fire when you Die": [
         "197,102"
     ],
-    "{}% Chance to cast level {} Thorns when you Die": [
+    "{:d}% Chance to cast level {:d} Thorns when you Die": [
         "197,103"
     ],
-    "{}% Chance to cast level {} Defiance when you Die": [
+    "{:d}% Chance to cast level {:d} Defiance when you Die": [
         "197,104"
     ],
-    "{}% Chance to cast level {} Resist Cold when you Die": [
+    "{:d}% Chance to cast level {:d} Resist Cold when you Die": [
         "197,105"
     ],
-    "{}% Chance to cast level {} Zeal when you Die": [
+    "{:d}% Chance to cast level {:d} Zeal when you Die": [
         "197,106"
     ],
-    "{}% Chance to cast level {} Charge when you Die": [
+    "{:d}% Chance to cast level {:d} Charge when you Die": [
         "197,107"
     ],
-    "{}% Chance to cast level {} Blessed Aim when you Die": [
+    "{:d}% Chance to cast level {:d} Blessed Aim when you Die": [
         "197,108"
     ],
-    "{}% Chance to cast level {} Cleansing when you Die": [
+    "{:d}% Chance to cast level {:d} Cleansing when you Die": [
         "197,109"
     ],
-    "{}% Chance to cast level {} Resist Lightning when you Die": [
+    "{:d}% Chance to cast level {:d} Resist Lightning when you Die": [
         "197,110"
     ],
-    "{}% Chance to cast level {} Vengeance when you Die": [
+    "{:d}% Chance to cast level {:d} Vengeance when you Die": [
         "197,111"
     ],
-    "{}% Chance to cast level {} Blessed Hammer when you Die": [
+    "{:d}% Chance to cast level {:d} Blessed Hammer when you Die": [
         "197,112"
     ],
-    "{}% Chance to cast level {} Concentration when you Die": [
+    "{:d}% Chance to cast level {:d} Concentration when you Die": [
         "197,113"
     ],
-    "{}% Chance to cast level {} Holy Freeze when you Die": [
+    "{:d}% Chance to cast level {:d} Holy Freeze when you Die": [
         "197,114"
     ],
-    "{}% Chance to cast level {} Vigor when you Die": [
+    "{:d}% Chance to cast level {:d} Vigor when you Die": [
         "197,115"
     ],
-    "{}% Chance to cast level {} Conversion when you Die": [
+    "{:d}% Chance to cast level {:d} Conversion when you Die": [
         "197,116"
     ],
-    "{}% Chance to cast level {} Holy Shield when you Die": [
+    "{:d}% Chance to cast level {:d} Holy Shield when you Die": [
         "197,117"
     ],
-    "{}% Chance to cast level {} Holy Shock when you Die": [
+    "{:d}% Chance to cast level {:d} Holy Shock when you Die": [
         "197,118"
     ],
-    "{}% Chance to cast level {} Sanctuary when you Die": [
+    "{:d}% Chance to cast level {:d} Sanctuary when you Die": [
         "197,119"
     ],
-    "{}% Chance to cast level {} Meditation when you Die": [
+    "{:d}% Chance to cast level {:d} Meditation when you Die": [
         "197,120"
     ],
-    "{}% Chance to cast level {} Fist of the Heavens when you Die": [
+    "{:d}% Chance to cast level {:d} Fist of the Heavens when you Die": [
         "197,121"
     ],
-    "{}% Chance to cast level {} Fanaticism when you Die": [
+    "{:d}% Chance to cast level {:d} Fanaticism when you Die": [
         "197,122"
     ],
-    "{}% Chance to cast level {} Conviction when you Die": [
+    "{:d}% Chance to cast level {:d} Conviction when you Die": [
         "197,123"
     ],
-    "{}% Chance to cast level {} Redemption when you Die": [
+    "{:d}% Chance to cast level {:d} Redemption when you Die": [
         "197,124"
     ],
-    "{}% Chance to cast level {} Salvation when you Die": [
+    "{:d}% Chance to cast level {:d} Salvation when you Die": [
         "197,125"
     ],
-    "{}% Chance to cast level {} Bash when you Die": [
+    "{:d}% Chance to cast level {:d} Bash when you Die": [
         "197,126"
     ],
-    "{}% Chance to cast level {} Blade Mastery when you Die": [
+    "{:d}% Chance to cast level {:d} Blade Mastery when you Die": [
         "197,127"
     ],
-    "{}% Chance to cast level {} Axe Mastery when you Die": [
+    "{:d}% Chance to cast level {:d} Axe Mastery when you Die": [
         "197,128"
     ],
-    "{}% Chance to cast level {} Mace Mastery when you Die": [
+    "{:d}% Chance to cast level {:d} Mace Mastery when you Die": [
         "197,129"
     ],
-    "{}% Chance to cast level {} Howl when you Die": [
+    "{:d}% Chance to cast level {:d} Howl when you Die": [
         "197,130"
     ],
-    "{}% Chance to cast level {} Find Potion when you Die": [
+    "{:d}% Chance to cast level {:d} Find Potion when you Die": [
         "197,131"
     ],
-    "{}% Chance to cast level {} Leap when you Die": [
+    "{:d}% Chance to cast level {:d} Leap when you Die": [
         "197,132"
     ],
-    "{}% Chance to cast level {} Double Swing when you Die": [
+    "{:d}% Chance to cast level {:d} Double Swing when you Die": [
         "197,133"
     ],
-    "{}% Chance to cast level {} Polearm Mastery when you Die": [
+    "{:d}% Chance to cast level {:d} Polearm Mastery when you Die": [
         "197,134"
     ],
-    "{}% Chance to cast level {} Throwing Mastery when you Die": [
+    "{:d}% Chance to cast level {:d} Throwing Mastery when you Die": [
         "197,135"
     ],
-    "{}% Chance to cast level {} Spear Mastery when you Die": [
+    "{:d}% Chance to cast level {:d} Spear Mastery when you Die": [
         "197,136"
     ],
-    "{}% Chance to cast level {} Taunt when you Die": [
+    "{:d}% Chance to cast level {:d} Taunt when you Die": [
         "197,137"
     ],
-    "{}% Chance to cast level {} Shout when you Die": [
+    "{:d}% Chance to cast level {:d} Shout when you Die": [
         "197,138"
     ],
-    "{}% Chance to cast level {} Stun when you Die": [
+    "{:d}% Chance to cast level {:d} Stun when you Die": [
         "197,139"
     ],
-    "{}% Chance to cast level {} Double Throw when you Die": [
+    "{:d}% Chance to cast level {:d} Double Throw when you Die": [
         "197,140"
     ],
-    "{}% Chance to cast level {} Increased Stamina when you Die": [
+    "{:d}% Chance to cast level {:d} Increased Stamina when you Die": [
         "197,141"
     ],
-    "{}% Chance to cast level {} Find Item when you Die": [
+    "{:d}% Chance to cast level {:d} Find Item when you Die": [
         "197,142"
     ],
-    "{}% Chance to cast level {} Leap Attack when you Die": [
+    "{:d}% Chance to cast level {:d} Leap Attack when you Die": [
         "197,143"
     ],
-    "{}% Chance to cast level {} Concentrate when you Die": [
+    "{:d}% Chance to cast level {:d} Concentrate when you Die": [
         "197,144"
     ],
-    "{}% Chance to cast level {} Iron Skin when you Die": [
+    "{:d}% Chance to cast level {:d} Iron Skin when you Die": [
         "197,145"
     ],
-    "{}% Chance to cast level {} Battle Cry when you Die": [
+    "{:d}% Chance to cast level {:d} Battle Cry when you Die": [
         "197,146"
     ],
-    "{}% Chance to cast level {} Frenzy when you Die": [
+    "{:d}% Chance to cast level {:d} Frenzy when you Die": [
         "197,147"
     ],
-    "{}% Chance to cast level {} Increased Speed when you Die": [
+    "{:d}% Chance to cast level {:d} Increased Speed when you Die": [
         "197,148"
     ],
-    "{}% Chance to cast level {} Battle Orders when you Die": [
+    "{:d}% Chance to cast level {:d} Battle Orders when you Die": [
         "197,149"
     ],
-    "{}% Chance to cast level {} Grim Ward when you Die": [
+    "{:d}% Chance to cast level {:d} Grim Ward when you Die": [
         "197,150"
     ],
-    "{}% Chance to cast level {} Whirlwind when you Die": [
+    "{:d}% Chance to cast level {:d} Whirlwind when you Die": [
         "197,151"
     ],
-    "{}% Chance to cast level {} Berserk when you Die": [
+    "{:d}% Chance to cast level {:d} Berserk when you Die": [
         "197,152"
     ],
-    "{}% Chance to cast level {} Natural Resistance when you Die": [
+    "{:d}% Chance to cast level {:d} Natural Resistance when you Die": [
         "197,153"
     ],
-    "{}% Chance to cast level {} War Cry when you Die": [
+    "{:d}% Chance to cast level {:d} War Cry when you Die": [
         "197,154"
     ],
-    "{}% Chance to cast level {} Battle Command when you Die": [
+    "{:d}% Chance to cast level {:d} Battle Command when you Die": [
         "197,155"
     ],
-    "{}% Chance to cast level {} Raven when you Die": [
+    "{:d}% Chance to cast level {:d} Raven when you Die": [
         "197,221"
     ],
-    "{}% Chance to cast level {} Poison Creeper when you Die": [
+    "{:d}% Chance to cast level {:d} Poison Creeper when you Die": [
         "197,222"
     ],
-    "{}% Chance to cast level {} Werewolf when you Die": [
+    "{:d}% Chance to cast level {:d} Werewolf when you Die": [
         "197,223"
     ],
-    "{}% Chance to cast level {} Lycanthropy when you Die": [
+    "{:d}% Chance to cast level {:d} Lycanthropy when you Die": [
         "197,224"
     ],
-    "{}% Chance to cast level {} Firestorm when you Die": [
+    "{:d}% Chance to cast level {:d} Firestorm when you Die": [
         "197,225"
     ],
-    "{}% Chance to cast level {} Oak Sage when you Die": [
+    "{:d}% Chance to cast level {:d} Oak Sage when you Die": [
         "197,226"
     ],
-    "{}% Chance to cast level {} Summon Spirit Wolf when you Die": [
+    "{:d}% Chance to cast level {:d} Summon Spirit Wolf when you Die": [
         "197,227"
     ],
-    "{}% Chance to cast level {} Werebear when you Die": [
+    "{:d}% Chance to cast level {:d} Werebear when you Die": [
         "197,228"
     ],
-    "{}% Chance to cast level {} Molten Boulder when you Die": [
+    "{:d}% Chance to cast level {:d} Molten Boulder when you Die": [
         "197,229"
     ],
-    "{}% Chance to cast level {} Arctic Blast when you Die": [
+    "{:d}% Chance to cast level {:d} Arctic Blast when you Die": [
         "197,230"
     ],
-    "{}% Chance to cast level {} Carrion Vine when you Die": [
+    "{:d}% Chance to cast level {:d} Carrion Vine when you Die": [
         "197,231"
     ],
-    "{}% Chance to cast level {} Feral Rage when you Die": [
+    "{:d}% Chance to cast level {:d} Feral Rage when you Die": [
         "197,232"
     ],
-    "{}% Chance to cast level {} Maul when you Die": [
+    "{:d}% Chance to cast level {:d} Maul when you Die": [
         "197,233"
     ],
-    "{}% Chance to cast level {} Fissure when you Die": [
+    "{:d}% Chance to cast level {:d} Fissure when you Die": [
         "197,234"
     ],
-    "{}% Chance to cast level {} Cyclone Armor when you Die": [
+    "{:d}% Chance to cast level {:d} Cyclone Armor when you Die": [
         "197,235"
     ],
-    "{}% Chance to cast level {} Heart of Wolverine when you Die": [
+    "{:d}% Chance to cast level {:d} Heart of Wolverine when you Die": [
         "197,236"
     ],
-    "{}% Chance to cast level {} Summon Dire Wolf when you Die": [
+    "{:d}% Chance to cast level {:d} Summon Dire Wolf when you Die": [
         "197,237"
     ],
-    "{}% Chance to cast level {} Rabies when you Die": [
+    "{:d}% Chance to cast level {:d} Rabies when you Die": [
         "197,238"
     ],
-    "{}% Chance to cast level {} Fire Claws when you Die": [
+    "{:d}% Chance to cast level {:d} Fire Claws when you Die": [
         "197,239"
     ],
-    "{}% Chance to cast level {} Twister when you Die": [
+    "{:d}% Chance to cast level {:d} Twister when you Die": [
         "197,240"
     ],
-    "{}% Chance to cast level {} Solar Creeper when you Die": [
+    "{:d}% Chance to cast level {:d} Solar Creeper when you Die": [
         "197,241"
     ],
-    "{}% Chance to cast level {} Hunger when you Die": [
+    "{:d}% Chance to cast level {:d} Hunger when you Die": [
         "197,242"
     ],
-    "{}% Chance to cast level {} Shock Wave when you Die": [
+    "{:d}% Chance to cast level {:d} Shock Wave when you Die": [
         "197,243"
     ],
-    "{}% Chance to cast level {} Volcano when you Die": [
+    "{:d}% Chance to cast level {:d} Volcano when you Die": [
         "197,244"
     ],
-    "{}% Chance to cast level {} Tornado when you Die": [
+    "{:d}% Chance to cast level {:d} Tornado when you Die": [
         "197,245"
     ],
-    "{}% Chance to cast level {} Spirit of Barbs when you Die": [
+    "{:d}% Chance to cast level {:d} Spirit of Barbs when you Die": [
         "197,246"
     ],
-    "{}% Chance to cast level {} Summon Grizzly when you Die": [
+    "{:d}% Chance to cast level {:d} Summon Grizzly when you Die": [
         "197,247"
     ],
-    "{}% Chance to cast level {} Fury when you Die": [
+    "{:d}% Chance to cast level {:d} Fury when you Die": [
         "197,248"
     ],
-    "{}% Chance to cast level {} Armageddon when you Die": [
+    "{:d}% Chance to cast level {:d} Armageddon when you Die": [
         "197,249"
     ],
-    "{}% Chance to cast level {} Hurricane when you Die": [
+    "{:d}% Chance to cast level {:d} Hurricane when you Die": [
         "197,250"
     ],
-    "{}% Chance to cast level {} Fire Blast when you Die": [
+    "{:d}% Chance to cast level {:d} Fire Blast when you Die": [
         "197,251"
     ],
-    "{}% Chance to cast level {} Claw Mastery when you Die": [
+    "{:d}% Chance to cast level {:d} Claw Mastery when you Die": [
         "197,252"
     ],
-    "{}% Chance to cast level {} Psychic Hammer when you Die": [
+    "{:d}% Chance to cast level {:d} Psychic Hammer when you Die": [
         "197,253"
     ],
-    "{}% Chance to cast level {} Tiger Strike when you Die": [
+    "{:d}% Chance to cast level {:d} Tiger Strike when you Die": [
         "197,254"
     ],
-    "{}% Chance to cast level {} Dragon Talon when you Die": [
+    "{:d}% Chance to cast level {:d} Dragon Talon when you Die": [
         "197,255"
     ],
-    "{}% Chance to cast level {} Shock Web when you Die": [
+    "{:d}% Chance to cast level {:d} Shock Web when you Die": [
         "197,256"
     ],
-    "{}% Chance to cast level {} Blade Sentinel when you Die": [
+    "{:d}% Chance to cast level {:d} Blade Sentinel when you Die": [
         "197,257"
     ],
-    "{}% Chance to cast level {} Burst of Speed when you Die": [
+    "{:d}% Chance to cast level {:d} Burst of Speed when you Die": [
         "197,258"
     ],
-    "{}% Chance to cast level {} Fists of Fire when you Die": [
+    "{:d}% Chance to cast level {:d} Fists of Fire when you Die": [
         "197,259"
     ],
-    "{}% Chance to cast level {} Dragon Claw when you Die": [
+    "{:d}% Chance to cast level {:d} Dragon Claw when you Die": [
         "197,260"
     ],
-    "{}% Chance to cast level {} Charged Bolt Sentry when you Die": [
+    "{:d}% Chance to cast level {:d} Charged Bolt Sentry when you Die": [
         "197,261"
     ],
-    "{}% Chance to cast level {} Wake of Fire when you Die": [
+    "{:d}% Chance to cast level {:d} Wake of Fire when you Die": [
         "197,262"
     ],
-    "{}% Chance to cast level {} Weapon Block when you Die": [
+    "{:d}% Chance to cast level {:d} Weapon Block when you Die": [
         "197,263"
     ],
-    "{}% Chance to cast level {} Cloak of Shadows when you Die": [
+    "{:d}% Chance to cast level {:d} Cloak of Shadows when you Die": [
         "197,264"
     ],
-    "{}% Chance to cast level {} Cobra Strike when you Die": [
+    "{:d}% Chance to cast level {:d} Cobra Strike when you Die": [
         "197,265"
     ],
-    "{}% Chance to cast level {} Blade Fury when you Die": [
+    "{:d}% Chance to cast level {:d} Blade Fury when you Die": [
         "197,266"
     ],
-    "{}% Chance to cast level {} Fade when you Die": [
+    "{:d}% Chance to cast level {:d} Fade when you Die": [
         "197,267"
     ],
-    "{}% Chance to cast level {} Shadow Warrior when you Die": [
+    "{:d}% Chance to cast level {:d} Shadow Warrior when you Die": [
         "197,268"
     ],
-    "{}% Chance to cast level {} Claws of Thunder when you Die": [
+    "{:d}% Chance to cast level {:d} Claws of Thunder when you Die": [
         "197,269"
     ],
-    "{}% Chance to cast level {} Dragon Tail when you Die": [
+    "{:d}% Chance to cast level {:d} Dragon Tail when you Die": [
         "197,270"
     ],
-    "{}% Chance to cast level {} Lightning Sentry when you Die": [
+    "{:d}% Chance to cast level {:d} Lightning Sentry when you Die": [
         "197,271"
     ],
-    "{}% Chance to cast level {} Wake of Inferno when you Die": [
+    "{:d}% Chance to cast level {:d} Wake of Inferno when you Die": [
         "197,272"
     ],
-    "{}% Chance to cast level {} Mind Blast when you Die": [
+    "{:d}% Chance to cast level {:d} Mind Blast when you Die": [
         "197,273"
     ],
-    "{}% Chance to cast level {} Blades of Ice when you Die": [
+    "{:d}% Chance to cast level {:d} Blades of Ice when you Die": [
         "197,274"
     ],
-    "{}% Chance to cast level {} Dragon Flight when you Die": [
+    "{:d}% Chance to cast level {:d} Dragon Flight when you Die": [
         "197,275"
     ],
-    "{}% Chance to cast level {} Death Sentry when you Die": [
+    "{:d}% Chance to cast level {:d} Death Sentry when you Die": [
         "197,276"
     ],
-    "{}% Chance to cast level {} Blade Shield when you Die": [
+    "{:d}% Chance to cast level {:d} Blade Shield when you Die": [
         "197,277"
     ],
-    "{}% Chance to cast level {} Venom when you Die": [
+    "{:d}% Chance to cast level {:d} Venom when you Die": [
         "197,278"
     ],
-    "{}% Chance to cast level {} Shadow Master when you Die": [
+    "{:d}% Chance to cast level {:d} Shadow Master when you Die": [
         "197,279"
     ],
-    "{}% Chance to cast level {} Phoenix Strike when you Die": [
+    "{:d}% Chance to cast level {:d} Phoenix Strike when you Die": [
         "197,280"
     ],
-    "{}% Chance to cast level {} Magic Arrow when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Magic Arrow when you Level-Up": [
         "199,6"
     ],
-    "{}% Chance to cast level {} Fire Arrow when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Fire Arrow when you Level-Up": [
         "199,7"
     ],
-    "{}% Chance to cast level {} Inner Sight when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Inner Sight when you Level-Up": [
         "199,8"
     ],
-    "{}% Chance to cast level {} Critical Strike when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Critical Strike when you Level-Up": [
         "199,9"
     ],
-    "{}% Chance to cast level {} Jab when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Jab when you Level-Up": [
         "199,10"
     ],
-    "{}% Chance to cast level {} Cold Arrow when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Cold Arrow when you Level-Up": [
         "199,11"
     ],
-    "{}% Chance to cast level {} Multiple Shot when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Multiple Shot when you Level-Up": [
         "199,12"
     ],
-    "{}% Chance to cast level {} Dodge when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Dodge when you Level-Up": [
         "199,13"
     ],
-    "{}% Chance to cast level {} Power Strike when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Power Strike when you Level-Up": [
         "199,14"
     ],
-    "{}% Chance to cast level {} Poison Javelin when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Poison Javelin when you Level-Up": [
         "199,15"
     ],
-    "{}% Chance to cast level {} Exploding Arrow when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Exploding Arrow when you Level-Up": [
         "199,16"
     ],
-    "{}% Chance to cast level {} Slow Missiles when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Slow Missiles when you Level-Up": [
         "199,17"
     ],
-    "{}% Chance to cast level {} Avoid when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Avoid when you Level-Up": [
         "199,18"
     ],
-    "{}% Chance to cast level {} Impale when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Impale when you Level-Up": [
         "199,19"
     ],
-    "{}% Chance to cast level {} Lightning Bolt when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Lightning Bolt when you Level-Up": [
         "199,20"
     ],
-    "{}% Chance to cast level {} Ice Arrow when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Ice Arrow when you Level-Up": [
         "199,21"
     ],
-    "{}% Chance to cast level {} Guided Arrow when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Guided Arrow when you Level-Up": [
         "199,22"
     ],
-    "{}% Chance to cast level {} Penetrate when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Penetrate when you Level-Up": [
         "199,23"
     ],
-    "{}% Chance to cast level {} Charged Strike when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Charged Strike when you Level-Up": [
         "199,24"
     ],
-    "{}% Chance to cast level {} Plague Javelin when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Plague Javelin when you Level-Up": [
         "199,25"
     ],
-    "{}% Chance to cast level {} Strafe when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Strafe when you Level-Up": [
         "199,26"
     ],
-    "{}% Chance to cast level {} Immolation Arrow when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Immolation Arrow when you Level-Up": [
         "199,27"
     ],
-    "{}% Chance to cast level {} Decoy when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Decoy when you Level-Up": [
         "199,28"
     ],
-    "{}% Chance to cast level {} Evade when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Evade when you Level-Up": [
         "199,29"
     ],
-    "{}% Chance to cast level {} Fend when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Fend when you Level-Up": [
         "199,30"
     ],
-    "{}% Chance to cast level {} Freezing Arrow when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Freezing Arrow when you Level-Up": [
         "199,31"
     ],
-    "{}% Chance to cast level {} Valkyrie when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Valkyrie when you Level-Up": [
         "199,32"
     ],
-    "{}% Chance to cast level {} Pierce when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Pierce when you Level-Up": [
         "199,33"
     ],
-    "{}% Chance to cast level {} Lightning Strike when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Lightning Strike when you Level-Up": [
         "199,34"
     ],
-    "{}% Chance to cast level {} Lightning Fury when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Lightning Fury when you Level-Up": [
         "199,35"
     ],
-    "{}% Chance to cast level {} Fire Bolt when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Fire Bolt when you Level-Up": [
         "199,36"
     ],
-    "{}% Chance to cast level {} Warmth when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Warmth when you Level-Up": [
         "199,37"
     ],
-    "{}% Chance to cast level {} Charged Bolt when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Charged Bolt when you Level-Up": [
         "199,38"
     ],
-    "{}% Chance to cast level {} Ice Bolt when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Ice Bolt when you Level-Up": [
         "199,39"
     ],
-    "{}% Chance to cast level {} Frozen Armor when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Frozen Armor when you Level-Up": [
         "199,40"
     ],
-    "{}% Chance to cast level {} Inferno when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Inferno when you Level-Up": [
         "199,41"
     ],
-    "{}% Chance to cast level {} Static Field when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Static Field when you Level-Up": [
         "199,42"
     ],
-    "{}% Chance to cast level {} Telekinesis when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Telekinesis when you Level-Up": [
         "199,43"
     ],
-    "{}% Chance to cast level {} Frost Nova when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Frost Nova when you Level-Up": [
         "199,44"
     ],
-    "{}% Chance to cast level {} Ice Blast when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Ice Blast when you Level-Up": [
         "199,45"
     ],
-    "{}% Chance to cast level {} Blaze when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Blaze when you Level-Up": [
         "199,46"
     ],
-    "{}% Chance to cast level {} Fire Ball when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Fire Ball when you Level-Up": [
         "199,47"
     ],
-    "{}% Chance to cast level {} Nova when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Nova when you Level-Up": [
         "199,48"
     ],
-    "{}% Chance to cast level {} Lightning when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Lightning when you Level-Up": [
         "199,49"
     ],
-    "{}% Chance to cast level {} Shiver Armor when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Shiver Armor when you Level-Up": [
         "199,50"
     ],
-    "{}% Chance to cast level {} Fire Wall when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Fire Wall when you Level-Up": [
         "199,51"
     ],
-    "{}% Chance to cast level {} Enchant when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Enchant when you Level-Up": [
         "199,52"
     ],
-    "{}% Chance to cast level {} Chain Lightning when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Chain Lightning when you Level-Up": [
         "199,53"
     ],
-    "{}% Chance to cast level {} Teleport when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Teleport when you Level-Up": [
         "199,54"
     ],
-    "{}% Chance to cast level {} Glacial Spike when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Glacial Spike when you Level-Up": [
         "199,55"
     ],
-    "{}% Chance to cast level {} Meteor when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Meteor when you Level-Up": [
         "199,56"
     ],
-    "{}% Chance to cast level {} Thunder Storm when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Thunder Storm when you Level-Up": [
         "199,57"
     ],
-    "{}% Chance to cast level {} Energy Shield when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Energy Shield when you Level-Up": [
         "199,58"
     ],
-    "{}% Chance to cast level {} Blizzard when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Blizzard when you Level-Up": [
         "199,59"
     ],
-    "{}% Chance to cast level {} Chilling Armor when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Chilling Armor when you Level-Up": [
         "199,60"
     ],
-    "{}% Chance to cast level {} Fire Mastery when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Fire Mastery when you Level-Up": [
         "199,61"
     ],
-    "{}% Chance to cast level {} Hydra when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Hydra when you Level-Up": [
         "199,62"
     ],
-    "{}% Chance to cast level {} Lightning Mastery when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Lightning Mastery when you Level-Up": [
         "199,63"
     ],
-    "{}% Chance to cast level {} Frozen Orb when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Frozen Orb when you Level-Up": [
         "199,64"
     ],
-    "{}% Chance to cast level {} Cold Mastery when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Cold Mastery when you Level-Up": [
         "199,65"
     ],
-    "{}% Chance to cast level {} Amplify Damage when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Amplify Damage when you Level-Up": [
         "199,66"
     ],
-    "{}% Chance to cast level {} Teeth when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Teeth when you Level-Up": [
         "199,67"
     ],
-    "{}% Chance to cast level {} Bone Armor when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Bone Armor when you Level-Up": [
         "199,68"
     ],
-    "{}% Chance to cast level {} Skeleton Mastery when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Skeleton Mastery when you Level-Up": [
         "199,69"
     ],
-    "{}% Chance to cast level {} Raise Skeleton when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Raise Skeleton when you Level-Up": [
         "199,70"
     ],
-    "{}% Chance to cast level {} Dim Vision when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Dim Vision when you Level-Up": [
         "199,71"
     ],
-    "{}% Chance to cast level {} Weaken when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Weaken when you Level-Up": [
         "199,72"
     ],
-    "{}% Chance to cast level {} Poison Dagger when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Poison Dagger when you Level-Up": [
         "199,73"
     ],
-    "{}% Chance to cast level {} Corpse Explosion when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Corpse Explosion when you Level-Up": [
         "199,74"
     ],
-    "{}% Chance to cast level {} Clay Golem when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Clay Golem when you Level-Up": [
         "199,75"
     ],
-    "{}% Chance to cast level {} Iron Maiden when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Iron Maiden when you Level-Up": [
         "199,76"
     ],
-    "{}% Chance to cast level {} Terror when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Terror when you Level-Up": [
         "199,77"
     ],
-    "{}% Chance to cast level {} Bone Wall when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Bone Wall when you Level-Up": [
         "199,78"
     ],
-    "{}% Chance to cast level {} Golem Mastery when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Golem Mastery when you Level-Up": [
         "199,79"
     ],
-    "{}% Chance to cast level {} Raise Skeletal Mage when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Raise Skeletal Mage when you Level-Up": [
         "199,80"
     ],
-    "{}% Chance to cast level {} Confuse when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Confuse when you Level-Up": [
         "199,81"
     ],
-    "{}% Chance to cast level {} Life Tap when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Life Tap when you Level-Up": [
         "199,82"
     ],
-    "{}% Chance to cast level {} Poison Explosion when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Poison Explosion when you Level-Up": [
         "199,83"
     ],
-    "{}% Chance to cast level {} Bone Spear when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Bone Spear when you Level-Up": [
         "199,84"
     ],
-    "{}% Chance to cast level {} Blood Golem when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Blood Golem when you Level-Up": [
         "199,85"
     ],
-    "{}% Chance to cast level {} Attract when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Attract when you Level-Up": [
         "199,86"
     ],
-    "{}% Chance to cast level {} Decrepify when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Decrepify when you Level-Up": [
         "199,87"
     ],
-    "{}% Chance to cast level {} Bone Prison when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Bone Prison when you Level-Up": [
         "199,88"
     ],
-    "{}% Chance to cast level {} Summon Resist when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Summon Resist when you Level-Up": [
         "199,89"
     ],
-    "{}% Chance to cast level {} Iron Golem when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Iron Golem when you Level-Up": [
         "199,90"
     ],
-    "{}% Chance to cast level {} Lower Resist when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Lower Resist when you Level-Up": [
         "199,91"
     ],
-    "{}% Chance to cast level {} Poison Nova when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Poison Nova when you Level-Up": [
         "199,92"
     ],
-    "{}% Chance to cast level {} Bone Spirit when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Bone Spirit when you Level-Up": [
         "199,93"
     ],
-    "{}% Chance to cast level {} Fire Golem when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Fire Golem when you Level-Up": [
         "199,94"
     ],
-    "{}% Chance to cast level {} Revive when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Revive when you Level-Up": [
         "199,95"
     ],
-    "{}% Chance to cast level {} Sacrifice when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Sacrifice when you Level-Up": [
         "199,96"
     ],
-    "{}% Chance to cast level {} Smite when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Smite when you Level-Up": [
         "199,97"
     ],
-    "{}% Chance to cast level {} Might when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Might when you Level-Up": [
         "199,98"
     ],
-    "{}% Chance to cast level {} Prayer when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Prayer when you Level-Up": [
         "199,99"
     ],
-    "{}% Chance to cast level {} Resist Fire when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Resist Fire when you Level-Up": [
         "199,100"
     ],
-    "{}% Chance to cast level {} Holy Bolt when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Holy Bolt when you Level-Up": [
         "199,101"
     ],
-    "{}% Chance to cast level {} Holy Fire when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Holy Fire when you Level-Up": [
         "199,102"
     ],
-    "{}% Chance to cast level {} Thorns when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Thorns when you Level-Up": [
         "199,103"
     ],
-    "{}% Chance to cast level {} Defiance when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Defiance when you Level-Up": [
         "199,104"
     ],
-    "{}% Chance to cast level {} Resist Cold when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Resist Cold when you Level-Up": [
         "199,105"
     ],
-    "{}% Chance to cast level {} Zeal when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Zeal when you Level-Up": [
         "199,106"
     ],
-    "{}% Chance to cast level {} Charge when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Charge when you Level-Up": [
         "199,107"
     ],
-    "{}% Chance to cast level {} Blessed Aim when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Blessed Aim when you Level-Up": [
         "199,108"
     ],
-    "{}% Chance to cast level {} Cleansing when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Cleansing when you Level-Up": [
         "199,109"
     ],
-    "{}% Chance to cast level {} Resist Lightning when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Resist Lightning when you Level-Up": [
         "199,110"
     ],
-    "{}% Chance to cast level {} Vengeance when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Vengeance when you Level-Up": [
         "199,111"
     ],
-    "{}% Chance to cast level {} Blessed Hammer when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Blessed Hammer when you Level-Up": [
         "199,112"
     ],
-    "{}% Chance to cast level {} Concentration when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Concentration when you Level-Up": [
         "199,113"
     ],
-    "{}% Chance to cast level {} Holy Freeze when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Holy Freeze when you Level-Up": [
         "199,114"
     ],
-    "{}% Chance to cast level {} Vigor when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Vigor when you Level-Up": [
         "199,115"
     ],
-    "{}% Chance to cast level {} Conversion when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Conversion when you Level-Up": [
         "199,116"
     ],
-    "{}% Chance to cast level {} Holy Shield when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Holy Shield when you Level-Up": [
         "199,117"
     ],
-    "{}% Chance to cast level {} Holy Shock when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Holy Shock when you Level-Up": [
         "199,118"
     ],
-    "{}% Chance to cast level {} Sanctuary when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Sanctuary when you Level-Up": [
         "199,119"
     ],
-    "{}% Chance to cast level {} Meditation when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Meditation when you Level-Up": [
         "199,120"
     ],
-    "{}% Chance to cast level {} Fist of the Heavens when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Fist of the Heavens when you Level-Up": [
         "199,121"
     ],
-    "{}% Chance to cast level {} Fanaticism when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Fanaticism when you Level-Up": [
         "199,122"
     ],
-    "{}% Chance to cast level {} Conviction when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Conviction when you Level-Up": [
         "199,123"
     ],
-    "{}% Chance to cast level {} Redemption when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Redemption when you Level-Up": [
         "199,124"
     ],
-    "{}% Chance to cast level {} Salvation when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Salvation when you Level-Up": [
         "199,125"
     ],
-    "{}% Chance to cast level {} Bash when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Bash when you Level-Up": [
         "199,126"
     ],
-    "{}% Chance to cast level {} Blade Mastery when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Blade Mastery when you Level-Up": [
         "199,127"
     ],
-    "{}% Chance to cast level {} Axe Mastery when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Axe Mastery when you Level-Up": [
         "199,128"
     ],
-    "{}% Chance to cast level {} Mace Mastery when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Mace Mastery when you Level-Up": [
         "199,129"
     ],
-    "{}% Chance to cast level {} Howl when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Howl when you Level-Up": [
         "199,130"
     ],
-    "{}% Chance to cast level {} Find Potion when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Find Potion when you Level-Up": [
         "199,131"
     ],
-    "{}% Chance to cast level {} Leap when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Leap when you Level-Up": [
         "199,132"
     ],
-    "{}% Chance to cast level {} Double Swing when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Double Swing when you Level-Up": [
         "199,133"
     ],
-    "{}% Chance to cast level {} Polearm Mastery when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Polearm Mastery when you Level-Up": [
         "199,134"
     ],
-    "{}% Chance to cast level {} Throwing Mastery when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Throwing Mastery when you Level-Up": [
         "199,135"
     ],
-    "{}% Chance to cast level {} Spear Mastery when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Spear Mastery when you Level-Up": [
         "199,136"
     ],
-    "{}% Chance to cast level {} Taunt when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Taunt when you Level-Up": [
         "199,137"
     ],
-    "{}% Chance to cast level {} Shout when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Shout when you Level-Up": [
         "199,138"
     ],
-    "{}% Chance to cast level {} Stun when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Stun when you Level-Up": [
         "199,139"
     ],
-    "{}% Chance to cast level {} Double Throw when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Double Throw when you Level-Up": [
         "199,140"
     ],
-    "{}% Chance to cast level {} Increased Stamina when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Increased Stamina when you Level-Up": [
         "199,141"
     ],
-    "{}% Chance to cast level {} Find Item when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Find Item when you Level-Up": [
         "199,142"
     ],
-    "{}% Chance to cast level {} Leap Attack when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Leap Attack when you Level-Up": [
         "199,143"
     ],
-    "{}% Chance to cast level {} Concentrate when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Concentrate when you Level-Up": [
         "199,144"
     ],
-    "{}% Chance to cast level {} Iron Skin when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Iron Skin when you Level-Up": [
         "199,145"
     ],
-    "{}% Chance to cast level {} Battle Cry when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Battle Cry when you Level-Up": [
         "199,146"
     ],
-    "{}% Chance to cast level {} Frenzy when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Frenzy when you Level-Up": [
         "199,147"
     ],
-    "{}% Chance to cast level {} Increased Speed when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Increased Speed when you Level-Up": [
         "199,148"
     ],
-    "{}% Chance to cast level {} Battle Orders when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Battle Orders when you Level-Up": [
         "199,149"
     ],
-    "{}% Chance to cast level {} Grim Ward when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Grim Ward when you Level-Up": [
         "199,150"
     ],
-    "{}% Chance to cast level {} Whirlwind when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Whirlwind when you Level-Up": [
         "199,151"
     ],
-    "{}% Chance to cast level {} Berserk when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Berserk when you Level-Up": [
         "199,152"
     ],
-    "{}% Chance to cast level {} Natural Resistance when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Natural Resistance when you Level-Up": [
         "199,153"
     ],
-    "{}% Chance to cast level {} War Cry when you Level-Up": [
+    "{:d}% Chance to cast level {:d} War Cry when you Level-Up": [
         "199,154"
     ],
-    "{}% Chance to cast level {} Battle Command when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Battle Command when you Level-Up": [
         "199,155"
     ],
-    "{}% Chance to cast level {} Raven when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Raven when you Level-Up": [
         "199,221"
     ],
-    "{}% Chance to cast level {} Poison Creeper when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Poison Creeper when you Level-Up": [
         "199,222"
     ],
-    "{}% Chance to cast level {} Werewolf when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Werewolf when you Level-Up": [
         "199,223"
     ],
-    "{}% Chance to cast level {} Lycanthropy when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Lycanthropy when you Level-Up": [
         "199,224"
     ],
-    "{}% Chance to cast level {} Firestorm when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Firestorm when you Level-Up": [
         "199,225"
     ],
-    "{}% Chance to cast level {} Oak Sage when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Oak Sage when you Level-Up": [
         "199,226"
     ],
-    "{}% Chance to cast level {} Summon Spirit Wolf when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Summon Spirit Wolf when you Level-Up": [
         "199,227"
     ],
-    "{}% Chance to cast level {} Werebear when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Werebear when you Level-Up": [
         "199,228"
     ],
-    "{}% Chance to cast level {} Molten Boulder when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Molten Boulder when you Level-Up": [
         "199,229"
     ],
-    "{}% Chance to cast level {} Arctic Blast when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Arctic Blast when you Level-Up": [
         "199,230"
     ],
-    "{}% Chance to cast level {} Carrion Vine when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Carrion Vine when you Level-Up": [
         "199,231"
     ],
-    "{}% Chance to cast level {} Feral Rage when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Feral Rage when you Level-Up": [
         "199,232"
     ],
-    "{}% Chance to cast level {} Maul when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Maul when you Level-Up": [
         "199,233"
     ],
-    "{}% Chance to cast level {} Fissure when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Fissure when you Level-Up": [
         "199,234"
     ],
-    "{}% Chance to cast level {} Cyclone Armor when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Cyclone Armor when you Level-Up": [
         "199,235"
     ],
-    "{}% Chance to cast level {} Heart of Wolverine when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Heart of Wolverine when you Level-Up": [
         "199,236"
     ],
-    "{}% Chance to cast level {} Summon Dire Wolf when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Summon Dire Wolf when you Level-Up": [
         "199,237"
     ],
-    "{}% Chance to cast level {} Rabies when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Rabies when you Level-Up": [
         "199,238"
     ],
-    "{}% Chance to cast level {} Fire Claws when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Fire Claws when you Level-Up": [
         "199,239"
     ],
-    "{}% Chance to cast level {} Twister when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Twister when you Level-Up": [
         "199,240"
     ],
-    "{}% Chance to cast level {} Solar Creeper when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Solar Creeper when you Level-Up": [
         "199,241"
     ],
-    "{}% Chance to cast level {} Hunger when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Hunger when you Level-Up": [
         "199,242"
     ],
-    "{}% Chance to cast level {} Shock Wave when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Shock Wave when you Level-Up": [
         "199,243"
     ],
-    "{}% Chance to cast level {} Volcano when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Volcano when you Level-Up": [
         "199,244"
     ],
-    "{}% Chance to cast level {} Tornado when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Tornado when you Level-Up": [
         "199,245"
     ],
-    "{}% Chance to cast level {} Spirit of Barbs when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Spirit of Barbs when you Level-Up": [
         "199,246"
     ],
-    "{}% Chance to cast level {} Summon Grizzly when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Summon Grizzly when you Level-Up": [
         "199,247"
     ],
-    "{}% Chance to cast level {} Fury when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Fury when you Level-Up": [
         "199,248"
     ],
-    "{}% Chance to cast level {} Armageddon when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Armageddon when you Level-Up": [
         "199,249"
     ],
-    "{}% Chance to cast level {} Hurricane when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Hurricane when you Level-Up": [
         "199,250"
     ],
-    "{}% Chance to cast level {} Fire Blast when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Fire Blast when you Level-Up": [
         "199,251"
     ],
-    "{}% Chance to cast level {} Claw Mastery when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Claw Mastery when you Level-Up": [
         "199,252"
     ],
-    "{}% Chance to cast level {} Psychic Hammer when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Psychic Hammer when you Level-Up": [
         "199,253"
     ],
-    "{}% Chance to cast level {} Tiger Strike when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Tiger Strike when you Level-Up": [
         "199,254"
     ],
-    "{}% Chance to cast level {} Dragon Talon when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Dragon Talon when you Level-Up": [
         "199,255"
     ],
-    "{}% Chance to cast level {} Shock Web when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Shock Web when you Level-Up": [
         "199,256"
     ],
-    "{}% Chance to cast level {} Blade Sentinel when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Blade Sentinel when you Level-Up": [
         "199,257"
     ],
-    "{}% Chance to cast level {} Burst of Speed when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Burst of Speed when you Level-Up": [
         "199,258"
     ],
-    "{}% Chance to cast level {} Fists of Fire when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Fists of Fire when you Level-Up": [
         "199,259"
     ],
-    "{}% Chance to cast level {} Dragon Claw when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Dragon Claw when you Level-Up": [
         "199,260"
     ],
-    "{}% Chance to cast level {} Charged Bolt Sentry when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Charged Bolt Sentry when you Level-Up": [
         "199,261"
     ],
-    "{}% Chance to cast level {} Wake of Fire when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Wake of Fire when you Level-Up": [
         "199,262"
     ],
-    "{}% Chance to cast level {} Weapon Block when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Weapon Block when you Level-Up": [
         "199,263"
     ],
-    "{}% Chance to cast level {} Cloak of Shadows when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Cloak of Shadows when you Level-Up": [
         "199,264"
     ],
-    "{}% Chance to cast level {} Cobra Strike when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Cobra Strike when you Level-Up": [
         "199,265"
     ],
-    "{}% Chance to cast level {} Blade Fury when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Blade Fury when you Level-Up": [
         "199,266"
     ],
-    "{}% Chance to cast level {} Fade when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Fade when you Level-Up": [
         "199,267"
     ],
-    "{}% Chance to cast level {} Shadow Warrior when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Shadow Warrior when you Level-Up": [
         "199,268"
     ],
-    "{}% Chance to cast level {} Claws of Thunder when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Claws of Thunder when you Level-Up": [
         "199,269"
     ],
-    "{}% Chance to cast level {} Dragon Tail when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Dragon Tail when you Level-Up": [
         "199,270"
     ],
-    "{}% Chance to cast level {} Lightning Sentry when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Lightning Sentry when you Level-Up": [
         "199,271"
     ],
-    "{}% Chance to cast level {} Wake of Inferno when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Wake of Inferno when you Level-Up": [
         "199,272"
     ],
-    "{}% Chance to cast level {} Mind Blast when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Mind Blast when you Level-Up": [
         "199,273"
     ],
-    "{}% Chance to cast level {} Blades of Ice when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Blades of Ice when you Level-Up": [
         "199,274"
     ],
-    "{}% Chance to cast level {} Dragon Flight when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Dragon Flight when you Level-Up": [
         "199,275"
     ],
-    "{}% Chance to cast level {} Death Sentry when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Death Sentry when you Level-Up": [
         "199,276"
     ],
-    "{}% Chance to cast level {} Blade Shield when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Blade Shield when you Level-Up": [
         "199,277"
     ],
-    "{}% Chance to cast level {} Venom when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Venom when you Level-Up": [
         "199,278"
     ],
-    "{}% Chance to cast level {} Shadow Master when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Shadow Master when you Level-Up": [
         "199,279"
     ],
-    "{}% Chance to cast level {} Phoenix Strike when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Phoenix Strike when you Level-Up": [
         "199,280"
     ],
-    "Required Level: {}": [
+    "Required Level: {:d}": [
         "92"
     ],
-    "+{} to Magic Arrow": [
+    "+{:d} to Magic Arrow": [
         "97,6"
     ],
-    "+{} to Fire Arrow": [
+    "+{:d} to Fire Arrow": [
         "97,7"
     ],
-    "+{} to Inner Sight": [
+    "+{:d} to Inner Sight": [
         "97,8"
     ],
-    "+{} to Critical Strike": [
+    "+{:d} to Critical Strike": [
         "97,9"
     ],
-    "+{} to Jab": [
+    "+{:d} to Jab": [
         "97,10"
     ],
-    "+{} to Cold Arrow": [
+    "+{:d} to Cold Arrow": [
         "97,11"
     ],
-    "+{} to Multiple Shot": [
+    "+{:d} to Multiple Shot": [
         "97,12"
     ],
-    "+{} to Dodge": [
+    "+{:d} to Dodge": [
         "97,13"
     ],
-    "+{} to Power Strike": [
+    "+{:d} to Power Strike": [
         "97,14"
     ],
-    "+{} to Poison Javelin": [
+    "+{:d} to Poison Javelin": [
         "97,15"
     ],
-    "+{} to Exploding Arrow": [
+    "+{:d} to Exploding Arrow": [
         "97,16"
     ],
-    "+{} to Slow Missiles": [
+    "+{:d} to Slow Missiles": [
         "97,17"
     ],
-    "+{} to Avoid": [
+    "+{:d} to Avoid": [
         "97,18"
     ],
-    "+{} to Impale": [
+    "+{:d} to Impale": [
         "97,19"
     ],
-    "+{} to Lightning Bolt": [
+    "+{:d} to Lightning Bolt": [
         "97,20"
     ],
-    "+{} to Ice Arrow": [
+    "+{:d} to Ice Arrow": [
         "97,21"
     ],
-    "+{} to Guided Arrow": [
+    "+{:d} to Guided Arrow": [
         "97,22"
     ],
-    "+{} to Penetrate": [
+    "+{:d} to Penetrate": [
         "97,23"
     ],
-    "+{} to Charged Strike": [
+    "+{:d} to Charged Strike": [
         "97,24"
     ],
-    "+{} to Plague Javelin": [
+    "+{:d} to Plague Javelin": [
         "97,25"
     ],
-    "+{} to Strafe": [
+    "+{:d} to Strafe": [
         "97,26"
     ],
-    "+{} to Immolation Arrow": [
+    "+{:d} to Immolation Arrow": [
         "97,27"
     ],
-    "+{} to Decoy": [
+    "+{:d} to Decoy": [
         "97,28"
     ],
-    "+{} to Evade": [
+    "+{:d} to Evade": [
         "97,29"
     ],
-    "+{} to Fend": [
+    "+{:d} to Fend": [
         "97,30"
     ],
-    "+{} to Freezing Arrow": [
+    "+{:d} to Freezing Arrow": [
         "97,31"
     ],
-    "+{} to Valkyrie": [
+    "+{:d} to Valkyrie": [
         "97,32"
     ],
-    "+{} to Pierce": [
+    "+{:d} to Pierce": [
         "97,33"
     ],
-    "+{} to Lightning Strike": [
+    "+{:d} to Lightning Strike": [
         "97,34"
     ],
-    "+{} to Lightning Fury": [
+    "+{:d} to Lightning Fury": [
         "97,35"
     ],
-    "+{} to Fire Bolt": [
+    "+{:d} to Fire Bolt": [
         "97,36"
     ],
-    "+{} to Warmth": [
+    "+{:d} to Warmth": [
         "97,37"
     ],
-    "+{} to Charged Bolt": [
+    "+{:d} to Charged Bolt": [
         "97,38"
     ],
-    "+{} to Ice Bolt": [
+    "+{:d} to Ice Bolt": [
         "97,39"
     ],
-    "+{} to Frozen Armor": [
+    "+{:d} to Frozen Armor": [
         "97,40"
     ],
-    "+{} to Inferno": [
+    "+{:d} to Inferno": [
         "97,41"
     ],
-    "+{} to Static Field": [
+    "+{:d} to Static Field": [
         "97,42"
     ],
-    "+{} to Telekinesis": [
+    "+{:d} to Telekinesis": [
         "97,43"
     ],
-    "+{} to Frost Nova": [
+    "+{:d} to Frost Nova": [
         "97,44"
     ],
-    "+{} to Ice Blast": [
+    "+{:d} to Ice Blast": [
         "97,45"
     ],
-    "+{} to Blaze": [
+    "+{:d} to Blaze": [
         "97,46"
     ],
-    "+{} to Fire Ball": [
+    "+{:d} to Fire Ball": [
         "97,47"
     ],
-    "+{} to Nova": [
+    "+{:d} to Nova": [
         "97,48"
     ],
-    "+{} to Lightning": [
+    "+{:d} to Lightning": [
         "97,49"
     ],
-    "+{} to Shiver Armor": [
+    "+{:d} to Shiver Armor": [
         "97,50"
     ],
-    "+{} to Fire Wall": [
+    "+{:d} to Fire Wall": [
         "97,51"
     ],
-    "+{} to Enchant": [
+    "+{:d} to Enchant": [
         "97,52"
     ],
-    "+{} to Chain Lightning": [
+    "+{:d} to Chain Lightning": [
         "97,53"
     ],
-    "+{} to Teleport": [
+    "+{:d} to Teleport": [
         "97,54"
     ],
-    "+{} to Glacial Spike": [
+    "+{:d} to Glacial Spike": [
         "97,55"
     ],
-    "+{} to Meteor": [
+    "+{:d} to Meteor": [
         "97,56"
     ],
-    "+{} to Thunder Storm": [
+    "+{:d} to Thunder Storm": [
         "97,57"
     ],
-    "+{} to Energy Shield": [
+    "+{:d} to Energy Shield": [
         "97,58"
     ],
-    "+{} to Blizzard": [
+    "+{:d} to Blizzard": [
         "97,59"
     ],
-    "+{} to Chilling Armor": [
+    "+{:d} to Chilling Armor": [
         "97,60"
     ],
-    "+{} to Fire Mastery": [
+    "+{:d} to Fire Mastery": [
         "97,61"
     ],
-    "+{} to Hydra": [
+    "+{:d} to Hydra": [
         "97,62"
     ],
-    "+{} to Lightning Mastery": [
+    "+{:d} to Lightning Mastery": [
         "97,63"
     ],
-    "+{} to Frozen Orb": [
+    "+{:d} to Frozen Orb": [
         "97,64"
     ],
-    "+{} to Cold Mastery": [
+    "+{:d} to Cold Mastery": [
         "97,65"
     ],
-    "+{} to Amplify Damage": [
+    "+{:d} to Amplify Damage": [
         "97,66"
     ],
-    "+{} to Teeth": [
+    "+{:d} to Teeth": [
         "97,67"
     ],
-    "+{} to Bone Armor": [
+    "+{:d} to Bone Armor": [
         "97,68"
     ],
-    "+{} to Skeleton Mastery": [
+    "+{:d} to Skeleton Mastery": [
         "97,69"
     ],
-    "+{} to Raise Skeleton": [
+    "+{:d} to Raise Skeleton": [
         "97,70"
     ],
-    "+{} to Dim Vision": [
+    "+{:d} to Dim Vision": [
         "97,71"
     ],
-    "+{} to Weaken": [
+    "+{:d} to Weaken": [
         "97,72"
     ],
-    "+{} to Poison Dagger": [
+    "+{:d} to Poison Dagger": [
         "97,73"
     ],
-    "+{} to Corpse Explosion": [
+    "+{:d} to Corpse Explosion": [
         "97,74"
     ],
-    "+{} to Clay Golem": [
+    "+{:d} to Clay Golem": [
         "97,75"
     ],
-    "+{} to Iron Maiden": [
+    "+{:d} to Iron Maiden": [
         "97,76"
     ],
-    "+{} to Terror": [
+    "+{:d} to Terror": [
         "97,77"
     ],
-    "+{} to Bone Wall": [
+    "+{:d} to Bone Wall": [
         "97,78"
     ],
-    "+{} to Golem Mastery": [
+    "+{:d} to Golem Mastery": [
         "97,79"
     ],
-    "+{} to Raise Skeletal Mage": [
+    "+{:d} to Raise Skeletal Mage": [
         "97,80"
     ],
-    "+{} to Confuse": [
+    "+{:d} to Confuse": [
         "97,81"
     ],
-    "+{} to Life Tap": [
+    "+{:d} to Life Tap": [
         "97,82"
     ],
-    "+{} to Poison Explosion": [
+    "+{:d} to Poison Explosion": [
         "97,83"
     ],
-    "+{} to Bone Spear": [
+    "+{:d} to Bone Spear": [
         "97,84"
     ],
-    "+{} to Blood Golem": [
+    "+{:d} to Blood Golem": [
         "97,85"
     ],
-    "+{} to Attract": [
+    "+{:d} to Attract": [
         "97,86"
     ],
-    "+{} to Decrepify": [
+    "+{:d} to Decrepify": [
         "97,87"
     ],
-    "+{} to Bone Prison": [
+    "+{:d} to Bone Prison": [
         "97,88"
     ],
-    "+{} to Summon Resist": [
+    "+{:d} to Summon Resist": [
         "97,89"
     ],
-    "+{} to Iron Golem": [
+    "+{:d} to Iron Golem": [
         "97,90"
     ],
-    "+{} to Lower Resist": [
+    "+{:d} to Lower Resist": [
         "97,91"
     ],
-    "+{} to Poison Nova": [
+    "+{:d} to Poison Nova": [
         "97,92"
     ],
-    "+{} to Bone Spirit": [
+    "+{:d} to Bone Spirit": [
         "97,93"
     ],
-    "+{} to Fire Golem": [
+    "+{:d} to Fire Golem": [
         "97,94"
     ],
-    "+{} to Revive": [
+    "+{:d} to Revive": [
         "97,95"
     ],
-    "+{} to Sacrifice": [
+    "+{:d} to Sacrifice": [
         "97,96"
     ],
-    "+{} to Smite": [
+    "+{:d} to Smite": [
         "97,97"
     ],
-    "+{} to Might": [
+    "+{:d} to Might": [
         "97,98"
     ],
-    "+{} to Prayer": [
+    "+{:d} to Prayer": [
         "97,99"
     ],
-    "+{} to Resist Fire": [
+    "+{:d} to Resist Fire": [
         "97,100"
     ],
-    "+{} to Holy Bolt": [
+    "+{:d} to Holy Bolt": [
         "97,101"
     ],
-    "+{} to Holy Fire": [
+    "+{:d} to Holy Fire": [
         "97,102"
     ],
-    "+{} to Thorns": [
+    "+{:d} to Thorns": [
         "97,103"
     ],
-    "+{} to Defiance": [
+    "+{:d} to Defiance": [
         "97,104"
     ],
-    "+{} to Resist Cold": [
+    "+{:d} to Resist Cold": [
         "97,105"
     ],
-    "+{} to Zeal": [
+    "+{:d} to Zeal": [
         "97,106"
     ],
-    "+{} to Charge": [
+    "+{:d} to Charge": [
         "97,107"
     ],
-    "+{} to Blessed Aim": [
+    "+{:d} to Blessed Aim": [
         "97,108"
     ],
-    "+{} to Cleansing": [
+    "+{:d} to Cleansing": [
         "97,109"
     ],
-    "+{} to Resist Lightning": [
+    "+{:d} to Resist Lightning": [
         "97,110"
     ],
-    "+{} to Vengeance": [
+    "+{:d} to Vengeance": [
         "97,111"
     ],
-    "+{} to Blessed Hammer": [
+    "+{:d} to Blessed Hammer": [
         "97,112"
     ],
-    "+{} to Concentration": [
+    "+{:d} to Concentration": [
         "97,113"
     ],
-    "+{} to Holy Freeze": [
+    "+{:d} to Holy Freeze": [
         "97,114"
     ],
-    "+{} to Vigor": [
+    "+{:d} to Vigor": [
         "97,115"
     ],
-    "+{} to Conversion": [
+    "+{:d} to Conversion": [
         "97,116"
     ],
-    "+{} to Holy Shield": [
+    "+{:d} to Holy Shield": [
         "97,117"
     ],
-    "+{} to Holy Shock": [
+    "+{:d} to Holy Shock": [
         "97,118"
     ],
-    "+{} to Sanctuary": [
+    "+{:d} to Sanctuary": [
         "97,119"
     ],
-    "+{} to Meditation": [
+    "+{:d} to Meditation": [
         "97,120"
     ],
-    "+{} to Fist of the Heavens": [
+    "+{:d} to Fist of the Heavens": [
         "97,121"
     ],
-    "+{} to Fanaticism": [
+    "+{:d} to Fanaticism": [
         "97,122"
     ],
-    "+{} to Conviction": [
+    "+{:d} to Conviction": [
         "97,123"
     ],
-    "+{} to Redemption": [
+    "+{:d} to Redemption": [
         "97,124"
     ],
-    "+{} to Salvation": [
+    "+{:d} to Salvation": [
         "97,125"
     ],
-    "+{} to Bash": [
+    "+{:d} to Bash": [
         "97,126"
     ],
-    "+{} to Blade Mastery": [
+    "+{:d} to Blade Mastery": [
         "97,127"
     ],
-    "+{} to Axe Mastery": [
+    "+{:d} to Axe Mastery": [
         "97,128"
     ],
-    "+{} to Mace Mastery": [
+    "+{:d} to Mace Mastery": [
         "97,129"
     ],
-    "+{} to Howl": [
+    "+{:d} to Howl": [
         "97,130"
     ],
-    "+{} to Find Potion": [
+    "+{:d} to Find Potion": [
         "97,131"
     ],
-    "+{} to Leap": [
+    "+{:d} to Leap": [
         "97,132"
     ],
-    "+{} to Double Swing": [
+    "+{:d} to Double Swing": [
         "97,133"
     ],
-    "+{} to Polearm Mastery": [
+    "+{:d} to Polearm Mastery": [
         "97,134"
     ],
-    "+{} to Throwing Mastery": [
+    "+{:d} to Throwing Mastery": [
         "97,135"
     ],
-    "+{} to Spear Mastery": [
+    "+{:d} to Spear Mastery": [
         "97,136"
     ],
-    "+{} to Taunt": [
+    "+{:d} to Taunt": [
         "97,137"
     ],
-    "+{} to Shout": [
+    "+{:d} to Shout": [
         "97,138"
     ],
-    "+{} to Stun": [
+    "+{:d} to Stun": [
         "97,139"
     ],
-    "+{} to Double Throw": [
+    "+{:d} to Double Throw": [
         "97,140"
     ],
-    "+{} to Increased Stamina": [
+    "+{:d} to Increased Stamina": [
         "97,141"
     ],
-    "+{} to Find Item": [
+    "+{:d} to Find Item": [
         "97,142"
     ],
-    "+{} to Leap Attack": [
+    "+{:d} to Leap Attack": [
         "97,143"
     ],
-    "+{} to Concentrate": [
+    "+{:d} to Concentrate": [
         "97,144"
     ],
-    "+{} to Iron Skin": [
+    "+{:d} to Iron Skin": [
         "97,145"
     ],
-    "+{} to Battle Cry": [
+    "+{:d} to Battle Cry": [
         "97,146"
     ],
-    "+{} to Frenzy": [
+    "+{:d} to Frenzy": [
         "97,147"
     ],
-    "+{} to Increased Speed": [
+    "+{:d} to Increased Speed": [
         "97,148"
     ],
-    "+{} to Battle Orders": [
+    "+{:d} to Battle Orders": [
         "97,149"
     ],
-    "+{} to Grim Ward": [
+    "+{:d} to Grim Ward": [
         "97,150"
     ],
-    "+{} to Whirlwind": [
+    "+{:d} to Whirlwind": [
         "97,151"
     ],
-    "+{} to Berserk": [
+    "+{:d} to Berserk": [
         "97,152"
     ],
-    "+{} to Natural Resistance": [
+    "+{:d} to Natural Resistance": [
         "97,153"
     ],
-    "+{} to War Cry": [
+    "+{:d} to War Cry": [
         "97,154"
     ],
-    "+{} to Battle Command": [
+    "+{:d} to Battle Command": [
         "97,155"
     ],
-    "+{} to Raven": [
+    "+{:d} to Raven": [
         "97,221"
     ],
-    "+{} to Poison Creeper": [
+    "+{:d} to Poison Creeper": [
         "97,222"
     ],
-    "+{} to Werewolf": [
+    "+{:d} to Werewolf": [
         "97,223"
     ],
-    "+{} to Lycanthropy": [
+    "+{:d} to Lycanthropy": [
         "97,224"
     ],
-    "+{} to Firestorm": [
+    "+{:d} to Firestorm": [
         "97,225"
     ],
-    "+{} to Oak Sage": [
+    "+{:d} to Oak Sage": [
         "97,226"
     ],
-    "+{} to Summon Spirit Wolf": [
+    "+{:d} to Summon Spirit Wolf": [
         "97,227"
     ],
-    "+{} to Werebear": [
+    "+{:d} to Werebear": [
         "97,228"
     ],
-    "+{} to Molten Boulder": [
+    "+{:d} to Molten Boulder": [
         "97,229"
     ],
-    "+{} to Arctic Blast": [
+    "+{:d} to Arctic Blast": [
         "97,230"
     ],
-    "+{} to Carrion Vine": [
+    "+{:d} to Carrion Vine": [
         "97,231"
     ],
-    "+{} to Feral Rage": [
+    "+{:d} to Feral Rage": [
         "97,232"
     ],
-    "+{} to Maul": [
+    "+{:d} to Maul": [
         "97,233"
     ],
-    "+{} to Fissure": [
+    "+{:d} to Fissure": [
         "97,234"
     ],
-    "+{} to Cyclone Armor": [
+    "+{:d} to Cyclone Armor": [
         "97,235"
     ],
-    "+{} to Heart of Wolverine": [
+    "+{:d} to Heart of Wolverine": [
         "97,236"
     ],
-    "+{} to Summon Dire Wolf": [
+    "+{:d} to Summon Dire Wolf": [
         "97,237"
     ],
-    "+{} to Rabies": [
+    "+{:d} to Rabies": [
         "97,238"
     ],
-    "+{} to Fire Claws": [
+    "+{:d} to Fire Claws": [
         "97,239"
     ],
-    "+{} to Twister": [
+    "+{:d} to Twister": [
         "97,240"
     ],
-    "+{} to Solar Creeper": [
+    "+{:d} to Solar Creeper": [
         "97,241"
     ],
-    "+{} to Hunger": [
+    "+{:d} to Hunger": [
         "97,242"
     ],
-    "+{} to Shock Wave": [
+    "+{:d} to Shock Wave": [
         "97,243"
     ],
-    "+{} to Volcano": [
+    "+{:d} to Volcano": [
         "97,244"
     ],
-    "+{} to Tornado": [
+    "+{:d} to Tornado": [
         "97,245"
     ],
-    "+{} to Spirit of Barbs": [
+    "+{:d} to Spirit of Barbs": [
         "97,246"
     ],
-    "+{} to Summon Grizzly": [
+    "+{:d} to Summon Grizzly": [
         "97,247"
     ],
-    "+{} to Fury": [
+    "+{:d} to Fury": [
         "97,248"
     ],
-    "+{} to Armageddon": [
+    "+{:d} to Armageddon": [
         "97,249"
     ],
-    "+{} to Hurricane": [
+    "+{:d} to Hurricane": [
         "97,250"
     ],
-    "+{} to Fire Blast": [
+    "+{:d} to Fire Blast": [
         "97,251"
     ],
-    "+{} to Claw Mastery": [
+    "+{:d} to Claw Mastery": [
         "97,252"
     ],
-    "+{} to Psychic Hammer": [
+    "+{:d} to Psychic Hammer": [
         "97,253"
     ],
-    "+{} to Tiger Strike": [
+    "+{:d} to Tiger Strike": [
         "97,254"
     ],
-    "+{} to Dragon Talon": [
+    "+{:d} to Dragon Talon": [
         "97,255"
     ],
-    "+{} to Shock Web": [
+    "+{:d} to Shock Web": [
         "97,256"
     ],
-    "+{} to Blade Sentinel": [
+    "+{:d} to Blade Sentinel": [
         "97,257"
     ],
-    "+{} to Burst of Speed": [
+    "+{:d} to Burst of Speed": [
         "97,258"
     ],
-    "+{} to Fists of Fire": [
+    "+{:d} to Fists of Fire": [
         "97,259"
     ],
-    "+{} to Dragon Claw": [
+    "+{:d} to Dragon Claw": [
         "97,260"
     ],
-    "+{} to Charged Bolt Sentry": [
+    "+{:d} to Charged Bolt Sentry": [
         "97,261"
     ],
-    "+{} to Wake of Fire": [
+    "+{:d} to Wake of Fire": [
         "97,262"
     ],
-    "+{} to Weapon Block": [
+    "+{:d} to Weapon Block": [
         "97,263"
     ],
-    "+{} to Cloak of Shadows": [
+    "+{:d} to Cloak of Shadows": [
         "97,264"
     ],
-    "+{} to Cobra Strike": [
+    "+{:d} to Cobra Strike": [
         "97,265"
     ],
-    "+{} to Blade Fury": [
+    "+{:d} to Blade Fury": [
         "97,266"
     ],
-    "+{} to Fade": [
+    "+{:d} to Fade": [
         "97,267"
     ],
-    "+{} to Shadow Warrior": [
+    "+{:d} to Shadow Warrior": [
         "97,268"
     ],
-    "+{} to Claws of Thunder": [
+    "+{:d} to Claws of Thunder": [
         "97,269"
     ],
-    "+{} to Dragon Tail": [
+    "+{:d} to Dragon Tail": [
         "97,270"
     ],
-    "+{} to Lightning Sentry": [
+    "+{:d} to Lightning Sentry": [
         "97,271"
     ],
-    "+{} to Wake of Inferno": [
+    "+{:d} to Wake of Inferno": [
         "97,272"
     ],
-    "+{} to Mind Blast": [
+    "+{:d} to Mind Blast": [
         "97,273"
     ],
-    "+{} to Blades of Ice": [
+    "+{:d} to Blades of Ice": [
         "97,274"
     ],
-    "+{} to Dragon Flight": [
+    "+{:d} to Dragon Flight": [
         "97,275"
     ],
-    "+{} to Death Sentry": [
+    "+{:d} to Death Sentry": [
         "97,276"
     ],
-    "+{} to Blade Shield": [
+    "+{:d} to Blade Shield": [
         "97,277"
     ],
-    "+{} to Venom": [
+    "+{:d} to Venom": [
         "97,278"
     ],
-    "+{} to Shadow Master": [
+    "+{:d} to Shadow Master": [
         "97,279"
     ],
-    "+{} to Phoenix Strike": [
+    "+{:d} to Phoenix Strike": [
         "97,280"
     ],
-    "+{} to not Consume Quantity": [
+    "+{:d} to not Consume Quantity": [
         "205"
     ]
 }
