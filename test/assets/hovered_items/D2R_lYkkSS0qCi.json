@@ -1,0 +1,38 @@
+{
+  "Name": "SKULL HEART",
+  "Quality": "rare",
+  "Text": "SKULL HEART|JEWEL|CAN BE INSERTED INTO SOCKETED ITEMS|REQUIRED LEVEL: 42|+10 TO ATTACK RATING|ADDS 7-21 FIRE DAMAGE|ADDS 1-4 COLD DAMAGE|+8 TO STRENGTH|+1 TO LIGHT RADIUS|CTRL + LEFT CLICK TO MOVE",
+  "BaseItem": {
+    "DisplayName": "Jewel",
+    "NTIPAliasClassID": 643,
+    "NTIPAliasType": 58,
+    "dimensions": [
+      1,
+      1
+    ],
+    "uniques": [
+      "RAINBOWFACET"
+    ]
+  },
+  "Item": null,
+  "NTIPAliasIdName": "SKULLHEART",
+  "NTIPAliasType": 58,
+  "NTIPAliasClassID": 643,
+  "NTIPAliasClass": null,
+  "NTIPAliasQuality": 6,
+  "NTIPAliasStat": {
+    "92": 42,
+    "19": 10,
+    "48": 7,
+    "49": 21,
+    "54": 1,
+    "55": 4,
+    "0": 8,
+    "89": 1
+  },
+  "NTIPAliasFlag": {
+    "0x10": true,
+    "0x400000": false,
+    "0x4000000": false
+  }
+}

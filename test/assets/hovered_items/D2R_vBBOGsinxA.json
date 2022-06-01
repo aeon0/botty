@@ -1,0 +1,36 @@
+{
+  "Name": "PLAGUE HEART",
+  "Quality": "rare",
+  "Text": "PLAGUE HEART|JEWEL|CAN BE INSERTED INTO SOCKETED ITEMS|REQUIRED LEVEL: 19|+38% DAMAGE TO UNDEAD|+38 TO ATTACK RATING AGAINST UNDEAD|+3 TO STRENGTH|8% BETTER CHANCE OF GETTING MAGIC ITEMS|REQUIREMENTS -15%|CTRL + LEFT CLICK TO MOVE",
+  "BaseItem": {
+    "DisplayName": "Jewel",
+    "NTIPAliasClassID": 643,
+    "NTIPAliasType": 58,
+    "dimensions": [
+      1,
+      1
+    ],
+    "uniques": [
+      "RAINBOWFACET"
+    ]
+  },
+  "Item": null,
+  "NTIPAliasIdName": "PLAGUEHEART",
+  "NTIPAliasType": 58,
+  "NTIPAliasClassID": 643,
+  "NTIPAliasClass": null,
+  "NTIPAliasQuality": 6,
+  "NTIPAliasStat": {
+    "92": 19,
+    "122": 38,
+    "124": 38,
+    "0": 3,
+    "80": 8,
+    "91": 15
+  },
+  "NTIPAliasFlag": {
+    "0x10": true,
+    "0x400000": false,
+    "0x4000000": false
+  }
+}

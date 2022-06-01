@@ -1,0 +1,32 @@
+{
+  "Name": "JAGGED SMALL CHARM OF INERTIA",
+  "Quality": "magic",
+  "Text": "JAGGED SMALL CHARM OF INERTIA|KEEP IN INVENTORY TO GAIN BONUS|REQUIRED LEVEL: 73|+3% FASTER RUN/WALK|+1 TO MAXIMUM DAMAGE|CTRL + LEFT CLICK TO MOVE",
+  "BaseItem": {
+    "DisplayName": "Small Charm",
+    "NTIPAliasClassID": 603,
+    "NTIPAliasType": 82,
+    "dimensions": [
+      1,
+      1
+    ],
+    "uniques": [
+      "ANNIHILUS"
+    ]
+  },
+  "Item": null,
+  "NTIPAliasIdName": "JAGGEDSMALLCHARMOFINERTIA",
+  "NTIPAliasType": 82,
+  "NTIPAliasClassID": 603,
+  "NTIPAliasClass": null,
+  "NTIPAliasQuality": 4,
+  "NTIPAliasStat": {
+    "92": 73,
+    "96": 3
+  },
+  "NTIPAliasFlag": {
+    "0x10": true,
+    "0x400000": false,
+    "0x4000000": false
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "Name": "PEARL JEWEL OF VIRILITY",
+  "Quality": "magic",
+  "Text": "PEARL JEWEL OF VIRILITY|CAN BE INSERTED INTO SOCKETED ITEMS|REQUIRED LEVEL: 13|+38% DAMAGE TO UNDEAD|+30 TO ATTACK RATING AGAINST UNDEAD|+3 TO STRENGTH|CTRL + LEFT CLICK TO MOVE",
+  "BaseItem": {
+    "DisplayName": "Jewel",
+    "NTIPAliasClassID": 643,
+    "NTIPAliasType": 58,
+    "dimensions": [
+      1,
+      1
+    ],
+    "uniques": [
+      "RAINBOWFACET"
+    ]
+  },
+  "Item": null,
+  "NTIPAliasIdName": "PEARLJEWELOFVIRILITY",
+  "NTIPAliasType": 58,
+  "NTIPAliasClassID": 643,
+  "NTIPAliasClass": null,
+  "NTIPAliasQuality": 4,
+  "NTIPAliasStat": {
+    "92": 13,
+    "122": 38,
+    "124": 30,
+    "0": 3
+  },
+  "NTIPAliasFlag": {
+    "0x10": true,
+    "0x400000": false,
+    "0x4000000": false
+  }
+}

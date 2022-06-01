@@ -875,5 +875,100 @@ NIP_TESTS = {
             "[Name] == jewel && [Quality] == magic # [ias] >= 15 && [enhanceddamage] >= 15",
             True
         ),
-    ]
+    ],
+    # magic large charm
+    "D2R_0tY8VkpM8T": [
+        (
+            "[name] == LargeCharm && [quality] == magic && [flag] != ethereal # [plusmaxdamage] >= 2 && [fhr] >= 8",
+            True
+        ),
+    ],
+    # rare jewel
+    "D2R_1Iu96WxakK": [
+        (
+            "[name] == Jewel && [quality] == rare && [flag] != ethereal # [plusmindamage] >= 7 && [maxmana] >= 13 && [poisonresist] >= 23 && [lightmindam] >= 1 && [lightmaxdam] >= 81",
+            True
+        ),
+    ],
+    # rare jewel
+    "D2R_3sLDs3uUMd": [
+        (
+            "[name] == Jewel && [quality] == magic && [flag] != ethereal # [itemundeadtohit] >= 30 && [itemundeaddamagepercent] >= 38 && [strength] >= 3",
+            True
+        ),
+    ],
+    # magic grand charm
+    "D2R_Z7AVNV8X27": [
+        (
+            "[name] == GrandCharm && [quality] == magic && [flag] != ethereal # [itemaddskilltab] == 1 && [lightmindam] >= 1 && [lightmaxdam] >= 3",
+            True
+        ),
+        (
+            "[name] == GrandCharm && [quality] == magic && [flag] != ethereal # [itemaddskilltab] >= 1",
+            True
+        ),
+        (
+            "[name] == GrandCharm && [quality] == magic && [flag] != ethereal # [passiveandmagicskilltab] >= 1",
+            True
+        ),
+        (
+            "[name] == GrandCharm && [quality] == magic && [flag] != ethereal # [passiveandmagicskilltab] >= 5",
+            False
+        ),
+    ],
+    # magic large charm
+    "D2R_Y0YlR268P3": [
+        (
+            "[name] == LargeCharm && [quality] == magic && [flag] != ethereal # [itemmagicbonus] >= 6 && [frw] >= 5",
+            True
+        ),
+    ],
+    # magic jewel
+    "D2R_aOyb5TqkIm": [
+        # poison calculation??
+        (
+            "[name] == Jewel && [quality] == magic && [flag] != ethereal # [lightresist] >= 23 && [poisonmindam] >= 103",
+            True
+        ),
+        (
+            "[name] == Jewel && [quality] == magic && [flag] != ethereal # [lightresist] >= 23 && [poisonmindam] >= 20",
+            True
+        ),
+        (
+            "[name] == Jewel && [quality] == magic && [flag] != ethereal # [lightresist] >= 23",
+            True
+        ),
+    ],
+    # magic grand charm
+    "D2R_aXKcy7ITEB": [
+        (
+            "[name] == GrandCharm && [quality] == magic && [flag] != ethereal # [defense] >= 47 && [poisonmindam] >= 86",
+            True
+        ),
+        (
+            "[name] == GrandCharm && [quality] == magic && [flag] != ethereal # [defense] >= 47",
+            True
+        ),
+    ],
+    # magic small charm
+    "D2R_KKoeMHxUsp": [
+        (
+            "[name] == SmallCharm && [quality] == magic && [flag] != ethereal # [plusmaxdamage] >= 1 && [frw] >= 3",
+            True
+        ),
+    ],
+    # rare jewel
+    "D2R_lYkkSS0qCi": [
+        (
+            "[name] == Jewel && [quality] == rare && [flag] != ethereal # [itemlightradius] >= 1 && [tohit] >= 10 && [strength] >= 8 && [coldmindam] >= 1 && [coldmaxdam] >= 4 && [firemindam] >= 7 && [firemaxdam] >= 21",
+            True
+        ),
+    ],
+    # rare jewel
+    "D2R_vBBOGsinxA": [
+        (
+            "[name] == Jewel && [quality] == rare && [flag] != ethereal # [itemundeadtohit] >= 38 && [itemundeaddamagepercent] >= 38 && [strength] >= 3 && [itemmagicbonus] >= 8 && [itemreqpercent] <= -15",
+            True
+        ),
+    ],
 }

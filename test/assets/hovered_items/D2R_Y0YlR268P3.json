@@ -1,0 +1,33 @@
+{
+  "Name": "LUCKY LARGE CHARM OF INERTIA",
+  "Quality": "magic",
+  "Text": "LUCKY LARGE CHARM OF INERTIA|KEEP IN INVENTORY TO GAIN BONUS|REQUIRED LEVEL: 18|+5% FASTER RUN/WALK|6% BETTER CHANCE OF GETTING MAGIC ITEMS|CTRL + LEFT CLICK TO MOVE",
+  "BaseItem": {
+    "DisplayName": "Large Charm",
+    "NTIPAliasClassID": 604,
+    "NTIPAliasType": 83,
+    "dimensions": [
+      1,
+      2
+    ],
+    "uniques": [
+      "HELLFIRETORCH"
+    ]
+  },
+  "Item": null,
+  "NTIPAliasIdName": "LUCKYLARGECHARMOFINERTIA",
+  "NTIPAliasType": 83,
+  "NTIPAliasClassID": 604,
+  "NTIPAliasClass": null,
+  "NTIPAliasQuality": 4,
+  "NTIPAliasStat": {
+    "92": 18,
+    "96": 5,
+    "80": 6
+  },
+  "NTIPAliasFlag": {
+    "0x10": true,
+    "0x400000": false,
+    "0x4000000": false
+  }
+}
