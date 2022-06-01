@@ -21,6 +21,21 @@ NTIP_ALIAS_QUALITY_MAP = {
     ItemQuality.Rune.value: 10,
 }
 
+"""
+ITEM PROPERTIES THAT MAP TO STATS RATHER THAN A READ PROPERTY
+['itemskillonattack']='195'
+['itemskillonkill']='196'
+['itemskillondeath']='197'
+['itemskillonhit']='198'
+['itemskillonlevelup']='199'
+['itemskillongethit']='201'
+['itemchargedskill']='204'
+['itemnonclassskill']='97' (not sure how this is used)
+['itemsingleskill']='107' doesn't map to skill
+['itemaddskilltab']='188' doesn't map to skill
+"""
+PROPS_TO_SKILLID = {195, 196, 197, 198, 199, 201, 204}
+
 NIP_ALIAS_STAT_PATTERNS = {
     "Defense: {:d}": [
         "31"
