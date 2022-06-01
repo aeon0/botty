@@ -1,7 +1,7 @@
 from parse import compile as compile_pattern
 from d2r_image.d2data_lookup import find_base_item_from_magic_item_text, find_pattern_match, find_set_item_by_name, find_unique_item_by_name, get_base, get_rune, is_base, is_rune, is_consumable, get_consumable, get_by_name
 from d2r_image.data_models import HoveredItem, ItemQuality
-from d2r_image.nip_data import NIP_ALIAS_STAT_PATTERNS, NTIP_ALIAS_QUALITY_MAP, PROPS_TO_SKILLID
+from d2r_image.nip_data import NIP_ALIAS_STAT_PATTERNS, NTIP_ALIAS_QUALITY_MAP, PROPS_TO_SKILLID, NIP_ALIAS_STAT_PATTERNS_NO_INTS
 from d2r_image.processing_data import Runeword
 from rapidfuzz.string_metric import levenshtein
 import re
@@ -153,36 +153,36 @@ def find_nip_pattern_match(item_lines):
     nip_alias_stat = {}
 
     for line in item_lines:
-        # ex: line: LEVEL 6 BASH (35/35 CHARGES)
-        # print(f"  line: {line}")
-        for pattern, ntip_alias_keys in NIP_ALIAS_STAT_PATTERNS.items():
-            result = compiled_nip_patterns()[pattern].parse(line)
-            if result:
-                # ex: result: <Result (6, 35, 35) {}>
-                # print(f"    result: {result}")
-                # ex: ntip_alias_keys: ['204,126']
-                # print(f"    ntip_alias_keys: {ntip_alias_keys}")
-                for item_prop_cnt, item_prop in enumerate(result.fixed):
-                    # ex: item_prop: 6, item_prop_cnt: 0
-                    # ex: item_prop: 35, item_prop_cnt: 1
-                    # ex: item_prop: 35, item_prop_cnt: 2
-                    # print(f"      item_prop: {item_prop}, item_prop_cnt: {item_prop_cnt}")
-                    try:
-                        if isinstance(ntip_alias_keys[item_prop_cnt], list):
-                            for sub_alias_key in ntip_alias_keys[item_prop_cnt]:
-                                nip_alias_stat[sub_alias_key] = item_prop
+        # print(f"  line: {line}") # ex: line: LEVEL 6 BASH (35/35 CHARGES)
+        line_no_ints = ''.join(filter(lambda x: not x.isdigit(), line)).replace('+','').replace('-','')
+        try:
+            # check if line exists in pattern dict
+            pattern = NIP_ALIAS_STAT_PATTERNS_NO_INTS[line_no_ints]
+            #Logger.debug(f"{line_no_ints} found in NIP_ALIAS_STAT_PATTERNS_NO_INTS")
+        except:
+            #Logger.error(f"'{line_no_ints}' not found in NIP_ALIAS_STAT_PATTERNS_NO_INTS, skip")
+            continue
+        ntip_alias_keys = NIP_ALIAS_STAT_PATTERNS[pattern]
+        if (result := compiled_nip_patterns()[pattern].parse(line)):
+            # print(f"    result: {result}") # ex: result: <Result (6, 35, 35) {}>
+            # print(f"    ntip_alias_keys: {ntip_alias_keys}") # ex: ntip_alias_keys: ['204,126']
+            for item_prop_cnt, item_prop in enumerate(result.fixed):
+                # print(f"      item_prop: {item_prop}, item_prop_cnt: {item_prop_cnt}") # ex: item_prop: 6, item_prop_cnt: 0 # ex: item_prop: 35, item_prop_cnt: 1
+                try:
+                    if isinstance(ntip_alias_keys[item_prop_cnt], list):
+                        for sub_alias_key in ntip_alias_keys[item_prop_cnt]:
+                            nip_alias_stat[sub_alias_key] = item_prop
+                    else:
+                        if result.fixed:
+                            # ex: nip_alias_stat['204,126'] = 6
+                            nip_alias_stat[ntip_alias_keys[item_prop_cnt]] = item_prop
                         else:
-                            if result.fixed:
-                                # ex: nip_alias_stat['204,126'] = 6
-                                nip_alias_stat[ntip_alias_keys[item_prop_cnt]] = item_prop
-                            else:
-                                nip_alias_stat[ntip_alias_keys[item_prop_cnt]] = True
-                    except IndexError:
-                        # more item properties than read fields, skip
-                        Logger.warning(f"IndexError on line: {line}, ntip_alias_keys: {ntip_alias_keys}, result: {result}, item_prop: {item_prop}, item_prop_cnt: {item_prop_cnt}")
-                    except Exception as e:
-                        Logger.error(f"error {e} on line: {line}, ntip_alias_keys: {ntip_alias_keys}, result: {result}, item_prop: {item_prop}, item_prop_cnt: {item_prop_cnt}")
-                break
+                            nip_alias_stat[ntip_alias_keys[item_prop_cnt]] = True
+                except IndexError:
+                    # more item properties than read fields, skip
+                    Logger.warning(f"IndexError on line: {line}, ntip_alias_keys: {ntip_alias_keys}, result: {result}, item_prop: {item_prop}, item_prop_cnt: {item_prop_cnt}")
+                except Exception as e:
+                    Logger.error(f"error {e} on line: {line}, ntip_alias_keys: {ntip_alias_keys}, result: {result}, item_prop: {item_prop}, item_prop_cnt: {item_prop_cnt}")
     for key in nip_alias_stat.copy():
         prop_list = key.split(',')
         if len(prop_list) > 1:

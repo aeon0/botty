@@ -6983,3 +6983,15 @@ NIP_ALIAS_STAT_PATTERNS = {
         "205"
     ]
 }
+
+NIP_ALIAS_STAT_PATTERNS_NO_INTS = dict(
+    zip(
+        list(
+            map(
+                lambda mystr: ''.join(filter(lambda x: not x.isdigit(), mystr)).replace('+','').replace('-','').replace('{:d}','').upper(),
+                NIP_ALIAS_STAT_PATTERNS.keys()
+            )
+        ),
+        NIP_ALIAS_STAT_PATTERNS.keys()
+    )
+)
