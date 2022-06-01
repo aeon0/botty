@@ -52,33 +52,34 @@ class Bot:
         self._pickit = PickIt(self._item_finder)
 
         # Create Character
-        if Config().char["type"] in ["sorceress", "light_sorc"]:
-            self._char: IChar = LightSorc(Config().light_sorc, self._pather)
-        elif Config().char["type"] == "blizz_sorc":
-            self._char: IChar = BlizzSorc(Config().blizz_sorc, self._pather)
-        elif Config().char["type"] == "nova_sorc":
-            self._char: IChar = NovaSorc(Config().nova_sorc, self._pather)
-        elif Config().char["type"] == "hydra_sorc":
-            self._char: IChar = HydraSorc(Config().hydra_sorc, self._pather)
-        elif Config().char["type"] == "hammerdin":
-            self._char: IChar = Hammerdin(Config().hammerdin, self._pather, self._pickit) #pickit added for diablo
-        elif Config().char["type"] == "trapsin":
-            self._char: IChar = Trapsin(Config().trapsin, self._pather)
-        elif Config().char["type"] == "barbarian":
-            self._char: IChar = Barbarian(Config().barbarian, self._pather)
-        elif Config().char["type"] == "poison_necro":
-            self._char: IChar = Poison_Necro(Config().poison_necro, self._pather)
-        elif Config().char["type"] == "bone_necro":
-            self._char: IChar = Bone_Necro(Config().bone_necro, self._pather)
-        elif Config().char["type"] == "necro":
-            self._char: IChar = Necro(Config().necro, self._pather)
-        elif Config().char["type"] == "basic":
-            self._char: IChar = Basic(Config().basic, self._pather)
-        elif Config().char["type"] == "basic_ranged":
-            self._char: IChar = Basic_Ranged(Config().basic_ranged, self._pather)
-        else:
-            Logger.error(f'{Config().char["type"]} is not supported! Closing down bot.')
-            os._exit(1)
+        match Config().char["type"]:
+            case "sorceress" | "light_sorc":
+                self._char: IChar = LightSorc(Config().light_sorc, self._pather)
+            case "blizz_sorc":
+                self._char: IChar = BlizzSorc(Config().blizz_sorc, self._pather)
+            case "nova_sorc":
+                self._char: IChar = NovaSorc(Config().nova_sorc, self._pather)
+            case "hydra_sorc":
+                self._char: IChar = HydraSorc(Config().hydra_sorc, self._pather)
+            case "hammerdin":
+                self._char: IChar = Hammerdin(Config().hammerdin, self._pather, self._pickit) #pickit added for diablo
+            case "trapsin":
+                self._char: IChar = Trapsin(Config().trapsin, self._pather)
+            case "barbarian":
+                self._char: IChar = Barbarian(Config().barbarian, self._pather)
+            case "poison_necro":
+                self._char: IChar = Poison_Necro(Config().poison_necro, self._pather)
+            case "bone_necro":
+                self._char: IChar = Bone_Necro(Config().bone_necro, self._pather)
+            case "necro":
+                self._char: IChar = Necro(Config().necro, self._pather)
+            case "basic":
+                self._char: IChar = Basic(Config().basic, self._pather)
+            case "basic_ranged":
+                self._char: IChar = Basic_Ranged(Config().basic_ranged, self._pather)
+            case _:
+                Logger.error(f'{Config().char["type"]} is not supported! Closing down bot.')
+                os._exit(1)
 
         # Create Town Manager
         a5 = A5(self._pather, self._char)
