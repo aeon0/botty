@@ -63,7 +63,7 @@ class ItemQualityKeyword(Enum):
 class D2Item:
     boundingBox: dict
     name: str
-    color: str
+    color: Union[str, None]
     quality: Union[str, None]
     type: Union[str, None]
     identified: bool
