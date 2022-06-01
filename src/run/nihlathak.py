@@ -1,8 +1,6 @@
 from char.i_char import IChar
-from config import Config
 from logger import Logger
 from pather import Location, Pather
-from typing import Union
 from item.pickit import PickIt
 import template_finder
 from town.town_manager import TownManager
@@ -26,7 +24,7 @@ class Nihlathak:
         self._char = char
         self._pickit = pickit
 
-    def approach(self, start_loc: Location) -> Union[bool, Location, bool]:
+    def approach(self, start_loc: Location) -> bool | Location:
         Logger.info("Run Nihlathak")
         if not self._char.capabilities.can_teleport_natively:
             raise ValueError("Nihlathak requires teleport")
@@ -37,7 +35,7 @@ class Nihlathak:
             return Location.A5_NIHLATHAK_START
         return False
 
-    def battle(self, do_pre_buff: bool) -> Union[bool, tuple[Location, bool]]:
+    def battle(self, do_pre_buff: bool) -> bool | tuple[Location, bool]:
         # TODO: We might need a second template for each option as merc might run into the template and we dont find it then
         # Let's check which layout ("NI1_A = bottom exit" , "NI1_B = large room", "NI1_C = small room")
         template_match = template_finder.search_and_wait(["NI1_A", "NI1_B", "NI1_C"], threshold=0.65, timeout=20)

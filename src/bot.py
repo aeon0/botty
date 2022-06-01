@@ -7,7 +7,6 @@ import random
 import cv2
 import math
 from copy import copy
-from typing import Union
 from collections import OrderedDict
 from health_manager import set_pause_state
 from transmute import Transmute
@@ -113,7 +112,7 @@ class Bot:
 
         # Create member variables
         self._picked_up_items = False
-        self._curr_loc: Union[bool, Location] = None
+        self._curr_loc: bool | Location = None
         self._use_id_tome = True
         self._use_keys = True
         self._pre_buffed = False
@@ -455,7 +454,7 @@ class Bot:
 
     # All the runs go here
     # ==================================
-    def _ending_run_helper(self, res: Union[bool, tuple[Location, bool]]):
+    def _ending_run_helper(self, res: bool | tuple[Location, bool]):
         self._game_stats._run_counter += 1
         self._game_stats.log_exp()
         # either fill member variables with result data or mark run as failed

@@ -4,7 +4,6 @@ from char.i_char import IChar
 from config import Config
 from logger import Logger
 from pather import Location, Pather
-from typing import Union
 from item.pickit import PickIt
 import template_finder
 from town.town_manager import TownManager, A4
@@ -29,9 +28,9 @@ class Diablo:
         self._pickit = pickit
         self._picked_up_items = False
         self.used_tps = 0
-        self._curr_loc: Union[bool, Location] = Location.A4_TOWN_START
+        self._curr_loc: bool | Location = Location.A4_TOWN_START
 
-    def approach(self, start_loc: Location) -> Union[bool, Location, bool]:
+    def approach(self, start_loc: Location) -> bool | Location:
 
         Logger.info("Run Diablo")
         Logger.debug("settings for trash =" + str(Config().char["kill_cs_trash"]))
@@ -444,7 +443,7 @@ class Diablo:
         return True
 
 
-    def battle(self, do_pre_buff: bool) -> Union[bool, tuple[Location, bool]]:
+    def battle(self, do_pre_buff: bool) -> bool | tuple[Location, bool]:
         self._picked_up_items = False
         self.used_tps = 0
         if do_pre_buff: self._char.pre_buff()

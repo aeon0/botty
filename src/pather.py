@@ -3,7 +3,6 @@ import keyboard
 import time
 import os
 import random
-from typing import Tuple, Union, List
 import cv2
 import numpy as np
 from utils.custom_mouse import mouse
@@ -492,10 +491,10 @@ class Pather:
         )
 
     @staticmethod
-    def _convert_rel_to_abs(rel_loc: Tuple[float, float], pos_abs: Tuple[float, float]) -> Tuple[float, float]:
+    def _convert_rel_to_abs(rel_loc: tuple[float, float], pos_abs: tuple[float, float]) -> tuple[float, float]:
         return (rel_loc[0] + pos_abs[0], rel_loc[1] + pos_abs[1])
 
-    def traverse_nodes_fixed(self, key: Union[str, List[Tuple[float, float]]], char: IChar) -> bool:
+    def traverse_nodes_fixed(self, key: str | list[tuple[float, float]], char: IChar) -> bool:
         if not char.capabilities.can_teleport_natively:
             error_msg = "Teleport is required for static pathing"
             Logger.error(error_msg)
@@ -530,7 +529,7 @@ class Pather:
         #     cv2.imwrite(f"./info_screenshots/nil_path_{key}_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
         return True
 
-    def _adjust_abs_range_to_screen(self, abs_pos: Tuple[float, float]) -> Tuple[float, float]:
+    def _adjust_abs_range_to_screen(self, abs_pos: tuple[float, float]) -> tuple[float, float]:
         """
         Adjust an absolute coordinate so it will not go out of screen or click on any ui which will not move the char
         :param abs_pos: Absolute position of the desired position to move to
@@ -569,7 +568,7 @@ class Pather:
             abs_pos = (int(abs_pos[0] * f), int(abs_pos[1] * f))
         return abs_pos
 
-    def find_abs_node_pos(self, node_idx: int, img: np.ndarray, threshold: float = 0.68) -> Tuple[float, float]:
+    def find_abs_node_pos(self, node_idx: int, img: np.ndarray, threshold: float = 0.68) -> tuple[float, float]:
         node = self._nodes[node_idx]
         template_match = template_finder.search(
             [*node],
@@ -591,7 +590,7 @@ class Pather:
 
     def traverse_nodes(
         self,
-        path: Union[tuple[Location, Location], list[int]],
+        path: tuple[Location, Location] | list[int],
         char: IChar,
         timeout: float = 5,
         force_tp: bool = False,
