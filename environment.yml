@@ -2,7 +2,7 @@ name: botty
 channels:
   - conda-forge
 dependencies:
-  - python=3.9
+  - python=3.10
   - pywin32
   - pip
   - leptonica
@@ -29,7 +29,7 @@ dependencies:
     - pillow
     - discord.py
     - parse
-    - dependencies/tesserocr-2.5.2-cp39-cp39-win_amd64.whl
+    - dependencies/tesserocr-2.5.2-cp310-cp310-win_amd64.whl
     - typing_extensions
     - rapidfuzz
     - colorama
