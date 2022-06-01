@@ -8,6 +8,7 @@
         "h": 21
       },
       "Name": "Pellet Bow",
+      "Color": "gray",
       "Quality": "SUPERIOR",
       "Text": "SUPERIOR PELLET BOW",
       "BaseItem": {
@@ -49,6 +50,7 @@
         "h": 21
       },
       "Name": "Phase Blade",
+      "Color": "gray",
       "Quality": "gray",
       "Text": "PHASE BLADE",
       "BaseItem": {
@@ -92,6 +94,7 @@
         "h": 21
       },
       "Name": "Petrified Wand",
+      "Color": "gray",
       "Quality": "gray",
       "Text": "PETRIFIED WAND",
       "BaseItem": {
@@ -140,6 +143,7 @@
         "h": 21
       },
       "Name": "Petrified Wand",
+      "Color": "gray",
       "Quality": "SUPERIOR",
       "Text": "SUPERIOR PETRIFIED WAND",
       "BaseItem": {
@@ -188,6 +192,7 @@
         "h": 21
       },
       "Name": "Pellet Bow",
+      "Color": "gray",
       "Quality": "gray",
       "Text": "PELLET BOW",
       "BaseItem": {
@@ -229,6 +234,7 @@
         "h": 21
       },
       "Name": "Phase Blade",
+      "Color": "gray",
       "Quality": "SUPERIOR",
       "Text": "SUPERIOR PHASE BLADE",
       "BaseItem": {
@@ -272,6 +278,7 @@
         "h": 21
       },
       "Name": "3645 GOLD",
+      "Color": "white",
       "Quality": "normal",
       "Text": "3645 GOLD",
       "BaseItem": {
@@ -302,6 +309,7 @@
         "h": 22
       },
       "Name": "Petrified Wand",
+      "Color": "white",
       "Quality": "SUPERIOR",
       "Text": "SUPERIOR PETRIFIED WAND",
       "BaseItem": {
@@ -350,6 +358,7 @@
         "h": 22
       },
       "Name": "Pike",
+      "Color": "white",
       "Quality": "SUPERIOR",
       "Text": "SUPERIOR PIKE",
       "BaseItem": {
@@ -398,6 +407,7 @@
         "h": 22
       },
       "Name": "Phase Blade",
+      "Color": "white",
       "Quality": "normal",
       "Text": "PHASE BLADE",
       "BaseItem": {
@@ -441,6 +451,7 @@
         "h": 21
       },
       "Name": "Petrified Wand",
+      "Color": "white",
       "Quality": "normal",
       "Text": "PETRIFIED WAND",
       "BaseItem": {
@@ -489,6 +500,7 @@
         "h": 22
       },
       "Name": "Phase Blade",
+      "Color": "white",
       "Quality": "SUPERIOR",
       "Text": "SUPERIOR PHASE BLADE",
       "BaseItem": {
@@ -532,6 +544,7 @@
         "h": 22
       },
       "Name": "Petrified Wand",
+      "Color": "blue",
       "Quality": "magic",
       "Text": "PETRIFIED WAND",
       "BaseItem": {
@@ -580,6 +593,7 @@
         "h": 22
       },
       "Name": "Phase Blade",
+      "Color": "blue",
       "Quality": "magic",
       "Text": "PHASE BLADE",
       "BaseItem": {
@@ -623,6 +637,7 @@
         "h": 21
       },
       "Name": "Petrified Wand",
+      "Color": "yellow",
       "Quality": "rare",
       "Text": "PETRIFIED WAND",
       "BaseItem": {
@@ -671,6 +686,7 @@
         "h": 22
       },
       "Name": "Pellet Bow",
+      "Color": "yellow",
       "Quality": "rare",
       "Text": "PELLET BOW",
       "BaseItem": {
@@ -712,6 +728,7 @@
         "h": 22
       },
       "Name": "Phase Blade",
+      "Color": "yellow",
       "Quality": "rare",
       "Text": "PHASE BLADE",
       "BaseItem": {
@@ -755,6 +772,7 @@
         "h": 21
       },
       "Name": "Petrified Wand",
+      "Color": "green",
       "Quality": "set",
       "Text": "PETRIFIED WAND",
       "BaseItem": {
@@ -803,6 +821,7 @@
         "h": 22
       },
       "Name": "Phase Blade",
+      "Color": "green",
       "Quality": "set",
       "Text": "PHASE BLADE",
       "BaseItem": {
@@ -846,6 +865,7 @@
         "h": 22
       },
       "Name": "Carin Shard",
+      "Color": "gold",
       "Quality": "unique",
       "Text": "PETRIFIED WAND",
       "BaseItem": {
@@ -931,6 +951,7 @@
         "h": 22
       },
       "Name": "Phase Blade",
+      "Color": "gold",
       "Quality": "unique",
       "Text": "PHASE BLADE",
       "BaseItem": {

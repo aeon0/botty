@@ -8,6 +8,7 @@
         "h": 21
       },
       "Name": "Giant Axe",
+      "Color": "gray",
       "Quality": "gray",
       "Text": "GIANT AXE",
       "BaseItem": {
@@ -56,6 +57,7 @@
         "h": 21
       },
       "Name": "Giant Thresher",
+      "Color": "gray",
       "Quality": "gray",
       "Text": "GIANT THRESHER",
       "BaseItem": {
@@ -104,6 +106,7 @@
         "h": 21
       },
       "Name": "Giant Sword",
+      "Color": "gray",
       "Quality": "gray",
       "Text": "GIANT SWORD",
       "BaseItem": {
@@ -154,6 +157,7 @@
         "h": 21
       },
       "Name": "Giant Sword",
+      "Color": "gray",
       "Quality": "SUPERIOR",
       "Text": "SUPERIOR GIANT SWORD",
       "BaseItem": {
@@ -204,6 +208,7 @@
         "h": 21
       },
       "Name": "Giant Axe",
+      "Color": "gray",
       "Quality": "SUPERIOR",
       "Text": "SUPERIOR GIANT AXE",
       "BaseItem": {
@@ -252,6 +257,7 @@
         "h": 21
       },
       "Name": "Giant Thresher",
+      "Color": "gray",
       "Quality": "SUPERIOR",
       "Text": "SUPERIOR GIANT THRESHER",
       "BaseItem": {
@@ -300,6 +306,7 @@
         "h": 21
       },
       "Name": "10512 GOLD",
+      "Color": "white",
       "Quality": "normal",
       "Text": "10512 GOLD",
       "BaseItem": {
@@ -330,6 +337,7 @@
         "h": 22
       },
       "Name": "Giant Sword",
+      "Color": "white",
       "Quality": "SUPERIOR",
       "Text": "SUPERIOR GIANT SWORD",
       "BaseItem": {
@@ -380,6 +388,7 @@
         "h": 22
       },
       "Name": "Gladius",
+      "Color": "white",
       "Quality": "SUPERIOR",
       "Text": "SUPERIOR GLADIUS",
       "BaseItem": {
@@ -428,6 +437,7 @@
         "h": 22
       },
       "Name": "Giant Thresher",
+      "Color": "white",
       "Quality": "normal",
       "Text": "GIANT THRESHER",
       "BaseItem": {
@@ -476,6 +486,7 @@
         "h": 22
       },
       "Name": "Giant Thresher",
+      "Color": "white",
       "Quality": "SUPERIOR",
       "Text": "SUPERIOR GIANT THRESHER",
       "BaseItem": {
@@ -524,6 +535,7 @@
         "h": 22
       },
       "Name": "Giant Sword",
+      "Color": "white",
       "Quality": "normal",
       "Text": "GIANT SWORD",
       "BaseItem": {
@@ -574,6 +586,7 @@
         "h": 22
       },
       "Name": "Giant Sword",
+      "Color": "blue",
       "Quality": "magic",
       "Text": "GIANT SWORD",
       "BaseItem": {
@@ -624,6 +637,7 @@
         "h": 22
       },
       "Name": "Giant Thresher",
+      "Color": "blue",
       "Quality": "magic",
       "Text": "GIANT THRESHER",
       "BaseItem": {
@@ -672,6 +686,7 @@
         "h": 22
       },
       "Name": "Giant Thresher",
+      "Color": "yellow",
       "Quality": "rare",
       "Text": "GIANT THRESHER",
       "BaseItem": {
@@ -720,6 +735,7 @@
         "h": 22
       },
       "Name": "Giant Sword",
+      "Color": "yellow",
       "Quality": "rare",
       "Text": "GIANT SWORD",
       "BaseItem": {
@@ -770,6 +786,7 @@
         "h": 22
       },
       "Name": "Giant Axe",
+      "Color": "yellow",
       "Quality": "rare",
       "Text": "GIANT AXE",
       "BaseItem": {
@@ -818,6 +835,7 @@
         "h": 22
       },
       "Name": "Giant Sword",
+      "Color": "green",
       "Quality": "set",
       "Text": "GIANT SWORD",
       "BaseItem": {
@@ -868,6 +886,7 @@
         "h": 22
       },
       "Name": "Giant Thresher",
+      "Color": "green",
       "Quality": "set",
       "Text": "GIANT THRESHER",
       "BaseItem": {
@@ -916,6 +935,7 @@
         "h": 22
       },
       "Name": "Kinemil's Awl",
+      "Color": "gold",
       "Quality": "unique",
       "Text": "GIANT SWORD",
       "BaseItem": {
@@ -996,6 +1016,7 @@
         "h": 22
       },
       "Name": "Stormspire",
+      "Color": "gold",
       "Quality": "unique",
       "Text": "GIANT THRESHER",
       "BaseItem": {

@@ -63,6 +63,7 @@ class ItemQualityKeyword(Enum):
 class D2Item:
     boundingBox: dict
     name: str
+    color: str
     quality: Union[str, None]
     type: Union[str, None]
     identified: bool
@@ -78,6 +79,7 @@ class D2Item:
             return False
         return self.boundingBox == other.boundingBox and\
             self.name == other.name and\
+            self.color == other.color and\
             self.type == other.type and\
             self.identified == other.identified and\
             self.amount == other.amount and\
@@ -106,6 +108,7 @@ class D2Data:
 class GroundItem:
     BoundingBox: dict
     Name: str
+    Color: str
     Quality: str
     Text: str
     BaseItem: dict

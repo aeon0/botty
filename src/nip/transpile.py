@@ -307,7 +307,7 @@ def should_pickup(item_data):
             if property_condition:
                 return True, expression.raw
 
-            if item_data["Quality"] == "gray":
+            if item_data["Color"] == "gray":
                 if len(nip_expression_split) >= 2:
                     stats_expression = nip_expression_split[1]
                     if stats_expression:

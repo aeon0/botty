@@ -8,6 +8,7 @@
         "h": 20
       },
       "Name": "Naga",
+      "Color": "gray",
       "Quality": "gray",
       "Text": "NAGA",
       "BaseItem": {
@@ -56,6 +57,7 @@
         "h": 21
       },
       "Name": "Ogre Maul",
+      "Color": "gray",
       "Quality": "gray",
       "Text": "OGRE MAUL",
       "BaseItem": {
@@ -107,6 +109,7 @@
         "h": 21
       },
       "Name": "Ogre Axe",
+      "Color": "gray",
       "Quality": "gray",
       "Text": "OGRE AXE",
       "BaseItem": {
@@ -155,6 +158,7 @@
         "h": 21
       },
       "Name": "Ogre Axe",
+      "Color": "gray",
       "Quality": "SUPERIOR",
       "Text": "SUPERIOR OGRE AXE",
       "BaseItem": {
@@ -203,6 +207,7 @@
         "h": 21
       },
       "Name": "Naga",
+      "Color": "gray",
       "Quality": "SUPERIOR",
       "Text": "SUPERIOR NAGA",
       "BaseItem": {
@@ -251,6 +256,7 @@
         "h": 21
       },
       "Name": "Ogre Maul",
+      "Color": "gray",
       "Quality": "SUPERIOR",
       "Text": "SUPERIOR OGRE MAUL",
       "BaseItem": {
@@ -302,6 +308,7 @@
         "h": 21
       },
       "Name": "4778 GOLD",
+      "Color": "white",
       "Quality": "normal",
       "Text": "4778 GOLD",
       "BaseItem": {
@@ -332,6 +339,7 @@
         "h": 22
       },
       "Name": "Ogre Axe",
+      "Color": "white",
       "Quality": "SUPERIOR",
       "Text": "SUPERIOR OGRE AXE",
       "BaseItem": {
@@ -380,6 +388,7 @@
         "h": 22
       },
       "Name": "Oil Potion",
+      "Color": "white",
       "Quality": "SUPERIOR",
       "Text": "SUPERIOR OIL POTION",
       "BaseItem": {
@@ -419,6 +428,7 @@
         "h": 22
       },
       "Name": "Ogre Maul",
+      "Color": "white",
       "Quality": "normal",
       "Text": "OGRE MAUL",
       "BaseItem": {
@@ -470,6 +480,7 @@
         "h": 22
       },
       "Name": "Ogre Axe",
+      "Color": "white",
       "Quality": "normal",
       "Text": "OGRE AXE",
       "BaseItem": {
@@ -518,6 +529,7 @@
         "h": 22
       },
       "Name": "Ogre Maul",
+      "Color": "white",
       "Quality": "SUPERIOR",
       "Text": "SUPERIOR OGRE MAUL",
       "BaseItem": {
@@ -569,6 +581,7 @@
         "h": 22
       },
       "Name": "Ogre Axe",
+      "Color": "blue",
       "Quality": "magic",
       "Text": "OGRE AXE",
       "BaseItem": {
@@ -617,6 +630,7 @@
         "h": 22
       },
       "Name": "Ogre Maul",
+      "Color": "blue",
       "Quality": "magic",
       "Text": "OGRE MAUL",
       "BaseItem": {
@@ -668,6 +682,7 @@
         "h": 22
       },
       "Name": "Ogre Maul",
+      "Color": "yellow",
       "Quality": "rare",
       "Text": "OGRE MAUL",
       "BaseItem": {
@@ -719,6 +734,7 @@
         "h": 22
       },
       "Name": "Ogre Axe",
+      "Color": "yellow",
       "Quality": "rare",
       "Text": "OGRE AXE",
       "BaseItem": {
@@ -767,6 +783,7 @@
         "h": 22
       },
       "Name": "Naga",
+      "Color": "yellow",
       "Quality": "rare",
       "Text": "NAGA",
       "BaseItem": {
@@ -815,6 +832,7 @@
         "h": 22
       },
       "Name": "Ogre Axe",
+      "Color": "green",
       "Quality": "set",
       "Text": "OGRE AXE",
       "BaseItem": {
@@ -863,6 +881,7 @@
         "h": 22
       },
       "Name": "Immortal King's Stone Crusher",
+      "Color": "green",
       "Quality": "set",
       "Text": "OGRE MAUL",
       "BaseItem": {
@@ -948,6 +967,7 @@
         "h": 22
       },
       "Name": "Bonehew",
+      "Color": "gold",
       "Quality": "unique",
       "Text": "OGRE AXE",
       "BaseItem": {
@@ -1028,6 +1048,7 @@
         "h": 22
       },
       "Name": "Windhammer",
+      "Color": "gold",
       "Quality": "unique",
       "Text": "OGRE MAUL",
       "BaseItem": {

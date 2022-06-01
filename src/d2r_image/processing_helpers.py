@@ -158,7 +158,7 @@ def clean_img(inp_img: np.ndarray, black_thresh: int = 14) -> np.ndarray:
     return img
 
 
-def get_items_by_quality(crop_result):
+def get_items_by_quality(crop_result: list[ItemText]):
     items_by_quality = {}
     for quality in ItemQuality:
         items_by_quality[quality.value] = []
@@ -183,6 +183,7 @@ def get_items_by_quality(crop_result):
         else:
             quality = item.quality
         items_by_quality[quality.value].append({
+            'color': item.color,
             'quality': quality,
             'x': item.roi[0],
             'y': item.roi[1],
@@ -558,6 +559,7 @@ def build_d2_items(items_by_quality: dict) -> Union[GroundItemList, None]:
                         'h': item['h'],
                     },
                     Name=item['name'] if 'name' in item else item['text'],
+                    Color=item['color'],
                     Quality=item['quality'].value,
                     Text=item['text'],
                     BaseItem=item['base'],
