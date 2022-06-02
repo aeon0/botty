@@ -12,7 +12,6 @@ from nip.UniqueAndSetData import UniqueAndSetData
 import os
 import glob
 from logger import Logger
-from typing import List, Tuple
 
 from nip.lexer import Lexer, NipSyntaxError, NipSections
 from nip.tokens import TokenType
@@ -29,7 +28,7 @@ class NIPExpression:
     transpiled: str
     should_pickup: str
 
-def find_unique_or_set_base(unique_or_set_name) -> Tuple[str, str]:
+def find_unique_or_set_base(unique_or_set_name) -> tuple[str, str]:
     unique_or_set_name = unique_or_set_name.lower()
     for key in UniqueAndSetData:
         if UniqueAndSetData[key].get("uniques"):
@@ -249,21 +248,19 @@ def transpile_nip_expression(expression: str, isPickedUpPhase=False):
 
 
 
-nip_expressions: List[NIPExpression] = []
+nip_expressions: set[NIPExpression] = {}
 
 def load_nip_expression(nip_expression):
     transpiled_expression = transpile_nip_expression(nip_expression)
     if transpiled_expression:
-        already_loaded = nip_expression in nip_expressions
-        if not already_loaded:
-            nip_expressions.append(
-                NIPExpression(
-                    raw=nip_expression,
-                    should_id_transpiled=transpile_nip_expression(nip_expression.split("#")[0]),
-                    transpiled=transpiled_expression,
-                    should_pickup=transpile_nip_expression(nip_expression.split("#")[0], isPickedUpPhase=True)
-                )
+        nip_expressions.update(
+            NIPExpression(
+                raw=nip_expression,
+                should_id_transpiled=transpile_nip_expression(nip_expression.split("#")[0]),
+                transpiled=transpiled_expression,
+                should_pickup=transpile_nip_expression(nip_expression.split("#")[0], isPickedUpPhase=True)
             )
+        )
 
 def should_keep(item_data):
 
