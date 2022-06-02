@@ -71,13 +71,19 @@ NIP_ALIAS_STAT_PATTERNS = {
         "1"
     ],
     "+{:d} to Mana": [
-        "9"
+        [
+            "8",
+            "9"
+        ]
     ],
     "Increase Maximum Mana {:d}%": [
         "77"
     ],
     "+{:d} to Life": [
-        "7"
+        [
+            "6",
+            "7"
+        ]
     ],
     "Increase Maximum Life {:d}%": [
         "76"
@@ -111,6 +117,12 @@ NIP_ALIAS_STAT_PATTERNS = {
     ],
     "+{:d} to Maximum Poison Damage": [
         "58"
+    ],
+    "+{:d} to Minimum Damage": [
+        "21"
+    ],
+    "+{:d} to Maximum Damage": [
+        "22"
     ],
     "{:d}% Damage Taken Goes To Mana": [
         "114"
@@ -146,7 +158,13 @@ NIP_ALIAS_STAT_PATTERNS = {
         "46"
     ],
     "All Resistances +{:d}": [
-        [ "6969", "39", "41", "43", "45" ]
+        [
+            "6969",
+            "39",
+            "41",
+            "43",
+            "45"
+        ]
     ],
     "+{:d} Fire Absorb": [
         "142"
@@ -204,7 +222,10 @@ NIP_ALIAS_STAT_PATTERNS = {
         "27"
     ],
     "+{:d} Maximum Stamina": [
-        "11"
+        [
+            "10",
+            "11"
+        ]
     ],
     "{:d}% Mana stolen per hit": [
         "62"
@@ -4442,7 +4463,13 @@ NIP_ALIAS_STAT_PATTERNS = {
         "49"
     ],
     "+{:d} to all Attributes": [
-        ["420", "0", "2", "3", "1" ]
+        [
+            "420",
+            "0",
+            "2",
+            "3",
+            "1"
+        ]
     ],
     "+{:d}% to Experience Gained": [
         "85"
