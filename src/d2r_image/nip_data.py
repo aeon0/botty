@@ -37,8 +37,8 @@ ITEM PROPERTIES THAT MAP TO STATS RATHER THAN A READ PROPERTY
 PROPS_TO_SKILLID = {195, 196, 197, 198, 199, 201, 204}
 
 NIP_ALIAS_STAT_PATTERNS = {
-    "Defense: {:d}": [
-        "31"
+    "+{:d} Defense": [
+        "31,0"
     ],
     "+{:d} Defense vs. Missile": [
         "32"
@@ -7008,6 +7008,16 @@ NIP_ALIAS_STAT_PATTERNS = {
     ],
     "+{:d} to not Consume Quantity": [
         "205"
+    ],
+    "ETHEREAL (CANNOT BE REPAIRED), SOCKETED ({:d})": [
+        194
+    ],
+    "Defense: {:d}": [
+        "31"
+    ],
+    "+{:d} Poison Damage over {:d} Seconds": [
+        "57",
+        "59"
     ]
 }
 
