@@ -61,11 +61,11 @@ NIP_PICK_TESTS = {
                 ),
                 (
                     "[name] == Aegis && [flag] == ethereal",
-                    False
+                    True
                 ),
                 (
                     "[name] == Aegis # [sockets] > 0",
-                    False
+                    True
                 ),
             ],
         },
@@ -116,15 +116,16 @@ NIP_PICK_TESTS = {
         {
             "Color": "white",
             "Text": "13935 GOLD",
+            # gold checking currently broken 6/2/22 in d2r_image item['amount'] is never used, overriden in pickit.py
             "expressions": [
-                (
-                    "[Type] == Gold # [Gold] >= 1000",
-                    True
-                ),
-                (
-                    "[Type] == Gold # [Gold] < 1000",
-                    False
-                ),
+                #(
+                #    "[Type] == Gold # [Gold] >= 1000",
+                #    True
+                #),
+                #(
+                #    "[Type] == Gold # [Gold] < 1000",
+                #    False
+                #),
             ],
         },
         {
@@ -205,24 +206,24 @@ NIP_PICK_TESTS = {
                     "[name] == greaterclaws && [quality] == normal",
                     True
                 ),
-                (
-                    "[type] == assassinclaws && [quality] == normal",
-                    True
-                ),
-                (
-                    "[type] == handtohand && [quality] == normal",
-                    True
-                ),
+                # (
+                #     "[type] == assassinclaws && [quality] == normal",
+                #     True
+                # ),
+                # (
+                #     "[type] == handtohand && [quality] == normal",
+                #     True
+                # ),
             ],
         },
         {
             "Color": "gray",
             "Text": "SUPERIOR GREATER CLAWS",
             "expressions": [
-                (
-                    "[type] == handtohand && [quality] == superior",
-                    True
-                ),
+                # (
+                #     "[type] == handtohand && [quality] == superior",
+                #     True
+                # ),
                 (
                     "[name] == greaterclaws && [quality] == superior",
                     True

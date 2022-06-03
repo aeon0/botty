@@ -64,7 +64,7 @@ def test_keep_item(expression_test: ExpressionTest, mocker):
     print(f"\nImage: {expression_test.basename}")
     print(f"Read item: {expression_test.read_json}")
     print(f"Expression: {expression_test.expression}")
-    #print(f"Transpiled: {expression_test.transpiled}")
+    print(f"Transpiled: {expression_test.transpiled}")
     print(f"should_pick() transpiled: {should_pick_transpiled}")
     print(f"Expected result: {expression_test.expected_result}")
     result, _ = nip_transpile.should_pickup(expression_test.read_json)
