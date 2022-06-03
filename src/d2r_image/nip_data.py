@@ -7010,7 +7010,7 @@ NIP_ALIAS_STAT_PATTERNS = {
         "205"
     ],
     "ETHEREAL (CANNOT BE REPAIRED), SOCKETED ({:d})": [
-        194
+        "194"
     ],
     "Defense: {:d}": [
         "31"
