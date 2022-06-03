@@ -183,13 +183,27 @@ class Transmute:
         area = self.inspect_cube()
         self.close_cube()
         return area.count_empty() == 12
-
+    
+    def clear_cube(self) -> None:
+        self.open_cube()
+        area = self.inspect_area(4, 3, roi=Config().ui_roi["cube_area_roi"], known_items=PERFECT_GEMS + FLAWLESS_GEMS)
+        if not (area.count_empty() == 12):
+            Logger.info("Some items detected in the cube. Clearing cube")
+            while not (area.count_empty() == 12):
+                for item in area.all_items():
+                    next = area.pop(item)
+                    self.pick_from_cube_at(*next)
+                area = self.inspect_cube()
+        self.close_cube()
+        return
+    
     def inspect_cube(self)-> InventoryCollection:
         return self.inspect_area(4, 3, roi=Config().ui_roi["cube_area_roi"], known_items=FLAWLESS_GEMS)
 
     def _run_gem_transmutes(self) -> None:
         Logger.info("Starting gem transmute")
         self._last_game = self._game_stats._game_counter
+        self.clear_cube()
         s = self.inspect_stash()
         algorithm = SimpleGemPicking(s)
         inv = self.inspect_inventory_area(FLAWLESS_GEMS)
