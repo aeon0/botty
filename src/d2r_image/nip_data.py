@@ -7018,6 +7018,29 @@ NIP_ALIAS_STAT_PATTERNS = {
     "+{:d} Poison Damage over {:d} Seconds": [
         "57",
         "59"
+    ],
+    "One-Hand Damage: {:d} to {:d}": [
+        "5000",
+        "5001"
+    ],
+    "Two-Hand Damage: {:d} to {:d}": [
+        "5000",
+        "5001"
+    ],
+    "Throw Damage: {:d} to {:d}": [
+        "5000",
+        "5001"
+    ],
+    "Smite Damage: {:d} to {:d}": [
+        "5000",
+        "5001"
+    ],
+    "Quantity: {:d}": [
+        "5002"
+    ],
+    "Quantity: {:d} of {:d}": [
+        "5002",
+        "5003"
     ]
 }
 
