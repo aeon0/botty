@@ -971,4 +971,22 @@ NIP_KEEP_TESTS = {
             True
         ),
     ],
+    # rainbow facet, poison
+    "D2R_nLSBZYixOe": [
+        (
+            "[Name] == jewel && [quality] == unique # [passivecoldpierce]+[passivecoldmastery] >= 10 || [passivepoispierce]+[passivepoismastery] >= 10 || [passiveltngpierce]+[passiveltngmastery] >= 10 || [passivefirepierce]+[passivefiremastery] >= 10",
+            True
+        ),
+        (
+            "[Name] == jewel && [quality] == unique # [passivepoispierce]+[passivepoismastery] >= 10",
+            True
+        ),
+    ],
+    # rainbow facet, fire
+    "D2R_5ctnVauZr1": [
+        (
+            "[Name] == jewel && [quality] == unique # [passivefirepierce]+[passivefiremastery] >= 10",
+            True
+        ),
+    ],
 }
