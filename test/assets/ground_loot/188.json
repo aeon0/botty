@@ -1,0 +1,655 @@
+{
+  "items": [
+    {
+      "BoundingBox": {
+        "x": 564,
+        "y": 497,
+        "w": 116,
+        "h": 21
+      },
+      "Name": "15512 GOLD",
+      "Color": "white",
+      "Quality": "normal",
+      "Text": "15512 GOLD",
+      "BaseItem": {
+        "DisplayName": "Gold",
+        "NTIPAliasClassID": 523,
+        "NTIPAliasType": 4,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 4,
+      "NTIPAliasClassID": 523,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 502,
+        "y": 454,
+        "w": 157,
+        "h": 21
+      },
+      "Name": "Flawed Emerald",
+      "Color": "white",
+      "Quality": "normal",
+      "Text": "FLAWED EMERALD",
+      "BaseItem": {
+        "DisplayName": "Flawed Emerald",
+        "NTIPAliasClassID": 573,
+        "NTIPAliasType": 98,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 98,
+      "NTIPAliasClassID": 573,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 498,
+        "y": 425,
+        "w": 127,
+        "h": 21
+      },
+      "Name": "Flawed Ruby",
+      "Color": "white",
+      "Quality": "normal",
+      "Text": "FLAWED RUBY",
+      "BaseItem": {
+        "DisplayName": "Flawed Ruby",
+        "NTIPAliasClassID": 578,
+        "NTIPAliasType": 99,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 99,
+      "NTIPAliasClassID": 578,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 452,
+        "y": 339,
+        "w": 257,
+        "h": 21
+      },
+      "Name": "Full Rejuvenation Potion",
+      "Color": "white",
+      "Quality": "normal",
+      "Text": "FULL REJUVENATION POTION",
+      "BaseItem": {
+        "DisplayName": "Full Rejuvenation Potion",
+        "NTIPAliasClassID": 516,
+        "NTIPAliasType": 78,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 78,
+      "NTIPAliasClassID": 516,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 647,
+        "y": 309,
+        "w": 58,
+        "h": 22
+      },
+      "Name": "Gold",
+      "Color": "white",
+      "Quality": "normal",
+      "Text": "GOLD",
+      "BaseItem": {
+        "DisplayName": "Gold",
+        "NTIPAliasClassID": 523,
+        "NTIPAliasType": 4,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 4,
+      "NTIPAliasClassID": 523,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 541,
+        "y": 288,
+        "w": 157,
+        "h": 22
+      },
+      "Name": "Flawless Skull",
+      "Color": "white",
+      "Quality": "normal",
+      "Text": "FLAWLESS SKULL",
+      "BaseItem": {
+        "DisplayName": "Flawless Skull",
+        "NTIPAliasClassID": 600,
+        "NTIPAliasType": 102,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 102,
+      "NTIPAliasClassID": 600,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 531,
+        "y": 261,
+        "w": 177,
+        "h": 22
+      },
+      "Name": "Flawless Diamond",
+      "Color": "white",
+      "Quality": "normal",
+      "Text": "FLAWLESS DIAMOND",
+      "BaseItem": {
+        "DisplayName": "Flawless Diamond",
+        "NTIPAliasClassID": 585,
+        "NTIPAliasType": 97,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 97,
+      "NTIPAliasClassID": 585,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 589,
+        "y": 224,
+        "w": 137,
+        "h": 21
+      },
+      "Name": "Flawed Topaz",
+      "Color": "white",
+      "Quality": "normal",
+      "Text": "FLAWED TOPAZ",
+      "BaseItem": {
+        "DisplayName": "Flawed Topaz",
+        "NTIPAliasClassID": 563,
+        "NTIPAliasType": 101,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 101,
+      "NTIPAliasClassID": 563,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 779,
+        "y": 203,
+        "w": 157,
+        "h": 21
+      },
+      "Name": "Flawed Diamond",
+      "Color": "white",
+      "Quality": "normal",
+      "Text": "FLAWED DIAMOND",
+      "BaseItem": {
+        "DisplayName": "Flawed Diamond",
+        "NTIPAliasClassID": 583,
+        "NTIPAliasType": 97,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 97,
+      "NTIPAliasClassID": 583,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 564,
+        "y": 184,
+        "w": 184,
+        "h": 22
+      },
+      "Name": "Flawless Amethyst",
+      "Color": "white",
+      "Quality": "normal",
+      "Text": "FLAWLESS AMETHYST",
+      "BaseItem": {
+        "DisplayName": "Flawless Amethyst",
+        "NTIPAliasClassID": 560,
+        "NTIPAliasType": 96,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 96,
+      "NTIPAliasClassID": 560,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 677,
+        "y": 163,
+        "w": 164,
+        "h": 22
+      },
+      "Name": "Flawed Amethyst",
+      "Color": "white",
+      "Quality": "normal",
+      "Text": "FLAWED AMETHYST",
+      "BaseItem": {
+        "DisplayName": "Flawed Amethyst",
+        "NTIPAliasClassID": 558,
+        "NTIPAliasType": 96,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 96,
+      "NTIPAliasClassID": 558,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 512,
+        "y": 163,
+        "w": 137,
+        "h": 22
+      },
+      "Name": "Flawed Skull",
+      "Color": "white",
+      "Quality": "normal",
+      "Text": "FLAWED SKULL",
+      "BaseItem": {
+        "DisplayName": "Flawed Skull",
+        "NTIPAliasClassID": 598,
+        "NTIPAliasType": 102,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 102,
+      "NTIPAliasClassID": 598,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 536,
+        "y": 142,
+        "w": 167,
+        "h": 22
+      },
+      "Name": "Flawed Sapphire",
+      "Color": "white",
+      "Quality": "normal",
+      "Text": "FLAWED SAPPHIRE",
+      "BaseItem": {
+        "DisplayName": "Flawed Sapphire",
+        "NTIPAliasClassID": 568,
+        "NTIPAliasType": 100,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 100,
+      "NTIPAliasClassID": 568,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 697,
+        "y": 122,
+        "w": 87,
+        "h": 21
+      },
+      "Name": "Emerald",
+      "Color": "white",
+      "Quality": "normal",
+      "Text": "EMERALD",
+      "BaseItem": {
+        "DisplayName": "Emerald",
+        "NTIPAliasClassID": 574,
+        "NTIPAliasType": 98,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 98,
+      "NTIPAliasClassID": 574,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 492,
+        "y": 121,
+        "w": 177,
+        "h": 22
+      },
+      "Name": "Flawless Emerald",
+      "Color": "white",
+      "Quality": "normal",
+      "Text": "FLAWLESS EMERALD",
+      "BaseItem": {
+        "DisplayName": "Flawless Emerald",
+        "NTIPAliasClassID": 575,
+        "NTIPAliasType": 98,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 98,
+      "NTIPAliasClassID": 575,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 702,
+        "y": 100,
+        "w": 157,
+        "h": 22
+      },
+      "Name": "Flawless Topaz",
+      "Color": "white",
+      "Quality": "normal",
+      "Text": "FLAWLESS TOPAZ",
+      "BaseItem": {
+        "DisplayName": "Flawless Topaz",
+        "NTIPAliasClassID": 565,
+        "NTIPAliasType": 101,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 101,
+      "NTIPAliasClassID": 565,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 487,
+        "y": 100,
+        "w": 187,
+        "h": 22
+      },
+      "Name": "Flawless Sapphire",
+      "Color": "white",
+      "Quality": "normal",
+      "Text": "FLAWLESS SAPPHIRE",
+      "BaseItem": {
+        "DisplayName": "Flawless Sapphire",
+        "NTIPAliasClassID": 570,
+        "NTIPAliasType": 100,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 100,
+      "NTIPAliasClassID": 570,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 584,
+        "y": 79,
+        "w": 147,
+        "h": 22
+      },
+      "Name": "Flawless Ruby",
+      "Color": "white",
+      "Quality": "normal",
+      "Text": "FLAWLESS RUBY",
+      "BaseItem": {
+        "DisplayName": "Flawless Ruby",
+        "NTIPAliasClassID": 580,
+        "NTIPAliasType": 99,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 99,
+      "NTIPAliasClassID": 580,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 393,
+        "y": 367,
+        "w": 337,
+        "h": 22
+      },
+      "Name": "Festering Essence of Destruction",
+      "Color": "orange",
+      "Quality": "crafted",
+      "Text": "FESTERING ESSENCE OF DESTRUCTION",
+      "BaseItem": {
+        "DisplayName": "Festering Essence of Destruction",
+        "NTIPAliasClassID": 657,
+        "NTIPAliasType": 39,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 39,
+      "NTIPAliasClassID": 657,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 8,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 532,
+        "y": 396,
+        "w": 97,
+        "h": 21
+      },
+      "Name": "FAL RUNE",
+      "Color": "orange",
+      "Quality": "rune",
+      "Text": "FAL RUNE",
+      "BaseItem": {
+        "DisplayName": "Fal Rune",
+        "NTIPAliasClassID": 628,
+        "NTIPAliasType": 74,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 74,
+      "NTIPAliasClassID": 628,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 10,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 730,
+        "y": 143,
+        "w": 98,
+        "h": 21
+      },
+      "Name": "ETH RUNE",
+      "Color": "orange",
+      "Quality": "rune",
+      "Text": "ETH RUNE",
+      "BaseItem": {
+        "DisplayName": "Eth Rune",
+        "NTIPAliasClassID": 614,
+        "NTIPAliasType": 74,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 74,
+      "NTIPAliasClassID": 614,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 10,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    }
+  ]
+}

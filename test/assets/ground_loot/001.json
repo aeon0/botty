@@ -1,0 +1,1051 @@
+{
+  "items": [
+    {
+      "BoundingBox": {
+        "x": 503,
+        "y": 473,
+        "w": 155,
+        "h": 21
+      },
+      "Name": "Aegis",
+      "Color": "gray",
+      "Quality": "SUPERIOR",
+      "Text": "SUPERIOR AEGIS",
+      "BaseItem": {
+        "DisplayName": "Aegis",
+        "NTIPAliasClassID": 448,
+        "NTIPAliasType": 2,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 4
+          },
+          "72": 92,
+          "73": 92,
+          "31": {
+            "min": 145,
+            "max": 161
+          },
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          3
+        ],
+        "uniques": [
+          "MEDUSASGAZE"
+        ],
+        "NTIPAliasClass": 2
+      },
+      "Item": null,
+      "NTIPAliasType": 2,
+      "NTIPAliasClassID": 448,
+      "NTIPAliasClass": 2,
+      "NTIPAliasQuality": 3,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 528,
+        "y": 444,
+        "w": 66,
+        "h": 21
+      },
+      "Name": "Aegis",
+      "Color": "gray",
+      "Quality": "gray",
+      "Text": "AEGIS",
+      "BaseItem": {
+        "DisplayName": "Aegis",
+        "NTIPAliasClassID": 448,
+        "NTIPAliasType": 2,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 4
+          },
+          "72": 92,
+          "73": 92,
+          "31": {
+            "min": 145,
+            "max": 161
+          },
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          3
+        ],
+        "uniques": [
+          "MEDUSASGAZE"
+        ],
+        "NTIPAliasClass": 2
+      },
+      "Item": null,
+      "NTIPAliasType": 2,
+      "NTIPAliasClassID": 448,
+      "NTIPAliasClass": 2,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 512,
+        "y": 120,
+        "w": 136,
+        "h": 21
+      },
+      "Name": "Aerin Shield",
+      "Color": "gray",
+      "Quality": "gray",
+      "Text": "AERIN SHIELD",
+      "BaseItem": {
+        "DisplayName": "Aerin Shield",
+        "NTIPAliasClassID": 411,
+        "NTIPAliasType": 70,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 4
+          },
+          "72": 50,
+          "73": 50,
+          "31": {
+            "min": 26,
+            "max": 36
+          },
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          4
+        ],
+        "NTIPAliasClass": 0
+      },
+      "Item": null,
+      "NTIPAliasType": 70,
+      "NTIPAliasClassID": 411,
+      "NTIPAliasClass": 0,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 545,
+        "y": 99,
+        "w": 225,
+        "h": 21
+      },
+      "Name": "Aerin Shield",
+      "Color": "gray",
+      "Quality": "SUPERIOR",
+      "Text": "SUPERIOR AERIN SHIELD",
+      "BaseItem": {
+        "DisplayName": "Aerin Shield",
+        "NTIPAliasClassID": 411,
+        "NTIPAliasType": 70,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 4
+          },
+          "72": 50,
+          "73": 50,
+          "31": {
+            "min": 26,
+            "max": 36
+          },
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          4
+        ],
+        "NTIPAliasClass": 0
+      },
+      "Item": null,
+      "NTIPAliasType": 70,
+      "NTIPAliasClassID": 411,
+      "NTIPAliasClass": 0,
+      "NTIPAliasQuality": 3,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 564,
+        "y": 516,
+        "w": 116,
+        "h": 21
+      },
+      "Name": "13935 GOLD",
+      "Color": "white",
+      "Quality": "normal",
+      "Text": "13935 GOLD",
+      "BaseItem": {
+        "DisplayName": "Gold",
+        "NTIPAliasClassID": 523,
+        "NTIPAliasType": 4,
+        "dimensions": [
+          1,
+          1
+        ]
+      },
+      "Item": null,
+      "NTIPAliasType": 4,
+      "NTIPAliasClassID": 523,
+      "NTIPAliasClass": null,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 623,
+        "y": 394,
+        "w": 68,
+        "h": 22
+      },
+      "Name": "Aegis",
+      "Color": "white",
+      "Quality": "normal",
+      "Text": "AEGIS",
+      "BaseItem": {
+        "DisplayName": "Aegis",
+        "NTIPAliasClassID": 448,
+        "NTIPAliasType": 2,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 4
+          },
+          "72": 92,
+          "73": 92,
+          "31": {
+            "min": 145,
+            "max": 161
+          },
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          3
+        ],
+        "uniques": [
+          "MEDUSASGAZE"
+        ],
+        "NTIPAliasClass": 2
+      },
+      "Item": null,
+      "NTIPAliasType": 2,
+      "NTIPAliasClassID": 448,
+      "NTIPAliasClass": 2,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 491,
+        "y": 307,
+        "w": 257,
+        "h": 22
+      },
+      "Name": "Akaran Rondache",
+      "Color": "white",
+      "Quality": "SUPERIOR",
+      "Text": "SUPERIOR AKARAN RONDACHE",
+      "BaseItem": {
+        "DisplayName": "Akaran Rondache",
+        "NTIPAliasClassID": 479,
+        "NTIPAliasType": 70,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 4
+          },
+          "72": 30,
+          "73": 30,
+          "31": {
+            "min": 113,
+            "max": 137
+          },
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          2
+        ],
+        "NTIPAliasClass": 1
+      },
+      "Item": null,
+      "NTIPAliasType": 70,
+      "NTIPAliasClassID": 479,
+      "NTIPAliasClass": 1,
+      "NTIPAliasQuality": 3,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 511,
+        "y": 182,
+        "w": 138,
+        "h": 22
+      },
+      "Name": "Aerin Shield",
+      "Color": "white",
+      "Quality": "normal",
+      "Text": "AERIN SHIELD",
+      "BaseItem": {
+        "DisplayName": "Aerin Shield",
+        "NTIPAliasClassID": 411,
+        "NTIPAliasType": 70,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 4
+          },
+          "72": 50,
+          "73": 50,
+          "31": {
+            "min": 26,
+            "max": 36
+          },
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          4
+        ],
+        "NTIPAliasClass": 0
+      },
+      "Item": null,
+      "NTIPAliasType": 70,
+      "NTIPAliasClassID": 411,
+      "NTIPAliasClass": 0,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 506,
+        "y": 161,
+        "w": 227,
+        "h": 22
+      },
+      "Name": "Aerin Shield",
+      "Color": "white",
+      "Quality": "SUPERIOR",
+      "Text": "SUPERIOR AERIN SHIELD",
+      "BaseItem": {
+        "DisplayName": "Aerin Shield",
+        "NTIPAliasClassID": 411,
+        "NTIPAliasType": 70,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 4
+          },
+          "72": 50,
+          "73": 50,
+          "31": {
+            "min": 26,
+            "max": 36
+          },
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          4
+        ],
+        "NTIPAliasClass": 0
+      },
+      "Item": null,
+      "NTIPAliasType": 70,
+      "NTIPAliasClassID": 411,
+      "NTIPAliasClass": 0,
+      "NTIPAliasQuality": 3,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 677,
+        "y": 140,
+        "w": 157,
+        "h": 22
+      },
+      "Name": "Aegis",
+      "Color": "white",
+      "Quality": "SUPERIOR",
+      "Text": "SUPERIOR AEGIS",
+      "BaseItem": {
+        "DisplayName": "Aegis",
+        "NTIPAliasClassID": 448,
+        "NTIPAliasType": 2,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 4
+          },
+          "72": 92,
+          "73": 92,
+          "31": {
+            "min": 145,
+            "max": 161
+          },
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          3
+        ],
+        "uniques": [
+          "MEDUSASGAZE"
+        ],
+        "NTIPAliasClass": 2
+      },
+      "Item": null,
+      "NTIPAliasType": 2,
+      "NTIPAliasClassID": 448,
+      "NTIPAliasClass": 2,
+      "NTIPAliasQuality": 3,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 676,
+        "y": 120,
+        "w": 168,
+        "h": 21
+      },
+      "Name": "Akaran Rondache",
+      "Color": "white",
+      "Quality": "normal",
+      "Text": "AKARAN RONDACHE",
+      "BaseItem": {
+        "DisplayName": "Akaran Rondache",
+        "NTIPAliasClassID": 479,
+        "NTIPAliasType": 70,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 4
+          },
+          "72": 30,
+          "73": 30,
+          "31": {
+            "min": 113,
+            "max": 137
+          },
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          2
+        ],
+        "NTIPAliasClass": 1
+      },
+      "Item": null,
+      "NTIPAliasType": 70,
+      "NTIPAliasClassID": 479,
+      "NTIPAliasClass": 1,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 527,
+        "y": 386,
+        "w": 68,
+        "h": 22
+      },
+      "Name": "Aegis",
+      "Color": "blue",
+      "Quality": "magic",
+      "Text": "AEGIS",
+      "BaseItem": {
+        "DisplayName": "Aegis",
+        "NTIPAliasClassID": 448,
+        "NTIPAliasType": 2,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 4
+          },
+          "72": 92,
+          "73": 92,
+          "31": {
+            "min": 145,
+            "max": 161
+          },
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          3
+        ],
+        "uniques": [
+          "MEDUSASGAZE"
+        ],
+        "NTIPAliasClass": 2
+      },
+      "Item": null,
+      "NTIPAliasType": 2,
+      "NTIPAliasClassID": 448,
+      "NTIPAliasClass": 2,
+      "NTIPAliasQuality": 4,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 592,
+        "y": 328,
+        "w": 168,
+        "h": 22
+      },
+      "Name": "Akaran Rondache",
+      "Color": "blue",
+      "Quality": "magic",
+      "Text": "AKARAN RONDACHE",
+      "BaseItem": {
+        "DisplayName": "Akaran Rondache",
+        "NTIPAliasClassID": 479,
+        "NTIPAliasType": 70,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 4
+          },
+          "72": 30,
+          "73": 30,
+          "31": {
+            "min": 113,
+            "max": 137
+          },
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          2
+        ],
+        "NTIPAliasClass": 1
+      },
+      "Item": null,
+      "NTIPAliasType": 70,
+      "NTIPAliasClassID": 479,
+      "NTIPAliasClass": 1,
+      "NTIPAliasQuality": 4,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 588,
+        "y": 203,
+        "w": 138,
+        "h": 22
+      },
+      "Name": "Aerin Shield",
+      "Color": "blue",
+      "Quality": "magic",
+      "Text": "AERIN SHIELD",
+      "BaseItem": {
+        "DisplayName": "Aerin Shield",
+        "NTIPAliasClassID": 411,
+        "NTIPAliasType": 70,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 4
+          },
+          "72": 50,
+          "73": 50,
+          "31": {
+            "min": 26,
+            "max": 36
+          },
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          4
+        ],
+        "NTIPAliasClass": 0
+      },
+      "Item": null,
+      "NTIPAliasType": 70,
+      "NTIPAliasClassID": 411,
+      "NTIPAliasClass": 0,
+      "NTIPAliasQuality": 4,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 623,
+        "y": 451,
+        "w": 68,
+        "h": 22
+      },
+      "Name": "Aegis",
+      "Color": "yellow",
+      "Quality": "rare",
+      "Text": "AEGIS",
+      "BaseItem": {
+        "DisplayName": "Aegis",
+        "NTIPAliasClassID": 448,
+        "NTIPAliasType": 2,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 4
+          },
+          "72": 92,
+          "73": 92,
+          "31": {
+            "min": 145,
+            "max": 161
+          },
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          3
+        ],
+        "uniques": [
+          "MEDUSASGAZE"
+        ],
+        "NTIPAliasClass": 2
+      },
+      "Item": null,
+      "NTIPAliasType": 2,
+      "NTIPAliasClassID": 448,
+      "NTIPAliasClass": 2,
+      "NTIPAliasQuality": 6,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 511,
+        "y": 140,
+        "w": 138,
+        "h": 22
+      },
+      "Name": "Aerin Shield",
+      "Color": "yellow",
+      "Quality": "rare",
+      "Text": "AERIN SHIELD",
+      "BaseItem": {
+        "DisplayName": "Aerin Shield",
+        "NTIPAliasClassID": 411,
+        "NTIPAliasType": 70,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 4
+          },
+          "72": 50,
+          "73": 50,
+          "31": {
+            "min": 26,
+            "max": 36
+          },
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          4
+        ],
+        "NTIPAliasClass": 0
+      },
+      "Item": null,
+      "NTIPAliasType": 70,
+      "NTIPAliasClassID": 411,
+      "NTIPAliasClass": 0,
+      "NTIPAliasQuality": 6,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 546,
+        "y": 415,
+        "w": 68,
+        "h": 22
+      },
+      "Name": "Aegis",
+      "Color": "green",
+      "Quality": "set",
+      "Text": "AEGIS",
+      "BaseItem": {
+        "DisplayName": "Aegis",
+        "NTIPAliasClassID": 448,
+        "NTIPAliasType": 2,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 4
+          },
+          "72": 92,
+          "73": 92,
+          "31": {
+            "min": 145,
+            "max": 161
+          },
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          3
+        ],
+        "uniques": [
+          "MEDUSASGAZE"
+        ],
+        "NTIPAliasClass": 2
+      },
+      "Item": null,
+      "NTIPAliasType": 2,
+      "NTIPAliasClassID": 448,
+      "NTIPAliasClass": 2,
+      "NTIPAliasQuality": 5,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 496,
+        "y": 357,
+        "w": 168,
+        "h": 22
+      },
+      "Name": "Akaran Rondache",
+      "Color": "green",
+      "Quality": "set",
+      "Text": "AKARAN RONDACHE",
+      "BaseItem": {
+        "DisplayName": "Akaran Rondache",
+        "NTIPAliasClassID": 479,
+        "NTIPAliasType": 70,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 4
+          },
+          "72": 30,
+          "73": 30,
+          "31": {
+            "min": 113,
+            "max": 137
+          },
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          2
+        ],
+        "NTIPAliasClass": 1
+      },
+      "Item": null,
+      "NTIPAliasType": 70,
+      "NTIPAliasClassID": 479,
+      "NTIPAliasClass": 1,
+      "NTIPAliasQuality": 5,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 588,
+        "y": 242,
+        "w": 138,
+        "h": 22
+      },
+      "Name": "Aerin Shield",
+      "Color": "green",
+      "Quality": "set",
+      "Text": "AERIN SHIELD",
+      "BaseItem": {
+        "DisplayName": "Aerin Shield",
+        "NTIPAliasClassID": 411,
+        "NTIPAliasType": 70,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 4
+          },
+          "72": 50,
+          "73": 50,
+          "31": {
+            "min": 26,
+            "max": 36
+          },
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          4
+        ],
+        "NTIPAliasClass": 0
+      },
+      "Item": null,
+      "NTIPAliasType": 70,
+      "NTIPAliasClassID": 411,
+      "NTIPAliasClass": 0,
+      "NTIPAliasQuality": 5,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 550,
+        "y": 280,
+        "w": 138,
+        "h": 22
+      },
+      "Name": "Aerin Shield",
+      "Color": "gold",
+      "Quality": "unique",
+      "Text": "AERIN SHIELD",
+      "BaseItem": {
+        "DisplayName": "Aerin Shield",
+        "NTIPAliasClassID": 411,
+        "NTIPAliasType": 70,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 4
+          },
+          "72": 50,
+          "73": 50,
+          "31": {
+            "min": 26,
+            "max": 36
+          },
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          4
+        ],
+        "NTIPAliasClass": 0
+      },
+      "Item": null,
+      "NTIPAliasType": 70,
+      "NTIPAliasClassID": 411,
+      "NTIPAliasClass": 0,
+      "NTIPAliasQuality": 7,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 676,
+        "y": 182,
+        "w": 68,
+        "h": 22
+      },
+      "Name": "Medusa's Gaze",
+      "Color": "gold",
+      "Quality": "unique",
+      "Text": "AEGIS",
+      "BaseItem": {
+        "DisplayName": "Aegis",
+        "NTIPAliasClassID": 448,
+        "NTIPAliasType": 2,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 4
+          },
+          "72": 92,
+          "73": 92,
+          "31": {
+            "min": 145,
+            "max": 161
+          },
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          3
+        ],
+        "uniques": [
+          "MEDUSASGAZE"
+        ],
+        "NTIPAliasClass": 2
+      },
+      "Item": {
+        "DisplayName": "Medusa's Gaze",
+        "NTIPAliasClassID": 448,
+        "NTIPAliasType": 2,
+        "NTIPAliasStatProps": {
+          "16,0": {
+            "min": 150,
+            "max": 180
+          },
+          "150": {
+            "min": 20,
+            "max": 20
+          },
+          "201": {
+            "chance": 10,
+            "level": 7,
+            "skill": "Lower Resist"
+          },
+          "60": {
+            "min": 5,
+            "max": 9
+          },
+          "197": {
+            "min": 100,
+            "max": 44,
+            "par": "Nova"
+          },
+          "43": {
+            "min": 40,
+            "max": 80
+          }
+        }
+      },
+      "NTIPAliasType": 2,
+      "NTIPAliasClassID": 448,
+      "NTIPAliasClass": 2,
+      "NTIPAliasQuality": 7,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    }
+  ]
+}

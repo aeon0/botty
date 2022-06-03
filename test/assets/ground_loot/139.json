@@ -2,77 +2,30 @@
   "items": [
     {
       "BoundingBox": {
-        "x": 508,
-        "y": 358,
-        "w": 145,
+        "x": 551,
+        "y": 492,
+        "w": 58,
         "h": 21
       },
-      "Name": "Dirk",
-      "Color": "gray",
-      "Quality": "SUPERIOR",
-      "Text": "SUPERIOR DIRK",
-      "BaseItem": {
-        "DisplayName": "Dirk",
-        "NTIPAliasClassID": 40,
-        "NTIPAliasType": 32,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 1
-          },
-          "72": 20,
-          "73": 20,
-          "21": 3,
-          "22": 9,
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          1,
-          2
-        ],
-        "uniques": [
-          "THEDIGGLER"
-        ],
-        "NTIPAliasClass": 0
-      },
-      "Item": null,
-      "NTIPAliasType": 32,
-      "NTIPAliasClassID": 40,
-      "NTIPAliasClass": 0,
-      "NTIPAliasQuality": 3,
-      "NTIPAliasFlag": {
-        "0x10": true,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 656,
-        "y": 329,
-        "w": 112,
-        "h": 21
-      },
-      "Name": "Double Axe",
+      "Name": "Helm",
       "Color": "gray",
       "Quality": "gray",
-      "Text": "DOUBLE AXE",
+      "Text": "HELM",
       "BaseItem": {
-        "DisplayName": "Double Axe",
-        "NTIPAliasClassID": 2,
-        "NTIPAliasType": 28,
+        "DisplayName": "Helm",
+        "NTIPAliasClassID": 308,
+        "NTIPAliasType": 37,
         "NTIPAliasStatProps": {
           "194": {
             "min": 0,
-            "max": 5
+            "max": 2
           },
           "72": 24,
           "73": 24,
-          "21": 5,
-          "22": 13,
+          "31": {
+            "min": 15,
+            "max": 18
+          },
           "0x400000": {
             "min": 0,
             "max": 1
@@ -80,19 +33,19 @@
         },
         "dimensions": [
           2,
-          3
+          2
         ],
         "sets": [
-          "BERSERKERSHATCHET"
+          "BERSERKERSHEADGEAR"
         ],
         "uniques": [
-          "BLADEBONE"
+          "COIFOFGLORY"
         ],
         "NTIPAliasClass": 0
       },
       "Item": null,
-      "NTIPAliasType": 28,
-      "NTIPAliasClassID": 2,
+      "NTIPAliasType": 37,
+      "NTIPAliasClassID": 308,
       "NTIPAliasClass": 0,
       "NTIPAliasQuality": 2,
       "NTIPAliasFlag": {
@@ -103,28 +56,30 @@
     },
     {
       "BoundingBox": {
-        "x": 578,
-        "y": 262,
-        "w": 157,
+        "x": 585,
+        "y": 454,
+        "w": 146,
         "h": 21
       },
-      "Name": "Divine Scepter",
+      "Name": "Helm",
       "Color": "gray",
-      "Quality": "gray",
-      "Text": "DIVINE SCEPTER",
+      "Quality": "SUPERIOR",
+      "Text": "SUPERIOR HELM",
       "BaseItem": {
-        "DisplayName": "Divine Scepter",
-        "NTIPAliasClassID": 110,
-        "NTIPAliasType": 24,
+        "DisplayName": "Helm",
+        "NTIPAliasClassID": 308,
+        "NTIPAliasType": 37,
         "NTIPAliasStatProps": {
           "194": {
             "min": 0,
-            "max": 5
+            "max": 2
           },
-          "72": 70,
-          "73": 70,
-          "21": 16,
-          "22": 38,
+          "72": 24,
+          "73": 24,
+          "31": {
+            "min": 15,
+            "max": 18
+          },
           "0x400000": {
             "min": 0,
             "max": 1
@@ -132,65 +87,220 @@
         },
         "dimensions": [
           2,
-          3
+          2
+        ],
+        "sets": [
+          "BERSERKERSHEADGEAR"
         ],
         "uniques": [
-          "HANDOFBLESSEDLIGHT"
+          "COIFOFGLORY"
+        ],
+        "NTIPAliasClass": 0
+      },
+      "Item": null,
+      "NTIPAliasType": 37,
+      "NTIPAliasClassID": 308,
+      "NTIPAliasClass": 0,
+      "NTIPAliasQuality": 3,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 439,
+        "y": 149,
+        "w": 167,
+        "h": 21
+      },
+      "Name": "Heraldic Shield",
+      "Color": "gray",
+      "Quality": "gray",
+      "Text": "HERALDIC SHIELD",
+      "BaseItem": {
+        "DisplayName": "Heraldic Shield",
+        "NTIPAliasClassID": 410,
+        "NTIPAliasType": 70,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 4
+          },
+          "72": 40,
+          "73": 40,
+          "31": {
+            "min": 16,
+            "max": 26
+          },
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          4
+        ],
+        "NTIPAliasClass": 0
+      },
+      "Item": null,
+      "NTIPAliasType": 70,
+      "NTIPAliasClassID": 410,
+      "NTIPAliasClass": 0,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 472,
+        "y": 128,
+        "w": 255,
+        "h": 21
+      },
+      "Name": "Heraldic Shield",
+      "Color": "gray",
+      "Quality": "SUPERIOR",
+      "Text": "SUPERIOR HERALDIC SHIELD",
+      "BaseItem": {
+        "DisplayName": "Heraldic Shield",
+        "NTIPAliasClassID": 410,
+        "NTIPAliasType": 70,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 4
+          },
+          "72": 40,
+          "73": 40,
+          "31": {
+            "min": 16,
+            "max": 26
+          },
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          4
+        ],
+        "NTIPAliasClass": 0
+      },
+      "Item": null,
+      "NTIPAliasType": 70,
+      "NTIPAliasClassID": 410,
+      "NTIPAliasClass": 0,
+      "NTIPAliasQuality": 3,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 570,
+        "y": 423,
+        "w": 58,
+        "h": 21
+      },
+      "Name": "Helm",
+      "Color": "white",
+      "Quality": "normal",
+      "Text": "HELM",
+      "BaseItem": {
+        "DisplayName": "Helm",
+        "NTIPAliasClassID": 308,
+        "NTIPAliasType": 37,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 2
+          },
+          "72": 24,
+          "73": 24,
+          "31": {
+            "min": 15,
+            "max": 18
+          },
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          2
+        ],
+        "sets": [
+          "BERSERKERSHEADGEAR"
+        ],
+        "uniques": [
+          "COIFOFGLORY"
+        ],
+        "NTIPAliasClass": 0
+      },
+      "Item": null,
+      "NTIPAliasType": 37,
+      "NTIPAliasClassID": 308,
+      "NTIPAliasClass": 0,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 423,
+        "y": 336,
+        "w": 277,
+        "h": 22
+      },
+      "Name": "Hierophant Trophy",
+      "Color": "white",
+      "Quality": "SUPERIOR",
+      "Text": "SUPERIOR HIEROPHANT TROPHY",
+      "BaseItem": {
+        "DisplayName": "Hierophant Trophy",
+        "NTIPAliasClassID": 487,
+        "NTIPAliasType": 69,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 2
+          },
+          "72": 20,
+          "73": 20,
+          "31": {
+            "min": 58,
+            "max": 70
+          },
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          2
+        ],
+        "uniques": [
+          "HOMUNCULUS"
         ],
         "NTIPAliasClass": 1
       },
       "Item": null,
-      "NTIPAliasType": 24,
-      "NTIPAliasClassID": 110,
-      "NTIPAliasClass": 1,
-      "NTIPAliasQuality": 2,
-      "NTIPAliasFlag": {
-        "0x10": true,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 458,
-        "y": 203,
-        "w": 245,
-        "h": 21
-      },
-      "Name": "Divine Scepter",
-      "Color": "gray",
-      "Quality": "SUPERIOR",
-      "Text": "SUPERIOR DIVINE SCEPTER",
-      "BaseItem": {
-        "DisplayName": "Divine Scepter",
-        "NTIPAliasClassID": 110,
-        "NTIPAliasType": 24,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 5
-          },
-          "72": 70,
-          "73": 70,
-          "21": 16,
-          "22": 38,
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          2,
-          3
-        ],
-        "uniques": [
-          "HANDOFBLESSEDLIGHT"
-        ],
-        "NTIPAliasClass": 1
-      },
-      "Item": null,
-      "NTIPAliasType": 24,
-      "NTIPAliasClassID": 110,
+      "NTIPAliasType": 69,
+      "NTIPAliasClassID": 487,
       "NTIPAliasClass": 1,
       "NTIPAliasQuality": 3,
       "NTIPAliasFlag": {
@@ -201,116 +311,15 @@
     },
     {
       "BoundingBox": {
-        "x": 666,
-        "y": 141,
-        "w": 57,
-        "h": 20
-      },
-      "Name": "Dirk",
-      "Color": "gray",
-      "Quality": "gray",
-      "Text": "DIRK",
-      "BaseItem": {
-        "DisplayName": "Dirk",
-        "NTIPAliasClassID": 40,
-        "NTIPAliasType": 32,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 1
-          },
-          "72": 20,
-          "73": 20,
-          "21": 3,
-          "22": 9,
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          1,
-          2
-        ],
-        "uniques": [
-          "THEDIGGLER"
-        ],
-        "NTIPAliasClass": 0
-      },
-      "Item": null,
-      "NTIPAliasType": 32,
-      "NTIPAliasClassID": 40,
-      "NTIPAliasClass": 0,
-      "NTIPAliasQuality": 2,
-      "NTIPAliasFlag": {
-        "0x10": true,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 517,
-        "y": 98,
-        "w": 200,
-        "h": 21
-      },
-      "Name": "Double Axe",
-      "Color": "gray",
-      "Quality": "SUPERIOR",
-      "Text": "SUPERIOR DOUBLE AXE",
-      "BaseItem": {
-        "DisplayName": "Double Axe",
-        "NTIPAliasClassID": 2,
-        "NTIPAliasType": 28,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 5
-          },
-          "72": 24,
-          "73": 24,
-          "21": 5,
-          "22": 13,
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          2,
-          3
-        ],
-        "sets": [
-          "BERSERKERSHATCHET"
-        ],
-        "uniques": [
-          "BLADEBONE"
-        ],
-        "NTIPAliasClass": 0
-      },
-      "Item": null,
-      "NTIPAliasType": 28,
-      "NTIPAliasClassID": 2,
-      "NTIPAliasClass": 0,
-      "NTIPAliasQuality": 3,
-      "NTIPAliasFlag": {
-        "0x10": true,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 564,
-        "y": 497,
+        "x": 636,
+        "y": 212,
         "w": 116,
         "h": 21
       },
-      "Name": "19065 GOLD",
+      "Name": "16629 GOLD",
       "Color": "white",
       "Quality": "normal",
-      "Text": "19065 GOLD",
+      "Text": "16629 GOLD",
       "BaseItem": {
         "DisplayName": "Gold",
         "NTIPAliasClassID": 523,
@@ -333,244 +342,93 @@
     },
     {
       "BoundingBox": {
-        "x": 560,
-        "y": 300,
-        "w": 118,
-        "h": 21
+        "x": 439,
+        "y": 211,
+        "w": 168,
+        "h": 22
       },
-      "Name": "Double Axe",
+      "Name": "Heraldic Shield",
       "Color": "white",
       "Quality": "normal",
-      "Text": "DOUBLE AXE",
+      "Text": "HERALDIC SHIELD",
       "BaseItem": {
-        "DisplayName": "Double Axe",
-        "NTIPAliasClassID": 2,
-        "NTIPAliasType": 28,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 5
-          },
-          "72": 24,
-          "73": 24,
-          "21": 5,
-          "22": 13,
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          2,
-          3
-        ],
-        "sets": [
-          "BERSERKERSHATCHET"
-        ],
-        "uniques": [
-          "BLADEBONE"
-        ],
-        "NTIPAliasClass": 0
-      },
-      "Item": null,
-      "NTIPAliasType": 28,
-      "NTIPAliasClassID": 2,
-      "NTIPAliasClass": 0,
-      "NTIPAliasQuality": 2,
-      "NTIPAliasFlag": {
-        "0x10": true,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 554,
-        "y": 223,
-        "w": 207,
-        "h": 22
-      },
-      "Name": "Double Axe",
-      "Color": "white",
-      "Quality": "SUPERIOR",
-      "Text": "SUPERIOR DOUBLE AXE",
-      "BaseItem": {
-        "DisplayName": "Double Axe",
-        "NTIPAliasClassID": 2,
-        "NTIPAliasType": 28,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 5
-          },
-          "72": 24,
-          "73": 24,
-          "21": 5,
-          "22": 13,
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          2,
-          3
-        ],
-        "sets": [
-          "BERSERKERSHATCHET"
-        ],
-        "uniques": [
-          "BLADEBONE"
-        ],
-        "NTIPAliasClass": 0
-      },
-      "Item": null,
-      "NTIPAliasType": 28,
-      "NTIPAliasClassID": 2,
-      "NTIPAliasClass": 0,
-      "NTIPAliasQuality": 3,
-      "NTIPAliasFlag": {
-        "0x10": true,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 685,
-        "y": 160,
-        "w": 158,
-        "h": 22
-      },
-      "Name": "Divine Scepter",
-      "Color": "white",
-      "Quality": "normal",
-      "Text": "DIVINE SCEPTER",
-      "BaseItem": {
-        "DisplayName": "Divine Scepter",
-        "NTIPAliasClassID": 110,
-        "NTIPAliasType": 24,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 5
-          },
-          "72": 70,
-          "73": 70,
-          "21": 16,
-          "22": 38,
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          2,
-          3
-        ],
-        "uniques": [
-          "HANDOFBLESSEDLIGHT"
-        ],
-        "NTIPAliasClass": 1
-      },
-      "Item": null,
-      "NTIPAliasType": 24,
-      "NTIPAliasClassID": 110,
-      "NTIPAliasClass": 1,
-      "NTIPAliasQuality": 2,
-      "NTIPAliasFlag": {
-        "0x10": true,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 979,
-        "y": 118,
-        "w": 247,
-        "h": 22
-      },
-      "Name": "Divine Scepter",
-      "Color": "white",
-      "Quality": "SUPERIOR",
-      "Text": "SUPERIOR DIVINE SCEPTER",
-      "BaseItem": {
-        "DisplayName": "Divine Scepter",
-        "NTIPAliasClassID": 110,
-        "NTIPAliasType": 24,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 5
-          },
-          "72": 70,
-          "73": 70,
-          "21": 16,
-          "22": 38,
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          2,
-          3
-        ],
-        "uniques": [
-          "HANDOFBLESSEDLIGHT"
-        ],
-        "NTIPAliasClass": 1
-      },
-      "Item": null,
-      "NTIPAliasType": 24,
-      "NTIPAliasClassID": 110,
-      "NTIPAliasClass": 1,
-      "NTIPAliasQuality": 3,
-      "NTIPAliasFlag": {
-        "0x10": true,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 744,
-        "y": 118,
-        "w": 208,
-        "h": 22
-      },
-      "Name": "Double Bow",
-      "Color": "white",
-      "Quality": "SUPERIOR",
-      "Text": "SUPERIOR DOUBLE BOW",
-      "BaseItem": {
-        "DisplayName": "Double Bow",
-        "NTIPAliasClassID": 164,
-        "NTIPAliasType": 27,
+        "DisplayName": "Heraldic Shield",
+        "NTIPAliasClassID": 410,
+        "NTIPAliasType": 70,
         "NTIPAliasStatProps": {
           "194": {
             "min": 0,
             "max": 4
           },
-          "72": 36,
-          "73": 36,
-          "23": 11,
-          "24": 26
+          "72": 40,
+          "73": 40,
+          "31": {
+            "min": 16,
+            "max": 26
+          },
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
         },
         "dimensions": [
           2,
-          3
+          4
         ],
-        "uniques": [
-          "ENDLESSHAIL"
-        ],
-        "NTIPAliasClass": 1
+        "NTIPAliasClass": 0
       },
       "Item": null,
-      "NTIPAliasType": 27,
-      "NTIPAliasClassID": 164,
-      "NTIPAliasClass": 1,
+      "NTIPAliasType": 70,
+      "NTIPAliasClassID": 410,
+      "NTIPAliasClass": 0,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 433,
+        "y": 190,
+        "w": 257,
+        "h": 22
+      },
+      "Name": "Heraldic Shield",
+      "Color": "white",
+      "Quality": "SUPERIOR",
+      "Text": "SUPERIOR HERALDIC SHIELD",
+      "BaseItem": {
+        "DisplayName": "Heraldic Shield",
+        "NTIPAliasClassID": 410,
+        "NTIPAliasType": 70,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 4
+          },
+          "72": 40,
+          "73": 40,
+          "31": {
+            "min": 16,
+            "max": 26
+          },
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          4
+        ],
+        "NTIPAliasClass": 0
+      },
+      "Item": null,
+      "NTIPAliasType": 70,
+      "NTIPAliasClassID": 410,
+      "NTIPAliasClass": 0,
       "NTIPAliasQuality": 3,
       "NTIPAliasFlag": {
         "0x10": true,
@@ -580,77 +438,30 @@
     },
     {
       "BoundingBox": {
-        "x": 725,
-        "y": 181,
-        "w": 158,
+        "x": 635,
+        "y": 169,
+        "w": 147,
         "h": 22
       },
-      "Name": "Divine Scepter",
-      "Color": "blue",
-      "Quality": "magic",
-      "Text": "DIVINE SCEPTER",
+      "Name": "Helm",
+      "Color": "white",
+      "Quality": "SUPERIOR",
+      "Text": "SUPERIOR HELM",
       "BaseItem": {
-        "DisplayName": "Divine Scepter",
-        "NTIPAliasClassID": 110,
-        "NTIPAliasType": 24,
+        "DisplayName": "Helm",
+        "NTIPAliasClassID": 308,
+        "NTIPAliasType": 37,
         "NTIPAliasStatProps": {
           "194": {
             "min": 0,
-            "max": 5
-          },
-          "72": 70,
-          "73": 70,
-          "21": 16,
-          "22": 38,
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          2,
-          3
-        ],
-        "uniques": [
-          "HANDOFBLESSEDLIGHT"
-        ],
-        "NTIPAliasClass": 1
-      },
-      "Item": null,
-      "NTIPAliasType": 24,
-      "NTIPAliasClassID": 110,
-      "NTIPAliasClass": 1,
-      "NTIPAliasQuality": 4,
-      "NTIPAliasFlag": {
-        "0x10": false,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 521,
-        "y": 139,
-        "w": 118,
-        "h": 22
-      },
-      "Name": "Double Axe",
-      "Color": "blue",
-      "Quality": "magic",
-      "Text": "DOUBLE AXE",
-      "BaseItem": {
-        "DisplayName": "Double Axe",
-        "NTIPAliasClassID": 2,
-        "NTIPAliasType": 28,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 5
+            "max": 2
           },
           "72": 24,
           "73": 24,
-          "21": 5,
-          "22": 13,
+          "31": {
+            "min": 15,
+            "max": 18
+          },
           "0x400000": {
             "min": 0,
             "max": 1
@@ -658,379 +469,541 @@
         },
         "dimensions": [
           2,
-          3
+          2
         ],
         "sets": [
-          "BERSERKERSHATCHET"
+          "BERSERKERSHEADGEAR"
         ],
         "uniques": [
-          "BLADEBONE"
+          "COIFOFGLORY"
         ],
         "NTIPAliasClass": 0
       },
       "Item": null,
-      "NTIPAliasType": 28,
-      "NTIPAliasClassID": 2,
+      "NTIPAliasType": 37,
+      "NTIPAliasClassID": 308,
       "NTIPAliasClass": 0,
-      "NTIPAliasQuality": 4,
+      "NTIPAliasQuality": 3,
       "NTIPAliasFlag": {
-        "0x10": false,
+        "0x10": true,
         "0x4000000": false,
         "0x400000": false
       }
     },
     {
       "BoundingBox": {
-        "x": 570,
-        "y": 386,
-        "w": 58,
-        "h": 22
+        "x": 634,
+        "y": 149,
+        "w": 188,
+        "h": 21
       },
-      "Name": "Dirk",
-      "Color": "yellow",
-      "Quality": "rare",
-      "Text": "DIRK",
+      "Name": "Hierophant Trophy",
+      "Color": "white",
+      "Quality": "normal",
+      "Text": "HIEROPHANT TROPHY",
       "BaseItem": {
-        "DisplayName": "Dirk",
-        "NTIPAliasClassID": 40,
-        "NTIPAliasType": 32,
+        "DisplayName": "Hierophant Trophy",
+        "NTIPAliasClassID": 487,
+        "NTIPAliasType": 69,
         "NTIPAliasStatProps": {
           "194": {
             "min": 0,
-            "max": 1
+            "max": 2
           },
           "72": 20,
           "73": 20,
-          "21": 3,
-          "22": 9,
+          "31": {
+            "min": 58,
+            "max": 70
+          },
           "0x400000": {
             "min": 0,
             "max": 1
           }
         },
         "dimensions": [
-          1,
+          2,
           2
         ],
         "uniques": [
-          "THEDIGGLER"
-        ],
-        "NTIPAliasClass": 0
-      },
-      "Item": null,
-      "NTIPAliasType": 32,
-      "NTIPAliasClassID": 40,
-      "NTIPAliasClass": 0,
-      "NTIPAliasQuality": 6,
-      "NTIPAliasFlag": {
-        "0x10": false,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 540,
-        "y": 181,
-        "w": 158,
-        "h": 22
-      },
-      "Name": "Divine Scepter",
-      "Color": "yellow",
-      "Quality": "rare",
-      "Text": "DIVINE SCEPTER",
-      "BaseItem": {
-        "DisplayName": "Divine Scepter",
-        "NTIPAliasClassID": 110,
-        "NTIPAliasType": 24,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 5
-          },
-          "72": 70,
-          "73": 70,
-          "21": 16,
-          "22": 38,
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          2,
-          3
-        ],
-        "uniques": [
-          "HANDOFBLESSEDLIGHT"
+          "HOMUNCULUS"
         ],
         "NTIPAliasClass": 1
       },
       "Item": null,
-      "NTIPAliasType": 24,
-      "NTIPAliasClassID": 110,
+      "NTIPAliasType": 69,
+      "NTIPAliasClassID": 487,
       "NTIPAliasClass": 1,
-      "NTIPAliasQuality": 6,
+      "NTIPAliasQuality": 2,
       "NTIPAliasFlag": {
-        "0x10": false,
+        "0x10": true,
         "0x4000000": false,
         "0x400000": false
       }
     },
     {
       "BoundingBox": {
-        "x": 750,
-        "y": 97,
-        "w": 118,
-        "h": 22
-      },
-      "Name": "Double Axe",
-      "Color": "yellow",
-      "Quality": "rare",
-      "Text": "DOUBLE AXE",
-      "BaseItem": {
-        "DisplayName": "Double Axe",
-        "NTIPAliasClassID": 2,
-        "NTIPAliasType": 28,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 5
-          },
-          "72": 24,
-          "73": 24,
-          "21": 5,
-          "22": 13,
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          2,
-          3
-        ],
-        "sets": [
-          "BERSERKERSHATCHET"
-        ],
-        "uniques": [
-          "BLADEBONE"
-        ],
-        "NTIPAliasClass": 0
-      },
-      "Item": null,
-      "NTIPAliasType": 28,
-      "NTIPAliasClassID": 2,
-      "NTIPAliasClass": 0,
-      "NTIPAliasQuality": 6,
-      "NTIPAliasFlag": {
-        "0x10": false,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 501,
+        "x": 474,
         "y": 415,
-        "w": 158,
+        "w": 58,
         "h": 22
       },
-      "Name": "Divine Scepter",
-      "Color": "green",
-      "Quality": "set",
-      "Text": "DIVINE SCEPTER",
+      "Name": "Helm",
+      "Color": "blue",
+      "Quality": "magic",
+      "Text": "HELM",
       "BaseItem": {
-        "DisplayName": "Divine Scepter",
-        "NTIPAliasClassID": 110,
-        "NTIPAliasType": 24,
+        "DisplayName": "Helm",
+        "NTIPAliasClassID": 308,
+        "NTIPAliasType": 37,
         "NTIPAliasStatProps": {
           "194": {
             "min": 0,
-            "max": 5
-          },
-          "72": 70,
-          "73": 70,
-          "21": 16,
-          "22": 38,
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          2,
-          3
-        ],
-        "uniques": [
-          "HANDOFBLESSEDLIGHT"
-        ],
-        "NTIPAliasClass": 1
-      },
-      "Item": null,
-      "NTIPAliasType": 24,
-      "NTIPAliasClassID": 110,
-      "NTIPAliasClass": 1,
-      "NTIPAliasQuality": 5,
-      "NTIPAliasFlag": {
-        "0x10": false,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 598,
-        "y": 118,
-        "w": 118,
-        "h": 22
-      },
-      "Name": "Berserker's Hatchet",
-      "Color": "green",
-      "Quality": "set",
-      "Text": "DOUBLE AXE",
-      "BaseItem": {
-        "DisplayName": "Double Axe",
-        "NTIPAliasClassID": 2,
-        "NTIPAliasType": 28,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 5
-          },
-          "72": 24,
-          "73": 24,
-          "21": 5,
-          "22": 13,
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          2,
-          3
-        ],
-        "sets": [
-          "BERSERKERSHATCHET"
-        ],
-        "uniques": [
-          "BLADEBONE"
-        ],
-        "NTIPAliasClass": 0
-      },
-      "Item": {
-        "DisplayName": "Berserker's Hatchet",
-        "NTIPAliasClassID": 2,
-        "NTIPAliasType": 28,
-        "NTIPAliasStatProps": {
-          "119": {
-            "min": 30,
-            "max": 30
-          },
-          "62": {
-            "min": 5,
-            "max": 5
-          }
-        }
-      },
-      "NTIPAliasType": 28,
-      "NTIPAliasClassID": 2,
-      "NTIPAliasClass": 0,
-      "NTIPAliasQuality": 5,
-      "NTIPAliasFlag": {
-        "0x10": false,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 501,
-        "y": 453,
-        "w": 158,
-        "h": 22
-      },
-      "Name": "Hand of Blessed Light",
-      "Color": "gold",
-      "Quality": "unique",
-      "Text": "DIVINE SCEPTER",
-      "BaseItem": {
-        "DisplayName": "Divine Scepter",
-        "NTIPAliasClassID": 110,
-        "NTIPAliasType": 24,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 5
-          },
-          "72": 70,
-          "73": 70,
-          "21": 16,
-          "22": 38,
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          2,
-          3
-        ],
-        "uniques": [
-          "HANDOFBLESSEDLIGHT"
-        ],
-        "NTIPAliasClass": 1
-      },
-      "Item": {
-        "DisplayName": "Hand of Blessed Light",
-        "NTIPAliasClassID": 110,
-        "NTIPAliasType": 24,
-        "NTIPAliasStatProps": {
-          "83,3": {
-            "min": 2,
             "max": 2
           },
-          "25": {
-            "min": 130,
-            "max": 160
-          },
-          "119": {
-            "min": 100,
-            "max": 100
-          },
+          "72": 24,
+          "73": 24,
           "31": {
-            "min": 50,
-            "max": 50
+            "min": 15,
+            "max": 18
           },
-          "27": {
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          2
+        ],
+        "sets": [
+          "BERSERKERSHEADGEAR"
+        ],
+        "uniques": [
+          "COIFOFGLORY"
+        ],
+        "NTIPAliasClass": 0
+      },
+      "Item": null,
+      "NTIPAliasType": 37,
+      "NTIPAliasClassID": 308,
+      "NTIPAliasClass": 0,
+      "NTIPAliasQuality": 4,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 525,
+        "y": 357,
+        "w": 188,
+        "h": 22
+      },
+      "Name": "Hierophant Trophy",
+      "Color": "blue",
+      "Quality": "magic",
+      "Text": "HIEROPHANT TROPHY",
+      "BaseItem": {
+        "DisplayName": "Hierophant Trophy",
+        "NTIPAliasClassID": 487,
+        "NTIPAliasType": 69,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 2
+          },
+          "72": 20,
+          "73": 20,
+          "31": {
+            "min": 58,
+            "max": 70
+          },
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          2
+        ],
+        "uniques": [
+          "HOMUNCULUS"
+        ],
+        "NTIPAliasClass": 1
+      },
+      "Item": null,
+      "NTIPAliasType": 69,
+      "NTIPAliasClassID": 487,
+      "NTIPAliasClass": 1,
+      "NTIPAliasQuality": 4,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 515,
+        "y": 232,
+        "w": 168,
+        "h": 22
+      },
+      "Name": "Heraldic Shield",
+      "Color": "blue",
+      "Quality": "magic",
+      "Text": "HERALDIC SHIELD",
+      "BaseItem": {
+        "DisplayName": "Heraldic Shield",
+        "NTIPAliasClassID": 410,
+        "NTIPAliasType": 70,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 4
+          },
+          "72": 40,
+          "73": 40,
+          "31": {
+            "min": 16,
+            "max": 26
+          },
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          4
+        ],
+        "NTIPAliasClass": 0
+      },
+      "Item": null,
+      "NTIPAliasType": 70,
+      "NTIPAliasClassID": 410,
+      "NTIPAliasClass": 0,
+      "NTIPAliasQuality": 4,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 717,
+        "y": 191,
+        "w": 58,
+        "h": 21
+      },
+      "Name": "Helm",
+      "Color": "yellow",
+      "Quality": "rare",
+      "Text": "HELM",
+      "BaseItem": {
+        "DisplayName": "Helm",
+        "NTIPAliasClassID": 308,
+        "NTIPAliasType": 37,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 2
+          },
+          "72": 24,
+          "73": 24,
+          "31": {
+            "min": 15,
+            "max": 18
+          },
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          2
+        ],
+        "sets": [
+          "BERSERKERSHEADGEAR"
+        ],
+        "uniques": [
+          "COIFOFGLORY"
+        ],
+        "NTIPAliasClass": 0
+      },
+      "Item": null,
+      "NTIPAliasType": 37,
+      "NTIPAliasClassID": 308,
+      "NTIPAliasClass": 0,
+      "NTIPAliasQuality": 6,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 439,
+        "y": 169,
+        "w": 168,
+        "h": 22
+      },
+      "Name": "Heraldic Shield",
+      "Color": "yellow",
+      "Quality": "rare",
+      "Text": "HERALDIC SHIELD",
+      "BaseItem": {
+        "DisplayName": "Heraldic Shield",
+        "NTIPAliasClassID": 410,
+        "NTIPAliasType": 70,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 4
+          },
+          "72": 40,
+          "73": 40,
+          "31": {
+            "min": 16,
+            "max": 26
+          },
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          4
+        ],
+        "NTIPAliasClass": 0
+      },
+      "Item": null,
+      "NTIPAliasType": 70,
+      "NTIPAliasClassID": 410,
+      "NTIPAliasClass": 0,
+      "NTIPAliasQuality": 6,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 494,
+        "y": 444,
+        "w": 58,
+        "h": 21
+      },
+      "Name": "Berserker's Headgear",
+      "Color": "green",
+      "Quality": "set",
+      "Text": "HELM",
+      "BaseItem": {
+        "DisplayName": "Helm",
+        "NTIPAliasClassID": 308,
+        "NTIPAliasType": 37,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 2
+          },
+          "72": 24,
+          "73": 24,
+          "31": {
+            "min": 15,
+            "max": 18
+          },
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          2
+        ],
+        "sets": [
+          "BERSERKERSHEADGEAR"
+        ],
+        "uniques": [
+          "COIFOFGLORY"
+        ],
+        "NTIPAliasClass": 0
+      },
+      "Item": {
+        "DisplayName": "Berserker's Headgear",
+        "NTIPAliasClassID": 308,
+        "NTIPAliasType": 37,
+        "NTIPAliasStatProps": {
+          "31": {
             "min": 15,
             "max": 15
           },
-          "89": {
-            "min": 4,
-            "max": 4
-          },
-          "21": 20,
-          "22": 45,
-          "107,101": {
-            "min": 4,
-            "max": 4
-          },
-          "107,121": {
-            "min": 2,
-            "max": 2
-          },
-          "198": {
-            "chance": 5,
-            "level": 4,
-            "skill": "Fist of the Heavens"
+          "39": {
+            "min": 25,
+            "max": 25
           }
         }
       },
-      "NTIPAliasType": 24,
-      "NTIPAliasClassID": 110,
+      "NTIPAliasType": 37,
+      "NTIPAliasClassID": 308,
+      "NTIPAliasClass": 0,
+      "NTIPAliasQuality": 5,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 429,
+        "y": 386,
+        "w": 188,
+        "h": 22
+      },
+      "Name": "Hierophant Trophy",
+      "Color": "green",
+      "Quality": "set",
+      "Text": "HIEROPHANT TROPHY",
+      "BaseItem": {
+        "DisplayName": "Hierophant Trophy",
+        "NTIPAliasClassID": 487,
+        "NTIPAliasType": 69,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 2
+          },
+          "72": 20,
+          "73": 20,
+          "31": {
+            "min": 58,
+            "max": 70
+          },
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          2
+        ],
+        "uniques": [
+          "HOMUNCULUS"
+        ],
+        "NTIPAliasClass": 1
+      },
+      "Item": null,
+      "NTIPAliasType": 69,
+      "NTIPAliasClassID": 487,
       "NTIPAliasClass": 1,
+      "NTIPAliasQuality": 5,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 515,
+        "y": 271,
+        "w": 168,
+        "h": 22
+      },
+      "Name": "Heraldic Shield",
+      "Color": "green",
+      "Quality": "set",
+      "Text": "HERALDIC SHIELD",
+      "BaseItem": {
+        "DisplayName": "Heraldic Shield",
+        "NTIPAliasClassID": 410,
+        "NTIPAliasType": 70,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 4
+          },
+          "72": 40,
+          "73": 40,
+          "31": {
+            "min": 16,
+            "max": 26
+          },
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          4
+        ],
+        "NTIPAliasClass": 0
+      },
+      "Item": null,
+      "NTIPAliasType": 70,
+      "NTIPAliasClassID": 410,
+      "NTIPAliasClass": 0,
+      "NTIPAliasQuality": 5,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 477,
+        "y": 309,
+        "w": 168,
+        "h": 22
+      },
+      "Name": "Heraldic Shield",
+      "Color": "gold",
+      "Quality": "unique",
+      "Text": "HERALDIC SHIELD",
+      "BaseItem": {
+        "DisplayName": "Heraldic Shield",
+        "NTIPAliasClassID": 410,
+        "NTIPAliasType": 70,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 4
+          },
+          "72": 40,
+          "73": 40,
+          "31": {
+            "min": 16,
+            "max": 26
+          },
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
+          4
+        ],
+        "NTIPAliasClass": 0
+      },
+      "Item": null,
+      "NTIPAliasType": 70,
+      "NTIPAliasClassID": 410,
+      "NTIPAliasClass": 0,
       "NTIPAliasQuality": 7,
       "NTIPAliasFlag": {
         "0x10": false,
@@ -1040,28 +1013,30 @@
     },
     {
       "BoundingBox": {
-        "x": 540,
-        "y": 160,
-        "w": 118,
+        "x": 802,
+        "y": 190,
+        "w": 58,
         "h": 22
       },
-      "Name": "Bladebone",
+      "Name": "Coif of Glory",
       "Color": "gold",
       "Quality": "unique",
-      "Text": "DOUBLE AXE",
+      "Text": "HELM",
       "BaseItem": {
-        "DisplayName": "Double Axe",
-        "NTIPAliasClassID": 2,
-        "NTIPAliasType": 28,
+        "DisplayName": "Helm",
+        "NTIPAliasClassID": 308,
+        "NTIPAliasType": 37,
         "NTIPAliasStatProps": {
           "194": {
             "min": 0,
-            "max": 5
+            "max": 2
           },
           "72": 24,
           "73": 24,
-          "21": 5,
-          "22": 13,
+          "31": {
+            "min": 15,
+            "max": 18
+          },
           "0x400000": {
             "min": 0,
             "max": 1
@@ -1069,53 +1044,45 @@
         },
         "dimensions": [
           2,
-          3
+          2
         ],
         "sets": [
-          "BERSERKERSHATCHET"
+          "BERSERKERSHEADGEAR"
         ],
         "uniques": [
-          "BLADEBONE"
+          "COIFOFGLORY"
         ],
         "NTIPAliasClass": 0
       },
       "Item": {
-        "DisplayName": "Bladebone",
-        "NTIPAliasClassID": 2,
-        "NTIPAliasType": 28,
+        "DisplayName": "Coif of Glory",
+        "NTIPAliasClassID": 308,
+        "NTIPAliasType": 37,
         "NTIPAliasStatProps": {
-          "122": {
+          "128": {
+            "min": 7,
+            "max": 7
+          },
+          "113": {
+            "min": 1,
+            "max": 1
+          },
+          "41": {
+            "min": 15,
+            "max": 15
+          },
+          "32": {
             "min": 100,
             "max": 100
           },
-          "124": {
-            "min": 40,
-            "max": 40
-          },
-          "93": {
-            "min": 20,
-            "max": 20
-          },
           "31": {
-            "min": 20,
-            "max": 20
-          },
-          "48": {
-            "min": 8,
-            "max": 8
-          },
-          "49": {
-            "min": 12,
-            "max": 12
-          },
-          "25": {
-            "min": 30,
-            "max": 50
+            "min": 10,
+            "max": 10
           }
         }
       },
-      "NTIPAliasType": 28,
-      "NTIPAliasClassID": 2,
+      "NTIPAliasType": 37,
+      "NTIPAliasClassID": 308,
       "NTIPAliasClass": 0,
       "NTIPAliasQuality": 7,
       "NTIPAliasFlag": {

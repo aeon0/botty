@@ -4,22 +4,13 @@ import pytest
 from d2r_image import processing
 from d2r_image.data_models import HoveredItem
 from functools import cache
-from keep_item_test_cases import NIP_TESTS
+from keep_item_test_cases import NIP_KEEP_TESTS
+from common import ExpressionTest
 from nip.transpile import _test_nip_expression, transpile_nip_expression
 import screen
-from dataclasses import dataclass
-
 
 PATH='test/assets/hovered_items'
 screen.set_window_position(0, 0)
-
-@dataclass
-class ExpressionTest():
-    basename: str = None
-    expression: str = None
-    transpiled: str = None
-    read_json: dict = None
-    expected_result: bool = False
 
 @cache
 def load_hovered_items() -> dict:
@@ -36,7 +27,7 @@ def load_hovered_items() -> dict:
 @cache
 def expressions_test_list() -> list[ExpressionTest]:
     expressions = []
-    for key, value in NIP_TESTS.items():
+    for key, value in NIP_KEEP_TESTS.items():
         for val in value:
             expressions.append(ExpressionTest(
                 basename=key,

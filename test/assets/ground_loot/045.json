@@ -2,67 +2,18 @@
   "items": [
     {
       "BoundingBox": {
-        "x": 527,
+        "x": 507,
         "y": 396,
-        "w": 101,
+        "w": 141,
         "h": 21
       },
-      "Name": "Giant Axe",
+      "Name": "Great Poleaxe",
       "Color": "gray",
       "Quality": "gray",
-      "Text": "GIANT AXE",
+      "Text": "GREAT POLEAXE",
       "BaseItem": {
-        "DisplayName": "Giant Axe",
-        "NTIPAliasClassID": 9,
-        "NTIPAliasType": 28,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 6
-          },
-          "72": 50,
-          "73": 50,
-          "23": 22,
-          "24": 45,
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          2,
-          3
-        ],
-        "uniques": [
-          "HUMONGOUS"
-        ],
-        "NTIPAliasClass": 0
-      },
-      "Item": null,
-      "NTIPAliasType": 28,
-      "NTIPAliasClassID": 9,
-      "NTIPAliasClass": 0,
-      "NTIPAliasQuality": 2,
-      "NTIPAliasFlag": {
-        "0x10": true,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 502,
-        "y": 339,
-        "w": 156,
-        "h": 21
-      },
-      "Name": "Giant Thresher",
-      "Color": "gray",
-      "Quality": "gray",
-      "Text": "GIANT THRESHER",
-      "BaseItem": {
-        "DisplayName": "Giant Thresher",
-        "NTIPAliasClassID": 258,
+        "DisplayName": "Great Poleaxe",
+        "NTIPAliasClassID": 257,
         "NTIPAliasType": 34,
         "NTIPAliasStatProps": {
           "194": {
@@ -71,8 +22,8 @@
           },
           "72": 55,
           "73": 55,
-          "23": 40,
-          "24": 114,
+          "23": 46,
+          "24": 127,
           "0x400000": {
             "min": 0,
             "max": 1
@@ -82,15 +33,58 @@
           2,
           4
         ],
-        "uniques": [
-          "STORMSPIRE"
-        ],
         "NTIPAliasClass": 2
       },
       "Item": null,
       "NTIPAliasType": 34,
-      "NTIPAliasClassID": 258,
+      "NTIPAliasClassID": 257,
       "NTIPAliasClass": 2,
+      "NTIPAliasQuality": 2,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 507,
+        "y": 339,
+        "w": 146,
+        "h": 21
+      },
+      "Name": "Greater Claws",
+      "Color": "gray",
+      "Quality": "gray",
+      "Text": "GREATER CLAWS",
+      "BaseItem": {
+        "DisplayName": "Greater Claws",
+        "NTIPAliasClassID": 186,
+        "NTIPAliasType": 65,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 3
+          },
+          "72": 52,
+          "73": 52,
+          "21": 18,
+          "22": 37,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          1,
+          3
+        ],
+        "NTIPAliasClass": 1
+      },
+      "Item": null,
+      "NTIPAliasType": 65,
+      "NTIPAliasClassID": 186,
+      "NTIPAliasClass": 1,
       "NTIPAliasQuality": 2,
       "NTIPAliasFlag": {
         "0x10": true,
@@ -105,42 +99,42 @@
         "w": 126,
         "h": 21
       },
-      "Name": "Giant Sword",
+      "Name": "Great Sword",
       "Color": "gray",
       "Quality": "gray",
-      "Text": "GIANT SWORD",
+      "Text": "GREAT SWORD",
       "BaseItem": {
-        "DisplayName": "Giant Sword",
-        "NTIPAliasClassID": 35,
+        "DisplayName": "Great Sword",
+        "NTIPAliasClassID": 38,
         "NTIPAliasType": 30,
         "NTIPAliasStatProps": {
           "194": {
             "min": 0,
-            "max": 4
+            "max": 6
           },
           "72": 50,
           "73": 50,
-          "21": 3,
-          "22": 16,
-          "23": 9,
-          "24": 28,
+          "21": 12,
+          "22": 20,
+          "23": 25,
+          "24": 42,
           "0x400000": {
             "min": 0,
             "max": 1
           }
         },
         "dimensions": [
-          1,
+          2,
           4
         ],
         "uniques": [
-          "KINEMILSAWL"
+          "THEPATRIARCH"
         ],
         "NTIPAliasClass": 0
       },
       "Item": null,
       "NTIPAliasType": 30,
-      "NTIPAliasClassID": 35,
+      "NTIPAliasClassID": 38,
       "NTIPAliasClass": 0,
       "NTIPAliasQuality": 2,
       "NTIPAliasFlag": {
@@ -156,42 +150,42 @@
         "w": 215,
         "h": 21
       },
-      "Name": "Giant Sword",
+      "Name": "Great Sword",
       "Color": "gray",
       "Quality": "SUPERIOR",
-      "Text": "SUPERIOR GIANT SWORD",
+      "Text": "SUPERIOR GREAT SWORD",
       "BaseItem": {
-        "DisplayName": "Giant Sword",
-        "NTIPAliasClassID": 35,
+        "DisplayName": "Great Sword",
+        "NTIPAliasClassID": 38,
         "NTIPAliasType": 30,
         "NTIPAliasStatProps": {
           "194": {
             "min": 0,
-            "max": 4
+            "max": 6
           },
           "72": 50,
           "73": 50,
-          "21": 3,
-          "22": 16,
-          "23": 9,
-          "24": 28,
+          "21": 12,
+          "22": 20,
+          "23": 25,
+          "24": 42,
           "0x400000": {
             "min": 0,
             "max": 1
           }
         },
         "dimensions": [
-          1,
+          2,
           4
         ],
         "uniques": [
-          "KINEMILSAWL"
+          "THEPATRIARCH"
         ],
         "NTIPAliasClass": 0
       },
       "Item": null,
       "NTIPAliasType": 30,
-      "NTIPAliasClassID": 35,
+      "NTIPAliasClassID": 38,
       "NTIPAliasClass": 0,
       "NTIPAliasQuality": 3,
       "NTIPAliasFlag": {
@@ -204,65 +198,16 @@
       "BoundingBox": {
         "x": 712,
         "y": 143,
-        "w": 190,
+        "w": 230,
         "h": 21
       },
-      "Name": "Giant Axe",
+      "Name": "Great Poleaxe",
       "Color": "gray",
       "Quality": "SUPERIOR",
-      "Text": "SUPERIOR GIANT AXE",
+      "Text": "SUPERIOR GREAT POLEAXE",
       "BaseItem": {
-        "DisplayName": "Giant Axe",
-        "NTIPAliasClassID": 9,
-        "NTIPAliasType": 28,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 6
-          },
-          "72": 50,
-          "73": 50,
-          "23": 22,
-          "24": 45,
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          2,
-          3
-        ],
-        "uniques": [
-          "HUMONGOUS"
-        ],
-        "NTIPAliasClass": 0
-      },
-      "Item": null,
-      "NTIPAliasType": 28,
-      "NTIPAliasClassID": 9,
-      "NTIPAliasClass": 0,
-      "NTIPAliasQuality": 3,
-      "NTIPAliasFlag": {
-        "0x10": true,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 688,
-        "y": 101,
-        "w": 245,
-        "h": 21
-      },
-      "Name": "Giant Thresher",
-      "Color": "gray",
-      "Quality": "SUPERIOR",
-      "Text": "SUPERIOR GIANT THRESHER",
-      "BaseItem": {
-        "DisplayName": "Giant Thresher",
-        "NTIPAliasClassID": 258,
+        "DisplayName": "Great Poleaxe",
+        "NTIPAliasClassID": 257,
         "NTIPAliasType": 34,
         "NTIPAliasStatProps": {
           "194": {
@@ -271,8 +216,8 @@
           },
           "72": 55,
           "73": 55,
-          "23": 40,
-          "24": 114,
+          "23": 46,
+          "24": 127,
           "0x400000": {
             "min": 0,
             "max": 1
@@ -282,14 +227,11 @@
           2,
           4
         ],
-        "uniques": [
-          "STORMSPIRE"
-        ],
         "NTIPAliasClass": 2
       },
       "Item": null,
       "NTIPAliasType": 34,
-      "NTIPAliasClassID": 258,
+      "NTIPAliasClassID": 257,
       "NTIPAliasClass": 2,
       "NTIPAliasQuality": 3,
       "NTIPAliasFlag": {
@@ -300,15 +242,61 @@
     },
     {
       "BoundingBox": {
-        "x": 564,
-        "y": 497,
-        "w": 116,
+        "x": 683,
+        "y": 101,
+        "w": 235,
         "h": 21
       },
-      "Name": "10512 GOLD",
+      "Name": "Greater Claws",
+      "Color": "gray",
+      "Quality": "SUPERIOR",
+      "Text": "SUPERIOR GREATER CLAWS",
+      "BaseItem": {
+        "DisplayName": "Greater Claws",
+        "NTIPAliasClassID": 186,
+        "NTIPAliasType": 65,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 3
+          },
+          "72": 52,
+          "73": 52,
+          "21": 18,
+          "22": 37,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          1,
+          3
+        ],
+        "NTIPAliasClass": 1
+      },
+      "Item": null,
+      "NTIPAliasType": 65,
+      "NTIPAliasClassID": 186,
+      "NTIPAliasClass": 1,
+      "NTIPAliasQuality": 3,
+      "NTIPAliasFlag": {
+        "0x10": true,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 568,
+        "y": 497,
+        "w": 107,
+        "h": 21
+      },
+      "Name": "5512 GOLD",
       "Color": "white",
       "Quality": "normal",
-      "Text": "10512 GOLD",
+      "Text": "5512 GOLD",
       "BaseItem": {
         "DisplayName": "Gold",
         "NTIPAliasClassID": 523,
@@ -336,42 +324,42 @@
         "w": 217,
         "h": 22
       },
-      "Name": "Giant Sword",
+      "Name": "Great Sword",
       "Color": "white",
       "Quality": "SUPERIOR",
-      "Text": "SUPERIOR GIANT SWORD",
+      "Text": "SUPERIOR GREAT SWORD",
       "BaseItem": {
-        "DisplayName": "Giant Sword",
-        "NTIPAliasClassID": 35,
+        "DisplayName": "Great Sword",
+        "NTIPAliasClassID": 38,
         "NTIPAliasType": 30,
         "NTIPAliasStatProps": {
           "194": {
             "min": 0,
-            "max": 4
+            "max": 6
           },
           "72": 50,
           "73": 50,
-          "21": 3,
-          "22": 16,
-          "23": 9,
-          "24": 28,
+          "21": 12,
+          "22": 20,
+          "23": 25,
+          "24": 42,
           "0x400000": {
             "min": 0,
             "max": 1
           }
         },
         "dimensions": [
-          1,
+          2,
           4
         ],
         "uniques": [
-          "KINEMILSAWL"
+          "THEPATRIARCH"
         ],
         "NTIPAliasClass": 0
       },
       "Item": null,
       "NTIPAliasType": 30,
-      "NTIPAliasClassID": 35,
+      "NTIPAliasClassID": 38,
       "NTIPAliasClass": 0,
       "NTIPAliasQuality": 3,
       "NTIPAliasFlag": {
@@ -382,28 +370,28 @@
     },
     {
       "BoundingBox": {
-        "x": 588,
+        "x": 553,
         "y": 309,
-        "w": 177,
+        "w": 247,
         "h": 22
       },
-      "Name": "Gladius",
+      "Name": "Greater Talons",
       "Color": "white",
       "Quality": "SUPERIOR",
-      "Text": "SUPERIOR GLADIUS",
+      "Text": "SUPERIOR GREATER TALONS",
       "BaseItem": {
-        "DisplayName": "Gladius",
-        "NTIPAliasClassID": 118,
-        "NTIPAliasType": 30,
+        "DisplayName": "Greater Talons",
+        "NTIPAliasClassID": 187,
+        "NTIPAliasType": 65,
         "NTIPAliasStatProps": {
           "194": {
             "min": 0,
-            "max": 2
+            "max": 3
           },
-          "72": 24,
-          "73": 24,
-          "21": 8,
-          "22": 22,
+          "72": 69,
+          "73": 69,
+          "21": 21,
+          "22": 35,
           "0x400000": {
             "min": 0,
             "max": 1
@@ -414,13 +402,13 @@
           3
         ],
         "uniques": [
-          "BLOODLETTER"
+          "BARTUCSCUTTHROAT"
         ],
         "NTIPAliasClass": 1
       },
       "Item": null,
-      "NTIPAliasType": 30,
-      "NTIPAliasClassID": 118,
+      "NTIPAliasType": 65,
+      "NTIPAliasClassID": 187,
       "NTIPAliasClass": 1,
       "NTIPAliasQuality": 3,
       "NTIPAliasFlag": {
@@ -431,46 +419,43 @@
     },
     {
       "BoundingBox": {
-        "x": 540,
+        "x": 545,
         "y": 261,
-        "w": 158,
+        "w": 148,
         "h": 22
       },
-      "Name": "Giant Thresher",
+      "Name": "Greater Claws",
       "Color": "white",
       "Quality": "normal",
-      "Text": "GIANT THRESHER",
+      "Text": "GREATER CLAWS",
       "BaseItem": {
-        "DisplayName": "Giant Thresher",
-        "NTIPAliasClassID": 258,
-        "NTIPAliasType": 34,
+        "DisplayName": "Greater Claws",
+        "NTIPAliasClassID": 186,
+        "NTIPAliasType": 65,
         "NTIPAliasStatProps": {
           "194": {
             "min": 0,
-            "max": 6
+            "max": 3
           },
-          "72": 55,
-          "73": 55,
-          "23": 40,
-          "24": 114,
+          "72": 52,
+          "73": 52,
+          "21": 18,
+          "22": 37,
           "0x400000": {
             "min": 0,
             "max": 1
           }
         },
         "dimensions": [
-          2,
-          4
+          1,
+          3
         ],
-        "uniques": [
-          "STORMSPIRE"
-        ],
-        "NTIPAliasClass": 2
+        "NTIPAliasClass": 1
       },
       "Item": null,
-      "NTIPAliasType": 34,
-      "NTIPAliasClassID": 258,
-      "NTIPAliasClass": 2,
+      "NTIPAliasType": 65,
+      "NTIPAliasClassID": 186,
+      "NTIPAliasClass": 1,
       "NTIPAliasQuality": 2,
       "NTIPAliasFlag": {
         "0x10": true,
@@ -480,46 +465,43 @@
     },
     {
       "BoundingBox": {
-        "x": 534,
+        "x": 539,
         "y": 184,
-        "w": 247,
+        "w": 237,
         "h": 22
       },
-      "Name": "Giant Thresher",
+      "Name": "Greater Claws",
       "Color": "white",
       "Quality": "SUPERIOR",
-      "Text": "SUPERIOR GIANT THRESHER",
+      "Text": "SUPERIOR GREATER CLAWS",
       "BaseItem": {
-        "DisplayName": "Giant Thresher",
-        "NTIPAliasClassID": 258,
-        "NTIPAliasType": 34,
+        "DisplayName": "Greater Claws",
+        "NTIPAliasClassID": 186,
+        "NTIPAliasType": 65,
         "NTIPAliasStatProps": {
           "194": {
             "min": 0,
-            "max": 6
+            "max": 3
           },
-          "72": 55,
-          "73": 55,
-          "23": 40,
-          "24": 114,
+          "72": 52,
+          "73": 52,
+          "21": 18,
+          "22": 37,
           "0x400000": {
             "min": 0,
             "max": 1
           }
         },
         "dimensions": [
-          2,
-          4
+          1,
+          3
         ],
-        "uniques": [
-          "STORMSPIRE"
-        ],
-        "NTIPAliasClass": 2
+        "NTIPAliasClass": 1
       },
       "Item": null,
-      "NTIPAliasType": 34,
-      "NTIPAliasClassID": 258,
-      "NTIPAliasClass": 2,
+      "NTIPAliasType": 65,
+      "NTIPAliasClassID": 186,
+      "NTIPAliasClass": 1,
       "NTIPAliasQuality": 3,
       "NTIPAliasFlag": {
         "0x10": true,
@@ -534,42 +516,42 @@
         "w": 128,
         "h": 22
       },
-      "Name": "Giant Sword",
+      "Name": "Great Sword",
       "Color": "white",
       "Quality": "normal",
-      "Text": "GIANT SWORD",
+      "Text": "GREAT SWORD",
       "BaseItem": {
-        "DisplayName": "Giant Sword",
-        "NTIPAliasClassID": 35,
+        "DisplayName": "Great Sword",
+        "NTIPAliasClassID": 38,
         "NTIPAliasType": 30,
         "NTIPAliasStatProps": {
           "194": {
             "min": 0,
-            "max": 4
+            "max": 6
           },
           "72": 50,
           "73": 50,
-          "21": 3,
-          "22": 16,
-          "23": 9,
-          "24": 28,
+          "21": 12,
+          "22": 20,
+          "23": 25,
+          "24": 42,
           "0x400000": {
             "min": 0,
             "max": 1
           }
         },
         "dimensions": [
-          1,
+          2,
           4
         ],
         "uniques": [
-          "KINEMILSAWL"
+          "THEPATRIARCH"
         ],
         "NTIPAliasClass": 0
       },
       "Item": null,
       "NTIPAliasType": 30,
-      "NTIPAliasClassID": 35,
+      "NTIPAliasClassID": 38,
       "NTIPAliasClass": 0,
       "NTIPAliasQuality": 2,
       "NTIPAliasFlag": {
@@ -585,42 +567,42 @@
         "w": 128,
         "h": 22
       },
-      "Name": "Giant Sword",
+      "Name": "Great Sword",
       "Color": "blue",
       "Quality": "magic",
-      "Text": "GIANT SWORD",
+      "Text": "GREAT SWORD",
       "BaseItem": {
-        "DisplayName": "Giant Sword",
-        "NTIPAliasClassID": 35,
+        "DisplayName": "Great Sword",
+        "NTIPAliasClassID": 38,
         "NTIPAliasType": 30,
         "NTIPAliasStatProps": {
           "194": {
             "min": 0,
-            "max": 4
+            "max": 6
           },
           "72": 50,
           "73": 50,
-          "21": 3,
-          "22": 16,
-          "23": 9,
-          "24": 28,
+          "21": 12,
+          "22": 20,
+          "23": 25,
+          "24": 42,
           "0x400000": {
             "min": 0,
             "max": 1
           }
         },
         "dimensions": [
-          1,
+          2,
           4
         ],
         "uniques": [
-          "KINEMILSAWL"
+          "THEPATRIARCH"
         ],
         "NTIPAliasClass": 0
       },
       "Item": null,
       "NTIPAliasType": 30,
-      "NTIPAliasClassID": 35,
+      "NTIPAliasClassID": 38,
       "NTIPAliasClass": 0,
       "NTIPAliasQuality": 4,
       "NTIPAliasFlag": {
@@ -631,46 +613,43 @@
     },
     {
       "BoundingBox": {
-        "x": 501,
+        "x": 506,
         "y": 100,
-        "w": 158,
+        "w": 148,
         "h": 22
       },
-      "Name": "Giant Thresher",
+      "Name": "Greater Claws",
       "Color": "blue",
       "Quality": "magic",
-      "Text": "GIANT THRESHER",
+      "Text": "GREATER CLAWS",
       "BaseItem": {
-        "DisplayName": "Giant Thresher",
-        "NTIPAliasClassID": 258,
-        "NTIPAliasType": 34,
+        "DisplayName": "Greater Claws",
+        "NTIPAliasClassID": 186,
+        "NTIPAliasType": 65,
         "NTIPAliasStatProps": {
           "194": {
             "min": 0,
-            "max": 6
+            "max": 3
           },
-          "72": 55,
-          "73": 55,
-          "23": 40,
-          "24": 114,
+          "72": 52,
+          "73": 52,
+          "21": 18,
+          "22": 37,
           "0x400000": {
             "min": 0,
             "max": 1
           }
         },
         "dimensions": [
-          2,
-          4
+          1,
+          3
         ],
-        "uniques": [
-          "STORMSPIRE"
-        ],
-        "NTIPAliasClass": 2
+        "NTIPAliasClass": 1
       },
       "Item": null,
-      "NTIPAliasType": 34,
-      "NTIPAliasClassID": 258,
-      "NTIPAliasClass": 2,
+      "NTIPAliasType": 65,
+      "NTIPAliasClassID": 186,
+      "NTIPAliasClass": 1,
       "NTIPAliasQuality": 4,
       "NTIPAliasFlag": {
         "0x10": false,
@@ -680,46 +659,43 @@
     },
     {
       "BoundingBox": {
-        "x": 540,
+        "x": 545,
         "y": 288,
-        "w": 158,
+        "w": 148,
         "h": 22
       },
-      "Name": "Giant Thresher",
+      "Name": "Greater Claws",
       "Color": "yellow",
       "Quality": "rare",
-      "Text": "GIANT THRESHER",
+      "Text": "GREATER CLAWS",
       "BaseItem": {
-        "DisplayName": "Giant Thresher",
-        "NTIPAliasClassID": 258,
-        "NTIPAliasType": 34,
+        "DisplayName": "Greater Claws",
+        "NTIPAliasClassID": 186,
+        "NTIPAliasType": 65,
         "NTIPAliasStatProps": {
           "194": {
             "min": 0,
-            "max": 6
+            "max": 3
           },
-          "72": 55,
-          "73": 55,
-          "23": 40,
-          "24": 114,
+          "72": 52,
+          "73": 52,
+          "21": 18,
+          "22": 37,
           "0x400000": {
             "min": 0,
             "max": 1
           }
         },
         "dimensions": [
-          2,
-          4
+          1,
+          3
         ],
-        "uniques": [
-          "STORMSPIRE"
-        ],
-        "NTIPAliasClass": 2
+        "NTIPAliasClass": 1
       },
       "Item": null,
-      "NTIPAliasType": 34,
-      "NTIPAliasClassID": 258,
-      "NTIPAliasClass": 2,
+      "NTIPAliasType": 65,
+      "NTIPAliasClassID": 186,
+      "NTIPAliasClass": 1,
       "NTIPAliasQuality": 6,
       "NTIPAliasFlag": {
         "0x10": false,
@@ -734,65 +710,14 @@
         "w": 128,
         "h": 22
       },
-      "Name": "Giant Sword",
+      "Name": "Great Sword",
       "Color": "yellow",
       "Quality": "rare",
-      "Text": "GIANT SWORD",
+      "Text": "GREAT SWORD",
       "BaseItem": {
-        "DisplayName": "Giant Sword",
-        "NTIPAliasClassID": 35,
+        "DisplayName": "Great Sword",
+        "NTIPAliasClassID": 38,
         "NTIPAliasType": 30,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 4
-          },
-          "72": 50,
-          "73": 50,
-          "21": 3,
-          "22": 16,
-          "23": 9,
-          "24": 28,
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          1,
-          4
-        ],
-        "uniques": [
-          "KINEMILSAWL"
-        ],
-        "NTIPAliasClass": 0
-      },
-      "Item": null,
-      "NTIPAliasType": 30,
-      "NTIPAliasClassID": 35,
-      "NTIPAliasClass": 0,
-      "NTIPAliasQuality": 6,
-      "NTIPAliasFlag": {
-        "0x10": false,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 705,
-        "y": 121,
-        "w": 108,
-        "h": 22
-      },
-      "Name": "Giant Axe",
-      "Color": "yellow",
-      "Quality": "rare",
-      "Text": "GIANT AXE",
-      "BaseItem": {
-        "DisplayName": "Giant Axe",
-        "NTIPAliasClassID": 9,
-        "NTIPAliasType": 28,
         "NTIPAliasStatProps": {
           "194": {
             "min": 0,
@@ -800,8 +725,10 @@
           },
           "72": 50,
           "73": 50,
-          "23": 22,
-          "24": 45,
+          "21": 12,
+          "22": 20,
+          "23": 25,
+          "24": 42,
           "0x400000": {
             "min": 0,
             "max": 1
@@ -809,16 +736,16 @@
         },
         "dimensions": [
           2,
-          3
+          4
         ],
         "uniques": [
-          "HUMONGOUS"
+          "THEPATRIARCH"
         ],
         "NTIPAliasClass": 0
       },
       "Item": null,
-      "NTIPAliasType": 28,
-      "NTIPAliasClassID": 9,
+      "NTIPAliasType": 30,
+      "NTIPAliasClassID": 38,
       "NTIPAliasClass": 0,
       "NTIPAliasQuality": 6,
       "NTIPAliasFlag": {
@@ -829,47 +756,93 @@
     },
     {
       "BoundingBox": {
-        "x": 808,
-        "y": 202,
-        "w": 128,
+        "x": 700,
+        "y": 121,
+        "w": 148,
         "h": 22
       },
-      "Name": "Giant Sword",
-      "Color": "green",
-      "Quality": "set",
-      "Text": "GIANT SWORD",
+      "Name": "Great Poleaxe",
+      "Color": "yellow",
+      "Quality": "rare",
+      "Text": "GREAT POLEAXE",
       "BaseItem": {
-        "DisplayName": "Giant Sword",
-        "NTIPAliasClassID": 35,
-        "NTIPAliasType": 30,
+        "DisplayName": "Great Poleaxe",
+        "NTIPAliasClassID": 257,
+        "NTIPAliasType": 34,
         "NTIPAliasStatProps": {
           "194": {
             "min": 0,
-            "max": 4
+            "max": 6
           },
-          "72": 50,
-          "73": 50,
-          "21": 3,
-          "22": 16,
-          "23": 9,
-          "24": 28,
+          "72": 55,
+          "73": 55,
+          "23": 46,
+          "24": 127,
           "0x400000": {
             "min": 0,
             "max": 1
           }
         },
         "dimensions": [
-          1,
+          2,
+          4
+        ],
+        "NTIPAliasClass": 2
+      },
+      "Item": null,
+      "NTIPAliasType": 34,
+      "NTIPAliasClassID": 257,
+      "NTIPAliasClass": 2,
+      "NTIPAliasQuality": 6,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 803,
+        "y": 202,
+        "w": 128,
+        "h": 22
+      },
+      "Name": "Great Sword",
+      "Color": "green",
+      "Quality": "set",
+      "Text": "GREAT SWORD",
+      "BaseItem": {
+        "DisplayName": "Great Sword",
+        "NTIPAliasClassID": 38,
+        "NTIPAliasType": 30,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 6
+          },
+          "72": 50,
+          "73": 50,
+          "21": 12,
+          "22": 20,
+          "23": 25,
+          "24": 42,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          2,
           4
         ],
         "uniques": [
-          "KINEMILSAWL"
+          "THEPATRIARCH"
         ],
         "NTIPAliasClass": 0
       },
       "Item": null,
       "NTIPAliasType": 30,
-      "NTIPAliasClassID": 35,
+      "NTIPAliasClassID": 38,
       "NTIPAliasClass": 0,
       "NTIPAliasQuality": 5,
       "NTIPAliasFlag": {
@@ -880,46 +853,43 @@
     },
     {
       "BoundingBox": {
-        "x": 578,
+        "x": 583,
         "y": 79,
-        "w": 158,
+        "w": 148,
         "h": 22
       },
-      "Name": "Giant Thresher",
+      "Name": "Greater Claws",
       "Color": "green",
       "Quality": "set",
-      "Text": "GIANT THRESHER",
+      "Text": "GREATER CLAWS",
       "BaseItem": {
-        "DisplayName": "Giant Thresher",
-        "NTIPAliasClassID": 258,
-        "NTIPAliasType": 34,
+        "DisplayName": "Greater Claws",
+        "NTIPAliasClassID": 186,
+        "NTIPAliasType": 65,
         "NTIPAliasStatProps": {
           "194": {
             "min": 0,
-            "max": 6
+            "max": 3
           },
-          "72": 55,
-          "73": 55,
-          "23": 40,
-          "24": 114,
+          "72": 52,
+          "73": 52,
+          "21": 18,
+          "22": 37,
           "0x400000": {
             "min": 0,
             "max": 1
           }
         },
         "dimensions": [
-          2,
-          4
+          1,
+          3
         ],
-        "uniques": [
-          "STORMSPIRE"
-        ],
-        "NTIPAliasClass": 2
+        "NTIPAliasClass": 1
       },
       "Item": null,
-      "NTIPAliasType": 34,
-      "NTIPAliasClassID": 258,
-      "NTIPAliasClass": 2,
+      "NTIPAliasType": 65,
+      "NTIPAliasClassID": 186,
+      "NTIPAliasClass": 1,
       "NTIPAliasQuality": 5,
       "NTIPAliasFlag": {
         "0x10": false,
@@ -934,104 +904,25 @@
         "w": 128,
         "h": 22
       },
-      "Name": "Kinemil's Awl",
+      "Name": "The Patriarch",
       "Color": "gold",
       "Quality": "unique",
-      "Text": "GIANT SWORD",
+      "Text": "GREAT SWORD",
       "BaseItem": {
-        "DisplayName": "Giant Sword",
-        "NTIPAliasClassID": 35,
+        "DisplayName": "Great Sword",
+        "NTIPAliasClassID": 38,
         "NTIPAliasType": 30,
         "NTIPAliasStatProps": {
           "194": {
             "min": 0,
-            "max": 4
+            "max": 6
           },
           "72": 50,
           "73": 50,
-          "21": 3,
-          "22": 16,
-          "23": 9,
-          "24": 28,
-          "0x400000": {
-            "min": 0,
-            "max": 1
-          }
-        },
-        "dimensions": [
-          1,
-          4
-        ],
-        "uniques": [
-          "KINEMILSAWL"
-        ],
-        "NTIPAliasClass": 0
-      },
-      "Item": {
-        "DisplayName": "Kinemil's Awl",
-        "NTIPAliasClassID": 35,
-        "NTIPAliasType": 30,
-        "NTIPAliasStatProps": {
-          "19": {
-            "min": 100,
-            "max": 150
-          },
-          "8": {
-            "min": 20,
-            "max": 20
-          },
-          "48": {
-            "min": 6,
-            "max": 6
-          },
-          "49": {
-            "min": 20,
-            "max": 40
-          },
-          "25": {
-            "min": 80,
-            "max": 100
-          },
-          "107,102": {
-            "min": 6,
-            "max": 6
-          }
-        }
-      },
-      "NTIPAliasType": 30,
-      "NTIPAliasClassID": 35,
-      "NTIPAliasClass": 0,
-      "NTIPAliasQuality": 7,
-      "NTIPAliasFlag": {
-        "0x10": false,
-        "0x4000000": false,
-        "0x400000": false
-      }
-    },
-    {
-      "BoundingBox": {
-        "x": 520,
-        "y": 121,
-        "w": 158,
-        "h": 22
-      },
-      "Name": "Stormspire",
-      "Color": "gold",
-      "Quality": "unique",
-      "Text": "GIANT THRESHER",
-      "BaseItem": {
-        "DisplayName": "Giant Thresher",
-        "NTIPAliasClassID": 258,
-        "NTIPAliasType": 34,
-        "NTIPAliasStatProps": {
-          "194": {
-            "min": 0,
-            "max": 6
-          },
-          "72": 55,
-          "73": 55,
-          "23": 40,
-          "24": 114,
+          "21": 12,
+          "22": 20,
+          "23": 25,
+          "24": 42,
           "0x400000": {
             "min": 0,
             "max": 1
@@ -1042,51 +933,90 @@
           4
         ],
         "uniques": [
-          "STORMSPIRE"
+          "THEPATRIARCH"
         ],
-        "NTIPAliasClass": 2
+        "NTIPAliasClass": 0
       },
       "Item": {
-        "DisplayName": "Stormspire",
-        "NTIPAliasClassID": 258,
-        "NTIPAliasType": 34,
+        "DisplayName": "The Patriarch",
+        "NTIPAliasClassID": 38,
+        "NTIPAliasType": 30,
         "NTIPAliasStatProps": {
-          "41": {
-            "min": 50,
-            "max": 50
+          "34": {
+            "min": 3,
+            "max": 3
           },
-          "201": {
-            "chance": 2,
-            "level": null,
-            "skill": "Charged Bolt"
+          "35": {
+            "min": 3,
+            "max": 3
+          },
+          "113": {
+            "min": 1,
+            "max": 1
+          },
+          "79": {
+            "min": 100,
+            "max": 100
           },
           "25": {
-            "min": 150,
-            "max": 250
+            "min": 100,
+            "max": 120
           },
           "0": {
             "min": 10,
             "max": 10
-          },
-          "93": {
-            "min": 30,
-            "max": 30
-          },
-          "152": {
-            "min": 1,
-            "max": 1
-          },
-          "50": 1,
-          "51": 237,
-          "128": {
-            "min": 27,
-            "max": 27
           }
         }
       },
-      "NTIPAliasType": 34,
-      "NTIPAliasClassID": 258,
-      "NTIPAliasClass": 2,
+      "NTIPAliasType": 30,
+      "NTIPAliasClassID": 38,
+      "NTIPAliasClass": 0,
+      "NTIPAliasQuality": 7,
+      "NTIPAliasFlag": {
+        "0x10": false,
+        "0x4000000": false,
+        "0x400000": false
+      }
+    },
+    {
+      "BoundingBox": {
+        "x": 525,
+        "y": 121,
+        "w": 148,
+        "h": 22
+      },
+      "Name": "Greater Claws",
+      "Color": "gold",
+      "Quality": "unique",
+      "Text": "GREATER CLAWS",
+      "BaseItem": {
+        "DisplayName": "Greater Claws",
+        "NTIPAliasClassID": 186,
+        "NTIPAliasType": 65,
+        "NTIPAliasStatProps": {
+          "194": {
+            "min": 0,
+            "max": 3
+          },
+          "72": 52,
+          "73": 52,
+          "21": 18,
+          "22": 37,
+          "0x400000": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        "dimensions": [
+          1,
+          3
+        ],
+        "NTIPAliasClass": 1
+      },
+      "Item": null,
+      "NTIPAliasType": 65,
+      "NTIPAliasClassID": 186,
+      "NTIPAliasClass": 1,
       "NTIPAliasQuality": 7,
       "NTIPAliasFlag": {
         "0x10": false,

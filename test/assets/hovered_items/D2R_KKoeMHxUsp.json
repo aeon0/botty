@@ -22,7 +22,8 @@
   "NTIPAliasQuality": 4,
   "NTIPAliasStat": {
     "92": 73,
-    "96": 3
+    "96": 3,
+    "22": 1
   },
   "NTIPAliasFlag": {
     "0x10": true,

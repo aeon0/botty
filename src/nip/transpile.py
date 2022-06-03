@@ -248,12 +248,12 @@ def transpile_nip_expression(expression: str, isPickedUpPhase=False):
 
 
 
-nip_expressions: set[NIPExpression] = {}
+nip_expressions: list[NIPExpression] = []
 
 def load_nip_expression(nip_expression):
     transpiled_expression = transpile_nip_expression(nip_expression)
     if transpiled_expression:
-        nip_expressions.update(
+        nip_expressions.append(
             NIPExpression(
                 raw=nip_expression,
                 should_id_transpiled=transpile_nip_expression(nip_expression.split("#")[0]),

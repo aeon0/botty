@@ -2,48 +2,71 @@ import cv2
 import os
 import pytest
 from d2r_image import processing
-from d2r_image.data_models import D2ItemList, GroundItemList
+from d2r_image.data_models import GroundItemList
+from common import ExpressionTest
 from functools import cache
+from pick_item_test_cases import NIP_PICK_TESTS
+import nip.transpile as nip_transpile
+import screen
 
 PATH='test/assets/ground_loot'
+screen.set_window_position(0, 0)
 
 @cache
-def load_ground_loot():
-    base_files=[]
+def load_ground_loot() -> dict:
+    test_objs = {}
     for filename in os.listdir(PATH):
-        filename = filename.lower()
-        if filename.endswith('.png'):
-            basename = filename[:-4].upper()
-            base_files.append(basename)
-    return base_files
+        filename = filename
+        if filename.lower().endswith('.png'):
+            basename = filename[:-4]
+            image = cv2.imread(f"{PATH}/{basename}.png")
+            test_objs[basename] = processing.get_ground_loot(image)
+    return test_objs
 
-def test_ground_loot():
-    base_files = load_ground_loot()
-    for base_file in base_files:
-        #print(f"Reading {base_file}.png")
-        img = cv2.imread(f"{PATH}/{base_file}.png")
-        d2_items = processing.get_ground_loot(img)
-        ground_expected = GroundItemList.from_json(open(f"{PATH}/{base_file}.json").read())
-        #print(f"  items: {len(d2_items.items)}")
-        assert len(d2_items.items) == len(ground_expected.items)
-        for item in ground_expected.items:
-            assert item in d2_items.items
+@cache
+def expressions_test_list() -> list[ExpressionTest]:
+    expressions = []
+    for key, value in NIP_PICK_TESTS.items(): # key = basename, value = list[dict]
+        for val in value: # for dict in list[dict]
+            items_json: GroundItemList = load_ground_loot()[key]
+            for ground_item in items_json.items:
+                if ground_item.Text == val["Text"] and ground_item.Color == val["Color"]:
+                    for expr in val["expressions"]:
+                        expressions.append(ExpressionTest(
+                            basename=key,
+                            read_json=ground_item.as_dict(),
+                            expression=expr[0],
+                            expected_result=expr[1],
+                            transpiled=nip_transpile.transpile_nip_expression(expr[0])
+                        ))
+                    break
+    return expressions
+
+@pytest.mark.parametrize('ground_items', load_ground_loot().items())
+def test_ground_loot(ground_items: list[str, dict]):
+    basename = ground_items[0]
+    result = ground_items[1]
+    expected_properties = GroundItemList.from_json(open(f"{PATH}/{basename}.json").read())
+    assert result == expected_properties
 
 
-def generate_ground_loot_json(image_filename):
-    image_path = os.path.join(
-        os.path.dirname(__file__),
-        'assets',
-        'ground_loot',
-        image_filename)
-    image = cv2.imread(image_path)
-    d2_items = processing.get_ground_loot(image)
-    ground_expected = D2ItemList([])
-    for item in d2_items:
-        ground_expected.items.append(item)
-    ground_expected_json = ground_expected.to_json()
-    #print(ground_expected_json)
-
-
-# generate_ground_loot_json('ground7.png')
-# test_ground_loot('ground2.png', 'ground2.json')
+@pytest.mark.parametrize('expression_test', expressions_test_list())
+def test_keep_item(expression_test: ExpressionTest, mocker):
+    should_pick_transpiled = nip_transpile.transpile_nip_expression(expression_test.expression.split("#")[0], isPickedUpPhase=True)
+    mocker.patch.object(nip_transpile, 'nip_expressions', [
+        nip_transpile.NIPExpression(
+                raw=expression_test.expression,
+                should_id_transpiled=nip_transpile.transpile_nip_expression(expression_test.expression.split("#")[0]),
+                transpiled=expression_test.transpiled,
+                should_pickup=should_pick_transpiled
+            )
+    ])
+    print(f"\nImage: {expression_test.basename}")
+    print(f"Read item: {expression_test.read_json}")
+    print(f"Expression: {expression_test.expression}")
+    #print(f"Transpiled: {expression_test.transpiled}")
+    print(f"should_pick() transpiled: {should_pick_transpiled}")
+    print(f"Expected result: {expression_test.expected_result}")
+    result, _ = nip_transpile.should_pickup(expression_test.read_json)
+    print(f"Result: {result}\n")
+    assert bool(result) == expression_test.expected_result

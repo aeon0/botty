@@ -129,6 +129,7 @@ class GroundItem:
             "Name": self.Name,
             "Quality": self.Quality,
             "Text": self.Text,
+            "Color": self.Color,
             "BaseItem": self.BaseItem,
             "Item": self.Item,
             "NTIPAliasType": self.NTIPAliasType,
