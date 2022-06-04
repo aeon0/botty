@@ -306,7 +306,7 @@ def _handle_pick_eth_sockets(item_data: dict, expression: NIPExpression) -> tupl
 
     if len(tokens_by_section) > 1 and soc_keyword_present:
         for i, token in enumerate(tokens := tokens_by_section[1]):
-            print(f"tokens: {tokens}")
+            # print(f"tokens: {tokens}")
             if token.type == TokenType.NTIPAliasStat and token.value == str(NTIPAliasStat["sockets"]):
                 desired_sockets = int(tokens[i + 2].value)
                 if (desired_sockets > 0 and not (desired_sockets == 1 and tokens[i + 1].value == "<")) or (desired_sockets == 0 and tokens[i + 1].value == ">"):
