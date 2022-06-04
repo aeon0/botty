@@ -7098,7 +7098,7 @@ NIP_ITEM_TYPE_DATA = {
         "armor",
         "anyarmor"
     ],
-    "Studded Leather ": [
+    "Studded Leather": [
         "armor",
         "anyarmor"
     ],
@@ -7322,7 +7322,7 @@ NIP_ITEM_TYPE_DATA = {
         "armor",
         "anyarmor"
     ],
-    "Ornate Armor": [
+    "Ornate Plate": [
         "armor",
         "anyarmor"
     ],
@@ -7351,9 +7351,8 @@ NIP_ITEM_TYPE_DATA = {
         "anyshield"
     ],
     "Ancient Shield": [
-        "auricshields",
-        "anyshield",
-        "paladinitem"
+        "shield",
+        "anyshield"
     ],
     "Demonhide Gloves": [
         "gloves",
@@ -7732,7 +7731,7 @@ NIP_ITEM_TYPE_DATA = {
         "helm",
         "druiditem"
     ],
-    "Griffon Headress": [
+    "Griffon Headdress": [
         "pelt",
         "helm",
         "druiditem"
@@ -7822,7 +7821,7 @@ NIP_ITEM_TYPE_DATA = {
         "anyshield",
         "necromanceritem"
     ],
-    "Heirophant Trophy": [
+    "Hierophant Trophy": [
         "voodooheads",
         "anyshield",
         "necromanceritem"
@@ -7887,6 +7886,11 @@ NIP_ITEM_TYPE_DATA = {
         "anyshield",
         "paladinitem"
     ],
+    "Kurast Shield": [
+        "auricshields",
+        "anyshield",
+        "paladinitem"
+    ],
     "Zakarum Shield": [
         "auricshields",
         "anyshield",
@@ -7946,7 +7950,7 @@ NIP_ITEM_TYPE_DATA = {
         "axe",
         "meleeweapon"
     ],
-    "Broad Axe ": [
+    "Broad Axe": [
         "axe",
         "meleeweapon"
     ],
@@ -8030,7 +8034,7 @@ NIP_ITEM_TYPE_DATA = {
         "sword",
         "swordsandknives"
     ],
-    "Saber": [
+    "Sabre": [
         "sword",
         "swordsandknives"
     ],
@@ -8046,7 +8050,7 @@ NIP_ITEM_TYPE_DATA = {
         "sword",
         "swordsandknives"
     ],
-    "Long Sword ": [
+    "Long Sword": [
         "sword",
         "swordsandknives"
     ],
@@ -8086,7 +8090,7 @@ NIP_ITEM_TYPE_DATA = {
         "knife",
         "swordsandknives"
     ],
-    "Kriss": [
+    "Kris": [
         "knife",
         "swordsandknives"
     ],
@@ -8291,7 +8295,7 @@ NIP_ITEM_TYPE_DATA = {
         "hammer",
         "blunt"
     ],
-    "Hellforge Hammer": [
+    "Hell Forge Hammer": [
         "hammer",
         "blunt"
     ],
@@ -8299,7 +8303,7 @@ NIP_ITEM_TYPE_DATA = {
         "staff",
         "stavesandrods"
     ],
-    "Staff of Kings": [
+    "Shaft of the Horadric Staff": [
         "staff",
         "stavesandrods"
     ],
@@ -8327,7 +8331,7 @@ NIP_ITEM_TYPE_DATA = {
         "axe",
         "meleeweapon"
     ],
-    "Bearded Axe ": [
+    "Bearded Axe": [
         "axe",
         "meleeweapon"
     ],
@@ -8471,7 +8475,7 @@ NIP_ITEM_TYPE_DATA = {
         "knife",
         "swordsandknives"
     ],
-    "Stilleto": [
+    "Stiletto": [
         "knife",
         "swordsandknives"
     ],
@@ -8604,7 +8608,7 @@ NIP_ITEM_TYPE_DATA = {
         "bow",
         "missileweapon"
     ],
-    "Long Siege Bow": [
+    "Large Siege Bow": [
         "bow",
         "missileweapon"
     ],
@@ -8903,7 +8907,7 @@ NIP_ITEM_TYPE_DATA = {
         "sword",
         "swordsandknives"
     ],
-    "Colossal Sword": [
+    "Colossus Sword": [
         "sword",
         "swordsandknives"
     ],
@@ -8915,7 +8919,7 @@ NIP_ITEM_TYPE_DATA = {
         "knife",
         "swordsandknives"
     ],
-    "Mithral Point": [
+    "Mithril Point": [
         "knife",
         "swordsandknives"
     ],
@@ -9238,19 +9242,7 @@ NIP_ITEM_TYPE_DATA = {
         "elixir",
         "miscellaneous"
     ],
-    "Healing Potion": [
-        "healingpotion",
-        "potion"
-    ],
-    "Mana Potion": [
-        "manapotion",
-        "potion"
-    ],
-    "Full Healing Potion": [
-        "healingpotion",
-        "potion"
-    ],
-    "Full Mana Potion": [
+    "null": [
         "manapotion",
         "potion"
     ],
@@ -9288,7 +9280,7 @@ NIP_ITEM_TYPE_DATA = {
         "amulet",
         "miscellaneous"
     ],
-    "Amulet of the Viper": [
+    "Top of the Horadric Staff": [
         "amulet",
         "miscellaneous"
     ],
@@ -9549,6 +9541,10 @@ NIP_ITEM_TYPE_DATA = {
         "healingpotion",
         "potion"
     ],
+    "Healing Potion": [
+        "healingpotion",
+        "potion"
+    ],
     "Greater Healing Potion": [
         "healingpotion",
         "potion"
@@ -9562,6 +9558,10 @@ NIP_ITEM_TYPE_DATA = {
         "potion"
     ],
     "Light Mana Potion": [
+        "manapotion",
+        "potion"
+    ],
+    "Mana Potion": [
         "manapotion",
         "potion"
     ],
@@ -9608,22 +9608,6 @@ NIP_ITEM_TYPE_DATA = {
     "Grand Charm": [
         "largecharm",
         "charm"
-    ],
-    "Small Red Potion": [
-        "healingpotion",
-        "potion"
-    ],
-    "Large Red Potion": [
-        "healingpotion",
-        "potion"
-    ],
-    "Small Blue Potion": [
-        "manapotion",
-        "potion"
-    ],
-    "Large Blue Potion": [
-        "manapotion",
-        "potion"
     ],
     "El Rune": [
         "rune",
@@ -9795,7 +9779,7 @@ NIP_ITEM_TYPE_DATA = {
     "Twisted Essence of Suffering": [
         "quest"
     ],
-    "Charged Essense of Hatred": [
+    "Charged Essence of Hatred": [
         "quest"
     ],
     "Burning Essence of Terror": [
