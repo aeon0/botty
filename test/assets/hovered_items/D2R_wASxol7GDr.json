@@ -32,6 +32,8 @@
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 4,
   "NTIPAliasStat": {
+    "5000": 33,
+    "5001": 55,
     "92": 41,
     "45": 26,
     "204,6": 10,
