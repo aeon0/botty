@@ -7055,3 +7055,2756 @@ NIP_ALIAS_STAT_PATTERNS_NO_INTS = dict(
         NIP_ALIAS_STAT_PATTERNS.keys()
     )
 )
+
+
+NIP_ITEM_TYPE_DATA = {
+    "Cap": [
+        "helm",
+        "anyarmor"
+    ],
+    "Skull Cap": [
+        "helm",
+        "anyarmor"
+    ],
+    "Helm": [
+        "helm",
+        "anyarmor"
+    ],
+    "Full Helm": [
+        "helm",
+        "anyarmor"
+    ],
+    "Great Helm": [
+        "helm",
+        "anyarmor"
+    ],
+    "Crown": [
+        "helm",
+        "anyarmor"
+    ],
+    "Mask": [
+        "helm",
+        "anyarmor"
+    ],
+    "Quilted Armor": [
+        "armor",
+        "anyarmor"
+    ],
+    "Leather Armor": [
+        "armor",
+        "anyarmor"
+    ],
+    "Hard Leather Armor": [
+        "armor",
+        "anyarmor"
+    ],
+    "Studded Leather ": [
+        "armor",
+        "anyarmor"
+    ],
+    "Ring Mail": [
+        "armor",
+        "anyarmor"
+    ],
+    "Scale Mail": [
+        "armor",
+        "anyarmor"
+    ],
+    "Chain Mail": [
+        "armor",
+        "anyarmor"
+    ],
+    "Breast Plate": [
+        "armor",
+        "anyarmor"
+    ],
+    "Splint Mail": [
+        "armor",
+        "anyarmor"
+    ],
+    "Plate Mail": [
+        "armor",
+        "anyarmor"
+    ],
+    "Field Plate": [
+        "armor",
+        "anyarmor"
+    ],
+    "Gothic Plate": [
+        "armor",
+        "anyarmor"
+    ],
+    "Full Plate Mail": [
+        "armor",
+        "anyarmor"
+    ],
+    "Ancient Armor": [
+        "armor",
+        "anyarmor"
+    ],
+    "Light Plate": [
+        "armor",
+        "anyarmor"
+    ],
+    "Buckler": [
+        "shield",
+        "anyshield"
+    ],
+    "Small Shield": [
+        "shield",
+        "anyshield"
+    ],
+    "Large Shield": [
+        "shield",
+        "anyshield"
+    ],
+    "Kite Shield": [
+        "shield",
+        "anyshield"
+    ],
+    "Tower Shield": [
+        "shield",
+        "anyshield"
+    ],
+    "Gothic Shield": [
+        "shield",
+        "anyshield"
+    ],
+    "Leather Gloves": [
+        "gloves",
+        "anyarmor"
+    ],
+    "Heavy Gloves": [
+        "gloves",
+        "anyarmor"
+    ],
+    "Chain Gloves": [
+        "gloves",
+        "anyarmor"
+    ],
+    "Light Gauntlets": [
+        "gloves",
+        "anyarmor"
+    ],
+    "Gauntlets": [
+        "gloves",
+        "anyarmor"
+    ],
+    "Boots": [
+        "boots",
+        "anyarmor"
+    ],
+    "Heavy Boots": [
+        "boots",
+        "anyarmor"
+    ],
+    "Chain Boots": [
+        "boots",
+        "anyarmor"
+    ],
+    "Light Plated Boots": [
+        "boots",
+        "anyarmor"
+    ],
+    "Greaves": [
+        "boots",
+        "anyarmor"
+    ],
+    "Sash": [
+        "belt",
+        "anyarmor"
+    ],
+    "Light Belt": [
+        "belt",
+        "anyarmor"
+    ],
+    "Belt": [
+        "belt",
+        "anyarmor"
+    ],
+    "Heavy Belt": [
+        "belt",
+        "anyarmor"
+    ],
+    "Plated Belt": [
+        "belt",
+        "anyarmor"
+    ],
+    "Bone Helm": [
+        "helm",
+        "anyarmor"
+    ],
+    "Bone Shield": [
+        "shield",
+        "anyshield"
+    ],
+    "Spiked Shield": [
+        "shield",
+        "anyshield"
+    ],
+    "War Hat": [
+        "helm",
+        "anyarmor"
+    ],
+    "Sallet": [
+        "helm",
+        "anyarmor"
+    ],
+    "Casque": [
+        "helm",
+        "anyarmor"
+    ],
+    "Basinet": [
+        "helm",
+        "anyarmor"
+    ],
+    "Winged Helm": [
+        "helm",
+        "anyarmor"
+    ],
+    "Grand Crown": [
+        "helm",
+        "anyarmor"
+    ],
+    "Death Mask": [
+        "helm",
+        "anyarmor"
+    ],
+    "Ghost Armor": [
+        "armor",
+        "anyarmor"
+    ],
+    "Serpentskin Armor": [
+        "armor",
+        "anyarmor"
+    ],
+    "Demonhide Armor": [
+        "armor",
+        "anyarmor"
+    ],
+    "Trellised Armor": [
+        "armor",
+        "anyarmor"
+    ],
+    "Linked Mail": [
+        "armor",
+        "anyarmor"
+    ],
+    "Tigulated Mail": [
+        "armor",
+        "anyarmor"
+    ],
+    "Mesh Armor": [
+        "armor",
+        "anyarmor"
+    ],
+    "Cuirass": [
+        "armor",
+        "anyarmor"
+    ],
+    "Russet Armor": [
+        "armor",
+        "anyarmor"
+    ],
+    "Templar Coat": [
+        "armor",
+        "anyarmor"
+    ],
+    "Sharktooth Armor": [
+        "armor",
+        "anyarmor"
+    ],
+    "Embossed Plate": [
+        "armor",
+        "anyarmor"
+    ],
+    "Chaos Armor": [
+        "armor",
+        "anyarmor"
+    ],
+    "Ornate Armor": [
+        "armor",
+        "anyarmor"
+    ],
+    "Mage Plate": [
+        "armor",
+        "anyarmor"
+    ],
+    "Defender": [
+        "shield",
+        "anyshield"
+    ],
+    "Round Shield": [
+        "shield",
+        "anyshield"
+    ],
+    "Scutum": [
+        "shield",
+        "anyshield"
+    ],
+    "Dragon Shield": [
+        "shield",
+        "anyshield"
+    ],
+    "Pavise": [
+        "shield",
+        "anyshield"
+    ],
+    "Ancient Shield": [
+        "auricshields",
+        "anyshield",
+        "paladinitem"
+    ],
+    "Demonhide Gloves": [
+        "gloves",
+        "anyarmor"
+    ],
+    "Sharkskin Gloves": [
+        "gloves",
+        "anyarmor"
+    ],
+    "Heavy Bracers": [
+        "gloves",
+        "anyarmor"
+    ],
+    "Battle Gauntlets": [
+        "gloves",
+        "anyarmor"
+    ],
+    "War Gauntlets": [
+        "gloves",
+        "anyarmor"
+    ],
+    "Demonhide Boots": [
+        "boots",
+        "anyarmor"
+    ],
+    "Sharkskin Boots": [
+        "boots",
+        "anyarmor"
+    ],
+    "Mesh Boots": [
+        "boots",
+        "anyarmor"
+    ],
+    "Battle Boots": [
+        "boots",
+        "anyarmor"
+    ],
+    "War Boots": [
+        "boots",
+        "anyarmor"
+    ],
+    "Demonhide Sash": [
+        "belt",
+        "anyarmor"
+    ],
+    "Sharkskin Belt": [
+        "belt",
+        "anyarmor"
+    ],
+    "Mesh Belt": [
+        "belt",
+        "anyarmor"
+    ],
+    "Battle Belt": [
+        "belt",
+        "anyarmor"
+    ],
+    "War Belt": [
+        "belt",
+        "anyarmor"
+    ],
+    "Grim Helm": [
+        "helm",
+        "anyarmor"
+    ],
+    "Grim Shield": [
+        "shield",
+        "anyshield"
+    ],
+    "Barbed Shield": [
+        "shield",
+        "anyshield"
+    ],
+    "Wolf Head": [
+        "pelt",
+        "helm",
+        "druiditem"
+    ],
+    "Hawk Helm": [
+        "pelt",
+        "helm",
+        "druiditem"
+    ],
+    "Antlers": [
+        "pelt",
+        "helm",
+        "druiditem"
+    ],
+    "Falcon Mask": [
+        "pelt",
+        "helm",
+        "druiditem"
+    ],
+    "Spirit Mask": [
+        "pelt",
+        "helm",
+        "druiditem"
+    ],
+    "Jawbone Cap": [
+        "primalhelm",
+        "helm",
+        "barbarianitem"
+    ],
+    "Fanged Helm": [
+        "primalhelm",
+        "helm",
+        "barbarianitem"
+    ],
+    "Horned Helm": [
+        "primalhelm",
+        "helm",
+        "barbarianitem"
+    ],
+    "Assault Helmet": [
+        "primalhelm",
+        "helm",
+        "barbarianitem"
+    ],
+    "Avenger Guard": [
+        "primalhelm",
+        "helm",
+        "barbarianitem"
+    ],
+    "Targe": [
+        "auricshields",
+        "anyshield",
+        "paladinitem"
+    ],
+    "Rondache": [
+        "auricshields",
+        "anyshield",
+        "paladinitem"
+    ],
+    "Heraldic Shield": [
+        "auricshields",
+        "anyshield",
+        "paladinitem"
+    ],
+    "Aerin Shield": [
+        "auricshields",
+        "anyshield",
+        "paladinitem"
+    ],
+    "Crown Shield": [
+        "auricshields",
+        "anyshield",
+        "paladinitem"
+    ],
+    "Preserved Head": [
+        "voodooheads",
+        "anyshield",
+        "necromanceritem"
+    ],
+    "Zombie Head": [
+        "voodooheads",
+        "anyshield",
+        "necromanceritem"
+    ],
+    "Unraveller Head": [
+        "voodooheads",
+        "anyshield",
+        "necromanceritem"
+    ],
+    "Gargoyle Head": [
+        "voodooheads",
+        "anyshield",
+        "necromanceritem"
+    ],
+    "Demon Head": [
+        "voodooheads",
+        "anyshield",
+        "necromanceritem"
+    ],
+    "Circlet": [
+        "circlet",
+        "helm"
+    ],
+    "Coronet": [
+        "circlet",
+        "helm"
+    ],
+    "Tiara": [
+        "circlet",
+        "helm"
+    ],
+    "Diadem": [
+        "circlet",
+        "helm"
+    ],
+    "Shako": [
+        "helm",
+        "anyarmor"
+    ],
+    "Hydraskull": [
+        "helm",
+        "anyarmor"
+    ],
+    "Armet": [
+        "helm",
+        "anyarmor"
+    ],
+    "Giant Conch": [
+        "helm",
+        "anyarmor"
+    ],
+    "Spired Helm": [
+        "helm",
+        "anyarmor"
+    ],
+    "Corona": [
+        "helm",
+        "anyarmor"
+    ],
+    "Demonhead": [
+        "helm",
+        "anyarmor"
+    ],
+    "Dusk Shroud": [
+        "armor",
+        "anyarmor"
+    ],
+    "Wyrmhide": [
+        "armor",
+        "anyarmor"
+    ],
+    "Scarab Husk": [
+        "armor",
+        "anyarmor"
+    ],
+    "Wire Fleece": [
+        "armor",
+        "anyarmor"
+    ],
+    "Diamond Mail": [
+        "armor",
+        "anyarmor"
+    ],
+    "Loricated Mail": [
+        "armor",
+        "anyarmor"
+    ],
+    "Boneweave": [
+        "armor",
+        "anyarmor"
+    ],
+    "Great Hauberk": [
+        "armor",
+        "anyarmor"
+    ],
+    "Balrog Skin": [
+        "armor",
+        "anyarmor"
+    ],
+    "Hellforge Plate": [
+        "armor",
+        "anyarmor"
+    ],
+    "Kraken Shell": [
+        "armor",
+        "anyarmor"
+    ],
+    "Lacquered Plate": [
+        "armor",
+        "anyarmor"
+    ],
+    "Shadow Plate": [
+        "armor",
+        "anyarmor"
+    ],
+    "Sacred Armor": [
+        "armor",
+        "anyarmor"
+    ],
+    "Archon Plate": [
+        "armor",
+        "anyarmor"
+    ],
+    "Heater": [
+        "shield",
+        "anyshield"
+    ],
+    "Luna": [
+        "shield",
+        "anyshield"
+    ],
+    "Hyperion": [
+        "shield",
+        "anyshield"
+    ],
+    "Monarch": [
+        "shield",
+        "anyshield"
+    ],
+    "Aegis": [
+        "shield",
+        "anyshield"
+    ],
+    "Ward": [
+        "shield",
+        "anyshield"
+    ],
+    "Bramble Mitts": [
+        "gloves",
+        "anyarmor"
+    ],
+    "Vampirebone Gloves": [
+        "gloves",
+        "anyarmor"
+    ],
+    "Vambraces": [
+        "gloves",
+        "anyarmor"
+    ],
+    "Crusader Gauntlets": [
+        "gloves",
+        "anyarmor"
+    ],
+    "Ogre Gauntlets": [
+        "gloves",
+        "anyarmor"
+    ],
+    "Wyrmhide Boots": [
+        "boots",
+        "anyarmor"
+    ],
+    "Scarabshell Boots": [
+        "boots",
+        "anyarmor"
+    ],
+    "Boneweave Boots": [
+        "boots",
+        "anyarmor"
+    ],
+    "Mirrored Boots": [
+        "boots",
+        "anyarmor"
+    ],
+    "Myrmidon Greaves": [
+        "boots",
+        "anyarmor"
+    ],
+    "Spiderweb Sash": [
+        "belt",
+        "anyarmor"
+    ],
+    "Vampirefang Belt": [
+        "belt",
+        "anyarmor"
+    ],
+    "Mithril Coil": [
+        "belt",
+        "anyarmor"
+    ],
+    "Troll Belt": [
+        "belt",
+        "anyarmor"
+    ],
+    "Colossus Girdle": [
+        "belt",
+        "anyarmor"
+    ],
+    "Bone Visage": [
+        "helm",
+        "anyarmor"
+    ],
+    "Troll Nest": [
+        "shield",
+        "anyshield"
+    ],
+    "Blade Barrier": [
+        "shield",
+        "anyshield"
+    ],
+    "Alpha Helm": [
+        "pelt",
+        "helm",
+        "druiditem"
+    ],
+    "Griffon Headress": [
+        "pelt",
+        "helm",
+        "druiditem"
+    ],
+    "Hunter's Guise": [
+        "pelt",
+        "helm",
+        "druiditem"
+    ],
+    "Sacred Feathers": [
+        "pelt",
+        "helm",
+        "druiditem"
+    ],
+    "Totemic Mask": [
+        "pelt",
+        "helm",
+        "druiditem"
+    ],
+    "Jawbone Visor": [
+        "primalhelm",
+        "helm",
+        "barbarianitem"
+    ],
+    "Lion Helm": [
+        "primalhelm",
+        "helm",
+        "barbarianitem"
+    ],
+    "Rage Mask": [
+        "primalhelm",
+        "helm",
+        "barbarianitem"
+    ],
+    "Savage Helmet": [
+        "primalhelm",
+        "helm",
+        "barbarianitem"
+    ],
+    "Slayer Guard": [
+        "primalhelm",
+        "helm",
+        "barbarianitem"
+    ],
+    "Akaran Targe": [
+        "auricshields",
+        "anyshield",
+        "paladinitem"
+    ],
+    "Akaran Rondache": [
+        "auricshields",
+        "anyshield",
+        "paladinitem"
+    ],
+    "Protector Shield": [
+        "auricshields",
+        "anyshield",
+        "paladinitem"
+    ],
+    "Gilded Shield": [
+        "auricshields",
+        "anyshield",
+        "paladinitem"
+    ],
+    "Royal Shield": [
+        "auricshields",
+        "anyshield",
+        "paladinitem"
+    ],
+    "Mummified Trophy": [
+        "voodooheads",
+        "anyshield",
+        "necromanceritem"
+    ],
+    "Fetish Trophy": [
+        "voodooheads",
+        "anyshield",
+        "necromanceritem"
+    ],
+    "Sexton Trophy": [
+        "voodooheads",
+        "anyshield",
+        "necromanceritem"
+    ],
+    "Cantor Trophy": [
+        "voodooheads",
+        "anyshield",
+        "necromanceritem"
+    ],
+    "Heirophant Trophy": [
+        "voodooheads",
+        "anyshield",
+        "necromanceritem"
+    ],
+    "Blood Spirit": [
+        "pelt",
+        "helm",
+        "druiditem"
+    ],
+    "Sun Spirit": [
+        "pelt",
+        "helm",
+        "druiditem"
+    ],
+    "Earth Spirit": [
+        "pelt",
+        "helm",
+        "druiditem"
+    ],
+    "Sky Spirit": [
+        "pelt",
+        "helm",
+        "druiditem"
+    ],
+    "Dream Spirit": [
+        "pelt",
+        "helm",
+        "druiditem"
+    ],
+    "Carnage Helm": [
+        "primalhelm",
+        "helm",
+        "barbarianitem"
+    ],
+    "Fury Visor": [
+        "primalhelm",
+        "helm",
+        "barbarianitem"
+    ],
+    "Destroyer Helm": [
+        "primalhelm",
+        "helm",
+        "barbarianitem"
+    ],
+    "Conqueror Crown": [
+        "primalhelm",
+        "helm",
+        "barbarianitem"
+    ],
+    "Guardian Crown": [
+        "primalhelm",
+        "helm",
+        "barbarianitem"
+    ],
+    "Sacred Targe": [
+        "auricshields",
+        "anyshield",
+        "paladinitem"
+    ],
+    "Sacred Rondache": [
+        "auricshields",
+        "anyshield",
+        "paladinitem"
+    ],
+    "Zakarum Shield": [
+        "auricshields",
+        "anyshield",
+        "paladinitem"
+    ],
+    "Vortex Shield": [
+        "auricshields",
+        "anyshield",
+        "paladinitem"
+    ],
+    "Minion Skull": [
+        "voodooheads",
+        "anyshield",
+        "necromanceritem"
+    ],
+    "Hellspawn Skull": [
+        "voodooheads",
+        "anyshield",
+        "necromanceritem"
+    ],
+    "Overseer Skull": [
+        "voodooheads",
+        "anyshield",
+        "necromanceritem"
+    ],
+    "Succubus Skull": [
+        "voodooheads",
+        "anyshield",
+        "necromanceritem"
+    ],
+    "Bloodlord Skull": [
+        "voodooheads",
+        "anyshield",
+        "necromanceritem"
+    ],
+    "Hand Axe": [
+        "axe",
+        "meleeweapon"
+    ],
+    "Axe": [
+        "axe",
+        "meleeweapon"
+    ],
+    "Double Axe": [
+        "axe",
+        "meleeweapon"
+    ],
+    "Military Pick": [
+        "axe",
+        "meleeweapon"
+    ],
+    "War Axe": [
+        "axe",
+        "meleeweapon"
+    ],
+    "Large Axe": [
+        "axe",
+        "meleeweapon"
+    ],
+    "Broad Axe ": [
+        "axe",
+        "meleeweapon"
+    ],
+    "Battle Axe": [
+        "axe",
+        "meleeweapon"
+    ],
+    "Great Axe": [
+        "axe",
+        "meleeweapon"
+    ],
+    "Giant Axe": [
+        "axe",
+        "meleeweapon"
+    ],
+    "Wand": [
+        "wand",
+        "stavesandrods"
+    ],
+    "Yew Wand": [
+        "wand",
+        "stavesandrods"
+    ],
+    "Bone Wand": [
+        "wand",
+        "stavesandrods"
+    ],
+    "Grim Wand": [
+        "wand",
+        "stavesandrods"
+    ],
+    "Club": [
+        "club",
+        "blunt"
+    ],
+    "Scepter": [
+        "scepter",
+        "stavesandrods"
+    ],
+    "Grand Scepter": [
+        "scepter",
+        "stavesandrods"
+    ],
+    "War Scepter": [
+        "scepter",
+        "stavesandrods"
+    ],
+    "Spiked Club": [
+        "club",
+        "blunt"
+    ],
+    "Mace": [
+        "mace",
+        "blunt"
+    ],
+    "Morning Star": [
+        "mace",
+        "blunt"
+    ],
+    "Flail": [
+        "mace",
+        "blunt"
+    ],
+    "War Hammer": [
+        "hammer",
+        "blunt"
+    ],
+    "Maul": [
+        "hammer",
+        "blunt"
+    ],
+    "Great Maul": [
+        "hammer",
+        "blunt"
+    ],
+    "Short Sword": [
+        "sword",
+        "swordsandknives"
+    ],
+    "Scimitar": [
+        "sword",
+        "swordsandknives"
+    ],
+    "Saber": [
+        "sword",
+        "swordsandknives"
+    ],
+    "Falchion": [
+        "sword",
+        "swordsandknives"
+    ],
+    "Crystal Sword": [
+        "sword",
+        "swordsandknives"
+    ],
+    "Broad Sword": [
+        "sword",
+        "swordsandknives"
+    ],
+    "Long Sword ": [
+        "sword",
+        "swordsandknives"
+    ],
+    "War Sword": [
+        "sword",
+        "swordsandknives"
+    ],
+    "Two-Handed Sword": [
+        "sword",
+        "swordsandknives"
+    ],
+    "Claymore": [
+        "sword",
+        "swordsandknives"
+    ],
+    "Giant Sword": [
+        "sword",
+        "swordsandknives"
+    ],
+    "Bastard Sword": [
+        "sword",
+        "swordsandknives"
+    ],
+    "Flamberge": [
+        "sword",
+        "swordsandknives"
+    ],
+    "Great Sword": [
+        "sword",
+        "swordsandknives"
+    ],
+    "Dagger": [
+        "knife",
+        "swordsandknives"
+    ],
+    "Dirk": [
+        "knife",
+        "swordsandknives"
+    ],
+    "Kriss": [
+        "knife",
+        "swordsandknives"
+    ],
+    "Blade": [
+        "knife",
+        "swordsandknives"
+    ],
+    "Throwing Knife": [
+        "throwingknife",
+        "comboweapon",
+        "knife"
+    ],
+    "Throwing Axe": [
+        "throwingaxe",
+        "comboweapon",
+        "axe"
+    ],
+    "Balanced Knife": [
+        "throwingknife",
+        "comboweapon",
+        "knife"
+    ],
+    "Balanced Axe": [
+        "throwingaxe",
+        "comboweapon",
+        "axe"
+    ],
+    "Javelin": [
+        "javelin",
+        "comboweapon",
+        "spear"
+    ],
+    "Pilum": [
+        "javelin",
+        "comboweapon",
+        "spear"
+    ],
+    "Short Spear": [
+        "javelin",
+        "comboweapon",
+        "spear"
+    ],
+    "Glaive": [
+        "javelin",
+        "comboweapon",
+        "spear"
+    ],
+    "Throwing Spear": [
+        "javelin",
+        "comboweapon",
+        "spear"
+    ],
+    "Spear": [
+        "spear",
+        "spearsandpolearms"
+    ],
+    "Trident": [
+        "spear",
+        "spearsandpolearms"
+    ],
+    "Brandistock": [
+        "spear",
+        "spearsandpolearms"
+    ],
+    "Spetum": [
+        "spear",
+        "spearsandpolearms"
+    ],
+    "Pike": [
+        "spear",
+        "spearsandpolearms"
+    ],
+    "Bardiche": [
+        "polearm",
+        "spearsandpolearms"
+    ],
+    "Voulge": [
+        "polearm",
+        "spearsandpolearms"
+    ],
+    "Scythe": [
+        "polearm",
+        "spearsandpolearms"
+    ],
+    "Poleaxe": [
+        "polearm",
+        "spearsandpolearms"
+    ],
+    "Halberd": [
+        "polearm",
+        "spearsandpolearms"
+    ],
+    "War Scythe": [
+        "polearm",
+        "spearsandpolearms"
+    ],
+    "Short Staff": [
+        "staff",
+        "stavesandrods"
+    ],
+    "Long Staff": [
+        "staff",
+        "stavesandrods"
+    ],
+    "Gnarled Staff": [
+        "staff",
+        "stavesandrods"
+    ],
+    "Battle Staff": [
+        "staff",
+        "stavesandrods"
+    ],
+    "War Staff": [
+        "staff",
+        "stavesandrods"
+    ],
+    "Short Bow": [
+        "bow",
+        "missileweapon"
+    ],
+    "Hunter's Bow": [
+        "bow",
+        "missileweapon"
+    ],
+    "Long Bow": [
+        "bow",
+        "missileweapon"
+    ],
+    "Composite Bow": [
+        "bow",
+        "missileweapon"
+    ],
+    "Short Battle Bow": [
+        "bow",
+        "missileweapon"
+    ],
+    "Long Battle Bow": [
+        "bow",
+        "missileweapon"
+    ],
+    "Short War Bow": [
+        "bow",
+        "missileweapon"
+    ],
+    "Long War Bow": [
+        "bow",
+        "missileweapon"
+    ],
+    "Light Crossbow": [
+        "crossbow",
+        "missileweapon"
+    ],
+    "Crossbow": [
+        "crossbow",
+        "missileweapon"
+    ],
+    "Heavy Crossbow": [
+        "crossbow",
+        "missileweapon"
+    ],
+    "Repeating Crossbow": [
+        "crossbow",
+        "missileweapon"
+    ],
+    "Rancid Gas Potion": [
+        "missilepotion",
+        "thrownweapon"
+    ],
+    "Oil Potion": [
+        "missilepotion",
+        "thrownweapon"
+    ],
+    "Choking Gas Potion": [
+        "missilepotion",
+        "thrownweapon"
+    ],
+    "Exploding Potion": [
+        "missilepotion",
+        "thrownweapon"
+    ],
+    "Strangling Gas Potion": [
+        "missilepotion",
+        "thrownweapon"
+    ],
+    "Fulminating Potion": [
+        "missilepotion",
+        "thrownweapon"
+    ],
+    "Decoy Gidbinn": [
+        "knife",
+        "swordsandknives"
+    ],
+    "The Gidbinn": [
+        "knife",
+        "swordsandknives"
+    ],
+    "Wirt's Leg": [
+        "club",
+        "blunt"
+    ],
+    "Horadric Malus": [
+        "hammer",
+        "blunt"
+    ],
+    "Hellforge Hammer": [
+        "hammer",
+        "blunt"
+    ],
+    "Horadric Staff": [
+        "staff",
+        "stavesandrods"
+    ],
+    "Staff of Kings": [
+        "staff",
+        "stavesandrods"
+    ],
+    "Hatchet": [
+        "axe",
+        "meleeweapon"
+    ],
+    "Cleaver": [
+        "axe",
+        "meleeweapon"
+    ],
+    "Twin Axe": [
+        "axe",
+        "meleeweapon"
+    ],
+    "Crowbill": [
+        "axe",
+        "meleeweapon"
+    ],
+    "Naga": [
+        "axe",
+        "meleeweapon"
+    ],
+    "Military Axe": [
+        "axe",
+        "meleeweapon"
+    ],
+    "Bearded Axe ": [
+        "axe",
+        "meleeweapon"
+    ],
+    "Tabar": [
+        "axe",
+        "meleeweapon"
+    ],
+    "Gothic Axe": [
+        "axe",
+        "meleeweapon"
+    ],
+    "Ancient Axe": [
+        "axe",
+        "meleeweapon"
+    ],
+    "Burnt Wand": [
+        "wand",
+        "stavesandrods"
+    ],
+    "Petrified Wand": [
+        "wand",
+        "stavesandrods"
+    ],
+    "Tomb Wand": [
+        "wand",
+        "stavesandrods"
+    ],
+    "Grave Wand": [
+        "wand",
+        "stavesandrods"
+    ],
+    "Cudgel": [
+        "club",
+        "blunt"
+    ],
+    "Rune Scepter": [
+        "scepter",
+        "stavesandrods"
+    ],
+    "Holy Water Sprinkler": [
+        "scepter",
+        "stavesandrods"
+    ],
+    "Divine Scepter": [
+        "scepter",
+        "stavesandrods"
+    ],
+    "Barbed Club": [
+        "club",
+        "blunt"
+    ],
+    "Flanged Mace": [
+        "mace",
+        "blunt"
+    ],
+    "Jagged Star": [
+        "mace",
+        "blunt"
+    ],
+    "Knout": [
+        "mace",
+        "blunt"
+    ],
+    "Battle Hammer": [
+        "hammer",
+        "blunt"
+    ],
+    "War Club": [
+        "hammer",
+        "blunt"
+    ],
+    "Martel de Fer": [
+        "hammer",
+        "blunt"
+    ],
+    "Gladius": [
+        "sword",
+        "swordsandknives"
+    ],
+    "Cutlass": [
+        "sword",
+        "swordsandknives"
+    ],
+    "Shamshir": [
+        "sword",
+        "swordsandknives"
+    ],
+    "Tulwar": [
+        "sword",
+        "swordsandknives"
+    ],
+    "Dimensional Blade": [
+        "sword",
+        "swordsandknives"
+    ],
+    "Battle Sword": [
+        "sword",
+        "swordsandknives"
+    ],
+    "Rune Sword": [
+        "sword",
+        "swordsandknives"
+    ],
+    "Ancient Sword": [
+        "sword",
+        "swordsandknives"
+    ],
+    "Espandon": [
+        "sword",
+        "swordsandknives"
+    ],
+    "Dacian Falx": [
+        "sword",
+        "swordsandknives"
+    ],
+    "Tusk Sword": [
+        "sword",
+        "swordsandknives"
+    ],
+    "Gothic Sword": [
+        "sword",
+        "swordsandknives"
+    ],
+    "Zweihander": [
+        "sword",
+        "swordsandknives"
+    ],
+    "Executioner Sword": [
+        "sword",
+        "swordsandknives"
+    ],
+    "Poignard": [
+        "knife",
+        "swordsandknives"
+    ],
+    "Rondel": [
+        "knife",
+        "swordsandknives"
+    ],
+    "Cinquedeas": [
+        "knife",
+        "swordsandknives"
+    ],
+    "Stilleto": [
+        "knife",
+        "swordsandknives"
+    ],
+    "Battle Dart": [
+        "throwingknife",
+        "comboweapon",
+        "knife"
+    ],
+    "Francisca": [
+        "throwingaxe",
+        "comboweapon",
+        "axe"
+    ],
+    "War Dart": [
+        "throwingknife",
+        "comboweapon",
+        "knife"
+    ],
+    "Hurlbat": [
+        "throwingaxe",
+        "comboweapon",
+        "axe"
+    ],
+    "War Javelin": [
+        "javelin",
+        "comboweapon",
+        "spear"
+    ],
+    "Great Pilum": [
+        "javelin",
+        "comboweapon",
+        "spear"
+    ],
+    "Simbilan": [
+        "javelin",
+        "comboweapon",
+        "spear"
+    ],
+    "Spiculum": [
+        "javelin",
+        "comboweapon",
+        "spear"
+    ],
+    "Harpoon": [
+        "javelin",
+        "comboweapon",
+        "spear"
+    ],
+    "War Spear": [
+        "spear",
+        "spearsandpolearms"
+    ],
+    "Fuscina": [
+        "spear",
+        "spearsandpolearms"
+    ],
+    "War Fork": [
+        "spear",
+        "spearsandpolearms"
+    ],
+    "Yari": [
+        "spear",
+        "spearsandpolearms"
+    ],
+    "Lance": [
+        "spear",
+        "spearsandpolearms"
+    ],
+    "Lochaber Axe": [
+        "polearm",
+        "spearsandpolearms"
+    ],
+    "Bill": [
+        "polearm",
+        "spearsandpolearms"
+    ],
+    "Battle Scythe": [
+        "polearm",
+        "spearsandpolearms"
+    ],
+    "Partizan": [
+        "polearm",
+        "spearsandpolearms"
+    ],
+    "Bec-de-Corbin": [
+        "polearm",
+        "spearsandpolearms"
+    ],
+    "Grim Scythe": [
+        "polearm",
+        "spearsandpolearms"
+    ],
+    "Jo Staff": [
+        "staff",
+        "stavesandrods"
+    ],
+    "Quarterstaff": [
+        "staff",
+        "stavesandrods"
+    ],
+    "Cedar Staff": [
+        "staff",
+        "stavesandrods"
+    ],
+    "Gothic Staff": [
+        "staff",
+        "stavesandrods"
+    ],
+    "Rune Staff": [
+        "staff",
+        "stavesandrods"
+    ],
+    "Edge Bow": [
+        "bow",
+        "missileweapon"
+    ],
+    "Razor Bow": [
+        "bow",
+        "missileweapon"
+    ],
+    "Cedar Bow": [
+        "bow",
+        "missileweapon"
+    ],
+    "Double Bow": [
+        "bow",
+        "missileweapon"
+    ],
+    "Short Siege Bow": [
+        "bow",
+        "missileweapon"
+    ],
+    "Long Siege Bow": [
+        "bow",
+        "missileweapon"
+    ],
+    "Rune Bow": [
+        "bow",
+        "missileweapon"
+    ],
+    "Gothic Bow": [
+        "bow",
+        "missileweapon"
+    ],
+    "Arbalest": [
+        "crossbow",
+        "missileweapon"
+    ],
+    "Siege Crossbow": [
+        "crossbow",
+        "missileweapon"
+    ],
+    "Ballista": [
+        "crossbow",
+        "missileweapon"
+    ],
+    "Chu-Ko-Nu": [
+        "crossbow",
+        "missileweapon"
+    ],
+    "Khalim's Flail": [
+        "mace",
+        "blunt"
+    ],
+    "Khalim's Will": [
+        "mace",
+        "blunt"
+    ],
+    "Katar": [
+        "handtohand",
+        "meleeweapon",
+        "assassinitem",
+        "assassinclaw"
+    ],
+    "Wrist Blade": [
+        "handtohand",
+        "meleeweapon",
+        "assassinitem",
+        "assassinclaw"
+    ],
+    "Hatchet Hands": [
+        "handtohand",
+        "meleeweapon",
+        "assassinitem",
+        "assassinclaw"
+    ],
+    "Cestus": [
+        "handtohand",
+        "meleeweapon",
+        "assassinitem",
+        "assassinclaw"
+    ],
+    "Claws": [
+        "handtohand",
+        "meleeweapon",
+        "assassinitem",
+        "assassinclaw"
+    ],
+    "Blade Talons": [
+        "handtohand",
+        "meleeweapon",
+        "assassinitem",
+        "assassinclaw"
+    ],
+    "Scissors Katar": [
+        "handtohand",
+        "meleeweapon",
+        "assassinitem",
+        "assassinclaw"
+    ],
+    "Quhab": [
+        "handtohand",
+        "meleeweapon",
+        "assassinitem",
+        "assassinclaw"
+    ],
+    "Wrist Spike": [
+        "handtohand",
+        "meleeweapon",
+        "assassinitem",
+        "assassinclaw"
+    ],
+    "Fascia": [
+        "handtohand",
+        "meleeweapon",
+        "assassinitem",
+        "assassinclaw"
+    ],
+    "Hand Scythe": [
+        "assassinclaw",
+        "handtohand",
+        "assassinitem"
+    ],
+    "Greater Claws": [
+        "assassinclaw",
+        "handtohand",
+        "assassinitem"
+    ],
+    "Greater Talons": [
+        "assassinclaw",
+        "handtohand",
+        "assassinitem"
+    ],
+    "Scissors Quhab": [
+        "assassinclaw",
+        "handtohand",
+        "assassinitem"
+    ],
+    "Suwayyah": [
+        "assassinclaw",
+        "handtohand",
+        "assassinitem"
+    ],
+    "Wrist Sword": [
+        "assassinclaw",
+        "handtohand",
+        "assassinitem"
+    ],
+    "War Fist": [
+        "assassinclaw",
+        "handtohand",
+        "assassinitem"
+    ],
+    "Battle Cestus": [
+        "assassinclaw",
+        "handtohand",
+        "assassinitem"
+    ],
+    "Feral Claws": [
+        "assassinclaw",
+        "handtohand",
+        "assassinitem"
+    ],
+    "Runic Talons": [
+        "assassinclaw",
+        "handtohand",
+        "assassinitem"
+    ],
+    "Scissors Suwayyah": [
+        "assassinclaw",
+        "handtohand",
+        "assassinitem"
+    ],
+    "Tomahawk": [
+        "axe",
+        "meleeweapon"
+    ],
+    "Small Crescent": [
+        "axe",
+        "meleeweapon"
+    ],
+    "Ettin Axe": [
+        "axe",
+        "meleeweapon"
+    ],
+    "War Spike": [
+        "axe",
+        "meleeweapon"
+    ],
+    "Berserker Axe": [
+        "axe",
+        "meleeweapon"
+    ],
+    "Feral Axe": [
+        "axe",
+        "meleeweapon"
+    ],
+    "Silver-edged Axe": [
+        "axe",
+        "meleeweapon"
+    ],
+    "Decapitator": [
+        "axe",
+        "meleeweapon"
+    ],
+    "Champion Axe": [
+        "axe",
+        "meleeweapon"
+    ],
+    "Glorious Axe": [
+        "axe",
+        "meleeweapon"
+    ],
+    "Polished Wand": [
+        "wand",
+        "stavesandrods"
+    ],
+    "Ghost Wand": [
+        "wand",
+        "stavesandrods"
+    ],
+    "Lich Wand": [
+        "wand",
+        "stavesandrods"
+    ],
+    "Unearthed Wand": [
+        "wand",
+        "stavesandrods"
+    ],
+    "Truncheon": [
+        "club",
+        "blunt"
+    ],
+    "Mighty Scepter": [
+        "scepter",
+        "stavesandrods"
+    ],
+    "Seraph Rod": [
+        "scepter",
+        "stavesandrods"
+    ],
+    "Caduceus": [
+        "scepter",
+        "stavesandrods"
+    ],
+    "Tyrant Club": [
+        "club",
+        "blunt"
+    ],
+    "Reinforced Mace": [
+        "mace",
+        "blunt"
+    ],
+    "Devil Star": [
+        "mace",
+        "blunt"
+    ],
+    "Scourge": [
+        "mace",
+        "blunt"
+    ],
+    "Legendary Mallet": [
+        "hammer",
+        "blunt"
+    ],
+    "Ogre Maul": [
+        "hammer",
+        "blunt"
+    ],
+    "Thunder Maul": [
+        "hammer",
+        "blunt"
+    ],
+    "Falcata": [
+        "sword",
+        "swordsandknives"
+    ],
+    "Ataghan": [
+        "sword",
+        "swordsandknives"
+    ],
+    "Elegant Blade": [
+        "sword",
+        "swordsandknives"
+    ],
+    "Hydra Edge": [
+        "sword",
+        "swordsandknives"
+    ],
+    "Phase Blade": [
+        "sword",
+        "swordsandknives"
+    ],
+    "Conquest Sword": [
+        "sword",
+        "swordsandknives"
+    ],
+    "Cryptic Sword": [
+        "sword",
+        "swordsandknives"
+    ],
+    "Mythical Sword": [
+        "sword",
+        "swordsandknives"
+    ],
+    "Legend Sword": [
+        "sword",
+        "swordsandknives"
+    ],
+    "Highland Blade": [
+        "sword",
+        "swordsandknives"
+    ],
+    "Balrog Blade": [
+        "sword",
+        "swordsandknives"
+    ],
+    "Champion Sword": [
+        "sword",
+        "swordsandknives"
+    ],
+    "Colossal Sword": [
+        "sword",
+        "swordsandknives"
+    ],
+    "Colossus Blade": [
+        "sword",
+        "swordsandknives"
+    ],
+    "Bone Knife": [
+        "knife",
+        "swordsandknives"
+    ],
+    "Mithral Point": [
+        "knife",
+        "swordsandknives"
+    ],
+    "Fanged Knife": [
+        "knife",
+        "swordsandknives"
+    ],
+    "Legend Spike": [
+        "knife",
+        "swordsandknives"
+    ],
+    "Flying Knife": [
+        "throwingknife",
+        "comboweapon",
+        "knife"
+    ],
+    "Flying Axe": [
+        "throwingaxe",
+        "comboweapon",
+        "axe"
+    ],
+    "Winged Knife": [
+        "throwingknife",
+        "comboweapon",
+        "knife"
+    ],
+    "Winged Axe": [
+        "throwingaxe",
+        "comboweapon",
+        "axe"
+    ],
+    "Hyperion Javelin": [
+        "javelin",
+        "comboweapon",
+        "spear"
+    ],
+    "Stygian Pilum": [
+        "javelin",
+        "comboweapon",
+        "spear"
+    ],
+    "Balrog Spear": [
+        "javelin",
+        "comboweapon",
+        "spear"
+    ],
+    "Ghost Glaive": [
+        "javelin",
+        "comboweapon",
+        "spear"
+    ],
+    "Winged Harpoon": [
+        "javelin",
+        "comboweapon",
+        "spear"
+    ],
+    "Hyperion Spear": [
+        "spear",
+        "spearsandpolearms"
+    ],
+    "Stygian Pike": [
+        "spear",
+        "spearsandpolearms"
+    ],
+    "Mancatcher": [
+        "spear",
+        "spearsandpolearms"
+    ],
+    "Ghost Spear": [
+        "spear",
+        "spearsandpolearms"
+    ],
+    "War Pike": [
+        "spear",
+        "spearsandpolearms"
+    ],
+    "Ogre Axe": [
+        "polearm",
+        "spearsandpolearms"
+    ],
+    "Colossus Voulge": [
+        "polearm",
+        "spearsandpolearms"
+    ],
+    "Thresher": [
+        "polearm",
+        "spearsandpolearms"
+    ],
+    "Cryptic Axe": [
+        "polearm",
+        "spearsandpolearms"
+    ],
+    "Great Poleaxe": [
+        "polearm",
+        "spearsandpolearms"
+    ],
+    "Giant Thresher": [
+        "polearm",
+        "spearsandpolearms"
+    ],
+    "Walking Stick": [
+        "staff",
+        "stavesandrods"
+    ],
+    "Stalagmite": [
+        "staff",
+        "stavesandrods"
+    ],
+    "Elder Staff": [
+        "staff",
+        "stavesandrods"
+    ],
+    "Shillelagh": [
+        "staff",
+        "stavesandrods"
+    ],
+    "Archon Staff": [
+        "staff",
+        "stavesandrods"
+    ],
+    "Spider Bow": [
+        "bow",
+        "missileweapon"
+    ],
+    "Blade Bow": [
+        "bow",
+        "missileweapon"
+    ],
+    "Shadow Bow": [
+        "bow",
+        "missileweapon"
+    ],
+    "Great Bow": [
+        "bow",
+        "missileweapon"
+    ],
+    "Diamond Bow": [
+        "bow",
+        "missileweapon"
+    ],
+    "Crusader Bow": [
+        "bow",
+        "missileweapon"
+    ],
+    "Ward Bow": [
+        "bow",
+        "missileweapon"
+    ],
+    "Hydra Bow": [
+        "bow",
+        "missileweapon"
+    ],
+    "Pellet Bow": [
+        "crossbow",
+        "missileweapon"
+    ],
+    "Gorgon Crossbow": [
+        "crossbow",
+        "missileweapon"
+    ],
+    "Colossus Crossbow": [
+        "crossbow",
+        "missileweapon"
+    ],
+    "Demon Crossbow": [
+        "crossbow",
+        "missileweapon"
+    ],
+    "Eagle Orb": [
+        "orb",
+        "weapon",
+        "sorceressitem"
+    ],
+    "Sacred Globe": [
+        "orb",
+        "weapon",
+        "sorceressitem"
+    ],
+    "Smoked Sphere": [
+        "orb",
+        "weapon",
+        "sorceressitem"
+    ],
+    "Clasped Orb": [
+        "orb",
+        "weapon",
+        "sorceressitem"
+    ],
+    "Jared's Stone": [
+        "orb",
+        "weapon",
+        "sorceressitem"
+    ],
+    "Stag Bow": [
+        "amazonbow",
+        "bow",
+        "amazonitem"
+    ],
+    "Reflex Bow": [
+        "amazonbow",
+        "bow",
+        "amazonitem"
+    ],
+    "Maiden Spear": [
+        "amazonspear",
+        "spear",
+        "amazonitem"
+    ],
+    "Maiden Pike": [
+        "amazonspear",
+        "spear",
+        "amazonitem"
+    ],
+    "Maiden Javelin": [
+        "amazonjavelin",
+        "javelin",
+        "amazonitem"
+    ],
+    "Glowing Orb": [
+        "orb",
+        "weapon",
+        "sorceressitem"
+    ],
+    "Crystalline Globe": [
+        "orb",
+        "weapon",
+        "sorceressitem"
+    ],
+    "Cloudy Sphere": [
+        "orb",
+        "weapon",
+        "sorceressitem"
+    ],
+    "Sparkling Ball": [
+        "orb",
+        "weapon",
+        "sorceressitem"
+    ],
+    "Swirling Crystal": [
+        "orb",
+        "weapon",
+        "sorceressitem"
+    ],
+    "Ashwood Bow": [
+        "amazonbow",
+        "bow",
+        "amazonitem"
+    ],
+    "Ceremonial Bow": [
+        "amazonbow",
+        "bow",
+        "amazonitem"
+    ],
+    "Ceremonial Spear": [
+        "amazonspear",
+        "spear",
+        "amazonitem"
+    ],
+    "Ceremonial Pike": [
+        "amazonspear",
+        "spear",
+        "amazonitem"
+    ],
+    "Ceremonial Javelin": [
+        "amazonjavelin",
+        "javelin",
+        "amazonitem"
+    ],
+    "Heavenly Stone": [
+        "orb",
+        "weapon",
+        "sorceressitem"
+    ],
+    "Eldritch Orb": [
+        "orb",
+        "weapon",
+        "sorceressitem"
+    ],
+    "Demon Heart": [
+        "orb",
+        "weapon",
+        "sorceressitem"
+    ],
+    "Vortex Orb": [
+        "orb",
+        "weapon",
+        "sorceressitem"
+    ],
+    "Dimensional Shard": [
+        "orb",
+        "weapon",
+        "sorceressitem"
+    ],
+    "Matriarchal Bow": [
+        "amazonbow",
+        "bow",
+        "amazonitem"
+    ],
+    "Grand Matron Bow": [
+        "amazonbow",
+        "bow",
+        "amazonitem"
+    ],
+    "Matriarchal Spear": [
+        "amazonspear",
+        "spear",
+        "amazonitem"
+    ],
+    "Matriarchal Pike": [
+        "amazonspear",
+        "spear",
+        "amazonitem"
+    ],
+    "Matriarchal Javelin": [
+        "amazonjavelin",
+        "javelin",
+        "amazonitem"
+    ],
+    "Elixir": [
+        "elixir",
+        "miscellaneous"
+    ],
+    "Healing Potion": [
+        "healingpotion",
+        "potion"
+    ],
+    "Mana Potion": [
+        "manapotion",
+        "potion"
+    ],
+    "Full Healing Potion": [
+        "healingpotion",
+        "potion"
+    ],
+    "Full Mana Potion": [
+        "manapotion",
+        "potion"
+    ],
+    "Stamina Potion": [
+        "staminapotion",
+        "potion"
+    ],
+    "Antidote Potion": [
+        "antidotepotion",
+        "potion"
+    ],
+    "Rejuvenation Potion": [
+        "rejuvpotion",
+        "healingpotion",
+        "manapotion"
+    ],
+    "Full Rejuvenation Potion": [
+        "rejuvpotion",
+        "healingpotion",
+        "manapotion"
+    ],
+    "Thawing Potion": [
+        "thawingpotion",
+        "potion"
+    ],
+    "Tome of Town Portal": [
+        "book",
+        "miscellaneous"
+    ],
+    "Tome of Identify": [
+        "book",
+        "miscellaneous"
+    ],
+    "Amulet": [
+        "amulet",
+        "miscellaneous"
+    ],
+    "Amulet of the Viper": [
+        "amulet",
+        "miscellaneous"
+    ],
+    "Ring": [
+        "ring",
+        "miscellaneous"
+    ],
+    "Gold": [
+        "gold",
+        "miscellaneous"
+    ],
+    "Scroll of Inifuss": [
+        "quest"
+    ],
+    "Key to the Cairn Stones": [
+        "quest"
+    ],
+    "Arrows": [
+        "bowquiver",
+        "missile",
+        "secondhand"
+    ],
+    "Torch": [
+        "torch",
+        "miscellaneous"
+    ],
+    "Bolts": [
+        "crossbowquiver",
+        "missile",
+        "secondhand"
+    ],
+    "Scroll of Town Portal": [
+        "scroll",
+        "miscellaneous"
+    ],
+    "Scroll of Identify": [
+        "scroll",
+        "miscellaneous"
+    ],
+    "Heart": [
+        "bodypart",
+        "miscellaneous"
+    ],
+    "Brain": [
+        "bodypart",
+        "miscellaneous"
+    ],
+    "Jawbone": [
+        "bodypart",
+        "miscellaneous"
+    ],
+    "Eye": [
+        "bodypart",
+        "miscellaneous"
+    ],
+    "Horn": [
+        "bodypart",
+        "miscellaneous"
+    ],
+    "Tail": [
+        "bodypart",
+        "miscellaneous"
+    ],
+    "Flag": [
+        "bodypart",
+        "miscellaneous"
+    ],
+    "Fang": [
+        "bodypart",
+        "miscellaneous"
+    ],
+    "Quill": [
+        "bodypart",
+        "miscellaneous"
+    ],
+    "Soul": [
+        "bodypart",
+        "miscellaneous"
+    ],
+    "Scalp": [
+        "bodypart",
+        "miscellaneous"
+    ],
+    "Spleen": [
+        "bodypart",
+        "miscellaneous"
+    ],
+    "Key": [
+        "key",
+        "miscellaneous"
+    ],
+    "The Black Tower Key": [
+        "key",
+        "miscellaneous"
+    ],
+    "Potion of Life": [
+        "quest"
+    ],
+    "A Jade Figurine": [
+        "quest"
+    ],
+    "The Golden Bird": [
+        "quest"
+    ],
+    "Lam Esen's Tome": [
+        "quest"
+    ],
+    "Horadric Cube": [
+        "quest"
+    ],
+    "Horadric Scroll": [
+        "quest"
+    ],
+    "Mephisto's Soulstone": [
+        "quest"
+    ],
+    "Book of Skill": [
+        "quest"
+    ],
+    "Khalim's Eye": [
+        "quest"
+    ],
+    "Khalim's Heart": [
+        "quest"
+    ],
+    "Khalim's Brain": [
+        "quest"
+    ],
+    "Ear": [
+        "playerbodypart",
+        "miscellaneous"
+    ],
+    "Chipped Amethyst": [
+        "amethyst",
+        "gem"
+    ],
+    "Flawed Amethyst": [
+        "amethyst",
+        "gem"
+    ],
+    "Amethyst": [
+        "amethyst",
+        "gem"
+    ],
+    "Flawless Amethyst": [
+        "amethyst",
+        "gem"
+    ],
+    "Perfect Amethyst": [
+        "amethyst",
+        "gem"
+    ],
+    "Chipped Topaz": [
+        "topaz",
+        "gem"
+    ],
+    "Flawed Topaz": [
+        "topaz",
+        "gem"
+    ],
+    "Topaz": [
+        "topaz",
+        "gem"
+    ],
+    "Flawless Topaz": [
+        "topaz",
+        "gem"
+    ],
+    "Perfect Topaz": [
+        "topaz",
+        "gem"
+    ],
+    "Chipped Sapphire": [
+        "sapphire",
+        "gem"
+    ],
+    "Flawed Sapphire": [
+        "sapphire",
+        "gem"
+    ],
+    "Sapphire": [
+        "sapphire",
+        "gem"
+    ],
+    "Flawless Sapphire": [
+        "sapphire",
+        "gem"
+    ],
+    "Perfect Sapphire": [
+        "sapphire",
+        "gem"
+    ],
+    "Chipped Emerald": [
+        "emerald",
+        "gem"
+    ],
+    "Flawed Emerald": [
+        "emerald",
+        "gem"
+    ],
+    "Emerald": [
+        "emerald",
+        "gem"
+    ],
+    "Flawless Emerald": [
+        "emerald",
+        "gem"
+    ],
+    "Perfect Emerald": [
+        "emerald",
+        "gem"
+    ],
+    "Chipped Ruby": [
+        "ruby",
+        "gem"
+    ],
+    "Flawed Ruby": [
+        "ruby",
+        "gem"
+    ],
+    "Ruby": [
+        "ruby",
+        "gem"
+    ],
+    "Flawless Ruby": [
+        "ruby",
+        "gem"
+    ],
+    "Perfect Ruby": [
+        "ruby",
+        "gem"
+    ],
+    "Chipped Diamond": [
+        "diamond",
+        "gem"
+    ],
+    "Flawed Diamond": [
+        "diamond",
+        "gem"
+    ],
+    "Diamond": [
+        "diamond",
+        "gem"
+    ],
+    "Flawless Diamond": [
+        "diamond",
+        "gem"
+    ],
+    "Perfect Diamond": [
+        "diamond",
+        "gem"
+    ],
+    "Minor Healing Potion": [
+        "healingpotion",
+        "potion"
+    ],
+    "Light Healing Potion": [
+        "healingpotion",
+        "potion"
+    ],
+    "Greater Healing Potion": [
+        "healingpotion",
+        "potion"
+    ],
+    "Super Healing Potion": [
+        "healingpotion",
+        "potion"
+    ],
+    "Minor Mana Potion": [
+        "manapotion",
+        "potion"
+    ],
+    "Light Mana Potion": [
+        "manapotion",
+        "potion"
+    ],
+    "Greater Mana Potion": [
+        "manapotion",
+        "potion"
+    ],
+    "Super Mana Potion": [
+        "manapotion",
+        "potion"
+    ],
+    "Chipped Skull": [
+        "skull",
+        "gem"
+    ],
+    "Flawed Skull": [
+        "skull",
+        "gem"
+    ],
+    "Skull": [
+        "skull",
+        "gem"
+    ],
+    "Flawless Skull": [
+        "skull",
+        "gem"
+    ],
+    "Perfect Skull": [
+        "skull",
+        "gem"
+    ],
+    "Herb": [
+        "herb",
+        "miscellaneous"
+    ],
+    "Small Charm": [
+        "smallcharm",
+        "charm"
+    ],
+    "Large Charm": [
+        "mediumcharm",
+        "charm"
+    ],
+    "Grand Charm": [
+        "largecharm",
+        "charm"
+    ],
+    "Small Red Potion": [
+        "healingpotion",
+        "potion"
+    ],
+    "Large Red Potion": [
+        "healingpotion",
+        "potion"
+    ],
+    "Small Blue Potion": [
+        "manapotion",
+        "potion"
+    ],
+    "Large Blue Potion": [
+        "manapotion",
+        "potion"
+    ],
+    "El Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Eld Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Tir Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Nef Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Eth Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Ith Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Tal Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Ral Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Ort Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Thul Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Amn Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Sol Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Shael Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Dol Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Hel Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Io Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Lum Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Ko Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Fal Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Lem Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Pul Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Um Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Mal Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Ist Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Gul Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Vex Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Ohm Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Lo Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Sur Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Ber Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Jah Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Cham Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Zod Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Jewel": [
+        "jewel",
+        "socketfiller"
+    ],
+    "Malah's Potion": [
+        "quest"
+    ],
+    "Scroll of Knowledge": [
+        "scroll",
+        "miscellaneous"
+    ],
+    "Scroll of Resistance": [
+        "quest"
+    ],
+    "Key of Terror": [
+        "quest"
+    ],
+    "Key of Hate": [
+        "quest"
+    ],
+    "Key of Destruction": [
+        "quest"
+    ],
+    "Diablo's Horn": [
+        "quest"
+    ],
+    "Baal's Eye": [
+        "quest"
+    ],
+    "Mephisto's Brain": [
+        "quest"
+    ],
+    "Token of Absolution": [
+        "quest"
+    ],
+    "Twisted Essence of Suffering": [
+        "quest"
+    ],
+    "Charged Essense of Hatred": [
+        "quest"
+    ],
+    "Burning Essence of Terror": [
+        "quest"
+    ],
+    "Festering Essence of Destruction": [
+        "quest"
+    ],
+    "Standard of Heroes": [
+        "quest"
+    ]
+}
