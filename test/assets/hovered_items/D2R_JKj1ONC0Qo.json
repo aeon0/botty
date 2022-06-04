@@ -62,12 +62,13 @@
     55
   ],
   "NTIPAliasClassID": 158,
-  "NTIPAliasClass": null,
+  "NTIPAliasClass": 1,
   "NTIPAliasQuality": 2,
   "NTIPAliasStat": {
     "5000": 11,
     "5001": 32,
     "92": 25,
+    "5004": 1,
     "122": 50
   },
   "NTIPAliasFlag": {

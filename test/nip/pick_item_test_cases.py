@@ -159,6 +159,10 @@ NIP_PICK_TESTS = {
                     "[name] == Aegis && [quality] > normal",
                     False
                 ),
+                (
+                    "[name] == Aegis && [class] == elite",
+                    True
+                ),
             ],
         },
         {
@@ -211,6 +215,10 @@ NIP_PICK_TESTS = {
             "expressions": [
                 (
                     "[name] == greaterclaws && [quality] == normal",
+                    True
+                ),
+                (
+                    "[name] == greaterclaws && [class] == exceptional",
                     True
                 ),
                 (
