@@ -9233,5 +9233,578 @@ NIP_ITEM_TYPE_DATA = {
         "amazonjavelin",
         "javelin",
         "amazonitem"
+    ],
+    "Elixir": [
+        "elixir",
+        "miscellaneous"
+    ],
+    "Healing Potion": [
+        "healingpotion",
+        "potion"
+    ],
+    "Mana Potion": [
+        "manapotion",
+        "potion"
+    ],
+    "Full Healing Potion": [
+        "healingpotion",
+        "potion"
+    ],
+    "Full Mana Potion": [
+        "manapotion",
+        "potion"
+    ],
+    "Stamina Potion": [
+        "staminapotion",
+        "potion"
+    ],
+    "Antidote Potion": [
+        "antidotepotion",
+        "potion"
+    ],
+    "Rejuvenation Potion": [
+        "rejuvpotion",
+        "healingpotion",
+        "manapotion"
+    ],
+    "Full Rejuvenation Potion": [
+        "rejuvpotion",
+        "healingpotion",
+        "manapotion"
+    ],
+    "Thawing Potion": [
+        "thawingpotion",
+        "potion"
+    ],
+    "Tome of Town Portal": [
+        "book",
+        "miscellaneous"
+    ],
+    "Tome of Identify": [
+        "book",
+        "miscellaneous"
+    ],
+    "Amulet": [
+        "amulet",
+        "miscellaneous"
+    ],
+    "Amulet of the Viper": [
+        "amulet",
+        "miscellaneous"
+    ],
+    "Ring": [
+        "ring",
+        "miscellaneous"
+    ],
+    "Gold": [
+        "gold",
+        "miscellaneous"
+    ],
+    "Scroll of Inifuss": [
+        "quest"
+    ],
+    "Key to the Cairn Stones": [
+        "quest"
+    ],
+    "Arrows": [
+        "bowquiver",
+        "missile",
+        "secondhand"
+    ],
+    "Torch": [
+        "torch",
+        "miscellaneous"
+    ],
+    "Bolts": [
+        "crossbowquiver",
+        "missile",
+        "secondhand"
+    ],
+    "Scroll of Town Portal": [
+        "scroll",
+        "miscellaneous"
+    ],
+    "Scroll of Identify": [
+        "scroll",
+        "miscellaneous"
+    ],
+    "Heart": [
+        "bodypart",
+        "miscellaneous"
+    ],
+    "Brain": [
+        "bodypart",
+        "miscellaneous"
+    ],
+    "Jawbone": [
+        "bodypart",
+        "miscellaneous"
+    ],
+    "Eye": [
+        "bodypart",
+        "miscellaneous"
+    ],
+    "Horn": [
+        "bodypart",
+        "miscellaneous"
+    ],
+    "Tail": [
+        "bodypart",
+        "miscellaneous"
+    ],
+    "Flag": [
+        "bodypart",
+        "miscellaneous"
+    ],
+    "Fang": [
+        "bodypart",
+        "miscellaneous"
+    ],
+    "Quill": [
+        "bodypart",
+        "miscellaneous"
+    ],
+    "Soul": [
+        "bodypart",
+        "miscellaneous"
+    ],
+    "Scalp": [
+        "bodypart",
+        "miscellaneous"
+    ],
+    "Spleen": [
+        "bodypart",
+        "miscellaneous"
+    ],
+    "Key": [
+        "key",
+        "miscellaneous"
+    ],
+    "The Black Tower Key": [
+        "key",
+        "miscellaneous"
+    ],
+    "Potion of Life": [
+        "quest"
+    ],
+    "A Jade Figurine": [
+        "quest"
+    ],
+    "The Golden Bird": [
+        "quest"
+    ],
+    "Lam Esen's Tome": [
+        "quest"
+    ],
+    "Horadric Cube": [
+        "quest"
+    ],
+    "Horadric Scroll": [
+        "quest"
+    ],
+    "Mephisto's Soulstone": [
+        "quest"
+    ],
+    "Book of Skill": [
+        "quest"
+    ],
+    "Khalim's Eye": [
+        "quest"
+    ],
+    "Khalim's Heart": [
+        "quest"
+    ],
+    "Khalim's Brain": [
+        "quest"
+    ],
+    "Ear": [
+        "playerbodypart",
+        "miscellaneous"
+    ],
+    "Chipped Amethyst": [
+        "amethyst",
+        "gem"
+    ],
+    "Flawed Amethyst": [
+        "amethyst",
+        "gem"
+    ],
+    "Amethyst": [
+        "amethyst",
+        "gem"
+    ],
+    "Flawless Amethyst": [
+        "amethyst",
+        "gem"
+    ],
+    "Perfect Amethyst": [
+        "amethyst",
+        "gem"
+    ],
+    "Chipped Topaz": [
+        "topaz",
+        "gem"
+    ],
+    "Flawed Topaz": [
+        "topaz",
+        "gem"
+    ],
+    "Topaz": [
+        "topaz",
+        "gem"
+    ],
+    "Flawless Topaz": [
+        "topaz",
+        "gem"
+    ],
+    "Perfect Topaz": [
+        "topaz",
+        "gem"
+    ],
+    "Chipped Sapphire": [
+        "sapphire",
+        "gem"
+    ],
+    "Flawed Sapphire": [
+        "sapphire",
+        "gem"
+    ],
+    "Sapphire": [
+        "sapphire",
+        "gem"
+    ],
+    "Flawless Sapphire": [
+        "sapphire",
+        "gem"
+    ],
+    "Perfect Sapphire": [
+        "sapphire",
+        "gem"
+    ],
+    "Chipped Emerald": [
+        "emerald",
+        "gem"
+    ],
+    "Flawed Emerald": [
+        "emerald",
+        "gem"
+    ],
+    "Emerald": [
+        "emerald",
+        "gem"
+    ],
+    "Flawless Emerald": [
+        "emerald",
+        "gem"
+    ],
+    "Perfect Emerald": [
+        "emerald",
+        "gem"
+    ],
+    "Chipped Ruby": [
+        "ruby",
+        "gem"
+    ],
+    "Flawed Ruby": [
+        "ruby",
+        "gem"
+    ],
+    "Ruby": [
+        "ruby",
+        "gem"
+    ],
+    "Flawless Ruby": [
+        "ruby",
+        "gem"
+    ],
+    "Perfect Ruby": [
+        "ruby",
+        "gem"
+    ],
+    "Chipped Diamond": [
+        "diamond",
+        "gem"
+    ],
+    "Flawed Diamond": [
+        "diamond",
+        "gem"
+    ],
+    "Diamond": [
+        "diamond",
+        "gem"
+    ],
+    "Flawless Diamond": [
+        "diamond",
+        "gem"
+    ],
+    "Perfect Diamond": [
+        "diamond",
+        "gem"
+    ],
+    "Minor Healing Potion": [
+        "healingpotion",
+        "potion"
+    ],
+    "Light Healing Potion": [
+        "healingpotion",
+        "potion"
+    ],
+    "Greater Healing Potion": [
+        "healingpotion",
+        "potion"
+    ],
+    "Super Healing Potion": [
+        "healingpotion",
+        "potion"
+    ],
+    "Minor Mana Potion": [
+        "manapotion",
+        "potion"
+    ],
+    "Light Mana Potion": [
+        "manapotion",
+        "potion"
+    ],
+    "Greater Mana Potion": [
+        "manapotion",
+        "potion"
+    ],
+    "Super Mana Potion": [
+        "manapotion",
+        "potion"
+    ],
+    "Chipped Skull": [
+        "skull",
+        "gem"
+    ],
+    "Flawed Skull": [
+        "skull",
+        "gem"
+    ],
+    "Skull": [
+        "skull",
+        "gem"
+    ],
+    "Flawless Skull": [
+        "skull",
+        "gem"
+    ],
+    "Perfect Skull": [
+        "skull",
+        "gem"
+    ],
+    "Herb": [
+        "herb",
+        "miscellaneous"
+    ],
+    "Small Charm": [
+        "smallcharm",
+        "charm"
+    ],
+    "Large Charm": [
+        "mediumcharm",
+        "charm"
+    ],
+    "Grand Charm": [
+        "largecharm",
+        "charm"
+    ],
+    "Small Red Potion": [
+        "healingpotion",
+        "potion"
+    ],
+    "Large Red Potion": [
+        "healingpotion",
+        "potion"
+    ],
+    "Small Blue Potion": [
+        "manapotion",
+        "potion"
+    ],
+    "Large Blue Potion": [
+        "manapotion",
+        "potion"
+    ],
+    "El Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Eld Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Tir Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Nef Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Eth Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Ith Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Tal Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Ral Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Ort Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Thul Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Amn Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Sol Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Shael Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Dol Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Hel Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Io Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Lum Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Ko Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Fal Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Lem Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Pul Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Um Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Mal Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Ist Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Gul Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Vex Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Ohm Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Lo Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Sur Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Ber Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Jah Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Cham Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Zod Rune": [
+        "rune",
+        "socketfiller"
+    ],
+    "Jewel": [
+        "jewel",
+        "socketfiller"
+    ],
+    "Malah's Potion": [
+        "quest"
+    ],
+    "Scroll of Knowledge": [
+        "scroll",
+        "miscellaneous"
+    ],
+    "Scroll of Resistance": [
+        "quest"
+    ],
+    "Key of Terror": [
+        "quest"
+    ],
+    "Key of Hate": [
+        "quest"
+    ],
+    "Key of Destruction": [
+        "quest"
+    ],
+    "Diablo's Horn": [
+        "quest"
+    ],
+    "Baal's Eye": [
+        "quest"
+    ],
+    "Mephisto's Brain": [
+        "quest"
+    ],
+    "Token of Absolution": [
+        "quest"
+    ],
+    "Twisted Essence of Suffering": [
+        "quest"
+    ],
+    "Charged Essense of Hatred": [
+        "quest"
+    ],
+    "Burning Essence of Terror": [
+        "quest"
+    ],
+    "Festering Essence of Destruction": [
+        "quest"
+    ],
+    "Standard of Heroes": [
+        "quest"
     ]
 }
