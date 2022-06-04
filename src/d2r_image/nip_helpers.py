@@ -152,7 +152,7 @@ def parse_item(quality, item, _call_count=1):
         Item=found_item,
         NTIPAliasType=basename_to_types(base_item['DisplayName']),
         NTIPAliasClassID=base_item['NTIPAliasClassID'],
-        NTIPAliasClass = None if 'item_class' not in base_item else 2 if base_item['item_class'] == 'elite' else 1 if base_item['item_class'] == 'exceptional' else 0,
+        NTIPAliasClass = 0 if (base_item is None or not 'NTIPAliasClass' in base_item) else base_item['NTIPAliasClass'],
         NTIPAliasQuality=NTIP_ALIAS_QUALITY_MAP[quality],
         NTIPAliasStat=ntip_alias_stat,
         NTIPAliasFlag={

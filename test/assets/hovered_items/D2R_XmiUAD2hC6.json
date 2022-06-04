@@ -33,7 +33,7 @@
     33
   ],
   "NTIPAliasClassID": 246,
-  "NTIPAliasClass": null,
+  "NTIPAliasClass": 2,
   "NTIPAliasQuality": 4,
   "NTIPAliasStat": {
     "5000": 112,
@@ -41,6 +41,8 @@
     "5002": 106,
     "5003": 120,
     "92": 59,
+    "5004": 1,
+    "5007": 300,
     "253": 1
   },
   "NTIPAliasFlag": {

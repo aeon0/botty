@@ -52,7 +52,7 @@
     104
   ],
   "NTIPAliasClassID": 225,
-  "NTIPAliasClass": null,
+  "NTIPAliasClass": 2,
   "NTIPAliasQuality": 2,
   "NTIPAliasStat": {
     "5000": 31,
