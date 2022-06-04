@@ -29,7 +29,10 @@
   },
   "Item": null,
   "NTIPAliasIdName": "CHAOSGRASP",
-  "NTIPAliasType": 10,
+  "NTIPAliasType": [
+    10,
+    52
+  ],
   "NTIPAliasClassID": 522,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 6,

@@ -31,7 +31,9 @@
   },
   "Item": null,
   "NTIPAliasIdName": "STORMSCRATCH",
-  "NTIPAliasType": 34,
+  "NTIPAliasType": [
+    34
+  ],
   "NTIPAliasClassID": 154,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 6,

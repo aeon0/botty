@@ -30,7 +30,11 @@
   },
   "Item": null,
   "NTIPAliasIdName": "BEASTGUARD",
-  "NTIPAliasType": 70,
+  "NTIPAliasType": [
+    70,
+    51,
+    63
+  ],
   "NTIPAliasClassID": 479,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 6,

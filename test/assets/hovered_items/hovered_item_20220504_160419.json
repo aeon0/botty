@@ -66,7 +66,10 @@
     }
   },
   "NTIPAliasIdName": "CARRIONWIND",
-  "NTIPAliasType": 10,
+  "NTIPAliasType": [
+    10,
+    52
+  ],
   "NTIPAliasClassID": 522,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 7,

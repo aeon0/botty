@@ -31,7 +31,11 @@
   },
   "Item": null,
   "NTIPAliasIdName": "CUNNINGFERALCLAWSOFQUICKNESS",
-  "NTIPAliasType": 65,
+  "NTIPAliasType": [
+    88,
+    67,
+    65
+  ],
   "NTIPAliasClassID": 193,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 4,

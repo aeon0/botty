@@ -59,7 +59,10 @@
     }
   },
   "NTIPAliasIdName": "SWORDBACKHOLD",
-  "NTIPAliasType": 2,
+  "NTIPAliasType": [
+    2,
+    51
+  ],
   "NTIPAliasClassID": 351,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 7,

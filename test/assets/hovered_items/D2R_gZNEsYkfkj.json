@@ -30,7 +30,11 @@
   },
   "Item": null,
   "NTIPAliasIdName": "JEWELERSRONDACHEOFDEFLECTING",
-  "NTIPAliasType": 70,
+  "NTIPAliasType": [
+    70,
+    51,
+    63
+  ],
   "NTIPAliasClassID": 409,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 4,

@@ -38,7 +38,10 @@
   },
   "Item": null,
   "NTIPAliasIdName": "SHADOWSCARAB",
-  "NTIPAliasType": 12,
+  "NTIPAliasType": [
+    12,
+    52
+  ],
   "NTIPAliasClassID": 520,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 6,

@@ -39,7 +39,10 @@
         "NTIPAliasClass": 1
       },
       "Item": null,
-      "NTIPAliasType": 28,
+      "NTIPAliasType": [
+        28,
+        46
+      ],
       "NTIPAliasClassID": 102,
       "NTIPAliasClass": 1,
       "NTIPAliasQuality": 3,
@@ -88,7 +91,10 @@
         "NTIPAliasClass": 1
       },
       "Item": null,
-      "NTIPAliasType": 28,
+      "NTIPAliasType": [
+        28,
+        46
+      ],
       "NTIPAliasClassID": 102,
       "NTIPAliasClass": 1,
       "NTIPAliasQuality": 2,
@@ -119,7 +125,10 @@
         ]
       },
       "Item": null,
-      "NTIPAliasType": 4,
+      "NTIPAliasType": [
+        4,
+        52
+      ],
       "NTIPAliasClassID": 523,
       "NTIPAliasClass": null,
       "NTIPAliasQuality": 2,
@@ -150,7 +159,10 @@
         ]
       },
       "Item": null,
-      "NTIPAliasType": 101,
+      "NTIPAliasType": [
+        101,
+        20
+      ],
       "NTIPAliasClassID": 564,
       "NTIPAliasClass": null,
       "NTIPAliasQuality": 2,
@@ -199,7 +211,9 @@
         "NTIPAliasClass": 1
       },
       "Item": null,
-      "NTIPAliasType": 30,
+      "NTIPAliasType": [
+        30
+      ],
       "NTIPAliasClassID": 125,
       "NTIPAliasClass": 1,
       "NTIPAliasQuality": 3,
@@ -248,7 +262,10 @@
         "NTIPAliasClass": 1
       },
       "Item": null,
-      "NTIPAliasType": 28,
+      "NTIPAliasType": [
+        28,
+        46
+      ],
       "NTIPAliasClassID": 102,
       "NTIPAliasClass": 1,
       "NTIPAliasQuality": 2,
@@ -297,7 +314,10 @@
         "NTIPAliasClass": 1
       },
       "Item": null,
-      "NTIPAliasType": 28,
+      "NTIPAliasType": [
+        28,
+        46
+      ],
       "NTIPAliasClassID": 102,
       "NTIPAliasClass": 1,
       "NTIPAliasQuality": 3,
@@ -328,7 +348,10 @@
         ]
       },
       "Item": null,
-      "NTIPAliasType": 18,
+      "NTIPAliasType": [
+        18,
+        52
+      ],
       "NTIPAliasClassID": 518,
       "NTIPAliasClass": null,
       "NTIPAliasQuality": 2,
@@ -359,7 +382,10 @@
         ]
       },
       "Item": null,
-      "NTIPAliasType": 18,
+      "NTIPAliasType": [
+        18,
+        52
+      ],
       "NTIPAliasClassID": 519,
       "NTIPAliasClass": null,
       "NTIPAliasQuality": 2,
@@ -390,7 +416,10 @@
         ]
       },
       "Item": null,
-      "NTIPAliasType": 81,
+      "NTIPAliasType": [
+        81,
+        9
+      ],
       "NTIPAliasClassID": 517,
       "NTIPAliasClass": null,
       "NTIPAliasQuality": 2,
@@ -439,7 +468,10 @@
         "NTIPAliasClass": 1
       },
       "Item": null,
-      "NTIPAliasType": 28,
+      "NTIPAliasType": [
+        28,
+        46
+      ],
       "NTIPAliasClassID": 102,
       "NTIPAliasClass": 1,
       "NTIPAliasQuality": 4,
@@ -488,7 +520,10 @@
         "NTIPAliasClass": 1
       },
       "Item": null,
-      "NTIPAliasType": 28,
+      "NTIPAliasType": [
+        28,
+        46
+      ],
       "NTIPAliasClassID": 102,
       "NTIPAliasClass": 1,
       "NTIPAliasQuality": 6,
@@ -537,7 +572,10 @@
         "NTIPAliasClass": 1
       },
       "Item": null,
-      "NTIPAliasType": 28,
+      "NTIPAliasType": [
+        28,
+        46
+      ],
       "NTIPAliasClassID": 102,
       "NTIPAliasClass": 1,
       "NTIPAliasQuality": 5,
@@ -618,7 +656,10 @@
           }
         }
       },
-      "NTIPAliasType": 28,
+      "NTIPAliasType": [
+        28,
+        46
+      ],
       "NTIPAliasClassID": 102,
       "NTIPAliasClass": 1,
       "NTIPAliasQuality": 7,
@@ -649,7 +690,9 @@
         ]
       },
       "Item": null,
-      "NTIPAliasType": 39,
+      "NTIPAliasType": [
+        39
+      ],
       "NTIPAliasClassID": 654,
       "NTIPAliasClass": null,
       "NTIPAliasQuality": 8,
@@ -680,7 +723,10 @@
         ]
       },
       "Item": null,
-      "NTIPAliasType": 74,
+      "NTIPAliasType": [
+        74,
+        53
+      ],
       "NTIPAliasClassID": 616,
       "NTIPAliasClass": null,
       "NTIPAliasQuality": 10,
@@ -711,7 +757,10 @@
         ]
       },
       "Item": null,
-      "NTIPAliasType": 74,
+      "NTIPAliasType": [
+        74,
+        53
+      ],
       "NTIPAliasClassID": 642,
       "NTIPAliasClass": null,
       "NTIPAliasQuality": 10,
@@ -742,7 +791,10 @@
         ]
       },
       "Item": null,
-      "NTIPAliasType": 74,
+      "NTIPAliasType": [
+        74,
+        53
+      ],
       "NTIPAliasClassID": 635,
       "NTIPAliasClass": null,
       "NTIPAliasQuality": 10,
@@ -773,7 +825,10 @@
         ]
       },
       "Item": null,
-      "NTIPAliasType": 74,
+      "NTIPAliasType": [
+        74,
+        53
+      ],
       "NTIPAliasClassID": 631,
       "NTIPAliasClass": null,
       "NTIPAliasQuality": 10,
@@ -804,7 +859,10 @@
         ]
       },
       "Item": null,
-      "NTIPAliasType": 74,
+      "NTIPAliasType": [
+        74,
+        53
+      ],
       "NTIPAliasClassID": 619,
       "NTIPAliasClass": null,
       "NTIPAliasQuality": 10,
@@ -835,7 +893,10 @@
         ]
       },
       "Item": null,
-      "NTIPAliasType": 74,
+      "NTIPAliasType": [
+        74,
+        53
+      ],
       "NTIPAliasClassID": 612,
       "NTIPAliasClass": null,
       "NTIPAliasQuality": 10,

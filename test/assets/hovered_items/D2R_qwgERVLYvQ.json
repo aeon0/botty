@@ -62,7 +62,9 @@
     }
   },
   "NTIPAliasIdName": "WIZARDSPIKE",
-  "NTIPAliasType": 32,
+  "NTIPAliasType": [
+    32
+  ],
   "NTIPAliasClassID": 235,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 7,

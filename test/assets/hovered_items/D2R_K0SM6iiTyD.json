@@ -62,7 +62,10 @@
     }
   },
   "NTIPAliasIdName": "VALKYRIEWING",
-  "NTIPAliasType": 37,
+  "NTIPAliasType": [
+    37,
+    50
+  ],
   "NTIPAliasClassID": 356,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 7,

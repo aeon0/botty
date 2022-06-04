@@ -30,7 +30,10 @@
   },
   "Item": null,
   "NTIPAliasIdName": "GLACIALCORONETOFTHEMAGUS",
-  "NTIPAliasType": 75,
+  "NTIPAliasType": [
+    75,
+    37
+  ],
   "NTIPAliasClassID": 419,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 4,

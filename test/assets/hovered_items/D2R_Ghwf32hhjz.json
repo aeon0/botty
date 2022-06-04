@@ -30,7 +30,10 @@
   },
   "Item": null,
   "NTIPAliasIdName": "CRUELCARAPACE",
-  "NTIPAliasType": 3,
+  "NTIPAliasType": [
+    3,
+    50
+  ],
   "NTIPAliasClassID": 443,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 6,

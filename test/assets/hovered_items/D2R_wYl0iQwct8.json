@@ -61,7 +61,10 @@
     }
   },
   "NTIPAliasIdName": "MAGEFIST",
-  "NTIPAliasType": 16,
+  "NTIPAliasType": [
+    16,
+    50
+  ],
   "NTIPAliasClassID": 337,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 7,

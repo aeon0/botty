@@ -62,7 +62,10 @@
     }
   },
   "NTIPAliasIdName": "GRIFFONSEYE",
-  "NTIPAliasType": 75,
+  "NTIPAliasType": [
+    75,
+    37
+  ],
   "NTIPAliasClassID": 421,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 7,

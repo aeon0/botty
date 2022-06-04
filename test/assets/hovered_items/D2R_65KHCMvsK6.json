@@ -32,7 +32,10 @@
   },
   "Item": null,
   "NTIPAliasIdName": "MARSHALSMIGHTYSCEPTEROFTHEAPPRENTICE",
-  "NTIPAliasType": 24,
+  "NTIPAliasType": [
+    24,
+    55
+  ],
   "NTIPAliasClassID": 211,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 4,

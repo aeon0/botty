@@ -32,7 +32,10 @@
   },
   "Item": null,
   "NTIPAliasIdName": "ARCHERSHEAVYBRACERSOFALACRITY",
-  "NTIPAliasType": 16,
+  "NTIPAliasType": [
+    16,
+    50
+  ],
   "NTIPAliasClassID": 382,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 4,

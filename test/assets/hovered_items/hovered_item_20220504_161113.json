@@ -21,7 +21,9 @@
     ]
   },
   "NTIPAliasIdName": "BURNINGESSENCEOFTERROR",
-  "NTIPAliasType": 39,
+  "NTIPAliasType": [
+    39
+  ],
   "NTIPAliasClassID": 656,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 8,

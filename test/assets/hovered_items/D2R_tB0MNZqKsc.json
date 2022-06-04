@@ -30,7 +30,11 @@
   },
   "Item": null,
   "NTIPAliasIdName": "JEWELERSPRESERVEDHEADOFDEFLECTING",
-  "NTIPAliasType": 69,
+  "NTIPAliasType": [
+    69,
+    51,
+    62
+  ],
   "NTIPAliasClassID": 413,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 4,

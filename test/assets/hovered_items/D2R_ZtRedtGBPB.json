@@ -32,7 +32,10 @@
   },
   "Item": null,
   "NTIPAliasIdName": "DOOMTRAMPLE",
-  "NTIPAliasType": 15,
+  "NTIPAliasType": [
+    15,
+    50
+  ],
   "NTIPAliasClassID": 388,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 6,

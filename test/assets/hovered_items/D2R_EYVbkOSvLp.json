@@ -28,7 +28,11 @@
   },
   "Item": null,
   "NTIPAliasIdName": "POWEREDCLOUDYSPHEREOFTHEMAGUS",
-  "NTIPAliasType": 68,
+  "NTIPAliasType": [
+    68,
+    45,
+    64
+  ],
   "NTIPAliasClassID": 288,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 4,

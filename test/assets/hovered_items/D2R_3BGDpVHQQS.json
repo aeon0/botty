@@ -47,7 +47,9 @@
     "NTIPAliasClass": 2
   },
   "NTIPAliasIdName": "PHASEBLADE",
-  "NTIPAliasType": 30,
+  "NTIPAliasType": [
+    30
+  ],
   "NTIPAliasClassID": 225,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 2,

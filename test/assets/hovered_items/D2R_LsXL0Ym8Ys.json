@@ -33,7 +33,11 @@
   },
   "Item": null,
   "NTIPAliasIdName": "BERSERKERSFURYVISOROFTHEMAMMOTH",
-  "NTIPAliasType": 71,
+  "NTIPAliasType": [
+    71,
+    37,
+    61
+  ],
   "NTIPAliasClassID": 494,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 4,

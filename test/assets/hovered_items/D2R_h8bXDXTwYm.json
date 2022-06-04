@@ -32,7 +32,10 @@
   },
   "Item": null,
   "NTIPAliasIdName": "BRIMSTONEHARNESS",
-  "NTIPAliasType": 19,
+  "NTIPAliasType": [
+    19,
+    50
+  ],
   "NTIPAliasClassID": 393,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 6,

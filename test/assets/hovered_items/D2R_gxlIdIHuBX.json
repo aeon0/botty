@@ -27,7 +27,11 @@
   },
   "Item": null,
   "NTIPAliasIdName": "ARCHERSGRANDMATRONBOWOFALACRITY",
-  "NTIPAliasType": 85,
+  "NTIPAliasType": [
+    85,
+    27,
+    60
+  ],
   "NTIPAliasClassID": 302,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 4,

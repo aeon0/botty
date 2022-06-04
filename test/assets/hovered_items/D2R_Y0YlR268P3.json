@@ -16,7 +16,10 @@
   },
   "Item": null,
   "NTIPAliasIdName": "LUCKYLARGECHARMOFINERTIA",
-  "NTIPAliasType": 83,
+  "NTIPAliasType": [
+    83,
+    13
+  ],
   "NTIPAliasClassID": 604,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 4,

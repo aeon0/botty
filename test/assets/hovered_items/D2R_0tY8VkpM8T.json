@@ -16,7 +16,10 @@
   },
   "Item": null,
   "NTIPAliasIdName": "FORKEDLARGECHARMOFBALANCE",
-  "NTIPAliasType": 83,
+  "NTIPAliasType": [
+    83,
+    13
+  ],
   "NTIPAliasClassID": 604,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 4,

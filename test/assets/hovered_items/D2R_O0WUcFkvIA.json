@@ -28,7 +28,12 @@
   },
   "Item": null,
   "NTIPAliasIdName": "CORPSECLAW",
-  "NTIPAliasType": 67,
+  "NTIPAliasType": [
+    67,
+    46,
+    65,
+    88
+  ],
   "NTIPAliasClassID": 180,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 6,

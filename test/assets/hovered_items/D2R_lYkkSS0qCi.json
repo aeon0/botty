@@ -16,7 +16,10 @@
   },
   "Item": null,
   "NTIPAliasIdName": "SKULLHEART",
-  "NTIPAliasType": 58,
+  "NTIPAliasType": [
+    58,
+    53
+  ],
   "NTIPAliasClassID": 643,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 6,

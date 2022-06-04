@@ -67,7 +67,10 @@
     }
   },
   "NTIPAliasIdName": "HELLSLAYER",
-  "NTIPAliasType": 28,
+  "NTIPAliasType": [
+    28,
+    46
+  ],
   "NTIPAliasClassID": 203,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 7,

@@ -68,7 +68,10 @@
     }
   },
   "NTIPAliasIdName": "VAMPIREGAZE",
-  "NTIPAliasType": 37,
+  "NTIPAliasType": [
+    37,
+    50
+  ],
   "NTIPAliasClassID": 395,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 7,

@@ -81,7 +81,10 @@
     }
   },
   "NTIPAliasIdName": "ANDARIELSVISAGE",
-  "NTIPAliasType": 37,
+  "NTIPAliasType": [
+    37,
+    50
+  ],
   "NTIPAliasClassID": 428,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 7,

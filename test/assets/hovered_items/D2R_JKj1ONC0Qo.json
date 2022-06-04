@@ -57,7 +57,10 @@
     "NTIPAliasClass": 1
   },
   "NTIPAliasIdName": "CEDARSTAFF",
-  "NTIPAliasType": 26,
+  "NTIPAliasType": [
+    26,
+    55
+  ],
   "NTIPAliasClassID": 158,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 2,

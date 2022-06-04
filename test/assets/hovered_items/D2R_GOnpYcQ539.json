@@ -27,7 +27,11 @@
   },
   "Item": null,
   "NTIPAliasIdName": "BEASTSKEWER",
-  "NTIPAliasType": 87,
+  "NTIPAliasType": [
+    87,
+    44,
+    60
+  ],
   "NTIPAliasClassID": 295,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 6,

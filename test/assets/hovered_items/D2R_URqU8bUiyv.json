@@ -27,7 +27,10 @@
   },
   "Item": null,
   "NTIPAliasIdName": "ARCHERSHYDRABOWOFALACRITY",
-  "NTIPAliasType": 27,
+  "NTIPAliasType": [
+    27,
+    47
+  ],
   "NTIPAliasClassID": 271,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 4,

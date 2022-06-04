@@ -30,7 +30,11 @@
   },
   "Item": null,
   "NTIPAliasIdName": "DIREHORN",
-  "NTIPAliasType": 72,
+  "NTIPAliasType": [
+    72,
+    37,
+    66
+  ],
   "NTIPAliasClassID": 400,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 6,

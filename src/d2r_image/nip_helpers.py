@@ -1,10 +1,9 @@
-from parse import compile as compile_pattern
 from d2r_image.d2data_lookup import find_base_item_from_magic_item_text, find_pattern_match, find_set_item_by_name, find_unique_item_by_name, get_base, get_rune, is_base, is_rune, is_consumable, get_consumable, get_by_name
 from d2r_image.data_models import HoveredItem, ItemQuality
-from d2r_image.nip_data import NIP_ALIAS_STAT_PATTERNS, NTIP_ALIAS_QUALITY_MAP, PROPS_TO_SKILLID, NIP_ALIAS_STAT_PATTERNS_NO_INTS
+from d2r_image.nip_data import NIP_ALIAS_STAT_PATTERNS, NTIP_ALIAS_QUALITY_MAP, PROPS_TO_SKILLID, NIP_ALIAS_STAT_PATTERNS_NO_INTS, NIP_ITEM_TYPE_DATA
 from d2r_image.processing_data import Runeword
 from rapidfuzz.string_metric import levenshtein
-import re
+from nip.NTIPAliasType import NTIPAliasType as NTIP_TYPES
 from logger import Logger
 
 from parse import compile
@@ -16,6 +15,20 @@ def compiled_nip_patterns():
     for pattern in NIP_ALIAS_STAT_PATTERNS.keys():
         nip_patterns[pattern] = compile(pattern)
     return nip_patterns
+
+
+def basename_to_types(basename: str) -> list[int]:
+    types=[]
+    if basename in NIP_ITEM_TYPE_DATA:
+        for x in NIP_ITEM_TYPE_DATA[basename]:
+            if x in NTIP_TYPES:
+                types.append(int(NTIP_TYPES[x]))
+            else:
+                Logger.error(f"type: {x} does not exist in nip.NTIPAliasType")
+    else:
+        Logger.error(f"basename: {basename} does not exist in NIP_ITEM_TYPE_DATA")
+    return types
+
 
 def parse_item(quality, item, _call_count=1):
     item_is_identified = True
@@ -137,7 +150,7 @@ def parse_item(quality, item, _call_count=1):
         Text='|'.join(lines),
         BaseItem=base_item,
         Item=found_item,
-        NTIPAliasType=base_item['NTIPAliasType'],
+        NTIPAliasType=basename_to_types(base_item['DisplayName']),
         NTIPAliasClassID=base_item['NTIPAliasClassID'],
         NTIPAliasClass = None if 'item_class' not in base_item else 2 if base_item['item_class'] == 'elite' else 1 if base_item['item_class'] == 'exceptional' else 0,
         NTIPAliasQuality=NTIP_ALIAS_QUALITY_MAP[quality],

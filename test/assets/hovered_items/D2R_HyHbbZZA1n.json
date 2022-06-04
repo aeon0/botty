@@ -31,7 +31,9 @@
   },
   "Item": null,
   "NTIPAliasIdName": "ROSEBRANDEDGLADIUSOFFIREBOLT",
-  "NTIPAliasType": 30,
+  "NTIPAliasType": [
+    30
+  ],
   "NTIPAliasClassID": 118,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 4,

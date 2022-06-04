@@ -31,7 +31,11 @@
   },
   "Item": null,
   "NTIPAliasIdName": "LANCERSMATRIARCHALSPEAROFQUICKNESS",
-  "NTIPAliasType": 86,
+  "NTIPAliasType": [
+    86,
+    33,
+    60
+  ],
   "NTIPAliasClassID": 303,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 4,

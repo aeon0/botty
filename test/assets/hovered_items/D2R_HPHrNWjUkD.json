@@ -86,7 +86,10 @@
     }
   },
   "NTIPAliasIdName": "CROWNOFAGES",
-  "NTIPAliasType": 37,
+  "NTIPAliasType": [
+    37,
+    50
+  ],
   "NTIPAliasClassID": 427,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 7,

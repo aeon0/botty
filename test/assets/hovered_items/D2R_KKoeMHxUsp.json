@@ -16,7 +16,10 @@
   },
   "Item": null,
   "NTIPAliasIdName": "JAGGEDSMALLCHARMOFINERTIA",
-  "NTIPAliasType": 82,
+  "NTIPAliasType": [
+    82,
+    13
+  ],
   "NTIPAliasClassID": 603,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 4,

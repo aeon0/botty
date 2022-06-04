@@ -31,7 +31,10 @@
   },
   "Item": null,
   "NTIPAliasIdName": "SKULLSPELL",
-  "NTIPAliasType": 26,
+  "NTIPAliasType": [
+    26,
+    55
+  ],
   "NTIPAliasClassID": 263,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 6,

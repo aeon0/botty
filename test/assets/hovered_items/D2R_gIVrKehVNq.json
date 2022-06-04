@@ -216,7 +216,10 @@
     }
   },
   "NTIPAliasIdName": "ORMUSROBES",
-  "NTIPAliasType": 3,
+  "NTIPAliasType": [
+    3,
+    50
+  ],
   "NTIPAliasClassID": 429,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 7,

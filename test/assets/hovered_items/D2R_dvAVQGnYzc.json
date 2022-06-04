@@ -31,7 +31,10 @@
   },
   "Item": null,
   "NTIPAliasIdName": "GHOULSLAYER",
-  "NTIPAliasType": 28,
+  "NTIPAliasType": [
+    28,
+    46
+  ],
   "NTIPAliasClassID": 102,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 6,

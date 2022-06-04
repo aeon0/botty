@@ -64,7 +64,9 @@
     }
   },
   "NTIPAliasIdName": "THEREAPERSTOLL",
-  "NTIPAliasType": 34,
+  "NTIPAliasType": [
+    34
+  ],
   "NTIPAliasClassID": 255,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 7,

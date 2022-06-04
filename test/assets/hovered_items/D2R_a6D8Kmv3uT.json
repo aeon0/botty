@@ -57,7 +57,10 @@
     }
   },
   "NTIPAliasIdName": "RIPHOOK",
-  "NTIPAliasType": 27,
+  "NTIPAliasType": [
+    27,
+    47
+  ],
   "NTIPAliasClassID": 162,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 7,

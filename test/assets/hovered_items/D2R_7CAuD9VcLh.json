@@ -33,7 +33,11 @@
   },
   "Item": null,
   "NTIPAliasIdName": "WRAITHWARD",
-  "NTIPAliasType": 69,
+  "NTIPAliasType": [
+    69,
+    51,
+    62
+  ],
   "NTIPAliasClassID": 486,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 6,

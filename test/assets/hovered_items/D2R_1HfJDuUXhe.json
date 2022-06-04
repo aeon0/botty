@@ -57,7 +57,10 @@
     "NTIPAliasClass": 2
   },
   "NTIPAliasIdName": "ETTINAXE",
-  "NTIPAliasType": 28,
+  "NTIPAliasType": [
+    28,
+    46
+  ],
   "NTIPAliasClassID": 198,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 2,

@@ -77,7 +77,10 @@
     }
   },
   "NTIPAliasIdName": "HARLEQUINCREST",
-  "NTIPAliasType": 37,
+  "NTIPAliasType": [
+    37,
+    50
+  ],
   "NTIPAliasClassID": 422,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 7,

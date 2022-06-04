@@ -36,7 +36,10 @@
   },
   "Item": null,
   "NTIPAliasIdName": "SHADOWHIDE",
-  "NTIPAliasType": 3,
+  "NTIPAliasType": [
+    3,
+    50
+  ],
   "NTIPAliasClassID": 326,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 6,

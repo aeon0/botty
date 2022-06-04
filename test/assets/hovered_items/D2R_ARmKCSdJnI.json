@@ -57,7 +57,10 @@
     "NTIPAliasClass": 2
   },
   "NTIPAliasIdName": "UNEARTHEDWAND",
-  "NTIPAliasType": 25,
+  "NTIPAliasType": [
+    25,
+    55
+  ],
   "NTIPAliasClassID": 209,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 2,

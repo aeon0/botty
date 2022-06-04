@@ -62,7 +62,10 @@
     }
   },
   "NTIPAliasIdName": "CHANCEGUARDS",
-  "NTIPAliasType": 16,
+  "NTIPAliasType": [
+    16,
+    50
+  ],
   "NTIPAliasClassID": 336,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 7,

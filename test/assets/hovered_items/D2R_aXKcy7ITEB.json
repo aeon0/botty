@@ -16,7 +16,10 @@
   },
   "Item": null,
   "NTIPAliasIdName": "STALWARTGRANDCHARMOFANTHRAX",
-  "NTIPAliasType": 84,
+  "NTIPAliasType": [
+    84,
+    13
+  ],
   "NTIPAliasClassID": 605,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 4,

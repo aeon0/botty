@@ -57,7 +57,10 @@
     "NTIPAliasClass": 0
   },
   "NTIPAliasIdName": "FLAIL",
-  "NTIPAliasType": 36,
+  "NTIPAliasType": [
+    36,
+    57
+  ],
   "NTIPAliasClassID": 21,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 2,

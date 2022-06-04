@@ -31,7 +31,10 @@
   },
   "Item": null,
   "NTIPAliasIdName": "VENOMOUSLICHWANDOFTHEMAGUS",
-  "NTIPAliasType": 25,
+  "NTIPAliasType": [
+    25,
+    55
+  ],
   "NTIPAliasClassID": 208,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 4,

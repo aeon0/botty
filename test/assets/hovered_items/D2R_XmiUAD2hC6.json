@@ -27,7 +27,11 @@
   },
   "Item": null,
   "NTIPAliasIdName": "CRUELGHOSTGLAIVEOFPROPOGATION",
-  "NTIPAliasType": 44,
+  "NTIPAliasType": [
+    44,
+    49,
+    33
+  ],
   "NTIPAliasClassID": 246,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 4,

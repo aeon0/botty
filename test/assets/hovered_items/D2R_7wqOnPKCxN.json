@@ -27,7 +27,10 @@
   },
   "Item": null,
   "NTIPAliasIdName": "GALESTINGER",
-  "NTIPAliasType": 35,
+  "NTIPAliasType": [
+    35,
+    47
+  ],
   "NTIPAliasClassID": 169,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 6,

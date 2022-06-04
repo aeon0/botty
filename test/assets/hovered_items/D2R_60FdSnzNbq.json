@@ -57,7 +57,9 @@
     "NTIPAliasClass": 2
   },
   "NTIPAliasIdName": "SUPERIORGIANTTHRESHER",
-  "NTIPAliasType": 34,
+  "NTIPAliasType": [
+    34
+  ],
   "NTIPAliasClassID": 258,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 3,

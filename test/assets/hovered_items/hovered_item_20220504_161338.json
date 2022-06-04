@@ -66,7 +66,10 @@
     }
   },
   "NTIPAliasIdName": "TALRASHASHORADRICCREST",
-  "NTIPAliasType": 37,
+  "NTIPAliasType": [
+    37,
+    50
+  ],
   "NTIPAliasClassID": 358,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 5,

@@ -57,7 +57,9 @@
     "NTIPAliasClass": 1
   },
   "NTIPAliasIdName": "LOCHABERAXE",
-  "NTIPAliasType": 34,
+  "NTIPAliasType": [
+    34
+  ],
   "NTIPAliasClassID": 150,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 2,

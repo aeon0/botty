@@ -21,7 +21,10 @@
     ]
   },
   "NTIPAliasIdName": "THULRUNE",
-  "NTIPAliasType": 74,
+  "NTIPAliasType": [
+    74,
+    53
+  ],
   "NTIPAliasClassID": 619,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 10,
