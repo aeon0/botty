@@ -106,7 +106,7 @@ def transpile(tokens, isPickedUpPhase=False):
             # NTIPAliasType["ring"] in item["NTIPAliasType"] and NTIPAliasType["ring"] or -1
             operator = tokens[i + 1]
             next_type = tokens[i + 2] # The type we're looking for
-            expression += f"(NTIPAliasType['{next_type.value}'] in item_data['NTIPAliasType'] and NTIPAliasType['{next_type.value}'] or -1)"
+            expression += f"(int(NTIPAliasType['{next_type.value}']) in item_data['NTIPAliasType'] and int(NTIPAliasType['{next_type.value}']) or -1)"
         elif token.type == TokenType.EQ:
             if tokens[i + 1].type != TokenType.NTIPAliasFlag:
                 if not isPickedUpPhase:
@@ -437,82 +437,19 @@ Logger.info(f"Loaded {num_files} nip files with {len(nip_expressions)} total exp
 
 
 if __name__ == "__main__":
-    item_data = {
-        "Name": "IMP STINGER",
-        "Quality": "rare",
-        "Text": "IMP STINGER|BLADE BOW|TWO-HAND DAMAGE: 36 TO 76|REQUIRED DEXTERITY: 119|REQUIRED STRENGTH: 76|REQUIRED LEVEL: 45|BOW CLASS - VERY FAST ATTACK SPEED|+10% INCREASED ATTACK SPEED|+75% ENHANCED DAMAGE|+5 TO MAXIMUM DAMAGE|+113 TO ATTACK RATING|+191% DAMAGE TO UNDEAD|+186 TO ATTACK RATING AGAINST UNDEAD|4% LIFE STOLEN PER HIT",
-        "BaseItem": {
-            "DisplayName": "Blade Bow",
-            "NTIPAliasClassID": 265,
-            "NTIPAliasType": 27,
-            "NTIPAliasStatProps": {
-                "194": {
-                    "min": 0,
-                    "max": 4
-                },
-                "72": 32,
-                "73": 32,
-                "23": 21,
-                "24": 41
-            },
-            "dimensions": [
-                2,
-                3
-            ],
-            "NTIPAliasClass": 2
-        },
-        "Item": None,
-        "NTIPAliasIdName": "IMPSTINGER",
-        "NTIPAliasType": 27,
-        "NTIPAliasClassID": 265,
-        "NTIPAliasClass": None,
-        "NTIPAliasQuality": 6,
-        "NTIPAliasStat": {
-            "21": 36,
-            "22": 5,
-            "122": 191,
-            "19": 113,
-            "124": 186,
-            "18": 75,
-            "93": 10,
-            "60": 4
-        },
-        "NTIPAliasFlag": {
-            "0x10": 1,
-            "0x400000": 0,
-            "0x4000000": 0
-        }
+    item_data = {'Item': False, 'NTIPAliasType': [2, 51], 'NTIPAliasClassID': 448, 'NTIPAliasClass': 2, 'NTIPAliasQuality': 3, 'NTIPAliasFlag': {
+	'0x10': True,
+	'0x4000000': False,
+	'0x400000': False
     }
-    # print(eval("(int(item_data['NTIPAliasClassID']))==(int(NTIPAliasClassID['bladebow']))or(int(item_data['NTIPAliasClassID']))==(int(NTIPAliasClassID['shadowbow']))and(int(item_data['NTIPAliasQuality']))==(int(NTIPAliasQuality['rare']))and(int(item_data['NTIPAliasStat'].get('93', 0)))>=(20.0)"))
+}   
+    ((int(NTIPAliasType['shield']) in item_data['NTIPAliasType'] and NTIPAliasType['shield'] or -1)==(int(NTIPAliasType['shield'])))
 
-    ex = '[name] == matriarchalbow || [name] == grandmatronbow || [name] == spiderbow || [name] == bladebow || [name] == shadowbow && [quality] == rare # [ias] >= 10'
-    print(transpile_nip_expression("[type] == ring && [quality] == rare # [ias] >= 10"))
-    print(transpile_nip_expression("[type] == ring"))
-  
-    # print(((int(item_data['NTIPAliasClassID']))==(int(NTIPAliasClassID['bladebow']))and(int(item_data['NTIPAliasQuality']))==(int(NTIPAliasQuality['rare'])))and((int(item_data['NTIPAliasStat'].get('93', -1)))>=(11.0)))
-
-    # print(((int(item_data['NTIPAliasClassID']))==(int(NTIPAliasClassID['bladebow']))and(int(item_data['NTIPAliasQuality']))==(int(NTIPAliasQuality['rare'])))and((int(item_data['NTIPAliasStat'].get('93', -1)))>=(1.0)))
-    # * Should remove the maxquantity from the below expressions due to maxquantity not being used atm
-    # print(transpile_nip_expression("[name] == ring && [quality] == rare # [strength] == 5"))
-    # print(transpile_nip_expression("[name] == keyofterror"))
-    # print(transpile_nip_expression("[name] == keyofterror # [strength] == 5 # [maxquantity] == 1"))
-
-
-    # for i, test in enumerate(transpile_tests):
-    #     try:
-    #         assert transpile_nip_expression(test["raw"]) == test["transpiled"]
-    #         print(f"transpile_test {i} passed.")
-    #     except:
-    #         print("Failed to transpile:", test["raw"])
-    #         print(transpile_nip_expression(test["raw"]), end="\n\n")
-
-
-    # print("\n")
-
-    # for i, test in enumerate(syntax_error_tests):
-    #     try:
-    #         transpile_nip_expression(test["expression"])
-    #         print(f"syntax_error_test {i} passed.")
-    #     except:
-    #         if not test["should_fail"]:
-    #             print(f"{test['expression']} failed (unexpectedly failed)", end="\n\n")
+    # print(int(NTIPAliasType['shield']))
+    # print(item_data['NTIPAliasType'])
+    # print(int(NTIPAliasType['shield']) in item_data['NTIPAliasType'] and NTIPAliasType['shield'] or -1 == int(NTIPAliasType['shield']))
+    print(transpile_nip_expression("[type] == shield"))
+    
+    print(
+        eval(transpile_nip_expression("[type] == ring"))
+    )
