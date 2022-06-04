@@ -953,11 +953,6 @@ NIP_KEEP_TESTS = {
     ],
     # magic jewel
     "D2R_aOyb5TqkIm": [
-        # poison calculation??
-        (
-            "[name] == Jewel && [quality] == magic && [flag] != ethereal # [lightresist] >= 23 && [poisonmindam] >= 103",
-            True
-        ),
         (
             "[name] == Jewel && [quality] == magic && [flag] != ethereal # [lightresist] >= 23 && [poisonmindam] >= 20",
             True
