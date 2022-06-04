@@ -38,7 +38,7 @@ PROPS_TO_SKILLID = {195, 196, 197, 198, 199, 201, 204}
 
 NIP_ALIAS_STAT_PATTERNS = {
     "+{:d} Defense": [
-        "31,0"
+        "5006"
     ],
     "+{:d} Defense vs. Missile": [
         "32"
@@ -7012,9 +7012,6 @@ NIP_ALIAS_STAT_PATTERNS = {
     "ETHEREAL (CANNOT BE REPAIRED), SOCKETED ({:d})": [
         "194"
     ],
-    "Defense: {:d}": [
-        "31"
-    ],
     "+{:d} Poison Damage over {:d} Seconds": [
         "57",
         "59"
@@ -7041,6 +7038,21 @@ NIP_ALIAS_STAT_PATTERNS = {
     "Quantity: {:d} of {:d}": [
         "5002",
         "5003"
+    ],
+    "Indestructible": [
+        "5004"
+    ],
+    "Defense: {:d}": [
+        "5005"
+    ],
+    "+{:d}% Enhanced Damage": [
+        "5007"
+    ],
+    "+{:d} Minimum Damage": [
+        "5008"
+    ],
+    "+{:d} Maximum Damage": [
+        "5009"
     ]
 }
 
