@@ -113,7 +113,7 @@ class GroundItem:
     Text: str
     BaseItem: dict
     Item: Union[dict, None]
-    NTIPAliasType: int
+    NTIPAliasType: list
     NTIPAliasClassID: int
     NTIPAliasClass: Union[int, None]
     NTIPAliasQuality: int
