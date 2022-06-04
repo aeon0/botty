@@ -255,6 +255,22 @@ NIP_PICK_TESTS = {
             ],
         },
     ],
+    "139": [
+        {
+            "Color": "white",
+            "Text": "SUPERIOR HIEROPHANT TROPHY",
+            "expressions": [
+                (
+                    "[name] == hierophanttrophy",
+                    True
+                ),
+                (
+                    "[type] == voodooheads",
+                    True
+                ),
+            ],
+        },
+    ],
     "188": [
         {
             "Color": "white",
