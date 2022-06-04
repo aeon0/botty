@@ -172,11 +172,11 @@ NIP_KEEP_TESTS = {
             False
         ),
         (
-            "[type] == assassinclaws && [class] == elite",
+            "[type] == assassinclaw && [class] == elite",
             True
         ),
         (
-            "[type] == assassinclaws && [class] == exceptional",
+            "[type] == assassinclaw && [class] == exceptional",
             False
         ),
     ],
@@ -647,7 +647,7 @@ NIP_KEEP_TESTS = {
             True
         ),
         (
-            "[type] == assassinclaws",
+            "[type] == assassinclaw",
             False
         ),
     ],

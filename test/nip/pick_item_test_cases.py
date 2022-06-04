@@ -214,7 +214,7 @@ NIP_PICK_TESTS = {
                     True
                 ),
                 (
-                    "[type] == assassinclaws && [quality] == normal",
+                    "[type] == assassinclaw && [quality] == normal",
                     True
                 ),
                 (
