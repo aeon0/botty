@@ -83,6 +83,7 @@ def transpile(tokens, isPickedUpPhase=False):
             # we don't need the flag value here, it's used below
             # expression += f"NTIPAliasFlag['{token.value}']"
         elif token.type == TokenType.NTIPAliasType:
+            pass
             expression += f"(int(NTIPAliasType['{token.value}']))"
         elif token.type == TokenType.IDNAME:
             if not isPickedUpPhase:
@@ -102,7 +103,11 @@ def transpile(tokens, isPickedUpPhase=False):
                     expression += f"(not item_data['NTIPAliasFlag']['{NTIPAliasFlag[tokens[i + 2].value]}'])"
             # Check if the flag we're looking for (i.e ethereal) is i + 2 away from here, if it is, grab it's value (0x400000) and place it inside the lookup.
         elif token.type == TokenType._TYPE:
-            expression += "(int(item_data['NTIPAliasType']))"
+            # expression += "(int(item_data['NTIPAliasType']))"
+            # NTIPAliasType["ring"] in item["NTIPAliasType"] and NTIPAliasType["ring"] or -1
+            operator = tokens[i + 1]
+            next_type = tokens[i + 2] # The type we're looking for
+            expression += f"(NTIPAliasType['{next_type.value}'] in item_data['NTIPAliasType'] and NTIPAliasType['{next_type.value}'] or -1)"
         elif token.type == TokenType.EQ:
             if tokens[i + 1].type != TokenType.NTIPAliasFlag:
                 if not isPickedUpPhase:
@@ -482,11 +487,9 @@ if __name__ == "__main__":
     # print(eval("(int(item_data['NTIPAliasClassID']))==(int(NTIPAliasClassID['bladebow']))or(int(item_data['NTIPAliasClassID']))==(int(NTIPAliasClassID['shadowbow']))and(int(item_data['NTIPAliasQuality']))==(int(NTIPAliasQuality['rare']))and(int(item_data['NTIPAliasStat'].get('93', 0)))>=(20.0)"))
 
     ex = '[name] == matriarchalbow || [name] == grandmatronbow || [name] == spiderbow || [name] == bladebow || [name] == shadowbow && [quality] == rare # [ias] >= 10'
-    print(transpile_nip_expression(ex))
-    print(
-            _test_nip_expression(item_data, ex)
-
-    )
+    print(transpile_nip_expression("[type] == ring && [quality] == rare # [ias] >= 10"))
+    print(transpile_nip_expression("[type] == ring"))
+  
     # print(((int(item_data['NTIPAliasClassID']))==(int(NTIPAliasClassID['bladebow']))and(int(item_data['NTIPAliasQuality']))==(int(NTIPAliasQuality['rare'])))and((int(item_data['NTIPAliasStat'].get('93', -1)))>=(11.0)))
 
     # print(((int(item_data['NTIPAliasClassID']))==(int(NTIPAliasClassID['bladebow']))and(int(item_data['NTIPAliasQuality']))==(int(NTIPAliasQuality['rare'])))and((int(item_data['NTIPAliasStat'].get('93', -1)))>=(1.0)))
