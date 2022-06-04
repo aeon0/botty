@@ -7047,12 +7047,6 @@ NIP_ALIAS_STAT_PATTERNS = {
     ],
     "+{:d}% Enhanced Damage": [
         "5007"
-    ],
-    "+{:d} Minimum Damage": [
-        "5008"
-    ],
-    "+{:d} Maximum Damage": [
-        "5009"
     ]
 }
 
