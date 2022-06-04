@@ -14,6 +14,7 @@ import glob
 import re
 from itertools import groupby
 from logger import Logger
+from typing import Union
 
 from nip.lexer import Lexer, NipSyntaxError, NipSections
 from nip.tokens import TokenType
@@ -280,7 +281,7 @@ def should_keep(item_data):
     return False, ""
 
 
-def _gold_pickup(item_data: dict, expression: NIPExpression) -> bool:
+def _gold_pickup(item_data: dict, expression: NIPExpression) -> Union[bool, None]:
     expression_raw = prepare_nip_expression(expression.raw)
     tokens = list(Lexer().create_tokens(expression_raw))
     res = None
@@ -446,14 +447,14 @@ if __name__ == "__main__":
 	'0x4000000': False,
 	'0x400000': False
     }
-}   
+}
     ((int(NTIPAliasType['shield']) in item_data['NTIPAliasType'] and NTIPAliasType['shield'] or -1)==(int(NTIPAliasType['shield'])))
 
     # print(int(NTIPAliasType['shield']))
     # print(item_data['NTIPAliasType'])
     # print(int(NTIPAliasType['shield']) in item_data['NTIPAliasType'] and NTIPAliasType['shield'] or -1 == int(NTIPAliasType['shield']))
     print(transpile_nip_expression("[type] == shield"))
-    
+
     print(
         eval(transpile_nip_expression("[type] == ring"))
     )
