@@ -14,6 +14,7 @@ import glob
 import re
 from itertools import groupby
 from logger import Logger
+from typing import Union
 
 from nip.lexer import Lexer, NipSyntaxError, NipSections
 from nip.tokens import TokenType
@@ -280,28 +281,32 @@ def should_keep(item_data):
     return False, ""
 
 
-def gold_pickup(item_data):
-    for expression in nip_expressions:
-        if expression.raw:
-            if "[gold]" in expression.raw.lower():
-                res = eval(expression.transpiled)
-                if res:
-                    return True, expression.raw
-    return False, ""
+def _gold_pickup(item_data: dict, expression: NIPExpression) -> Union[bool, None]:
+    expression_raw = prepare_nip_expression(expression.raw)
+    tokens = list(Lexer().create_tokens(expression_raw))
+    res = None
+    for i, token in enumerate(tokens):
+        if token.type == TokenType.NTIPAliasStat and token.value == str(NTIPAliasStat["gold"]):
+            read_gold = int(item_data["Amount"])
+            operator = tokens[i + 1].value
+            desired_gold = int(tokens[i + 2].value)
+            res = eval(f"{read_gold} {operator} {desired_gold}")
+            break
+    return res
 
 
 def _handle_pick_eth_sockets(item_data: dict, expression: NIPExpression) -> tuple[bool, str]:
     expression_raw = prepare_nip_expression(expression.raw)
     all_tokens = list(Lexer().create_tokens(expression_raw))
     tokens_by_section = [list(group) for k, group in groupby(all_tokens, lambda x: x.type == TokenType.SECTIONAND) if not k]
-    eth_keyword_present = "ethereal" in expression_raw
-    soc_keyword_present = "sockets" in expression_raw
+    eth_keyword_present = "ethereal" in expression_raw.lower()
+    soc_keyword_present = "sockets" in expression_raw.lower()
 
     eth = 0 # -1 = set to false, 0 = not set, 1 = set to true
     soc = 0
     if eth_keyword_present:
         for i, token in enumerate(tokens := tokens_by_section[0]):
-            if token.type == TokenType.NTIPAliasFlag and token.value == "ethereal":
+            if token.type == TokenType.NTIPAliasFlag and str(token.value).lower() == "ethereal":
                 if tokens[i - 1].value == "==":
                     eth = 1
                 else:
@@ -344,13 +349,13 @@ def _handle_pick_eth_sockets(item_data: dict, expression: NIPExpression) -> tupl
 
 
 def should_pickup(item_data):
-
-    # * Handle the gold pickup.
-    if item_data["BaseItem"]["DisplayName"] == "Gold":
-        return gold_pickup(item_data)
-
+    item_is_gold = item_data["BaseItem"]["DisplayName"] == "Gold"
     for expression in nip_expressions:
         if expression.raw:
+            # check gold
+            if item_is_gold and "[gold]" in expression.raw.lower():
+                if (res := _gold_pickup(item_data, expression)) is not None:
+                    return res, expression.raw
             # check eth / sockets
             pick_eval_expr = expression.should_pickup
             if any(substring == item_data["Color"] for substring in ["white", "gray"]):
@@ -442,14 +447,14 @@ if __name__ == "__main__":
 	'0x4000000': False,
 	'0x400000': False
     }
-}   
+}
     ((int(NTIPAliasType['shield']) in item_data['NTIPAliasType'] and NTIPAliasType['shield'] or -1)==(int(NTIPAliasType['shield'])))
 
     # print(int(NTIPAliasType['shield']))
     # print(item_data['NTIPAliasType'])
     # print(int(NTIPAliasType['shield']) in item_data['NTIPAliasType'] and NTIPAliasType['shield'] or -1 == int(NTIPAliasType['shield']))
     print(transpile_nip_expression("[type] == shield"))
-    
+
     print(
         eval(transpile_nip_expression("[type] == ring"))
     )

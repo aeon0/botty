@@ -11,6 +11,7 @@
       "Color": "gray",
       "Quality": "SUPERIOR",
       "Text": "SUPERIOR ANCIENT AXE",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Ancient Axe",
         "NTIPAliasClassID": 102,
@@ -63,6 +64,7 @@
       "Color": "gray",
       "Quality": "gray",
       "Text": "ANCIENT AXE",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Ancient Axe",
         "NTIPAliasClassID": 102,
@@ -115,6 +117,7 @@
       "Color": "white",
       "Quality": "normal",
       "Text": "12077 GOLD",
+      "Amount": "12077",
       "BaseItem": {
         "DisplayName": "Gold",
         "NTIPAliasClassID": 523,
@@ -149,6 +152,7 @@
       "Color": "white",
       "Quality": "normal",
       "Text": "TOPAZ",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Topaz",
         "NTIPAliasClassID": 564,
@@ -160,7 +164,7 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        101,
+        102,
         20
       ],
       "NTIPAliasClassID": 564,
@@ -183,6 +187,7 @@
       "Color": "white",
       "Quality": "SUPERIOR",
       "Text": "SUPERIOR ANCIENT SWORD",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Ancient Sword",
         "NTIPAliasClassID": 125,
@@ -212,7 +217,8 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        30
+        30,
+        104
       ],
       "NTIPAliasClassID": 125,
       "NTIPAliasClass": 1,
@@ -234,6 +240,7 @@
       "Color": "white",
       "Quality": "normal",
       "Text": "ANCIENT AXE",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Ancient Axe",
         "NTIPAliasClassID": 102,
@@ -286,6 +293,7 @@
       "Color": "white",
       "Quality": "SUPERIOR",
       "Text": "SUPERIOR ANCIENT AXE",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Ancient Axe",
         "NTIPAliasClassID": 102,
@@ -338,6 +346,7 @@
       "Color": "white",
       "Quality": "normal",
       "Text": "TOME OF TOWN PORTAL",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Tome of Town Portal",
         "NTIPAliasClassID": 518,
@@ -372,6 +381,7 @@
       "Color": "white",
       "Quality": "normal",
       "Text": "TOME OF IDENTIFY",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Tome of Identify",
         "NTIPAliasClassID": 519,
@@ -406,6 +416,7 @@
       "Color": "white",
       "Quality": "normal",
       "Text": "THAWING POTION",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Thawing Potion",
         "NTIPAliasClassID": 517,
@@ -417,7 +428,7 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        81,
+        82,
         9
       ],
       "NTIPAliasClassID": 517,
@@ -440,6 +451,7 @@
       "Color": "blue",
       "Quality": "magic",
       "Text": "ANCIENT AXE",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Ancient Axe",
         "NTIPAliasClassID": 102,
@@ -492,6 +504,7 @@
       "Color": "yellow",
       "Quality": "rare",
       "Text": "ANCIENT AXE",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Ancient Axe",
         "NTIPAliasClassID": 102,
@@ -544,6 +557,7 @@
       "Color": "green",
       "Quality": "set",
       "Text": "ANCIENT AXE",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Ancient Axe",
         "NTIPAliasClassID": 102,
@@ -596,6 +610,7 @@
       "Color": "gold",
       "Quality": "unique",
       "Text": "ANCIENT AXE",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Ancient Axe",
         "NTIPAliasClassID": 102,
@@ -680,6 +695,7 @@
       "Color": "orange",
       "Quality": "crafted",
       "Text": "TWISTED ESSENCE OF SUFFERING",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Twisted Essence of Suffering",
         "NTIPAliasClassID": 654,
@@ -713,6 +729,7 @@
       "Color": "orange",
       "Quality": "rune",
       "Text": "TAL RUNE",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Tal Rune",
         "NTIPAliasClassID": 616,
@@ -724,7 +741,7 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        74,
+        75,
         53
       ],
       "NTIPAliasClassID": 616,
@@ -747,6 +764,7 @@
       "Color": "orange",
       "Quality": "rune",
       "Text": "ZOD RUNE",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Zod Rune",
         "NTIPAliasClassID": 642,
@@ -758,7 +776,7 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        74,
+        75,
         53
       ],
       "NTIPAliasClassID": 642,
@@ -781,6 +799,7 @@
       "Color": "orange",
       "Quality": "rune",
       "Text": "VEX RUNE",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Vex Rune",
         "NTIPAliasClassID": 635,
@@ -792,7 +811,7 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        74,
+        75,
         53
       ],
       "NTIPAliasClassID": 635,
@@ -815,6 +834,7 @@
       "Color": "orange",
       "Quality": "rune",
       "Text": "UM RUNE",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Um Rune",
         "NTIPAliasClassID": 631,
@@ -826,7 +846,7 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        74,
+        75,
         53
       ],
       "NTIPAliasClassID": 631,
@@ -849,6 +869,7 @@
       "Color": "orange",
       "Quality": "rune",
       "Text": "THUL RUNE",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Thul Rune",
         "NTIPAliasClassID": 619,
@@ -860,7 +881,7 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        74,
+        75,
         53
       ],
       "NTIPAliasClassID": 619,
@@ -883,6 +904,7 @@
       "Color": "orange",
       "Quality": "rune",
       "Text": "TIR RUNE",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Tir Rune",
         "NTIPAliasClassID": 612,
@@ -894,7 +916,7 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        74,
+        75,
         53
       ],
       "NTIPAliasClassID": 612,

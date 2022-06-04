@@ -11,6 +11,7 @@
       "Color": "white",
       "Quality": "normal",
       "Text": "15512 GOLD",
+      "Amount": "15512",
       "BaseItem": {
         "DisplayName": "Gold",
         "NTIPAliasClassID": 523,
@@ -45,6 +46,7 @@
       "Color": "white",
       "Quality": "normal",
       "Text": "FLAWED EMERALD",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Flawed Emerald",
         "NTIPAliasClassID": 573,
@@ -56,7 +58,7 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        98,
+        99,
         20
       ],
       "NTIPAliasClassID": 573,
@@ -79,6 +81,7 @@
       "Color": "white",
       "Quality": "normal",
       "Text": "FLAWED RUBY",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Flawed Ruby",
         "NTIPAliasClassID": 578,
@@ -90,7 +93,7 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        99,
+        100,
         20
       ],
       "NTIPAliasClassID": 578,
@@ -113,6 +116,7 @@
       "Color": "white",
       "Quality": "normal",
       "Text": "FULL REJUVENATION POTION",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Full Rejuvenation Potion",
         "NTIPAliasClassID": 516,
@@ -124,9 +128,9 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        78,
-        76,
-        77
+        79,
+        77,
+        78
       ],
       "NTIPAliasClassID": 516,
       "NTIPAliasClass": null,
@@ -148,6 +152,7 @@
       "Color": "white",
       "Quality": "normal",
       "Text": "GOLD",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Gold",
         "NTIPAliasClassID": 523,
@@ -182,6 +187,7 @@
       "Color": "white",
       "Quality": "normal",
       "Text": "FLAWLESS SKULL",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Flawless Skull",
         "NTIPAliasClassID": 600,
@@ -193,7 +199,7 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        102,
+        103,
         20
       ],
       "NTIPAliasClassID": 600,
@@ -216,6 +222,7 @@
       "Color": "white",
       "Quality": "normal",
       "Text": "FLAWLESS DIAMOND",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Flawless Diamond",
         "NTIPAliasClassID": 585,
@@ -227,7 +234,7 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        97,
+        98,
         20
       ],
       "NTIPAliasClassID": 585,
@@ -250,6 +257,7 @@
       "Color": "white",
       "Quality": "normal",
       "Text": "FLAWED TOPAZ",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Flawed Topaz",
         "NTIPAliasClassID": 563,
@@ -261,7 +269,7 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        101,
+        102,
         20
       ],
       "NTIPAliasClassID": 563,
@@ -284,6 +292,7 @@
       "Color": "white",
       "Quality": "normal",
       "Text": "FLAWED DIAMOND",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Flawed Diamond",
         "NTIPAliasClassID": 583,
@@ -295,7 +304,7 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        97,
+        98,
         20
       ],
       "NTIPAliasClassID": 583,
@@ -318,6 +327,7 @@
       "Color": "white",
       "Quality": "normal",
       "Text": "FLAWLESS AMETHYST",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Flawless Amethyst",
         "NTIPAliasClassID": 560,
@@ -329,7 +339,7 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        96,
+        97,
         20
       ],
       "NTIPAliasClassID": 560,
@@ -352,6 +362,7 @@
       "Color": "white",
       "Quality": "normal",
       "Text": "FLAWED AMETHYST",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Flawed Amethyst",
         "NTIPAliasClassID": 558,
@@ -363,7 +374,7 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        96,
+        97,
         20
       ],
       "NTIPAliasClassID": 558,
@@ -386,6 +397,7 @@
       "Color": "white",
       "Quality": "normal",
       "Text": "FLAWED SKULL",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Flawed Skull",
         "NTIPAliasClassID": 598,
@@ -397,7 +409,7 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        102,
+        103,
         20
       ],
       "NTIPAliasClassID": 598,
@@ -420,6 +432,7 @@
       "Color": "white",
       "Quality": "normal",
       "Text": "FLAWED SAPPHIRE",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Flawed Sapphire",
         "NTIPAliasClassID": 568,
@@ -431,7 +444,7 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        100,
+        101,
         20
       ],
       "NTIPAliasClassID": 568,
@@ -454,6 +467,7 @@
       "Color": "white",
       "Quality": "normal",
       "Text": "EMERALD",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Emerald",
         "NTIPAliasClassID": 574,
@@ -465,7 +479,7 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        98,
+        99,
         20
       ],
       "NTIPAliasClassID": 574,
@@ -488,6 +502,7 @@
       "Color": "white",
       "Quality": "normal",
       "Text": "FLAWLESS EMERALD",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Flawless Emerald",
         "NTIPAliasClassID": 575,
@@ -499,7 +514,7 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        98,
+        99,
         20
       ],
       "NTIPAliasClassID": 575,
@@ -522,6 +537,7 @@
       "Color": "white",
       "Quality": "normal",
       "Text": "FLAWLESS TOPAZ",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Flawless Topaz",
         "NTIPAliasClassID": 565,
@@ -533,7 +549,7 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        101,
+        102,
         20
       ],
       "NTIPAliasClassID": 565,
@@ -556,6 +572,7 @@
       "Color": "white",
       "Quality": "normal",
       "Text": "FLAWLESS SAPPHIRE",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Flawless Sapphire",
         "NTIPAliasClassID": 570,
@@ -567,7 +584,7 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        100,
+        101,
         20
       ],
       "NTIPAliasClassID": 570,
@@ -590,6 +607,7 @@
       "Color": "white",
       "Quality": "normal",
       "Text": "FLAWLESS RUBY",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Flawless Ruby",
         "NTIPAliasClassID": 580,
@@ -601,7 +619,7 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        99,
+        100,
         20
       ],
       "NTIPAliasClassID": 580,
@@ -624,6 +642,7 @@
       "Color": "orange",
       "Quality": "crafted",
       "Text": "FESTERING ESSENCE OF DESTRUCTION",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Festering Essence of Destruction",
         "NTIPAliasClassID": 657,
@@ -657,6 +676,7 @@
       "Color": "orange",
       "Quality": "rune",
       "Text": "FAL RUNE",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Fal Rune",
         "NTIPAliasClassID": 628,
@@ -668,7 +688,7 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        74,
+        75,
         53
       ],
       "NTIPAliasClassID": 628,
@@ -691,6 +711,7 @@
       "Color": "orange",
       "Quality": "rune",
       "Text": "ETH RUNE",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Eth Rune",
         "NTIPAliasClassID": 614,
@@ -702,7 +723,7 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        74,
+        75,
         53
       ],
       "NTIPAliasClassID": 614,

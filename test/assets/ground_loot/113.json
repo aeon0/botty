@@ -11,6 +11,7 @@
       "Color": "gray",
       "Quality": "SUPERIOR",
       "Text": "SUPERIOR ANCIENT ARMOR",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Ancient Armor",
         "NTIPAliasClassID": 326,
@@ -68,6 +69,7 @@
       "Color": "gray",
       "Quality": "gray",
       "Text": "ANCIENT ARMOR",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Ancient Armor",
         "NTIPAliasClassID": 326,
@@ -125,6 +127,7 @@
       "Color": "gray",
       "Quality": "SUPERIOR",
       "Text": "SUPERIOR ANCIENT SHIELD",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Ancient Shield",
         "NTIPAliasClassID": 379,
@@ -156,9 +159,9 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        70,
+        71,
         51,
-        63
+        64
       ],
       "NTIPAliasClassID": 379,
       "NTIPAliasClass": 1,
@@ -180,6 +183,7 @@
       "Color": "gray",
       "Quality": "gray",
       "Text": "ANCIENT SHIELD",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Ancient Shield",
         "NTIPAliasClassID": 379,
@@ -211,9 +215,9 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        70,
+        71,
         51,
-        63
+        64
       ],
       "NTIPAliasClassID": 379,
       "NTIPAliasClass": 1,
@@ -235,6 +239,7 @@
       "Color": "white",
       "Quality": "normal",
       "Text": "17619 GOLD",
+      "Amount": "17619",
       "BaseItem": {
         "DisplayName": "Gold",
         "NTIPAliasClassID": 523,
@@ -269,6 +274,7 @@
       "Color": "white",
       "Quality": "SUPERIOR",
       "Text": "SUPERIOR ANCIENT ARMOR",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Ancient Armor",
         "NTIPAliasClassID": 326,
@@ -326,6 +332,7 @@
       "Color": "white",
       "Quality": "SUPERIOR",
       "Text": "SUPERIOR ANTLERS",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Antlers",
         "NTIPAliasClassID": 400,
@@ -354,9 +361,9 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        72,
+        73,
         37,
-        66
+        67
       ],
       "NTIPAliasClassID": 400,
       "NTIPAliasClass": 0,
@@ -378,6 +385,7 @@
       "Color": "white",
       "Quality": "normal",
       "Text": "ANCIENT SHIELD",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Ancient Shield",
         "NTIPAliasClassID": 379,
@@ -409,9 +417,9 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        70,
+        71,
         51,
-        63
+        64
       ],
       "NTIPAliasClassID": 379,
       "NTIPAliasClass": 1,
@@ -433,6 +441,7 @@
       "Color": "white",
       "Quality": "SUPERIOR",
       "Text": "SUPERIOR ANCIENT SHIELD",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Ancient Shield",
         "NTIPAliasClassID": 379,
@@ -464,9 +473,9 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        70,
+        71,
         51,
-        63
+        64
       ],
       "NTIPAliasClassID": 379,
       "NTIPAliasClass": 1,
@@ -488,6 +497,7 @@
       "Color": "white",
       "Quality": "normal",
       "Text": "ANCIENT ARMOR",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Ancient Armor",
         "NTIPAliasClassID": 326,
@@ -545,6 +555,7 @@
       "Color": "white",
       "Quality": "normal",
       "Text": "ANTLERS",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Antlers",
         "NTIPAliasClassID": 400,
@@ -573,9 +584,9 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        72,
+        73,
         37,
-        66
+        67
       ],
       "NTIPAliasClassID": 400,
       "NTIPAliasClass": 0,
@@ -597,6 +608,7 @@
       "Color": "blue",
       "Quality": "magic",
       "Text": "ANCIENT ARMOR",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Ancient Armor",
         "NTIPAliasClassID": 326,
@@ -654,6 +666,7 @@
       "Color": "blue",
       "Quality": "magic",
       "Text": "ANCIENT SHIELD",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Ancient Shield",
         "NTIPAliasClassID": 379,
@@ -685,9 +698,9 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        70,
+        71,
         51,
-        63
+        64
       ],
       "NTIPAliasClassID": 379,
       "NTIPAliasClass": 1,
@@ -709,6 +722,7 @@
       "Color": "blue",
       "Quality": "magic",
       "Text": "ANTLERS",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Antlers",
         "NTIPAliasClassID": 400,
@@ -737,9 +751,9 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        72,
+        73,
         37,
-        66
+        67
       ],
       "NTIPAliasClassID": 400,
       "NTIPAliasClass": 0,
@@ -761,6 +775,7 @@
       "Color": "yellow",
       "Quality": "rare",
       "Text": "ANCIENT SHIELD",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Ancient Shield",
         "NTIPAliasClassID": 379,
@@ -792,9 +807,9 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        70,
+        71,
         51,
-        63
+        64
       ],
       "NTIPAliasClassID": 379,
       "NTIPAliasClass": 1,
@@ -816,6 +831,7 @@
       "Color": "yellow",
       "Quality": "rare",
       "Text": "ANCIENT ARMOR",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Ancient Armor",
         "NTIPAliasClassID": 326,
@@ -873,6 +889,7 @@
       "Color": "green",
       "Quality": "set",
       "Text": "ANCIENT ARMOR",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Ancient Armor",
         "NTIPAliasClassID": 326,
@@ -944,6 +961,7 @@
       "Color": "green",
       "Quality": "set",
       "Text": "ANCIENT SHIELD",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Ancient Shield",
         "NTIPAliasClassID": 379,
@@ -975,9 +993,9 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        70,
+        71,
         51,
-        63
+        64
       ],
       "NTIPAliasClassID": 379,
       "NTIPAliasClass": 1,
@@ -999,6 +1017,7 @@
       "Color": "green",
       "Quality": "set",
       "Text": "ANTLERS",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Antlers",
         "NTIPAliasClassID": 400,
@@ -1027,9 +1046,9 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        72,
+        73,
         37,
-        66
+        67
       ],
       "NTIPAliasClassID": 400,
       "NTIPAliasClass": 0,
@@ -1051,6 +1070,7 @@
       "Color": "gold",
       "Quality": "unique",
       "Text": "ANCIENT ARMOR",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Ancient Armor",
         "NTIPAliasClassID": 326,
@@ -1130,6 +1150,7 @@
       "Color": "gold",
       "Quality": "unique",
       "Text": "ANCIENT SHIELD",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Ancient Shield",
         "NTIPAliasClassID": 379,
@@ -1197,9 +1218,9 @@
         }
       },
       "NTIPAliasType": [
-        70,
+        71,
         51,
-        63
+        64
       ],
       "NTIPAliasClassID": 379,
       "NTIPAliasClass": 1,

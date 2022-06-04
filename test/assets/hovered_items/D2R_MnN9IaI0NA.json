@@ -32,7 +32,8 @@
   "Item": null,
   "NTIPAliasIdName": "STONEIMPALER",
   "NTIPAliasType": [
-    30
+    30,
+    104
   ],
   "NTIPAliasClassID": 125,
   "NTIPAliasClass": null,

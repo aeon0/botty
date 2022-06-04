@@ -11,6 +11,7 @@
       "Color": "gray",
       "Quality": "gray",
       "Text": "HELM",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Helm",
         "NTIPAliasClassID": 308,
@@ -68,6 +69,7 @@
       "Color": "gray",
       "Quality": "SUPERIOR",
       "Text": "SUPERIOR HELM",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Helm",
         "NTIPAliasClassID": 308,
@@ -125,6 +127,7 @@
       "Color": "gray",
       "Quality": "gray",
       "Text": "HERALDIC SHIELD",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Heraldic Shield",
         "NTIPAliasClassID": 410,
@@ -153,9 +156,9 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        70,
+        71,
         51,
-        63
+        64
       ],
       "NTIPAliasClassID": 410,
       "NTIPAliasClass": 0,
@@ -177,6 +180,7 @@
       "Color": "gray",
       "Quality": "SUPERIOR",
       "Text": "SUPERIOR HERALDIC SHIELD",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Heraldic Shield",
         "NTIPAliasClassID": 410,
@@ -205,9 +209,9 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        70,
+        71,
         51,
-        63
+        64
       ],
       "NTIPAliasClassID": 410,
       "NTIPAliasClass": 0,
@@ -229,6 +233,7 @@
       "Color": "white",
       "Quality": "normal",
       "Text": "HELM",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Helm",
         "NTIPAliasClassID": 308,
@@ -286,6 +291,7 @@
       "Color": "white",
       "Quality": "SUPERIOR",
       "Text": "SUPERIOR HIEROPHANT TROPHY",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Hierophant Trophy",
         "NTIPAliasClassID": 487,
@@ -337,6 +343,7 @@
       "Color": "white",
       "Quality": "normal",
       "Text": "16629 GOLD",
+      "Amount": "16629",
       "BaseItem": {
         "DisplayName": "Gold",
         "NTIPAliasClassID": 523,
@@ -371,6 +378,7 @@
       "Color": "white",
       "Quality": "normal",
       "Text": "HERALDIC SHIELD",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Heraldic Shield",
         "NTIPAliasClassID": 410,
@@ -399,9 +407,9 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        70,
+        71,
         51,
-        63
+        64
       ],
       "NTIPAliasClassID": 410,
       "NTIPAliasClass": 0,
@@ -423,6 +431,7 @@
       "Color": "white",
       "Quality": "SUPERIOR",
       "Text": "SUPERIOR HERALDIC SHIELD",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Heraldic Shield",
         "NTIPAliasClassID": 410,
@@ -451,9 +460,9 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        70,
+        71,
         51,
-        63
+        64
       ],
       "NTIPAliasClassID": 410,
       "NTIPAliasClass": 0,
@@ -475,6 +484,7 @@
       "Color": "white",
       "Quality": "SUPERIOR",
       "Text": "SUPERIOR HELM",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Helm",
         "NTIPAliasClassID": 308,
@@ -532,6 +542,7 @@
       "Color": "white",
       "Quality": "normal",
       "Text": "HIEROPHANT TROPHY",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Hierophant Trophy",
         "NTIPAliasClassID": 487,
@@ -583,6 +594,7 @@
       "Color": "blue",
       "Quality": "magic",
       "Text": "HELM",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Helm",
         "NTIPAliasClassID": 308,
@@ -640,6 +652,7 @@
       "Color": "blue",
       "Quality": "magic",
       "Text": "HIEROPHANT TROPHY",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Hierophant Trophy",
         "NTIPAliasClassID": 487,
@@ -691,6 +704,7 @@
       "Color": "blue",
       "Quality": "magic",
       "Text": "HERALDIC SHIELD",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Heraldic Shield",
         "NTIPAliasClassID": 410,
@@ -719,9 +733,9 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        70,
+        71,
         51,
-        63
+        64
       ],
       "NTIPAliasClassID": 410,
       "NTIPAliasClass": 0,
@@ -743,6 +757,7 @@
       "Color": "yellow",
       "Quality": "rare",
       "Text": "HELM",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Helm",
         "NTIPAliasClassID": 308,
@@ -800,6 +815,7 @@
       "Color": "yellow",
       "Quality": "rare",
       "Text": "HERALDIC SHIELD",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Heraldic Shield",
         "NTIPAliasClassID": 410,
@@ -828,9 +844,9 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        70,
+        71,
         51,
-        63
+        64
       ],
       "NTIPAliasClassID": 410,
       "NTIPAliasClass": 0,
@@ -852,6 +868,7 @@
       "Color": "green",
       "Quality": "set",
       "Text": "HELM",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Helm",
         "NTIPAliasClassID": 308,
@@ -923,6 +940,7 @@
       "Color": "green",
       "Quality": "set",
       "Text": "HIEROPHANT TROPHY",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Hierophant Trophy",
         "NTIPAliasClassID": 487,
@@ -974,6 +992,7 @@
       "Color": "green",
       "Quality": "set",
       "Text": "HERALDIC SHIELD",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Heraldic Shield",
         "NTIPAliasClassID": 410,
@@ -1002,9 +1021,9 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        70,
+        71,
         51,
-        63
+        64
       ],
       "NTIPAliasClassID": 410,
       "NTIPAliasClass": 0,
@@ -1026,6 +1045,7 @@
       "Color": "gold",
       "Quality": "unique",
       "Text": "HERALDIC SHIELD",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Heraldic Shield",
         "NTIPAliasClassID": 410,
@@ -1054,9 +1074,9 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        70,
+        71,
         51,
-        63
+        64
       ],
       "NTIPAliasClassID": 410,
       "NTIPAliasClass": 0,
@@ -1078,6 +1098,7 @@
       "Color": "gold",
       "Quality": "unique",
       "Text": "HELM",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Helm",
         "NTIPAliasClassID": 308,

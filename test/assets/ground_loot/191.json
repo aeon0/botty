@@ -11,6 +11,7 @@
       "Color": "white",
       "Quality": "normal",
       "Text": "9482 GOLD",
+      "Amount": "9482",
       "BaseItem": {
         "DisplayName": "Gold",
         "NTIPAliasClassID": 523,
@@ -45,6 +46,7 @@
       "Color": "white",
       "Quality": "normal",
       "Text": "RUBY",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Ruby",
         "NTIPAliasClassID": 579,
@@ -56,7 +58,7 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        99,
+        100,
         20
       ],
       "NTIPAliasClassID": 579,
@@ -79,6 +81,7 @@
       "Color": "white",
       "Quality": "normal",
       "Text": "REJUVENATION POTION",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Rejuvenation Potion",
         "NTIPAliasClassID": 515,
@@ -90,9 +93,9 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        78,
-        76,
-        77
+        79,
+        77,
+        78
       ],
       "NTIPAliasClassID": 515,
       "NTIPAliasClass": null,
@@ -114,6 +117,7 @@
       "Color": "white",
       "Quality": "normal",
       "Text": "SUPER MANA POTION",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Super Mana Potion",
         "NTIPAliasClassID": 596,
@@ -125,7 +129,7 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        77,
+        78,
         9
       ],
       "NTIPAliasClassID": 596,
@@ -148,6 +152,7 @@
       "Color": "white",
       "Quality": "normal",
       "Text": "STAMINA POTION",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Stamina Potion",
         "NTIPAliasClassID": 513,
@@ -159,7 +164,7 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        79,
+        80,
         9
       ],
       "NTIPAliasClassID": 513,
@@ -182,6 +187,7 @@
       "Color": "white",
       "Quality": "normal",
       "Text": "SKULL",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Skull",
         "NTIPAliasClassID": 599,
@@ -193,7 +199,7 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        102,
+        103,
         20
       ],
       "NTIPAliasClassID": 599,
@@ -216,6 +222,7 @@
       "Color": "white",
       "Quality": "normal",
       "Text": "SCROLL OF TOWN PORTAL",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Scroll of Town Portal",
         "NTIPAliasClassID": 529,
@@ -250,6 +257,7 @@
       "Color": "white",
       "Quality": "normal",
       "Text": "SCROLL OF IDENTIFY",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Scroll of Identify",
         "NTIPAliasClassID": 530,
@@ -284,6 +292,7 @@
       "Color": "white",
       "Quality": "normal",
       "Text": "SAPPHIRE",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Sapphire",
         "NTIPAliasClassID": 569,
@@ -295,7 +304,7 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        100,
+        101,
         20
       ],
       "NTIPAliasClassID": 569,
@@ -318,6 +327,7 @@
       "Color": "white",
       "Quality": "normal",
       "Text": "SUPER HEALING POTION",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Super Healing Potion",
         "NTIPAliasClassID": 591,
@@ -329,7 +339,7 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        76,
+        77,
         9
       ],
       "NTIPAliasClassID": 591,
@@ -352,6 +362,7 @@
       "Color": "blue",
       "Quality": "magic",
       "Text": "RING",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Ring",
         "NTIPAliasClassID": 522,
@@ -402,6 +413,7 @@
       "Color": "blue",
       "Quality": "magic",
       "Text": "SMALL CHARM",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Small Charm",
         "NTIPAliasClassID": 603,
@@ -416,7 +428,7 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        82,
+        83,
         13
       ],
       "NTIPAliasClassID": 603,
@@ -439,6 +451,7 @@
       "Color": "yellow",
       "Quality": "rare",
       "Text": "RING",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Ring",
         "NTIPAliasClassID": 522,
@@ -489,6 +502,7 @@
       "Color": "green",
       "Quality": "set",
       "Text": "RING",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Ring",
         "NTIPAliasClassID": 522,
@@ -539,6 +553,7 @@
       "Color": "gold",
       "Quality": "unique",
       "Text": "RING",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Ring",
         "NTIPAliasClassID": 522,
@@ -589,6 +604,7 @@
       "Color": "gold",
       "Quality": "unique",
       "Text": "SMALL CHARM",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Small Charm",
         "NTIPAliasClassID": 603,
@@ -649,7 +665,7 @@
         }
       },
       "NTIPAliasType": [
-        82,
+        83,
         13
       ],
       "NTIPAliasClassID": 603,
@@ -672,6 +688,7 @@
       "Color": "orange",
       "Quality": "rune",
       "Text": "SUR RUNE",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Sur Rune",
         "NTIPAliasClassID": 638,
@@ -683,7 +700,7 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        74,
+        75,
         53
       ],
       "NTIPAliasClassID": 638,
@@ -706,6 +723,7 @@
       "Color": "orange",
       "Quality": "rune",
       "Text": "RAL RUNE",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Ral Rune",
         "NTIPAliasClassID": 617,
@@ -717,7 +735,7 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        74,
+        75,
         53
       ],
       "NTIPAliasClassID": 617,
@@ -740,6 +758,7 @@
       "Color": "orange",
       "Quality": "rune",
       "Text": "SHAEL RUNE",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Shael Rune",
         "NTIPAliasClassID": 622,
@@ -751,7 +770,7 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        74,
+        75,
         53
       ],
       "NTIPAliasClassID": 622,
@@ -774,6 +793,7 @@
       "Color": "orange",
       "Quality": "rune",
       "Text": "PUL RUNE",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Pul Rune",
         "NTIPAliasClassID": 630,
@@ -785,7 +805,7 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        74,
+        75,
         53
       ],
       "NTIPAliasClassID": 630,
@@ -808,6 +828,7 @@
       "Color": "orange",
       "Quality": "rune",
       "Text": "SOL RUNE",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Sol Rune",
         "NTIPAliasClassID": 621,
@@ -819,7 +840,7 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        74,
+        75,
         53
       ],
       "NTIPAliasClassID": 621,

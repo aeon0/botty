@@ -164,21 +164,10 @@ class PickIt:
                     pick_up_res = self.pick_up_item(char, item)
             else:
                 item_dict = item.as_dict()
-                if item.BaseItem["DisplayName"] == "Gold": # ? This seems pretty ghetto maybe somehow get this into d2r_image
-                    if personal.get_inventory_gold_full():
-                        Logger.debug("Gold is full, skip gold")
-                        i+=1
-                        continue
-                    """
-                    TODO FIX THE ERROR WITH GOLD PADDING OR SOMETHING! BELOW TRY EXCEPT STATEMENT WILL DO FOR NOW.
-                        item_dict["NTIPAliasStat"] = {'14': int(item.Name.replace(" GOLD", ""))}
-                            ValueError: invalid literal for int() with base 10: '12801 3897'
-
-                    """
-                    try:
-                        item_dict["NTIPAliasStat"] = {'14': int(item.Name.replace(" GOLD", ""))}
-                    except ValueError:
-                        item_dict["NTIPAliasStat"] = {'14': 0}
+                if personal.get_inventory_gold_full() and item.BaseItem["DisplayName"] == "Gold":
+                    Logger.debug("Gold is full, skip gold")
+                    i+=1
+                    continue
                 pickup, raw_expression = should_pickup(item_dict)
                 self.cached_pickit_items[item.ID] = pickup
                 if pickup:

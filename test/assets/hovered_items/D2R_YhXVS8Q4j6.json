@@ -58,7 +58,8 @@
   },
   "NTIPAliasIdName": "SUPERIORMANCATCHER",
   "NTIPAliasType": [
-    33
+    33,
+    105
   ],
   "NTIPAliasClassID": 250,
   "NTIPAliasClass": null,

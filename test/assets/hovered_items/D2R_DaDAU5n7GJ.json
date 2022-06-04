@@ -32,7 +32,8 @@
   "Item": null,
   "NTIPAliasIdName": "ECHOINGGLADIUSOFSTRENGTH",
   "NTIPAliasType": [
-    30
+    30,
+    104
   ],
   "NTIPAliasClassID": 118,
   "NTIPAliasClass": null,
