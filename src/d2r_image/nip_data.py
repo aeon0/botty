@@ -7043,7 +7043,7 @@ NIP_ALIAS_STAT_PATTERNS = {
         "5004"
     ],
     "Defense: {:d}": [
-        "5005"
+        "31"
     ],
     "+{:d}% Enhanced Damage": [
         "5007"

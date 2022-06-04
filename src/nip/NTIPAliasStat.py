@@ -1186,7 +1186,6 @@ NTIPAliasStat['allstats']='420'
 NTIPAliasStat['allres']='6969'
 
 # The below stats were added manually
-NTIPAliasStat['defense']='5005'
 NTIPAliasStat['plusdefense']='5006'
 NTIPAliasStat['weapmin']='5000'
 NTIPAliasStat['weapmax']='5001'
