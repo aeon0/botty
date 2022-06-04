@@ -4,7 +4,6 @@ from typing import Union
 from dataclasses import dataclass
 from dataclasses_json import dataclass_json
 
-
 @dataclass
 class OcrResult:
     text: str = None
@@ -111,9 +110,10 @@ class GroundItem:
     Color: str
     Quality: str
     Text: str
+    Amount: Union[int, None]
     BaseItem: dict
     Item: Union[dict, None]
-    NTIPAliasType: list
+    NTIPAliasType: list[str]
     NTIPAliasClassID: int
     NTIPAliasClass: Union[int, None]
     NTIPAliasQuality: int
@@ -126,10 +126,12 @@ class GroundItem:
 
     def as_dict(self):
         return {
+            "BoundingBox": self.BoundingBox,
             "Name": self.Name,
+            "Color": self.Color,
             "Quality": self.Quality,
             "Text": self.Text,
-            "Color": self.Color,
+            "Amount": self.Amount,
             "BaseItem": self.BaseItem,
             "Item": self.Item,
             "NTIPAliasType": self.NTIPAliasType,
@@ -154,7 +156,7 @@ class HoveredItem:
     BaseItem: dict
     Item: Union[dict, None]
     NTIPAliasIdName: str
-    NTIPAliasType: list
+    NTIPAliasType: list[str]
     NTIPAliasClassID: int
     NTIPAliasClass: Union[int, None]
     NTIPAliasQuality: int

@@ -67,7 +67,8 @@
   },
   "NTIPAliasIdName": "DOOMBRINGER",
   "NTIPAliasType": [
-    30
+    30,
+    104
   ],
   "NTIPAliasClassID": 232,
   "NTIPAliasClass": null,

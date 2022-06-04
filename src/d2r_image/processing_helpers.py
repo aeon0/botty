@@ -564,6 +564,7 @@ def build_d2_items(items_by_quality: dict) -> Union[GroundItemList, None]:
                     Color=item['color'],
                     Quality=item['quality'].value,
                     Text=item['text'],
+                    Amount=None if not "amount" in item else item['amount'],
                     BaseItem=item['base'],
                     Item=item['item'] if 'item' in item and item['item'] != item['base'] else None,
                     NTIPAliasType=basename_to_types(item['base']['DisplayName']),

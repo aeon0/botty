@@ -11,6 +11,7 @@
       "Color": "gray",
       "Quality": "gray",
       "Text": "GREAT POLEAXE",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Great Poleaxe",
         "NTIPAliasClassID": 257,
@@ -37,7 +38,8 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        34
+        34,
+        105
       ],
       "NTIPAliasClassID": 257,
       "NTIPAliasClass": 2,
@@ -59,6 +61,7 @@
       "Color": "gray",
       "Quality": "gray",
       "Text": "GREATER CLAWS",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Greater Claws",
         "NTIPAliasClassID": 186,
@@ -85,9 +88,9 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        88,
-        67,
-        65
+        89,
+        68,
+        66
       ],
       "NTIPAliasClassID": 186,
       "NTIPAliasClass": 1,
@@ -109,6 +112,7 @@
       "Color": "gray",
       "Quality": "gray",
       "Text": "GREAT SWORD",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Great Sword",
         "NTIPAliasClassID": 38,
@@ -140,7 +144,8 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        30
+        30,
+        104
       ],
       "NTIPAliasClassID": 38,
       "NTIPAliasClass": 0,
@@ -162,6 +167,7 @@
       "Color": "gray",
       "Quality": "SUPERIOR",
       "Text": "SUPERIOR GREAT SWORD",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Great Sword",
         "NTIPAliasClassID": 38,
@@ -193,7 +199,8 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        30
+        30,
+        104
       ],
       "NTIPAliasClassID": 38,
       "NTIPAliasClass": 0,
@@ -215,6 +222,7 @@
       "Color": "gray",
       "Quality": "SUPERIOR",
       "Text": "SUPERIOR GREAT POLEAXE",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Great Poleaxe",
         "NTIPAliasClassID": 257,
@@ -241,7 +249,8 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        34
+        34,
+        105
       ],
       "NTIPAliasClassID": 257,
       "NTIPAliasClass": 2,
@@ -263,6 +272,7 @@
       "Color": "gray",
       "Quality": "SUPERIOR",
       "Text": "SUPERIOR GREATER CLAWS",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Greater Claws",
         "NTIPAliasClassID": 186,
@@ -289,9 +299,9 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        88,
-        67,
-        65
+        89,
+        68,
+        66
       ],
       "NTIPAliasClassID": 186,
       "NTIPAliasClass": 1,
@@ -313,6 +323,7 @@
       "Color": "white",
       "Quality": "normal",
       "Text": "5512 GOLD",
+      "Amount": "5512",
       "BaseItem": {
         "DisplayName": "Gold",
         "NTIPAliasClassID": 523,
@@ -347,6 +358,7 @@
       "Color": "white",
       "Quality": "SUPERIOR",
       "Text": "SUPERIOR GREAT SWORD",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Great Sword",
         "NTIPAliasClassID": 38,
@@ -378,7 +390,8 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        30
+        30,
+        104
       ],
       "NTIPAliasClassID": 38,
       "NTIPAliasClass": 0,
@@ -400,6 +413,7 @@
       "Color": "white",
       "Quality": "SUPERIOR",
       "Text": "SUPERIOR GREATER TALONS",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Greater Talons",
         "NTIPAliasClassID": 187,
@@ -429,9 +443,9 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        88,
-        67,
-        65
+        89,
+        68,
+        66
       ],
       "NTIPAliasClassID": 187,
       "NTIPAliasClass": 1,
@@ -453,6 +467,7 @@
       "Color": "white",
       "Quality": "normal",
       "Text": "GREATER CLAWS",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Greater Claws",
         "NTIPAliasClassID": 186,
@@ -479,9 +494,9 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        88,
-        67,
-        65
+        89,
+        68,
+        66
       ],
       "NTIPAliasClassID": 186,
       "NTIPAliasClass": 1,
@@ -503,6 +518,7 @@
       "Color": "white",
       "Quality": "SUPERIOR",
       "Text": "SUPERIOR GREATER CLAWS",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Greater Claws",
         "NTIPAliasClassID": 186,
@@ -529,9 +545,9 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        88,
-        67,
-        65
+        89,
+        68,
+        66
       ],
       "NTIPAliasClassID": 186,
       "NTIPAliasClass": 1,
@@ -553,6 +569,7 @@
       "Color": "white",
       "Quality": "normal",
       "Text": "GREAT SWORD",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Great Sword",
         "NTIPAliasClassID": 38,
@@ -584,7 +601,8 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        30
+        30,
+        104
       ],
       "NTIPAliasClassID": 38,
       "NTIPAliasClass": 0,
@@ -606,6 +624,7 @@
       "Color": "blue",
       "Quality": "magic",
       "Text": "GREAT SWORD",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Great Sword",
         "NTIPAliasClassID": 38,
@@ -637,7 +656,8 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        30
+        30,
+        104
       ],
       "NTIPAliasClassID": 38,
       "NTIPAliasClass": 0,
@@ -659,6 +679,7 @@
       "Color": "blue",
       "Quality": "magic",
       "Text": "GREATER CLAWS",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Greater Claws",
         "NTIPAliasClassID": 186,
@@ -685,9 +706,9 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        88,
-        67,
-        65
+        89,
+        68,
+        66
       ],
       "NTIPAliasClassID": 186,
       "NTIPAliasClass": 1,
@@ -709,6 +730,7 @@
       "Color": "yellow",
       "Quality": "rare",
       "Text": "GREATER CLAWS",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Greater Claws",
         "NTIPAliasClassID": 186,
@@ -735,9 +757,9 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        88,
-        67,
-        65
+        89,
+        68,
+        66
       ],
       "NTIPAliasClassID": 186,
       "NTIPAliasClass": 1,
@@ -759,6 +781,7 @@
       "Color": "yellow",
       "Quality": "rare",
       "Text": "GREAT SWORD",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Great Sword",
         "NTIPAliasClassID": 38,
@@ -790,7 +813,8 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        30
+        30,
+        104
       ],
       "NTIPAliasClassID": 38,
       "NTIPAliasClass": 0,
@@ -812,6 +836,7 @@
       "Color": "yellow",
       "Quality": "rare",
       "Text": "GREAT POLEAXE",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Great Poleaxe",
         "NTIPAliasClassID": 257,
@@ -838,7 +863,8 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        34
+        34,
+        105
       ],
       "NTIPAliasClassID": 257,
       "NTIPAliasClass": 2,
@@ -860,6 +886,7 @@
       "Color": "green",
       "Quality": "set",
       "Text": "GREAT SWORD",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Great Sword",
         "NTIPAliasClassID": 38,
@@ -891,7 +918,8 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        30
+        30,
+        104
       ],
       "NTIPAliasClassID": 38,
       "NTIPAliasClass": 0,
@@ -913,6 +941,7 @@
       "Color": "green",
       "Quality": "set",
       "Text": "GREATER CLAWS",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Greater Claws",
         "NTIPAliasClassID": 186,
@@ -939,9 +968,9 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        88,
-        67,
-        65
+        89,
+        68,
+        66
       ],
       "NTIPAliasClassID": 186,
       "NTIPAliasClass": 1,
@@ -963,6 +992,7 @@
       "Color": "gold",
       "Quality": "unique",
       "Text": "GREAT SWORD",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Great Sword",
         "NTIPAliasClassID": 38,
@@ -1024,7 +1054,8 @@
         }
       },
       "NTIPAliasType": [
-        30
+        30,
+        104
       ],
       "NTIPAliasClassID": 38,
       "NTIPAliasClass": 0,
@@ -1046,6 +1077,7 @@
       "Color": "gold",
       "Quality": "unique",
       "Text": "GREATER CLAWS",
+      "Amount": null,
       "BaseItem": {
         "DisplayName": "Greater Claws",
         "NTIPAliasClassID": 186,
@@ -1072,9 +1104,9 @@
       },
       "Item": null,
       "NTIPAliasType": [
-        88,
-        67,
-        65
+        89,
+        68,
+        66
       ],
       "NTIPAliasClassID": 186,
       "NTIPAliasClass": 1,

@@ -46,7 +46,9 @@ def expressions_test_list() -> list[ExpressionTest]:
 def test_ground_loot(ground_items: list[str, dict]):
     basename = ground_items[0]
     result = ground_items[1]
-    expected_properties = GroundItemList.from_json(open(f"{PATH}/{basename}.json").read())
+    x = open(f"{PATH}/{basename}.json").read()
+    expected_properties = GroundItemList.from_json(x)
+    # print(f"expected_properties: {expected_properties}")
     assert result == expected_properties
 
 

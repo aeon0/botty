@@ -58,7 +58,8 @@
   },
   "NTIPAliasIdName": "CRYPTICAXE",
   "NTIPAliasType": [
-    34
+    34,
+    105
   ],
   "NTIPAliasClassID": 256,
   "NTIPAliasClass": null,
