@@ -179,23 +179,24 @@ def find_nip_pattern_match(item_lines):
         if (result := compiled_nip_patterns()[pattern].parse(line)):
             # print(f"    result: {result}") # ex: result: <Result (6, 35, 35) {}>
             # print(f"    ntip_alias_keys: {ntip_alias_keys}") # ex: ntip_alias_keys: ['204,126']
-            for item_prop_cnt, item_prop in enumerate(result.fixed):
-                # print(f"      item_prop: {item_prop}, item_prop_cnt: {item_prop_cnt}") # ex: item_prop: 6, item_prop_cnt: 0 # ex: item_prop: 35, item_prop_cnt: 1
-                try:
-                    if isinstance(ntip_alias_keys[item_prop_cnt], list):
-                        for sub_alias_key in ntip_alias_keys[item_prop_cnt]:
-                            nip_alias_stat[sub_alias_key] = item_prop
-                    else:
-                        if result.fixed:
+            if len(result.fixed) == 0: # if result exists but there are no parsed items, then the match was likely a plain string; i.e., "HALF FREEZE DURATION"
+                for ntip_alias_key in ntip_alias_keys:
+                    nip_alias_stat[ntip_alias_key] = 1
+            else:
+                for item_prop_cnt, item_prop in enumerate(result.fixed):
+                    # print(f"      item_prop: {item_prop}, item_prop_cnt: {item_prop_cnt}") # ex: item_prop: 6, item_prop_cnt: 0 # ex: item_prop: 35, item_prop_cnt: 1
+                    try:
+                        if isinstance(ntip_alias_keys[item_prop_cnt], list):
+                            for sub_alias_key in ntip_alias_keys[item_prop_cnt]:
+                                nip_alias_stat[sub_alias_key] = item_prop
+                        else:
                             # ex: nip_alias_stat['204,126'] = 6
                             nip_alias_stat[ntip_alias_keys[item_prop_cnt]] = item_prop
-                        else:
-                            nip_alias_stat[ntip_alias_keys[item_prop_cnt]] = True
-                except IndexError:
-                    # more item properties than read fields, skip
-                    Logger.warning(f"IndexError on line: {line}, ntip_alias_keys: {ntip_alias_keys}, result: {result}, item_prop: {item_prop}, item_prop_cnt: {item_prop_cnt}")
-                except Exception as e:
-                    Logger.error(f"error {e} on line: {line}, ntip_alias_keys: {ntip_alias_keys}, result: {result}, item_prop: {item_prop}, item_prop_cnt: {item_prop_cnt}")
+                    except IndexError:
+                        # more item properties than read fields, skip
+                        Logger.warning(f"IndexError on line: {line}, ntip_alias_keys: {ntip_alias_keys}, result: {result}, item_prop: {item_prop}, item_prop_cnt: {item_prop_cnt}")
+                    except Exception as e:
+                        Logger.error(f"error {e} on line: {line}, ntip_alias_keys: {ntip_alias_keys}, result: {result}, item_prop: {item_prop}, item_prop_cnt: {item_prop_cnt}")
     for key in nip_alias_stat.copy():
         prop_list = key.split(',')
         if len(prop_list) > 1:
