@@ -30,7 +30,11 @@
   },
   "Item": null,
   "NTIPAliasIdName": "JEWELERSGRIFFONHEADDRESSOFTHEMAMMOTH",
-  "NTIPAliasType": [],
+  "NTIPAliasType": [
+    73,
+    37,
+    67
+  ],
   "NTIPAliasClassID": 469,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 4,

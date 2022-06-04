@@ -34,9 +34,8 @@
   "Item": null,
   "NTIPAliasIdName": "BONEGUARD",
   "NTIPAliasType": [
-    71,
-    51,
-    64
+    2,
+    51
   ],
   "NTIPAliasClassID": 379,
   "NTIPAliasClass": null,

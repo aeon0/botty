@@ -45,10 +45,6 @@ NIP_KEEP_TESTS = {
             False
         ),
         (
-            "[type] == weapon",
-            True
-        ),
-        (
             "[type] == meleeweapon",
             True
         ),
@@ -57,6 +53,22 @@ NIP_KEEP_TESTS = {
     "D2R_1ZMKfTQO7Q": [
         (
             "[name] == BecdeCorbin && [quality] == rare && [flag] != ethereal # [enhanceddamage] >= 61 && [tohit] >= 71 && [lightresist] >= 8 && [plusmindamage] >= 18 && [manaleech] >= 9 && [itemchargedskill] == 126",
+            True
+        ),
+        (
+            "[name] == BecdeCorbin # [enhanceddamage] >= 61",
+            True
+        ),
+        (
+            "[name] == BecdeCorbin # [tohit] >= 71",
+            True
+        ),
+        (
+            "[name] == BecdeCorbin # [plusmindamage] >= 18",
+            True
+        ),
+        (
+            "[name] == BecdeCorbin # [manaleech] >= 9",
             True
         ),
         (
@@ -88,10 +100,6 @@ NIP_KEEP_TESTS = {
         ),
         (
             "[name] == PhaseBlade",
-            True
-        ),
-        (
-            "[type] == weapon",
             True
         ),
         (
@@ -183,7 +191,7 @@ NIP_KEEP_TESTS = {
     # rare cantor trophy
     "D2R_7CAuD9VcLh": [
         (
-            "[name] == CantorTrophy && [quality] == rare && [flag] == ethereal # [itemaddskilltab] >= 2 && [itemarmorperlevel] >= 4 && [fireresist]+[coldresist]+[lightresist]+[poisonresist] >= 80 && [itemreplenishdurability] >= 1 && [poisonmindam] >= 32 && [poisonmaxdam] >= 72 && [skillBoneSpirit] >= 3 && [skillBoneSpear] >= 3 && [skillBoneWall] >= 3",
+            "[name] == CantorTrophy && [quality] == rare && [flag] == ethereal # [itemaddskilltab] >= 2 && [itemarmorperlevel] >= 4 && [fireresist]+[coldresist]+[lightresist]+[poisonresist] >= 80 && [itemreplenishdurability] >= 1 && [poisonmindam] >= 13 && [poisonmaxdam] >= 28 && [skillBoneSpirit] >= 3 && [skillBoneSpear] >= 3 && [skillBoneWall] >= 3",
             True
         ),
         (
@@ -199,7 +207,7 @@ NIP_KEEP_TESTS = {
             True
         ),
         (
-            "[name] == CantorTrophy && [quality] == rare && [flag] == ethereal # [poisonmindam] >= 32 && [poisonmaxdam] >= 72",
+            "[name] == CantorTrophy && [quality] == rare && [flag] == ethereal # [poisonmindam] >= 13 && [poisonmaxdam] >= 28",
             True
         ),
         (
@@ -229,7 +237,7 @@ NIP_KEEP_TESTS = {
     # rare arbalest
     "D2R_7wqOnPKCxN": [
         (
-            "[name] == Arbalest && [quality] == rare && [flag] != ethereal # [coldmindam] >= 35 && [coldmaxdam] >= 116 && [lightresist] >= 26 && [poisonmindam] >= 308 && [plusmaxdamage] >= 1 && [lightmindam] >= 1 && [lightmaxdam] >= 29 && [itemchargedskill] == 12",
+            "[name] == Arbalest && [quality] == rare && [flag] != ethereal # [coldmindam] >= 35 && [coldmaxdam] >= 116 && [lightresist] >= 26 && [poisonmindam] >= 150 && [plusmaxdamage] >= 1 && [lightmindam] >= 1 && [lightmaxdam] >= 29 && [itemchargedskill] == 12",
             True
         ),
         (
@@ -250,6 +258,10 @@ NIP_KEEP_TESTS = {
         ),
         (
             "[name] == Arbalest && [quality] == rare && [flag] != ethereal",
+            True
+        ),
+        (
+            "[name] == Arbalest && [quality] == rare && [flag] != ethereal # [poisonmindam] >= 150",
             True
         ),
     ],
@@ -602,7 +614,7 @@ NIP_KEEP_TESTS = {
     # magic griffon headdress
     "D2R_OYgwehN2Ah": [
         (
-            "[name] == GriffonHeaddress && [quality] == magic && [flag] != ethereal # [sockets] >= 4 && [maxhp] >= 40 && [skillVolcano] >= 3 && [skillFissure] >= 3 && [skillArmageddon] >= 3",
+            "[name] == GriffonHeaddress && [quality] == magic && [flag] != ethereal # [sockets] >= 3 && [maxhp] >= 40 && [skillVolcano] >= 3 && [skillFissure] >= 3 && [skillArmageddon] >= 3",
             True
         ),
     ],
@@ -661,7 +673,7 @@ NIP_KEEP_TESTS = {
     # magic preserved head
     "D2R_tB0MNZqKsc": [
         (
-            "[name] == PreservedHead && [quality] == magic && [flag] != ethereal # [sockets] >= 4 && [toblock] >= 20 && [fbr] >= 30 && [poisonmindam] >= 64 && [poisonmaxdam] >= 128 && [skillIronGolem] >= 3 && [skillPoisonNova] >= 3 && [skillPoisonExplosion] >= 3",
+            "[name] == PreservedHead && [quality] == magic && [flag] != ethereal # [sockets] >= 2 && [toblock] >= 20 && [fbr] >= 30 && [skillIronGolem] >= 3 && [skillPoisonNova] >= 3 && [skillPoisonExplosion] >= 3",
             True
         ),
         (
@@ -671,10 +683,6 @@ NIP_KEEP_TESTS = {
         (
             "[type] == amazonitem",
             False
-        ),
-        (
-            "[type] == classspecific",
-            True
         ),
     ],
     # magic heavy bracers
@@ -701,7 +709,27 @@ NIP_KEEP_TESTS = {
     # rare cantor trophy
     "D2R_w7DvFnRl6c": [
         (
-            "[name] == CantorTrophy && [quality] == rare && [flag] == ethereal # [itemaddskilltab] >= 2 && [itemarmorperlevel] >= 4 && [fireresist]+[coldresist]+[lightresist]+[poisonresist] >= 80 && [toblock] >= 10 && [fbr] >= 15 && [itemreplenishdurability] >= 1 && [itemhalffreezeduration] >= 1 && [poisonmindam] >= 32 && [poisonmaxdam] >= 72 && [skillBoneSpirit] >= 3 && [skillBoneSpear] >= 3 && [skillBoneWall] >= 3",
+            "[name] == CantorTrophy && [quality] == rare && [flag] == ethereal # [itemaddskilltab] >= 2 && [itemarmorperlevel] >= 4 && [fireresist]+[coldresist]+[lightresist]+[poisonresist] >= 80 && [toblock] >= 10 && [fbr] >= 15 && [itemreplenishdurability] >= 1 && [itemhalffreezeduration] >= 1 && [skillBoneSpirit] >= 3 && [skillBoneSpear] >= 3 && [skillBoneWall] >= 3",
+            True
+        ),
+        (
+            "[name] == CantorTrophy # [itemaddskilltab] >= 2 && [itemarmorperlevel] >= 4",
+            True
+        ),
+        (
+            "[name] == CantorTrophy # [fireresist]+[coldresist]+[lightresist]+[poisonresist] >= 80",
+            True
+        ),
+        (
+            "[name] == CantorTrophy # [toblock] >= 10 && [fbr] >= 15",
+            True
+        ),
+        (
+            "[name] == CantorTrophy # [itemreplenishdurability] >= 1 && [itemhalffreezeduration] >= 1",
+            True
+        ),
+        (
+            "[name] == CantorTrophy # [skillBoneSpirit] >= 3 && [skillBoneSpear] >= 3 && [skillBoneWall] >= 3",
             True
         ),
     ],
@@ -832,7 +860,7 @@ NIP_KEEP_TESTS = {
             True
         ),
         (
-            "[Type] == miscellaneous",
+            "[Type] == quest",
             True
         ),
     ],
@@ -941,10 +969,6 @@ NIP_KEEP_TESTS = {
     ],
     # magic grand charm
     "D2R_aXKcy7ITEB": [
-        (
-            "[name] == GrandCharm && [quality] == magic && [flag] != ethereal # [defense] >= 47 && [poisonmindam] >= 86",
-            True
-        ),
         (
             "[name] == GrandCharm && [quality] == magic && [flag] != ethereal # [defense] >= 47",
             True

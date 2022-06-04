@@ -49,7 +49,10 @@
     "NTIPAliasClass": 1
   },
   "NTIPAliasIdName": "LARGESIEGEBOW",
-  "NTIPAliasType": [],
+  "NTIPAliasType": [
+    27,
+    47
+  ],
   "NTIPAliasClassID": 166,
   "NTIPAliasClass": null,
   "NTIPAliasQuality": 2,
