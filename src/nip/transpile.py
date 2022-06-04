@@ -83,7 +83,6 @@ def transpile(tokens, isPickedUpPhase=False):
             # we don't need the flag value here, it's used below
             # expression += f"NTIPAliasFlag['{token.value}']"
         elif token.type == TokenType.NTIPAliasType:
-            pass
             expression += f"(int(NTIPAliasType['{token.value}']))"
         elif token.type == TokenType.IDNAME:
             if not isPickedUpPhase:
