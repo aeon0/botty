@@ -6,15 +6,15 @@ NIP_PICK_TESTS = {
             "Color": "gray",
             "expressions": [
                 (
-                    "[name] == Aegis && [quality] == normal",
-                    False
-                ),
-                (
-                    "[quality] == normal",
-                    False
-                ),
-                (
                     "[type] == shield && [quality] >= normal && [flag] != ethereal # [sockets] >= 4",
+                    True
+                ),
+                (
+                    "[type] == shield",
+                    True
+                ),
+                (
+                    "[name] == Aegis && [flag] != ethereal",
                     True
                 ),
                 (
@@ -44,6 +44,14 @@ NIP_PICK_TESTS = {
                 (
                     "[name] == Aegis # [sockets] >= 4",
                     True
+                ),
+                (
+                    "[name] == Aegis && [quality] == normal",
+                    False
+                ),
+                (
+                    "[quality] == normal",
+                    False
                 ),
             ],
         },

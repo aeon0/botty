@@ -11,6 +11,8 @@ from nip.UniqueAndSetData import UniqueAndSetData
 # ! The above imports are necessary, they are used within the eval statements. Your text editor probably is not showing them as not in use.
 import os
 import glob
+import re
+from itertools import groupby
 from logger import Logger
 
 from nip.lexer import Lexer, NipSyntaxError, NipSections
@@ -284,61 +286,81 @@ def gold_pickup(item_data):
     return False, ""
 
 
+def _handle_pick_eth_sockets(item_data: dict, expression: NIPExpression) -> tuple[bool, str]:
+    expression_raw = prepare_nip_expression(expression.raw)
+    all_tokens = list(Lexer().create_tokens(expression_raw))
+    tokens_by_section = [list(group) for k, group in groupby(all_tokens, lambda x: x.type == TokenType.SECTIONAND) if not k]
+    eth_keyword_present = "ethereal" in expression_raw
+    soc_keyword_present = "sockets" in expression_raw
+
+    eth = 0 # -1 = set to false, 0 = not set, 1 = set to true
+    soc = 0
+    if eth_keyword_present:
+        for i, token in enumerate(tokens := tokens_by_section[0]):
+            if token.type == TokenType.NTIPAliasFlag and token.value == "ethereal":
+                if tokens[i - 1].value == "==":
+                    eth = 1
+                else:
+                    eth = -1
+                break
+
+    if len(tokens_by_section) > 1 and soc_keyword_present:
+        for i, token in enumerate(tokens := tokens_by_section[1]):
+            print(f"tokens: {tokens}")
+            if token.type == TokenType.NTIPAliasStat and token.value == str(NTIPAliasStat["sockets"]):
+                desired_sockets = int(tokens[i + 2].value)
+                if (desired_sockets > 0 and not (desired_sockets == 1 and tokens[i + 1].value == "<")) or (desired_sockets == 0 and tokens[i + 1].value == ">"):
+                    soc = 1
+                else:
+                    soc = -1
+                break
+    """
+        pickup table:
+                -1 eth  0 eth   1 eth
+        -1 soc    w      w,g      g
+         0 soc   w,g     w,g      g
+         1 soc    g       g       g
+    """
+    if item_data["Color"] == "white":
+        ignore = eth == 1 or soc == 1
+    elif item_data["Color"] == "gray":
+        ignore = eth == soc == -1
+
+    pick_eval_expr = expression.should_pickup
+    # print(f"color: {item_data['Color']}, eth: {eth}, soc: {soc}, ignore: {ignore}")
+    if not ignore and eth_keyword_present:
+        # remove ethereal from expression
+        raw = expression.raw.replace("&& [flag]", "[flag]").replace("|| [flag]", "[flag]")
+        raw = re.sub("\[flag\] (==|!=)\sethereal", "", raw)
+        # print(f"Modified raw expression: {raw}")
+        pick_eval_expr = transpile_nip_expression(raw.split("#")[0], isPickedUpPhase=True)
+        # print(f"Modified transpiled expression: {pick_eval_expr}")
+
+    return ignore, pick_eval_expr
+
+
 def should_pickup(item_data):
 
     # * Handle the gold pickup.
-    raw_expression = ""
     if item_data["BaseItem"]["DisplayName"] == "Gold":
         return gold_pickup(item_data)
 
-    wants_open_socket = False # * If the nip expression is looking for a socket
     for expression in nip_expressions:
         if expression.raw:
-            expression_raw = prepare_nip_expression(expression.raw)
-            nip_expression_split = expression_raw.replace("\n", "").split("#")
-            property_condition = None
+            # check eth / sockets
+            pick_eval_expr = expression.should_pickup
+            if any(substring == item_data["Color"] for substring in ["white", "gray"]):
+                ignore, pick_eval_expr = _handle_pick_eth_sockets(item_data, expression)
+                if ignore:
+                    continue
             try:
-                property_condition = eval(expression.should_pickup) # * This string in the eval uses the item_data that is being passed in
+                property_condition = eval(pick_eval_expr) # * This string in the eval uses the item_data that is being passed in
+                if property_condition:
+                    return True, expression.raw
             except:
                 pass
-            if property_condition:
-                return True, expression.raw
 
-            if item_data["Color"] == "gray":
-                if len(nip_expression_split) >= 2:
-                    stats_expression = nip_expression_split[1]
-                    if stats_expression:
-                        # Loop through the tokens, and see if the [sockets] is > 0.
-                        # You must check ==, >, <, >=, <=, != to see if we should pickup the socketed item.
-                        tokens = list(Lexer().create_tokens(stats_expression))
-                        for i, token in enumerate(tokens):
-                            if token.type == TokenType.NTIPAliasStat and token.value == str(NTIPAliasStat["sockets"]):
-                                if tokens[i + 1].value == ">" and tokens[i + 2].value >= 0 and tokens[i + 2].value <= 6:
-                                    wants_open_socket = True
-                                    raw_expression = expression.raw
-                                    break
-                                elif tokens[i + 1].value == "==" and tokens[i + 2].value > 0 and tokens[i + 2].value <= 6:
-                                    wants_open_socket = True
-                                    raw_expression = expression.raw
-                                    break
-                                elif tokens[i + 1].value == "<" and tokens[i + 2].value > 1 and tokens[i + 2].value <= 6:
-                                    wants_open_socket = True
-                                    raw_expression = expression.raw
-                                    break
-                                elif tokens[i + 1].value == "<=" and tokens[i + 2].value >= 1 and tokens[i + 2].value <= 6:
-                                    wants_open_socket = True
-                                    raw_expression = expression.raw
-                                    break
-                                elif tokens[i + 1].value == ">=" and tokens[i + 2].value >= 1 and tokens[i + 2].value <= 6:
-                                    wants_open_socket = True
-                                    raw_expression = expression.raw
-                                    break
-                                else:
-                                    wants_open_socket = False
-                                    raw_expression = ""
-                                    break
-
-    return wants_open_socket, raw_expression
+    return False, ""
 
 def should_id(item_data):
     """
