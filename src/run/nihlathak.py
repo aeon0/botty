@@ -12,17 +12,22 @@ import random
 from ui import loading, waypoint
 
 class Nihlathak:
+
+    name = "run_nihlathak"
+
     def __init__(
         self,
         pather: Pather,
         town_manager: TownManager,
         char: IChar,
-        pickit: PickIt
+        pickit: PickIt,
+        last_run: str
     ):
         self._pather = pather
         self._town_manager = town_manager
         self._char = char
         self._pickit = pickit
+        self._is_last_run = last_run == self.name
 
     def approach(self, start_loc: Location) -> bool | Location:
         Logger.info("Run Nihlathak")

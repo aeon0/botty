@@ -15,12 +15,16 @@ from ui import skills, loading, waypoint
 from inventory import belt, personal
 
 class Diablo:
+
+    name = "run_diablo"
+
     def __init__(
         self,
         pather: Pather,
         town_manager: TownManager,
         char: IChar,
-        pickit: PickIt
+        pickit: PickIt,
+        last_run: str
     ):
         self._pather = pather
         self._town_manager = town_manager

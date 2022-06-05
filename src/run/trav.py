@@ -9,17 +9,22 @@ from utils.misc import wait
 from ui import waypoint
 
 class Trav:
+
+    name = "run_trav"
+
     def __init__(
         self,
         pather: Pather,
         town_manager: TownManager,
         char: IChar,
-        pickit: PickIt
+        pickit: PickIt,
+        last_run: str,
     ):
         self._pather = pather
         self._town_manager = town_manager
         self._char = char
         self._pickit = pickit
+        self._is_last_run = last_run == self.name
 
     def approach(self, start_loc: Location) -> bool | Location:
         # Go to Travincal via waypoint
@@ -50,6 +55,7 @@ class Trav:
             if not self._pather.traverse_nodes([229], self._char, timeout=2.5, use_tp_charge=True):
                 self._pather.traverse_nodes([228, 229], self._char, timeout=2.5, use_tp_charge=True)
             picked_up_items |= self._pickit.pick_up_items(self._char)
-        # Make sure we go back to the center to not hide the tp
-        self._pather.traverse_nodes([230], self._char, timeout=2.5)
+        if not self._is_last_run:
+            # Make sure we go back to the center to not hide the tp
+            self._pather.traverse_nodes([230], self._char, timeout=2.5)
         return (Location.A3_TRAV_CENTER_STAIRS, picked_up_items)
