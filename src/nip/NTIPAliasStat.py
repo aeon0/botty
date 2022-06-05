@@ -1184,6 +1184,8 @@ NTIPAliasStat['passivemagmastery']='357'
 NTIPAliasStat['passivemagpierce']='358'
 NTIPAliasStat['allstats']='420'
 NTIPAliasStat['allres']='6969'
+NTIPAliasStat['allresist']='6969'
+NTIPAliasStat['resistall']='6969'
 
 # The below stats were added manually
 NTIPAliasStat['plusdefense']='5006'
