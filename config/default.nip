@@ -364,7 +364,7 @@
 // [Name] == Throwingspear && [Quality] == Magic # [Warcriesskilltab] >= 3
 
 // gg club
-([Name] == Club || [Name] == SpikedClub) && [Quality] == Magic # [Warcriesskilltab] >= 3 && [Strength] > 0  
+([Name] == Club || [Name] == SpikedClub) && [Quality] == Magic # [Warcriesskilltab] >= 3 && [Strength] > 0
 
 // // Magic Scepters
 // [Type] == Scepter && [Quality] == Magic # ([Paladinskills]+[Skillblessedhammer] >= 5) && ([Skillconcentration] >= 3  || ([Fcr] >= 10 && [Skillconcentration] >= 2))
@@ -536,7 +536,7 @@
 
 // // Rare Druid Pelts
 // [Type] == Pelt && [Quality] == Rare && [Flag] != Ethereal # ([Druidskills] >= 2 || [Elementalskilltab] >= 2) && [Skilltornado] == 3
-// [Type] == Pelt && [Quality] == Rare && [Flag] != Ethereal # [Sockets] == 2 && ([Druidskills] >= 2 || [Shapeshiftingskilltab] == 2) && [225] >= 1 && ([Skillfireclaws] == 3 || [Skillfury] == 3)
+// [Type] == Pelt && [Quality] == Rare && [Flag] != Ethereal # [Sockets] == 2 && ([Druidskills] >= 2 || [Shapeshiftingskilltab] == 2) && [itemtohitpercentperlevel] >= 1 && ([Skillfireclaws] == 3 || [Skillfury] == 3)
 // [Type] == Pelt && [Quality] == Rare # ([Druidskills] == 2 || [Elementalskilltab] >=2) && ([Skilltornado] >= 3 || [Skillfissure] == 3)
 // [Type] == Pelt && [Quality] == Rare # ([Druidskills] == 2 || [Druidsummoningskilltab] >= 2) && [Skillsummongrizzly] >= 3
 
@@ -550,7 +550,7 @@
 // [Type] == Shield && [Quality] == Rare && [Flag] == Ethereal # [Maxhp] >= 30 && [Coldresist]+[Fireresist]+[Lightresist]+[Poisonresist] >= 40 && [Sockets] == 2 && [Fbr] >= 30 && [Itemreplenishdurability] >= 1
 // [Type] == Voodooheads && [Quality] == Rare # [Necromancerskills] == 2 && ([Skillbonespear] >= 3 || [Skillpoisonnova] >= 3) && ([Sockets] >= 2 || ([Fbr] >= 30 && ([Maxhp] >= 20 || [Fhr] >= 17)))
 // [Type] == Auricshields && [Quality] == Rare && [Flag] != Ethereal # [Sockets] == 2 && [Paladinskills] >= 2 && [Fbr] == 30
-// [Type] == Auricshields && [Quality] == Rare && [Flag] == Ethereal # [Sockets] == 2 && [Paladinskills] >= 2 && [Fbr] >= 15 && [252] >= 1
+// [Type] == Auricshields && [Quality] == Rare && [Flag] == Ethereal # [Sockets] == 2 && [Paladinskills] >= 2 && [Fbr] >= 15 && [itemreplenishdurability] >= 1
 
 //------------------------------------------
 //================= Weapons ================
@@ -635,12 +635,12 @@
 //----------------------------------------
 [type] == boots && [quality] == rare && [flag] != ethereal # [frw] == 30 && [fireresist]+[lightresist]+[coldresist] >= 75
 [type] == boots && [quality] == rare && [flag] != ethereal # [frw] == 30 && [fireresist]+[lightresist]+[coldresist] >= 60
-[type] == boots && [quality] == rare && [flag] != ethereal # [frw] >= 10 && [fireresist]+[lightresist]+[coldresist] >= 50 && ([79] >= 78 || [maxmana] >= 30)
-[type] == boots && [quality] == rare && [flag] != ethereal # [frw] >= 10 && [fireresist]+[lightresist]+[coldresist] >= 45 && [79] >= 78
-[type] == boots && [quality] == rare && [flag] != ethereal # [frw] >= 20 && [2] >= 9 && [fireresist]+[lightresist]+[coldresist] >= 60
-[type] == boots && [quality] == rare && [flag] != ethereal # [frw] >= 20 && [2] >= 6 && [fireresist]+[lightresist]+[coldresist] >= 50 
+[type] == boots && [quality] == rare && [flag] != ethereal # [frw] >= 10 && [fireresist]+[lightresist]+[coldresist] >= 50 && ([itemgoldbonus] >= 78 || [maxmana] >= 30)
+[type] == boots && [quality] == rare && [flag] != ethereal # [frw] >= 10 && [fireresist]+[lightresist]+[coldresist] >= 45 && [itemgoldbonus] >= 78
+[type] == boots && [quality] == rare && [flag] != ethereal # [frw] >= 20 && [dexterity] >= 9 && [fireresist]+[lightresist]+[coldresist] >= 60
+[type] == boots && [quality] == rare && [flag] != ethereal # [frw] >= 20 && [dexterity] >= 6 && [fireresist]+[lightresist]+[coldresist] >= 50
 [type] == boots && [quality] == rare && [flag] != ethereal # [frw] >= 30 && [fhr] >= 10 && [fireresist]+[lightresist]+[coldresist] >= 60
-[type] == boots && [quality] == rare && [flag] != ethereal # [frw] >= 30 && [fhr] >= 10 && [fireresist]+[lightresist]+[coldresist] >= 45 
+[type] == boots && [quality] == rare && [flag] != ethereal # [frw] >= 30 && [fhr] >= 10 && [fireresist]+[lightresist]+[coldresist] >= 45
 
 //-----------------------------------------
 //================= Gloves ================
@@ -892,10 +892,10 @@
 //================= White/Ethereal Socketed/Non-Socketed Assassin Claws ================
 //--------------------------------------------------------------------------------------
 // White Assassin Claws
-[type] == assassinclaw && [class] == elite && [quality] <= superior && [flag] != ethereal # ([sockets] == 0 || [sockets] == 3) && ([skilllightningsentry] >= 3 || [skilldeathsentry] >= 3) // chaos 
-[type] == assassinclaw && [class] == elite && [quality] <= superior && [flag] != ethereal # ([sockets] == 0 || [sockets] == 3) && [skillvenom] >= 3 && ([skillweaponblock] >= 3 || [skillclawmastery] >= 2 || [skillfade] >= 2 || [skillbladeshield] >= 2 || [skilldragonflight] >=2 || [skillmindblast] >= 1)  // chaos 
-[type] == assassinclaw && [class] == elite && [quality] <= superior && [flag] != ethereal # ([sockets] == 0 || [sockets] == 3) && [skillbladeshield] >= 3 && ([skillweaponblock] >= 3 || [skillclawmastery] >= 2 || [skillfade] >= 2 || [skillvenom] >= 2 || [skilldragonflight] >=2 || [skillmindblast] >= 1)  // chaos 
-[type] == assassinclaw && [class] == elite && [quality] <= superior && [flag] != ethereal # ([sockets] == 0 || [sockets] == 3) && [skillweaponblock] >= 3 && ([skillclawmastery] >= 2 || [skillfade] >= 2 || [skillvenom] >= 2 || [skillbladeshield] >= 2 || [skilldragonflight] >=2 || [skillmindblast] >= 1)  // chaos 
+[type] == assassinclaw && [class] == elite && [quality] <= superior && [flag] != ethereal # ([sockets] == 0 || [sockets] == 3) && ([skilllightningsentry] >= 3 || [skilldeathsentry] >= 3) // chaos
+[type] == assassinclaw && [class] == elite && [quality] <= superior && [flag] != ethereal # ([sockets] == 0 || [sockets] == 3) && [skillvenom] >= 3 && ([skillweaponblock] >= 3 || [skillclawmastery] >= 2 || [skillfade] >= 2 || [skillbladeshield] >= 2 || [skilldragonflight] >=2 || [skillmindblast] >= 1)  // chaos
+[type] == assassinclaw && [class] == elite && [quality] <= superior && [flag] != ethereal # ([sockets] == 0 || [sockets] == 3) && [skillbladeshield] >= 3 && ([skillweaponblock] >= 3 || [skillclawmastery] >= 2 || [skillfade] >= 2 || [skillvenom] >= 2 || [skilldragonflight] >=2 || [skillmindblast] >= 1)  // chaos
+[type] == assassinclaw && [class] == elite && [quality] <= superior && [flag] != ethereal # ([sockets] == 0 || [sockets] == 3) && [skillweaponblock] >= 3 && ([skillclawmastery] >= 2 || [skillfade] >= 2 || [skillvenom] >= 2 || [skillbladeshield] >= 2 || [skilldragonflight] >=2 || [skillmindblast] >= 1)  // chaos
 
 
 //------------------------------------------------------------------------------
@@ -920,12 +920,12 @@
 //================= White Socketed/Non-Socketed Bows ================
 //----------------------------------------------------------------------------
 // normal
-[type] == bow && [class] == elite && [quality] == normal # ([sockets] == 0 || [sockets] == 4) // faith 
-[type] == amazonbow && [class] == elite && [quality] == normal # [bowandcrossbowskilltab] == 3 && ([sockets] >= 0 || [sockets] >= 4) // faith 
+[type] == bow && [class] == elite && [quality] == normal # ([sockets] == 0 || [sockets] == 4) // faith
+[type] == amazonbow && [class] == elite && [quality] == normal # [bowandcrossbowskilltab] == 3 && ([sockets] >= 0 || [sockets] >= 4) // faith
 
-// superior 
-[type] == bow && [class] == elite && [quality] == superior # ([sockets] == 0 || [sockets] == 4) && [enhanceddamage] > 0 // faith 
-[type] == amazonbow && [class] == elite && [quality] == superior # [bowandcrossbowskilltab] == 3 && ([sockets] >= 0 || [sockets] >= 4) && [enhanceddamage] > 0 // faith 
+// superior
+[type] == bow && [class] == elite && [quality] == superior # ([sockets] == 0 || [sockets] == 4) && [enhanceddamage] > 0 // faith
+[type] == amazonbow && [class] == elite && [quality] == superior # [bowandcrossbowskilltab] == 3 && ([sockets] >= 0 || [sockets] >= 4) && [enhanceddamage] > 0 // faith
 
 
 //=======================================================================//
