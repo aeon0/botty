@@ -932,6 +932,10 @@ NIP_KEEP_TESTS = {
             True
         ),
         (
+            "[name] == GrandCharm && [quality] == magic && [flag] != ethereal # [passiveandmagicskilltab] >= 1",
+            True
+        ),
+        (
             "[name] == GrandCharm && [quality] == magic && [flag] != ethereal # [itemaddskilltab] >= 1",
             True
         ),
@@ -964,8 +968,9 @@ NIP_KEEP_TESTS = {
     ],
     # magic grand charm
     "D2R_aXKcy7ITEB": [
+        # TODO: I had to change from [defense] >= 47 to [plusdefense] >= 47. [defense] is probably a calculated property depending on base item type
         (
-            "[name] == GrandCharm && [quality] == magic && [flag] != ethereal # [defense] >= 47",
+            "[name] == GrandCharm && [quality] == magic && [flag] != ethereal # [plusdefense] >= 47",
             True
         ),
     ],

@@ -4,7 +4,7 @@ from game_stats import GameStats
 from bot import Bot
 import template_finder
 from mocks.screen_mock import ScreenMock
-
+import utils.download_test_assets # downloads assets if they don't already exist, doesn't need to be called
 
 class TestSmoke:
     """

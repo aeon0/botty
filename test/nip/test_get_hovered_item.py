@@ -8,6 +8,7 @@ from keep_item_test_cases import NIP_KEEP_TESTS
 from common import ExpressionTest
 from nip.transpile import _test_nip_expression, transpile_nip_expression
 import screen
+import utils.download_test_assets # downloads assets if they don't already exist, doesn't need to be called
 
 PATH='test/assets/hovered_items'
 screen.set_window_position(0, 0)
@@ -47,9 +48,10 @@ def test_hovered_item(hovered_item: list[str, dict]):
 
 @pytest.mark.parametrize('expression_test', expressions_test_list())
 def test_keep_item(expression_test: ExpressionTest):
-    print(f"\nImage: {expression_test.basename}")
-    print(f"Read item: {expression_test.read_json}")
-    print(f"Expression: {expression_test.expression}")
-    print(f"Transpiled: {expression_test.transpiled}")
-    print(f"Expected result: {expression_test.expected_result}\n")
-    assert _test_nip_expression(expression_test.read_json, expression_test.expression) == expression_test.expected_result
+    if (res := _test_nip_expression(expression_test.read_json, expression_test.expression)) != expression_test.expected_result:
+        print(f"\nImage: {expression_test.basename}")
+        print(f"Read item: {expression_test.read_json}")
+        print(f"Expression: {expression_test.expression}")
+        print(f"Transpiled: {expression_test.transpiled}")
+        print(f"Expected result: {expression_test.expected_result}\n")
+    assert res == expression_test.expected_result

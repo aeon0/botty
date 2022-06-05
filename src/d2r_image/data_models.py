@@ -126,7 +126,6 @@ class GroundItem:
 
     def as_dict(self):
         return {
-            "BoundingBox": self.BoundingBox,
             "Name": self.Name,
             "Color": self.Color,
             "Quality": self.Quality,
