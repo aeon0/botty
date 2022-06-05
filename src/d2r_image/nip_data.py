@@ -3581,28 +3581,28 @@ NIP_ALIAS_STAT_PATTERNS = {
     "Socketed ({:d})": [
         "194"
     ],
-    "Adds {:d}{:d} Fire Damage": [
+    "Adds {:d}-{:d} Fire Damage": [
         "48",
         "49"
     ],
-    "Adds {:d}{:d} Lightning Damage": [
+    "Adds {:d}-{:d} Lightning Damage": [
         "50",
         "51"
     ],
-    "Adds {:d}{:d} Magic Damage": [
+    "Adds {:d}-{:d} Magic Damage": [
         "52",
         "53"
     ],
-    "Adds {:d}{:d} Cold Damage": [
+    "Adds {:d}-{:d} Cold Damage": [
         "54",
         "55"
     ],
-    "Adds {:d}{:d} Poison Damage Over {:d} Seconds": [
+    "Adds {:d}-{:d} Poison Damage Over {:d} Seconds": [
         "57",
         "58",
         "59"
     ],
-    "Adds {:d}{:d} Damage": [
+    "Adds {:d}-{:d} Damage": [
         "21",
         "22"
     ],
@@ -4458,7 +4458,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% to Poison Skill Damage": [
         "332"
     ],
-    "Adds {:d}{:d} Fire/Lightning/Cold Damage": [
+    "Adds {:d}-{:d} Fire/Lightning/Cold Damage": [
         "48",
         "49"
     ],

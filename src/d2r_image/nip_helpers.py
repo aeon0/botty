@@ -4,6 +4,7 @@ from d2r_image.nip_data import NIP_ALIAS_STAT_PATTERNS, NTIP_ALIAS_QUALITY_MAP, 
 from d2r_image.processing_data import Runeword
 from rapidfuzz.string_metric import levenshtein
 from nip.NTIPAliasType import NTIPAliasType as NTIP_TYPES
+from nip.NTIPAliasStat import NTIPAliasStat as NTIP_STATS
 from logger import Logger
 
 from parse import compile
@@ -190,11 +191,25 @@ def find_nip_pattern_match(item_lines):
                             for sub_alias_key in ntip_alias_keys[item_prop_cnt]:
                                 nip_alias_stat[sub_alias_key] = item_prop
                         else:
+                            # passivepierce (-x% to enemy y resist) is the only property treated as an opposite to the sign
+                            if "% to enemy" in line.lower() and any([
+                                NTIP_STATS[x] == ntip_alias_keys[item_prop_cnt]
+                                for x in [
+                                    "passivefirepierce",
+                                    "passiveltngpierce",
+                                    "passivecoldpierce",
+                                    "passivepoispierce",
+                                ]
+                            ]):
+                                item_prop = -1 * item_prop
+
                             # ex: nip_alias_stat['204,126'] = 6
                             nip_alias_stat[ntip_alias_keys[item_prop_cnt]] = item_prop
+
                     except IndexError:
                         # more item properties than read fields, skip
-                        Logger.warning(f"IndexError on line: {line}, ntip_alias_keys: {ntip_alias_keys}, result: {result}, item_prop: {item_prop}, item_prop_cnt: {item_prop_cnt}")
+                        pass
+                        # Logger.warning(f"IndexError on line: {line}, ntip_alias_keys: {ntip_alias_keys}, result: {result}, item_prop: {item_prop}, item_prop_cnt: {item_prop_cnt}")
                     except Exception as e:
                         Logger.error(f"error {e} on line: {line}, ntip_alias_keys: {ntip_alias_keys}, result: {result}, item_prop: {item_prop}, item_prop_cnt: {item_prop_cnt}")
     for key in nip_alias_stat.copy():
