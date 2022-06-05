@@ -8,7 +8,6 @@ import keyboard
 import os
 import shutil
 from pathlib import Path
-from typing import Tuple
 import math
 
 
@@ -39,7 +38,7 @@ class NodeRecorder:
         print("1 - Select top-left corner and press f8")
 
     @staticmethod
-    def _convert_rel_to_abs(rel_loc: Tuple[float, float], pos_abs: Tuple[float, float]) -> Tuple[float, float]:
+    def _convert_rel_to_abs(rel_loc: tuple[float, float], pos_abs: tuple[float, float]) -> tuple[float, float]:
         return (rel_loc[0] + pos_abs[0], rel_loc[1] + pos_abs[1])
 
     def find_templates(self, img):
