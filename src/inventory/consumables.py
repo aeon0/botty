@@ -24,18 +24,38 @@ class Consumables:
         return super().__getattribute__(key)
     def __setitem__(self, key, value):
         setattr(self, key, value)
-
+    def any_needs(self):
+        return sum([self.tp, self.id, self.rejuv, self.health, self.mana, self.key])
+    def as_dict(self):
+        return {
+            "tp": self.tp,
+            "id": self.id,
+            "rejuv": self.rejuv,
+            "health": self.health,
+            "mana": self.mana,
+            "key": self.key
+        }
 consumable_needs = Consumables()
-item_consumables_map = {
-    "misc_rejuvenation_potion": "rejuv",
-    "misc_full_rejuvenation_potion": "rejuv",
-    "misc_super_healing_potion": "health",
-    "misc_greater_healing_potion": "health",
-    "misc_super_mana_potion": "mana",
-    "misc_greater_mana_potion": "mana",
-    "misc_scroll_tp": "tp",
-    "misc_scroll_id": "id",
-    "misc_key": "key"
+
+ITEM_CONSUMABLES_MAP = {
+    "rejuvenation potion": "rejuv",
+    "full rejuvenation potion": "rejuv",
+    "rejuvpotion": "rejuv",
+    "super healing potion": "health",
+    "greater healing potion": "health",
+    "light healing potion": "health",
+    "healing potion": "health",
+    "healingpotion": "health",
+    "minor healing potion": "health",
+    "super mana potion": "mana",
+    "greater mana potion": "mana",
+    "mana potion": "mana",
+    "manapotion": "mana",
+    "light mana potion": "mana",
+    "minor mana potion": "mana",
+    "scroll of town portal": "tp",
+    "scroll of identify": "id",
+    "key": "key"
 }
 pot_cols = {
     "rejuv": Config().char["belt_rejuv_columns"],
@@ -44,7 +64,6 @@ pot_cols = {
 }
 
 def get_needs(consumable_type: str = None):
-    global consumable_needs
     if consumable_type:
         consumable = reduce_name(consumable_type)
         return consumable_needs[consumable]
@@ -66,17 +85,15 @@ def increment_need(consumable_type: str = None, quantity: int = 1):
     consumable_needs[consumable] = max(0, consumable_needs[reduce_name(consumable)] + quantity)
 
 def reduce_name(consumable_type: str):
-    global item_consumables_map
-    if consumable_type in item_consumables_map:
-        consumable_type = item_consumables_map[consumable_type]
-    elif consumable_type in item_consumables_map.values():
+    if consumable_type.lower() in ITEM_CONSUMABLES_MAP:
+        consumable_type = ITEM_CONSUMABLES_MAP[consumable_type]
+    elif consumable_type.lower() in ITEM_CONSUMABLES_MAP.values():
         pass
     else:
         Logger.warning(f"adjust_consumable_need: unknown item: {consumable_type}")
     return consumable_type
 
 def get_remaining(item_name: str = None) -> int:
-    global consumable_needs, pot_cols
     if item_name is None:
         Logger.error("get_remaining: param item_name is required")
         return -1
@@ -91,7 +108,6 @@ def get_remaining(item_name: str = None) -> int:
         return -1
 
 def should_buy(item_name: str = None, min_remaining: int = None, min_needed: int = None) -> bool:
-    global consumable_needs
     if item_name is None:
         Logger.error("should_buy: param item_name is required")
         return False

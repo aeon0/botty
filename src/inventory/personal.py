@@ -305,10 +305,10 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
                             Logger.debug(f"Keep {item_name}. Expression: {expression}")
                             sell = False
                         elif need_id:
-                            Logger.debug(f"Need to ID {item_name}")
+                            Logger.debug(f"Need to ID {item_name}.")
                         else:
-                            Logger.debug(f"Discarding {json.dumps(item_properties.as_dict(), indent = 4)}")
-
+                            #Logger.debug(f"Discarding {json.dumps(item_properties.as_dict(), indent = 4)}")
+                            Logger.debug(f"Discarding {item_name}.")
 
                         # sell if not keeping item, vendor is open, and item type can be traded
                         if vendor_open and item_can_be_traded and not (keep or need_id):

@@ -320,7 +320,7 @@ def center_mouse(delay_factor: list = None):
     if delay_factor:
         mouse.move(*center_m, randomize=20, delay_factor = delay_factor)
     else:
-        mouse.move(*center_m, randomize=20)
+        mouse.move(*center_m, randomize=20, delay_factor = [0.1, 0.2])
 
 # Testing: Move to whatever ui to test and run
 if __name__ == "__main__":

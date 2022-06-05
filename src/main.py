@@ -56,7 +56,7 @@ def main():
         Logger.init(logging.DEBUG)
     else:
         print(f"ERROR: Unkown logg_lvl {Config().advanced_options['logg_lvl']}. Must be one of [info, debug]")
-    print('os.path.exists("pickit_screenshots")', os.path.exists("pickit_screenshots"), Config().general["pickit_screenshots"])
+    # print('os.path.exists("pickit_screenshots")', os.path.exists("pickit_screenshots"), Config().general["pickit_screenshots"])
     # Create folder for debug screenshots if they dont exist yet
     if not os.path.exists("stats"):
         os.system("mkdir stats")
@@ -103,4 +103,3 @@ if __name__ == "__main__":
         traceback.print_exc()
     print("Press Enter to exit ...")
     input()
-    
