@@ -43,7 +43,7 @@ TEMPLATE_PATHS = [
 ]
 
 @cache
-def _templates() -> dict[Template]:
+def stored_templates() -> dict[Template]:
     paths = []
     templates = {}
     for path in TEMPLATE_PATHS:
@@ -64,7 +64,7 @@ def _templates() -> dict[Template]:
 
 def get_template(key):
     with templates_lock:
-        return _templates()[key].img_bgr
+        return stored_templates()[key].img_bgr
 
 def _process_template_refs(ref: Union[str, np.ndarray, list[str]]) -> list[Template]:
     templates = []
@@ -73,7 +73,7 @@ def _process_template_refs(ref: Union[str, np.ndarray, list[str]]) -> list[Templ
     for i in ref:
         # if the reference is a string, then it's a reference to a named template asset
         if type(i) == str:
-            templates.append(_templates()[i.upper()])
+            templates.append(stored_templates()[i.upper()])
         # if the reference is an image, append new Template class object
         elif type(i) == np.ndarray:
             templates.append(Template(
