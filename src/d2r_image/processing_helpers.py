@@ -92,55 +92,68 @@ def crop_item_tooltip(image: np.ndarray, model: str = "hover-eng_inconsolata_inv
     contours = contours[0] if len(contours) == 2 else contours[1]
     for cntr in contours:
         x, y, w, h = cv2.boundingRect(cntr)
-        cropped_item = image[y:y+h + 30, x:x+w] # * + 30 so we can see the bottom text, and open the image in and hold it in front of processing.py and see how it does..
+        cropped_item = image[y:y+h, x:x+w]
+
+        if not (expected_height := BOX_EXPECTED_HEIGHT_RANGE[0] < h < BOX_EXPECTED_HEIGHT_RANGE[1]):
+            continue
+        if not (expected_width := BOX_EXPECTED_WIDTH_RANGE[0] < w < BOX_EXPECTED_WIDTH_RANGE[1]):
+            continue
+
         avg = np.average(cv2.cvtColor(cropped_item, cv2.COLOR_BGR2GRAY))
-        mostly_dark = 0 < avg < 35
-        contains_black = np.min(cropped_item) < 14
+        if not (mostly_dark := 0 < avg < 35):
+            continue
+        if not (contains_black := np.min(cropped_item) < 14):
+            continue
+
         contains_white = np.max(cropped_item) > 250
         contains_orange = False
         if not contains_white:
             # check for orange (like key of destruction, etc.)
             orange_mask, _ = color_filter(cropped_item, Config().colors["orange"])
             contains_orange = np.min(orange_mask) > 0
-        expected_height = BOX_EXPECTED_HEIGHT_RANGE[0] < h < BOX_EXPECTED_HEIGHT_RANGE[1]
-        expected_width = BOX_EXPECTED_WIDTH_RANGE[0] < w < BOX_EXPECTED_WIDTH_RANGE[1]
-        # padded height because footer isn't included in contour
-        left_inv = Config().ui_roi["left_inventory"]
-        overlaps_left_inventory = not (
-            x+w < left_inv[0] or left_inv[0]+left_inv[2] < x or y+h+50+10 < left_inv[1] or left_inv[1]+left_inv[3] < y)
+        if not (contains_white or contains_orange):
+            continue
+
+        # check to see if contour overlaps right inventory
         right_inv = Config().ui_roi["right_inventory"]
-        overlaps_right_inventory = not (
-            x+w < right_inv[0] or right_inv[0]+right_inv[2] < x or y+h+50+10 < right_inv[1] or right_inv[1]+right_inv[3] < y)
-        if contains_black and (contains_white or contains_orange) \
-            and mostly_dark and expected_height and expected_width \
-            and (overlaps_right_inventory or overlaps_left_inventory):
-            footer_height_max = (720 - (y + h)) if (y + h + 35) > 720 else 35
-            found_footer = template_finder.search(["TO_TOOLTIP"], image, threshold=0.8, roi=[x, y+h, w, footer_height_max]).valid
-            if found_footer:
-                res.ocr_result = image_to_text(cropped_item, psm=6, model=model)[0]
-                first_row = cut_roi(copy.deepcopy(cropped_item), (0, 0, w, 26))
-                if _contains_color(first_row, "green"):
-                    quality = ItemQuality.Set.value
-                elif _contains_color(first_row, "gold"):
-                    quality = ItemQuality.Unique.value
-                elif _contains_color(first_row, "yellow"):
-                    quality = ItemQuality.Rare.value
-                elif _contains_color(first_row, "blue"):
-                    quality = ItemQuality.Magic.value
-                elif _contains_color(first_row, "orange"):
-                    quality = ItemQuality.Crafted.value
-                elif _contains_color(first_row, "white"):
-                    quality = ItemQuality.Normal.value
-                elif _contains_color(first_row, "gray"):
-                    if "SUPERIOR" in res.ocr_result.text[:10]:
-                        quality = ItemQuality.Superior.value
-                    else:
-                        quality = ItemQuality.Gray.value
+        overlaps_inventory = not (
+            x+w < right_inv[0] or right_inv[0]+right_inv[2] < x or y+h+60 < right_inv[1] or right_inv[1]+right_inv[3] < y)
+        if not overlaps_inventory:
+            left_inv = Config().ui_roi["left_inventory"]
+            overlaps_inventory |= not (
+                x+w < left_inv[0] or left_inv[0]+left_inv[2] < x or y+h+60 < left_inv[1] or left_inv[1]+left_inv[3] < y)
+        if not overlaps_inventory:
+            continue
+
+        #print(f"x: {x}, y: {y}, w: {w}, h: {h}")
+        footer_y = (y + h) if (y + h) < 700 else 700
+        footer_h = 720 - footer_y
+        found_footer = template_finder.search(["TO_TOOLTIP"], image, threshold=0.8, roi=[x, footer_y, w, footer_h]).valid
+        if found_footer:
+            res.ocr_result = image_to_text(cropped_item, psm=6, model=model)[0]
+            first_row = cut_roi(copy.deepcopy(cropped_item), (0, 0, w, 26))
+            if _contains_color(first_row, "green"):
+                quality = ItemQuality.Set.value
+            elif _contains_color(first_row, "gold"):
+                quality = ItemQuality.Unique.value
+            elif _contains_color(first_row, "yellow"):
+                quality = ItemQuality.Rare.value
+            elif _contains_color(first_row, "blue"):
+                quality = ItemQuality.Magic.value
+            elif _contains_color(first_row, "orange"):
+                quality = ItemQuality.Crafted.value
+            elif _contains_color(first_row, "white"):
+                quality = ItemQuality.Normal.value
+            elif _contains_color(first_row, "gray"):
+                if "SUPERIOR" in res.ocr_result.text[:10]:
+                    quality = ItemQuality.Superior.value
                 else:
-                    quality = ItemQuality.Normal.value
-                res.roi = [x, y, w, h]
-                res.img = cropped_item
-                break
+                    quality = ItemQuality.Gray.value
+            else:
+                quality = ItemQuality.Normal.value
+            res.roi = [x, y, w, h]
+            res.img = cropped_item
+            break
     return res, quality
 
 def _contains_color(img: np.ndarray, color: str) -> bool:
