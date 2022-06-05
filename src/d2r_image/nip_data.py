@@ -37,13 +37,13 @@ ITEM PROPERTIES THAT MAP TO STATS RATHER THAN A READ PROPERTY
 PROPS_TO_SKILLID = {195, 196, 197, 198, 199, 201, 204}
 
 NIP_ALIAS_STAT_PATTERNS = {
-    "+{:d} Defense": [
+    "{:d} Defense": [
         "5006"
     ],
-    "+{:d} Defense vs. Missile": [
+    "{:d} Defense vs. Missile": [
         "32"
     ],
-    "+{:d} Defense vs. Melee": [
+    "{:d} Defense vs. Melee": [
         "33"
     ],
     "Damage Reduced by {:d}": [
@@ -52,25 +52,25 @@ NIP_ALIAS_STAT_PATTERNS = {
     "Damage Reduced by {:d}%": [
         "36"
     ],
-    "+{:d}% Enhanced Defense": [
+    "{:d}% Enhanced Defense": [
         "16"
     ],
     "Magic Damage Reduced by {:d}": [
         "35"
     ],
-    "+{:d} to Strength": [
+    "{:d} to Strength": [
         "0"
     ],
-    "+{:d} to Dexterity": [
+    "{:d} to Dexterity": [
         "2"
     ],
-    "+{:d} to Vitality": [
+    "{:d} to Vitality": [
         "3"
     ],
-    "+{:d} to Energy": [
+    "{:d} to Energy": [
         "1"
     ],
-    "+{:d} to Mana": [
+    "{:d} to Mana": [
         [
             "8",
             "9"
@@ -79,7 +79,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "Increase Maximum Mana {:d}%": [
         "77"
     ],
-    "+{:d} to Life": [
+    "{:d} to Life": [
         [
             "6",
             "7"
@@ -88,76 +88,76 @@ NIP_ALIAS_STAT_PATTERNS = {
     "Increase Maximum Life {:d}%": [
         "76"
     ],
-    "+{:d} to Attack Rating": [
+    "{:d} to Attack Rating": [
         "19"
     ],
     "{:d}% Increased Chance of Blocking": [
         "20"
     ],
-    "+{:d} to Minimum Cold Damage": [
+    "{:d} to Minimum Cold Damage": [
         "54"
     ],
-    "+{:d} to Maximum Cold Damage": [
+    "{:d} to Maximum Cold Damage": [
         "55"
     ],
-    "+{:d} to Minimum Fire Damage": [
+    "{:d} to Minimum Fire Damage": [
         "48"
     ],
-    "+{:d} to Maximum Fire Damage": [
+    "{:d} to Maximum Fire Damage": [
         "49"
     ],
-    "+{:d} to Minimum Lightning Damage": [
+    "{:d} to Minimum Lightning Damage": [
         "50"
     ],
-    "+{:d} to Maximum Lightning Damage": [
+    "{:d} to Maximum Lightning Damage": [
         "51"
     ],
-    "+{:d} to Minimum Poison Damage": [
+    "{:d} to Minimum Poison Damage": [
         "57"
     ],
-    "+{:d} to Maximum Poison Damage": [
+    "{:d} to Maximum Poison Damage": [
         "58"
     ],
-    "+{:d} to Minimum Damage": [
+    "{:d} to Minimum Damage": [
         "21"
     ],
-    "+{:d} to Maximum Damage": [
+    "{:d} to Maximum Damage": [
         "22"
     ],
     "{:d}% Damage Taken Goes To Mana": [
         "114"
     ],
-    "Fire Resist +{:d}%": [
+    "Fire Resist {:d}%": [
         "39"
     ],
-    "+{:d}% to Maximum Fire Resist": [
+    "{:d}% to Maximum Fire Resist": [
         "40"
     ],
-    "Lightning Resist +{:d}%": [
+    "Lightning Resist {:d}%": [
         "41"
     ],
-    "+{:d}% to Maximum Lightning Resist": [
+    "{:d}% to Maximum Lightning Resist": [
         "42"
     ],
-    "Cold Resist +{:d}%": [
+    "Cold Resist {:d}%": [
         "43"
     ],
-    "+{:d}% to Maximum Cold Resist": [
+    "{:d}% to Maximum Cold Resist": [
         "44"
     ],
-    "Magic Resist +{:d}%": [
+    "Magic Resist {:d}%": [
         "37"
     ],
-    "+{:d}% to Maximum Magic Resist": [
+    "{:d}% to Maximum Magic Resist": [
         "38"
     ],
-    "Poison Resist +{:d}%": [
+    "Poison Resist {:d}%": [
         "45"
     ],
-    "+{:d}% to Maximum Poison Resist": [
+    "{:d}% to Maximum Poison Resist": [
         "46"
     ],
-    "All Resistances +{:d}": [
+    "All Resistances {:d}": [
         [
             "6969",
             "39",
@@ -166,25 +166,25 @@ NIP_ALIAS_STAT_PATTERNS = {
             "45"
         ]
     ],
-    "+{:d} Fire Absorb": [
+    "{:d} Fire Absorb": [
         "142"
     ],
     "Fire Absorb {:d}%": [
         "143"
     ],
-    "+{:d} Lightning Absorb": [
+    "{:d} Lightning Absorb": [
         "144"
     ],
     "Lightning Absorb {:d}%": [
         "145"
     ],
-    "+{:d} Magic Absorb": [
+    "{:d} Magic Absorb": [
         "146"
     ],
     "Magic Absorb {:d}%": [
         "147"
     ],
-    "+{:d} Cold Absorb": [
+    "{:d} Cold Absorb": [
         "148"
     ],
     "Cold Absorb {:d}%": [
@@ -197,13 +197,13 @@ NIP_ALIAS_STAT_PATTERNS = {
     "Increase Maximum Durability {:d}%": [
         "75"
     ],
-    "Replenish Life +{:d}": [
+    "Replenish Life {:d}": [
         "74"
     ],
     "Attacker Takes Damage of {:d}": [
         "78"
     ],
-    "+{:d}% Increased Attack Speed": [
+    "{:d}% Increased Attack Speed": [
         "93"
     ],
     "{:d}% Extra Gold from Monsters": [
@@ -221,7 +221,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "Regenerate Mana {:d}%": [
         "27"
     ],
-    "+{:d} Maximum Stamina": [
+    "{:d} Maximum Stamina": [
         [
             "10",
             "11"
@@ -233,55 +233,55 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Life stolen per hit": [
         "60"
     ],
-    "+{:d} to Amazon Skill Levels": [
+    "{:d} to Amazon Skill Levels": [
         "83,0"
     ],
-    "+{:d} to Paladin Skill Levels": [
+    "{:d} to Paladin Skill Levels": [
         "83,3"
     ],
-    "+{:d} to Necromancer Skill Levels": [
+    "{:d} to Necromancer Skill Levels": [
         "83,2"
     ],
-    "+{:d} to Sorceress Skill Levels": [
+    "{:d} to Sorceress Skill Levels": [
         "83,1"
     ],
-    "+{:d} to Barbarian Skill Levels": [
+    "{:d} to Barbarian Skill Levels": [
         "83,4"
     ],
-    "+{:d} to Light Radius": [
+    "{:d} to Light Radius": [
         "89"
     ],
-    "Requirements -{:d}%": [
+    "Requirements {:d}%": [
         "91"
     ],
-    "+{:d}% Faster Run/Walk": [
+    "{:d}% Faster Run/Walk": [
         "96"
     ],
-    "+{:d}% Faster Hit Recovery": [
+    "{:d}% Faster Hit Recovery": [
         "99"
     ],
-    "+{:d}% Faster Block Rate": [
+    "{:d}% Faster Block Rate": [
         "102"
     ],
-    "+{:d}% Faster Cast Rate": [
+    "{:d}% Faster Cast Rate": [
         "105"
     ],
     "Poison Length Reduced by {:d}%": [
         "110"
     ],
-    "Damage +{:d}": [
+    "Damage {:d}": [
         "111"
     ],
     "Hit Causes Monster to Flee {:d}%": [
         "112"
     ],
-    "Hit Blinds Target +{:d}": [
+    "Hit Blinds Target {:d}": [
         "113"
     ],
     "Ignore Target's Defense": [
         "115"
     ],
-    "-{:d}% Target Defense": [
+    "{:d}% Target Defense": [
         "116"
     ],
     "Prevent Monster Heal": [
@@ -293,31 +293,31 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Bonus to Attack Rating": [
         "119"
     ],
-    "-{:d} to Monster Defense Per Hit": [
+    "{:d} to Monster Defense Per Hit": [
         "120"
     ],
-    "+{:d}% Damage to Demons": [
+    "{:d}% Damage to Demons": [
         "121"
     ],
-    "+{:d}% Damage to Undead": [
+    "{:d}% Damage to Undead": [
         "122"
     ],
-    "+{:d} to Attack Rating against Demons": [
+    "{:d} to Attack Rating against Demons": [
         "123"
     ],
-    "+{:d} to Attack Rating against Undead": [
+    "{:d} to Attack Rating against Undead": [
         "124"
     ],
-    "+{:d} to Fire Skills": [
+    "{:d} to Fire Skills": [
         "126"
     ],
-    "+{:d} to All Skills": [
+    "{:d} to All Skills": [
         "127"
     ],
     "Attacker Takes Lightning Damage of {:d}": [
         "128"
     ],
-    "Freezes Target +{:d}": [
+    "Freezes Target {:d}": [
         "134"
     ],
     "{:d}% Chance of Open Wounds": [
@@ -326,13 +326,13 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance of Crushing Blow": [
         "136"
     ],
-    "+{:d} Kick Damage": [
+    "{:d} Kick Damage": [
         "137"
     ],
-    "+{:d} to Mana after each Kill": [
+    "{:d} to Mana after each Kill": [
         "138"
     ],
-    "+{:d} Life after each Demon Kill": [
+    "{:d} Life after each Demon Kill": [
         "139"
     ],
     "{:d}% Deadly Strike": [
@@ -359,703 +359,703 @@ NIP_ALIAS_STAT_PATTERNS = {
     "Fires Explosive Arrows or Bolts": [
         "158"
     ],
-    "+{:d} to Druid Skill Levels": [
+    "{:d} to Druid Skill Levels": [
         "83,5"
     ],
-    "+{:d} to Assassin Skill Levels": [
+    "{:d} to Assassin Skill Levels": [
         "83,6"
     ],
-    "+{:d} to Magic Arrow (Amazon only)": [
+    "{:d} to Magic Arrow (Amazon only)": [
         "107,6"
     ],
-    "+{:d} to Fire Arrow (Amazon only)": [
+    "{:d} to Fire Arrow (Amazon only)": [
         "107,7"
     ],
-    "+{:d} to Inner Sight (Amazon only)": [
+    "{:d} to Inner Sight (Amazon only)": [
         "107,8"
     ],
-    "+{:d} to Critical Strike (Amazon only)": [
+    "{:d} to Critical Strike (Amazon only)": [
         "107,9"
     ],
-    "+{:d} to Jab (Amazon only)": [
+    "{:d} to Jab (Amazon only)": [
         "107,10"
     ],
-    "+{:d} to Cold Arrow (Amazon only)": [
+    "{:d} to Cold Arrow (Amazon only)": [
         "107,11"
     ],
-    "+{:d} to Multiple Shot (Amazon only)": [
+    "{:d} to Multiple Shot (Amazon only)": [
         "107,12"
     ],
-    "+{:d} to Dodge (Amazon only)": [
+    "{:d} to Dodge (Amazon only)": [
         "107,13"
     ],
-    "+{:d} to Power Strike (Amazon only)": [
+    "{:d} to Power Strike (Amazon only)": [
         "107,14"
     ],
-    "+{:d} to Poison Javelin (Amazon only)": [
+    "{:d} to Poison Javelin (Amazon only)": [
         "107,15"
     ],
-    "+{:d} to Exploding Arrow (Amazon only)": [
+    "{:d} to Exploding Arrow (Amazon only)": [
         "107,16"
     ],
-    "+{:d} to Slow Missiles (Amazon only)": [
+    "{:d} to Slow Missiles (Amazon only)": [
         "107,17"
     ],
-    "+{:d} to Avoid (Amazon only)": [
+    "{:d} to Avoid (Amazon only)": [
         "107,18"
     ],
-    "+{:d} to Impale (Amazon only)": [
+    "{:d} to Impale (Amazon only)": [
         "107,19"
     ],
-    "+{:d} to Lightning Bolt (Amazon only)": [
+    "{:d} to Lightning Bolt (Amazon only)": [
         "107,20"
     ],
-    "+{:d} to Ice Arrow (Amazon only)": [
+    "{:d} to Ice Arrow (Amazon only)": [
         "107,21"
     ],
-    "+{:d} to Guided Arrow (Amazon only)": [
+    "{:d} to Guided Arrow (Amazon only)": [
         "107,22"
     ],
-    "+{:d} to Penetrate (Amazon only)": [
+    "{:d} to Penetrate (Amazon only)": [
         "107,23"
     ],
-    "+{:d} to Charged Strike (Amazon only)": [
+    "{:d} to Charged Strike (Amazon only)": [
         "107,24"
     ],
-    "+{:d} to Plague Javelin (Amazon only)": [
+    "{:d} to Plague Javelin (Amazon only)": [
         "107,25"
     ],
-    "+{:d} to Strafe (Amazon only)": [
+    "{:d} to Strafe (Amazon only)": [
         "107,26"
     ],
-    "+{:d} to Immolation Arrow (Amazon only)": [
+    "{:d} to Immolation Arrow (Amazon only)": [
         "107,27"
     ],
-    "+{:d} to Decoy (Amazon only)": [
+    "{:d} to Decoy (Amazon only)": [
         "107,28"
     ],
-    "+{:d} to Evade (Amazon only)": [
+    "{:d} to Evade (Amazon only)": [
         "107,29"
     ],
-    "+{:d} to Fend (Amazon only)": [
+    "{:d} to Fend (Amazon only)": [
         "107,30"
     ],
-    "+{:d} to Freezing Arrow (Amazon only)": [
+    "{:d} to Freezing Arrow (Amazon only)": [
         "107,31"
     ],
-    "+{:d} to Valkyrie (Amazon only)": [
+    "{:d} to Valkyrie (Amazon only)": [
         "107,32"
     ],
-    "+{:d} to Pierce (Amazon only)": [
+    "{:d} to Pierce (Amazon only)": [
         "107,33"
     ],
-    "+{:d} to Lightning Strike (Amazon only)": [
+    "{:d} to Lightning Strike (Amazon only)": [
         "107,34"
     ],
-    "+{:d} to Lightning Fury (Amazon only)": [
+    "{:d} to Lightning Fury (Amazon only)": [
         "107,35"
     ],
-    "+{:d} to Fire Bolt (Sorceress only)": [
+    "{:d} to Fire Bolt (Sorceress only)": [
         "107,36"
     ],
-    "+{:d} to Warmth (Sorceress only)": [
+    "{:d} to Warmth (Sorceress only)": [
         "107,37"
     ],
-    "+{:d} to Charged Bolt (Sorceress only)": [
+    "{:d} to Charged Bolt (Sorceress only)": [
         "107,38"
     ],
-    "+{:d} to Ice Bolt (Sorceress only)": [
+    "{:d} to Ice Bolt (Sorceress only)": [
         "107,39"
     ],
-    "+{:d} to Frozen Armor (Sorceress only)": [
+    "{:d} to Frozen Armor (Sorceress only)": [
         "107,40"
     ],
-    "+{:d} to Inferno (Sorceress only)": [
+    "{:d} to Inferno (Sorceress only)": [
         "107,41"
     ],
-    "+{:d} to Static Field (Sorceress only)": [
+    "{:d} to Static Field (Sorceress only)": [
         "107,42"
     ],
-    "+{:d} to Telekinesis (Sorceress only)": [
+    "{:d} to Telekinesis (Sorceress only)": [
         "107,43"
     ],
-    "+{:d} to Frost Nova (Sorceress only)": [
+    "{:d} to Frost Nova (Sorceress only)": [
         "107,44"
     ],
-    "+{:d} to Ice Blast (Sorceress only)": [
+    "{:d} to Ice Blast (Sorceress only)": [
         "107,45"
     ],
-    "+{:d} to Blaze (Sorceress only)": [
+    "{:d} to Blaze (Sorceress only)": [
         "107,46"
     ],
-    "+{:d} to Fire Ball (Sorceress only)": [
+    "{:d} to Fire Ball (Sorceress only)": [
         "107,47"
     ],
-    "+{:d} to Nova (Sorceress only)": [
+    "{:d} to Nova (Sorceress only)": [
         "107,48"
     ],
-    "+{:d} to Lightning (Sorceress only)": [
+    "{:d} to Lightning (Sorceress only)": [
         "107,49"
     ],
-    "+{:d} to Shiver Armor (Sorceress only)": [
+    "{:d} to Shiver Armor (Sorceress only)": [
         "107,50"
     ],
-    "+{:d} to Fire Wall (Sorceress only)": [
+    "{:d} to Fire Wall (Sorceress only)": [
         "107,51"
     ],
-    "+{:d} to Enchant (Sorceress only)": [
+    "{:d} to Enchant (Sorceress only)": [
         "107,52"
     ],
-    "+{:d} to Chain Lightning (Sorceress only)": [
+    "{:d} to Chain Lightning (Sorceress only)": [
         "107,53"
     ],
-    "+{:d} to Teleport (Sorceress only)": [
+    "{:d} to Teleport (Sorceress only)": [
         "107,54"
     ],
-    "+{:d} to Glacial Spike (Sorceress only)": [
+    "{:d} to Glacial Spike (Sorceress only)": [
         "107,55"
     ],
-    "+{:d} to Meteor (Sorceress only)": [
+    "{:d} to Meteor (Sorceress only)": [
         "107,56"
     ],
-    "+{:d} to Thunder Storm (Sorceress only)": [
+    "{:d} to Thunder Storm (Sorceress only)": [
         "107,57"
     ],
-    "+{:d} to Energy Shield (Sorceress only)": [
+    "{:d} to Energy Shield (Sorceress only)": [
         "107,58"
     ],
-    "+{:d} to Blizzard (Sorceress only)": [
+    "{:d} to Blizzard (Sorceress only)": [
         "107,59"
     ],
-    "+{:d} to Chilling Armor (Sorceress only)": [
+    "{:d} to Chilling Armor (Sorceress only)": [
         "107,60"
     ],
-    "+{:d} to Fire Mastery (Sorceress only)": [
+    "{:d} to Fire Mastery (Sorceress only)": [
         "107,61"
     ],
-    "+{:d} to Hydra (Sorceress only)": [
+    "{:d} to Hydra (Sorceress only)": [
         "107,62"
     ],
-    "+{:d} to Lightning Mastery (Sorceress only)": [
+    "{:d} to Lightning Mastery (Sorceress only)": [
         "107,63"
     ],
-    "+{:d} to Frozen Orb (Sorceress only)": [
+    "{:d} to Frozen Orb (Sorceress only)": [
         "107,64"
     ],
-    "+{:d} to Cold Mastery (Sorceress only)": [
+    "{:d} to Cold Mastery (Sorceress only)": [
         "107,65"
     ],
-    "+{:d} to Amplify Damage (Necromancer only)": [
+    "{:d} to Amplify Damage (Necromancer only)": [
         "107,66"
     ],
-    "+{:d} to Teeth (Necromancer only)": [
+    "{:d} to Teeth (Necromancer only)": [
         "107,67"
     ],
-    "+{:d} to Bone Armor (Necromancer only)": [
+    "{:d} to Bone Armor (Necromancer only)": [
         "107,68"
     ],
-    "+{:d} to Skeleton Mastery (Necromancer only)": [
+    "{:d} to Skeleton Mastery (Necromancer only)": [
         "107,69"
     ],
-    "+{:d} to Raise Skeleton (Necromancer only)": [
+    "{:d} to Raise Skeleton (Necromancer only)": [
         "107,70"
     ],
-    "+{:d} to Dim Vision (Necromancer only)": [
+    "{:d} to Dim Vision (Necromancer only)": [
         "107,71"
     ],
-    "+{:d} to Weaken (Necromancer only)": [
+    "{:d} to Weaken (Necromancer only)": [
         "107,72"
     ],
-    "+{:d} to Poison Dagger (Necromancer only)": [
+    "{:d} to Poison Dagger (Necromancer only)": [
         "107,73"
     ],
-    "+{:d} to Corpse Explosion (Necromancer only)": [
+    "{:d} to Corpse Explosion (Necromancer only)": [
         "107,74"
     ],
-    "+{:d} to Clay Golem (Necromancer only)": [
+    "{:d} to Clay Golem (Necromancer only)": [
         "107,75"
     ],
-    "+{:d} to Iron Maiden (Necromancer only)": [
+    "{:d} to Iron Maiden (Necromancer only)": [
         "107,76"
     ],
-    "+{:d} to Terror (Necromancer only)": [
+    "{:d} to Terror (Necromancer only)": [
         "107,77"
     ],
-    "+{:d} to Bone Wall (Necromancer only)": [
+    "{:d} to Bone Wall (Necromancer only)": [
         "107,78"
     ],
-    "+{:d} to Golem Mastery (Necromancer only)": [
+    "{:d} to Golem Mastery (Necromancer only)": [
         "107,79"
     ],
-    "+{:d} to Raise Skeletal Mage (Necromancer only)": [
+    "{:d} to Raise Skeletal Mage (Necromancer only)": [
         "107,80"
     ],
-    "+{:d} to Confuse (Necromancer only)": [
+    "{:d} to Confuse (Necromancer only)": [
         "107,81"
     ],
-    "+{:d} to Life Tap (Necromancer only)": [
+    "{:d} to Life Tap (Necromancer only)": [
         "107,82"
     ],
-    "+{:d} to Poison Explosion (Necromancer only)": [
+    "{:d} to Poison Explosion (Necromancer only)": [
         "107,83"
     ],
-    "+{:d} to Bone Spear (Necromancer only)": [
+    "{:d} to Bone Spear (Necromancer only)": [
         "107,84"
     ],
-    "+{:d} to Blood Golem (Necromancer only)": [
+    "{:d} to Blood Golem (Necromancer only)": [
         "107,85"
     ],
-    "+{:d} to Attract (Necromancer only)": [
+    "{:d} to Attract (Necromancer only)": [
         "107,86"
     ],
-    "+{:d} to Decrepify (Necromancer only)": [
+    "{:d} to Decrepify (Necromancer only)": [
         "107,87"
     ],
-    "+{:d} to Bone Prison (Necromancer only)": [
+    "{:d} to Bone Prison (Necromancer only)": [
         "107,88"
     ],
-    "+{:d} to Summon Resist (Necromancer only)": [
+    "{:d} to Summon Resist (Necromancer only)": [
         "107,89"
     ],
-    "+{:d} to Iron Golem (Necromancer only)": [
+    "{:d} to Iron Golem (Necromancer only)": [
         "107,90"
     ],
-    "+{:d} to Lower Resist (Necromancer only)": [
+    "{:d} to Lower Resist (Necromancer only)": [
         "107,91"
     ],
-    "+{:d} to Poison Nova (Necromancer only)": [
+    "{:d} to Poison Nova (Necromancer only)": [
         "107,92"
     ],
-    "+{:d} to Bone Spirit (Necromancer only)": [
+    "{:d} to Bone Spirit (Necromancer only)": [
         "107,93"
     ],
-    "+{:d} to Fire Golem (Necromancer only)": [
+    "{:d} to Fire Golem (Necromancer only)": [
         "107,94"
     ],
-    "+{:d} to Revive (Necromancer only)": [
+    "{:d} to Revive (Necromancer only)": [
         "107,95"
     ],
-    "+{:d} to Sacrifice (Paladin only)": [
+    "{:d} to Sacrifice (Paladin only)": [
         "107,96"
     ],
-    "+{:d} to Smite (Paladin only)": [
+    "{:d} to Smite (Paladin only)": [
         "107,97"
     ],
-    "+{:d} to Might (Paladin only)": [
+    "{:d} to Might (Paladin only)": [
         "107,98"
     ],
-    "+{:d} to Prayer (Paladin only)": [
+    "{:d} to Prayer (Paladin only)": [
         "107,99"
     ],
-    "+{:d} to Resist Fire (Paladin only)": [
+    "{:d} to Resist Fire (Paladin only)": [
         "107,100"
     ],
-    "+{:d} to Holy Bolt (Paladin only)": [
+    "{:d} to Holy Bolt (Paladin only)": [
         "107,101"
     ],
-    "+{:d} to Holy Fire (Paladin only)": [
+    "{:d} to Holy Fire (Paladin only)": [
         "107,102"
     ],
-    "+{:d} to Thorns (Paladin only)": [
+    "{:d} to Thorns (Paladin only)": [
         "107,103"
     ],
-    "+{:d} to Defiance (Paladin only)": [
+    "{:d} to Defiance (Paladin only)": [
         "107,104"
     ],
-    "+{:d} to Resist Cold (Paladin only)": [
+    "{:d} to Resist Cold (Paladin only)": [
         "107,105"
     ],
-    "+{:d} to Zeal (Paladin only)": [
+    "{:d} to Zeal (Paladin only)": [
         "107,106"
     ],
-    "+{:d} to Charge (Paladin only)": [
+    "{:d} to Charge (Paladin only)": [
         "107,107"
     ],
-    "+{:d} to Blessed Aim (Paladin only)": [
+    "{:d} to Blessed Aim (Paladin only)": [
         "107,108"
     ],
-    "+{:d} to Cleansing (Paladin only)": [
+    "{:d} to Cleansing (Paladin only)": [
         "107,109"
     ],
-    "+{:d} to Resist Lightning (Paladin only)": [
+    "{:d} to Resist Lightning (Paladin only)": [
         "107,110"
     ],
-    "+{:d} to Vengeance (Paladin only)": [
+    "{:d} to Vengeance (Paladin only)": [
         "107,111"
     ],
-    "+{:d} to Blessed Hammer (Paladin only)": [
+    "{:d} to Blessed Hammer (Paladin only)": [
         "107,112"
     ],
-    "+{:d} to Concentration (Paladin only)": [
+    "{:d} to Concentration (Paladin only)": [
         "107,113"
     ],
-    "+{:d} to Holy Freeze (Paladin only)": [
+    "{:d} to Holy Freeze (Paladin only)": [
         "107,114"
     ],
-    "+{:d} to Vigor (Paladin only)": [
+    "{:d} to Vigor (Paladin only)": [
         "107,115"
     ],
-    "+{:d} to Conversion (Paladin only)": [
+    "{:d} to Conversion (Paladin only)": [
         "107,116"
     ],
-    "+{:d} to Holy Shield (Paladin only)": [
+    "{:d} to Holy Shield (Paladin only)": [
         "107,117"
     ],
-    "+{:d} to Holy Shock (Paladin only)": [
+    "{:d} to Holy Shock (Paladin only)": [
         "107,118"
     ],
-    "+{:d} to Sanctuary (Paladin only)": [
+    "{:d} to Sanctuary (Paladin only)": [
         "107,119"
     ],
-    "+{:d} to Meditation (Paladin only)": [
+    "{:d} to Meditation (Paladin only)": [
         "107,120"
     ],
-    "+{:d} to Fist of the Heavens (Paladin only)": [
+    "{:d} to Fist of the Heavens (Paladin only)": [
         "107,121"
     ],
-    "+{:d} to Fanaticism (Paladin only)": [
+    "{:d} to Fanaticism (Paladin only)": [
         "107,122"
     ],
-    "+{:d} to Conviction (Paladin only)": [
+    "{:d} to Conviction (Paladin only)": [
         "107,123"
     ],
-    "+{:d} to Redemption (Paladin only)": [
+    "{:d} to Redemption (Paladin only)": [
         "107,124"
     ],
-    "+{:d} to Salvation (Paladin only)": [
+    "{:d} to Salvation (Paladin only)": [
         "107,125"
     ],
-    "+{:d} to Bash (Barbarian only)": [
+    "{:d} to Bash (Barbarian only)": [
         "107,126"
     ],
-    "+{:d} to Blade Mastery (Barbarian only)": [
+    "{:d} to Blade Mastery (Barbarian only)": [
         "107,127"
     ],
-    "+{:d} to Axe Mastery (Barbarian only)": [
+    "{:d} to Axe Mastery (Barbarian only)": [
         "107,128"
     ],
-    "+{:d} to Mace Mastery (Barbarian only)": [
+    "{:d} to Mace Mastery (Barbarian only)": [
         "107,129"
     ],
-    "+{:d} to Howl (Barbarian only)": [
+    "{:d} to Howl (Barbarian only)": [
         "107,130"
     ],
-    "+{:d} to Find Potion (Barbarian only)": [
+    "{:d} to Find Potion (Barbarian only)": [
         "107,131"
     ],
-    "+{:d} to Leap (Barbarian only)": [
+    "{:d} to Leap (Barbarian only)": [
         "107,132"
     ],
-    "+{:d} to Double Swing (Barbarian only)": [
+    "{:d} to Double Swing (Barbarian only)": [
         "107,133"
     ],
-    "+{:d} to Polearm Mastery (Barbarian only)": [
+    "{:d} to Polearm Mastery (Barbarian only)": [
         "107,134"
     ],
-    "+{:d} to Throwing Mastery (Barbarian only)": [
+    "{:d} to Throwing Mastery (Barbarian only)": [
         "107,135"
     ],
-    "+{:d} to Spear Mastery (Barbarian only)": [
+    "{:d} to Spear Mastery (Barbarian only)": [
         "107,136"
     ],
-    "+{:d} to Taunt (Barbarian only)": [
+    "{:d} to Taunt (Barbarian only)": [
         "107,137"
     ],
-    "+{:d} to Shout (Barbarian only)": [
+    "{:d} to Shout (Barbarian only)": [
         "107,138"
     ],
-    "+{:d} to Stun (Barbarian only)": [
+    "{:d} to Stun (Barbarian only)": [
         "107,139"
     ],
-    "+{:d} to Double Throw (Barbarian only)": [
+    "{:d} to Double Throw (Barbarian only)": [
         "107,140"
     ],
-    "+{:d} to Increased Stamina (Barbarian only)": [
+    "{:d} to Increased Stamina (Barbarian only)": [
         "107,141"
     ],
-    "+{:d} to Find Item (Barbarian only)": [
+    "{:d} to Find Item (Barbarian only)": [
         "107,142"
     ],
-    "+{:d} to Leap Attack (Barbarian only)": [
+    "{:d} to Leap Attack (Barbarian only)": [
         "107,143"
     ],
-    "+{:d} to Concentrate (Barbarian only)": [
+    "{:d} to Concentrate (Barbarian only)": [
         "107,144"
     ],
-    "+{:d} to Iron Skin (Barbarian only)": [
+    "{:d} to Iron Skin (Barbarian only)": [
         "107,145"
     ],
-    "+{:d} to Battle Cry (Barbarian only)": [
+    "{:d} to Battle Cry (Barbarian only)": [
         "107,146"
     ],
-    "+{:d} to Frenzy (Barbarian only)": [
+    "{:d} to Frenzy (Barbarian only)": [
         "107,147"
     ],
-    "+{:d} to Increased Speed (Barbarian only)": [
+    "{:d} to Increased Speed (Barbarian only)": [
         "107,148"
     ],
-    "+{:d} to Battle Orders (Barbarian only)": [
+    "{:d} to Battle Orders (Barbarian only)": [
         "107,149"
     ],
-    "+{:d} to Grim Ward (Barbarian only)": [
+    "{:d} to Grim Ward (Barbarian only)": [
         "107,150"
     ],
-    "+{:d} to Whirlwind (Barbarian only)": [
+    "{:d} to Whirlwind (Barbarian only)": [
         "107,151"
     ],
-    "+{:d} to Berserk (Barbarian only)": [
+    "{:d} to Berserk (Barbarian only)": [
         "107,152"
     ],
-    "+{:d} to Natural Resistance (Barbarian only)": [
+    "{:d} to Natural Resistance (Barbarian only)": [
         "107,153"
     ],
-    "+{:d} to War Cry (Barbarian only)": [
+    "{:d} to War Cry (Barbarian only)": [
         "107,154"
     ],
-    "+{:d} to Battle Command (Barbarian only)": [
+    "{:d} to Battle Command (Barbarian only)": [
         "107,155"
     ],
-    "+{:d} to Raven (Druid only)": [
+    "{:d} to Raven (Druid only)": [
         "107,221"
     ],
-    "+{:d} to Poison Creeper (Druid only)": [
+    "{:d} to Poison Creeper (Druid only)": [
         "107,222"
     ],
-    "+{:d} to Werewolf (Druid only)": [
+    "{:d} to Werewolf (Druid only)": [
         "107,223"
     ],
-    "+{:d} to Lycanthropy (Druid only)": [
+    "{:d} to Lycanthropy (Druid only)": [
         "107,224"
     ],
-    "+{:d} to Firestorm (Druid only)": [
+    "{:d} to Firestorm (Druid only)": [
         "107,225"
     ],
-    "+{:d} to Oak Sage (Druid only)": [
+    "{:d} to Oak Sage (Druid only)": [
         "107,226"
     ],
-    "+{:d} to Summon Spirit Wolf (Druid only)": [
+    "{:d} to Summon Spirit Wolf (Druid only)": [
         "107,227"
     ],
-    "+{:d} to Werebear (Druid only)": [
+    "{:d} to Werebear (Druid only)": [
         "107,228"
     ],
-    "+{:d} to Molten Boulder (Druid only)": [
+    "{:d} to Molten Boulder (Druid only)": [
         "107,229"
     ],
-    "+{:d} to Arctic Blast (Druid only)": [
+    "{:d} to Arctic Blast (Druid only)": [
         "107,230"
     ],
-    "+{:d} to Carrion Vine (Druid only)": [
+    "{:d} to Carrion Vine (Druid only)": [
         "107,231"
     ],
-    "+{:d} to Feral Rage (Druid only)": [
+    "{:d} to Feral Rage (Druid only)": [
         "107,232"
     ],
-    "+{:d} to Maul (Druid only)": [
+    "{:d} to Maul (Druid only)": [
         "107,233"
     ],
-    "+{:d} to Fissure (Druid only)": [
+    "{:d} to Fissure (Druid only)": [
         "107,234"
     ],
-    "+{:d} to Cyclone Armor (Druid only)": [
+    "{:d} to Cyclone Armor (Druid only)": [
         "107,235"
     ],
-    "+{:d} to Heart of Wolverine (Druid only)": [
+    "{:d} to Heart of Wolverine (Druid only)": [
         "107,236"
     ],
-    "+{:d} to Summon Dire Wolf (Druid only)": [
+    "{:d} to Summon Dire Wolf (Druid only)": [
         "107,237"
     ],
-    "+{:d} to Rabies (Druid only)": [
+    "{:d} to Rabies (Druid only)": [
         "107,238"
     ],
-    "+{:d} to Fire Claws (Druid only)": [
+    "{:d} to Fire Claws (Druid only)": [
         "107,239"
     ],
-    "+{:d} to Twister (Druid only)": [
+    "{:d} to Twister (Druid only)": [
         "107,240"
     ],
-    "+{:d} to Solar Creeper (Druid only)": [
+    "{:d} to Solar Creeper (Druid only)": [
         "107,241"
     ],
-    "+{:d} to Hunger (Druid only)": [
+    "{:d} to Hunger (Druid only)": [
         "107,242"
     ],
-    "+{:d} to Shock Wave (Druid only)": [
+    "{:d} to Shock Wave (Druid only)": [
         "107,243"
     ],
-    "+{:d} to Volcano (Druid only)": [
+    "{:d} to Volcano (Druid only)": [
         "107,244"
     ],
-    "+{:d} to Tornado (Druid only)": [
+    "{:d} to Tornado (Druid only)": [
         "107,245"
     ],
-    "+{:d} to Spirit of Barbs (Druid only)": [
+    "{:d} to Spirit of Barbs (Druid only)": [
         "107,246"
     ],
-    "+{:d} to Summon Grizzly (Druid only)": [
+    "{:d} to Summon Grizzly (Druid only)": [
         "107,247"
     ],
-    "+{:d} to Fury (Druid only)": [
+    "{:d} to Fury (Druid only)": [
         "107,248"
     ],
-    "+{:d} to Armageddon (Druid only)": [
+    "{:d} to Armageddon (Druid only)": [
         "107,249"
     ],
-    "+{:d} to Hurricane (Druid only)": [
+    "{:d} to Hurricane (Druid only)": [
         "107,250"
     ],
-    "+{:d} to Fire Blast (Assassin only)": [
+    "{:d} to Fire Blast (Assassin only)": [
         "107,251"
     ],
-    "+{:d} to Claw Mastery (Assassin only)": [
+    "{:d} to Claw Mastery (Assassin only)": [
         "107,252"
     ],
-    "+{:d} to Psychic Hammer (Assassin only)": [
+    "{:d} to Psychic Hammer (Assassin only)": [
         "107,253"
     ],
-    "+{:d} to Tiger Strike (Assassin only)": [
+    "{:d} to Tiger Strike (Assassin only)": [
         "107,254"
     ],
-    "+{:d} to Dragon Talon (Assassin only)": [
+    "{:d} to Dragon Talon (Assassin only)": [
         "107,255"
     ],
-    "+{:d} to Shock Web (Assassin only)": [
+    "{:d} to Shock Web (Assassin only)": [
         "107,256"
     ],
-    "+{:d} to Blade Sentinel (Assassin only)": [
+    "{:d} to Blade Sentinel (Assassin only)": [
         "107,257"
     ],
-    "+{:d} to Burst of Speed (Assassin only)": [
+    "{:d} to Burst of Speed (Assassin only)": [
         "107,258"
     ],
-    "+{:d} to Fists of Fire (Assassin only)": [
+    "{:d} to Fists of Fire (Assassin only)": [
         "107,259"
     ],
-    "+{:d} to Dragon Claw (Assassin only)": [
+    "{:d} to Dragon Claw (Assassin only)": [
         "107,260"
     ],
-    "+{:d} to Charged Bolt Sentry (Assassin only)": [
+    "{:d} to Charged Bolt Sentry (Assassin only)": [
         "107,261"
     ],
-    "+{:d} to Wake of Fire (Assassin only)": [
+    "{:d} to Wake of Fire (Assassin only)": [
         "107,262"
     ],
-    "+{:d} to Weapon Block (Assassin only)": [
+    "{:d} to Weapon Block (Assassin only)": [
         "107,263"
     ],
-    "+{:d} to Cloak of Shadows (Assassin only)": [
+    "{:d} to Cloak of Shadows (Assassin only)": [
         "107,264"
     ],
-    "+{:d} to Cobra Strike (Assassin only)": [
+    "{:d} to Cobra Strike (Assassin only)": [
         "107,265"
     ],
-    "+{:d} to Blade Fury (Assassin only)": [
+    "{:d} to Blade Fury (Assassin only)": [
         "107,266"
     ],
-    "+{:d} to Fade (Assassin only)": [
+    "{:d} to Fade (Assassin only)": [
         "107,267"
     ],
-    "+{:d} to Shadow Warrior (Assassin only)": [
+    "{:d} to Shadow Warrior (Assassin only)": [
         "107,268"
     ],
-    "+{:d} to Claws of Thunder (Assassin only)": [
+    "{:d} to Claws of Thunder (Assassin only)": [
         "107,269"
     ],
-    "+{:d} to Dragon Tail (Assassin only)": [
+    "{:d} to Dragon Tail (Assassin only)": [
         "107,270"
     ],
-    "+{:d} to Lightning Sentry (Assassin only)": [
+    "{:d} to Lightning Sentry (Assassin only)": [
         "107,271"
     ],
-    "+{:d} to Wake of Inferno (Assassin only)": [
+    "{:d} to Wake of Inferno (Assassin only)": [
         "107,272"
     ],
-    "+{:d} to Mind Blast (Assassin only)": [
+    "{:d} to Mind Blast (Assassin only)": [
         "107,273"
     ],
-    "+{:d} to Blades of Ice (Assassin only)": [
+    "{:d} to Blades of Ice (Assassin only)": [
         "107,274"
     ],
-    "+{:d} to Dragon Flight (Assassin only)": [
+    "{:d} to Dragon Flight (Assassin only)": [
         "107,275"
     ],
-    "+{:d} to Death Sentry (Assassin only)": [
+    "{:d} to Death Sentry (Assassin only)": [
         "107,276"
     ],
-    "+{:d} to Blade Shield (Assassin only)": [
+    "{:d} to Blade Shield (Assassin only)": [
         "107,277"
     ],
-    "+{:d} to Venom (Assassin only)": [
+    "{:d} to Venom (Assassin only)": [
         "107,278"
     ],
-    "+{:d} to Shadow Master (Assassin only)": [
+    "{:d} to Shadow Master (Assassin only)": [
         "107,279"
     ],
-    "+{:d} to Phoenix Strike (Assassin only)": [
+    "{:d} to Phoenix Strike (Assassin only)": [
         "107,280"
     ],
-    "+{:d} to Bow and Crossbow Skills (Amazon Only)": [
+    "{:d} to Bow and Crossbow Skills (Amazon Only)": [
         "188,0"
     ],
-    "+{:d} to Passive and Magic Skills (Amazon Only)": [
+    "{:d} to Passive and Magic Skills (Amazon Only)": [
         "188,1"
     ],
-    "+{:d} to Javelin and Spear Skills (Amazon Only)": [
+    "{:d} to Javelin and Spear Skills (Amazon Only)": [
         "188,2"
     ],
-    "+{:d} to Fire Skills (Sorceress Only)": [
+    "{:d} to Fire Skills (Sorceress Only)": [
         "188,3"
     ],
-    "+{:d} to Lightning Skills (Sorceress Only)": [
+    "{:d} to Lightning Skills (Sorceress Only)": [
         "188,4"
     ],
-    "+{:d} to Cold Skills (Sorceress Only)": [
+    "{:d} to Cold Skills (Sorceress Only)": [
         "188,5"
     ],
-    "+{:d} to Curses (Necromancer Only)": [
+    "{:d} to Curses (Necromancer Only)": [
         "188,6"
     ],
-    "+{:d} to Poison and Bone Skills (Necromancer Only)": [
+    "{:d} to Poison and Bone Skills (Necromancer Only)": [
         "188,7"
     ],
-    "+{:d} to Combat Skills (Necromancer Only)": [
+    "{:d} to Combat Skills (Necromancer Only)": [
         "188,8"
     ],
-    "+{:d} to Combat Skills (Paladin Only)": [
+    "{:d} to Combat Skills (Paladin Only)": [
         "188,9"
     ],
-    "+{:d} to Offensive Auras (Paladin Only)": [
+    "{:d} to Offensive Auras (Paladin Only)": [
         "188,10"
     ],
-    "+{:d} to Defensive Auras (Paladin Only)": [
+    "{:d} to Defensive Auras (Paladin Only)": [
         "188,11"
     ],
-    "+{:d} to Combat Skills (Barbarian Only)": [
+    "{:d} to Combat Skills (Barbarian Only)": [
         "188,12"
     ],
-    "+{:d} to Masteries (Barbarian Only)": [
+    "{:d} to Masteries (Barbarian Only)": [
         "188,13"
     ],
-    "+{:d} to Warcries (Barbarian Only)": [
+    "{:d} to Warcries (Barbarian Only)": [
         "188,14"
     ],
-    "+{:d} to Summoning Skills (Druid Only)": [
+    "{:d} to Summoning Skills (Druid Only)": [
         "188,15"
     ],
-    "+{:d} to Shape Shifting Skills (Druid Only)": [
+    "{:d} to Shape Shifting Skills (Druid Only)": [
         "188,16"
     ],
-    "+{:d} to Elemental Skills (Druid Only)": [
+    "{:d} to Elemental Skills (Druid Only)": [
         "188,17"
     ],
-    "+{:d} to Traps (Assassin Only)": [
+    "{:d} to Traps (Assassin Only)": [
         "188,18"
     ],
-    "+{:d} to Shadow Disciplines (Assassin Only)": [
+    "{:d} to Shadow Disciplines (Assassin Only)": [
         "188,19"
     ],
-    "+{:d} to Martial Arts (Assassin Only)": [
+    "{:d} to Martial Arts (Assassin Only)": [
         "188,20"
     ],
     "Level {:d} Magic Arrow Aura When Equipped": [
@@ -3581,74 +3581,74 @@ NIP_ALIAS_STAT_PATTERNS = {
     "Socketed ({:d})": [
         "194"
     ],
-    "Adds {:d}-{:d} Fire Damage": [
+    "Adds {:d}{:d} Fire Damage": [
         "48",
         "49"
     ],
-    "Adds {:d}-{:d} Lightning Damage": [
+    "Adds {:d}{:d} Lightning Damage": [
         "50",
         "51"
     ],
-    "Adds {:d}-{:d} Magic Damage": [
+    "Adds {:d}{:d} Magic Damage": [
         "52",
         "53"
     ],
-    "Adds {:d}-{:d} Cold Damage": [
+    "Adds {:d}{:d} Cold Damage": [
         "54",
         "55"
     ],
-    "Adds {:d}-{:d} Poison Damage Over {:d} Seconds": [
+    "Adds {:d}{:d} Poison Damage Over {:d} Seconds": [
         "57",
         "58",
         "59"
     ],
-    "Adds {:d}-{:d} Damage": [
+    "Adds {:d}{:d} Damage": [
         "21",
         "22"
     ],
-    "+{:d} Defense (Based on Character Level)": [
+    "{:d} Defense (Based on Character Level)": [
         "214"
     ],
-    "+{:d}% Enhanced Defense (Based on Character Level)": [
+    "{:d}% Enhanced Defense (Based on Character Level)": [
         "215"
     ],
-    "+{:d} to Life (Based on Character Level)": [
+    "{:d} to Life (Based on Character Level)": [
         "216"
     ],
-    "+{:d} to Mana (Based on Character Level)": [
+    "{:d} to Mana (Based on Character Level)": [
         "217"
     ],
-    "+{:d} to Maximum Damage (Based on Character Level)": [
+    "{:d} to Maximum Damage (Based on Character Level)": [
         "218"
     ],
-    "+{:d}% Enhanced Maximum Damage (Based on Character Level)": [
+    "{:d}% Enhanced Maximum Damage (Based on Character Level)": [
         "219"
     ],
-    "+{:d} to Strength (Based on Character Level)": [
+    "{:d} to Strength (Based on Character Level)": [
         "220"
     ],
-    "+{:d} to Dexterity (Based on Character Level)": [
+    "{:d} to Dexterity (Based on Character Level)": [
         "221"
     ],
-    "+{:d} to Vitality (Based on Character Level)": [
+    "{:d} to Vitality (Based on Character Level)": [
         "223"
     ],
-    "+{:d} to Attack Rating (Based on Character Level)": [
+    "{:d} to Attack Rating (Based on Character Level)": [
         "224"
     ],
     "{:d}% Bonus to Attack Rating (Based on Character Level)": [
         "225"
     ],
-    "Cold Resist +{:d}% (Based on Character Level)": [
+    "Cold Resist {:d}% (Based on Character Level)": [
         "230"
     ],
-    "Fire Resist +{:d}% (Based on Character Level)": [
+    "Fire Resist {:d}% (Based on Character Level)": [
         "231"
     ],
-    "Lightning Resist +{:d}% (Based on Character Level)": [
+    "Lightning Resist {:d}% (Based on Character Level)": [
         "232"
     ],
-    "Poison Resist +{:d}% (Based on Character Level)": [
+    "Poison Resist {:d}% (Based on Character Level)": [
         "233"
     ],
     "Absorbs Cold Damage (Based on Character Level)": [
@@ -3669,19 +3669,19 @@ NIP_ALIAS_STAT_PATTERNS = {
     "Heal Stamina Plus {:d}% (Based on Character Level)": [
         "241"
     ],
-    "+{:d} Maximum Stamina (Based on Character Level)": [
+    "{:d} Maximum Stamina (Based on Character Level)": [
         "242"
     ],
-    "+{:d}% Damage to Demons (Based on Character Level)": [
+    "{:d}% Damage to Demons (Based on Character Level)": [
         "243"
     ],
-    "+{:d}% Damage to Undead (Based on Character Level)": [
+    "{:d}% Damage to Undead (Based on Character Level)": [
         "244"
     ],
-    "+{:d} to Attack Rating against Demons (Based on Character Level)": [
+    "{:d} to Attack Rating against Demons (Based on Character Level)": [
         "245"
     ],
-    "+{:d} to Attack Rating against Undead (Based on Character Level)": [
+    "{:d} to Attack Rating against Undead (Based on Character Level)": [
         "246"
     ],
     "{:d}% Deadly Strike (Based on Character Level)": [
@@ -3696,64 +3696,64 @@ NIP_ALIAS_STAT_PATTERNS = {
     "Increased Stack Size": [
         "254"
     ],
-    "+{:d} Defense (Increases near [Day/Dusk/Night/Dawn])": [
+    "{:d} Defense (Increases near [Day/Dusk/Night/Dawn])": [
         "268"
     ],
-    "+{:d}% Enhanced Defense (Increases near [Day/Dusk/Night/Dawn])": [
+    "{:d}% Enhanced Defense (Increases near [Day/Dusk/Night/Dawn])": [
         "269"
     ],
-    "+{:d} to Life (Increases near [Day/Dusk/Night/Dawn])": [
+    "{:d} to Life (Increases near [Day/Dusk/Night/Dawn])": [
         "270"
     ],
-    "+{:d} to Mana (Increases near [Day/Dusk/Night/Dawn])": [
+    "{:d} to Mana (Increases near [Day/Dusk/Night/Dawn])": [
         "271"
     ],
-    "+{:d} to Maximum Damage (Increases near [Day/Dusk/Night/Dawn])": [
+    "{:d} to Maximum Damage (Increases near [Day/Dusk/Night/Dawn])": [
         "272"
     ],
-    "+{:d}% Enhanced Maximum Damage (Increases near [Day/Dusk/Night/Dawn])": [
+    "{:d}% Enhanced Maximum Damage (Increases near [Day/Dusk/Night/Dawn])": [
         "273"
     ],
-    "+{:d} to Strength (Increases near [Day/Dusk/Night/Dawn])": [
+    "{:d} to Strength (Increases near [Day/Dusk/Night/Dawn])": [
         "274"
     ],
-    "+{:d} to Dexterity (Increases near [Day/Dusk/Night/Dawn])": [
+    "{:d} to Dexterity (Increases near [Day/Dusk/Night/Dawn])": [
         "275"
     ],
-    "+{:d} to Energy (Increases near [Day/Dusk/Night/Dawn])": [
+    "{:d} to Energy (Increases near [Day/Dusk/Night/Dawn])": [
         "276"
     ],
-    "+{:d} to Vitality (Increases near [Day/Dusk/Night/Dawn])": [
+    "{:d} to Vitality (Increases near [Day/Dusk/Night/Dawn])": [
         "277"
     ],
-    "+{:d} to Attack Rating (Increases near [Day/Dusk/Night/Dawn])": [
+    "{:d} to Attack Rating (Increases near [Day/Dusk/Night/Dawn])": [
         "278"
     ],
     "{:d}% Bonus to Attack Rating (Increases near [Day/Dusk/Night/Dawn])": [
         "279"
     ],
-    "+{:d} to Maximum Cold Damage (Increases near [Day/Dusk/Night/Dawn])": [
+    "{:d} to Maximum Cold Damage (Increases near [Day/Dusk/Night/Dawn])": [
         "280"
     ],
-    "+{:d} to Maximum Fire Damage (Increases near [Day/Dusk/Night/Dawn])": [
+    "{:d} to Maximum Fire Damage (Increases near [Day/Dusk/Night/Dawn])": [
         "281"
     ],
-    "+{:d} to Maximum Lightning Damage (Increases near [Day/Dusk/Night/Dawn])": [
+    "{:d} to Maximum Lightning Damage (Increases near [Day/Dusk/Night/Dawn])": [
         "282"
     ],
-    "+{:d} to Maximum Poison Damage (Increases near [Day/Dusk/Night/Dawn])": [
+    "{:d} to Maximum Poison Damage (Increases near [Day/Dusk/Night/Dawn])": [
         "283"
     ],
-    "Cold Resist +{:d}% (Increases near [Day/Dusk/Night/Dawn])": [
+    "Cold Resist {:d}% (Increases near [Day/Dusk/Night/Dawn])": [
         "284"
     ],
-    "Fire Resist +{:d}% (Increases near [Day/Dusk/Night/Dawn])": [
+    "Fire Resist {:d}% (Increases near [Day/Dusk/Night/Dawn])": [
         "285"
     ],
-    "Lightning Resist +{:d}% (Increases near [Day/Dusk/Night/Dawn])": [
+    "Lightning Resist {:d}% (Increases near [Day/Dusk/Night/Dawn])": [
         "286"
     ],
-    "Poison Resist +{:d}% (Increases near [Day/Dusk/Night/Dawn])": [
+    "Poison Resist {:d}% (Increases near [Day/Dusk/Night/Dawn])": [
         "287"
     ],
     "Absorbs Cold Damage (Increases near [Day/Dusk/Night/Dawn])": [
@@ -3777,19 +3777,19 @@ NIP_ALIAS_STAT_PATTERNS = {
     "Heal Stamina Plus {:d}% (Increases near [Day/Dusk/Night/Dawn])": [
         "294"
     ],
-    "+{:d} Maximum Stamina (Increases near [Day/Dusk/Night/Dawn])": [
+    "{:d} Maximum Stamina (Increases near [Day/Dusk/Night/Dawn])": [
         "295"
     ],
-    "+{:d}% Damage to Demons (Increases near [Day/Dusk/Night/Dawn])": [
+    "{:d}% Damage to Demons (Increases near [Day/Dusk/Night/Dawn])": [
         "296"
     ],
-    "+{:d}% Damage to Undead (Increases near [Day/Dusk/Night/Dawn])": [
+    "{:d}% Damage to Undead (Increases near [Day/Dusk/Night/Dawn])": [
         "297"
     ],
-    "+{:d} to Attack Rating against Demons (Increases near [Day/Dusk/Night/Dawn])": [
+    "{:d} to Attack Rating against Demons (Increases near [Day/Dusk/Night/Dawn])": [
         "298"
     ],
-    "+{:d} to Attack Rating against Undead (Increases near [Day/Dusk/Night/Dawn])": [
+    "{:d} to Attack Rating against Undead (Increases near [Day/Dusk/Night/Dawn])": [
         "299"
     ],
     "{:d}% Chance of Crushing Blow (Increases near [Day/Dusk/Night/Dawn])": [
@@ -3798,22 +3798,22 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance of Open Wounds (Increases near [Day/Dusk/Night/Dawn])": [
         "301"
     ],
-    "+{:d} Kick Damage (Increases near [Day/Dusk/Night/Dawn])": [
+    "{:d} Kick Damage (Increases near [Day/Dusk/Night/Dawn])": [
         "302"
     ],
     "{:d}% Deadly Strike (Increases near [Day/Dusk/Night/Dawn])": [
         "303"
     ],
-    "-{:d}% to Enemy Fire Resistance": [
+    "{:d}% to Enemy Fire Resistance": [
         "333"
     ],
-    "-{:d}% to Enemy Lightning Resistance": [
+    "{:d}% to Enemy Lightning Resistance": [
         "334"
     ],
-    "-{:d}% to Enemy Cold Resistance": [
+    "{:d}% to Enemy Cold Resistance": [
         "335"
     ],
-    "-{:d}% to Enemy Poison Resistance": [
+    "{:d}% to Enemy Poison Resistance": [
         "336"
     ],
     "Level {:d} Magic Arrow ({:d}/{:d} Charges)": [
@@ -4446,23 +4446,23 @@ NIP_ALIAS_STAT_PATTERNS = {
     "Level {:d} Phoenix Strike ({:d}/{:d} Charges)": [
         "204,280"
     ],
-    "+{:d}% to Fire Skill Damage": [
+    "{:d}% to Fire Skill Damage": [
         "329"
     ],
-    "+{:d}% to Lightning Skill Damage": [
+    "{:d}% to Lightning Skill Damage": [
         "330"
     ],
-    "+{:d}% to Cold Skill Damage": [
+    "{:d}% to Cold Skill Damage": [
         "331"
     ],
-    "+{:d}% to Poison Skill Damage": [
+    "{:d}% to Poison Skill Damage": [
         "332"
     ],
-    "Adds {:d}-{:d} Fire/Lightning/Cold Damage": [
+    "Adds {:d}{:d} Fire/Lightning/Cold Damage": [
         "48",
         "49"
     ],
-    "+{:d} to all Attributes": [
+    "{:d} to all Attributes": [
         [
             "420",
             "0",
@@ -4471,10 +4471,10 @@ NIP_ALIAS_STAT_PATTERNS = {
             "1"
         ]
     ],
-    "+{:d}% to Experience Gained": [
+    "{:d}% to Experience Gained": [
         "85"
     ],
-    "+{:d} Life after each Kill": [
+    "{:d} Life after each Kill": [
         "86"
     ],
     "Reduces all Vendor Prices {:d}%": [
@@ -5743,1276 +5743,1276 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Phoenix Strike when you Die": [
         "197,280"
     ],
-    "{:d}% Chance to cast level {:d} Magic Arrow when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Magic Arrow when you LevelUp": [
         "199,6"
     ],
-    "{:d}% Chance to cast level {:d} Fire Arrow when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Fire Arrow when you LevelUp": [
         "199,7"
     ],
-    "{:d}% Chance to cast level {:d} Inner Sight when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Inner Sight when you LevelUp": [
         "199,8"
     ],
-    "{:d}% Chance to cast level {:d} Critical Strike when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Critical Strike when you LevelUp": [
         "199,9"
     ],
-    "{:d}% Chance to cast level {:d} Jab when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Jab when you LevelUp": [
         "199,10"
     ],
-    "{:d}% Chance to cast level {:d} Cold Arrow when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Cold Arrow when you LevelUp": [
         "199,11"
     ],
-    "{:d}% Chance to cast level {:d} Multiple Shot when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Multiple Shot when you LevelUp": [
         "199,12"
     ],
-    "{:d}% Chance to cast level {:d} Dodge when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Dodge when you LevelUp": [
         "199,13"
     ],
-    "{:d}% Chance to cast level {:d} Power Strike when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Power Strike when you LevelUp": [
         "199,14"
     ],
-    "{:d}% Chance to cast level {:d} Poison Javelin when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Poison Javelin when you LevelUp": [
         "199,15"
     ],
-    "{:d}% Chance to cast level {:d} Exploding Arrow when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Exploding Arrow when you LevelUp": [
         "199,16"
     ],
-    "{:d}% Chance to cast level {:d} Slow Missiles when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Slow Missiles when you LevelUp": [
         "199,17"
     ],
-    "{:d}% Chance to cast level {:d} Avoid when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Avoid when you LevelUp": [
         "199,18"
     ],
-    "{:d}% Chance to cast level {:d} Impale when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Impale when you LevelUp": [
         "199,19"
     ],
-    "{:d}% Chance to cast level {:d} Lightning Bolt when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Lightning Bolt when you LevelUp": [
         "199,20"
     ],
-    "{:d}% Chance to cast level {:d} Ice Arrow when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Ice Arrow when you LevelUp": [
         "199,21"
     ],
-    "{:d}% Chance to cast level {:d} Guided Arrow when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Guided Arrow when you LevelUp": [
         "199,22"
     ],
-    "{:d}% Chance to cast level {:d} Penetrate when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Penetrate when you LevelUp": [
         "199,23"
     ],
-    "{:d}% Chance to cast level {:d} Charged Strike when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Charged Strike when you LevelUp": [
         "199,24"
     ],
-    "{:d}% Chance to cast level {:d} Plague Javelin when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Plague Javelin when you LevelUp": [
         "199,25"
     ],
-    "{:d}% Chance to cast level {:d} Strafe when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Strafe when you LevelUp": [
         "199,26"
     ],
-    "{:d}% Chance to cast level {:d} Immolation Arrow when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Immolation Arrow when you LevelUp": [
         "199,27"
     ],
-    "{:d}% Chance to cast level {:d} Decoy when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Decoy when you LevelUp": [
         "199,28"
     ],
-    "{:d}% Chance to cast level {:d} Evade when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Evade when you LevelUp": [
         "199,29"
     ],
-    "{:d}% Chance to cast level {:d} Fend when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Fend when you LevelUp": [
         "199,30"
     ],
-    "{:d}% Chance to cast level {:d} Freezing Arrow when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Freezing Arrow when you LevelUp": [
         "199,31"
     ],
-    "{:d}% Chance to cast level {:d} Valkyrie when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Valkyrie when you LevelUp": [
         "199,32"
     ],
-    "{:d}% Chance to cast level {:d} Pierce when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Pierce when you LevelUp": [
         "199,33"
     ],
-    "{:d}% Chance to cast level {:d} Lightning Strike when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Lightning Strike when you LevelUp": [
         "199,34"
     ],
-    "{:d}% Chance to cast level {:d} Lightning Fury when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Lightning Fury when you LevelUp": [
         "199,35"
     ],
-    "{:d}% Chance to cast level {:d} Fire Bolt when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Fire Bolt when you LevelUp": [
         "199,36"
     ],
-    "{:d}% Chance to cast level {:d} Warmth when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Warmth when you LevelUp": [
         "199,37"
     ],
-    "{:d}% Chance to cast level {:d} Charged Bolt when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Charged Bolt when you LevelUp": [
         "199,38"
     ],
-    "{:d}% Chance to cast level {:d} Ice Bolt when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Ice Bolt when you LevelUp": [
         "199,39"
     ],
-    "{:d}% Chance to cast level {:d} Frozen Armor when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Frozen Armor when you LevelUp": [
         "199,40"
     ],
-    "{:d}% Chance to cast level {:d} Inferno when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Inferno when you LevelUp": [
         "199,41"
     ],
-    "{:d}% Chance to cast level {:d} Static Field when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Static Field when you LevelUp": [
         "199,42"
     ],
-    "{:d}% Chance to cast level {:d} Telekinesis when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Telekinesis when you LevelUp": [
         "199,43"
     ],
-    "{:d}% Chance to cast level {:d} Frost Nova when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Frost Nova when you LevelUp": [
         "199,44"
     ],
-    "{:d}% Chance to cast level {:d} Ice Blast when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Ice Blast when you LevelUp": [
         "199,45"
     ],
-    "{:d}% Chance to cast level {:d} Blaze when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Blaze when you LevelUp": [
         "199,46"
     ],
-    "{:d}% Chance to cast level {:d} Fire Ball when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Fire Ball when you LevelUp": [
         "199,47"
     ],
-    "{:d}% Chance to cast level {:d} Nova when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Nova when you LevelUp": [
         "199,48"
     ],
-    "{:d}% Chance to cast level {:d} Lightning when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Lightning when you LevelUp": [
         "199,49"
     ],
-    "{:d}% Chance to cast level {:d} Shiver Armor when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Shiver Armor when you LevelUp": [
         "199,50"
     ],
-    "{:d}% Chance to cast level {:d} Fire Wall when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Fire Wall when you LevelUp": [
         "199,51"
     ],
-    "{:d}% Chance to cast level {:d} Enchant when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Enchant when you LevelUp": [
         "199,52"
     ],
-    "{:d}% Chance to cast level {:d} Chain Lightning when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Chain Lightning when you LevelUp": [
         "199,53"
     ],
-    "{:d}% Chance to cast level {:d} Teleport when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Teleport when you LevelUp": [
         "199,54"
     ],
-    "{:d}% Chance to cast level {:d} Glacial Spike when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Glacial Spike when you LevelUp": [
         "199,55"
     ],
-    "{:d}% Chance to cast level {:d} Meteor when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Meteor when you LevelUp": [
         "199,56"
     ],
-    "{:d}% Chance to cast level {:d} Thunder Storm when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Thunder Storm when you LevelUp": [
         "199,57"
     ],
-    "{:d}% Chance to cast level {:d} Energy Shield when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Energy Shield when you LevelUp": [
         "199,58"
     ],
-    "{:d}% Chance to cast level {:d} Blizzard when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Blizzard when you LevelUp": [
         "199,59"
     ],
-    "{:d}% Chance to cast level {:d} Chilling Armor when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Chilling Armor when you LevelUp": [
         "199,60"
     ],
-    "{:d}% Chance to cast level {:d} Fire Mastery when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Fire Mastery when you LevelUp": [
         "199,61"
     ],
-    "{:d}% Chance to cast level {:d} Hydra when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Hydra when you LevelUp": [
         "199,62"
     ],
-    "{:d}% Chance to cast level {:d} Lightning Mastery when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Lightning Mastery when you LevelUp": [
         "199,63"
     ],
-    "{:d}% Chance to cast level {:d} Frozen Orb when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Frozen Orb when you LevelUp": [
         "199,64"
     ],
-    "{:d}% Chance to cast level {:d} Cold Mastery when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Cold Mastery when you LevelUp": [
         "199,65"
     ],
-    "{:d}% Chance to cast level {:d} Amplify Damage when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Amplify Damage when you LevelUp": [
         "199,66"
     ],
-    "{:d}% Chance to cast level {:d} Teeth when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Teeth when you LevelUp": [
         "199,67"
     ],
-    "{:d}% Chance to cast level {:d} Bone Armor when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Bone Armor when you LevelUp": [
         "199,68"
     ],
-    "{:d}% Chance to cast level {:d} Skeleton Mastery when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Skeleton Mastery when you LevelUp": [
         "199,69"
     ],
-    "{:d}% Chance to cast level {:d} Raise Skeleton when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Raise Skeleton when you LevelUp": [
         "199,70"
     ],
-    "{:d}% Chance to cast level {:d} Dim Vision when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Dim Vision when you LevelUp": [
         "199,71"
     ],
-    "{:d}% Chance to cast level {:d} Weaken when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Weaken when you LevelUp": [
         "199,72"
     ],
-    "{:d}% Chance to cast level {:d} Poison Dagger when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Poison Dagger when you LevelUp": [
         "199,73"
     ],
-    "{:d}% Chance to cast level {:d} Corpse Explosion when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Corpse Explosion when you LevelUp": [
         "199,74"
     ],
-    "{:d}% Chance to cast level {:d} Clay Golem when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Clay Golem when you LevelUp": [
         "199,75"
     ],
-    "{:d}% Chance to cast level {:d} Iron Maiden when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Iron Maiden when you LevelUp": [
         "199,76"
     ],
-    "{:d}% Chance to cast level {:d} Terror when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Terror when you LevelUp": [
         "199,77"
     ],
-    "{:d}% Chance to cast level {:d} Bone Wall when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Bone Wall when you LevelUp": [
         "199,78"
     ],
-    "{:d}% Chance to cast level {:d} Golem Mastery when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Golem Mastery when you LevelUp": [
         "199,79"
     ],
-    "{:d}% Chance to cast level {:d} Raise Skeletal Mage when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Raise Skeletal Mage when you LevelUp": [
         "199,80"
     ],
-    "{:d}% Chance to cast level {:d} Confuse when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Confuse when you LevelUp": [
         "199,81"
     ],
-    "{:d}% Chance to cast level {:d} Life Tap when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Life Tap when you LevelUp": [
         "199,82"
     ],
-    "{:d}% Chance to cast level {:d} Poison Explosion when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Poison Explosion when you LevelUp": [
         "199,83"
     ],
-    "{:d}% Chance to cast level {:d} Bone Spear when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Bone Spear when you LevelUp": [
         "199,84"
     ],
-    "{:d}% Chance to cast level {:d} Blood Golem when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Blood Golem when you LevelUp": [
         "199,85"
     ],
-    "{:d}% Chance to cast level {:d} Attract when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Attract when you LevelUp": [
         "199,86"
     ],
-    "{:d}% Chance to cast level {:d} Decrepify when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Decrepify when you LevelUp": [
         "199,87"
     ],
-    "{:d}% Chance to cast level {:d} Bone Prison when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Bone Prison when you LevelUp": [
         "199,88"
     ],
-    "{:d}% Chance to cast level {:d} Summon Resist when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Summon Resist when you LevelUp": [
         "199,89"
     ],
-    "{:d}% Chance to cast level {:d} Iron Golem when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Iron Golem when you LevelUp": [
         "199,90"
     ],
-    "{:d}% Chance to cast level {:d} Lower Resist when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Lower Resist when you LevelUp": [
         "199,91"
     ],
-    "{:d}% Chance to cast level {:d} Poison Nova when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Poison Nova when you LevelUp": [
         "199,92"
     ],
-    "{:d}% Chance to cast level {:d} Bone Spirit when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Bone Spirit when you LevelUp": [
         "199,93"
     ],
-    "{:d}% Chance to cast level {:d} Fire Golem when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Fire Golem when you LevelUp": [
         "199,94"
     ],
-    "{:d}% Chance to cast level {:d} Revive when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Revive when you LevelUp": [
         "199,95"
     ],
-    "{:d}% Chance to cast level {:d} Sacrifice when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Sacrifice when you LevelUp": [
         "199,96"
     ],
-    "{:d}% Chance to cast level {:d} Smite when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Smite when you LevelUp": [
         "199,97"
     ],
-    "{:d}% Chance to cast level {:d} Might when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Might when you LevelUp": [
         "199,98"
     ],
-    "{:d}% Chance to cast level {:d} Prayer when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Prayer when you LevelUp": [
         "199,99"
     ],
-    "{:d}% Chance to cast level {:d} Resist Fire when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Resist Fire when you LevelUp": [
         "199,100"
     ],
-    "{:d}% Chance to cast level {:d} Holy Bolt when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Holy Bolt when you LevelUp": [
         "199,101"
     ],
-    "{:d}% Chance to cast level {:d} Holy Fire when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Holy Fire when you LevelUp": [
         "199,102"
     ],
-    "{:d}% Chance to cast level {:d} Thorns when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Thorns when you LevelUp": [
         "199,103"
     ],
-    "{:d}% Chance to cast level {:d} Defiance when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Defiance when you LevelUp": [
         "199,104"
     ],
-    "{:d}% Chance to cast level {:d} Resist Cold when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Resist Cold when you LevelUp": [
         "199,105"
     ],
-    "{:d}% Chance to cast level {:d} Zeal when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Zeal when you LevelUp": [
         "199,106"
     ],
-    "{:d}% Chance to cast level {:d} Charge when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Charge when you LevelUp": [
         "199,107"
     ],
-    "{:d}% Chance to cast level {:d} Blessed Aim when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Blessed Aim when you LevelUp": [
         "199,108"
     ],
-    "{:d}% Chance to cast level {:d} Cleansing when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Cleansing when you LevelUp": [
         "199,109"
     ],
-    "{:d}% Chance to cast level {:d} Resist Lightning when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Resist Lightning when you LevelUp": [
         "199,110"
     ],
-    "{:d}% Chance to cast level {:d} Vengeance when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Vengeance when you LevelUp": [
         "199,111"
     ],
-    "{:d}% Chance to cast level {:d} Blessed Hammer when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Blessed Hammer when you LevelUp": [
         "199,112"
     ],
-    "{:d}% Chance to cast level {:d} Concentration when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Concentration when you LevelUp": [
         "199,113"
     ],
-    "{:d}% Chance to cast level {:d} Holy Freeze when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Holy Freeze when you LevelUp": [
         "199,114"
     ],
-    "{:d}% Chance to cast level {:d} Vigor when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Vigor when you LevelUp": [
         "199,115"
     ],
-    "{:d}% Chance to cast level {:d} Conversion when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Conversion when you LevelUp": [
         "199,116"
     ],
-    "{:d}% Chance to cast level {:d} Holy Shield when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Holy Shield when you LevelUp": [
         "199,117"
     ],
-    "{:d}% Chance to cast level {:d} Holy Shock when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Holy Shock when you LevelUp": [
         "199,118"
     ],
-    "{:d}% Chance to cast level {:d} Sanctuary when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Sanctuary when you LevelUp": [
         "199,119"
     ],
-    "{:d}% Chance to cast level {:d} Meditation when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Meditation when you LevelUp": [
         "199,120"
     ],
-    "{:d}% Chance to cast level {:d} Fist of the Heavens when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Fist of the Heavens when you LevelUp": [
         "199,121"
     ],
-    "{:d}% Chance to cast level {:d} Fanaticism when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Fanaticism when you LevelUp": [
         "199,122"
     ],
-    "{:d}% Chance to cast level {:d} Conviction when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Conviction when you LevelUp": [
         "199,123"
     ],
-    "{:d}% Chance to cast level {:d} Redemption when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Redemption when you LevelUp": [
         "199,124"
     ],
-    "{:d}% Chance to cast level {:d} Salvation when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Salvation when you LevelUp": [
         "199,125"
     ],
-    "{:d}% Chance to cast level {:d} Bash when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Bash when you LevelUp": [
         "199,126"
     ],
-    "{:d}% Chance to cast level {:d} Blade Mastery when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Blade Mastery when you LevelUp": [
         "199,127"
     ],
-    "{:d}% Chance to cast level {:d} Axe Mastery when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Axe Mastery when you LevelUp": [
         "199,128"
     ],
-    "{:d}% Chance to cast level {:d} Mace Mastery when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Mace Mastery when you LevelUp": [
         "199,129"
     ],
-    "{:d}% Chance to cast level {:d} Howl when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Howl when you LevelUp": [
         "199,130"
     ],
-    "{:d}% Chance to cast level {:d} Find Potion when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Find Potion when you LevelUp": [
         "199,131"
     ],
-    "{:d}% Chance to cast level {:d} Leap when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Leap when you LevelUp": [
         "199,132"
     ],
-    "{:d}% Chance to cast level {:d} Double Swing when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Double Swing when you LevelUp": [
         "199,133"
     ],
-    "{:d}% Chance to cast level {:d} Polearm Mastery when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Polearm Mastery when you LevelUp": [
         "199,134"
     ],
-    "{:d}% Chance to cast level {:d} Throwing Mastery when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Throwing Mastery when you LevelUp": [
         "199,135"
     ],
-    "{:d}% Chance to cast level {:d} Spear Mastery when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Spear Mastery when you LevelUp": [
         "199,136"
     ],
-    "{:d}% Chance to cast level {:d} Taunt when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Taunt when you LevelUp": [
         "199,137"
     ],
-    "{:d}% Chance to cast level {:d} Shout when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Shout when you LevelUp": [
         "199,138"
     ],
-    "{:d}% Chance to cast level {:d} Stun when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Stun when you LevelUp": [
         "199,139"
     ],
-    "{:d}% Chance to cast level {:d} Double Throw when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Double Throw when you LevelUp": [
         "199,140"
     ],
-    "{:d}% Chance to cast level {:d} Increased Stamina when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Increased Stamina when you LevelUp": [
         "199,141"
     ],
-    "{:d}% Chance to cast level {:d} Find Item when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Find Item when you LevelUp": [
         "199,142"
     ],
-    "{:d}% Chance to cast level {:d} Leap Attack when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Leap Attack when you LevelUp": [
         "199,143"
     ],
-    "{:d}% Chance to cast level {:d} Concentrate when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Concentrate when you LevelUp": [
         "199,144"
     ],
-    "{:d}% Chance to cast level {:d} Iron Skin when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Iron Skin when you LevelUp": [
         "199,145"
     ],
-    "{:d}% Chance to cast level {:d} Battle Cry when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Battle Cry when you LevelUp": [
         "199,146"
     ],
-    "{:d}% Chance to cast level {:d} Frenzy when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Frenzy when you LevelUp": [
         "199,147"
     ],
-    "{:d}% Chance to cast level {:d} Increased Speed when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Increased Speed when you LevelUp": [
         "199,148"
     ],
-    "{:d}% Chance to cast level {:d} Battle Orders when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Battle Orders when you LevelUp": [
         "199,149"
     ],
-    "{:d}% Chance to cast level {:d} Grim Ward when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Grim Ward when you LevelUp": [
         "199,150"
     ],
-    "{:d}% Chance to cast level {:d} Whirlwind when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Whirlwind when you LevelUp": [
         "199,151"
     ],
-    "{:d}% Chance to cast level {:d} Berserk when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Berserk when you LevelUp": [
         "199,152"
     ],
-    "{:d}% Chance to cast level {:d} Natural Resistance when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Natural Resistance when you LevelUp": [
         "199,153"
     ],
-    "{:d}% Chance to cast level {:d} War Cry when you Level-Up": [
+    "{:d}% Chance to cast level {:d} War Cry when you LevelUp": [
         "199,154"
     ],
-    "{:d}% Chance to cast level {:d} Battle Command when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Battle Command when you LevelUp": [
         "199,155"
     ],
-    "{:d}% Chance to cast level {:d} Raven when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Raven when you LevelUp": [
         "199,221"
     ],
-    "{:d}% Chance to cast level {:d} Poison Creeper when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Poison Creeper when you LevelUp": [
         "199,222"
     ],
-    "{:d}% Chance to cast level {:d} Werewolf when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Werewolf when you LevelUp": [
         "199,223"
     ],
-    "{:d}% Chance to cast level {:d} Lycanthropy when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Lycanthropy when you LevelUp": [
         "199,224"
     ],
-    "{:d}% Chance to cast level {:d} Firestorm when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Firestorm when you LevelUp": [
         "199,225"
     ],
-    "{:d}% Chance to cast level {:d} Oak Sage when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Oak Sage when you LevelUp": [
         "199,226"
     ],
-    "{:d}% Chance to cast level {:d} Summon Spirit Wolf when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Summon Spirit Wolf when you LevelUp": [
         "199,227"
     ],
-    "{:d}% Chance to cast level {:d} Werebear when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Werebear when you LevelUp": [
         "199,228"
     ],
-    "{:d}% Chance to cast level {:d} Molten Boulder when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Molten Boulder when you LevelUp": [
         "199,229"
     ],
-    "{:d}% Chance to cast level {:d} Arctic Blast when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Arctic Blast when you LevelUp": [
         "199,230"
     ],
-    "{:d}% Chance to cast level {:d} Carrion Vine when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Carrion Vine when you LevelUp": [
         "199,231"
     ],
-    "{:d}% Chance to cast level {:d} Feral Rage when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Feral Rage when you LevelUp": [
         "199,232"
     ],
-    "{:d}% Chance to cast level {:d} Maul when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Maul when you LevelUp": [
         "199,233"
     ],
-    "{:d}% Chance to cast level {:d} Fissure when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Fissure when you LevelUp": [
         "199,234"
     ],
-    "{:d}% Chance to cast level {:d} Cyclone Armor when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Cyclone Armor when you LevelUp": [
         "199,235"
     ],
-    "{:d}% Chance to cast level {:d} Heart of Wolverine when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Heart of Wolverine when you LevelUp": [
         "199,236"
     ],
-    "{:d}% Chance to cast level {:d} Summon Dire Wolf when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Summon Dire Wolf when you LevelUp": [
         "199,237"
     ],
-    "{:d}% Chance to cast level {:d} Rabies when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Rabies when you LevelUp": [
         "199,238"
     ],
-    "{:d}% Chance to cast level {:d} Fire Claws when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Fire Claws when you LevelUp": [
         "199,239"
     ],
-    "{:d}% Chance to cast level {:d} Twister when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Twister when you LevelUp": [
         "199,240"
     ],
-    "{:d}% Chance to cast level {:d} Solar Creeper when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Solar Creeper when you LevelUp": [
         "199,241"
     ],
-    "{:d}% Chance to cast level {:d} Hunger when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Hunger when you LevelUp": [
         "199,242"
     ],
-    "{:d}% Chance to cast level {:d} Shock Wave when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Shock Wave when you LevelUp": [
         "199,243"
     ],
-    "{:d}% Chance to cast level {:d} Volcano when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Volcano when you LevelUp": [
         "199,244"
     ],
-    "{:d}% Chance to cast level {:d} Tornado when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Tornado when you LevelUp": [
         "199,245"
     ],
-    "{:d}% Chance to cast level {:d} Spirit of Barbs when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Spirit of Barbs when you LevelUp": [
         "199,246"
     ],
-    "{:d}% Chance to cast level {:d} Summon Grizzly when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Summon Grizzly when you LevelUp": [
         "199,247"
     ],
-    "{:d}% Chance to cast level {:d} Fury when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Fury when you LevelUp": [
         "199,248"
     ],
-    "{:d}% Chance to cast level {:d} Armageddon when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Armageddon when you LevelUp": [
         "199,249"
     ],
-    "{:d}% Chance to cast level {:d} Hurricane when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Hurricane when you LevelUp": [
         "199,250"
     ],
-    "{:d}% Chance to cast level {:d} Fire Blast when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Fire Blast when you LevelUp": [
         "199,251"
     ],
-    "{:d}% Chance to cast level {:d} Claw Mastery when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Claw Mastery when you LevelUp": [
         "199,252"
     ],
-    "{:d}% Chance to cast level {:d} Psychic Hammer when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Psychic Hammer when you LevelUp": [
         "199,253"
     ],
-    "{:d}% Chance to cast level {:d} Tiger Strike when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Tiger Strike when you LevelUp": [
         "199,254"
     ],
-    "{:d}% Chance to cast level {:d} Dragon Talon when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Dragon Talon when you LevelUp": [
         "199,255"
     ],
-    "{:d}% Chance to cast level {:d} Shock Web when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Shock Web when you LevelUp": [
         "199,256"
     ],
-    "{:d}% Chance to cast level {:d} Blade Sentinel when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Blade Sentinel when you LevelUp": [
         "199,257"
     ],
-    "{:d}% Chance to cast level {:d} Burst of Speed when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Burst of Speed when you LevelUp": [
         "199,258"
     ],
-    "{:d}% Chance to cast level {:d} Fists of Fire when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Fists of Fire when you LevelUp": [
         "199,259"
     ],
-    "{:d}% Chance to cast level {:d} Dragon Claw when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Dragon Claw when you LevelUp": [
         "199,260"
     ],
-    "{:d}% Chance to cast level {:d} Charged Bolt Sentry when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Charged Bolt Sentry when you LevelUp": [
         "199,261"
     ],
-    "{:d}% Chance to cast level {:d} Wake of Fire when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Wake of Fire when you LevelUp": [
         "199,262"
     ],
-    "{:d}% Chance to cast level {:d} Weapon Block when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Weapon Block when you LevelUp": [
         "199,263"
     ],
-    "{:d}% Chance to cast level {:d} Cloak of Shadows when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Cloak of Shadows when you LevelUp": [
         "199,264"
     ],
-    "{:d}% Chance to cast level {:d} Cobra Strike when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Cobra Strike when you LevelUp": [
         "199,265"
     ],
-    "{:d}% Chance to cast level {:d} Blade Fury when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Blade Fury when you LevelUp": [
         "199,266"
     ],
-    "{:d}% Chance to cast level {:d} Fade when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Fade when you LevelUp": [
         "199,267"
     ],
-    "{:d}% Chance to cast level {:d} Shadow Warrior when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Shadow Warrior when you LevelUp": [
         "199,268"
     ],
-    "{:d}% Chance to cast level {:d} Claws of Thunder when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Claws of Thunder when you LevelUp": [
         "199,269"
     ],
-    "{:d}% Chance to cast level {:d} Dragon Tail when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Dragon Tail when you LevelUp": [
         "199,270"
     ],
-    "{:d}% Chance to cast level {:d} Lightning Sentry when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Lightning Sentry when you LevelUp": [
         "199,271"
     ],
-    "{:d}% Chance to cast level {:d} Wake of Inferno when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Wake of Inferno when you LevelUp": [
         "199,272"
     ],
-    "{:d}% Chance to cast level {:d} Mind Blast when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Mind Blast when you LevelUp": [
         "199,273"
     ],
-    "{:d}% Chance to cast level {:d} Blades of Ice when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Blades of Ice when you LevelUp": [
         "199,274"
     ],
-    "{:d}% Chance to cast level {:d} Dragon Flight when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Dragon Flight when you LevelUp": [
         "199,275"
     ],
-    "{:d}% Chance to cast level {:d} Death Sentry when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Death Sentry when you LevelUp": [
         "199,276"
     ],
-    "{:d}% Chance to cast level {:d} Blade Shield when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Blade Shield when you LevelUp": [
         "199,277"
     ],
-    "{:d}% Chance to cast level {:d} Venom when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Venom when you LevelUp": [
         "199,278"
     ],
-    "{:d}% Chance to cast level {:d} Shadow Master when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Shadow Master when you LevelUp": [
         "199,279"
     ],
-    "{:d}% Chance to cast level {:d} Phoenix Strike when you Level-Up": [
+    "{:d}% Chance to cast level {:d} Phoenix Strike when you LevelUp": [
         "199,280"
     ],
     "Required Level: {:d}": [
         "92"
     ],
-    "+{:d} to Magic Arrow": [
+    "{:d} to Magic Arrow": [
         "97,6"
     ],
-    "+{:d} to Fire Arrow": [
+    "{:d} to Fire Arrow": [
         "97,7"
     ],
-    "+{:d} to Inner Sight": [
+    "{:d} to Inner Sight": [
         "97,8"
     ],
-    "+{:d} to Critical Strike": [
+    "{:d} to Critical Strike": [
         "97,9"
     ],
-    "+{:d} to Jab": [
+    "{:d} to Jab": [
         "97,10"
     ],
-    "+{:d} to Cold Arrow": [
+    "{:d} to Cold Arrow": [
         "97,11"
     ],
-    "+{:d} to Multiple Shot": [
+    "{:d} to Multiple Shot": [
         "97,12"
     ],
-    "+{:d} to Dodge": [
+    "{:d} to Dodge": [
         "97,13"
     ],
-    "+{:d} to Power Strike": [
+    "{:d} to Power Strike": [
         "97,14"
     ],
-    "+{:d} to Poison Javelin": [
+    "{:d} to Poison Javelin": [
         "97,15"
     ],
-    "+{:d} to Exploding Arrow": [
+    "{:d} to Exploding Arrow": [
         "97,16"
     ],
-    "+{:d} to Slow Missiles": [
+    "{:d} to Slow Missiles": [
         "97,17"
     ],
-    "+{:d} to Avoid": [
+    "{:d} to Avoid": [
         "97,18"
     ],
-    "+{:d} to Impale": [
+    "{:d} to Impale": [
         "97,19"
     ],
-    "+{:d} to Lightning Bolt": [
+    "{:d} to Lightning Bolt": [
         "97,20"
     ],
-    "+{:d} to Ice Arrow": [
+    "{:d} to Ice Arrow": [
         "97,21"
     ],
-    "+{:d} to Guided Arrow": [
+    "{:d} to Guided Arrow": [
         "97,22"
     ],
-    "+{:d} to Penetrate": [
+    "{:d} to Penetrate": [
         "97,23"
     ],
-    "+{:d} to Charged Strike": [
+    "{:d} to Charged Strike": [
         "97,24"
     ],
-    "+{:d} to Plague Javelin": [
+    "{:d} to Plague Javelin": [
         "97,25"
     ],
-    "+{:d} to Strafe": [
+    "{:d} to Strafe": [
         "97,26"
     ],
-    "+{:d} to Immolation Arrow": [
+    "{:d} to Immolation Arrow": [
         "97,27"
     ],
-    "+{:d} to Decoy": [
+    "{:d} to Decoy": [
         "97,28"
     ],
-    "+{:d} to Evade": [
+    "{:d} to Evade": [
         "97,29"
     ],
-    "+{:d} to Fend": [
+    "{:d} to Fend": [
         "97,30"
     ],
-    "+{:d} to Freezing Arrow": [
+    "{:d} to Freezing Arrow": [
         "97,31"
     ],
-    "+{:d} to Valkyrie": [
+    "{:d} to Valkyrie": [
         "97,32"
     ],
-    "+{:d} to Pierce": [
+    "{:d} to Pierce": [
         "97,33"
     ],
-    "+{:d} to Lightning Strike": [
+    "{:d} to Lightning Strike": [
         "97,34"
     ],
-    "+{:d} to Lightning Fury": [
+    "{:d} to Lightning Fury": [
         "97,35"
     ],
-    "+{:d} to Fire Bolt": [
+    "{:d} to Fire Bolt": [
         "97,36"
     ],
-    "+{:d} to Warmth": [
+    "{:d} to Warmth": [
         "97,37"
     ],
-    "+{:d} to Charged Bolt": [
+    "{:d} to Charged Bolt": [
         "97,38"
     ],
-    "+{:d} to Ice Bolt": [
+    "{:d} to Ice Bolt": [
         "97,39"
     ],
-    "+{:d} to Frozen Armor": [
+    "{:d} to Frozen Armor": [
         "97,40"
     ],
-    "+{:d} to Inferno": [
+    "{:d} to Inferno": [
         "97,41"
     ],
-    "+{:d} to Static Field": [
+    "{:d} to Static Field": [
         "97,42"
     ],
-    "+{:d} to Telekinesis": [
+    "{:d} to Telekinesis": [
         "97,43"
     ],
-    "+{:d} to Frost Nova": [
+    "{:d} to Frost Nova": [
         "97,44"
     ],
-    "+{:d} to Ice Blast": [
+    "{:d} to Ice Blast": [
         "97,45"
     ],
-    "+{:d} to Blaze": [
+    "{:d} to Blaze": [
         "97,46"
     ],
-    "+{:d} to Fire Ball": [
+    "{:d} to Fire Ball": [
         "97,47"
     ],
-    "+{:d} to Nova": [
+    "{:d} to Nova": [
         "97,48"
     ],
-    "+{:d} to Lightning": [
+    "{:d} to Lightning": [
         "97,49"
     ],
-    "+{:d} to Shiver Armor": [
+    "{:d} to Shiver Armor": [
         "97,50"
     ],
-    "+{:d} to Fire Wall": [
+    "{:d} to Fire Wall": [
         "97,51"
     ],
-    "+{:d} to Enchant": [
+    "{:d} to Enchant": [
         "97,52"
     ],
-    "+{:d} to Chain Lightning": [
+    "{:d} to Chain Lightning": [
         "97,53"
     ],
-    "+{:d} to Teleport": [
+    "{:d} to Teleport": [
         "97,54"
     ],
-    "+{:d} to Glacial Spike": [
+    "{:d} to Glacial Spike": [
         "97,55"
     ],
-    "+{:d} to Meteor": [
+    "{:d} to Meteor": [
         "97,56"
     ],
-    "+{:d} to Thunder Storm": [
+    "{:d} to Thunder Storm": [
         "97,57"
     ],
-    "+{:d} to Energy Shield": [
+    "{:d} to Energy Shield": [
         "97,58"
     ],
-    "+{:d} to Blizzard": [
+    "{:d} to Blizzard": [
         "97,59"
     ],
-    "+{:d} to Chilling Armor": [
+    "{:d} to Chilling Armor": [
         "97,60"
     ],
-    "+{:d} to Fire Mastery": [
+    "{:d} to Fire Mastery": [
         "97,61"
     ],
-    "+{:d} to Hydra": [
+    "{:d} to Hydra": [
         "97,62"
     ],
-    "+{:d} to Lightning Mastery": [
+    "{:d} to Lightning Mastery": [
         "97,63"
     ],
-    "+{:d} to Frozen Orb": [
+    "{:d} to Frozen Orb": [
         "97,64"
     ],
-    "+{:d} to Cold Mastery": [
+    "{:d} to Cold Mastery": [
         "97,65"
     ],
-    "+{:d} to Amplify Damage": [
+    "{:d} to Amplify Damage": [
         "97,66"
     ],
-    "+{:d} to Teeth": [
+    "{:d} to Teeth": [
         "97,67"
     ],
-    "+{:d} to Bone Armor": [
+    "{:d} to Bone Armor": [
         "97,68"
     ],
-    "+{:d} to Skeleton Mastery": [
+    "{:d} to Skeleton Mastery": [
         "97,69"
     ],
-    "+{:d} to Raise Skeleton": [
+    "{:d} to Raise Skeleton": [
         "97,70"
     ],
-    "+{:d} to Dim Vision": [
+    "{:d} to Dim Vision": [
         "97,71"
     ],
-    "+{:d} to Weaken": [
+    "{:d} to Weaken": [
         "97,72"
     ],
-    "+{:d} to Poison Dagger": [
+    "{:d} to Poison Dagger": [
         "97,73"
     ],
-    "+{:d} to Corpse Explosion": [
+    "{:d} to Corpse Explosion": [
         "97,74"
     ],
-    "+{:d} to Clay Golem": [
+    "{:d} to Clay Golem": [
         "97,75"
     ],
-    "+{:d} to Iron Maiden": [
+    "{:d} to Iron Maiden": [
         "97,76"
     ],
-    "+{:d} to Terror": [
+    "{:d} to Terror": [
         "97,77"
     ],
-    "+{:d} to Bone Wall": [
+    "{:d} to Bone Wall": [
         "97,78"
     ],
-    "+{:d} to Golem Mastery": [
+    "{:d} to Golem Mastery": [
         "97,79"
     ],
-    "+{:d} to Raise Skeletal Mage": [
+    "{:d} to Raise Skeletal Mage": [
         "97,80"
     ],
-    "+{:d} to Confuse": [
+    "{:d} to Confuse": [
         "97,81"
     ],
-    "+{:d} to Life Tap": [
+    "{:d} to Life Tap": [
         "97,82"
     ],
-    "+{:d} to Poison Explosion": [
+    "{:d} to Poison Explosion": [
         "97,83"
     ],
-    "+{:d} to Bone Spear": [
+    "{:d} to Bone Spear": [
         "97,84"
     ],
-    "+{:d} to Blood Golem": [
+    "{:d} to Blood Golem": [
         "97,85"
     ],
-    "+{:d} to Attract": [
+    "{:d} to Attract": [
         "97,86"
     ],
-    "+{:d} to Decrepify": [
+    "{:d} to Decrepify": [
         "97,87"
     ],
-    "+{:d} to Bone Prison": [
+    "{:d} to Bone Prison": [
         "97,88"
     ],
-    "+{:d} to Summon Resist": [
+    "{:d} to Summon Resist": [
         "97,89"
     ],
-    "+{:d} to Iron Golem": [
+    "{:d} to Iron Golem": [
         "97,90"
     ],
-    "+{:d} to Lower Resist": [
+    "{:d} to Lower Resist": [
         "97,91"
     ],
-    "+{:d} to Poison Nova": [
+    "{:d} to Poison Nova": [
         "97,92"
     ],
-    "+{:d} to Bone Spirit": [
+    "{:d} to Bone Spirit": [
         "97,93"
     ],
-    "+{:d} to Fire Golem": [
+    "{:d} to Fire Golem": [
         "97,94"
     ],
-    "+{:d} to Revive": [
+    "{:d} to Revive": [
         "97,95"
     ],
-    "+{:d} to Sacrifice": [
+    "{:d} to Sacrifice": [
         "97,96"
     ],
-    "+{:d} to Smite": [
+    "{:d} to Smite": [
         "97,97"
     ],
-    "+{:d} to Might": [
+    "{:d} to Might": [
         "97,98"
     ],
-    "+{:d} to Prayer": [
+    "{:d} to Prayer": [
         "97,99"
     ],
-    "+{:d} to Resist Fire": [
+    "{:d} to Resist Fire": [
         "97,100"
     ],
-    "+{:d} to Holy Bolt": [
+    "{:d} to Holy Bolt": [
         "97,101"
     ],
-    "+{:d} to Holy Fire": [
+    "{:d} to Holy Fire": [
         "97,102"
     ],
-    "+{:d} to Thorns": [
+    "{:d} to Thorns": [
         "97,103"
     ],
-    "+{:d} to Defiance": [
+    "{:d} to Defiance": [
         "97,104"
     ],
-    "+{:d} to Resist Cold": [
+    "{:d} to Resist Cold": [
         "97,105"
     ],
-    "+{:d} to Zeal": [
+    "{:d} to Zeal": [
         "97,106"
     ],
-    "+{:d} to Charge": [
+    "{:d} to Charge": [
         "97,107"
     ],
-    "+{:d} to Blessed Aim": [
+    "{:d} to Blessed Aim": [
         "97,108"
     ],
-    "+{:d} to Cleansing": [
+    "{:d} to Cleansing": [
         "97,109"
     ],
-    "+{:d} to Resist Lightning": [
+    "{:d} to Resist Lightning": [
         "97,110"
     ],
-    "+{:d} to Vengeance": [
+    "{:d} to Vengeance": [
         "97,111"
     ],
-    "+{:d} to Blessed Hammer": [
+    "{:d} to Blessed Hammer": [
         "97,112"
     ],
-    "+{:d} to Concentration": [
+    "{:d} to Concentration": [
         "97,113"
     ],
-    "+{:d} to Holy Freeze": [
+    "{:d} to Holy Freeze": [
         "97,114"
     ],
-    "+{:d} to Vigor": [
+    "{:d} to Vigor": [
         "97,115"
     ],
-    "+{:d} to Conversion": [
+    "{:d} to Conversion": [
         "97,116"
     ],
-    "+{:d} to Holy Shield": [
+    "{:d} to Holy Shield": [
         "97,117"
     ],
-    "+{:d} to Holy Shock": [
+    "{:d} to Holy Shock": [
         "97,118"
     ],
-    "+{:d} to Sanctuary": [
+    "{:d} to Sanctuary": [
         "97,119"
     ],
-    "+{:d} to Meditation": [
+    "{:d} to Meditation": [
         "97,120"
     ],
-    "+{:d} to Fist of the Heavens": [
+    "{:d} to Fist of the Heavens": [
         "97,121"
     ],
-    "+{:d} to Fanaticism": [
+    "{:d} to Fanaticism": [
         "97,122"
     ],
-    "+{:d} to Conviction": [
+    "{:d} to Conviction": [
         "97,123"
     ],
-    "+{:d} to Redemption": [
+    "{:d} to Redemption": [
         "97,124"
     ],
-    "+{:d} to Salvation": [
+    "{:d} to Salvation": [
         "97,125"
     ],
-    "+{:d} to Bash": [
+    "{:d} to Bash": [
         "97,126"
     ],
-    "+{:d} to Blade Mastery": [
+    "{:d} to Blade Mastery": [
         "97,127"
     ],
-    "+{:d} to Axe Mastery": [
+    "{:d} to Axe Mastery": [
         "97,128"
     ],
-    "+{:d} to Mace Mastery": [
+    "{:d} to Mace Mastery": [
         "97,129"
     ],
-    "+{:d} to Howl": [
+    "{:d} to Howl": [
         "97,130"
     ],
-    "+{:d} to Find Potion": [
+    "{:d} to Find Potion": [
         "97,131"
     ],
-    "+{:d} to Leap": [
+    "{:d} to Leap": [
         "97,132"
     ],
-    "+{:d} to Double Swing": [
+    "{:d} to Double Swing": [
         "97,133"
     ],
-    "+{:d} to Polearm Mastery": [
+    "{:d} to Polearm Mastery": [
         "97,134"
     ],
-    "+{:d} to Throwing Mastery": [
+    "{:d} to Throwing Mastery": [
         "97,135"
     ],
-    "+{:d} to Spear Mastery": [
+    "{:d} to Spear Mastery": [
         "97,136"
     ],
-    "+{:d} to Taunt": [
+    "{:d} to Taunt": [
         "97,137"
     ],
-    "+{:d} to Shout": [
+    "{:d} to Shout": [
         "97,138"
     ],
-    "+{:d} to Stun": [
+    "{:d} to Stun": [
         "97,139"
     ],
-    "+{:d} to Double Throw": [
+    "{:d} to Double Throw": [
         "97,140"
     ],
-    "+{:d} to Increased Stamina": [
+    "{:d} to Increased Stamina": [
         "97,141"
     ],
-    "+{:d} to Find Item": [
+    "{:d} to Find Item": [
         "97,142"
     ],
-    "+{:d} to Leap Attack": [
+    "{:d} to Leap Attack": [
         "97,143"
     ],
-    "+{:d} to Concentrate": [
+    "{:d} to Concentrate": [
         "97,144"
     ],
-    "+{:d} to Iron Skin": [
+    "{:d} to Iron Skin": [
         "97,145"
     ],
-    "+{:d} to Battle Cry": [
+    "{:d} to Battle Cry": [
         "97,146"
     ],
-    "+{:d} to Frenzy": [
+    "{:d} to Frenzy": [
         "97,147"
     ],
-    "+{:d} to Increased Speed": [
+    "{:d} to Increased Speed": [
         "97,148"
     ],
-    "+{:d} to Battle Orders": [
+    "{:d} to Battle Orders": [
         "97,149"
     ],
-    "+{:d} to Grim Ward": [
+    "{:d} to Grim Ward": [
         "97,150"
     ],
-    "+{:d} to Whirlwind": [
+    "{:d} to Whirlwind": [
         "97,151"
     ],
-    "+{:d} to Berserk": [
+    "{:d} to Berserk": [
         "97,152"
     ],
-    "+{:d} to Natural Resistance": [
+    "{:d} to Natural Resistance": [
         "97,153"
     ],
-    "+{:d} to War Cry": [
+    "{:d} to War Cry": [
         "97,154"
     ],
-    "+{:d} to Battle Command": [
+    "{:d} to Battle Command": [
         "97,155"
     ],
-    "+{:d} to Raven": [
+    "{:d} to Raven": [
         "97,221"
     ],
-    "+{:d} to Poison Creeper": [
+    "{:d} to Poison Creeper": [
         "97,222"
     ],
-    "+{:d} to Werewolf": [
+    "{:d} to Werewolf": [
         "97,223"
     ],
-    "+{:d} to Lycanthropy": [
+    "{:d} to Lycanthropy": [
         "97,224"
     ],
-    "+{:d} to Firestorm": [
+    "{:d} to Firestorm": [
         "97,225"
     ],
-    "+{:d} to Oak Sage": [
+    "{:d} to Oak Sage": [
         "97,226"
     ],
-    "+{:d} to Summon Spirit Wolf": [
+    "{:d} to Summon Spirit Wolf": [
         "97,227"
     ],
-    "+{:d} to Werebear": [
+    "{:d} to Werebear": [
         "97,228"
     ],
-    "+{:d} to Molten Boulder": [
+    "{:d} to Molten Boulder": [
         "97,229"
     ],
-    "+{:d} to Arctic Blast": [
+    "{:d} to Arctic Blast": [
         "97,230"
     ],
-    "+{:d} to Carrion Vine": [
+    "{:d} to Carrion Vine": [
         "97,231"
     ],
-    "+{:d} to Feral Rage": [
+    "{:d} to Feral Rage": [
         "97,232"
     ],
-    "+{:d} to Maul": [
+    "{:d} to Maul": [
         "97,233"
     ],
-    "+{:d} to Fissure": [
+    "{:d} to Fissure": [
         "97,234"
     ],
-    "+{:d} to Cyclone Armor": [
+    "{:d} to Cyclone Armor": [
         "97,235"
     ],
-    "+{:d} to Heart of Wolverine": [
+    "{:d} to Heart of Wolverine": [
         "97,236"
     ],
-    "+{:d} to Summon Dire Wolf": [
+    "{:d} to Summon Dire Wolf": [
         "97,237"
     ],
-    "+{:d} to Rabies": [
+    "{:d} to Rabies": [
         "97,238"
     ],
-    "+{:d} to Fire Claws": [
+    "{:d} to Fire Claws": [
         "97,239"
     ],
-    "+{:d} to Twister": [
+    "{:d} to Twister": [
         "97,240"
     ],
-    "+{:d} to Solar Creeper": [
+    "{:d} to Solar Creeper": [
         "97,241"
     ],
-    "+{:d} to Hunger": [
+    "{:d} to Hunger": [
         "97,242"
     ],
-    "+{:d} to Shock Wave": [
+    "{:d} to Shock Wave": [
         "97,243"
     ],
-    "+{:d} to Volcano": [
+    "{:d} to Volcano": [
         "97,244"
     ],
-    "+{:d} to Tornado": [
+    "{:d} to Tornado": [
         "97,245"
     ],
-    "+{:d} to Spirit of Barbs": [
+    "{:d} to Spirit of Barbs": [
         "97,246"
     ],
-    "+{:d} to Summon Grizzly": [
+    "{:d} to Summon Grizzly": [
         "97,247"
     ],
-    "+{:d} to Fury": [
+    "{:d} to Fury": [
         "97,248"
     ],
-    "+{:d} to Armageddon": [
+    "{:d} to Armageddon": [
         "97,249"
     ],
-    "+{:d} to Hurricane": [
+    "{:d} to Hurricane": [
         "97,250"
     ],
-    "+{:d} to Fire Blast": [
+    "{:d} to Fire Blast": [
         "97,251"
     ],
-    "+{:d} to Claw Mastery": [
+    "{:d} to Claw Mastery": [
         "97,252"
     ],
-    "+{:d} to Psychic Hammer": [
+    "{:d} to Psychic Hammer": [
         "97,253"
     ],
-    "+{:d} to Tiger Strike": [
+    "{:d} to Tiger Strike": [
         "97,254"
     ],
-    "+{:d} to Dragon Talon": [
+    "{:d} to Dragon Talon": [
         "97,255"
     ],
-    "+{:d} to Shock Web": [
+    "{:d} to Shock Web": [
         "97,256"
     ],
-    "+{:d} to Blade Sentinel": [
+    "{:d} to Blade Sentinel": [
         "97,257"
     ],
-    "+{:d} to Burst of Speed": [
+    "{:d} to Burst of Speed": [
         "97,258"
     ],
-    "+{:d} to Fists of Fire": [
+    "{:d} to Fists of Fire": [
         "97,259"
     ],
-    "+{:d} to Dragon Claw": [
+    "{:d} to Dragon Claw": [
         "97,260"
     ],
-    "+{:d} to Charged Bolt Sentry": [
+    "{:d} to Charged Bolt Sentry": [
         "97,261"
     ],
-    "+{:d} to Wake of Fire": [
+    "{:d} to Wake of Fire": [
         "97,262"
     ],
-    "+{:d} to Weapon Block": [
+    "{:d} to Weapon Block": [
         "97,263"
     ],
-    "+{:d} to Cloak of Shadows": [
+    "{:d} to Cloak of Shadows": [
         "97,264"
     ],
-    "+{:d} to Cobra Strike": [
+    "{:d} to Cobra Strike": [
         "97,265"
     ],
-    "+{:d} to Blade Fury": [
+    "{:d} to Blade Fury": [
         "97,266"
     ],
-    "+{:d} to Fade": [
+    "{:d} to Fade": [
         "97,267"
     ],
-    "+{:d} to Shadow Warrior": [
+    "{:d} to Shadow Warrior": [
         "97,268"
     ],
-    "+{:d} to Claws of Thunder": [
+    "{:d} to Claws of Thunder": [
         "97,269"
     ],
-    "+{:d} to Dragon Tail": [
+    "{:d} to Dragon Tail": [
         "97,270"
     ],
-    "+{:d} to Lightning Sentry": [
+    "{:d} to Lightning Sentry": [
         "97,271"
     ],
-    "+{:d} to Wake of Inferno": [
+    "{:d} to Wake of Inferno": [
         "97,272"
     ],
-    "+{:d} to Mind Blast": [
+    "{:d} to Mind Blast": [
         "97,273"
     ],
-    "+{:d} to Blades of Ice": [
+    "{:d} to Blades of Ice": [
         "97,274"
     ],
-    "+{:d} to Dragon Flight": [
+    "{:d} to Dragon Flight": [
         "97,275"
     ],
-    "+{:d} to Death Sentry": [
+    "{:d} to Death Sentry": [
         "97,276"
     ],
-    "+{:d} to Blade Shield": [
+    "{:d} to Blade Shield": [
         "97,277"
     ],
-    "+{:d} to Venom": [
+    "{:d} to Venom": [
         "97,278"
     ],
-    "+{:d} to Shadow Master": [
+    "{:d} to Shadow Master": [
         "97,279"
     ],
-    "+{:d} to Phoenix Strike": [
+    "{:d} to Phoenix Strike": [
         "97,280"
     ],
-    "+{:d} to not Consume Quantity": [
+    "{:d} to not Consume Quantity": [
         "205"
     ],
     "ETHEREAL (CANNOT BE REPAIRED), SOCKETED ({:d})": [
         "194"
     ],
-    "+{:d} Poison Damage over {:d} Seconds": [
+    "{:d} Poison Damage over {:d} Seconds": [
         "57",
         "59"
     ],
@@ -7045,7 +7045,7 @@ NIP_ALIAS_STAT_PATTERNS = {
     "Defense: {:d}": [
         "31"
     ],
-    "+{:d}% Enhanced Damage": [
+    "{:d}% Enhanced Damage": [
         "5007"
     ]
 }
