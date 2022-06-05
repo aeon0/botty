@@ -31,7 +31,7 @@ Check out the [development.md](development.md) docu for infos on how to build fr
 
 ## Support this project 💓
 
-You can support this project by giving feedback, reporting bugs, or creating pull requests. 
+You can support this project by giving feedback, reporting bugs, or creating pull requests.
 Contributions are welcome, and we encourage you to contribute to this project if you would like to help out. Botty is a open source project and almost excessively maintained by contributors (there has been 50+ contributors! <3). In our [**discord**](https://discord.gg/Jf3J8cuXWg) there is a contributor role, and you can ping one of the admins and ask for the role to talk to other contributors! Though you don't need to be in the [**discord**](https://discord.gg/Jf3J8cuXWg) to contribute, we do encourage you to do so.
 
 ## Graphic Debugger
@@ -49,7 +49,7 @@ All botty configuration files are located in the __config__ folder. To ease the 
 name=MyCustomName
 
 [routes]
-order=run_pindle, run_eldritch 
+order=run_pindle, run_eldritch
 ```
 
 | [general]                | Descriptions              |
@@ -64,7 +64,7 @@ order=run_pindle, run_eldritch
 | message_api_type         | Which api to use to send botty messages.  Supports "generic_api" (basic discord), or "discord" (discord embeds with images). |
 | discord_status_count     | Number of games between discord status messages being sent. Leave empty for no status reports.
 | info_screenshots         | If `1`, the bot takes a screenshot with timestamp on every stuck / chicken / timeout / inventory full event. This is 1 by Default, so remember to clean up the folder every once in a while. |
-| loot_screenshots         | If `1`, the bot takes a screenshot with timestamp everytime he presses `show_items` button and saves it to `loot_screenshots` folder. Remember to clear them once in a while... |
+| pickit_screenshots         | If `1`, the bot takes a screenshot with timestamp on every ground loot snapshot taken during pickit routine, can be useful for debugging. |
 | saved_games_folder       | [Optional] Defaults to `~\Saved Games\Diablo II Resurrected`. Used to store configuration settings for `f9` / auto settings. |
 | d2r_path                 | [Optional] Path to `d2r.exe`. If not set, it will default to `C:\Program Files (x86)\Diablo II Resurrected\D2R.exe` when attempting to restart. |
 | restart_d2r_when_stuck   | Set to `1` and botty will attempt to restart d2r in the case that botty is unable to recover its state (e.g: game crash). |

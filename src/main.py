@@ -46,6 +46,10 @@ def on_exit():
     os._exit(1)
 
 def main():
+    # Create folder for debug screenshots if they dont exist yet
+    for dir_name in ["log", "log/stats", "log/screenshots", "log/screenshots/info", "log/screenshots/items", "log/screenshots/pickit", "log/screenshots/generated"]:
+        os.makedirs(dir_name, exist_ok=True)
+
     controllers = Controllers(
         GameController(),
         GraphicDebuggerController()
@@ -56,19 +60,6 @@ def main():
         Logger.init(logging.DEBUG)
     else:
         print(f"ERROR: Unkown logg_lvl {Config().advanced_options['logg_lvl']}. Must be one of [info, debug]")
-    # print('os.path.exists("pickit_screenshots")', os.path.exists("pickit_screenshots"), Config().general["pickit_screenshots"])
-    # Create folder for debug screenshots if they dont exist yet
-    if not os.path.exists("stats"):
-        os.system("mkdir stats")
-    if not os.path.exists("info_screenshots") and (Config().general["info_screenshots"] or Config().general["message_api_type"] == "discord"):
-        os.system("mkdir info_screenshots")
-    if not os.path.exists("loot_screenshots") and (Config().general["loot_screenshots"] or Config().general["message_api_type"] == "discord"):
-        os.system("mkdir loot_screenshots")
-    if not os.path.exists("pickit_screenshots") and (Config().general["pickit_screenshots"] or Config().general["message_api_type"] == "discord"):
-        os.system("mkdir pickit_screenshots")
-        os.system("mkdir pickit_screenshots\\ground_items")
-        os.system("mkdir pickit_screenshots\\inventory")
-
 
     print(f"============ Botty {__version__} [name: {Config().general['name']}] ============")
     print("\nFor gettings started and documentation\nplease read https://github.com/aeon0/botty\n")

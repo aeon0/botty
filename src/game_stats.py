@@ -226,7 +226,7 @@ class GameStats:
             for item_name in stats["items"]:
                 msg += f"\n    {item_name}"
 
-        with open(file=f"stats/{self._stats_filename}", mode="w+", encoding="utf-8") as f:
+        with open(file=f"log/stats/{self._stats_filename}", mode="w+", encoding="utf-8") as f:
             f.write(msg)
 
 

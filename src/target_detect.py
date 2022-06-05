@@ -78,7 +78,7 @@ def _process_image(img, mask_char:bool=False, mask_hud:bool=True, info_ss:bool=F
     :param img: The image to which filters should be applied
     :param mask_char: apply a black rectangle to mask your char (e.g. filter out Set-Item glow effect or auras)  [Default: False, Bool]
     :param hud_mask: removes the HUD from the returned image  [Default: True, Bool]
-    :param info_ss: Save an image of the applied filters in folder INFO_SCREENSHOTS  [Default: False, Bool]
+    :param info_ss: Save an image of the applied filters in folder log/screenshots/info  [Default: False, Bool]
     :param erode: erode (thin lines) in the picture [Default: None, Integer, no filter: 0,  0 - 36]
     :param dilate: dilate (thicken lines) in the picture [Default: None, Integer, no filter: 0, 0 - 36]
     :param blur: blur the picture [Default: None, no filter: 0, Integer, 0 - 30]
@@ -95,7 +95,7 @@ def _process_image(img, mask_char:bool=False, mask_hud:bool=True, info_ss:bool=F
     Returns variables filterimage and threshz
     """
     img = img
-    if info_ss: cv2.imwrite(f"./info_screenshots/info_apply_filter_input_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
+    if info_ss: cv2.imwrite(f"./log/screenshots/info/info_apply_filter_input_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
     if mask_hud:
         hud_mask = cv2.imread(f"./assets/hud_mask.png", cv2.IMREAD_GRAYSCALE)
         img = cv2.bitwise_and(img, img, mask=hud_mask)
@@ -115,7 +115,7 @@ def _process_image(img, mask_char:bool=False, mask_hud:bool=True, info_ss:bool=F
     if thresh: _, threshz = cv2.threshold(threshz, thresh, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
     if invert: img = 255 - img
     filterimage = img
-    if info_ss: cv2.imwrite(f"./info_screenshots/info_apply_filter_output_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
+    if info_ss: cv2.imwrite(f"./log/screenshots/info/info_apply_filter_output_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
     return filterimage, threshz
 
 # add rectangles and crosses - adapted from Nathan's Live-View

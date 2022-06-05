@@ -64,7 +64,7 @@ class HealthManager:
         mouse.release(button="right")
         view.save_and_exit()
         if Config().general["info_screenshots"]:
-            self._last_chicken_screenshot = "./info_screenshots/info_debug_chicken_" + time.strftime("%Y%m%d_%H%M%S") + ".png"
+            self._last_chicken_screenshot = "./log/screenshots/info/info_debug_chicken_" + time.strftime("%Y%m%d_%H%M%S") + ".png"
             cv2.imwrite(self._last_chicken_screenshot, img)
         self._did_chicken = True
         set_pause_state(True)

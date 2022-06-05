@@ -65,8 +65,8 @@ def get_ground_loot():
                 if gen_truth:
                     gen_truth_from_ground_loot(ground_loot_list.items, image)
                 filename_base=image_name[:-4]
-                cv2.imwrite(f"info_screenshots/{filename_base}.png", image_data)
-                with open(f"info_screenshots/{filename_base}.json", 'w', encoding='utf-8') as f:
+                cv2.imwrite(f"log/screenshots/info/{filename_base}.png", image_data)
+                with open(f"log/screenshots/info/{filename_base}.json", 'w', encoding='utf-8') as f:
                     json.dump(ground_loot_list, f, ensure_ascii=False, sort_keys=False, cls=EnhancedJSONEncoder, indent=2)
             all_image_data.append(image_data)
             all_images.append(image)
@@ -81,9 +81,9 @@ def get_ground_loot():
     print('Press f12 to quit')
 
 def get_hovered_items():
-    if gen_truth and not os.path.exists("generated"):
-        os.system("mkdir generated")
-        os.system(f"cd generated && mkdir ground-truth")
+    if gen_truth:
+        os.makedirs("log/screenshots/generated", exist_ok=True)
+        os.system(f"cd log/screenshots/generated && mkdir ground-truth")
     print('Loading demo hover images. This may take a few seconds...\n')
     all_image_data = []
     all_images = []
@@ -113,8 +113,8 @@ def get_hovered_items():
                 print(f'Failed: {image_name} {cnt+1}/{len(files)}')
             if item and item.BaseItem:
                 filename_base=image_name[:-4]
-                cv2.imwrite(f"info_screenshots/{filename_base}.png", image_data)
-                with open(f"info_screenshots/{filename_base}.json", 'w', encoding='utf-8') as f:
+                cv2.imwrite(f"log/screenshots/info/{filename_base}.png", image_data)
+                with open(f"log/screenshots/info/{filename_base}.json", 'w', encoding='utf-8') as f:
                     json.dump(item, f, ensure_ascii=False, sort_keys=False, cls=EnhancedJSONEncoder, indent=2)
             all_image_data.append(image_data)
             all_images.append(image)
@@ -146,7 +146,7 @@ def gen_truth_from_ground_loot(items, image):
         item_drop = cut_roi(image, [x, y, w, h])
         item_drop = clean_img(item_drop)
         item_slug = slugify({f"{item.Name} {item.Quality}"})
-        filename = f"loot_screenshots/ocr_{item_slug}"
+        filename = f"log/screenshots/pickit/ocr_{item_slug}"
         with open(f"{filename}.gt.txt", 'w') as f:
             f.write(item.Text.rstrip())
         cv2.imwrite(f"{filename}.png", item_drop)
@@ -155,7 +155,7 @@ def gen_truth_from_hovered_item(tooltip_img):
     contours = crop_text_clusters(tooltip_img, 5)
     for contour in contours:
         contour : ItemText
-        basename = f"generated/ground-truth/{slugify(contour.ocr_result.text)}_{contour.color}"
+        basename = f"log/screenshots/generated/ground-truth/{slugify(contour.ocr_result.text)}_{contour.color}"
         if os.path.exists(f"{basename}.png"):
             print(f"{basename} already exists, skip")
             continue

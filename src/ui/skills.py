@@ -29,7 +29,7 @@ def has_tps() -> bool:
         if not (tps_remain := wait_until_visible(ScreenObjects.TownPortalSkill, timeout=4).valid):
             Logger.warning("You are out of tps")
             if Config().general["info_screenshots"]:
-                cv2.imwrite("./info_screenshots/debug_out_of_tps_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
+                cv2.imwrite("./log/screenshots/info/debug_out_of_tps_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
         return tps_remain
     else:
         return False

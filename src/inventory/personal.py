@@ -97,19 +97,19 @@ def stash_all_items(items: list = None):
                 # If gold read by OCR fails, fallback to old method
                 gold_btn = detect_screen_object(ScreenObjects.GoldBtnInventory)
                 select_screen_object_match(gold_btn)
+                # move cursor away from button to interfere with screen grab
+                mouse.move(-60, 0, absolute=False, randomize=15, delay_factor=[0.1, 0.3])
                 if wait_until_visible(ScreenObjects.DepositBtn, 3).valid:
                     keyboard.send("enter") #if stash already full of gold just nothing happens -> gold stays on char -> no popup window
                 else:
                     Logger.error("stash_all_items(): deposit button not detected, failed to stash gold")
-                # move cursor away from button to interfere with screen grab
-                mouse.move(-120, 0, absolute=False, randomize=15, delay_factor=[0.3, 0.5])
                 # if 0 gold becomes visible in personal inventory then the stash tab still has room for gold
-                stash_full_of_gold = not wait_until_visible(ScreenObjects.GoldNone, 1.5).valid
+                stash_full_of_gold = not wait_until_visible(ScreenObjects.GoldNone, 2).valid
             if stash_full_of_gold:
                 Logger.debug("Stash tab is full of gold, selecting next stash tab.")
                 stash.set_curr_stash(gold = (stash.get_curr_stash()["gold"] + 1))
                 if Config().general["info_screenshots"]:
-                    cv2.imwrite("./info_screenshots/info_gold_stash_full_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
+                    cv2.imwrite("./log/screenshots/info/info_gold_stash_full_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
                 if stash.get_curr_stash()["gold"] > 3:
                     #decide if gold pickup should be disabled or gambling is active
                     vendor.set_gamble_status(True)
@@ -127,7 +127,7 @@ def stash_all_items(items: list = None):
         else:
             Logger.debug(f"Stash tab completely full, advance to next")
             if Config().general["info_screenshots"]:
-                cv2.imwrite("./info_screenshots/stash_tab_completely_full_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
+                cv2.imwrite("./log/screenshots/info/stash_tab_completely_full_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
             if Config().char["fill_shared_stash_first"]:
                 stash.set_curr_stash(items = (stash.get_curr_stash()["items"] - 1))
             else:
@@ -142,7 +142,7 @@ def stash_all_items(items: list = None):
             # could not stash all items, stash tab is likely full
             Logger.debug("Wanted to stash item, but it's still in inventory. Assumes full stash. Move to next.")
             if Config().general["info_screenshots"]:
-                cv2.imwrite("./info_screenshots/debug_info_inventory_not_empty_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
+                cv2.imwrite("./log/screenshots/info/debug_info_inventory_not_empty_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
             if Config().char["fill_shared_stash_first"]:
                 stash.set_curr_stash(items = (stash.get_curr_stash()["items"] - 1))
             else:
@@ -170,26 +170,26 @@ def open(img: np.ndarray = None) -> np.ndarray:
     return img
 
 
-def log_item(item_box: HoveredItem, item_properties: ItemText):
+def log_item(item_box: ItemText, item_properties: HoveredItem):
     if item_box is not None and item_box.ocr_result:
         Logger.debug(f"OCR mean confidence: {item_box.ocr_result.mean_confidence}")
-        Logger.debug(item_properties.as_dict()['Text'])
+        Logger.debug(item_properties.Text)
         if Config().general["info_screenshots"]:
             timestamp = time.strftime("%Y%m%d_%H%M%S")
             found_low_confidence = False
-            for cnt, x in enumerate(item_box.ocr_result['word_confidences']):
+            for cnt, x in enumerate(item_box.ocr_result.word_confidences):
                 if x <= 88:
                     try:
-                        Logger.debug(f"Low confidence word #{cnt}: {item_box.ocr_result['original_text'].split()[cnt]} -> {item_box.ocr_result['text'].split()[cnt]}, Conf: {x}, save screenshot")
+                        Logger.debug(f"Low confidence word #{cnt}: {item_box.ocr_result.original_text.split()[cnt]} -> {item_box.ocr_result.text.split()[cnt]}, Conf: {x}, save screenshot")
                         found_low_confidence = True
                     except: pass
             if found_low_confidence:
-                cv2.imwrite(f"./info_screenshots/ocr_box_{timestamp}_o.png", item_box['img'])
+                cv2.imwrite(f"./log/screenshots/info/ocr_low_confidence_box_{timestamp}.png", item_box.img)
 
 def log_item_fail(hovered_item, slot):
     Logger.error(f"item segmentation failed for slot_pos: {slot[0]}")
     if Config().general["info_screenshots"]:
-        cv2.imwrite("./info_screenshots/failed_item_box_" + time.strftime("%Y%m%d_%H%M%S") + ".png", hovered_item)
+        cv2.imwrite("./log/screenshots/info/failed_item_box_" + time.strftime("%Y%m%d_%H%M%S") + ".png", hovered_item)
 
 def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_stats: GameStats = None) -> list[BoxInfo]:
     """
@@ -460,6 +460,6 @@ def update_tome_key_needs(img: np.ndarray = None, item_type: str = "tp") -> bool
     else:
         Logger.error(f"update_tome_key_needs: Failed to capture item description box for {item_type}")
         if Config().general["info_screenshots"]:
-            cv2.imwrite("./info_screenshots/failed_capture_item_description_box" + time.strftime("%Y%m%d_%H%M%S") + ".png", hovered_item)
+            cv2.imwrite("./log/screenshots/info/failed_capture_item_description_box" + time.strftime("%Y%m%d_%H%M%S") + ".png", hovered_item)
         return False
     return True

@@ -37,7 +37,7 @@ class DeathManager:
         if is_visible(ScreenObjects.YouHaveDied, img):
             Logger.warning("You have died!")
             if Config().general["info_screenshots"]:
-                self._last_death_screenshot = "./info_screenshots/info_debug_death_" + time.strftime("%Y%m%d_%H%M%S") + ".png"
+                self._last_death_screenshot = "./log/screenshots/info/info_debug_death_" + time.strftime("%Y%m%d_%H%M%S") + ".png"
                 cv2.imwrite(self._last_death_screenshot, img)
             # first wait a bit to make sure health manager is done with its chicken stuff which obviously failed
             if self._callback is not None:

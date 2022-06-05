@@ -6,6 +6,9 @@ import time
 import keyboard
 import cv2
 from numpy import ndarray
+from math import dist
+import json
+
 from ui_manager import ScreenObjects, is_visible
 from utils.custom_mouse import mouse
 from config import Config
@@ -14,11 +17,10 @@ from screen import grab, convert_abs_to_monitor, convert_screen_to_monitor
 from char import IChar
 from item import consumables
 from item.consumables import ITEM_CONSUMABLES_MAP
-from math import dist
 from inventory import personal
-
 from d2r_image import processing as d2r_image
 from d2r_image.data_models import HoveredItem
+from d2r_image.demo import EnhancedJSONEncoder
 from nip.NTIPAliasType import NTIPAliasType as NTIP_TYPES
 from nip.transpile import should_pickup
 
@@ -41,9 +43,10 @@ class PickIt:
 
 
     def _log_data(self, items: list, img, counter, _uuid):
-        os.makedirs(f"pickit_screenshots/ground_items/{_uuid}", exist_ok=True)
-        cv2.imwrite(f"pickit_screenshots/ground_items/{_uuid }/{counter}.png", img)
-
+        if Config().general["pickit_screenshots"]:
+            cv2.imwrite(f"log/screenshots/pickit/{_uuid }_{counter}.png", img)
+            with open(f"log/screenshots/pickit/{_uuid }_{counter}.json", 'w', encoding='utf-8') as f:
+                json.dump(items, f, ensure_ascii=False, sort_keys=False, cls=EnhancedJSONEncoder, indent=2)
 
     def _move_cursor_to_hud(self): # * Avoid highlighting the items
         pos_m = convert_abs_to_monitor((0, (Config().ui_pos["screen_height"] / 2)))
