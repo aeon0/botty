@@ -932,6 +932,10 @@ NIP_KEEP_TESTS = {
             True
         ),
         (
+            "[name] == GrandCharm && [quality] == magic && [flag] != ethereal # [passiveandmagicskilltab] >= 1",
+            True
+        ),
+        (
             "[name] == GrandCharm && [quality] == magic && [flag] != ethereal # [itemaddskilltab] >= 1",
             True
         ),
