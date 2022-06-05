@@ -299,7 +299,7 @@ def _handle_pick_eth_sockets(item_data: dict, expression: NIPExpression) -> tupl
     all_tokens = list(Lexer().create_tokens(expression_raw))
     tokens_by_section = [list(group) for k, group in groupby(all_tokens, lambda x: x.type == TokenType.SECTIONAND) if not k]
     eth_keyword_present = "ethereal" in expression_raw.lower()
-    soc_keyword_present = "sockets" in expression_raw.lower()
+    soc_keyword_present =  expression_raw.lower().count("[sockets]") == 1 # currently ignoring if there's socket logic; i.e., [sockets] == 0 || [sockets] == 5
 
     eth = 0 # -1 = set to false, 0 = not set, 1 = set to true
     soc = 0
