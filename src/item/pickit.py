@@ -12,8 +12,8 @@ from config import Config
 from logger import Logger
 from screen import grab, convert_abs_to_monitor, convert_screen_to_monitor
 from char import IChar
-from inventory import consumables
-from inventory.consumables import ITEM_CONSUMABLES_MAP
+from item import consumables
+from item.consumables import ITEM_CONSUMABLES_MAP
 from math import dist
 from inventory import personal
 

@@ -5743,634 +5743,634 @@ NIP_ALIAS_STAT_PATTERNS = {
     "{:d}% Chance to cast level {:d} Phoenix Strike when you Die": [
         "197,280"
     ],
-    "{:d}% Chance to cast level {:d} Magic Arrow when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Magic Arrow when you Level-Up": [
         "199,6"
     ],
-    "{:d}% Chance to cast level {:d} Fire Arrow when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Fire Arrow when you Level-Up": [
         "199,7"
     ],
-    "{:d}% Chance to cast level {:d} Inner Sight when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Inner Sight when you Level-Up": [
         "199,8"
     ],
-    "{:d}% Chance to cast level {:d} Critical Strike when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Critical Strike when you Level-Up": [
         "199,9"
     ],
-    "{:d}% Chance to cast level {:d} Jab when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Jab when you Level-Up": [
         "199,10"
     ],
-    "{:d}% Chance to cast level {:d} Cold Arrow when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Cold Arrow when you Level-Up": [
         "199,11"
     ],
-    "{:d}% Chance to cast level {:d} Multiple Shot when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Multiple Shot when you Level-Up": [
         "199,12"
     ],
-    "{:d}% Chance to cast level {:d} Dodge when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Dodge when you Level-Up": [
         "199,13"
     ],
-    "{:d}% Chance to cast level {:d} Power Strike when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Power Strike when you Level-Up": [
         "199,14"
     ],
-    "{:d}% Chance to cast level {:d} Poison Javelin when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Poison Javelin when you Level-Up": [
         "199,15"
     ],
-    "{:d}% Chance to cast level {:d} Exploding Arrow when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Exploding Arrow when you Level-Up": [
         "199,16"
     ],
-    "{:d}% Chance to cast level {:d} Slow Missiles when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Slow Missiles when you Level-Up": [
         "199,17"
     ],
-    "{:d}% Chance to cast level {:d} Avoid when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Avoid when you Level-Up": [
         "199,18"
     ],
-    "{:d}% Chance to cast level {:d} Impale when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Impale when you Level-Up": [
         "199,19"
     ],
-    "{:d}% Chance to cast level {:d} Lightning Bolt when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Lightning Bolt when you Level-Up": [
         "199,20"
     ],
-    "{:d}% Chance to cast level {:d} Ice Arrow when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Ice Arrow when you Level-Up": [
         "199,21"
     ],
-    "{:d}% Chance to cast level {:d} Guided Arrow when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Guided Arrow when you Level-Up": [
         "199,22"
     ],
-    "{:d}% Chance to cast level {:d} Penetrate when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Penetrate when you Level-Up": [
         "199,23"
     ],
-    "{:d}% Chance to cast level {:d} Charged Strike when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Charged Strike when you Level-Up": [
         "199,24"
     ],
-    "{:d}% Chance to cast level {:d} Plague Javelin when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Plague Javelin when you Level-Up": [
         "199,25"
     ],
-    "{:d}% Chance to cast level {:d} Strafe when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Strafe when you Level-Up": [
         "199,26"
     ],
-    "{:d}% Chance to cast level {:d} Immolation Arrow when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Immolation Arrow when you Level-Up": [
         "199,27"
     ],
-    "{:d}% Chance to cast level {:d} Decoy when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Decoy when you Level-Up": [
         "199,28"
     ],
-    "{:d}% Chance to cast level {:d} Evade when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Evade when you Level-Up": [
         "199,29"
     ],
-    "{:d}% Chance to cast level {:d} Fend when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Fend when you Level-Up": [
         "199,30"
     ],
-    "{:d}% Chance to cast level {:d} Freezing Arrow when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Freezing Arrow when you Level-Up": [
         "199,31"
     ],
-    "{:d}% Chance to cast level {:d} Valkyrie when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Valkyrie when you Level-Up": [
         "199,32"
     ],
-    "{:d}% Chance to cast level {:d} Pierce when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Pierce when you Level-Up": [
         "199,33"
     ],
-    "{:d}% Chance to cast level {:d} Lightning Strike when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Lightning Strike when you Level-Up": [
         "199,34"
     ],
-    "{:d}% Chance to cast level {:d} Lightning Fury when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Lightning Fury when you Level-Up": [
         "199,35"
     ],
-    "{:d}% Chance to cast level {:d} Fire Bolt when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Fire Bolt when you Level-Up": [
         "199,36"
     ],
-    "{:d}% Chance to cast level {:d} Warmth when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Warmth when you Level-Up": [
         "199,37"
     ],
-    "{:d}% Chance to cast level {:d} Charged Bolt when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Charged Bolt when you Level-Up": [
         "199,38"
     ],
-    "{:d}% Chance to cast level {:d} Ice Bolt when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Ice Bolt when you Level-Up": [
         "199,39"
     ],
-    "{:d}% Chance to cast level {:d} Frozen Armor when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Frozen Armor when you Level-Up": [
         "199,40"
     ],
-    "{:d}% Chance to cast level {:d} Inferno when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Inferno when you Level-Up": [
         "199,41"
     ],
-    "{:d}% Chance to cast level {:d} Static Field when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Static Field when you Level-Up": [
         "199,42"
     ],
-    "{:d}% Chance to cast level {:d} Telekinesis when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Telekinesis when you Level-Up": [
         "199,43"
     ],
-    "{:d}% Chance to cast level {:d} Frost Nova when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Frost Nova when you Level-Up": [
         "199,44"
     ],
-    "{:d}% Chance to cast level {:d} Ice Blast when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Ice Blast when you Level-Up": [
         "199,45"
     ],
-    "{:d}% Chance to cast level {:d} Blaze when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Blaze when you Level-Up": [
         "199,46"
     ],
-    "{:d}% Chance to cast level {:d} Fire Ball when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Fire Ball when you Level-Up": [
         "199,47"
     ],
-    "{:d}% Chance to cast level {:d} Nova when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Nova when you Level-Up": [
         "199,48"
     ],
-    "{:d}% Chance to cast level {:d} Lightning when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Lightning when you Level-Up": [
         "199,49"
     ],
-    "{:d}% Chance to cast level {:d} Shiver Armor when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Shiver Armor when you Level-Up": [
         "199,50"
     ],
-    "{:d}% Chance to cast level {:d} Fire Wall when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Fire Wall when you Level-Up": [
         "199,51"
     ],
-    "{:d}% Chance to cast level {:d} Enchant when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Enchant when you Level-Up": [
         "199,52"
     ],
-    "{:d}% Chance to cast level {:d} Chain Lightning when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Chain Lightning when you Level-Up": [
         "199,53"
     ],
-    "{:d}% Chance to cast level {:d} Teleport when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Teleport when you Level-Up": [
         "199,54"
     ],
-    "{:d}% Chance to cast level {:d} Glacial Spike when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Glacial Spike when you Level-Up": [
         "199,55"
     ],
-    "{:d}% Chance to cast level {:d} Meteor when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Meteor when you Level-Up": [
         "199,56"
     ],
-    "{:d}% Chance to cast level {:d} Thunder Storm when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Thunder Storm when you Level-Up": [
         "199,57"
     ],
-    "{:d}% Chance to cast level {:d} Energy Shield when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Energy Shield when you Level-Up": [
         "199,58"
     ],
-    "{:d}% Chance to cast level {:d} Blizzard when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Blizzard when you Level-Up": [
         "199,59"
     ],
-    "{:d}% Chance to cast level {:d} Chilling Armor when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Chilling Armor when you Level-Up": [
         "199,60"
     ],
-    "{:d}% Chance to cast level {:d} Fire Mastery when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Fire Mastery when you Level-Up": [
         "199,61"
     ],
-    "{:d}% Chance to cast level {:d} Hydra when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Hydra when you Level-Up": [
         "199,62"
     ],
-    "{:d}% Chance to cast level {:d} Lightning Mastery when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Lightning Mastery when you Level-Up": [
         "199,63"
     ],
-    "{:d}% Chance to cast level {:d} Frozen Orb when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Frozen Orb when you Level-Up": [
         "199,64"
     ],
-    "{:d}% Chance to cast level {:d} Cold Mastery when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Cold Mastery when you Level-Up": [
         "199,65"
     ],
-    "{:d}% Chance to cast level {:d} Amplify Damage when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Amplify Damage when you Level-Up": [
         "199,66"
     ],
-    "{:d}% Chance to cast level {:d} Teeth when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Teeth when you Level-Up": [
         "199,67"
     ],
-    "{:d}% Chance to cast level {:d} Bone Armor when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Bone Armor when you Level-Up": [
         "199,68"
     ],
-    "{:d}% Chance to cast level {:d} Skeleton Mastery when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Skeleton Mastery when you Level-Up": [
         "199,69"
     ],
-    "{:d}% Chance to cast level {:d} Raise Skeleton when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Raise Skeleton when you Level-Up": [
         "199,70"
     ],
-    "{:d}% Chance to cast level {:d} Dim Vision when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Dim Vision when you Level-Up": [
         "199,71"
     ],
-    "{:d}% Chance to cast level {:d} Weaken when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Weaken when you Level-Up": [
         "199,72"
     ],
-    "{:d}% Chance to cast level {:d} Poison Dagger when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Poison Dagger when you Level-Up": [
         "199,73"
     ],
-    "{:d}% Chance to cast level {:d} Corpse Explosion when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Corpse Explosion when you Level-Up": [
         "199,74"
     ],
-    "{:d}% Chance to cast level {:d} Clay Golem when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Clay Golem when you Level-Up": [
         "199,75"
     ],
-    "{:d}% Chance to cast level {:d} Iron Maiden when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Iron Maiden when you Level-Up": [
         "199,76"
     ],
-    "{:d}% Chance to cast level {:d} Terror when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Terror when you Level-Up": [
         "199,77"
     ],
-    "{:d}% Chance to cast level {:d} Bone Wall when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Bone Wall when you Level-Up": [
         "199,78"
     ],
-    "{:d}% Chance to cast level {:d} Golem Mastery when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Golem Mastery when you Level-Up": [
         "199,79"
     ],
-    "{:d}% Chance to cast level {:d} Raise Skeletal Mage when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Raise Skeletal Mage when you Level-Up": [
         "199,80"
     ],
-    "{:d}% Chance to cast level {:d} Confuse when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Confuse when you Level-Up": [
         "199,81"
     ],
-    "{:d}% Chance to cast level {:d} Life Tap when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Life Tap when you Level-Up": [
         "199,82"
     ],
-    "{:d}% Chance to cast level {:d} Poison Explosion when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Poison Explosion when you Level-Up": [
         "199,83"
     ],
-    "{:d}% Chance to cast level {:d} Bone Spear when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Bone Spear when you Level-Up": [
         "199,84"
     ],
-    "{:d}% Chance to cast level {:d} Blood Golem when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Blood Golem when you Level-Up": [
         "199,85"
     ],
-    "{:d}% Chance to cast level {:d} Attract when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Attract when you Level-Up": [
         "199,86"
     ],
-    "{:d}% Chance to cast level {:d} Decrepify when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Decrepify when you Level-Up": [
         "199,87"
     ],
-    "{:d}% Chance to cast level {:d} Bone Prison when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Bone Prison when you Level-Up": [
         "199,88"
     ],
-    "{:d}% Chance to cast level {:d} Summon Resist when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Summon Resist when you Level-Up": [
         "199,89"
     ],
-    "{:d}% Chance to cast level {:d} Iron Golem when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Iron Golem when you Level-Up": [
         "199,90"
     ],
-    "{:d}% Chance to cast level {:d} Lower Resist when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Lower Resist when you Level-Up": [
         "199,91"
     ],
-    "{:d}% Chance to cast level {:d} Poison Nova when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Poison Nova when you Level-Up": [
         "199,92"
     ],
-    "{:d}% Chance to cast level {:d} Bone Spirit when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Bone Spirit when you Level-Up": [
         "199,93"
     ],
-    "{:d}% Chance to cast level {:d} Fire Golem when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Fire Golem when you Level-Up": [
         "199,94"
     ],
-    "{:d}% Chance to cast level {:d} Revive when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Revive when you Level-Up": [
         "199,95"
     ],
-    "{:d}% Chance to cast level {:d} Sacrifice when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Sacrifice when you Level-Up": [
         "199,96"
     ],
-    "{:d}% Chance to cast level {:d} Smite when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Smite when you Level-Up": [
         "199,97"
     ],
-    "{:d}% Chance to cast level {:d} Might when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Might when you Level-Up": [
         "199,98"
     ],
-    "{:d}% Chance to cast level {:d} Prayer when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Prayer when you Level-Up": [
         "199,99"
     ],
-    "{:d}% Chance to cast level {:d} Resist Fire when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Resist Fire when you Level-Up": [
         "199,100"
     ],
-    "{:d}% Chance to cast level {:d} Holy Bolt when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Holy Bolt when you Level-Up": [
         "199,101"
     ],
-    "{:d}% Chance to cast level {:d} Holy Fire when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Holy Fire when you Level-Up": [
         "199,102"
     ],
-    "{:d}% Chance to cast level {:d} Thorns when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Thorns when you Level-Up": [
         "199,103"
     ],
-    "{:d}% Chance to cast level {:d} Defiance when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Defiance when you Level-Up": [
         "199,104"
     ],
-    "{:d}% Chance to cast level {:d} Resist Cold when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Resist Cold when you Level-Up": [
         "199,105"
     ],
-    "{:d}% Chance to cast level {:d} Zeal when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Zeal when you Level-Up": [
         "199,106"
     ],
-    "{:d}% Chance to cast level {:d} Charge when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Charge when you Level-Up": [
         "199,107"
     ],
-    "{:d}% Chance to cast level {:d} Blessed Aim when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Blessed Aim when you Level-Up": [
         "199,108"
     ],
-    "{:d}% Chance to cast level {:d} Cleansing when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Cleansing when you Level-Up": [
         "199,109"
     ],
-    "{:d}% Chance to cast level {:d} Resist Lightning when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Resist Lightning when you Level-Up": [
         "199,110"
     ],
-    "{:d}% Chance to cast level {:d} Vengeance when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Vengeance when you Level-Up": [
         "199,111"
     ],
-    "{:d}% Chance to cast level {:d} Blessed Hammer when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Blessed Hammer when you Level-Up": [
         "199,112"
     ],
-    "{:d}% Chance to cast level {:d} Concentration when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Concentration when you Level-Up": [
         "199,113"
     ],
-    "{:d}% Chance to cast level {:d} Holy Freeze when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Holy Freeze when you Level-Up": [
         "199,114"
     ],
-    "{:d}% Chance to cast level {:d} Vigor when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Vigor when you Level-Up": [
         "199,115"
     ],
-    "{:d}% Chance to cast level {:d} Conversion when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Conversion when you Level-Up": [
         "199,116"
     ],
-    "{:d}% Chance to cast level {:d} Holy Shield when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Holy Shield when you Level-Up": [
         "199,117"
     ],
-    "{:d}% Chance to cast level {:d} Holy Shock when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Holy Shock when you Level-Up": [
         "199,118"
     ],
-    "{:d}% Chance to cast level {:d} Sanctuary when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Sanctuary when you Level-Up": [
         "199,119"
     ],
-    "{:d}% Chance to cast level {:d} Meditation when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Meditation when you Level-Up": [
         "199,120"
     ],
-    "{:d}% Chance to cast level {:d} Fist of the Heavens when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Fist of the Heavens when you Level-Up": [
         "199,121"
     ],
-    "{:d}% Chance to cast level {:d} Fanaticism when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Fanaticism when you Level-Up": [
         "199,122"
     ],
-    "{:d}% Chance to cast level {:d} Conviction when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Conviction when you Level-Up": [
         "199,123"
     ],
-    "{:d}% Chance to cast level {:d} Redemption when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Redemption when you Level-Up": [
         "199,124"
     ],
-    "{:d}% Chance to cast level {:d} Salvation when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Salvation when you Level-Up": [
         "199,125"
     ],
-    "{:d}% Chance to cast level {:d} Bash when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Bash when you Level-Up": [
         "199,126"
     ],
-    "{:d}% Chance to cast level {:d} Blade Mastery when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Blade Mastery when you Level-Up": [
         "199,127"
     ],
-    "{:d}% Chance to cast level {:d} Axe Mastery when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Axe Mastery when you Level-Up": [
         "199,128"
     ],
-    "{:d}% Chance to cast level {:d} Mace Mastery when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Mace Mastery when you Level-Up": [
         "199,129"
     ],
-    "{:d}% Chance to cast level {:d} Howl when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Howl when you Level-Up": [
         "199,130"
     ],
-    "{:d}% Chance to cast level {:d} Find Potion when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Find Potion when you Level-Up": [
         "199,131"
     ],
-    "{:d}% Chance to cast level {:d} Leap when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Leap when you Level-Up": [
         "199,132"
     ],
-    "{:d}% Chance to cast level {:d} Double Swing when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Double Swing when you Level-Up": [
         "199,133"
     ],
-    "{:d}% Chance to cast level {:d} Polearm Mastery when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Polearm Mastery when you Level-Up": [
         "199,134"
     ],
-    "{:d}% Chance to cast level {:d} Throwing Mastery when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Throwing Mastery when you Level-Up": [
         "199,135"
     ],
-    "{:d}% Chance to cast level {:d} Spear Mastery when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Spear Mastery when you Level-Up": [
         "199,136"
     ],
-    "{:d}% Chance to cast level {:d} Taunt when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Taunt when you Level-Up": [
         "199,137"
     ],
-    "{:d}% Chance to cast level {:d} Shout when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Shout when you Level-Up": [
         "199,138"
     ],
-    "{:d}% Chance to cast level {:d} Stun when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Stun when you Level-Up": [
         "199,139"
     ],
-    "{:d}% Chance to cast level {:d} Double Throw when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Double Throw when you Level-Up": [
         "199,140"
     ],
-    "{:d}% Chance to cast level {:d} Increased Stamina when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Increased Stamina when you Level-Up": [
         "199,141"
     ],
-    "{:d}% Chance to cast level {:d} Find Item when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Find Item when you Level-Up": [
         "199,142"
     ],
-    "{:d}% Chance to cast level {:d} Leap Attack when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Leap Attack when you Level-Up": [
         "199,143"
     ],
-    "{:d}% Chance to cast level {:d} Concentrate when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Concentrate when you Level-Up": [
         "199,144"
     ],
-    "{:d}% Chance to cast level {:d} Iron Skin when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Iron Skin when you Level-Up": [
         "199,145"
     ],
-    "{:d}% Chance to cast level {:d} Battle Cry when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Battle Cry when you Level-Up": [
         "199,146"
     ],
-    "{:d}% Chance to cast level {:d} Frenzy when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Frenzy when you Level-Up": [
         "199,147"
     ],
-    "{:d}% Chance to cast level {:d} Increased Speed when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Increased Speed when you Level-Up": [
         "199,148"
     ],
-    "{:d}% Chance to cast level {:d} Battle Orders when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Battle Orders when you Level-Up": [
         "199,149"
     ],
-    "{:d}% Chance to cast level {:d} Grim Ward when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Grim Ward when you Level-Up": [
         "199,150"
     ],
-    "{:d}% Chance to cast level {:d} Whirlwind when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Whirlwind when you Level-Up": [
         "199,151"
     ],
-    "{:d}% Chance to cast level {:d} Berserk when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Berserk when you Level-Up": [
         "199,152"
     ],
-    "{:d}% Chance to cast level {:d} Natural Resistance when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Natural Resistance when you Level-Up": [
         "199,153"
     ],
-    "{:d}% Chance to cast level {:d} War Cry when you LevelUp": [
+    "{:d}% Chance to cast level {:d} War Cry when you Level-Up": [
         "199,154"
     ],
-    "{:d}% Chance to cast level {:d} Battle Command when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Battle Command when you Level-Up": [
         "199,155"
     ],
-    "{:d}% Chance to cast level {:d} Raven when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Raven when you Level-Up": [
         "199,221"
     ],
-    "{:d}% Chance to cast level {:d} Poison Creeper when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Poison Creeper when you Level-Up": [
         "199,222"
     ],
-    "{:d}% Chance to cast level {:d} Werewolf when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Werewolf when you Level-Up": [
         "199,223"
     ],
-    "{:d}% Chance to cast level {:d} Lycanthropy when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Lycanthropy when you Level-Up": [
         "199,224"
     ],
-    "{:d}% Chance to cast level {:d} Firestorm when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Firestorm when you Level-Up": [
         "199,225"
     ],
-    "{:d}% Chance to cast level {:d} Oak Sage when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Oak Sage when you Level-Up": [
         "199,226"
     ],
-    "{:d}% Chance to cast level {:d} Summon Spirit Wolf when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Summon Spirit Wolf when you Level-Up": [
         "199,227"
     ],
-    "{:d}% Chance to cast level {:d} Werebear when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Werebear when you Level-Up": [
         "199,228"
     ],
-    "{:d}% Chance to cast level {:d} Molten Boulder when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Molten Boulder when you Level-Up": [
         "199,229"
     ],
-    "{:d}% Chance to cast level {:d} Arctic Blast when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Arctic Blast when you Level-Up": [
         "199,230"
     ],
-    "{:d}% Chance to cast level {:d} Carrion Vine when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Carrion Vine when you Level-Up": [
         "199,231"
     ],
-    "{:d}% Chance to cast level {:d} Feral Rage when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Feral Rage when you Level-Up": [
         "199,232"
     ],
-    "{:d}% Chance to cast level {:d} Maul when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Maul when you Level-Up": [
         "199,233"
     ],
-    "{:d}% Chance to cast level {:d} Fissure when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Fissure when you Level-Up": [
         "199,234"
     ],
-    "{:d}% Chance to cast level {:d} Cyclone Armor when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Cyclone Armor when you Level-Up": [
         "199,235"
     ],
-    "{:d}% Chance to cast level {:d} Heart of Wolverine when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Heart of Wolverine when you Level-Up": [
         "199,236"
     ],
-    "{:d}% Chance to cast level {:d} Summon Dire Wolf when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Summon Dire Wolf when you Level-Up": [
         "199,237"
     ],
-    "{:d}% Chance to cast level {:d} Rabies when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Rabies when you Level-Up": [
         "199,238"
     ],
-    "{:d}% Chance to cast level {:d} Fire Claws when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Fire Claws when you Level-Up": [
         "199,239"
     ],
-    "{:d}% Chance to cast level {:d} Twister when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Twister when you Level-Up": [
         "199,240"
     ],
-    "{:d}% Chance to cast level {:d} Solar Creeper when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Solar Creeper when you Level-Up": [
         "199,241"
     ],
-    "{:d}% Chance to cast level {:d} Hunger when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Hunger when you Level-Up": [
         "199,242"
     ],
-    "{:d}% Chance to cast level {:d} Shock Wave when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Shock Wave when you Level-Up": [
         "199,243"
     ],
-    "{:d}% Chance to cast level {:d} Volcano when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Volcano when you Level-Up": [
         "199,244"
     ],
-    "{:d}% Chance to cast level {:d} Tornado when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Tornado when you Level-Up": [
         "199,245"
     ],
-    "{:d}% Chance to cast level {:d} Spirit of Barbs when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Spirit of Barbs when you Level-Up": [
         "199,246"
     ],
-    "{:d}% Chance to cast level {:d} Summon Grizzly when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Summon Grizzly when you Level-Up": [
         "199,247"
     ],
-    "{:d}% Chance to cast level {:d} Fury when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Fury when you Level-Up": [
         "199,248"
     ],
-    "{:d}% Chance to cast level {:d} Armageddon when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Armageddon when you Level-Up": [
         "199,249"
     ],
-    "{:d}% Chance to cast level {:d} Hurricane when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Hurricane when you Level-Up": [
         "199,250"
     ],
-    "{:d}% Chance to cast level {:d} Fire Blast when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Fire Blast when you Level-Up": [
         "199,251"
     ],
-    "{:d}% Chance to cast level {:d} Claw Mastery when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Claw Mastery when you Level-Up": [
         "199,252"
     ],
-    "{:d}% Chance to cast level {:d} Psychic Hammer when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Psychic Hammer when you Level-Up": [
         "199,253"
     ],
-    "{:d}% Chance to cast level {:d} Tiger Strike when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Tiger Strike when you Level-Up": [
         "199,254"
     ],
-    "{:d}% Chance to cast level {:d} Dragon Talon when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Dragon Talon when you Level-Up": [
         "199,255"
     ],
-    "{:d}% Chance to cast level {:d} Shock Web when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Shock Web when you Level-Up": [
         "199,256"
     ],
-    "{:d}% Chance to cast level {:d} Blade Sentinel when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Blade Sentinel when you Level-Up": [
         "199,257"
     ],
-    "{:d}% Chance to cast level {:d} Burst of Speed when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Burst of Speed when you Level-Up": [
         "199,258"
     ],
-    "{:d}% Chance to cast level {:d} Fists of Fire when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Fists of Fire when you Level-Up": [
         "199,259"
     ],
-    "{:d}% Chance to cast level {:d} Dragon Claw when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Dragon Claw when you Level-Up": [
         "199,260"
     ],
-    "{:d}% Chance to cast level {:d} Charged Bolt Sentry when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Charged Bolt Sentry when you Level-Up": [
         "199,261"
     ],
-    "{:d}% Chance to cast level {:d} Wake of Fire when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Wake of Fire when you Level-Up": [
         "199,262"
     ],
-    "{:d}% Chance to cast level {:d} Weapon Block when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Weapon Block when you Level-Up": [
         "199,263"
     ],
-    "{:d}% Chance to cast level {:d} Cloak of Shadows when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Cloak of Shadows when you Level-Up": [
         "199,264"
     ],
-    "{:d}% Chance to cast level {:d} Cobra Strike when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Cobra Strike when you Level-Up": [
         "199,265"
     ],
-    "{:d}% Chance to cast level {:d} Blade Fury when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Blade Fury when you Level-Up": [
         "199,266"
     ],
-    "{:d}% Chance to cast level {:d} Fade when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Fade when you Level-Up": [
         "199,267"
     ],
-    "{:d}% Chance to cast level {:d} Shadow Warrior when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Shadow Warrior when you Level-Up": [
         "199,268"
     ],
-    "{:d}% Chance to cast level {:d} Claws of Thunder when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Claws of Thunder when you Level-Up": [
         "199,269"
     ],
-    "{:d}% Chance to cast level {:d} Dragon Tail when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Dragon Tail when you Level-Up": [
         "199,270"
     ],
-    "{:d}% Chance to cast level {:d} Lightning Sentry when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Lightning Sentry when you Level-Up": [
         "199,271"
     ],
-    "{:d}% Chance to cast level {:d} Wake of Inferno when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Wake of Inferno when you Level-Up": [
         "199,272"
     ],
-    "{:d}% Chance to cast level {:d} Mind Blast when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Mind Blast when you Level-Up": [
         "199,273"
     ],
-    "{:d}% Chance to cast level {:d} Blades of Ice when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Blades of Ice when you Level-Up": [
         "199,274"
     ],
-    "{:d}% Chance to cast level {:d} Dragon Flight when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Dragon Flight when you Level-Up": [
         "199,275"
     ],
-    "{:d}% Chance to cast level {:d} Death Sentry when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Death Sentry when you Level-Up": [
         "199,276"
     ],
-    "{:d}% Chance to cast level {:d} Blade Shield when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Blade Shield when you Level-Up": [
         "199,277"
     ],
-    "{:d}% Chance to cast level {:d} Venom when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Venom when you Level-Up": [
         "199,278"
     ],
-    "{:d}% Chance to cast level {:d} Shadow Master when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Shadow Master when you Level-Up": [
         "199,279"
     ],
-    "{:d}% Chance to cast level {:d} Phoenix Strike when you LevelUp": [
+    "{:d}% Chance to cast level {:d} Phoenix Strike when you Level-Up": [
         "199,280"
     ],
     "Required Level: {:d}": [
@@ -7013,7 +7013,10 @@ NIP_ALIAS_STAT_PATTERNS = {
         "194"
     ],
     "{:d} Poison Damage over {:d} Seconds": [
-        "57",
+        [
+            "57",
+            "58"
+        ],
         "59"
     ],
     "One-Hand Damage: {:d} to {:d}": [
@@ -7033,10 +7036,10 @@ NIP_ALIAS_STAT_PATTERNS = {
         "5001"
     ],
     "Quantity: {:d}": [
-        "5002"
+        "70"
     ],
     "Quantity: {:d} of {:d}": [
-        "5002",
+        "70",
         "5003"
     ],
     "Indestructible": [

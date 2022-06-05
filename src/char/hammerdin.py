@@ -9,7 +9,7 @@ from config import Config
 from utils.misc import wait
 import time
 from pather import Pather, Location
-from pickit import PickIt #for Diablo
+from item.pickit import PickIt #for Diablo
 from target_detect import get_visible_targets
 
 

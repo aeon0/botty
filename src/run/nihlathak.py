@@ -1,7 +1,7 @@
 from char.i_char import IChar
 from logger import Logger
 from pather import Location, Pather
-from pickit import PickIt
+from item.pickit import PickIt
 import template_finder
 from town.town_manager import TownManager
 from utils.misc import wait

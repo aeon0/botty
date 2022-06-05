@@ -8,7 +8,7 @@ from char import IChar
 from config import Config
 from utils.custom_mouse import mouse
 from utils.misc import wait
-from inventory import consumables
+from item import consumables
 
 
 class Chest:

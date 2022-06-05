@@ -18,7 +18,8 @@ from config import Config
 from screen import grab
 import template_finder
 from char import IChar
-from pickit import PickIt
+from item.pickit import PickIt
+from item import consumables
 from pather import Pather, Location
 from char.sorceress import LightSorc, BlizzSorc, NovaSorc,HydraSorc
 from char.trapsin import Trapsin
@@ -31,7 +32,7 @@ from char.basic import Basic
 from char.basic_ranged import Basic_Ranged
 from ui_manager import wait_until_hidden, wait_until_visible, ScreenObjects, is_visible
 from ui import meters, skills, view, character_select, main_menu
-from inventory import personal, vendor, belt, common, consumables
+from inventory import personal, vendor, belt, common
 
 from run import Pindle, ShenkEld, Trav, Nihlathak, Arcane, Diablo
 from town import TownManager, A1, A2, A3, A4, A5, town_manager
@@ -295,12 +296,12 @@ class Bot:
                 self._use_id_tome = common.tome_state(img, 'id')[0] is not None
                 self._use_keys = is_visible(ScreenObjects.Key, img)
             if (self._game_stats._run_counter - 1) % 4 == 0 or self._previous_run_failed:
-                consumables.update_tome_key_needs(img, item_type = 'tp')
+                personal.update_tome_key_needs(img, item_type = 'tp')
                 if self._use_id_tome:
-                    consumables.update_tome_key_needs(img, item_type = 'id')
+                    personal.update_tome_key_needs(img, item_type = 'id')
                 if self._use_keys:
                     # if keys run out then refilling will be unreliable :(
-                    self._use_keys = consumables.update_tome_key_needs(img, item_type = 'key')
+                    self._use_keys = personal.update_tome_key_needs(img, item_type = 'key')
             # Check inventory items
             if personal.inventory_has_items(img):
                 Logger.debug("Inspecting inventory items")

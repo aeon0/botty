@@ -8,7 +8,7 @@ from utils.custom_mouse import mouse
 import template_finder
 from ui_manager import detect_screen_object, ScreenObjects, is_visible, wait_until_hidden
 from utils.misc import wait, trim_black, color_filter, cut_roi
-from inventory import consumables
+from item import consumables
 from ui import view
 from screen import convert_screen_to_monitor, grab
 from logger import Logger

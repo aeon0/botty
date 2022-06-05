@@ -1,16 +1,7 @@
 from config import Config
-import cv2
-import numpy as np
-import time
-import parse
-from utils.custom_mouse import mouse
-import template_finder
-from inventory import personal
-from utils.misc import wait
-from screen import grab
 from dataclasses import dataclass
 from logger import Logger
-from d2r_image import processing as d2r_image
+from d2r_image.data_models import HoveredItem
 
 @dataclass
 class Consumables:
@@ -43,9 +34,9 @@ ITEM_CONSUMABLES_MAP = {
     "rejuvpotion": "rejuv",
     "super healing potion": "health",
     "greater healing potion": "health",
-    "light healing potion": "health",
     "healing potion": "health",
     "healingpotion": "health",
+    "light healing potion": "health",
     "minor healing potion": "health",
     "super mana potion": "mana",
     "greater mana potion": "mana",
@@ -119,47 +110,8 @@ def should_buy(item_name: str = None, min_remaining: int = None, min_needed: int
         Logger.error("should_buy: need to specify min_remaining or min_needed")
     return False
 
-def update_tome_key_needs(img: np.ndarray = None, item_type: str = "tp") -> bool:
-    img = personal.open(img)
-    if item_type.lower() in ["tp", "id"]:
-        match = template_finder.search(
-            [f"{item_type.upper()}_TOME", f"{item_type.upper()}_TOME_RED"],
-            img,
-            roi = Config().ui_roi["restricted_inventory_area"],
-            best_match = True,
-            )
-        if match.valid:
-            if match.name == f"{item_type.upper()}_TOME_RED":
-                set_needs(item_type, 20)
-                return True
-            # else the tome exists and is not empty, continue
-        else:
-            Logger.debug(f"update_tome_key_needs: could not find {item_type}")
-            return False
-    elif item_type.lower() in ["key"]:
-        match = template_finder.search("INV_KEY", img, roi = Config().ui_roi["restricted_inventory_area"])
-        if not match.valid:
-            return False
-    else:
-        Logger.error(f"update_tome_key_needs failed, item_type: {item_type} not supported")
-        return False
-    mouse.move(*match.center_monitor, randomize=4, delay_factor=[0.5, 0.7])
-    wait(0.2, 0.2)
-    hovered_item = grab()
-    # get the item description box
-    _, item_box = d2r_image.get_hovered_item(hovered_item)
-    if item_box is not None:
-        try:
-            result = parse.search("Quantity: {:d}", item_box.ocr_result.text).fixed[0]
-            if item_type.lower() in ["tp", "id"]:
-                set_needs(item_type, 20 - result)
-            if item_type.lower() == "key":
-                set_needs(item_type, 12 - result)
-        except Exception as e:
-            Logger.error(f"update_tome_key_needs: unable to parse quantity for {item_type}. Exception: {e}")
-    else:
-        Logger.error(f"update_tome_key_needs: Failed to capture item description box for {item_type}")
-        if Config().general["info_screenshots"]:
-            cv2.imwrite("./info_screenshots/failed_capture_item_description_box" + time.strftime("%Y%m%d_%H%M%S") + ".png", hovered_item)
-        return False
-    return True
+def is_consumable(item: HoveredItem) -> str | bool:
+    for consumable_type in ITEM_CONSUMABLES_MAP.keys():
+        if item.Name.lower() == consumable_type:
+            return consumable_type
+    return False

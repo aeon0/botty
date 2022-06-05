@@ -1,18 +1,15 @@
-import traceback
-import random
 import itertools
-from d2r_image.data_models import HoveredItem, ItemText
 from game_stats import GameStats
-from logger import Logger
-from screen import grab, convert_screen_to_monitor
 import keyboard
 import cv2
 import time
 import numpy as np
 from dataclasses import dataclass
-import json
+import parse
 
+from logger import Logger
 from config import Config
+import template_finder
 from utils.misc import wait, is_in_roi, mask_by_roi
 from utils.custom_mouse import mouse
 from inventory import stash, common, vendor
@@ -20,7 +17,11 @@ from ui import view
 from ui_manager import detect_screen_object, is_visible, select_screen_object_match, wait_until_visible, ScreenObjects, center_mouse, wait_for_update
 from messages import Messenger
 from d2r_image import processing as d2r_image
+from d2r_image.data_models import HoveredItem, ItemText
 from nip.transpile import should_id, should_keep
+from screen import grab, convert_screen_to_monitor
+from item import consumables
+from nip.NTIPAliasStat import NTIPAliasStat as NTIP_STATS
 
 inv_gold_full = False
 messenger = Messenger()
@@ -300,6 +301,11 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
                         log_item(item_box, item_properties)
                         # decide whether to keep item
                         keep, expression = should_keep(item_properties.as_dict())
+
+                        # make sure it's not a consumable
+                        # TODO: logic for trying to add potion to belt if there are needs
+                        keep &= not bool(consumables.is_consumable(item_properties))
+
                         box.keep = keep
                         if keep:
                             Logger.debug(f"Keep {item_name}. Expression: {expression}")
@@ -414,3 +420,46 @@ def transfer_items(items: list, action: str = "drop", img: np.ndarray = None) ->
                     set_inventory_gold_full(gold_unchanged)
     keyboard.send('ctrl', do_press=False)
     return items
+
+def update_tome_key_needs(img: np.ndarray = None, item_type: str = "tp") -> bool:
+    img = open(img)
+    if item_type.lower() in ["tp", "id"]:
+        match = template_finder.search(
+            [f"{item_type.upper()}_TOME", f"{item_type.upper()}_TOME_RED"],
+            img,
+            roi = Config().ui_roi["restricted_inventory_area"],
+            best_match = True,
+            )
+        if match.valid:
+            if match.name == f"{item_type.upper()}_TOME_RED":
+                consumables.set_needs(item_type, 20)
+                return True
+            # else the tome exists and is not empty, continue
+        else:
+            Logger.debug(f"update_tome_key_needs: could not find {item_type}")
+            return False
+    elif item_type.lower() in ["key"]:
+        match = template_finder.search("INV_KEY", img, roi = Config().ui_roi["restricted_inventory_area"])
+        if not match.valid:
+            return False
+    else:
+        Logger.error(f"update_tome_key_needs failed, item_type: {item_type} not supported")
+        return False
+    mouse.move(*match.center_monitor, randomize=4, delay_factor=[0.5, 0.7])
+    wait(0.2, 0.2)
+    hovered_item = grab()
+    # get the item description box
+    item_properties, item_box = d2r_image.get_hovered_item(hovered_item)
+    if item_box is not None:
+        try:
+            quantity = int(item_properties.NTIPAliasStat[NTIP_STATS["quantity"]])
+            max_quantity = int(item_properties.NTIPAliasStat[NTIP_STATS["quantitymax"]])
+            consumables.set_needs(item_type, max_quantity - quantity)
+        except Exception as e:
+            Logger.error(f"update_tome_key_needs: unable to parse quantity for {item_type}. Exception: {e}")
+    else:
+        Logger.error(f"update_tome_key_needs: Failed to capture item description box for {item_type}")
+        if Config().general["info_screenshots"]:
+            cv2.imwrite("./info_screenshots/failed_capture_item_description_box" + time.strftime("%Y%m%d_%H%M%S") + ".png", hovered_item)
+        return False
+    return True

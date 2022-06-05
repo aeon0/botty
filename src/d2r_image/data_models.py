@@ -208,15 +208,3 @@ class InventoryItem:
 @dataclass
 class D2ItemList:
     items: list[D2Item | None]
-
-
-@dataclass_json
-@dataclass
-class ScreenReport:
-    groundLoot: list[D2Item]
-    hoveredItem: D2Item
-    npcs: dict
-    health: float
-    mana: float
-    stamina: float
-    experience: float

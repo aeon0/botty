@@ -4,7 +4,7 @@ from char.i_char import IChar
 from config import Config
 from logger import Logger
 from pather import Location, Pather
-from pickit import PickIt
+from item.pickit import PickIt
 import template_finder
 from town.town_manager import TownManager, A4
 from utils.misc import wait
