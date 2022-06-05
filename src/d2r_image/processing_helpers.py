@@ -1,4 +1,3 @@
-from typing import Union
 import cv2
 import numpy as np
 import re
@@ -559,7 +558,7 @@ def set_set_and_unique_base_items(items_by_quality):
                         item['setItems'].append(d2data_lookup.find_set_item_by_name(unique_name, True))
 
 
-def build_d2_items(items_by_quality: dict) -> Union[GroundItemList, None]:
+def build_d2_items(items_by_quality: dict) -> GroundItemList | None:
 
     ground_item_list = GroundItemList([])
     d2_items = ground_item_list.items

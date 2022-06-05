@@ -1,7 +1,6 @@
 import cv2
 import time
 
-from typing import Union
 import cv2
 import numpy as np
 from d2r_image.data_models import GroundItemList, HoveredItem, ItemQuality, ItemText
@@ -19,7 +18,7 @@ if not os.path.exists("./item_error_screenshots"):
     os.makedirs("./item_error_screenshots")
 
 
-def get_ground_loot(image: np.ndarray, consolidate: bool = False) -> Union[GroundItemList, None]:
+def get_ground_loot(image: np.ndarray, consolidate: bool = False) -> GroundItemList | None:
     crop_result = crop_text_clusters(image)
     items_by_quality = get_items_by_quality(crop_result)
     if consolidate:

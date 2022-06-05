@@ -1,6 +1,5 @@
 from enum import Enum
 import numpy as np
-from typing import Union
 from dataclasses import dataclass
 from dataclasses_json import dataclass_json
 
@@ -62,16 +61,16 @@ class ItemQualityKeyword(Enum):
 class D2Item:
     boundingBox: dict
     name: str
-    color: Union[str, None]
-    quality: Union[str, None]
-    type: Union[str, None]
+    color: str | None
+    quality: str | None
+    type: str | None
     identified: bool
-    amount: Union[int, None]
-    baseItem: Union[dict, None]
-    item: Union[dict, None]
-    uniqueItems: Union[list[dict], None]
-    setItems: Union[list[dict], None]
-    itemModifiers: Union[dict, None]
+    amount: int | None
+    baseItem: dict | None
+    item: dict | None
+    uniqueItems: list[dict] | None
+    setItems: list[dict] | None
+    itemModifiers: dict | None
 
     def __eq__(self, other):
         if self and not other:
@@ -93,8 +92,8 @@ class D2Item:
 @dataclass
 class D2Data:
     BaseItem: dict
-    Item: Union[dict, None]
-    ItemModifiers: Union[dict, None]
+    Item: dict | None
+    ItemModifiers: dict | None
 
     def __eq__(self, other):
         if self and not other:
@@ -110,12 +109,12 @@ class GroundItem:
     Color: str
     Quality: str
     Text: str
-    Amount: Union[int, None]
+    Amount: int | None
     BaseItem: dict
-    Item: Union[dict, None]
+    Item: dict | None
     NTIPAliasType: list[str]
     NTIPAliasClassID: int
-    NTIPAliasClass: Union[int, None]
+    NTIPAliasClass: int | None
     NTIPAliasQuality: int
     NTIPAliasFlag: dict
 
@@ -143,7 +142,7 @@ class GroundItem:
 @dataclass_json
 @dataclass
 class GroundItemList:
-    items: list[Union[GroundItem, None]]
+    items: list[GroundItem | None]
 
 
 @dataclass_json
@@ -153,13 +152,13 @@ class HoveredItem:
     Quality: str
     Text: str
     BaseItem: dict
-    Item: Union[dict, None]
+    Item: dict | None
     NTIPAliasIdName: str
     NTIPAliasType: list[str]
     NTIPAliasClassID: int
-    NTIPAliasClass: Union[int, None]
+    NTIPAliasClass: int | None
     NTIPAliasQuality: int
-    NTIPAliasStat: Union[dict, None]
+    NTIPAliasStat: dict | None
     NTIPAliasFlag: dict
 
     def __eq__(self, other):
@@ -188,11 +187,11 @@ class HoveredItem:
 @dataclass
 class InventoryItem:
     boundingBox: dict
-    type: Union[str, None]
-    item: Union[dict, None]
-    baseItems: Union[list[dict], None]
-    uniqueItems: Union[list[dict], None]
-    setItems: Union[list[dict], None]
+    type: str | None
+    item: dict | None
+    baseItems: list[dict] | None
+    uniqueItems: list[dict] | None
+    setItems: list[dict] | None
 
     def __eq__(self, other):
         if self and not other:
@@ -208,7 +207,7 @@ class InventoryItem:
 @dataclass_json
 @dataclass
 class D2ItemList:
-    items: list[Union[D2Item, None]]
+    items: list[D2Item | None]
 
 
 @dataclass_json

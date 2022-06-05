@@ -7,7 +7,7 @@ from nip.NTIPAliasType import NTIPAliasType
 from nip.tokens import Token, TokenType
 
 from enum import Enum
-from typing import Union, List
+from typing import List
 import re
 
 
@@ -35,7 +35,7 @@ class NipSyntaxError(Exception):
 class Lexer:
     def __init__(self):
         self.current_section: NipSections = NipSections.PROP
-        self.current_token: Union[str, None] = ""
+        self.current_token: str | None = ""
         self.text_i: int = -1
         self.tokens: List = []
 

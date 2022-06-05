@@ -2,14 +2,13 @@ from tesserocr import PyTessBaseAPI, OEM
 import numpy as np
 import cv2
 from utils.misc import erode_to_black, find_best_match
-from typing import List, Union
 from d2r_image.data_models import OcrResult
 from d2r_image.ocr_data import ERROR_RESOLUTION_MAP, I_1, II_U, ONE_I, ONEONE_U
 from d2r_image.strings_store import all_words
 from logger import Logger
 
 def image_to_text(
-    images: Union[np.ndarray, List[np.ndarray]],
+    images: np.ndarray | list[np.ndarray],
     model: str = "hover-eng_inconsolata_inv_th_fast",
     psm: int = 3,
     word_list: str = "assets/word_lists/all_words.txt",

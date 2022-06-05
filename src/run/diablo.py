@@ -4,7 +4,6 @@ from char.i_char import IChar
 from config import Config
 from logger import Logger
 from pather import Location, Pather
-from typing import Union
 from pickit import PickIt
 import template_finder
 from town.town_manager import TownManager, A4
@@ -29,9 +28,9 @@ class Diablo:
         self._pickit = pickit
         self._picked_up_items = False
         self.used_tps = 0
-        self._curr_loc: Union[bool, Location] = Location.A4_TOWN_START
+        self._curr_loc: bool | Location = Location.A4_TOWN_START
 
-    def approach(self, start_loc: Location) -> Union[bool, Location, bool]:
+    def approach(self, start_loc: Location) -> bool | Location:
 
         Logger.info("Run Diablo")
         Logger.debug("settings for trash =" + str(Config().char["kill_cs_trash"]))
@@ -331,37 +330,37 @@ class Diablo:
 
     #CHECK SEAL LAYOUT
     def _layoutcheck(self, sealname:str, boss:str, static_layoutcheck:str, trash_location:str , calibration_node:str, calibration_threshold:str, confirmation_node:str, templates_primary:list[str], templates_confirmation:list[str]):
-        if sealname == "A":
-            seal_layout1:str = "A1-L"
-            seal_layout2:str = "A2-Y"
-            params_seal1 = seal_layout1, [614], [615], [611], "dia_a1l_home", "dia_a1l_home_loop", [602], ["DIA_A1L2_14_OPEN"], ["DIA_A1L2_14_CLOSED", "DIA_A1L2_14_CLOSED_DARK", "DIA_A1L2_14_MOUSEOVER"], ["DIA_A1L2_5_OPEN"], ["DIA_A1L2_5_CLOSED","DIA_A1L2_5_MOUSEOVER"]
-            params_seal2 = seal_layout2, [625], [626], [622], "dia_a2y_home", "dia_a2y_home_loop", [602], ["DIA_A2Y4_29_OPEN"], ["DIA_A2Y4_29_CLOSED", "DIA_A2Y4_29_MOUSEOVER"], ["DIA_A2Y4_36_OPEN"], ["DIA_A2Y4_36_CLOSED", "DIA_A2Y4_36_MOUSEOVER"]
-            threshold_primary=0.8
-            threshold_confirmation=0.85
-            threshold_confirmation2=0.8
-            confirmation_node2=None
-        elif sealname == "B":
-            seal_layout2:str = "B1-S"
-            seal_layout1:str = "B2-U"
-            params_seal2 = seal_layout2, None, [634], [632], "dia_b1s_home", "dia_b1s_home_loop", [602], None, None, ["DIA_B1S2_23_OPEN"], ["DIA_B1S2_23_CLOSED","DIA_B1S2_23_MOUSEOVER"]
-            params_seal1 = seal_layout1, None, [644], [640], "dia_b2u_home", "dia_b2u_home_loop", [602], None, None, ["DIA_B2U2_16_OPEN"], ["DIA_B2U2_16_CLOSED", "DIA_B2U2_16_MOUSEOVER"]
-            confirmation_node2=[634]
-            threshold_primary=0.8
-            threshold_confirmation2=0.8
-            threshold_confirmation=0.75
-        elif sealname == "C":
-            seal_layout1:str = "C1-F"
-            seal_layout2:str = "C2-G"
-            params_seal1 = seal_layout1, [655], [652], [654], "dia_c1f_home", "dia_c1f_home_loop", [602], ["DIA_C1F_OPEN_NEAR"], ["DIA_C1F_CLOSED_NEAR","DIA_C1F_MOUSEOVER_NEAR"], ["DIA_B2U2_16_OPEN", "DIA_C1F_BOSS_OPEN_RIGHT", "DIA_C1F_BOSS_OPEN_LEFT"], ["DIA_C1F_BOSS_MOUSEOVER_LEFT", "DIA_C1F_BOSS_CLOSED_NEAR_LEFT", "DIA_C1F_BOSS_CLOSED_NEAR_RIGHT"]
-            params_seal2 = seal_layout2, [661], [665], [665], "dia_c2g_home", "dia_c2g_home_loop", [602], ["DIA_C2G2_7_OPEN"], ["DIA_C2G2_7_CLOSED", "DIA_C2G2_7_MOUSEOVER"], ["DIA_C2G2_21_OPEN"], ["DIA_C2G2_21_CLOSED", "DIA_C2G2_21_MOUSEOVER"]
-            threshold_primary=0.8
-            confirmation_node2=None
-            threshold_confirmation=0.8
-            threshold_confirmation2=0.8
-
-        else:
-            Logger.warning(sealname + ": something is wrong - cannot check layouts: Aborting run.")
-            return False
+        match sealname:
+            case "A":
+                seal_layout1:str = "A1-L"
+                seal_layout2:str = "A2-Y"
+                params_seal1 = seal_layout1, [614], [615], [611], "dia_a1l_home", "dia_a1l_home_loop", [602], ["DIA_A1L2_14_OPEN"], ["DIA_A1L2_14_CLOSED", "DIA_A1L2_14_CLOSED_DARK", "DIA_A1L2_14_MOUSEOVER"], ["DIA_A1L2_5_OPEN"], ["DIA_A1L2_5_CLOSED","DIA_A1L2_5_MOUSEOVER"]
+                params_seal2 = seal_layout2, [625], [626], [622], "dia_a2y_home", "dia_a2y_home_loop", [602], ["DIA_A2Y4_29_OPEN"], ["DIA_A2Y4_29_CLOSED", "DIA_A2Y4_29_MOUSEOVER"], ["DIA_A2Y4_36_OPEN"], ["DIA_A2Y4_36_CLOSED", "DIA_A2Y4_36_MOUSEOVER"]
+                threshold_primary=0.8
+                threshold_confirmation=0.85
+                threshold_confirmation2=0.8
+                confirmation_node2=None
+            case "B":
+                seal_layout2:str = "B1-S"
+                seal_layout1:str = "B2-U"
+                params_seal2 = seal_layout2, None, [634], [632], "dia_b1s_home", "dia_b1s_home_loop", [602], None, None, ["DIA_B1S2_23_OPEN"], ["DIA_B1S2_23_CLOSED","DIA_B1S2_23_MOUSEOVER"]
+                params_seal1 = seal_layout1, None, [644], [640], "dia_b2u_home", "dia_b2u_home_loop", [602], None, None, ["DIA_B2U2_16_OPEN"], ["DIA_B2U2_16_CLOSED", "DIA_B2U2_16_MOUSEOVER"]
+                confirmation_node2=[634]
+                threshold_primary=0.8
+                threshold_confirmation2=0.8
+                threshold_confirmation=0.75
+            case "C":
+                seal_layout1:str = "C1-F"
+                seal_layout2:str = "C2-G"
+                params_seal1 = seal_layout1, [655], [652], [654], "dia_c1f_home", "dia_c1f_home_loop", [602], ["DIA_C1F_OPEN_NEAR"], ["DIA_C1F_CLOSED_NEAR","DIA_C1F_MOUSEOVER_NEAR"], ["DIA_B2U2_16_OPEN", "DIA_C1F_BOSS_OPEN_RIGHT", "DIA_C1F_BOSS_OPEN_LEFT"], ["DIA_C1F_BOSS_MOUSEOVER_LEFT", "DIA_C1F_BOSS_CLOSED_NEAR_LEFT", "DIA_C1F_BOSS_CLOSED_NEAR_RIGHT"]
+                params_seal2 = seal_layout2, [661], [665], [665], "dia_c2g_home", "dia_c2g_home_loop", [602], ["DIA_C2G2_7_OPEN"], ["DIA_C2G2_7_CLOSED", "DIA_C2G2_7_MOUSEOVER"], ["DIA_C2G2_21_OPEN"], ["DIA_C2G2_21_CLOSED", "DIA_C2G2_21_MOUSEOVER"]
+                threshold_primary=0.8
+                confirmation_node2=None
+                threshold_confirmation=0.8
+                threshold_confirmation2=0.8
+            case _:
+                Logger.warning(sealname + ": something is wrong - cannot check layouts: Aborting run.")
+                return False
 
         self._pather.traverse_nodes_fixed(static_layoutcheck, self._char)
         self._char.kill_cs_trash(trash_location)
@@ -421,18 +420,19 @@ class Diablo:
         if not self._pather.traverse_nodes(node_seal2, self._char): return False
         if not self._sealdance(seal2_opentemplates, seal2_closedtemplates, seal_layout + ": Seal2", node_seal2): return False
         ### KILL BOSS ###
-        if seal_layout == ("A1-L") or seal_layout == ("A2-Y"):
-            Logger.debug(seal_layout + ": Kill Boss A (Vizier)")
-            self._char.kill_vizier(seal_layout)
-        elif seal_layout == ("B1-S") or seal_layout == ("B2-U"):
-            Logger.debug(seal_layout + ": Kill Boss B (De Seis)")
-            self._char.kill_deseis(seal_layout)
-        elif seal_layout == ("C1-F") or seal_layout == ("C2-G"):
-            Logger.debug(seal_layout + ": Kill Boss C (Infector)")
-            self._char.kill_infector(seal_layout)
-        else:
-            Logger.warning(seal_layout + ": Error - no Boss known here - aborting run")
-            return False
+        match seal_layout:
+            case "A1-L" | "A2-Y":
+                Logger.debug(seal_layout + ": Kill Boss A (Vizier)")
+                self._char.kill_vizier(seal_layout)
+            case "B1-S" | "B2-U":
+                Logger.debug(seal_layout + ": Kill Boss B (De Seis)")
+                self._char.kill_deseis(seal_layout)
+            case "C1-F" | "C2-G":
+                Logger.debug(seal_layout + ": Kill Boss C (Infector)")
+                self._char.kill_infector(seal_layout)
+            case _:
+                Logger.warning(seal_layout + ": Error - no Boss known here - aborting run")
+                return False
         ### GO HOME ###
         if not self._pather.traverse_nodes(node_calibrate_to_pent, self._char): return False
         Logger.debug(seal_layout + ": Static Pathing to Pentagram")
@@ -444,7 +444,7 @@ class Diablo:
         return True
 
 
-    def battle(self, do_pre_buff: bool) -> Union[bool, tuple[Location, bool]]:
+    def battle(self, do_pre_buff: bool) -> bool | tuple[Location, bool]:
         self._picked_up_items = False
         self.used_tps = 0
         if do_pre_buff: self._char.pre_buff()

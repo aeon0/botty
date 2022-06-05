@@ -14,7 +14,6 @@ import glob
 import re
 from itertools import groupby
 from logger import Logger
-from typing import Union
 
 from nip.lexer import Lexer, NipSyntaxError, NipSections
 from nip.tokens import TokenType
@@ -281,7 +280,7 @@ def should_keep(item_data):
     return False, ""
 
 
-def _gold_pickup(item_data: dict, expression: NIPExpression) -> Union[bool, None]:
+def _gold_pickup(item_data: dict, expression: NIPExpression) -> bool | None:
     expression_raw = prepare_nip_expression(expression.raw)
     tokens = list(Lexer().create_tokens(expression_raw))
     res = None
