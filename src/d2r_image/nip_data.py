@@ -995,67 +995,67 @@ NIP_ALIAS_STAT_PATTERNS = {
     "+{:d} to Phoenix Strike (Assassin only)": [
         "107,280"
     ],
-    "{:d} to Bow and Crossbow Skills (Amazon Only)": [
+    "+{:d} to Bow and Crossbow Skills (Amazon Only)": [
         "188,0"
     ],
-    "{:d} to Passive and Magic Skills (Amazon Only)": [
+    "+{:d} to Passive and Magic Skills (Amazon Only)": [
         "188,1"
     ],
-    "{:d} to Javelin and Spear Skills (Amazon Only)": [
+    "+{:d} to Javelin and Spear Skills (Amazon Only)": [
         "188,2"
     ],
-    "{:d} to Fire Skills (Sorceress Only)": [
+    "+{:d} to Fire Skills (Sorceress Only)": [
         "188,3"
     ],
-    "{:d} to Lightning Skills (Sorceress Only)": [
+    "+{:d} to Lightning Skills (Sorceress Only)": [
         "188,4"
     ],
-    "{:d} to Cold Skills (Sorceress Only)": [
+    "+{:d} to Cold Skills (Sorceress Only)": [
         "188,5"
     ],
-    "{:d} to Curses (Necromancer Only)": [
+    "+{:d} to Curses (Necromancer Only)": [
         "188,6"
     ],
-    "{:d} to Poison and Bone Skills (Necromancer Only)": [
+    "+{:d} to Poison and Bone Skills (Necromancer Only)": [
         "188,7"
     ],
-    "{:d} to Combat Skills (Necromancer Only)": [
+    "+{:d} to Combat Skills (Necromancer Only)": [
         "188,8"
     ],
-    "{:d} to Combat Skills (Paladin Only)": [
+    "+{:d} to Combat Skills (Paladin Only)": [
         "188,9"
     ],
-    "{:d} to Offensive Auras (Paladin Only)": [
+    "+{:d} to Offensive Auras (Paladin Only)": [
         "188,10"
     ],
-    "{:d} to Defensive Auras (Paladin Only)": [
+    "+{:d} to Defensive Auras (Paladin Only)": [
         "188,11"
     ],
-    "{:d} to Combat Skills (Barbarian Only)": [
+    "+{:d} to Combat Skills (Barbarian Only)": [
         "188,12"
     ],
-    "{:d} to Masteries (Barbarian Only)": [
+    "+{:d} to Masteries (Barbarian Only)": [
         "188,13"
     ],
-    "{:d} to Warcries (Barbarian Only)": [
+    "+{:d} to Warcries (Barbarian Only)": [
         "188,14"
     ],
-    "{:d} to Summoning Skills (Druid Only)": [
+    "+{:d} to Summoning Skills (Druid Only)": [
         "188,15"
     ],
-    "{:d} to Shape Shifting Skills (Druid Only)": [
+    "+{:d} to Shape Shifting Skills (Druid Only)": [
         "188,16"
     ],
-    "{:d} to Elemental Skills (Druid Only)": [
+    "+{:d} to Elemental Skills (Druid Only)": [
         "188,17"
     ],
-    "{:d} to Traps (Assassin Only)": [
+    "+{:d} to Traps (Assassin Only)": [
         "188,18"
     ],
-    "{:d} to Shadow Disciplines (Assassin Only)": [
+    "+{:d} to Shadow Disciplines (Assassin Only)": [
         "188,19"
     ],
-    "{:d} to Martial Arts (Assassin Only)": [
+    "+{:d} to Martial Arts (Assassin Only)": [
         "188,20"
     ],
     "Level {:d} Magic Arrow Aura When Equipped": [
