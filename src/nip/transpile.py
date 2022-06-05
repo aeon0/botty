@@ -340,7 +340,7 @@ def _handle_pick_eth_sockets(item_data: dict, expression: NIPExpression) -> tupl
     if not ignore and eth_keyword_present:
         # remove ethereal from expression
         raw = expression.raw.replace("&& [flag]", "[flag]").replace("|| [flag]", "[flag]")
-        raw = re.sub("\[flag\] (==|!=)\sethereal", "", raw)
+        raw = re.sub(r"\[flag\] (==|!=)\sethereal", "", raw)
         # print(f"Modified raw expression: {raw}")
         pick_eval_expr = transpile_nip_expression(raw.split("#")[0], isPickedUpPhase=True)
         # print(f"Modified transpiled expression: {pick_eval_expr}")

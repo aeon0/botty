@@ -27,7 +27,7 @@ class NipSyntaxError(Exception):
     def __init__(self, message: str):
         self.message = message
         self.type = type
-    
+
     def __str__(self):
         return self.message
 
@@ -216,7 +216,7 @@ class Lexer:
                 return Token(TokenType.NTIPAliasStat, lookup_key)
             else:
                 return Token(TokenType.UNKNOWN, "-1")
-        
+
 
 
     def _create_logical_operator(self):
@@ -231,25 +231,25 @@ class Lexer:
 
             "==": TokenType.EQ,
             "!=": TokenType.NE,
-       
+
             "&&": TokenType.AND,
             "||": TokenType.OR,
 
             "#": TokenType.SECTIONAND
         }
 
-        pattern = "(>=|<=|==|!=|&&|\|\||>|<|\#)"
+        pattern = r"(>=|<=|==|!=|&&|\|\||>|<|\#)"
         get_text = "".join(self.text[self.text_i - 2:])
 
         res = re.search(pattern, get_text)
         if char:
             if res == None or char not in res.group(0):
                 raise NipSyntaxError(f"Invalid logical operator: '{char}'")
-        
+
         start, stop = 0, 0
         if res:
             start, stop = res.span()
-        
+
         is_valid_relation_operator = True
         invalid_char = ''
 
@@ -267,10 +267,9 @@ class Lexer:
                     self._advance()
                 if operator == "#":
                     self.increment_section()
-                
+
                 pythonic_relation_operator = operator.replace("&&", "and").replace("||", "or")
 
                 return Token(logical_operator_map[operator], pythonic_relation_operator)
         else:
             raise NipSyntaxError(f"Unexpected logical operator {invalid_char}")
-        

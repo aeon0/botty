@@ -107,16 +107,16 @@ transpile_tests = [
         },
         {
             "raw_expression": "[type] == ring && [quality] == rare",
-            "transpiled_expression": "((int(item_data['NTIPAliasType']))==(int(NTIPAliasType['ring']))and(int(item_data['NTIPAliasQuality']))==(int(NTIPAliasQuality['rare'])))",
-        },  
-    
+            "transpiled_expression": "((int(NTIPAliasType['ring']) in item_data['NTIPAliasType'] and int(NTIPAliasType['ring']) or -1)==(int(NTIPAliasType['ring']))and(int(item_data['NTIPAliasQuality']))==(int(NTIPAliasQuality['rare'])))",
+        },
+
         {
             "raw_expression": "[name] == ring && [quality] == rare # [strength] == 5",
             "transpiled_expression": "((int(item_data['NTIPAliasClassID']))==(int(NTIPAliasClassID['ring']))and(int(item_data['NTIPAliasQuality']))==(int(NTIPAliasQuality['rare'])))and((int(item_data['NTIPAliasStat'].get('0', -1)))==(5.0))",
         },
         {
             "raw_expression": "[type] == ring && [quality] == rare # [strength] == 5",
-            "transpiled_expression": "((int(item_data['NTIPAliasType']))==(int(NTIPAliasType['ring']))and(int(item_data['NTIPAliasQuality']))==(int(NTIPAliasQuality['rare'])))and((int(item_data['NTIPAliasStat'].get('0', -1)))==(5.0))",
+            "transpiled_expression": "((int(NTIPAliasType['ring']) in item_data['NTIPAliasType'] and int(NTIPAliasType['ring']) or -1)==(int(NTIPAliasType['ring']))and(int(item_data['NTIPAliasQuality']))==(int(NTIPAliasQuality['rare'])))and((int(item_data['NTIPAliasStat'].get('0', -1)))==(5.0))",
         },
 
         {
@@ -138,6 +138,6 @@ transpile_tests = [
             "raw_expression": "[idname] == thestoneofjordan && [quality] == unique # [strength] == 5",
             "transpiled_expression": "((str(item_data['NTIPAliasIdName']).lower())==(str('thestoneofjordan').lower())and(int(item_data['NTIPAliasQuality']))==(int(NTIPAliasQuality['unique'])))and((int(item_data['NTIPAliasStat'].get('0', -1)))==(5.0))",
         },
-        
+
 
     ]
