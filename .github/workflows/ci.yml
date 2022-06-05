@@ -8,13 +8,13 @@ jobs:
       - name: Setup Miniconda Python 3.10
         uses: actions/setup-python@v2
         with:
-          python-version: 3.10
+          python-version: '3.10'
       # TODO: The below setp only chaches conda packages, need to cache pip seperatly
       - name: Cache conda
         uses: actions/cache@v2
         env:
           # Increase this value to reset cache if environment.yml has not changed
-          CACHE_NUMBER: 0
+          CACHE_NUMBER: 1
         with:
           path: ~/conda_pkgs_dir
           key: conda-${{ env.CACHE_NUMBER }}-${{hashFiles('environment.yml') }}
@@ -22,14 +22,14 @@ jobs:
         uses: actions/cache@v2
         env:
           # Increase this value to reset cache if environment.yml has not changed
-          CACHE_NUMBER: 0
+          CACHE_NUMBER: 1
         with:
           path: ~/pip
           key: pip-${{ env.CACHE_NUMBER }}-${{ hashFiles('environment.yml') }}
       - name: Install Miniconda
         uses: conda-incubator/setup-miniconda@v2
         with:
-          python-version: 3.10
+          python-version: '3.10'
           activate-environment: botty
           channel-priority: strict
           environment-file: environment.yml
