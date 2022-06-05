@@ -8,6 +8,7 @@ import json
 import dataclasses
 import screen
 from utils.misc import cut_roi, slugify
+from utils import download_test_assets
 
 import d2r_image.processing as processing
 from d2r_image.processing import get_hovered_item

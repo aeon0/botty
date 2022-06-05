@@ -25,6 +25,7 @@ item_error_screenshots/
 loot_screenshots/
 pickit_screenshots/
 stats/
+test/assets/
 .venv
 *.bak
 .coverage

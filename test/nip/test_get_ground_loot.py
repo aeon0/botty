@@ -8,6 +8,7 @@ from functools import cache
 from pick_item_test_cases import NIP_PICK_TESTS
 import nip.transpile as nip_transpile
 import screen
+import utils.download_test_assets # downloads assets if they don't already exist, doesn't need to be called
 
 PATH='test/assets/ground_loot'
 screen.set_window_position(0, 0)

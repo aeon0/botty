@@ -8,6 +8,7 @@ from keep_item_test_cases import NIP_KEEP_TESTS
 from common import ExpressionTest
 from nip.transpile import _test_nip_expression, transpile_nip_expression
 import screen
+import utils.download_test_assets # downloads assets if they don't already exist, doesn't need to be called
 
 PATH='test/assets/hovered_items'
 screen.set_window_position(0, 0)
