@@ -755,7 +755,7 @@
 [Type] == Primalhelm && [class] == elite && [quality] <= superior && [Flag] != Ethereal # [skillbattleorders]+[skillbattlecommand] >= 4
 
 // Socketed Barbarian Helmets
-[type] == primalhelm && [class] == elite && [quality] <= superior && [flag] != ethereal # [sockets] == 3 && ( [skillbattleorders]+[skillbattlecommand] >= 4 || [skillbattleorders]+[skillfinditem] >= 4 [skillbattleorders]+[skillshout] >= 4 )
+[type] == primalhelm && [class] == elite && [quality] <= superior && [flag] != ethereal # [sockets] == 3 && ( [skillbattleorders]+[skillbattlecommand] >= 4 || [skillbattleorders]+[skillfinditem] >= 4 || [skillbattleorders]+[skillshout] >= 4 )
 
 //----------------------------------------------------
 //================= White Druid Pelts ================
