@@ -53,6 +53,12 @@ class Lexer:
         except IndexError:
             self.current_token = None
 
+    def get_current_iteration_of_text_raw(self):
+        """
+            Returns the self.text in a string type, and at its current iteration.
+        """
+        return "".join(self.text[self.text_i:])
+
 
     def create_tokens(self, nip_expression):
         self.text = list(nip_expression)
@@ -109,73 +115,69 @@ class Lexer:
             '*': TokenType.MULTIPLY,
             '/': TokenType.DIVIDE,
             '\\': TokenType.MODULO,
-            '^': TokenType.POW
+            '^': TokenType.POW,
+            "(": TokenType.LPAREN,
+            ")": TokenType.RPAREN
         }
-        while self.current_token != None:
 
-            if symbol == "+":
-                return Token(TokenType.PLUS, symbol)
-            elif symbol == "-":
-                return Token(TokenType.MINUS, symbol)
-            elif symbol == "*":
-                return Token(TokenType.MULTIPLY, symbol)
-            elif symbol == "/":
-                return Token(TokenType.DIVIDE, symbol)
-            elif symbol == "\\":
-                return Token(TokenType.MODULO, symbol)
-            elif symbol == "^":
-                return Token(TokenType.POW, symbol)
-            elif symbol == "(":
-                return Token(TokenType.LPAREN, symbol)
-            elif symbol == ")":
-                return Token(TokenType.RPAREN, symbol)
-        if symbol == "(":
-            return Token(TokenType.LPAREN, symbol)
-        elif symbol == ")":
-            return Token(TokenType.RPAREN, symbol)
+        if symbol in symbol_map:
+            return Token(symbol_map[symbol], symbol)
+
+        while self.current_token != None:
+            if self.current_token in symbol_map:
+                if symbol:
+                    return Token(symbol_map[symbol], symbol)
+
+        
 
 
     def _create_nip_lookup(self):
         """
             item data lookup i.e [name]
         """
-        self._advance()
-        lookup_key = self.current_token
-        while self.current_token != None:
+        self._advance() # Increment past the [
+        lookup_key = ""
+        # Now it should look something like this "lookup_key]"
 
-            self._advance()
-            if self.current_token == "]":
-                break
-            if lookup_key and self.current_token:
-                lookup_key += self.current_token
-        self._advance()
+        if self.text:
+            found_match = re.match(r"(\w+])|(\d+)]", self.get_current_iteration_of_text_raw()) # Find the lookup_key]
+            if found_match and found_match.group(1):
+                found = found_match.group(1).replace("]", "") # Remove the closing bracket.
+                for i in range(len(found)):
+                    lookup_key += found[i]
+                    self._advance()
+
+        self._advance() # Increment past the ]
 
         if self.current_section == NipSections.PROP:
             if lookup_key:
-                if lookup_key in "name":
-                    return Token(TokenType.NAME, lookup_key)
-                elif lookup_key == "flag":
-                    return Token(TokenType.FLAG, lookup_key)
-                elif lookup_key == "class":
-                    return Token(TokenType.CLASS, lookup_key)
-                elif lookup_key == "quality":
-                    return Token(TokenType.QUALITY, lookup_key)
-                elif lookup_key == "type":
-                    return Token(TokenType._TYPE, lookup_key)
-                elif lookup_key == "idname":
-                    return Token(TokenType.IDNAME, lookup_key)
-                elif lookup_key in NTIPAliasClass:
-                    return Token(TokenType.NTIPAliasClass, NTIPAliasClass[lookup_key])
-                elif lookup_key in NTIPAliasQuality:
-                    return Token(TokenType.NTIPAliasQuality, NTIPAliasQuality[lookup_key])
-                elif lookup_key in NTIPAliasClassID:
-                    return Token(TokenType.NTIPAliasClassID, NTIPAliasClassID[lookup_key])
-                elif lookup_key in NTIPAliasFlag:
-                    return Token(TokenType.NTIPAliasFlag, NTIPAliasFlag[lookup_key])
-                elif lookup_key in NTIPAliasType:
-                    return Token(TokenType.NTIPAliasType, NTIPAliasType[lookup_key])
-                else:
-                    return Token(TokenType.UNKNOWN, "-1")
+                match lookup_key:
+                    case "name":
+                        return Token(TokenType.NAME, lookup_key)
+                    case "flag":
+                        return Token(TokenType.FLAG, lookup_key)
+                    case "class":
+                        return Token(TokenType.CLASS, lookup_key)
+                    case "quality":
+                        return Token(TokenType.QUALITY, lookup_key)
+                    case "type":
+                        return Token(TokenType._TYPE, lookup_key)
+                    case "idname":
+                        return Token(TokenType.IDNAME, lookup_key)
+                    case _: # ? This is default.. 
+                        if lookup_key in NTIPAliasClass:
+                            return Token(TokenType.NTIPAliasClass, NTIPAliasClass[lookup_key])
+                        elif lookup_key in NTIPAliasQuality:
+                            return Token(TokenType.NTIPAliasQuality, NTIPAliasQuality[lookup_key])
+                        elif lookup_key in NTIPAliasClassID:
+                            return Token(TokenType.NTIPAliasClassID, NTIPAliasClassID[lookup_key])
+                        elif lookup_key in NTIPAliasFlag:
+                            return Token(TokenType.NTIPAliasFlag, NTIPAliasFlag[lookup_key])
+                        elif lookup_key in NTIPAliasType:
+                            return Token(TokenType.NTIPAliasType, NTIPAliasType[lookup_key])
+                        return Token(TokenType.UNKNOWN, "-1")
+    
+
         elif self.current_section == NipSections.STAT:
             if lookup_key in NTIPAliasStat:
                 return Token(TokenType.NTIPAliasStat, NTIPAliasStat[lookup_key])
