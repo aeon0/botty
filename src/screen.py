@@ -1,7 +1,6 @@
 import numpy as np
 from mss import mss
 from logger import Logger
-from typing import Tuple
 from utils.misc import WindowSpec, find_d2r_window, wait
 from config import Config
 import threading
@@ -72,14 +71,14 @@ def grab() -> np.ndarray:
 
 # TODO: Move the below funcs to utils(?)
 
-def convert_monitor_to_screen(screen_coord: Tuple[float, float]) -> Tuple[float, float]:
+def convert_monitor_to_screen(screen_coord: tuple[float, float]) -> tuple[float, float]:
     global monitor_roi
     if screen_coord is None:
         Logger.error("convert_monitor_to_screen: empty coordinates passed")
         return None
     return (screen_coord[0] - monitor_roi["left"], screen_coord[1] - monitor_roi["top"])
 
-def convert_screen_to_monitor(screen_coord: Tuple[float, float]) -> Tuple[float, float]:
+def convert_screen_to_monitor(screen_coord: tuple[float, float]) -> tuple[float, float]:
     global monitor_roi
     if screen_coord is None:
         Logger.error("convert_screen_to_monitor: empty coordinates passed")
@@ -88,7 +87,7 @@ def convert_screen_to_monitor(screen_coord: Tuple[float, float]) -> Tuple[float,
     y = screen_coord[1] + monitor_roi["top"]
     return (np.clip(x, *monitor_x_range), np.clip(y, *monitor_y_range))
 
-def convert_abs_to_screen(abs_coord: Tuple[float, float]) -> Tuple[float, float]:
+def convert_abs_to_screen(abs_coord: tuple[float, float]) -> tuple[float, float]:
     global monitor_roi
     if abs_coord is None:
         Logger.error("convert_screen_to_monitor: empty coordinates passed")
@@ -96,14 +95,14 @@ def convert_abs_to_screen(abs_coord: Tuple[float, float]) -> Tuple[float, float]
     # abs has it's center on char which is the center of the screen
     return ((monitor_roi["width"] // 2) + abs_coord[0], (monitor_roi["height"] // 2) + abs_coord[1])
 
-def convert_screen_to_abs(screen_coord: Tuple[float, float]) -> Tuple[float, float]:
+def convert_screen_to_abs(screen_coord: tuple[float, float]) -> tuple[float, float]:
     global monitor_roi
     if screen_coord is None:
         Logger.error("convert_screen_to_abs: empty coordinates passed")
         return None
     return (screen_coord[0] - (monitor_roi["width"] // 2), screen_coord[1] - (monitor_roi["height"] // 2))
 
-def convert_abs_to_monitor(abs_coord: Tuple[float, float]) -> Tuple[float, float]:
+def convert_abs_to_monitor(abs_coord: tuple[float, float]) -> tuple[float, float]:
     if abs_coord is None:
         Logger.error("convert_abs_to_monitor: empty coordinates passed")
         return None
