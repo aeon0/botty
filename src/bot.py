@@ -30,7 +30,7 @@ from char.poison_necro import Poison_Necro
 from char.bone_necro import Bone_Necro
 from char.basic import Basic
 from char.basic_ranged import Basic_Ranged
-from ui_manager import wait_until_hidden, wait_until_visible, ScreenObjects, is_visible
+from ui_manager import wait_until_hidden, wait_until_visible, ScreenObjects, is_visible, detect_screen_object
 from ui import meters, skills, view, character_select, main_menu
 from inventory import personal, vendor, belt, common, consumables
 
@@ -227,9 +227,23 @@ class Bot:
 
     def on_create_game(self):
         # Start a game from hero selection
+        if online := Config().general['online_char']:
+            character_select.online_character = True
         if (m := wait_until_visible(ScreenObjects.MainMenu)).valid:
-            if "DARK" in m.name:
-                keyboard.send("esc")
+            attemps = 0
+            while True:
+                if "DARK" in m.name:
+                    keyboard.send("esc")
+                    time.sleep(1)
+                if attemps > 3:
+                    return
+                if online and (match := detect_screen_object(ScreenObjects.OnlineStatus, grab())).valid:
+                    if match.name != "CHARACTER_STATE_ONLINE":
+                        character_select.select_online_tab(match.region, match.center)
+                        time.sleep(1.5)
+                        attemps += 1
+                        continue
+                break
             main_menu.start_game()
             view.move_to_corpse()
         else: return
