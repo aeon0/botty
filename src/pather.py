@@ -510,9 +510,9 @@ class Pather:
             x_m, y_m = convert_screen_to_monitor(path[i])
             x_m += int(random.random() * 6 - 3)
             y_m += int(random.random() * 6 - 3)
-            t0 = grab()
+            t0 = grab(force_new=True)
             char.move((x_m, y_m))
-            t1 = grab()
+            t1 = grab(force_new=True)
             # check difference between the two frames to determine if tele was good or not
             diff = cv2.absdiff(t0, t1)
             diff = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
@@ -637,10 +637,10 @@ class Pather:
             did_force_move = False
             teleport_count = 0
             while not continue_to_next_node:
-                img = grab()
+                img = grab(force_new=True)
                 # Handle timeout
                 if (time.time() - last_move) > timeout:
-                    if is_visible(ScreenObjects.WaypointLabel):
+                    if is_visible(ScreenObjects.WaypointLabel, img):
                         # sometimes bot opens waypoint menu, close it to find templates again
                         Logger.debug("Opened wp, closing it again")
                         keyboard.send("esc")
@@ -671,7 +671,7 @@ class Pather:
 
                 # Sometimes we get stuck at a Shrine or Stash, after a few seconds check if the screen was different, if force a left click.
                 if (teleport_count + 1) % 30 == 0:
-                    if (match := detect_screen_object(ScreenObjects.ShrineArea)).valid:
+                    if (match := detect_screen_object(ScreenObjects.ShrineArea, img)).valid:
                         if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_shrine_check_before" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
                         Logger.debug(f"Shrine found, activating it")
                         select_screen_object_match(match)
