@@ -205,6 +205,7 @@ class Transmute:
         self._last_game = self._game_stats._game_counter
         self.clear_cube()
         s = self.inspect_stash()
+        self.put_back_all_gems(s)
         algorithm = SimpleGemPicking(s)
         inv = self.inspect_inventory_area(FLAWLESS_GEMS)
         is_cube_empty = None
