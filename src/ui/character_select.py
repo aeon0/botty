@@ -73,10 +73,7 @@ def select_char():
     if last_char_template is not None:
         img = grab()
         if (match := detect_screen_object(ScreenObjects.OnlineStatus, img)).valid:
-            if online_active(match) and (not online_character):
-                select_online_tab(match.region, match.center)
-                img = grab()
-            elif not online_active(match) and (online_character):
+            if online_active(match) != online_character:
                 select_online_tab(match.region, match.center)
                 img = grab()
             wait(1, 1.5)
