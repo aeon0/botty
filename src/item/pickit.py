@@ -19,8 +19,7 @@ from item import consumables
 from item.consumables import ITEM_CONSUMABLES_MAP
 from inventory import personal
 from d2r_image import processing as d2r_image
-from d2r_image.data_models import HoveredItem
-from d2r_image.demo import EnhancedJSONEncoder
+from d2r_image.data_models import HoveredItem, EnhancedJSONEncoder
 from nip.NTIPAliasType import NTIPAliasType as NTIP_TYPES
 from nip.transpile import should_pickup
 

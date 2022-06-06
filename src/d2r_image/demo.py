@@ -5,7 +5,6 @@ import cv2
 import keyboard
 import os
 import json
-import dataclasses
 import screen
 from utils.misc import cut_roi, slugify
 from utils import download_test_assets
@@ -13,15 +12,11 @@ from utils import download_test_assets
 import d2r_image.processing as processing
 from d2r_image.processing import get_hovered_item
 from d2r_image.processing_helpers import clean_img, crop_text_clusters
-from d2r_image.data_models import ItemQuality, ItemQualityKeyword, ItemText
+from d2r_image.data_models import ItemQuality, ItemQualityKeyword, ItemText, EnhancedJSONEncoder
 
 screen.set_window_position(0, 0)
 
-class EnhancedJSONEncoder(json.JSONEncoder):
-    def default(self, o):
-        if dataclasses.is_dataclass(o):
-            return dataclasses.asdict(o)
-        return super().default(o)
+
 
 debug_line_map = {}
 debug_line_map[ItemQualityKeyword.LowQuality.value] = (123, 123, 123)

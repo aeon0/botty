@@ -9,11 +9,14 @@ asset_dir = "test/assets"
 
 if not os.path.exists(asset_dir):
     print(f"Downloading test assets...")
-    zip_path, _ = urllib.request.urlretrieve(url)
-    print(f"Extracting {zip_path}...")
-    with zipfile.ZipFile(zip_path, "r") as f:
-        f.extractall(extract_dir)
-    shutil.move(f"{extract_dir}/botty-test-assets-main/assets", asset_dir)
-    shutil.rmtree(f"{extract_dir}")
-    os.remove(zip_path)
-    print(f"Download complete, delete {zip_path}")
+    try:
+        zip_path, _ = urllib.request.urlretrieve(url)
+        print(f"Extracting {zip_path}...")
+        with zipfile.ZipFile(zip_path, "r") as f:
+            f.extractall(extract_dir)
+        shutil.move(f"{extract_dir}/botty-test-assets-main/assets", asset_dir)
+        shutil.rmtree(f"{extract_dir}")
+        os.remove(zip_path)
+        print(f"Download complete, delete {zip_path}")
+    except:
+        print(f"Could not retrieve test assets...")
