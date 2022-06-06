@@ -1,4 +1,4 @@
-from typing import Dict, Tuple, Union, List, Callable
+from typing import Callable
 import random
 import time
 import cv2
@@ -14,14 +14,14 @@ from utils.misc import wait, cut_roi, is_in_roi, color_filter, arc_spread
 from logger import Logger
 from config import Config
 from screen import grab, convert_monitor_to_screen, convert_screen_to_abs, convert_abs_to_monitor, convert_screen_to_monitor
-from template_finder import TemplateFinder
+import template_finder
 from ocr import Ocr
 from ui_manager import detect_screen_object, ScreenObjects
 
 class IChar:
-    _CrossGameCapabilities: Union[None, CharacterCapabilities] = None
+    _CrossGameCapabilities: None | CharacterCapabilities = None
 
-    def __init__(self, skill_hotkeys: Dict):
+    def __init__(self, skill_hotkeys: dict):
         self._skill_hotkeys = skill_hotkeys
         self._last_tp = time.time()
         self._ocr = Ocr()
@@ -59,7 +59,7 @@ class IChar:
     def on_capabilities_discovered(self, capabilities: CharacterCapabilities):
         pass
 
-    def pick_up_item(self, pos: Tuple[float, float], item_name: str = None, prev_cast_start: float = 0):
+    def pick_up_item(self, pos: tuple[float, float], item_name: str = None, prev_cast_start: float = 0):
         mouse.move(pos[0], pos[1])
         time.sleep(0.1)
         mouse.click(button="left")
@@ -68,7 +68,7 @@ class IChar:
 
     def select_by_template(
         self,
-        template_type:  Union[str, List[str]],
+        template_type:  str | list[str],
         success_func: Callable = None,
         timeout: float = 8,
         threshold: float = 0.68,
@@ -88,10 +88,10 @@ class IChar:
                 keyboard.send("esc")
         start = time.time()
         while timeout is None or (time.time() - start) < timeout:
-            template_match = TemplateFinder().search(template_type, grab(), threshold=threshold, normalize_monitor=True)
+            template_match = template_finder.search(template_type, grab(), threshold=threshold)
             if template_match.valid:
                 Logger.debug(f"Select {template_match.name} ({template_match.score*100:.1f}% confidence)")
-                mouse.move(*template_match.center)
+                mouse.move(*template_match.center_monitor)
                 wait(0.2, 0.3)
                 mouse.click(button="left")
                 # check the successfunction for 2 sec, if not found, try again
@@ -129,10 +129,9 @@ class IChar:
         mouse.move(x + w/2, y + h / 2)
         mouse.click("left")
         wait(0.3)
-        match = TemplateFinder().search(skill_asset, grab(), threshold=0.84, roi=expanded_skill_roi)
+        match = template_finder.search(skill_asset, grab(), threshold=0.84, roi=expanded_skill_roi)
         if match.valid:
-            x, y = convert_screen_to_monitor(match.center)
-            mouse.move(x, y)
+            mouse.move(*match.center_monitor)
             wait(0.3)
             keyboard.send(hotkey)
             wait(0.3)
@@ -150,7 +149,7 @@ class IChar:
         if self.capabilities.can_teleport_natively:
             self.select_tp()
 
-    def move(self, pos_monitor: Tuple[float, float], force_tp: bool = False, force_move: bool = False):
+    def move(self, pos_monitor: tuple[float, float], force_tp: bool = False, force_move: bool = False):
         factor = Config().advanced_options["pathing_delay_factor"]
         if self._skill_hotkeys["teleport"] and \
             (force_tp or (skills.is_right_skill_selected(["TELE_ACTIVE"]) and \
@@ -175,8 +174,8 @@ class IChar:
                 keyboard.send(Config().char["force_move"])
             else:
                 mouse.click(button="left")
-                
-    def walk(self, pos_monitor: Tuple[float, float], force_tp: bool = False, force_move: bool = False):
+
+    def walk(self, pos_monitor: tuple[float, float], force_tp: bool = False, force_move: bool = False):
         factor = Config().advanced_options["pathing_delay_factor"]
             # in case we want to walk we actually want to move a bit before the point cause d2r will always "overwalk"
         pos_screen = convert_monitor_to_screen(pos_monitor)
@@ -192,7 +191,7 @@ class IChar:
         if force_move:
             keyboard.send(Config().char["force_move"])
         else:
-            mouse.click(button="left")                
+            mouse.click(button="left")
 
     def tp_town(self):
         # will check if tp is available and select the skill
@@ -222,7 +221,7 @@ class IChar:
                     consumables.increment_need("tp", 1)
                 wait(0.8, 1.3) # takes quite a while for tp to be visible
             if (template_match := detect_screen_object(ScreenObjects.TownPortal)).valid:
-                pos = template_match.center
+                pos = template_match.center_monitor
                 pos = (pos[0], pos[1] + 30)
                 # Note: Template is top of portal, thus move the y-position a bit to the bottom
                 mouse.move(*pos, randomize=6, delay_factor=[0.9, 1.1])
@@ -275,13 +274,16 @@ class IChar:
             else:
                 Logger.warning("Failed to switch weapon, try again")
                 wait(0.5)
-                
-                
+
+
     def vec_to_monitor(self, target):
         circle_pos_screen = self._pather._adjust_abs_range_to_screen(target)
         return convert_abs_to_monitor(circle_pos_screen)
-        
-    def cast_in_arc(self, ability: str, cast_pos_abs: Tuple[float, float] = [0,-100], time_in_s: float = 3, spread_deg: float = 10, hold=True):
+
+    def _lerp(self,a: float,b: float, f:float):
+        return a + f * (b - a)
+
+    def cast_in_arc(self, ability: str, cast_pos_abs: tuple[float, float] = [0,-100], time_in_s: float = 3, spread_deg: float = 10, hold=True):
         #scale cast time by damage_scaling
         time_in_s *= self.damage_scaling
         Logger.debug(f'Casting {ability} for {time_in_s:.02f}s at {cast_pos_abs} with {spread_deg}°')
@@ -307,11 +309,11 @@ class IChar:
                 wait(0.02, 0.06)
                 mouse.release(button="right")
                 wait(self._cast_duration, self._cast_duration)
-                
+
         if hold:
             mouse.release(button="right")
         keyboard.send(Config().char["stand_still"], do_press=False)
-    
+
 
     def pre_buff(self):
         pass
@@ -357,7 +359,7 @@ if __name__ == "__main__":
     keyboard.wait("f11")
     from utils.misc import cut_roi
     from config import Config
-    from template_finder import TemplateFinder
+    import template_finder
     from ocr import Ocr
     from ui import skills
 

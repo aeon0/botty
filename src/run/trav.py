@@ -1,10 +1,8 @@
 from char import IChar
-from config import Config
 from logger import Logger
 from pather import Location, Pather
-from typing import Union
 from item.pickit import PickIt
-from template_finder import TemplateFinder
+import template_finder
 from town.town_manager import TownManager
 from utils.misc import wait
 
@@ -23,7 +21,7 @@ class Trav:
         self._char = char
         self._pickit = pickit
 
-    def approach(self, start_loc: Location) -> Union[bool, Location]:
+    def approach(self, start_loc: Location) -> bool | Location:
         # Go to Travincal via waypoint
         Logger.info("Run Trav")
         if not self._town_manager.open_wp(start_loc):
@@ -33,9 +31,9 @@ class Trav:
             return Location.A3_TRAV_START
         return False
 
-    def battle(self, do_pre_buff: bool) -> Union[bool, tuple[Location, bool]]:
+    def battle(self, do_pre_buff: bool) -> bool | tuple[Location, bool]:
         # Kill Council
-        if not TemplateFinder().search_and_wait(["TRAV_0", "TRAV_1", "TRAV_20"], threshold=0.65, timeout=20).valid:
+        if not template_finder.search_and_wait(["TRAV_0", "TRAV_1", "TRAV_20"], threshold=0.65, timeout=20).valid:
             return False
         if do_pre_buff:
             self._char.pre_buff()

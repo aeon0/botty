@@ -1,5 +1,4 @@
-from typing import Union
-from template_finder import TemplateFinder
+import template_finder
 from config import Config
 from pather import Location
 from logger import Logger
@@ -43,12 +42,12 @@ class TownManager:
             location = Location.A1_TOWN_START
         return location
 
-    def wait_for_town_spawn(self, timeout: float = None) -> Location:
+    def wait_for_town_spawn(self, timeout: float = 30) -> Location:
         """Wait for the char to spawn in town after starting a new game
         :param timeout: Optional float value for time out in seconds, defaults to None
         :return: Location of the town (e.g. Location.A4_TOWN_START) or None if nothing was found within timeout time
         """
-        template_match = TemplateFinder().search_and_wait(TOWN_MARKERS, best_match=True, timeout=timeout)
+        template_match = template_finder.search_and_wait(TOWN_MARKERS, best_match=True, timeout=timeout)
         if template_match.valid:
             return TownManager.get_act_from_location(template_match.name)
         return None
@@ -63,7 +62,7 @@ class TownManager:
         if curr_act is None: return False
         return self._acts[curr_act].open_wp(curr_loc)
 
-    def go_to_act(self, act_idx: int, curr_loc: Location) -> Union[Location, bool]:
+    def go_to_act(self, act_idx: int, curr_loc: Location) -> Location | bool:
         curr_act = TownManager.get_act_from_location(curr_loc)
         if curr_act is None: return False
         # check if we already are in the desired act
@@ -82,7 +81,7 @@ class TownManager:
         waypoint.use_wp(act = act_idx, idx = 0)
         return self._acts[act].get_wp_location()
 
-    def heal(self, curr_loc: Location) -> Union[Location, bool]:
+    def heal(self, curr_loc: Location) -> Location | bool:
         curr_act = TownManager.get_act_from_location(curr_loc)
         if curr_act is None: return False
         # check if we can heal in current act
@@ -146,7 +145,7 @@ class TownManager:
         Logger.warning(f"Could not buy consumables in {curr_act}. Continue.")
         return curr_loc, items
 
-    def resurrect(self, curr_loc: Location) -> Union[Location, bool]:
+    def resurrect(self, curr_loc: Location) -> Location | bool:
         curr_act = TownManager.get_act_from_location(curr_loc)
         if curr_act is None: return False
         # check if we can resurrect in current act
@@ -156,7 +155,7 @@ class TownManager:
         if not new_loc: return False
         return self._acts[Location.A4_TOWN_START].resurrect(new_loc)
 
-    def identify(self, curr_loc: Location) -> Union[Location, bool]:
+    def identify(self, curr_loc: Location) -> Location | bool:
         curr_act = TownManager.get_act_from_location(curr_loc)
         if curr_act is None: return False
         # check if we can Identify in current act
@@ -170,7 +169,7 @@ class TownManager:
         view.return_to_play()
         return success
 
-    def open_stash(self, curr_loc: Location) -> Union[Location, bool]:
+    def open_stash(self, curr_loc: Location) -> Location | bool:
         curr_act = TownManager.get_act_from_location(curr_loc)
         new_loc = curr_loc
 
@@ -183,7 +182,7 @@ class TownManager:
         if not new_loc: return False
         return new_loc
 
-    def gamble(self, curr_loc: Location) -> Union[Location, bool]:
+    def gamble(self, curr_loc: Location) -> Location | bool:
         curr_act = TownManager.get_act_from_location(curr_loc)
         if curr_act is None: return False
         # check if we can Identify in current act

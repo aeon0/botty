@@ -1,14 +1,14 @@
 import keyboard
 from utils.custom_mouse import mouse
 from char import IChar
-from template_finder import TemplateFinder
+import template_finder
+from template_finder import TemplateMatch
 from pather import Pather
 from logger import Logger
 from screen import grab, convert_abs_to_monitor, convert_screen_to_abs
 from config import Config
 from utils.misc import wait, rotate_vec, unit_vector
 import random
-from typing import Tuple
 from pather import Location, Pather
 import numpy as np
 import time
@@ -53,7 +53,7 @@ class Necro(IChar):
         roi = [640,0,640,720]
         img = grab()
 
-        template_match = TemplateFinder().search(
+        template_match = template_finder.search(
             ['SHENK_DEATH_1','SHENK_DEATH_2','SHENK_DEATH_3','SHENK_DEATH_4'],
             img,
             threshold=0.6,
@@ -71,7 +71,7 @@ class Necro(IChar):
         img = grab()
         max_rev = 13
 
-        template_match = TemplateFinder().search(
+        template_match = template_finder.search(
             ['REV_BASE'],
             img,
             threshold=0.6,
@@ -85,7 +85,7 @@ class Necro(IChar):
 
         for count in range(1,max_rev):
             rev_num = "REV_"+str(count)
-            template_match = TemplateFinder().search(
+            template_match = template_finder.search(
                 [rev_num],
                 img,
                 threshold=0.66,
@@ -100,7 +100,7 @@ class Necro(IChar):
         img = grab()
         max_skeles = 13
 
-        template_match = TemplateFinder().search(
+        template_match = template_finder.search(
             ['SKELE_BASE'],
             img,
             threshold=0.6,
@@ -114,7 +114,7 @@ class Necro(IChar):
 
         for count in range(1,max_skeles):
             skele_num = "SKELE_"+str(count)
-            template_match = TemplateFinder().search(
+            template_match = template_finder.search(
                 [skele_num],
                 img,
                 threshold=0.66,
@@ -128,7 +128,7 @@ class Necro(IChar):
         roi = [15,14,400,45]
         img = grab()
 
-        template_match = TemplateFinder().search(
+        template_match = template_finder.search(
             ['CLAY'],
             img,
             threshold=0.6,
@@ -150,7 +150,7 @@ class Necro(IChar):
         ''' print counts for summons '''
         Logger.info('\33[31m'+"Summon status | "+str(self._skeletons_count)+"skele | "+str(self._revive_count)+" rev | "+self._golem_count+" |"+'\033[0m')
 
-    def _revive(self, cast_pos_abs: Tuple[float, float], spray: int = 10, cast_count: int=12):
+    def _revive(self, cast_pos_abs: tuple[float, float], spray: int = 10, cast_count: int=12):
         Logger.info('\033[94m'+"raise revive"+'\033[0m')
         keyboard.send(Config().char["stand_still"], do_release=False)
         for _ in range(cast_count):
@@ -179,7 +179,7 @@ class Necro(IChar):
             mouse.release(button="right")
         keyboard.send(Config().char["stand_still"], do_press=False)
 
-    def _raise_skeleton(self, cast_pos_abs: Tuple[float, float], spray: int = 10, cast_count: int=16):
+    def _raise_skeleton(self, cast_pos_abs: tuple[float, float], spray: int = 10, cast_count: int=16):
         Logger.info('\033[94m'+"raise skeleton"+'\033[0m')
         keyboard.send(Config().char["stand_still"], do_release=False)
         for _ in range(cast_count):
@@ -208,7 +208,7 @@ class Necro(IChar):
             mouse.release(button="right")
         keyboard.send(Config().char["stand_still"], do_press=False)
 
-    def _raise_mage(self, cast_pos_abs: Tuple[float, float], spray: int = 10, cast_count: int=16):
+    def _raise_mage(self, cast_pos_abs: tuple[float, float], spray: int = 10, cast_count: int=16):
         Logger.info('\033[94m'+"raise mage"+'\033[0m')
         keyboard.send(Config().char["stand_still"], do_release=False)
         for _ in range(cast_count):
@@ -284,7 +284,7 @@ class Necro(IChar):
 
 
 
-    def _left_attack(self, cast_pos_abs: Tuple[float, float], spray: int = 10):
+    def _left_attack(self, cast_pos_abs: tuple[float, float], spray: int = 10):
         keyboard.send(Config().char["stand_still"], do_release=False)
         if self._skill_hotkeys["skill_left"]:
             keyboard.send(self._skill_hotkeys["skill_left"])
@@ -299,7 +299,7 @@ class Necro(IChar):
 
         keyboard.send(Config().char["stand_still"], do_press=False)
 
-    def _left_attack_single(self, cast_pos_abs: Tuple[float, float], spray: int = 10, cast_count: int=6):
+    def _left_attack_single(self, cast_pos_abs: tuple[float, float], spray: int = 10, cast_count: int=6):
         keyboard.send(Config().char["stand_still"], do_release=False)
         if self._skill_hotkeys["skill_left"]:
             keyboard.send(self._skill_hotkeys["skill_left"])
@@ -314,7 +314,7 @@ class Necro(IChar):
 
         keyboard.send(Config().char["stand_still"], do_press=False)
 
-    def _amp_dmg(self, cast_pos_abs: Tuple[float, float], spray: float = 10):
+    def _amp_dmg(self, cast_pos_abs: tuple[float, float], spray: float = 10):
         if self._skill_hotkeys["amp_dmg"]:
             keyboard.send(self._skill_hotkeys["amp_dmg"])
 
@@ -326,7 +326,7 @@ class Necro(IChar):
         wait(0.25, 0.35)
         mouse.release(button="right")
 
-    def _corpse_explosion(self, cast_pos_abs: Tuple[float, float], spray: int = 10,cast_count: int = 8):
+    def _corpse_explosion(self, cast_pos_abs: tuple[float, float], spray: int = 10,cast_count: int = 8):
         keyboard.send(Config().char["stand_still"], do_release=False)
         Logger.info('\033[93m'+"corpse explosion~> random cast"+'\033[0m')
         for _ in range(cast_count):
@@ -341,11 +341,7 @@ class Necro(IChar):
                 mouse.release(button="right")
         keyboard.send(Config().char["stand_still"], do_press=False)
 
-
-    def _lerp(self,a: float,b: float, f:float):
-        return a + f * (b - a)
-
-    def _cast_circle(self, cast_dir: Tuple[float,float],cast_start_angle: float=0.0, cast_end_angle: float=90.0,cast_div: int = 10,cast_v_div: int=4,cast_spell: str='raise_skeleton',delay: float=1.0,offset: float=1.0):
+    def _cast_circle(self, cast_dir: tuple[float,float],cast_start_angle: float=0.0, cast_end_angle: float=90.0,cast_div: int = 10,cast_v_div: int=4,cast_spell: str='raise_skeleton',delay: float=1.0,offset: float=1.0):
         Logger.info('\033[93m'+"circle cast ~>"+cast_spell+'\033[0m')
         keyboard.send(Config().char["stand_still"], do_release=False)
         keyboard.send(self._skill_hotkeys[cast_spell])
@@ -583,15 +579,14 @@ class Necro(IChar):
     def stairs_S(self):
         roi = [0,0,1280,720]
         img = grab()
-        template_match = TemplateFinder().search(
+        template_match = template_finder.search(
             ["TRAV_S","TRAV_S_1"],
             img,
             threshold=0.4,
-            roi=roi,
-            normalize_monitor=True
+            roi=roi
         )
         if template_match.valid:
-            pos = template_match.center
+            pos = template_match.center_monitor
             pos = (pos[0], pos[1] )
             Logger.debug("mid point >> "+str(pos))
 
@@ -607,15 +602,14 @@ class Necro(IChar):
     def stairs_F(self):
         roi = [0,0,1280,720]
         img = grab()
-        template_match = TemplateFinder().search(
+        template_match = template_finder.search(
             ["TRAV_F"],
             img,
             threshold=0.4,
-            roi=roi,
-            normalize_monitor=True
+            roi=roi
         )
         if template_match.valid:
-            pos = template_match.center
+            pos = template_match.center_monitor
             pos = (pos[0], pos[1] )
             Logger.debug("mid point >> "+str(pos))
 
@@ -632,15 +626,14 @@ class Necro(IChar):
     def stairs_W(self):
         roi = [0,0,1280,720]
         img = grab()
-        template_match = TemplateFinder().search(
+        template_match = template_finder.search(
             ["TRAV_W","TRAV_W_1"],
             img,
             threshold=0.4,
-            roi=roi,
-            normalize_monitor=True
+            roi=roi
         )
         if template_match.valid:
-            pos = template_match.center
+            pos = template_match.center_monitor
             pos = (pos[0], pos[1] )
             Logger.debug("mid point >> "+str(pos))
 
@@ -661,15 +654,14 @@ class Necro(IChar):
         roi = [0,0,1280,720]
 
         img = grab()
-        template_match = TemplateFinder().search(
+        template_match = template_finder.search(
             ["TRAV_18"],
             img,
             threshold=0.3,
-            roi=roi,
-            normalize_monitor=True
+            roi=roi
         )
         if template_match.valid:
-            pos = template_match.center
+            pos = template_match.center_monitor
             pos = (pos[0], pos[1] )
             Logger.debug("DURANCE ENTRANCE >> "+str(pos))
             # Note: Template is top of portal, thus move the y-position a bit to the bottom
@@ -699,15 +691,14 @@ class Necro(IChar):
             mouse.move(*target, randomize=6, delay_factor=[0.9, 1.1])
 
             img = grab()
-            template_match = TemplateFinder().search(
+            template_match = template_finder.search(
                 ["TO_TRAV_0"],
                 img,
                 threshold=0.95,
-                roi=roi,
-                normalize_monitor=True
+                roi=roi
             )
             if template_match.valid:
-                pos = template_match.center
+                pos = template_match.center_monitor
                 pos = (pos[0], pos[1] )
                 Logger.debug("DURANCE EXIT >> "+str(pos))
                 # Note: Template is top of portal, thus move the y-position a bit to the bottom

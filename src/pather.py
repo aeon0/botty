@@ -3,7 +3,6 @@ import keyboard
 import time
 import os
 import random
-from typing import Tuple, Union, List
 import cv2
 import numpy as np
 from utils.custom_mouse import mouse
@@ -12,7 +11,7 @@ from utils.misc import is_in_roi
 from config import Config
 from logger import Logger
 from screen import convert_screen_to_monitor, convert_abs_to_screen, convert_abs_to_monitor, convert_screen_to_abs, grab, stop_detecting_window
-from template_finder import TemplateFinder
+import template_finder
 from char import IChar
 from ui_manager import detect_screen_object, ScreenObjects, is_visible, select_screen_object_match
 
@@ -492,10 +491,10 @@ class Pather:
         )
 
     @staticmethod
-    def _convert_rel_to_abs(rel_loc: Tuple[float, float], pos_abs: Tuple[float, float]) -> Tuple[float, float]:
+    def _convert_rel_to_abs(rel_loc: tuple[float, float], pos_abs: tuple[float, float]) -> tuple[float, float]:
         return (rel_loc[0] + pos_abs[0], rel_loc[1] + pos_abs[1])
 
-    def traverse_nodes_fixed(self, key: Union[str, List[Tuple[float, float]]], char: IChar) -> bool:
+    def traverse_nodes_fixed(self, key: str | list[tuple[float, float]], char: IChar) -> bool:
         if not char.capabilities.can_teleport_natively:
             error_msg = "Teleport is required for static pathing"
             Logger.error(error_msg)
@@ -530,7 +529,7 @@ class Pather:
         #     cv2.imwrite(f"./info_screenshots/nil_path_{key}_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
         return True
 
-    def _adjust_abs_range_to_screen(self, abs_pos: Tuple[float, float]) -> Tuple[float, float]:
+    def _adjust_abs_range_to_screen(self, abs_pos: tuple[float, float]) -> tuple[float, float]:
         """
         Adjust an absolute coordinate so it will not go out of screen or click on any ui which will not move the char
         :param abs_pos: Absolute position of the desired position to move to
@@ -569,9 +568,9 @@ class Pather:
             abs_pos = (int(abs_pos[0] * f), int(abs_pos[1] * f))
         return abs_pos
 
-    def find_abs_node_pos(self, node_idx: int, img: np.ndarray, threshold: float = 0.68) -> Tuple[float, float]:
+    def find_abs_node_pos(self, node_idx: int, img: np.ndarray, threshold: float = 0.68) -> tuple[float, float]:
         node = self._nodes[node_idx]
-        template_match = TemplateFinder().search(
+        template_match = template_finder.search(
             [*node],
             img,
             best_match=False,
@@ -591,7 +590,7 @@ class Pather:
 
     def traverse_nodes(
         self,
-        path: Union[tuple[Location, Location], list[int]],
+        path: tuple[Location, Location] | list[int],
         char: IChar,
         timeout: float = 5,
         force_tp: bool = False,
@@ -658,9 +657,11 @@ class Pather:
 
                 # Sometimes we get stuck at rocks and stuff, after a few seconds force a move into the last known direction
                 if not did_force_move and time.time() - last_move > 3.1:
-                    pos_abs = (0, 150)
                     if last_direction is not None:
                         pos_abs = last_direction
+                    else:
+                        angle = random.random() * math.pi * 2
+                        pos_abs = (math.cos(angle) * 150, math.sin(angle) * 150)
                     pos_abs = self._adjust_abs_range_to_screen(pos_abs)
                     Logger.debug(f"Pather: taking a random guess towards " + str(pos_abs))
                     x_m, y_m = convert_abs_to_monitor(pos_abs)
@@ -706,9 +707,9 @@ if __name__ == "__main__":
             display_img = img.copy()
             template_map = {}
             template_scores = {}
-            for template_type in TemplateFinder()._templates:
+            for template_type in template_finder.stored_templates().keys():
                 if filter is None or filter in template_type:
-                    template_match = TemplateFinder().search(template_type, img, use_grayscale=True, threshold=0.78)
+                    template_match = template_finder.search(template_type, img, use_grayscale=True, threshold=0.78)
                     if template_match.valid:
                         template_map[template_type] = template_match.center
                         template_scores[template_type] = template_match.score

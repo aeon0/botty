@@ -10,7 +10,7 @@ from screen import grab, convert_screen_to_monitor
 from config import Config
 from logger import Logger
 from npc_manager import Npc, open_npc_menu, press_npc_btn
-from template_finder import TemplateFinder
+import template_finder
 from utils.custom_mouse import mouse
 from utils.misc import wait, load_template
 
@@ -93,23 +93,22 @@ class AnyaShopper:
             img = grab()
 
             # 20 IAS gloves have a unique color so we can skip all others
-            ias_glove = TemplateFinder(True).search(
-                ref=load_template(asset_folder + "ias_gloves.png", 1.0),
+            ias_glove = template_finder.search(
+                ref=load_template(asset_folder + "ias_gloves.png"),
                 inp_img=img,
                 threshold=0.96,
-                roi=Config().ui_roi["left_inventory"],
-                normalize_monitor=True,
+                roi=Config().ui_roi["left_inventory"]
             )
             if ias_glove.valid:
                 self.ias_gloves_seen += 1
-                mouse.move(*ias_glove.center)
+                mouse.move(*ias_glove.center_monitor)
                 time.sleep(0.1)
                 img = grab()
 
                 if self.look_for_plus_3_gloves is True:
-                    gg_gloves = TemplateFinder(True).search(
+                    gg_gloves = template_finder.search(
                         ref=load_template(
-                            asset_folder + "gg_gloves.png", 1.0 # assets for javazon gloves are mixed up, this one need +3 as in the 1080p version
+                            asset_folder + "gg_gloves.png" # assets for javazon gloves are mixed up, this one need +3 as in the 1080p version
                         ),
                         inp_img=img,
                         threshold=0.80
@@ -124,9 +123,9 @@ class AnyaShopper:
 
                 else:
                     if self.look_for_plus_2_gloves is True:
-                        g_gloves = TemplateFinder(True).search(
+                        g_gloves = template_finder.search(
                             ref=load_template(
-                                asset_folder + "g_gloves.png", 1.0
+                                asset_folder + "g_gloves.png"
                             ),
                             inp_img=img,
                             threshold=0.80
@@ -148,35 +147,33 @@ class AnyaShopper:
                 claw_pos = []
                 img = grab().copy()
                 claw_keys = ["CLAW1", "CLAW2", "CLAW3"]
-                for ck in claw_keys:
-                    template_match = TemplateFinder(True).search(ck, img, roi=self.roi_vendor)
-                    if template_match.valid:
-                        claw_pos.append(template_match.center)
+                template_matches = template_finder.search_all(claw_keys, img, roi=self.roi_vendor)
+                for template_match in template_matches:
+                    claw_pos.append(template_match.center_monitor)
                 # check out each claw
                 for pos in claw_pos:
                     # cv2.circle(img, pos, 3, (0, 255, 0), 2)
-                    x_m, y_m = convert_screen_to_monitor(pos)
-                    mouse.move(x_m, y_m, randomize=3, delay_factor=[0.5, 0.6])
+                    mouse.move(*pos, randomize=3, delay_factor=[0.5, 0.6])
                     wait(0.5, 0.6)
                     img_stats = grab()
                     trap_score = 0
                     melee_score = 0
-                    if TemplateFinder(True).search("3_TO_TRAPS", img_stats, roi=self.roi_claw_stats, threshold=0.94).valid:
+                    if template_finder.search("3_TO_TRAPS", img_stats, roi=self.roi_claw_stats, threshold=0.94).valid:
                         trap_score += 12
-                    elif TemplateFinder(True).search("TO_TRAPS", img_stats, roi=self.roi_claw_stats, threshold=0.9).valid:
+                    elif template_finder.search("TO_TRAPS", img_stats, roi=self.roi_claw_stats, threshold=0.9).valid:
                         trap_score += 8
 
-                    if TemplateFinder(True).search("2_TO_ASSA", img_stats, roi=self.roi_claw_stats, threshold=0.9).valid:
+                    if template_finder.search("2_TO_ASSA", img_stats, roi=self.roi_claw_stats, threshold=0.9).valid:
                         trap_score += 10
                         melee_score += 10
-                    if TemplateFinder(True).search("TO_VENOM", img_stats, roi=self.roi_claw_stats, threshold=0.9).valid:
+                    if template_finder.search("TO_VENOM", img_stats, roi=self.roi_claw_stats, threshold=0.9).valid:
                         melee_score += 6
-                    if TemplateFinder(True).search("TO_LIGHT", img_stats, roi=self.roi_claw_stats, threshold=0.9).valid:
+                    if template_finder.search("TO_LIGHT", img_stats, roi=self.roi_claw_stats, threshold=0.9).valid:
                         trap_score += 6
-                    if TemplateFinder(True).search("TO_WB", img_stats, roi=self.roi_claw_stats, threshold=0.9).valid:
+                    if template_finder.search("TO_WB", img_stats, roi=self.roi_claw_stats, threshold=0.9).valid:
                         melee_score += 2
                         trap_score += 1
-                    if TemplateFinder(True).search("TO_DS", img_stats, roi=self.roi_claw_stats, threshold=0.9).valid:
+                    if template_finder.search("TO_DS", img_stats, roi=self.roi_claw_stats, threshold=0.9).valid:
                         trap_score += 4
 
                     self.claws_evaluated += 1
@@ -221,9 +218,9 @@ class AnyaShopper:
 
     def select_by_template(self, template_type: str) -> bool:
         Logger.debug(f"Select {template_type}")
-        template_match = TemplateFinder(True).search_and_wait(template_type, timeout=10, normalize_monitor=True)
+        template_match = template_finder.search_and_wait(template_type, timeout=10)
         if template_match.valid:
-            mouse.move(*template_match.center)
+            mouse.move(*template_match.center_monitor)
             wait(0.1, 0.2)
             mouse.click(button="left")
             return True

@@ -11,7 +11,6 @@ from pyparsing import Regex
 
 from logger import Logger
 import cv2
-from typing import List, Tuple, Union
 import os
 from math import cos, sin, dist
 import subprocess
@@ -30,8 +29,8 @@ def close_down_bnet_launcher():
 
 @dataclass
 class WindowSpec:
-    title_regex: 'Union[str, None]' = None
-    process_name_regex: 'Union[str, None]' = None
+    title_regex: 'str | None' = None
+    process_name_regex: 'str | None' = None
 
     def match(self, hwnd) -> bool:
         result = True
@@ -107,7 +106,7 @@ def mask_by_roi(img, roi, type: str = "regular"):
         return None
     return masked
 
-def is_in_roi(roi: List[float], pos: Tuple[float, float]):
+def is_in_roi(roi: list[float], pos: tuple[float, float]):
     x, y, w, h = roi
     is_in_x_range = x < pos[0] < x + w
     is_in_y_range = y < pos[1] < y + h
@@ -180,15 +179,16 @@ def hms(seconds: int):
     s = seconds % 3600 % 60
     return '{:02d}:{:02d}:{:02d}'.format(h, m, s)
 
-def load_template(path, scale_factor: float = 1.0, alpha: bool = False):
+def load_template(path):
     if os.path.isfile(path):
         try:
-            template_img = cv2.imread(path, cv2.IMREAD_UNCHANGED) if alpha else cv2.imread(path)
-            template_img = cv2.resize(template_img, None, fx=scale_factor, fy=scale_factor, interpolation=cv2.INTER_NEAREST)
+            template_img = cv2.imread(path, cv2.IMREAD_UNCHANGED)
             return template_img
         except Exception as e:
             print(e)
             raise ValueError(f"Could not load template: {path}")
+    else:
+        Logger.error(f"Template does not exist: {path}")
     return None
 
 def alpha_to_mask(img: np.ndarray):
@@ -220,8 +220,8 @@ def image_is_equal(img1: np.ndarray, img2: np.ndarray) -> bool:
         Logger.debug("image_is_equal: Image shape is not equal")
         return False
     return not(np.bitwise_xor(img1, img2).any())
-    
-def arc_spread(cast_dir: Tuple[float,float], spread_deg: float=10, radius_spread: Tuple[float, float] = [.95, 1.05]):
+
+def arc_spread(cast_dir: tuple[float,float], spread_deg: float=10, radius_spread: tuple[float, float] = [.95, 1.05]):
     """
         Given an x,y vec (target), generate a new target that is the same vector but rotated by +/- spread_deg/2
     """
