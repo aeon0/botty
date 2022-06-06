@@ -24,7 +24,7 @@ class Diablo:
         town_manager: TownManager,
         char: IChar,
         pickit: PickIt,
-        last_run: str
+        runs: list[str]
     ):
         self._pather = pather
         self._town_manager = town_manager
@@ -33,6 +33,7 @@ class Diablo:
         self._picked_up_items = False
         self.used_tps = 0
         self._curr_loc: bool | Location = Location.A4_TOWN_START
+        self._runs = runs
 
     def approach(self, start_loc: Location) -> bool | Location:
 

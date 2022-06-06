@@ -21,14 +21,14 @@ class Arcane:
         town_manager: TownManager,
         char: IChar,
         pickit: PickIt,
-        last_run: str
+        runs: list[str]
     ):
         self._pather = pather
         self._town_manager = town_manager
         self._char = char
         self._pickit = pickit
         self._chest = Chest(self._char, 'arcane')
-        self._is_last_run = last_run == self.name
+        self._runs = runs
 
     def approach(self, start_loc: Location) -> bool | Location:
         Logger.info("Run Arcane")

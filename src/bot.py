@@ -101,17 +101,17 @@ class Bot:
         # Adapt order to the config
         self._do_runs = OrderedDict((k, self._do_runs[k]) for k in Config().routes_order if k in self._do_runs and self._do_runs[k])
     
-        last_run = list(self._do_runs.keys())[-1]
+        runs = list(self._do_runs.keys())
         self._do_runs_reset = copy(self._do_runs)
         Logger.info(f"Doing runs: {self._do_runs_reset.keys()}")
         if Config().general["randomize_runs"]:
             self.shuffle_runs()
-        self._pindle = Pindle(self._pather, self._town_manager, self._char, self._pickit, last_run)
-        self._shenk = ShenkEld(self._pather, self._town_manager, self._char, self._pickit, last_run)
-        self._trav = Trav(self._pather, self._town_manager, self._char, self._pickit, last_run)
-        self._nihlathak = Nihlathak(self._pather, self._town_manager, self._char, self._pickit, last_run)
-        self._arcane = Arcane(self._pather, self._town_manager, self._char, self._pickit, last_run)
-        self._diablo = Diablo(self._pather, self._town_manager, self._char, self._pickit, last_run)
+        self._pindle = Pindle(self._pather, self._town_manager, self._char, self._pickit, runs)
+        self._shenk = ShenkEld(self._pather, self._town_manager, self._char, self._pickit, runs)
+        self._trav = Trav(self._pather, self._town_manager, self._char, self._pickit, runs)
+        self._nihlathak = Nihlathak(self._pather, self._town_manager, self._char, self._pickit, runs)
+        self._arcane = Arcane(self._pather, self._town_manager, self._char, self._pickit, runs)
+        self._diablo = Diablo(self._pather, self._town_manager, self._char, self._pickit, runs)
 
         # Create member variables
         self._picked_up_items = False

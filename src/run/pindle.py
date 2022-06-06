@@ -17,13 +17,13 @@ class Pindle:
         town_manager: TownManager,
         char: IChar,
         pickit: PickIt,
-        last_run: str
+        runs: list[str]
     ):
         self._pather = pather
         self._town_manager = town_manager
         self._char = char
         self._pickit = pickit
-        self._is_last_run = last_run == self.name
+        self.runs = runs
 
     def approach(self, start_loc: Location) -> bool | Location:
         # Go through Red Portal in A5
