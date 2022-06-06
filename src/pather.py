@@ -511,9 +511,9 @@ class Pather:
             x_m, y_m = convert_screen_to_monitor(path[i])
             x_m += int(random.random() * 6 - 3)
             y_m += int(random.random() * 6 - 3)
-            t0 = grab()
+            t0 = grab(force_new=True)
             char.move((x_m, y_m))
-            t1 = grab()
+            t1 = grab(force_new=True)
             # check difference between the two frames to determine if tele was good or not
             diff = cv2.absdiff(t0, t1)
             diff = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
@@ -638,7 +638,7 @@ class Pather:
             did_force_move = False
             teleport_count = 0
             while not continue_to_next_node:
-                img = grab()
+                img = grab(force_new=True)
                 # Handle timeout
                 if (time.time() - last_move) > timeout:
                     if is_visible(ScreenObjects.WaypointLabel):

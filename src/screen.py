@@ -69,12 +69,12 @@ def stop_detecting_window():
     if detect_window_thread:
         detect_window_thread.join()
 
-def grab() -> np.ndarray:
+def grab(force_new: bool = False) -> np.ndarray:
     global monitor_roi
     global cached_img
     global last_grab
     # with 25fps we have 40ms per frame. If we check for 20ms range to make sure we can still get each frame if we want.
-    if cached_img is not None and last_grab is not None and time.perf_counter() - last_grab < 0.04:
+    if not force_new and cached_img is not None and last_grab is not None and time.perf_counter() - last_grab < 0.04:
         return cached_img
     else:
         with cached_img_lock:
