@@ -777,7 +777,7 @@
 // White 1h Weapons
 //[Name] == Berserkeraxe && [Quality] == Normal && [Flag] != Ethereal # ([Sockets] == 0 || [Sockets] == 5 || [Sockets] == 6)
 //[Name] == Crystalsword && [Quality] == Normal && [Flag] != Ethereal # ([Sockets] == 0 || [Sockets] >= 4)
-//[Name] == Flail && [Quality] == Normal && [Flag] != Ethereal # ([Sockets] == 0 || [Sockets] => 4)
+//[Name] == Flail && [Quality] == Normal && [Flag] != Ethereal # ([Sockets] == 0 || [Sockets] >= 4)
 //[Name] == Phaseblade && [Quality] == Normal && [Flag] != Ethereal # ([Sockets] == 0 || [Sockets] == 5 || [Sockets] == 6)
 //[Name] == Warscepter && [Quality] == Normal && [Flag] != Ethereal # ([Sockets] == 0 || [Sockets] == 5)
 //[Name] == Divinescepter && [Quality] == Normal && [Flag] != Ethereal # ([Sockets] == 0 || [Sockets] == 5)
@@ -786,7 +786,7 @@
 // White Superior (eth and non-eth) 1h Weapons
 [Name] == Berserkeraxe && [Quality] == Superior  # ([Sockets] == 0 || [Sockets] == 5 || [Sockets] == 6) && [enhanceddamage] >= 14
 [Name] == Crystalsword && [Quality] == Superior  # ([Sockets] == 0 || [Sockets] >= 4) && [enhanceddamage] >= 14
-[Name] == Flail && [Quality] == Superior  # ([Sockets] == 0 || [Sockets] => 4) && [enhanceddamage] >= 14
+[Name] == Flail && [Quality] == Superior  # ([Sockets] == 0 || [Sockets] >= 4) && [enhanceddamage] >= 14
 [Name] == Phaseblade && [Quality] == Superior  # ([Sockets] == 0 || [Sockets] == 5 || [Sockets] == 6) && [enhanceddamage] >= 14
 [Name] == Warscepter && [Quality] == Superior  # ([Sockets] == 0 || [Sockets] == 5) && [enhanceddamage] > 0
 [Name] == Divinescepter && [Quality] == Superior  # ([Sockets] == 0 || [Sockets] == 5) && [enhanceddamage] > 0
