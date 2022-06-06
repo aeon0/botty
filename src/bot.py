@@ -262,7 +262,7 @@ class Bot:
                 Logger.info(f"Please Enter the region ip and hot ip on config to use")
 
         # Run /nopickup command to avoid picking up stuff on accident
-        if Config().char["enable_no_pickup"]:
+        if Config().char["enable_no_pickup"] and (not self._ran_no_pickup and not self._game_stats._nopickup_active):
             self._ran_no_pickup = True
             if view.enable_no_pickup():
                 self._game_stats._nopickup_active = True
