@@ -256,8 +256,7 @@ if __name__ == "__main__":
     _visible_templates = []
 
     def _save_visible_templates():
-        if not os.path.exists("info_screenshots"):
-            os.system("mkdir info_screenshots")
+        os.makedirs("log/screenshots/info", exist_ok=True)
         for match in _visible_templates:
             cv2.imwrite(match['filename'], match['img'])
             Logger.info(f"{match['filename']} saved")
@@ -313,7 +312,7 @@ if __name__ == "__main__":
                 cv2.rectangle(display_img, template_match.region[:2], (template_match.region[0] + template_match.region[2], template_match.region[1] + template_match.region[3]), (0, 0, 255), 1)
                 print(f"Name: {template_match.name} Pos: {template_match.center}, Dist: {625-x, 360-y}, Score: {template_match.score}")
                 match = {
-                    'filename': f"./info_screenshots/{key.lower()}.png",
+                    'filename': f"./log/screenshots/info/{key.lower()}.png",
                     'img': cut_roi(img, template_match.region)
                 }
                 _visible_templates.append(match)

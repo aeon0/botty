@@ -134,7 +134,6 @@ class Config:
             "discord_status_count": False if not self._select_val("general", "discord_status_count") else int(self._select_val("general", "discord_status_count")),
             "discord_log_chicken": bool(int(self._select_val("general", "discord_log_chicken"))),
             "info_screenshots": bool(int(self._select_val("general", "info_screenshots"))),
-            "loot_screenshots": bool(int(self._select_val("general", "loot_screenshots"))),
             "pickit_screenshots": bool(int(self._select_val("general", "pickit_screenshots"))),
             "d2r_path": _default_iff(self._select_val("general", "d2r_path"), "", "C:\Program Files (x86)\Diablo II Resurrected"),
             "restart_d2r_when_stuck": bool(int(self._select_val("general", "restart_d2r_when_stuck"))),
@@ -271,7 +270,7 @@ class Config:
         self.poison_necro = self.configs["config"]["parser"]["poison_necro"]
         if "poison_necro" in self.configs["custom"]["parser"]:
             self.poison_necro.update(self.configs["custom"]["parser"]["poison_necro"])
-            
+
         self.bone_necro = self.configs["config"]["parser"]["bone_necro"]
         if "bone_necro" in self.configs["custom"]["parser"]:
             self.bone_necro.update(self.configs["custom"]["parser"]["bone_necro"])

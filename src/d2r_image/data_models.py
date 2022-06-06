@@ -1,7 +1,15 @@
 from enum import Enum
 import numpy as np
+import dataclasses
 from dataclasses import dataclass
 from dataclasses_json import dataclass_json
+import json
+
+class EnhancedJSONEncoder(json.JSONEncoder):
+    def default(self, o):
+        if dataclasses.is_dataclass(o):
+            return dataclasses.asdict(o)
+        return super().default(o)
 
 @dataclass
 class OcrResult:
@@ -13,7 +21,6 @@ class OcrResult:
 
     def __getitem__(self, key):
         return super().__getattribute__(key)
-
 
 @dataclass
 class ItemQuality(Enum):
@@ -208,15 +215,3 @@ class InventoryItem:
 @dataclass
 class D2ItemList:
     items: list[D2Item | None]
-
-
-@dataclass_json
-@dataclass
-class ScreenReport:
-    groundLoot: list[D2Item]
-    hoveredItem: D2Item
-    npcs: dict
-    health: float
-    mana: float
-    stamina: float
-    experience: float

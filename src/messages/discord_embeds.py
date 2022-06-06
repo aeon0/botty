@@ -32,8 +32,8 @@ class DiscordEmbeds(GenericApi):
         imgName = item.replace('_', '-')
 
         _, w, _ = image.shape
-        cv2.imwrite(f"./loot_screenshots/{item}.png", image)
-        file = self._add_file(f"./loot_screenshots/{item}.png", f"{imgName}.png")
+        cv2.imwrite(f"./log/screenshots/items/{item}.png", image)
+        file = self._add_file(f"./log/screenshots/items/{item}.png", f"{imgName}.png")
         e = discord.Embed(
             title="Item Stashed!",
             description=f"{item} at {location}",

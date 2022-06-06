@@ -13,10 +13,7 @@ from logger import Logger
 
 import os
 
-# Check if tem_error_screenshots directory exists, if not create it
-if not os.path.exists("./item_error_screenshots"):
-    os.makedirs("./item_error_screenshots")
-
+os.makedirs("./log/screenshots/info", exist_ok=True)
 
 def get_ground_loot(image: np.ndarray, consolidate: bool = False) -> GroundItemList | None:
     crop_result = crop_text_clusters(image)
@@ -37,10 +34,10 @@ def get_hovered_item(image: np.ndarray, model = "hover-eng_inconsolata_inv_th_fa
             parsed_item = parse_item(quality, res.ocr_result.text)
         except Exception as e:
             Logger.warning(f"\nparsed_item ERROR {e}\n {traceback.format_exc()}")
-            # * Log the screenshot to item_error_screenshot directory.
+            # * Log the screenshot to log/screenshots/info directory.
             t = time.time()
-            cv2.imwrite(f"item_error_screenshots/02_{t}.png", res.img)
-            with open("item_error_screenshots/02_error_log.txt", "a") as f:
+            cv2.imwrite(f"log/screenshots/info/02_{t}.png", res.img)
+            with open("log/screenshots/info/02_error_log.txt", "a") as f:
                 f.write(f"""--------------------------------------------------------------------------------
 [{t}]
 {res.ocr_result.text}

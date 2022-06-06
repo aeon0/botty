@@ -526,7 +526,7 @@ class Pather:
                 if stuck_count >= 5:
                     return False
         # if type(key) == str and ("_save_dist" in key or "_end" in key):
-        #     cv2.imwrite(f"./info_screenshots/nil_path_{key}_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
+        #     cv2.imwrite(f"./log/screenshots/info/nil_path_{key}_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
         return True
 
     def _adjust_abs_range_to_screen(self, abs_pos: tuple[float, float]) -> tuple[float, float]:
@@ -650,8 +650,8 @@ class Pather:
                         # because of all the spells and monsters it often can not determine the final template
                         # Don't want to spam the log with errors in this case because it most likely worked out just fine
                         if timeout > 3.1:
-                            if Config().general["info_screenshots"]:
-                                cv2.imwrite("./info_screenshots/info_pather_got_stuck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
+                            if Config().general["log/screenshots/info"]:
+                                cv2.imwrite("./log/screenshots/info/info_pather_got_stuck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
                             Logger.error("Got stuck exit pather")
                         return False
 
@@ -670,10 +670,12 @@ class Pather:
                 # Sometimes we get stuck at a Shrine or Stash, after a few seconds check if the screen was different, if force a left click.
                 if (teleport_count + 1) % 30 == 0:
                     if (match := detect_screen_object(ScreenObjects.ShrineArea)).valid:
-                        if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_shrine_check_before" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
+                        if Config().general["info_screenshots"]:
+                            cv2.imwrite(f"./log/screenshots/info/info_shrine_check_before" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
                         Logger.debug(f"Shrine found, activating it")
                         select_screen_object_match(match)
-                        if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_shrine_check_after" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
+                        if Config().general["info_screenshots"]:
+                            cv2.imwrite(f"./log/screenshots/info/info_shrine_check_after" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
                     teleport_count = 0
                     break
                 teleport_count += 1
@@ -734,7 +736,7 @@ if __name__ == "__main__":
                         print(f'"{template_type}": {wrt_origin}')
             # display_img = cv2.resize(display_img, None, fx=0.5, fy=0.5)
             # if round(time.time() - start) % 3 == 0:
-            #     cv2.imwrite("./info_screenshots/pather_" + time.strftime("%Y%m%d_%H%M%S") + ".png", display_img)
+            #     cv2.imwrite("./log/screenshots/info/pather_" + time.strftime("%Y%m%d_%H%M%S") + ".png", display_img)
             cv2.imshow("debug", display_img)
             cv2.waitKey(1)
 

@@ -3,7 +3,7 @@ import random
 import time
 import cv2
 import math
-from inventory import consumables
+from item import consumables
 import keyboard
 import numpy as np
 from char.capabilities import CharacterCapabilities

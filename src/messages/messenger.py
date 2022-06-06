@@ -41,8 +41,8 @@ if __name__ == "__main__":
     location = "Shenk"
 
     # messenger.send_item(item, img, location)
-    # messenger.send_death(location, "./info_screenshots/info_debug_chicken_20211220_110621.png")
-    # messenger.send_chicken(location, "./info_screenshots/info_debug_chicken_20211220_110621.png")
+    # messenger.send_death(location, "./log/screenshots/info/info_debug_chicken_20211220_110621.png")
+    # messenger.send_chicken(location, "./log/screenshots/info/info_debug_chicken_20211220_110621.png")
     messenger.send_stash()
     messenger.send_gold()
     messenger.send_message("This is a test message")

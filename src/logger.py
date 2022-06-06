@@ -5,6 +5,7 @@ import sys
 import warnings
 from version import __version__
 from colorama import Fore, Back, Style, init
+import time
 
 init()
 
@@ -27,9 +28,10 @@ class CustomFormatter(logging.Formatter):
 
 class Logger:
     """Manage logging"""
+    os.makedirs("log", exist_ok=True)
     _logger_level = None
     _log_contents = io.StringIO()
-    _current_log_file_path = "info.log"
+    _current_log_file_path = "log/log.txt"
     _output = ""  # intercepted output from stdout and stderr
     string_handler = None
     file_handler = None
@@ -118,4 +120,4 @@ class Logger:
             try:
                 os.remove(Logger._current_log_file_path)
             except PermissionError:
-                warnings.warn("Could not remove info.log, permission denied")
+                warnings.warn(f"Could not remove {Logger._current_log_file_path}, permission denied")
