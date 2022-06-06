@@ -641,7 +641,7 @@ class Pather:
                 img = grab(force_new=True)
                 # Handle timeout
                 if (time.time() - last_move) > timeout:
-                    if is_visible(ScreenObjects.WaypointLabel):
+                    if is_visible(ScreenObjects.WaypointLabel, img):
                         # sometimes bot opens waypoint menu, close it to find templates again
                         Logger.debug("Opened wp, closing it again")
                         keyboard.send("esc")
@@ -670,7 +670,7 @@ class Pather:
 
                 # Sometimes we get stuck at a Shrine or Stash, after a few seconds check if the screen was different, if force a left click.
                 if (teleport_count + 1) % 30 == 0:
-                    if (match := detect_screen_object(ScreenObjects.ShrineArea)).valid:
+                    if (match := detect_screen_object(ScreenObjects.ShrineArea, img)).valid:
                         if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_shrine_check_before" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
                         Logger.debug(f"Shrine found, activating it")
                         select_screen_object_match(match)
