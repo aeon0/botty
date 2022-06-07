@@ -5,7 +5,7 @@ import keyboard
 import time
 from utils.custom_mouse import mouse
 from template_finder import TemplateFinder
-from ui_manager import detect_screen_object, ScreenObjects, is_visible, wait_until_hidden
+from ui_manager import detect_screen_object, ScreenObjects, is_visible, wait_until_hidden, center_mouse
 from utils.misc import wait, trim_black, color_filter, cut_roi
 from inventory import consumables
 from ui import view
@@ -179,7 +179,11 @@ def get_active_tab(indicator: TemplateMatch = None) -> int:
     if indicator.valid:
         return indicator_location_to_tab_count(indicator.center)
     else:
-        Logger.error("common/get_active_tab(): Error finding tab indicator")
+        center_mouse()
+        if (indicator := detect_screen_object(ScreenObjects.TabIndicator)).valid:
+            return indicator_location_to_tab_count(indicator.center)
+        else:
+            Logger.error("common/get_active_tab(): Error finding tab indicator")
     return -1
 
 def select_tab(idx: int):
