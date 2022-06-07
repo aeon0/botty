@@ -32,14 +32,10 @@ class GenericApi:
     def _send(self, msg: str, loot = False):
         msg = f"{Config().general['name']}: {msg}"
 
-        if loot:
-            url = Config().general['custom_loot_message_hook']
-            if not url:
-                url = Config().general['custom_message_hook']
-        else:
-            url = Config().general['custom_message_hook']
-        if not url:
+        if not (url := Config().general['custom_message_hook']):
             return
+        if loot and (loot_url := Config().general['custom_loot_message_hook']):
+            url = loot_url
 
         headers = {}
         if Config().advanced_options['message_headers']:
