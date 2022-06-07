@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from logger import Logger
 from nip.NTIPAliasQuality import NTIPAliasQuality
 from nip.NTIPAliasClass import NTIPAliasClass
@@ -33,12 +34,14 @@ class NipSyntaxError(Exception):
         return self.message
 
 
+
+
 class Lexer:
     def __init__(self):
         self.current_section: NipSections = NipSections.PROP
         self.current_token: str | None = ""
         self.text_i: int = -1
-        self.tokens: List = []
+        self.tokens: List[Token] = []
 
     def increment_section(self):
         if self.current_section == NipSections.PROP:
@@ -98,7 +101,7 @@ class Lexer:
         
         return Token(TokenType.NUMBER, float(found_number))
 
-    def _create_digits(self):
+    def _create_digits(self) -> Token:
         found_decimal_number = re.match(r"^[0-9]+\.[0-9]+", self.get_current_iteration_of_text_raw())
         if found_decimal_number:
             return self._create_custom_digit_token(found_decimal_number.group(0))
@@ -110,6 +113,8 @@ class Lexer:
         found_whole_number = re.match(r"^[0-9]+", self.get_current_iteration_of_text_raw())
         if found_whole_number:
             return self._create_custom_digit_token(found_whole_number.group(0))
+
+        return Token(TokenType.UNKNOWN, self.current_token)
 
 
     def _create_math_operator(self):
@@ -129,7 +134,7 @@ class Lexer:
             return Token(symbol_map[symbol], symbol)
         return Token(TokenType.UNKNOWN, symbol)
 
-    def _create_nip_lookup(self):
+    def _create_nip_lookup(self) -> Token:
         """
             item data lookup i.e [name]
         """
@@ -179,9 +184,10 @@ class Lexer:
                 return Token(TokenType.UNKNOWN, "-1")
         elif self.current_section == NipSections.MAXQUANTITY:
             pass
-               
 
-    def _create_d2r_image_data_lookup(self):
+        return Token(TokenType.UNKNOWN, "-1")
+
+    def _create_d2r_image_data_lookup(self) -> Token:
         lookup_key = ""
         
         found_lookup_key = re.match(r"^(\w+)\s*", self.get_current_iteration_of_text_raw())
@@ -210,8 +216,10 @@ class Lexer:
                 return Token(TokenType.ValueNTIPAliasStat, lookup_key)
             else:
                 return Token(TokenType.UNKNOWN, "-1")
+        
+        return Token(TokenType.UNKNOWN, "-1")
 
-    def _create_logical_operator(self):
+    def _create_logical_operator(self) -> Token:
         char = self.current_token
         self._advance()
         logical_operator_map = {
@@ -265,3 +273,5 @@ class Lexer:
                 return Token(logical_operator_map[operator], pythonic_relation_operator)
         else:
             raise NipSyntaxError(f"Unexpected logical operator {invalid_char}")
+            
+        return Token(TokenType.UNKNOWN, "")
