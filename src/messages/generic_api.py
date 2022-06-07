@@ -8,7 +8,7 @@ class GenericApi:
 
     def send_item(self, item: str, image:  np.ndarray, location: str, ocr_text: str = None):
         msg = f"Found {item} at {location}"
-        self._send(msg)
+        self._send(msg, loot = True)
 
     def send_death(self, location: str, image_path: str = None):
         msg = f"You have died at {location}"
@@ -29,10 +29,15 @@ class GenericApi:
     def send_message(self, msg: str):
         self._send(msg)
 
-    def _send(self, msg: str):
+    def _send(self, msg: str, loot = False):
         msg = f"{Config().general['name']}: {msg}"
 
-        url = Config().general['custom_message_hook']
+        if loot:
+            url = Config().general['custom_loot_message_hook']
+            if not url:
+                url = Config().general['custom_message_hook']
+        else:
+            url = Config().general['custom_message_hook']
         if not url:
             return
 
