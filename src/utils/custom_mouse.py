@@ -6,7 +6,6 @@ import numpy as np
 import random
 import math
 import time
-from typing import Union, Tuple
 import screen
 from config import Config
 from utils.misc import is_in_roi
@@ -228,7 +227,7 @@ class mouse:
         else:
             _winmouse.move_to(x, y)
 
-    def move(x, y, absolute: bool = True, randomize: Union[int, Tuple[int, int]] = 5, delay_factor: Tuple[float, float] = [0.9, 1.1]):
+    def move(x, y, absolute: bool = True, randomize: int | tuple[int, int] = 5, delay_factor: tuple[float, float] = [0.9, 1.1]):
         from_point = _mouse.get_position()
         dist = math.dist((x, y), from_point)
         offsetBoundaryX = max(10, int(0.08 * dist))

@@ -3,7 +3,7 @@ import os
 import time
 import math
 import random
-from typing import Dict, Tuple, Union, List, Callable
+from typing import Callable
 
 import keyboard
 import numpy as np
@@ -136,7 +136,7 @@ class DrognanShopper:
         self.hold_move(pos_m, time_held=(2.0 / self.speed_factor))
 
     # A variation of the move() function from pather.py
-    def hold_move(self, pos_monitor: Tuple[float, float], time_held: float = 2.0):
+    def hold_move(self, pos_monitor: tuple[float, float], time_held: float = 2.0):
         factor = Config().advanced_options["pathing_delay_factor"]
         # in case we want to walk we actually want to move a bit before the point cause d2r will always "overwalk"
         pos_screen = convert_monitor_to_screen(pos_monitor)

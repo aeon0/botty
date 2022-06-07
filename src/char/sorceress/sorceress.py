@@ -1,5 +1,5 @@
 import keyboard
-from typing import Tuple, Union, List, Callable
+from typing import Callable
 from utils.custom_mouse import mouse
 from char import IChar
 import template_finder
@@ -7,7 +7,6 @@ from pather import Pather
 from screen import grab
 from utils.misc import wait
 import time
-from typing import Tuple
 from pather import Pather
 from config import Config
 from ui_manager import ScreenObjects, is_visible
@@ -17,7 +16,7 @@ class Sorceress(IChar):
         super().__init__(skill_hotkeys)
         self._pather = pather
 
-    def pick_up_item(self, pos: Tuple[float, float], item_name: str = None, prev_cast_start: float = 0):
+    def pick_up_item(self, pos: tuple[float, float], item_name: str = None, prev_cast_start: float = 0):
         if self._skill_hotkeys["telekinesis"] and any(x in item_name for x in ['potion', 'misc_gold', 'tp_scroll']):
             keyboard.send(self._skill_hotkeys["telekinesis"])
             wait(0.1, 0.2)
@@ -36,7 +35,7 @@ class Sorceress(IChar):
 
     def select_by_template(
         self,
-        template_type:  Union[str, List[str]],
+        template_type:  str | list[str],
         success_func: Callable = None,
         timeout: float = 8,
         threshold: float = 0.68,

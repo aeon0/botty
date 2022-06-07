@@ -2,7 +2,6 @@ from char.i_char import IChar
 from config import Config
 from logger import Logger
 from pather import Location, Pather
-from typing import Union
 from item.pickit import PickIt
 import template_finder
 from town.town_manager import TownManager
@@ -13,20 +12,25 @@ from ui import waypoint
 from health_manager import set_pause_state
 
 class Arcane:
+
+    name = "run_arcane"
+
     def __init__(
         self,
         pather: Pather,
         town_manager: TownManager,
         char: IChar,
         pickit: PickIt,
+        runs: list[str]
     ):
         self._pather = pather
         self._town_manager = town_manager
         self._char = char
         self._pickit = pickit
         self._chest = Chest(self._char, 'arcane')
+        self._runs = runs
 
-    def approach(self, start_loc: Location) -> Union[bool, Location]:
+    def approach(self, start_loc: Location) -> bool | Location:
         Logger.info("Run Arcane")
         set_pause_state(True)
         if not self._char.capabilities.can_teleport_natively:
@@ -57,7 +61,7 @@ class Arcane:
             self._pather.traverse_nodes([462], self._char, timeout=1.3, force_tp=True)
         return False
 
-    def battle(self, do_pre_buff: bool) -> Union[bool, tuple[Location, bool]]:
+    def battle(self, do_pre_buff: bool) -> bool | tuple[Location, bool]:
         picked_up_items = False
         @dataclass
         class PathData:

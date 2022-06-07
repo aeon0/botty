@@ -1,8 +1,6 @@
 import cv2
 import threading
-from copy import deepcopy
 from screen import convert_screen_to_monitor, grab
-from typing import Union
 from dataclasses import dataclass
 import numpy as np
 from logger import Logger
@@ -66,7 +64,7 @@ def get_template(key):
     with templates_lock:
         return _templates()[key].img_bgr
 
-def _process_template_refs(ref: Union[str, np.ndarray, list[str]]) -> list[Template]:
+def _process_template_refs(ref: str | np.ndarray | list[str]) -> list[Template]:
     templates = []
     if type(ref) != list:
         ref = [ref]
@@ -128,7 +126,7 @@ def _single_template_match(template: Template, inp_img: np.ndarray = None, roi: 
 
 
 def search(
-    ref: Union[str, np.ndarray, list[str]],
+    ref: str | np.ndarray | list[str],
     inp_img: np.ndarray,
     threshold: float = 0.68,
     roi: list[float] = None,
@@ -163,7 +161,7 @@ def search(
 
 
 def search_and_wait(
-    ref: Union[str, list[str]],
+    ref: str | list[str],
     roi: list[float] = None,
     timeout: float = 30,
     threshold: float = 0.68,
@@ -197,7 +195,7 @@ def search_and_wait(
 
 
 def search_all(
-    ref: Union[str, np.ndarray, list[str]],
+    ref: str | np.ndarray | list[str],
     inp_img: np.ndarray,
     threshold: float = 0.68,
     roi: list[float] = None,

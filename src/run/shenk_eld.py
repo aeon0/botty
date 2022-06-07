@@ -1,8 +1,6 @@
 from char import IChar
-from config import Config
 from logger import Logger
 from pather import Location, Pather
-from typing import Union
 from item.pickit import PickIt
 import template_finder
 from town.town_manager import TownManager
@@ -10,19 +8,24 @@ from utils.misc import wait
 from ui import waypoint
 
 class ShenkEld:
+
+    name = "run_shenk"
+
     def __init__(
         self,
         pather: Pather,
         town_manager: TownManager,
         char: IChar,
-        pickit: PickIt
+        pickit: PickIt,
+        runs: list[str]
     ):
         self._pather = pather
         self._town_manager = town_manager
         self._char = char
         self._pickit = pickit
+        self._runs = runs
 
-    def approach(self, start_loc: Location) -> Union[bool, Location, bool]:
+    def approach(self, start_loc: Location) -> bool | Location:
         Logger.info("Run Eldritch")
         # Go to Frigid Highlands
         if not self._town_manager.open_wp(start_loc):
@@ -32,7 +35,7 @@ class ShenkEld:
             return Location.A5_ELDRITCH_START
         return False
 
-    def battle(self, do_shenk: bool, do_pre_buff: bool, game_stats) -> Union[bool, tuple[Location, bool]]:
+    def battle(self, do_shenk: bool, do_pre_buff: bool, game_stats) -> bool | tuple[Location, bool]:
         # Eldritch
         game_stats.update_location("Eld")
         if not template_finder.search_and_wait(["ELDRITCH_0", "ELDRITCH_0_V2", "ELDRITCH_0_V3", "ELDRITCH_START", "ELDRITCH_START_V2"], threshold=0.65, timeout=20).valid:

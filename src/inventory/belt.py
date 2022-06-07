@@ -1,6 +1,5 @@
 import itertools
 from logger import Logger
-from typing import List
 import numpy as np
 import template_finder
 from inventory import common, consumables, personal
@@ -72,7 +71,7 @@ def _cut_potion_img(img: np.ndarray, column: int, row: int) -> np.ndarray:
     ]
     return cut_roi(img, roi)
 
-def drink_potion(potion_type: str, merc: bool = False, stats: List = []) -> bool:
+def drink_potion(potion_type: str, merc: bool = False, stats: list = []) -> bool:
     img = grab()
     for i in range(4):
         potion_img = _cut_potion_img(img, i, 0)
