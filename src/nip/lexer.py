@@ -59,7 +59,8 @@ class Lexer:
             self.current_token = None
 
 
-    def create_tokens(self, nip_expression):
+    def create_tokens(self, nip_expression, starting_section: NipSections = NipSections.PROP):
+        self.current_section = starting_section
         self.text = list(nip_expression)
         self._advance()
         self.tokens = []
@@ -70,6 +71,7 @@ class Lexer:
                 self._advance()
             elif self.current_token in MATH_SYMBOLS:
                 self.tokens.append(self._create_math_operator())
+                self._advance()
             elif self.current_token in SYMBOLS:
                 self.tokens.append(self._create_logical_operator())
                 # self.advance()
@@ -82,63 +84,45 @@ class Lexer:
         return self.tokens
 
     def _create_digits(self):
-        dot_count = 0
-        n_str = self.current_token
-        self._advance()
-        while self.current_token != None and self.current_token in DIGITS:
-            if self.current_token == ".":
-                if dot_count >= 1:
-                    break
-                dot_count += 1
-            n_str += self.current_token
-            if self.current_token == "%":
+        found_decimal_number = re.match(r"^[0-9]+\.[0-9]+", self.get_current_iteration_of_text_raw())
+        if found_decimal_number:
+            number = found_decimal_number.group()
+            for _ in range(len(number)):
                 self._advance()
-                break
-            self._advance()
-        if n_str.startswith("."):
-            n_str = "0" + n_str
-        elif n_str.endswith("."):
-            n_str = n_str + "0"
-        elif n_str.endswith("%"):
-            if n_str != None:
-                return Token(TokenType.NUMBERPERCENT, n_str[:-1])
-        return Token(TokenType.NUMBER, float(n_str))
+            return Token(TokenType.NUMBER, float(number))
+
+        shorthand_decimal_number = re.match(r"^\.[0-9]+", self.get_current_iteration_of_text_raw())
+        if shorthand_decimal_number:
+            number = shorthand_decimal_number.group()
+            for _ in range(len(number)):
+                self._advance()
+            number = "0" + number
+            return Token(TokenType.NUMBER, float(number))
+
+        found_whole_number = re.match(r"^[0-9]+", self.get_current_iteration_of_text_raw())
+        if found_whole_number:
+            number = found_whole_number.group()
+            for _ in range(len(number)):
+                self._advance()
+            return Token(TokenType.NUMBER, float(number))
 
 
     def _create_math_operator(self):
         symbol = self.current_token
-        self._advance()
         symbol_map = {
             '+': TokenType.PLUS,
             '-': TokenType.MINUS,
             '*': TokenType.MULTIPLY,
             '/': TokenType.DIVIDE,
             '\\': TokenType.MODULO,
-            '^': TokenType.POW
+            '^': TokenType.POW,
+            "(": TokenType.LPAREN,
+            ")": TokenType.RPAREN
         }
-        while self.current_token != None:
 
-            if symbol == "+":
-                return Token(TokenType.PLUS, symbol)
-            elif symbol == "-":
-                return Token(TokenType.MINUS, symbol)
-            elif symbol == "*":
-                return Token(TokenType.MULTIPLY, symbol)
-            elif symbol == "/":
-                return Token(TokenType.DIVIDE, symbol)
-            elif symbol == "\\":
-                return Token(TokenType.MODULO, symbol)
-            elif symbol == "^":
-                return Token(TokenType.POW, symbol)
-            elif symbol == "(":
-                return Token(TokenType.LPAREN, symbol)
-            elif symbol == ")":
-                return Token(TokenType.RPAREN, symbol)
-        if symbol == "(":
-            return Token(TokenType.LPAREN, symbol)
-        elif symbol == ")":
-            return Token(TokenType.RPAREN, symbol)
-
+        if symbol in symbol_map:
+            return Token(symbol_map[symbol], symbol)
+        return Token(TokenType.UNKNOWN, symbol)
 
     def _create_nip_lookup(self):
         """
@@ -189,17 +173,17 @@ class Lexer:
                
 
     def _create_d2r_image_data_lookup(self):
-        lookup_key = self.current_token
-        while self.current_token != None:
-            self._advance()
-            if self.current_token == None or self.current_token not in CHARS:
-                break
-            if self.current_token == "'":
-                self.current_token = "\\'" # TODO FIX THIS (make stuff like diablo'shorn work..)
-            if lookup_key and self.current_token:
-                lookup_key += self.current_token
-        # Converts stuff like ethereal to NTIPAliasFlag['ethereal']
-        if self.current_section == NipSections.PROP:
+        lookup_key = ""
+        
+        found_lookup_key = re.match(r"^(\w+)\s*", self.get_current_iteration_of_text_raw())
+        if found_lookup_key:
+            found = found_lookup_key.group(1).replace("'", "\\'") # Replace ' with escaped \'
+            for _ in range(len(found)):
+                self._advance()
+            lookup_key = found
+            
+        if self.current_section == NipSections.PROP: 
+            # TODO: The second checks (i.e NTIPAliasClass and self.tokens[-2].type == TokenType.CLASS:) seem a little misplaced, possibly put them inside the validation function that is inside transpiler.py and throw a warning accordingly.
             if lookup_key in NTIPAliasClass and self.tokens[-2].type == TokenType.CLASS:
                 return Token(TokenType.NTIPAliasClass, lookup_key)
             elif lookup_key in NTIPAliasQuality and self.tokens[-2].type == TokenType.QUALITY:
@@ -217,8 +201,6 @@ class Lexer:
                 return Token(TokenType.NTIPAliasStat, lookup_key)
             else:
                 return Token(TokenType.UNKNOWN, "-1")
-
-
 
     def _create_logical_operator(self):
         char = self.current_token
