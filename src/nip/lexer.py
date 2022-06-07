@@ -45,6 +45,11 @@ class Lexer:
         elif self.current_section == NipSections.STAT:
             self.current_section = NipSections.MAXQUANTITY
 
+    def get_current_iteration_of_text_raw(self):
+        """
+            Returns the self.text in a string type, and at its current iteration.
+        """
+        return "".join(self.text[self.text_i:])
 
     def _advance(self):
         try:
@@ -139,53 +144,49 @@ class Lexer:
         """
             item data lookup i.e [name]
         """
-        self._advance()
-        lookup_key = self.current_token
-        while self.current_token != None:
-
-            self._advance()
-            if self.current_token == "]":
-                break
-            if lookup_key and self.current_token:
-                lookup_key += self.current_token
-        self._advance()
+        lookup_key = ""
+        if self.text:
+            found_match = re.match(r"\[\w+\]|\[d+\]", self.get_current_iteration_of_text_raw()) # Finds the first match of [word] or [21234223892] (numbers :P)
+            if found_match:
+                found = found_match.group(0)
+                for char in found:
+                    if char.isalnum(): # is alpha numeric
+                        lookup_key += char
+                    self._advance()
 
         if self.current_section == NipSections.PROP:
             if lookup_key:
-                if lookup_key in "name":
-                    return Token(TokenType.NAME, lookup_key)
-                elif lookup_key == "flag":
-                    return Token(TokenType.FLAG, lookup_key)
-                elif lookup_key == "class":
-                    return Token(TokenType.CLASS, lookup_key)
-                elif lookup_key == "quality":
-                    return Token(TokenType.QUALITY, lookup_key)
-                elif lookup_key == "type":
-                    return Token(TokenType._TYPE, lookup_key)
-                elif lookup_key == "idname":
-                    return Token(TokenType.IDNAME, lookup_key)
-                elif lookup_key in NTIPAliasClass:
-                    return Token(TokenType.NTIPAliasClass, NTIPAliasClass[lookup_key])
-                elif lookup_key in NTIPAliasQuality:
-                    return Token(TokenType.NTIPAliasQuality, NTIPAliasQuality[lookup_key])
-                elif lookup_key in NTIPAliasClassID:
-                    return Token(TokenType.NTIPAliasClassID, NTIPAliasClassID[lookup_key])
-                elif lookup_key in NTIPAliasFlag:
-                    return Token(TokenType.NTIPAliasFlag, NTIPAliasFlag[lookup_key])
-                elif lookup_key in NTIPAliasType:
-                    return Token(TokenType.NTIPAliasType, NTIPAliasType[lookup_key])
-                else:
-                    return Token(TokenType.UNKNOWN, "-1")
+                match lookup_key:
+                    case "name":
+                        return Token(TokenType.NAME, lookup_key)
+                    case "flag":
+                        return Token(TokenType.FLAG, lookup_key)
+                    case "class":
+                        return Token(TokenType.CLASS, lookup_key)
+                    case "quality":
+                        return Token(TokenType.QUALITY, lookup_key)
+                    case "type":
+                        return Token(TokenType._TYPE, lookup_key)
+                    case "idname":
+                        return Token(TokenType.IDNAME, lookup_key)
+                    case _: # ? This is default.. 
+                        if lookup_key in NTIPAliasClass:
+                            return Token(TokenType.NTIPAliasClass, NTIPAliasClass[lookup_key])
+                        elif lookup_key in NTIPAliasQuality:
+                            return Token(TokenType.NTIPAliasQuality, NTIPAliasQuality[lookup_key])
+                        elif lookup_key in NTIPAliasClassID:
+                            return Token(TokenType.NTIPAliasClassID, NTIPAliasClassID[lookup_key])
+                        elif lookup_key in NTIPAliasFlag:
+                            return Token(TokenType.NTIPAliasFlag, NTIPAliasFlag[lookup_key])
+                        elif lookup_key in NTIPAliasType:
+                            return Token(TokenType.NTIPAliasType, NTIPAliasType[lookup_key])
+                        return Token(TokenType.UNKNOWN, "-1")
         elif self.current_section == NipSections.STAT:
             if lookup_key in NTIPAliasStat:
                 return Token(TokenType.NTIPAliasStat, NTIPAliasStat[lookup_key])
-            else:
-                return Token(TokenType.UNKNOWN, "-1")
         elif self.current_section == NipSections.MAXQUANTITY:
-            if lookup_key == "maxquanity":
-                return Token(TokenType.MAXQUANITY, lookup_key)
-            else:
-                return Token(TokenType.UNKNOWN, "-1")
+            pass
+               
 
     def _create_d2r_image_data_lookup(self):
         lookup_key = self.current_token
