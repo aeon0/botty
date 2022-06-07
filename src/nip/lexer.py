@@ -1,3 +1,4 @@
+from logger import Logger
 from nip.NTIPAliasQuality import NTIPAliasQuality
 from nip.NTIPAliasClass import NTIPAliasClass
 from nip.NTIPAliasClassID import NTIPAliasClassID
@@ -69,11 +70,11 @@ class Lexer:
                 self.tokens.append(self._create_digits())
             elif self.current_token in WHITESPACE:
                 self._advance()
+            elif self.current_token in SYMBOLS:
+                self.tokens.append(self._create_logical_operator())
             elif self.current_token in MATH_SYMBOLS:
                 self.tokens.append(self._create_math_operator())
                 self._advance()
-            elif self.current_token in SYMBOLS:
-                self.tokens.append(self._create_logical_operator())
                 # self.advance()
             elif self.current_token == "[":
                 self.tokens.append(self._create_nip_lookup())
@@ -146,32 +147,36 @@ class Lexer:
             if lookup_key:
                 match lookup_key:
                     case "name":
-                        return Token(TokenType.NAME, lookup_key)
+                        return Token(TokenType.KeywordNTIPAliasName, lookup_key)
                     case "flag":
-                        return Token(TokenType.FLAG, lookup_key)
+                        return Token(TokenType.KeywordNTIPAliasFlag, lookup_key)
                     case "class":
-                        return Token(TokenType.CLASS, lookup_key)
+                        return Token(TokenType.KeywordNTIPAliasClass, lookup_key)
                     case "quality":
-                        return Token(TokenType.QUALITY, lookup_key)
+                        return Token(TokenType.KeywordNTIPAliasQuality, lookup_key)
                     case "type":
-                        return Token(TokenType._TYPE, lookup_key)
+                        return Token(TokenType.KeywordNTIPAliasType, lookup_key)
                     case "idname":
-                        return Token(TokenType.IDNAME, lookup_key)
+                        return Token(TokenType.KeywordNTIPAliasIDName, lookup_key)
                     case _: # ? This is default.. 
                         if lookup_key in NTIPAliasClass:
-                            return Token(TokenType.NTIPAliasClass, NTIPAliasClass[lookup_key])
+                            return Token(TokenType.ValueNTIPAliasClass, NTIPAliasClass[lookup_key])
                         elif lookup_key in NTIPAliasQuality:
-                            return Token(TokenType.NTIPAliasQuality, NTIPAliasQuality[lookup_key])
+                            return Token(TokenType.ValueNTIPAliasQuality, NTIPAliasQuality[lookup_key])
                         elif lookup_key in NTIPAliasClassID:
-                            return Token(TokenType.NTIPAliasClassID, NTIPAliasClassID[lookup_key])
+                            return Token(TokenType.ValueNTIPAliasClassID, NTIPAliasClassID[lookup_key])
                         elif lookup_key in NTIPAliasFlag:
-                            return Token(TokenType.NTIPAliasFlag, NTIPAliasFlag[lookup_key])
+                            return Token(TokenType.ValueNTIPAliasFlag, NTIPAliasFlag[lookup_key])
                         elif lookup_key in NTIPAliasType:
-                            return Token(TokenType.NTIPAliasType, NTIPAliasType[lookup_key])
-                        return Token(TokenType.UNKNOWN, "-1")
+                            return Token(TokenType.ValueNTIPAliasType, NTIPAliasType[lookup_key])
+                Logger.warning("Unknown property lookup: " + lookup_key + " " + "".join(self.text))
+                return Token(TokenType.UNKNOWN, "-1")
         elif self.current_section == NipSections.STAT:
             if lookup_key in NTIPAliasStat:
-                return Token(TokenType.NTIPAliasStat, NTIPAliasStat[lookup_key])
+                return Token(TokenType.ValueNTIPAliasStat, NTIPAliasStat[lookup_key])
+            else:
+                Logger.warning("Unknown NTIP stat lookup: " + lookup_key)
+                return Token(TokenType.UNKNOWN, "-1")
         elif self.current_section == NipSections.MAXQUANTITY:
             pass
                
@@ -188,21 +193,21 @@ class Lexer:
 
         if self.current_section == NipSections.PROP: 
             # TODO: The second checks (i.e NTIPAliasClass and self.tokens[-2].type == TokenType.CLASS:) seem a little misplaced, possibly put them inside the validation function that is inside transpiler.py and throw a warning accordingly.
-            if lookup_key in NTIPAliasClass and self.tokens[-2].type == TokenType.CLASS:
-                return Token(TokenType.NTIPAliasClass, lookup_key)
-            elif lookup_key in NTIPAliasQuality and self.tokens[-2].type == TokenType.QUALITY:
-                return Token(TokenType.NTIPAliasQuality, lookup_key)
-            elif lookup_key in NTIPAliasClassID and self.tokens[-2].type == TokenType.NAME:
-                return Token(TokenType.NTIPAliasClassID, lookup_key)
-            elif lookup_key in NTIPAliasFlag and self.tokens[-2].type == TokenType.FLAG:
-                return Token(TokenType.NTIPAliasFlag, lookup_key)
-            elif lookup_key in NTIPAliasType and self.tokens[-2].type == TokenType._TYPE:
-                return Token(TokenType.NTIPAliasType, lookup_key)
+            if lookup_key in NTIPAliasClass and self.tokens[-2].type == TokenType.KeywordNTIPAliasClass:
+                return Token(TokenType.ValueNTIPAliasClass, lookup_key)
+            elif lookup_key in NTIPAliasQuality and self.tokens[-2].type == TokenType.KeywordNTIPAliasQuality:
+                return Token(TokenType.ValueNTIPAliasQuality, lookup_key)
+            elif lookup_key in NTIPAliasClassID and self.tokens[-2].type == TokenType.KeywordNTIPAliasName:
+                return Token(TokenType.ValueNTIPAliasClassID, lookup_key)
+            elif lookup_key in NTIPAliasFlag and self.tokens[-2].type == TokenType.KeywordNTIPAliasFlag:
+                return Token(TokenType.ValueNTIPAliasFlag, lookup_key)
+            elif lookup_key in NTIPAliasType and self.tokens[-2].type == TokenType.KeywordNTIPAliasType:
+                return Token(TokenType.ValueNTIPAliasType, lookup_key)
             else:
                 return Token(TokenType.UNKNOWN, lookup_key)
         elif self.current_section == NipSections.STAT:
             if lookup_key in NTIPAliasStat:
-                return Token(TokenType.NTIPAliasStat, lookup_key)
+                return Token(TokenType.ValueNTIPAliasStat, lookup_key)
             else:
                 return Token(TokenType.UNKNOWN, "-1")
 
