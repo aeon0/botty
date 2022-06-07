@@ -93,7 +93,7 @@ class FoHdin(Paladin):
         self.move(pos_m, force_move=True)
         self._cast_hammers(atk_len)
 
-
+    #works!
     def kill_pindle(self) -> bool:
         if self.capabilities.can_teleport_natively or self.capabilities.can_teleport_with_charges:
             Logger.debug("Slightly retreating, so the Merc gets charged")
@@ -134,23 +134,43 @@ class FoHdin(Paladin):
                 self._pather.traverse_nodes((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, timeout=1.0, do_pre_move=self._do_pre_move)
 
             return True
-    """
-    def kill_pindle(self) -> bool:
-        if not Config().char['cs_mob_detect'] or get_visible_targets():
-                pindle_pos_abs = convert_screen_to_abs(Config().path["pindle_end"][0])
-                cast_pos_abs = [pindle_pos_abs[0] * 0.9, pindle_pos_abs[1] * 0.9]
-                for _ in range(int(Config().char["atk_len_pindle"])):
-                    self._cast_foh(cast_pos_abs, spray=11)
-                    self._cast_holy_bolt(cast_pos_abs, spray=80, time_in_s=int(Config().char["atk_len_pindle"])/2)
-                wait(self._cast_duration, self._cast_duration + 0.2)
 
-        if self.capabilities.can_teleport_natively:
-            self._pather.traverse_nodes_fixed("pindle_end", self)
+    """#HAMMERDIN VERSION
+    def kill_council(self) -> bool:
+        if not self._do_pre_move:
+            keyboard.send(self._skill_hotkeys["concentration"])
+            wait(0.05, 0.15)
+        # Check out the node screenshot in assets/templates/trav/nodes to see where each node is at
+        atk_len = Config().char["atk_len_trav"]
+        # Go inside and hammer a bit
+        self._pather.traverse_nodes([228, 229], self, timeout=2.5, force_tp=True, use_tp_charge=True)
+        self._cast_hammers(atk_len)
+        # Move a bit back and another round
+        self._move_and_attack((40, 20), atk_len)
+        # Here we have two different attack sequences depending if tele is available or not
+        if self.capabilities.can_teleport_natively or self.capabilities.can_teleport_with_charges:
+            # Back to center stairs and more hammers
+            self._pather.traverse_nodes([226], self, timeout=2.5, force_tp=True, use_tp_charge=True)
+            self._cast_hammers(atk_len)
+            # move a bit to the top
+            self._move_and_attack((65, -30), atk_len)
         else:
-            if not self._do_pre_move:
-                keyboard.send(self._skill_hotkeys["redemption"])
-                wait(0.05, 0.15)
-            self._pather.traverse_nodes((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, timeout=1.0, do_pre_move=self._do_pre_move)
+            # Stay inside and cast hammers again moving forward
+            self._move_and_attack((40, 10), atk_len)
+            self._move_and_attack((-40, -20), atk_len)
+        self._cast_hammers(1.6, "redemption")
+        Logger.debug("Checking for stray mobs")
+        if (targets := get_visible_targets()):
+            Logger.debug("I checked for mobs, seems to still be there let's use holy bolt.")
+            cast_pos_abs = convert_screen_to_abs(targets[0].center)
+            atk_len = int(atk_len)
+            self._cast_holy_bolt(cast_pos_abs, spray=80, time_in_s=atk_len)
+            if (targets := get_visible_targets()):
+                Logger.debug("I checked for mobs agian, seems to still be there lets use holy bolt a final time.")
+                cast_pos_abs = convert_screen_to_abs(targets[0].center)
+                self._cast_holy_bolt(cast_pos_abs, spray=80, time_in_s=atk_len)
+        else:
+            Logger.debug("No mobs detected")
         return True
     """
 
@@ -159,27 +179,26 @@ class FoHdin(Paladin):
         atk_len = "atk_len_trav"
         atk_len_dur = int(Config().char[atk_len])*atk_len_factor
         if self._skill_hotkeys["conviction"]: keyboard.send(self._skill_hotkeys["conviction"]) #conviction needs to be on for mob_detection
-        wait(1) #let merc cast holy freeze
+
         if (targets := get_visible_targets()):
             nearest_mob_pos_abs = convert_screen_to_abs(targets[0].center)
             Logger.debug("Mob found at " + str(nearest_mob_pos_abs) + '\033[96m'+" fisting him now "+ str(atk_len_dur) + " times!" +'\033[0m')
             for _ in range(atk_len_dur):
                 self._cast_foh(nearest_mob_pos_abs, spray=11, time_in_s=atk_len_dur)
-            #    self._cast_holy_bolt(nearest_mob_pos_abs, spray=80, time_in_s=atk_len_dur)
-            #wait(self._cast_duration, self._cast_duration + 0.2)
+
             if (targets := get_visible_targets()):
                 nearest_mob_pos_abs = convert_screen_to_abs(targets[0].center)
                 Logger.debug("Mob found at " + str(nearest_mob_pos_abs) + '\033[93m'+" bolting him now "+ str(atk_len_dur) + " seconds!" +'\033[0m')
-                #print (nearest_mob_pos_abs)
                 for _ in range(atk_len_dur):
-                    #self._cast_foh(nearest_mob_pos_abs, spray=11, time_in_s=atk_len_dur)
                     self._cast_holy_bolt(nearest_mob_pos_abs, spray=80, time_in_s=atk_len_dur)
-                #wait(self._cast_duration, self._cast_duration + 0.2)
+
             else:
                 Logger.debug("No Mob found, attacking on Node on")
+            
             if self._skill_hotkeys["cleansing"]:
                 keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2) #clear yourself from curses
+                wait(0.1, 0.2) #clear yourself from curses
+
             if self._skill_hotkeys["redemption"]:
                 keyboard.send(self._skill_hotkeys["redemption"])
                 wait(0.5, 1.0) #clear area from corpses & heal
@@ -302,93 +321,51 @@ class FoHdin(Paladin):
         return True
 
 
-    """ DEFENSIVE VERSION FROM FAR AWAY
     def kill_eldritch(self) -> bool:
         eld_pos_abs = convert_screen_to_abs(Config().path["eldritch_end"][0])
         cast_pos_abs = [eld_pos_abs[0] * 0.9, eld_pos_abs[1] * 0.9]
+        atk_len_factor = 0.5 #we have a longer initial cast duration, but for the mob check iterations, we just use half of that
+        atk_len = "atk_len_trav"
+        atk_len_dur = int(Config().char[atk_len])*atk_len_factor
+        
+        if self._skill_hotkeys["conviction"]: keyboard.send(self._skill_hotkeys["conviction"]) #conviction needs to be on for mob_detection
         self._cast_foh(cast_pos_abs, spray=80, time_in_s=int(Config().char["atk_len_eldritch"]))
+        
         for _ in range(int(Config().char["atk_len_eldritch"])):
-            self._cast_holy_bolt(cast_pos_abs, spray=90, time_in_s=int(Config().char["atk_len_eldritch"]))
+            #lets check if there are still mobs & kill them
+            
+            if (targets := get_visible_targets()):
+                nearest_mob_pos_abs = convert_screen_to_abs(targets[0].center)
+                Logger.debug("Mob found at " + str(nearest_mob_pos_abs) + '\033[96m'+" fisting him now "+ str(atk_len_dur) + " times (atk_len)!" +'\033[0m')    
+                atk_len_dur = int(atk_len_dur)
+                print(atk_len_dur)
+                for _ in range(atk_len_dur):
+                    self._cast_foh(nearest_mob_pos_abs, spray=11, time_in_s=atk_len_dur)
+                
+                if (targets := get_visible_targets()):
+                    nearest_mob_pos_abs = convert_screen_to_abs(targets[0].center)
+                    Logger.debug("Mob found at " + str(nearest_mob_pos_abs) + '\033[93m'+" bolting him now "+ str(atk_len_dur) + " seconds (atk_len)!" +'\033[0m')
+                    for _ in range(atk_len_dur):
+                        self._cast_holy_bolt(nearest_mob_pos_abs, spray=80, time_in_s=atk_len_dur)
+                
+                else:
+                    Logger.debug("No Mob found, moving on")
+
+                if self._skill_hotkeys["cleansing"]:
+                    keyboard.send(self._skill_hotkeys["cleansing"])
+                    wait(0.1, 0.2) #clear yourself from curses
+                
         # Move to items
-        wait(self._cast_duration, self._cast_duration + 0.2)
+        if self._skill_hotkeys["redemption"]:
+            keyboard.send(self._skill_hotkeys["redemption"])  
+        
         pos_m = convert_abs_to_monitor((70, -200))
         self.pre_move()
-        self.move(pos_m, force_move=True)        
+        self.move(pos_m, force_move=True)      
         self._pather.traverse_nodes(Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END)
         return True
-    """
-    
 
-    def kill_eldritch(self) -> bool:
-        if self.capabilities.can_teleport_natively:
-            # Custom eld position for teleport that brings us closer to eld
-            self._pather.traverse_nodes_fixed([(675, 30)], self)
-            self._cast_foh((0,0), spray=11)
-            atk_len_factor = 1
-            atk_len = "atk_len_eldritch"
-            atk_len_dur = int(Config().char[atk_len])*atk_len_factor
-            if self._skill_hotkeys["conviction"]: keyboard.send(self._skill_hotkeys["conviction"]) #conviction needs to be on for mob_detection
-            if (targets := get_visible_targets()):
-                nearest_mob_pos_abs = convert_screen_to_abs(targets[0].center)
-                Logger.debug("Mob found at " + str(nearest_mob_pos_abs) + '\033[96m'+" fisting him now "+ str(atk_len_dur) + " times!" +'\033[0m')
-                for _ in range(atk_len_dur):
-                    self._cast_foh(nearest_mob_pos_abs, spray=11)
-                #    self._cast_holy_bolt(nearest_mob_pos_abs, spray=80, time_in_s=atk_len_dur)
-                #wait(self._cast_duration, self._cast_duration + 0.2)
-                if (targets := get_visible_targets()):
-                    nearest_mob_pos_abs = convert_screen_to_abs(targets[0].center)
-                    Logger.debug("Mob found at " + str(nearest_mob_pos_abs) + '\033[93m'+" bolting him now "+ str(atk_len_dur) + " seconds!" +'\033[0m')
-                    #print (nearest_mob_pos_abs)
-                    for _ in range(atk_len_dur):
-                    #    self._cast_foh(nearest_mob_pos_abs, spray=11)
-                        self._cast_holy_bolt(nearest_mob_pos_abs, spray=80, time_in_s=atk_len_dur)
-                    #wait(self._cast_duration, self._cast_duration + 0.2)
-                else:
-                    Logger.debug("No Mob found, moving on")
-                if self._skill_hotkeys["cleansing"]:
-                    keyboard.send(self._skill_hotkeys["cleansing"])
-                wait(0.1, 0.2) #clear yourself from curses
-                if self._skill_hotkeys["redemption"]:
-                    keyboard.send(self._skill_hotkeys["redemption"])
-                    wait(0.5, 1.0) #clear area from corpses & heal
-            else:
-                Logger.debug("No Mob found, moving on")
-        else:
-            if not self._do_pre_move:
-                keyboard.send(self._skill_hotkeys["conviction"])
-                wait(0.05, 0.15)
-            self._pather.traverse_nodes((Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END), self, timeout=1.0, do_pre_move=self._do_pre_move, force_tp=True, use_tp_charge=True)
-            self._cast_foh((0,0), spray=11)
-            atk_len_factor = 1
-            atk_len = "atk_len_eldritch"
-            atk_len_dur = int(Config().char[atk_len])*atk_len_factor
-            if self._skill_hotkeys["conviction"]: keyboard.send(self._skill_hotkeys["conviction"]) #conviction needs to be on for mob_detection
-            if (targets := get_visible_targets()):
-                nearest_mob_pos_abs = convert_screen_to_abs(targets[0].center)
-                Logger.debug("Mob found at " + str(nearest_mob_pos_abs) + '\033[96m'+" fisting him now "+ str(atk_len_dur) + " times!" +'\033[0m')
-                for _ in range(atk_len_dur):
-                    self._cast_foh(nearest_mob_pos_abs, spray=11)
-                #    self._cast_holy_bolt(nearest_mob_pos_abs, spray=80, time_in_s=atk_len_dur)
-                #wait(self._cast_duration, self._cast_duration + 0.2)
-                if (targets := get_visible_targets()):
-                    nearest_mob_pos_abs = convert_screen_to_abs(targets[0].center)
-                    Logger.debug("Mob found at " + str(nearest_mob_pos_abs) + '\033[93m'+" bolting him now "+ str(atk_len_dur) + " seconds!" +'\033[0m')
-                    #print (nearest_mob_pos_abs)
-                    for _ in range(atk_len_dur):
-                    #    self._cast_foh(nearest_mob_pos_abs, spray=11)
-                        self._cast_holy_bolt(nearest_mob_pos_abs, spray=80, time_in_s=atk_len_dur)
-                    #wait(self._cast_duration, self._cast_duration + 0.2)
-                else:
-                    Logger.debug("No Mob found, moving on")
-                if self._skill_hotkeys["cleansing"]:
-                    keyboard.send(self._skill_hotkeys["cleansing"])
-                wait(0.1, 0.2) #clear yourself from curses
-                if self._skill_hotkeys["redemption"]:
-                    keyboard.send(self._skill_hotkeys["redemption"])
-                    wait(0.5, 1.0) #clear area from corpses & heal
-            else:
-                Logger.debug("No Mob found, moving on")
-        return True
+    
 
 
     """ DEFENSIVE VERSION FROM FAR AWAY
