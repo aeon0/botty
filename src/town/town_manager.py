@@ -1,3 +1,4 @@
+import keyboard
 import template_finder
 from config import Config
 from pather import Location
@@ -161,12 +162,22 @@ class TownManager:
         # check if we can Identify in current act
         if self._acts[curr_act].can_identify():
             success = self._acts[curr_act].identify(curr_loc)
-            view.return_to_play()
+            if success:
+                wait(0.2)
+                # close cain dialog so inventory key is not blocked
+                keyboard.send("esc")
+            else:
+                view.return_to_play()
             return success
         new_loc = self.go_to_act(5, curr_loc)
         if not new_loc: return False
         success = self._acts[Location.A5_TOWN_START].identify(new_loc)
-        view.return_to_play()
+        if success:
+            wait(0.2)
+            # close cain dialog so inventory key is not blocked
+            keyboard.send("esc")
+        else:
+            view.return_to_play()
         return success
 
     def open_stash(self, curr_loc: Location) -> Location | bool:
