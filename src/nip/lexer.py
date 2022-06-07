@@ -83,28 +83,32 @@ class Lexer:
                 raise NipSyntaxError("Unknown token: " + self.current_token)
         return self.tokens
 
+    def _create_custom_digit_token(self, found_number, append_text="", append_front=False):
+        """
+            Creates a custom token for a number that allows for custom text to be appended to the front or back of the found number.
+        """
+        for _ in range(len(found_number)):
+            self._advance()
+        if append_text:
+            if append_front:
+                found_number = append_text + found_number
+            else:
+                found_number += append_text
+        
+        return Token(TokenType.NUMBER, float(found_number))
+
     def _create_digits(self):
         found_decimal_number = re.match(r"^[0-9]+\.[0-9]+", self.get_current_iteration_of_text_raw())
         if found_decimal_number:
-            number = found_decimal_number.group()
-            for _ in range(len(number)):
-                self._advance()
-            return Token(TokenType.NUMBER, float(number))
+            return self._create_custom_digit_token(found_decimal_number.group(0))
 
         shorthand_decimal_number = re.match(r"^\.[0-9]+", self.get_current_iteration_of_text_raw())
         if shorthand_decimal_number:
-            number = shorthand_decimal_number.group()
-            for _ in range(len(number)):
-                self._advance()
-            number = "0" + number
-            return Token(TokenType.NUMBER, float(number))
+            return self._create_custom_digit_token(shorthand_decimal_number.group(0), "0", append_front=True)
 
         found_whole_number = re.match(r"^[0-9]+", self.get_current_iteration_of_text_raw())
         if found_whole_number:
-            number = found_whole_number.group()
-            for _ in range(len(number)):
-                self._advance()
-            return Token(TokenType.NUMBER, float(number))
+            return self._create_custom_digit_token(found_whole_number.group(0))
 
 
     def _create_math_operator(self):
@@ -181,7 +185,7 @@ class Lexer:
             for _ in range(len(found)):
                 self._advance()
             lookup_key = found
-            
+
         if self.current_section == NipSections.PROP: 
             # TODO: The second checks (i.e NTIPAliasClass and self.tokens[-2].type == TokenType.CLASS:) seem a little misplaced, possibly put them inside the validation function that is inside transpiler.py and throw a warning accordingly.
             if lookup_key in NTIPAliasClass and self.tokens[-2].type == TokenType.CLASS:
