@@ -92,7 +92,7 @@ class PickIt:
 
         return False
 
-    def _yoink_item(self, item: object, char: IChar, force_tp=False):
+    def _yoink_item(self, item: HoveredItem, char: IChar, force_tp=False):
         if item.Dist > Config().ui_pos["item_dist"] or force_tp:
             char.pre_move()
             char.move((item.MonitorX, item.MonitorY), force_move=force_tp)
@@ -105,12 +105,16 @@ class PickIt:
             char.pick_up_item((item.MonitorX, item.MonitorY), item_name=item.Name, prev_cast_start=0.1)
         return PickedUpResults.PickedUp
 
-    def _pick_up_item(self, char: IChar, item: object) -> bool:
+    def _pick_up_item(self, char: IChar, item: HoveredItem) -> bool:
         if item.UID == self._prev_item_pickup_attempt:
             self._fail_pickup_count += 1
             time.sleep(0.2)
             if is_visible(ScreenObjects.Overburdened):
-                Logger.warning("Inventory is full") #TODO Create logic to handle inventory full
+                if item.BaseItem["DisplayName"] == "Gold":
+                    personal.set_inventory_gold_full(True)
+                    Logger.warning("Detected gold full")
+                else:
+                    Logger.warning("Inventory is full") #TODO Create logic to handle inventory full
                 return PickedUpResults.InventoryFull
             elif self._fail_pickup_count >= 1:
                 # * +1 because we failed at picking it up once already, we just can't detect the first failure (unless it is due to full inventory)
