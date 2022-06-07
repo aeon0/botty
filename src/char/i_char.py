@@ -1,4 +1,4 @@
-from typing import Dict, Tuple, Union, List, Callable
+from typing import Callable
 import random
 import time
 import cv2
@@ -19,9 +19,9 @@ from ocr import Ocr
 from ui_manager import detect_screen_object, ScreenObjects
 
 class IChar:
-    _CrossGameCapabilities: Union[None, CharacterCapabilities] = None
+    _CrossGameCapabilities: None | CharacterCapabilities = None
 
-    def __init__(self, skill_hotkeys: Dict):
+    def __init__(self, skill_hotkeys: dict):
         self._skill_hotkeys = skill_hotkeys
         self._last_tp = time.time()
         self._ocr = Ocr()
@@ -59,7 +59,7 @@ class IChar:
     def on_capabilities_discovered(self, capabilities: CharacterCapabilities):
         pass
 
-    def pick_up_item(self, pos: Tuple[float, float], item_name: str = None, prev_cast_start: float = 0):
+    def pick_up_item(self, pos: tuple[float, float], item_name: str = None, prev_cast_start: float = 0):
         mouse.move(pos[0], pos[1])
         time.sleep(0.1)
         mouse.click(button="left")
@@ -68,7 +68,7 @@ class IChar:
 
     def select_by_template(
         self,
-        template_type:  Union[str, List[str]],
+        template_type:  str | list[str],
         success_func: Callable = None,
         timeout: float = 8,
         threshold: float = 0.68,
@@ -149,7 +149,7 @@ class IChar:
         if self.capabilities.can_teleport_natively:
             self.select_tp()
 
-    def move(self, pos_monitor: Tuple[float, float], force_tp: bool = False, force_move: bool = False):
+    def move(self, pos_monitor: tuple[float, float], force_tp: bool = False, force_move: bool = False):
         factor = Config().advanced_options["pathing_delay_factor"]
         if self._skill_hotkeys["teleport"] and \
             (force_tp or (skills.is_right_skill_selected(["TELE_ACTIVE"]) and \
@@ -174,8 +174,8 @@ class IChar:
                 keyboard.send(Config().char["force_move"])
             else:
                 mouse.click(button="left")
-                
-    def walk(self, pos_monitor: Tuple[float, float], force_tp: bool = False, force_move: bool = False):
+
+    def walk(self, pos_monitor: tuple[float, float], force_tp: bool = False, force_move: bool = False):
         factor = Config().advanced_options["pathing_delay_factor"]
             # in case we want to walk we actually want to move a bit before the point cause d2r will always "overwalk"
         pos_screen = convert_monitor_to_screen(pos_monitor)
@@ -191,7 +191,7 @@ class IChar:
         if force_move:
             keyboard.send(Config().char["force_move"])
         else:
-            mouse.click(button="left")                
+            mouse.click(button="left")
 
     def tp_town(self):
         # will check if tp is available and select the skill
@@ -274,13 +274,16 @@ class IChar:
             else:
                 Logger.warning("Failed to switch weapon, try again")
                 wait(0.5)
-                
-                
+
+
     def vec_to_monitor(self, target):
         circle_pos_screen = self._pather._adjust_abs_range_to_screen(target)
         return convert_abs_to_monitor(circle_pos_screen)
-        
-    def cast_in_arc(self, ability: str, cast_pos_abs: Tuple[float, float] = [0,-100], time_in_s: float = 3, spread_deg: float = 10, hold=True):
+
+    def _lerp(self,a: float,b: float, f:float):
+        return a + f * (b - a)
+
+    def cast_in_arc(self, ability: str, cast_pos_abs: tuple[float, float] = [0,-100], time_in_s: float = 3, spread_deg: float = 10, hold=True):
         #scale cast time by damage_scaling
         time_in_s *= self.damage_scaling
         Logger.debug(f'Casting {ability} for {time_in_s:.02f}s at {cast_pos_abs} with {spread_deg}°')
@@ -306,11 +309,11 @@ class IChar:
                 wait(0.02, 0.06)
                 mouse.release(button="right")
                 wait(self._cast_duration, self._cast_duration)
-                
+
         if hold:
             mouse.release(button="right")
         keyboard.send(Config().char["stand_still"], do_press=False)
-    
+
 
     def pre_buff(self):
         pass

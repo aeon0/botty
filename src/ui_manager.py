@@ -3,7 +3,7 @@ import os
 import numpy as np
 import time
 import cv2
-from typing import Union, TypeVar, Callable
+from typing import TypeVar, Callable
 from utils.custom_mouse import mouse
 from utils.misc import wait, cut_roi, image_is_equal
 from logger import Logger
@@ -177,7 +177,7 @@ class ScreenObjects:
         threshold=0.9
     )
     Corpse=ScreenObject(
-        ref=["CORPSE", "CORPSE_BARB", "CORPSE_DRU", "CORPSE_NEC", "CORPSE_PAL", "CORPSE_SIN", "CORPSE_SORC", "CORPSE_ZON"],
+        ref=["CORPSE", "CORPSE_2", "CORPSE_BARB", "CORPSE_DRU", "CORPSE_NEC", "CORPSE_PAL", "CORPSE_SIN", "CORPSE_SORC", "CORPSE_ZON"],
         roi="corpse",
         threshold=0.8
     )
@@ -294,7 +294,7 @@ def wait_for_update(img: np.ndarray, roi: list[int] = None, timeout: float = 3) 
         Logger.debug(f"ROI: '{roi}' unchanged after {timeout} seconds")
     return change
 
-def _wait_until(func: Callable[[], T], is_success: Callable[[T], bool], timeout = None) -> Union[T, None]:
+def _wait_until(func: Callable[[], T], is_success: Callable[[T], bool], timeout = None) -> T | None:
     start = time.time()
     while (time.time() - start) < timeout:
         res = func()

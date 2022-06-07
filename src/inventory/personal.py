@@ -424,19 +424,20 @@ def transfer_items(items: list, action: str = "drop", img: np.ndarray = None) ->
     img = img if img is not None else grab()
     filtered = []
     left_panel_open = is_visible(ScreenObjects.LeftPanel, img)
-    if action == "drop":
-        filtered = [ item for item in items if item.keep == False and item.sell == False ]
-    elif action == "sell":
-        filtered = [ item for item in items if item.keep == False and item.sell == True ]
-        if not left_panel_open:
-            Logger.error(f"transfer_items: Can't perform, vendor is not open")
-    elif action == "stash":
-        if is_visible(ScreenObjects.GoldBtnStash, img):
-            filtered = [ item for item in items if item.keep == True ]
-        else:
-            Logger.error(f"transfer_items: Can't perform, stash is not open")
-    else:
-        Logger.error(f"transfer_items: incorrect action param={action}")
+    match action:
+        case "drop":
+            filtered = [ item for item in items if item.keep == False and item.sell == False ]
+        case "sell":
+            filtered = [ item for item in items if item.keep == False and item.sell == True ]
+            if not left_panel_open:
+                Logger.error(f"transfer_items: Can't perform, vendor is not open")
+        case "stash":
+            if is_visible(ScreenObjects.GoldBtnStash, img):
+                filtered = [ item for item in items if item.keep == True ]
+            else:
+                Logger.error(f"transfer_items: Can't perform, stash is not open")
+        case _:
+            Logger.error(f"transfer_items: incorrect action param={action}")
     if filtered:
         # if dropping, control+click to drop unless left panel is open, then drag to middle
         # if stashing, control+click to stash

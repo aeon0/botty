@@ -17,4 +17,5 @@ def wait_for_loading_screen(timeout: float = 10.0) -> bool:
     while time.time() - start < timeout:
         if check_for_black_screen():
             return True
+        time.sleep(0.02)
     return False
