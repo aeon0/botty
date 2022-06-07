@@ -6,7 +6,7 @@ import os
 from dataclasses import dataclass
 from logger import Logger
 config_lock = threading.Lock()
-
+from utils.misc import wait
 
 def _default_iff(value, iff, default = None):
     return default if value == iff else value
@@ -70,27 +70,33 @@ class Config:
 
     def _select_val(self, section: str, key: str = None):
         found_in = ""
-        if section in self.configs["custom"]["parser"] and key in self.configs["custom"]["parser"][section]:
-            found_val = self.configs["custom"]["parser"][section][key]
-            found_in = "custom"
-        elif section in self.configs["config"]["parser"]:
-            found_val = self.configs["config"]["parser"][section][key]
-            found_in = "config"
-        elif section in self.configs["pickit"]["parser"]:
-            found_val = self.configs["pickit"]["parser"][section][key]
-            found_in = "pickit"
-        elif section in self.configs["shop"]["parser"]:
-            found_val = self.configs["shop"]["parser"][section][key]
-            found_in = "shop"
-        else:
-            found_val = self.configs["game"]["parser"][section][key]
-            found_in = "game"
+        try:
+            if section in self.configs["custom"]["parser"] and key in self.configs["custom"]["parser"][section]:
+                found_val = self.configs["custom"]["parser"][section][key]
+                found_in = "custom"
+            elif section in self.configs["config"]["parser"]:
+                found_val = self.configs["config"]["parser"][section][key]
+                found_in = "config"
+            elif section in self.configs["pickit"]["parser"]:
+                found_val = self.configs["pickit"]["parser"][section][key]
+                found_in = "pickit"
+            elif section in self.configs["shop"]["parser"]:
+                found_val = self.configs["shop"]["parser"][section][key]
+                found_in = "shop"
+            else:
+                found_val = self.configs["game"]["parser"][section][key]
+                found_in = "game"
 
-        for var_name in self.configs[found_in]["vars"]: # set variable.
-            if var_name in found_val:
-                var_val = self.configs[found_in]["vars"][var_name]
-                found_val = found_val.replace(var_name, var_val)
-        return found_val
+            for var_name in self.configs[found_in]["vars"]: # set variable.
+                if var_name in found_val:
+                    var_val = self.configs[found_in]["vars"][var_name]
+                    found_val = found_val.replace(var_name, var_val)
+            return found_val
+        except KeyError:
+            Logger.error(f"Key '{key}' not found in section '{section}'")
+            Logger.error("Closing in 10 seconds..")
+            wait(10)
+            os._exit(1)
 
     def parse_item_config_string(self, key: str = None) -> ItemProps:
         string = self._select_val("items", key).upper()
