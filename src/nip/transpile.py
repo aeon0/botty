@@ -17,19 +17,19 @@ from itertools import groupby
 from logger import Logger
 
 from nip.lexer import Lexer, NipSyntaxError, NipSections
-from nip.tokens import TokenType
+from nip.tokens import Token, TokenType
 
 class NipSyntaxErrorSection(NipSyntaxError):
     def __init__(self, token, section):
         super().__init__(f"[ {token.type} ] : {token.value} can not be used in section [ {section} ].")
 
-
 @dataclass
 class NIPExpression:
     raw: str
-    should_id_transpiled: str
+    should_id_transpiled: str | None
     transpiled: str
-    should_pickup: str
+    should_pickup: str | None
+    tokens: list[Token]
 
 def find_unique_or_set_base(unique_or_set_name) -> tuple[str, str]:
     unique_or_set_name = unique_or_set_name.lower()
@@ -269,11 +269,16 @@ def prepare_nip_expression(expression: str) -> str:
             return expression
     return ''
 
-def transpile_nip_expression(expression: str, isPickUpPhase=False):
-    expression = prepare_nip_expression(expression)
-    if expression:
-        tokens = list(Lexer().create_tokens(expression))
-        transpiled_expression = transpile(tokens, isPickUpPhase=isPickUpPhase)
+def transpile_nip_expression(expression: str | list[Token], isPickUpPhase=False):
+    if isinstance(expression, str):
+        expression = prepare_nip_expression(expression)
+        if expression:
+            tokens = Lexer().create_tokens(expression)
+            transpiled_expression = transpile(tokens, isPickUpPhase=isPickUpPhase)
+            if transpiled_expression:
+                return transpiled_expression
+    elif isinstance(expression, list):
+        transpiled_expression = transpile(expression, isPickUpPhase=isPickUpPhase)
         if transpiled_expression:
             return transpiled_expression
 
@@ -282,20 +287,51 @@ def transpile_nip_expression(expression: str, isPickUpPhase=False):
 
 nip_expressions: list[NIPExpression] = []
 
+def get_section_from_tokens(all_tokens: list[Token], section: NipSections | None = None) -> dict[NipSections, list[Token]]:
+    tokens_split_by_section = []
+    temp_section = []
+
+    for i, token in enumerate(all_tokens):
+        if token.type == TokenType.SECTIONAND:
+            tokens_split_by_section.append(temp_section)
+            temp_section = []
+        elif i == len(all_tokens) - 1:
+            temp_section.append(token)
+            tokens_split_by_section.append(temp_section)
+            temp_section = []
+        else:
+            temp_section.append(token)
+    
+    section_tokens_len = len(tokens_split_by_section)
+
+    nip_map = {
+            NipSections.PROP: tokens_split_by_section[0] if section_tokens_len >= 1 else [],
+            NipSections.STAT: tokens_split_by_section[1] if section_tokens_len >= 2 else [],
+            NipSections.MAXQUANTITY: tokens_split_by_section[2] if section_tokens_len >= 3 else []
+        }
+
+    return nip_map
+
+
+
 def load_nip_expression(nip_expression):
-    transpiled_expression = transpile_nip_expression(nip_expression)
+    nip_expression = prepare_nip_expression(nip_expression)
+    tokens = Lexer().create_tokens(nip_expression)
+    transpiled_expression = transpile_nip_expression(tokens)
+
+    split_tokens = get_section_from_tokens(tokens)
     if transpiled_expression:
         nip_expressions.append(
             NIPExpression(
                 raw=nip_expression,
-                should_id_transpiled=transpile_nip_expression(nip_expression.split("#")[0]),
+                tokens=tokens,
                 transpiled=transpiled_expression,
-                should_pickup=transpile_nip_expression(nip_expression.split("#")[0], isPickUpPhase=True)
+                should_id_transpiled=transpile_nip_expression(split_tokens[NipSections.PROP]),
+                should_pickup=transpile_nip_expression(split_tokens[NipSections.PROP], isPickUpPhase=True)
             )
         )
 
 def should_keep(item_data):
-
     for expression in nip_expressions:
         try:
             if eval(expression.transpiled):
@@ -307,14 +343,12 @@ def should_keep(item_data):
 
 
 def _gold_pickup(item_data: dict, expression: NIPExpression) -> bool | None:
-    expression_raw = prepare_nip_expression(expression.raw)
-    tokens = list(Lexer().create_tokens(expression_raw))
     res = None
-    for i, token in enumerate(tokens):
+    for i, token in enumerate(expression.tokens):
         if token.type == TokenType.ValueNTIPAliasStat and token.value == str(NTIPAliasStat["gold"]):
             read_gold = int(item_data["Amount"])
-            operator = tokens[i + 1].value
-            desired_gold = int(tokens[i + 2].value)
+            operator = expression.tokens[i + 1].value
+            desired_gold = int(expression.tokens[i + 2].value)
             res = eval(f"{read_gold} {operator} {desired_gold}")
             break
     return res
@@ -322,21 +356,21 @@ def _gold_pickup(item_data: dict, expression: NIPExpression) -> bool | None:
 
 def _handle_pick_eth_sockets(item_data: dict, expression: NIPExpression) -> tuple[bool, str]:
     expression_raw = prepare_nip_expression(expression.raw)
-    all_tokens = list(Lexer().create_tokens(expression_raw))
+    all_tokens = expression.tokens
 
     # Check to see if there is any None types in the tokens.
     # if None in all_tokens:
     #     print(all_tokens)
     #     Logger.error("None type found in tokens " + expression_raw)
 
-    tokens_by_section = [list(group) for k, group in groupby(all_tokens, lambda x: x.type == TokenType.SECTIONAND) if not k]
+    tokens_by_section = get_section_from_tokens(all_tokens)
     eth_keyword_present = "ethereal" in expression_raw.lower()
     soc_keyword_present =  expression_raw.lower().count("[sockets]") == 1 # currently ignoring if there's socket logic; i.e., [sockets] == 0 || [sockets] == 5
 
     eth = 0 # -1 = set to false, 0 = not set, 1 = set to true
     soc = 0
     if eth_keyword_present:
-        for i, token in enumerate(tokens := tokens_by_section[0]):
+        for i, token in enumerate(tokens := tokens_by_section[NipSections.PROP]):
             if token.type == TokenType.ValueNTIPAliasFlag and str(token.value).lower() == "ethereal":
                 if tokens[i - 1].value == "==":
                     eth = 1
@@ -345,7 +379,7 @@ def _handle_pick_eth_sockets(item_data: dict, expression: NIPExpression) -> tupl
                 break
 
     if len(tokens_by_section) > 1 and soc_keyword_present:
-        for i, token in enumerate(tokens := tokens_by_section[1]):
+        for i, token in enumerate(tokens := tokens_by_section[NipSections.STAT]):
             # print(f"tokens: {tokens}")
             if token.type == TokenType.ValueNTIPAliasStat and token.value == str(NTIPAliasStat["sockets"]):
                 desired_sockets = int(tokens[i + 2].value)
@@ -361,6 +395,8 @@ def _handle_pick_eth_sockets(item_data: dict, expression: NIPExpression) -> tupl
          0 soc   w,g     w,g      g
          1 soc    g       g       g
     """
+
+    ignore = 0
     if item_data["Color"] == "white":
         ignore = eth == 1 or soc == 1
     elif item_data["Color"] == "gray":
@@ -401,6 +437,9 @@ def should_pickup(item_data):
                 pass
 
     return False, ""
+
+
+
 
 def should_id(item_data):
     """
@@ -475,4 +514,4 @@ Logger.info(f"Loaded {num_files} nip files with {len(nip_expressions)} total exp
 if __name__ == "__main__":
     item_data = {'Name': 'Stamina Potion', 'Color': 'white', 'Quality': 'normal', 'Text': 'STAMINA POTION', 'Amount': None, 'BaseItem': {'DisplayName': 'Stamina Potion', 'NTIPAliasClassID': 513, 'NTIPAliasType': 79, 'dimensions': [1, 1]}, 'Item': None, 'NTIPAliasType': [80, 9], 'NTIPAliasClassID': 513, 'NTIPAliasClass': None, 'NTIPAliasQuality': 2, 'NTIPAliasFlag': {'0x10': False, '0x4000000': False, '0x400000': False}}
 
-    print(transpile_nip_expression("[Name] == Grandcharm && [Quality] == Magic # [Itemaddskilltab] >= 1"))
+    # print(transpile_nip_expression("[Name] == Grandcharm && [Quality] == Magic # [Itemaddskilltab] >= 1"))
