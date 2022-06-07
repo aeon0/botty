@@ -2,7 +2,7 @@ import time
 import os
 
 from logger import Logger
-from template_finder import TemplateFinder
+import template_finder
 from screen import grab
 from char import IChar
 from config import Config
@@ -29,7 +29,7 @@ class Chest:
         found_chest = True
         start = time.time()
         while time.time() - start < timeout:
-            template_match = TemplateFinder().search(templates, grab(), roi=Config().ui_roi["reduce_to_center"], threshold=threshold, use_grayscale=True, best_match=True, normalize_monitor=True)
+            template_match = template_finder.search(templates, grab(), roi=Config().ui_roi["reduce_to_center"], threshold=threshold, use_grayscale=True, best_match=True)
             # search for at least 1.5 second, if no chest found, break
             if not template_match.valid:
                 if time.time() - start > 1.5:
@@ -37,19 +37,19 @@ class Chest:
             else:
                 found_chest = True
                 # move mouse and check for label
-                mouse.move(*template_match.center, delay_factor=[0.4, 0.6])
+                mouse.move(*template_match.center_monitor, delay_factor=[0.4, 0.6])
                 wait(0.13, 0.16)
                 chest_label_img = grab()
-                chest_label = TemplateFinder().search("CHEST_LABEL", chest_label_img, threshold=0.85)
-                is_locked = TemplateFinder().search("LOCKED", chest_label_img, threshold=0.85).valid
+                chest_label = template_finder.search("CHEST_LABEL", chest_label_img, threshold=0.85)
+                is_locked = template_finder.search("LOCKED", chest_label_img, threshold=0.85).valid
                 if chest_label.valid:
                     if is_locked:
                         consumables.increment_need("key", 1)
                     Logger.debug(f"Opening {template_match.name} ({template_match.score*100:.1f}% confidence)")
                     # TODO: Act as picking up a potion to support telekinesis. This workaround needs a proper solution.
-                    self._char.pick_up_item(template_match.center, 'potion')
+                    self._char.pick_up_item(template_match.center_monitor, 'potion')
                     wait(0.13, 0.16)
-                    if TemplateFinder().search("LOCKED", grab(), threshold=0.85).valid:
+                    if template_finder.search("LOCKED", grab(), threshold=0.85).valid:
                         templates.remove(template_match.name)
                         Logger.debug("No more keys, removing locked chest template")
                         continue

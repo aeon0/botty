@@ -72,7 +72,8 @@ class GameStats:
             self._location_stats[self._location]["chickens"] += 1
             self._location_stats["totals"]["chickens"] += 1
 
-        self._messenger.send_chicken(self._location, img)
+        if Config().general["discord_log_chicken"]:
+            self._messenger.send_chicken(self._location, img)
 
     def log_merc_death(self):
         self._merc_death_counter += 1

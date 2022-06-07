@@ -3,7 +3,7 @@ import os
 import time
 import math
 import random
-from typing import Dict, Tuple, Union, List, Callable
+from typing import Callable
 
 import keyboard
 import numpy as np
@@ -12,7 +12,7 @@ from screen import convert_screen_to_monitor, grab, convert_abs_to_monitor, conv
 from config import Config
 from logger import Logger
 from npc_manager import Npc, open_npc_menu, press_npc_btn
-from template_finder import TemplateFinder
+import template_finder
 from utils.custom_mouse import mouse
 from utils.misc import wait
 
@@ -90,24 +90,22 @@ class DrognanShopper:
                 item_pos = []
                 img = grab().copy()
                 item_keys = ["SCEPTER1", "SCEPTER2", "SCEPTER3", "SCEPTER4", "SCEPTER5"]
-                for ck in item_keys:
-                    template_match = TemplateFinder(True).search(ck, img, roi=self.roi_vendor)
-                    if template_match.valid:
-                        item_pos.append(template_match.center)
+                template_matches = template_finder.search_all(item_keys, img, roi=self.roi_vendor)
+                for template_match in template_matches:
+                    item_pos.append(template_match.center_monitor)
 
                 # check out each item
                 for pos in item_pos:
-                    x_m, y_m = convert_screen_to_monitor(pos)
-                    mouse.move(x_m, y_m, randomize=3, delay_factor=[0.5, 0.6])
+                    mouse.move(*pos, randomize=3, delay_factor=[0.5, 0.6])
                     wait(0.5, 0.6)
                     img_stats = grab()
 
                     # First check for +2 Paladin Skills. This weeds out most scepters right away.
-                    if TemplateFinder(True).search("2_TO_PALADIN_SKILLS", img_stats, roi=self.roi_shop_item_stats, threshold=0.94).valid:
+                    if template_finder.search("2_TO_PALADIN_SKILLS", img_stats, roi=self.roi_shop_item_stats, threshold=0.94).valid:
                         # Has 2 Pally skills, check blessed hammers next
-                        if TemplateFinder(True).search("TO_BLESSED_HAMMERS", img_stats, roi=self.roi_shop_item_stats, threshold=0.9).valid:
+                        if template_finder.search("TO_BLESSED_HAMMERS", img_stats, roi=self.roi_shop_item_stats, threshold=0.9).valid:
                             # Has 2 Pally skills AND Blessed Hammers, check Concentration next
-                            if TemplateFinder(True).search("TO_CONCENTRATION", img_stats, roi=self.roi_shop_item_stats, threshold=0.9).valid:
+                            if template_finder.search("TO_CONCENTRATION", img_stats, roi=self.roi_shop_item_stats, threshold=0.9).valid:
                                 # Has 2 Pally skills AND Blessed Hammers AND Concentration. We're good! Buy it!
                                 mouse.click(button="right")
                                 Logger.info(f"Item bought!")
@@ -137,7 +135,7 @@ class DrognanShopper:
         self.hold_move(pos_m, time_held=(2.0 / self.speed_factor))
 
     # A variation of the move() function from pather.py
-    def hold_move(self, pos_monitor: Tuple[float, float], time_held: float = 2.0):
+    def hold_move(self, pos_monitor: tuple[float, float], time_held: float = 2.0):
         factor = Config().advanced_options["pathing_delay_factor"]
         # in case we want to walk we actually want to move a bit before the point cause d2r will always "overwalk"
         pos_screen = convert_monitor_to_screen(pos_monitor)

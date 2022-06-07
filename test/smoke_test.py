@@ -2,7 +2,7 @@ from version import __version__
 from logger import Logger
 from game_stats import GameStats
 from bot import Bot
-from template_finder import TemplateFinder
+import template_finder
 from mocks.screen_mock import ScreenMock
 
 
@@ -15,6 +15,6 @@ class TestSmoke:
         Logger.remove_file_logger()
 
     def test_smoke(self):
-        screen = ScreenMock()
+        screen = ScreenMock("test/assets/hero_select.png")
         game_stats = GameStats()
         bot = Bot(game_stats)

@@ -25,14 +25,19 @@ Open up D2R and wait till you are at the hero selection screen. Make sure the ch
 
 You can either run from python. Follow [development.md](development.md) for that. Or you download the a prebuilt release [here](https://github.com/aeon0/botty/releases) (the .rar file!). Start `main.exe` in the botty folder. Focus your D2R window and press the start key (default f11). You can always force stop botty with f12. Note: Botty will use the /nopickup command in the first game to avoid pickup up trash while traversing. This command will only allow item pickup when "show items" is active.
 
+## Development
+
+Check out the [development.md](development.md) docu for infos on how to build from source and details of the project structure and code.
+
+## Support this project 💓
+
+You can support this project by giving feedback, reporting bugs, or creating pull requests. 
+Contributions are welcome, and we encourage you to contribute to this project if you would like to help out. Botty is a open source project and almost excessively maintained by contributors (there has been 50+ contributors! <3). In our [**discord**](https://discord.gg/Jf3J8cuXWg) there is a contributor role, and you can ping one of the admins and ask for the role to talk to other contributors! Though you don't need to be in the [**discord**](https://discord.gg/Jf3J8cuXWg) to contribute, we do encourage you to do so.
+
 ## Graphic Debugger
 
 To check if you graphic settings are good and if the bot would pick up items there is a **Graphic Debugger Mode**. Start botty and press F10 (Default key). This will open up a (mostly black) window. Start a game in D2R and go to A5. You should see some templates with blue circles detected and scores printed out to the console. To check item finding, throw some items of different types on the ground. The debug window should show the item names with black background. If you throw an item on the ground that should be picked up, it will have a red circle. The console will print out the scores for each item that would be picked up. Scores should be well above 0.9 for these items.</br>
 <img src="assets/docs/graphic_debugger.png" width="900">
-
-## Development
-
-Check out the [development.md](development.md) docu for infos on how to build from source and details of the project structure and code.
 
 ## params.ini
 
@@ -104,6 +109,7 @@ order=run_pindle, run_eldritch
 | atk_len_diablo_infector   | Attack length for hdin or number of attack sequences when fighting Diablo in Chaos Sanctuary |
 | kill_cs_trash   | If 1, most Trash mob packs from Chaos Sancturay Entrance to Pentagram are cleared. If 0, the run starts at Pentagram and just kills Sealbosses & Diablo (default) |
 | cs_town_visits   | If 1, it will go to town, buy pots & stash items between clearing the seals, set 0 to deactivate (default) |
+| cs_mob_detect | If 1, it will attempt to use holy freeze from merc / conviction aura / poison to detect nearby mobs to help speed-up CS run.
 | take_health_potion | Health percentage when healing potion will be used. e.g. 0.6 = 60% helath |
 | take_mana_potion   | Mana percentage when mana potion will be used |
 | take_rejuv_potion_health | Health percentag when rejuv potion will be used |
@@ -150,6 +156,11 @@ order=run_pindle, run_eldritch
 | ------------- | ----------------------------------------------------------------------------- |
 | nova          | Required Hotkey for Nova (must be bound to right skill)                       |
 
+| [hydra_sorc]  | Descriptions                                                                  |
+| ------------- | ----------------------------------------------------------------------------- |
+| fire_ball     | Optional Hotkey for (must be bound to left skill)                             |
+| hydra         | Required Hotkey for Hydra (must be bound to right skill)                      |
+
 | [hammerdin]    | Descriptions                                                                        |
 | -------------- | ----------------------------------------------------------------------------------- |
 | teleport       | Optional Hotkey for teleport. If left empty hammerdin will run instead of teleport. |
@@ -191,6 +202,7 @@ order=run_pindle, run_eldritch
 | amp_dmg        | Required Hotkey for Amplify Damage                                                  |
 | corpse_explosion | Required Hotkey Corpse Explosion                                                  |
 | raise_revive   | Required Hotkey revive                                                              |
+| damage_scaling   | Adjusts time spent casting attack skills. Ex: 2 will cast twice as long           |
 | clear_pindle_packs | clears mobs before pindle                                                       |
 
 | [dclone]             | Descriptions                                                          |
@@ -203,7 +215,3 @@ order=run_pindle, run_eldritch
 | pathing_delay_factor | A linear scaling factor, between 1 and 10, applied to pathing delays. |
 | message_headers      | Headers that are sent with each messages                              |
 | message_body_template | Message body of the post message sent                                |
-
-## Support this project
-
-Support it by contributing in any technical way, giving feedback, bug reports or submitting PRs.

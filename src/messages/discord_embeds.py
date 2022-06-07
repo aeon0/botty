@@ -13,12 +13,20 @@ class DiscordEmbeds(GenericApi):
     def __init__(self):
         self._file = None
         self._psnURL = "https://i.psnprofiles.com/games/3bffee/trophies/"
-        if Config().general["custom_message_hook"]:
+        self._webhook = self._get_webhook(Config().general["custom_message_hook"])
+        self._loot_webhook = self._get_webhook(Config().general["custom_loot_message_hook"])
+
+    def _get_webhook(self, hook_url: str):
+        hook = None
+        if not hook_url:
+            hook_url = Config().general['custom_message_hook']
+        if hook_url:
             try:
-                self._webhook = Webhook.from_url(Config().general['custom_message_hook'], adapter=RequestsWebhookAdapter(), )
-            except InvalidArgument:
-                self._webhook = None
-                Logger.warning(f"Your custom_message_hook URL {Config().general['custom_message_hook']} is invalid, Discord updates will not be sent")
+                hook = Webhook.from_url(hook_url, adapter=RequestsWebhookAdapter(), )
+            except BaseException as e:
+                Logger.warning(f"Your custom_message_hook URL {hook_url} is invalid, Discord updates will not be sent")
+                Logger.error(f"Error initializing webhook {hook_url}: {e}")
+        return hook
 
     def send_item(self, item: str, image:  np.ndarray, location: str, ocr_text: str = None):
         imgName = item.replace('_', '-')
@@ -34,7 +42,7 @@ class DiscordEmbeds(GenericApi):
         e.set_thumbnail(url=f"{self._psnURL}41L6bd712.png")
         e.set_image(url=f"attachment://{imgName}.png")
         e.add_field(name="OCR Text", value=f"{ocr_text}", inline=False)
-        self._send_embed(e, file)
+        self._send_embed(e, self._loot_webhook, file)
 
     def send_death(self, location, image_path):
         file = self._add_file(image_path, "death.png")
@@ -43,7 +51,7 @@ class DiscordEmbeds(GenericApi):
         e.description=(f"Died at {location}")
         e.set_thumbnail(url=f"{self._psnURL}33L5e3600.png")
         e.set_image(url="attachment://death.png")
-        self._send_embed(e, file)
+        self._send_embed(e, self._webhook, file)
 
     def send_chicken(self, location, image_path):
         file = self._add_file(image_path, "chicken.png")
@@ -52,32 +60,32 @@ class DiscordEmbeds(GenericApi):
         e.description=(f"chickened at {location}")
         e.set_thumbnail(url=f"{self._psnURL}39Ldf113b.png")
         e.set_image(url="attachment://chicken.png")
-        self._send_embed(e, file)
+        self._send_embed(e, self._webhook, file)
 
     def send_stash(self):
         e = discord.Embed(title=f"{Config().general['name']} has a full stash!", color=Color.dark_grey())
         e.title=(f"{Config().general['name']} has a full stash!")
         e.description=(f"{Config().general['name']} has to quit. \n They cannot store anymore items!")
         e.set_thumbnail(url=f"{self._psnURL}35L63a9df.png")
-        self._send_embed(e)
+        self._send_embed(e, self._webhook)
 
     def send_gold(self):
         e = discord.Embed(title=f"{Config().general['name']} is rich!", color=Color.dark_grey())
         e.title=(f"{Config().general['name']} is Rich!")
         e.description=(f"{Config().general['name']} can't store any more money!\n turning off gold pickup.")
         e.set_thumbnail(url=f"{self._psnURL}6L341955.png")
-        self._send_embed(e)
+        self._send_embed(e, self._webhook)
 
     def send_message(self, msg: str):
         msg = f"{Config().general['name']}: {msg}"
         e = discord.Embed(title=f"Update:", description=f"```{msg}```", color=Color.dark_teal())
-        self._send_embed(e)
+        self._send_embed(e, self._webhook)
 
-    def _send_embed(self, e, file = None):
+    def _send_embed(self, e, webhook, file = None):
         e.set_footer(text=f'Botty v.{__version__} by Aeon')
         e.timestamp=datetime.datetime.now(datetime.timezone.utc)
         try:
-            if self._webhook: self._webhook.send(embed=e, file=file, username=Config().general['name'])
+            webhook.send(embed=e, file=file, username=Config().general['name'])
         except BaseException as err:
             Logger.error(f"Error sending Discord embed: {err}")
 

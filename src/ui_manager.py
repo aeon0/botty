@@ -3,13 +3,14 @@ import os
 import numpy as np
 import time
 import cv2
-from typing import Union, TypeVar, Callable
+from typing import TypeVar, Callable
 from utils.custom_mouse import mouse
 from utils.misc import wait, cut_roi, image_is_equal
 from logger import Logger
 from config import Config
-from screen import grab, convert_screen_to_monitor, convert_abs_to_monitor
-from template_finder import TemplateFinder, TemplateMatch
+from screen import grab, convert_abs_to_monitor
+import template_finder
+from template_finder import TemplateMatch
 from dataclasses import dataclass
 from messages import Messenger
 from game_stats import GameStats
@@ -24,9 +25,7 @@ class ScreenObject:
     ref: list[str]
     inp_img: np.ndarray = None
     roi: list[float] = None
-    timeout: float = 30
     threshold: float = 0.68
-    normalize_monitor: bool = True
     best_match: bool = False
     use_grayscale: bool = False
     color_match: list[np.array] = None
@@ -97,13 +96,11 @@ class ScreenObjects:
         ref=["CHARACTER_STATE_ONLINE", "CHARACTER_STATE_OFFLINE"],
         roi="character_online_status",
         best_match=True,
-        normalize_monitor=False
     )
     SelectedCharacter=ScreenObject(
         ref=["CHARACTER_ACTIVE"],
         roi="character_select",
         threshold=0.8,
-        normalize_monitor=False
     )
     ServerError=ScreenObject(
         ref=["SERVER_ISSUES"]
@@ -111,7 +108,8 @@ class ScreenObjects:
     SaveAndExit=ScreenObject(
         ref=["SAVE_AND_EXIT_NO_HIGHLIGHT", "SAVE_AND_EXIT_HIGHLIGHT"],
         roi="save_and_exit",
-        threshold=0.85
+        threshold=0.85,
+        use_grayscale=True
     )
     NeedRepair=ScreenObject(
         ref="REPAIR_NEEDED",
@@ -179,7 +177,7 @@ class ScreenObjects:
         threshold=0.9
     )
     Corpse=ScreenObject(
-        ref=["CORPSE", "CORPSE_BARB", "CORPSE_DRU", "CORPSE_NEC", "CORPSE_PAL", "CORPSE_SIN", "CORPSE_SORC", "CORPSE_ZON"],
+        ref=["CORPSE", "CORPSE_2", "CORPSE_BARB", "CORPSE_DRU", "CORPSE_NEC", "CORPSE_PAL", "CORPSE_SIN", "CORPSE_SORC", "CORPSE_ZON"],
         roi="corpse",
         threshold=0.8
     )
@@ -252,7 +250,6 @@ class ScreenObjects:
     TabIndicator=ScreenObject(
         ref="TAB_INDICATOR",
         roi="tab_indicator",
-        normalize_monitor=False
     )
     DepositBtn=ScreenObject(
         ref=["DEPOSIT_BTN", "DEPOSIT_BTN_BRIGHT"],
@@ -263,19 +260,17 @@ class ScreenObjects:
 def detect_screen_object(screen_object: ScreenObject, img: np.ndarray = None) -> TemplateMatch:
     roi = Config().ui_roi[screen_object.roi] if screen_object.roi else None
     img = grab() if img is None else img
-    return TemplateFinder().search(
+    return template_finder.search(
         ref = screen_object.ref,
         inp_img = img,
         threshold = screen_object.threshold,
         roi = roi,
         best_match = screen_object.best_match,
         use_grayscale = screen_object.use_grayscale,
-        normalize_monitor = screen_object.normalize_monitor
         )
 
-def select_screen_object_match(match: TemplateMatch, delay_factor: tuple[float, float] = (0.9, 1.1), normalize_monitor: bool = False) -> None:
-    pos = match.center if not normalize_monitor else convert_screen_to_monitor(match.center)
-    mouse.move(*pos, delay_factor=delay_factor)
+def select_screen_object_match(match: TemplateMatch, delay_factor: tuple[float, float] = (0.9, 1.1)) -> None:
+    mouse.move(*match.center_monitor, delay_factor=delay_factor)
     wait(0.05, 0.09)
     mouse.click("left")
     wait(0.05, 0.09)
@@ -284,22 +279,22 @@ def is_visible(screen_object: ScreenObject, img: np.ndarray = None) -> bool:
     return detect_screen_object(screen_object, img).valid
 
 def wait_until_visible(screen_object: ScreenObject, timeout: float = 30) -> TemplateMatch:
-    if not (match := wait_until(lambda: detect_screen_object(screen_object), lambda match: match.valid, timeout)[0]).valid:
+    if not (match := _wait_until(lambda: detect_screen_object(screen_object), lambda match: match.valid, timeout)[0]).valid:
         Logger.debug(f"{screen_object.ref} not found after {timeout} seconds")
     return match
 
 def wait_until_hidden(screen_object: ScreenObject, timeout: float = 3) -> bool:
-    if not (hidden := wait_until(lambda: detect_screen_object(screen_object).valid, lambda res: not res, timeout)[1]):
+    if not (hidden := _wait_until(lambda: detect_screen_object(screen_object).valid, lambda res: not res, timeout)[1]):
         Logger.debug(f"{screen_object.ref} still found after {timeout} seconds")
     return hidden
 
 def wait_for_update(img: np.ndarray, roi: list[int] = None, timeout: float = 3) -> bool:
     roi = roi if roi is not None else [0, 0, img.shape[0]-1, img.shape[1] -1]
-    if not (change := wait_until(lambda: cut_roi(grab(), roi), lambda res: not image_is_equal(cut_roi(img, roi), res), timeout)[1]):
+    if not (change := _wait_until(lambda: cut_roi(grab(), roi), lambda res: not image_is_equal(cut_roi(img, roi), res), timeout)[1]):
         Logger.debug(f"ROI: '{roi}' unchanged after {timeout} seconds")
     return change
 
-def wait_until(func: Callable[[], T], is_success: Callable[[T], bool], timeout = None) -> Union[T, None]:
+def _wait_until(func: Callable[[], T], is_success: Callable[[T], bool], timeout = None) -> T | None:
     start = time.time()
     while (time.time() - start) < timeout:
         res = func()
@@ -308,8 +303,8 @@ def wait_until(func: Callable[[], T], is_success: Callable[[T], bool], timeout =
         wait(0.05)
     return res, success
 
-def hover_over_screen_object_match(match) -> None:
-    mouse.move(*convert_screen_to_monitor(match.center))
+def hover_over_screen_object_match(match : TemplateMatch) -> None:
+    mouse.move(*match.center_monitor)
     wait(0.2, 0.4)
 
 def list_visible_objects(img: np.ndarray = None) -> list:

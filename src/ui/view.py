@@ -46,8 +46,8 @@ def save_and_exit() -> bool:
             exit_button = wait_until_visible(ScreenObjects.SaveAndExit, 3)
         # if exit button is found, double click it to be sure
         if exit_button.valid:
-            select_screen_object_match(exit_button, delay_factor=(0.1, 0.3))
-            wait(0.1, 0.2)
+            select_screen_object_match(exit_button, delay_factor=(0.02, 0.05))
+            wait(0.02, 0.05)
             mouse.click(button="left")
             # if center icon on player bar disappears then save/exit was successful
             success = wait_until_hidden(ScreenObjects.InGame, 3)
@@ -81,7 +81,7 @@ def return_to_play() -> bool:
     substrings = ["NPC", "Panel", "SaveAndExit"]
     img=grab()
     start=time.time()
-    while (elapsed := (time.time() - start) < 8):
+    while (elapsed := (time.time() - start) < 5):
         need_escape = False
         match = detect_screen_object(ScreenObjects.InGame, img)
         if match.valid and "DARK" in match.name:
@@ -92,7 +92,7 @@ def return_to_play() -> bool:
                     break
         if need_escape:
             keyboard.send("esc")
-            wait(1.7)
+            wait(1)
             img=grab()
         else:
             break
@@ -111,6 +111,6 @@ if __name__ == "__main__":
     print("Go to D2R window and press f11 to start game")
     keyboard.wait("f11")
     from config import Config
-    from template_finder import TemplateFinder
+    import template_finder
 
     return_to_play()

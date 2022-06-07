@@ -2,7 +2,7 @@ import subprocess
 import os, sys
 import keyboard
 from bot import Bot
-from template_finder import TemplateFinder
+import template_finder
 from utils.misc import wait, set_d2r_always_on_top
 from screen import get_offset_state, grab
 from config import Config
@@ -23,11 +23,11 @@ def kill_game():
         os.system("taskkill /f /im  D2R.exe")
         wait(1.0, 1.5)
 
-def restart_game(d2_path):
+def restart_game(d2r_path, launch_options):
     kill_game()
     wait(1.0, 1.5)
     # This method should function similar to opening the exe via double-click
-    os.startfile(f"{d2_path}/D2R.exe")
+    os.startfile(f"{d2r_path}/D2R.exe", arguments = launch_options)
     wait(4.4, 5.5)
     for i in range(20):
         keyboard.send("space")
@@ -40,7 +40,7 @@ def restart_game(d2_path):
         wait(0.5, 1.0)
 
 
-    while not TemplateFinder().search(Bot._MAIN_MENU_MARKERS, grab(), best_match=True).valid:
+    while not template_finder.search(Bot._MAIN_MENU_MARKERS, grab(), best_match=True).valid:
         keyboard.send("space")
         wait(2.0, 4.0)
         attempts += 1
