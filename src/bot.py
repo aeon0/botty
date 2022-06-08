@@ -182,13 +182,15 @@ class Bot:
         if not self._stopping:
             self.trigger(name, **kwargs)
 
-    def restart_or_exit(self):
+    def restart_or_exit(self, message: str =""):
+        if message:
+            Logger.error(message)
         if Config().general["restart_d2r_when_stuck"]:
-            Logger.info("Character select failed. Restart botty")
+            Logger.info("Restart botty")
             restart_game(Config().general["d2r_path"], Config().advanced_options["launch_options"])
             self.stop()
         else:
-            Logger.info("Character select failed. Shut down botty")
+            Logger.info("Shut down botty")
             safe_exit()
 
     def current_game_length(self):
@@ -223,7 +225,8 @@ class Bot:
         })
         if (match := template_finder.search_and_wait(list(transition_to_screens.keys()), best_match=True)).valid:
             self.trigger_or_stop(transition_to_screens[match.name])
-        self.restart_or_exit()
+        else:
+            self.restart_or_exit(f"Failed to detect {list(transition_to_screens.keys())}.")
 
     def on_select_character(self):
         # Make sure the correct char is selected
@@ -232,7 +235,7 @@ class Bot:
             character_select.save_char_template()
         else:
             if not character_select.select_char():
-                self.restart_or_exit()
+                self.restart_or_exit(f"Character select failed.")
         self.trigger_or_stop("create_game")
 
     def on_create_game(self):
