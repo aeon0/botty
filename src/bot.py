@@ -11,6 +11,7 @@ from collections import OrderedDict
 from health_manager import set_pause_state
 from transmute import Transmute
 from utils.misc import wait, hms
+from utils.restart import safe_exit, restart_game
 
 from game_stats import GameStats
 from logger import Logger
@@ -42,7 +43,6 @@ from messages import Messenger
 from utils.dclone_ip import get_d2r_game_ip
 
 class Bot:
-    _MAIN_MENU_MARKERS = ["MAIN_MENU_TOP_LEFT","MAIN_MENU_TOP_LEFT_DARK"]
 
     def __init__(self, game_stats: GameStats):
         self._game_stats = game_stats
@@ -100,7 +100,7 @@ class Bot:
         }
         # Adapt order to the config
         self._do_runs = OrderedDict((k, self._do_runs[k]) for k in Config().routes_order if k in self._do_runs and self._do_runs[k])
-    
+
         runs = list(self._do_runs.keys())
         self._do_runs_reset = copy(self._do_runs)
         Logger.info(f"Doing runs: {self._do_runs_reset.keys()}")
@@ -182,6 +182,15 @@ class Bot:
         if not self._stopping:
             self.trigger(name, **kwargs)
 
+    def restart_or_exit(self):
+        if Config().general["restart_d2r_when_stuck"]:
+            Logger.info("Character select failed. Restart botty")
+            restart_game(Config().general["d2r_path"], Config().advanced_options["launch_options"])
+            self.stop()
+        else:
+            Logger.info("Character select failed. Shut down botty")
+            safe_exit()
+
     def current_game_length(self):
         return self._game_stats.get_current_game_length()
 
@@ -209,41 +218,28 @@ class Bot:
         self._game_stats.log_start_game()
         keyboard.release(Config().char["stand_still"])
         transition_to_screens = Bot._rebuild_as_asset_to_trigger({
-            "select_character": Bot._MAIN_MENU_MARKERS,
+            "select_character": main_menu.MAIN_MENU_MARKERS,
             "start_from_town": town_manager.TOWN_MARKERS,
         })
-        match = template_finder.search_and_wait(list(transition_to_screens.keys()), best_match=True)
-        self.trigger_or_stop(transition_to_screens[match.name])
+        if (match := template_finder.search_and_wait(list(transition_to_screens.keys()), best_match=True)).valid:
+            self.trigger_or_stop(transition_to_screens[match.name])
+        self.restart_or_exit()
 
     def on_select_character(self):
-        if Config().general['restart_d2r_when_stuck']:
-            # Make sure the correct char is selected
-            if character_select.has_char_template_saved():
-                character_select.select_char()
-            else:
-                character_select.save_char_online_status()
-                character_select.save_char_template()
+        # Make sure the correct char is selected
+        if not character_select.has_char_template_saved():
+            character_select.save_char_online_status()
+            character_select.save_char_template()
+        else:
+            if not character_select.select_char():
+                self.restart_or_exit()
         self.trigger_or_stop("create_game")
 
     def on_create_game(self):
         # Start a game from hero selection
-        if online := Config().general['online_char']:
-            character_select.online_character = True
         if (m := wait_until_visible(ScreenObjects.MainMenu)).valid:
-            attemps = 0
-            while True:
-                if "DARK" in m.name:
-                    keyboard.send("esc")
-                    time.sleep(1)
-                if attemps > 3:
-                    return
-                if online and (match := detect_screen_object(ScreenObjects.OnlineStatus, grab())).valid:
-                    if match.name != "CHARACTER_STATE_ONLINE":
-                        character_select.select_online_tab(match.region, match.center)
-                        time.sleep(1.5)
-                        attemps += 1
-                        continue
-                break
+            if "DARK" in m.name:
+                keyboard.send("esc")
             main_menu.start_game()
             view.move_to_corpse()
         else: return
