@@ -60,7 +60,7 @@ class GameController:
                 if max_consecutive_fails_reached:
                     msg = f"Consecutive fails {self.game_stats.get_consecutive_runs_failed()} >= Max {Config().general['max_consecutive_fails']}. Quitting botty."
                     Logger.error(msg)
-                    if Config().general["custom_message_hook"]:
+                    if messenger.enabled:
                         messenger.send_message(msg)
                     safe_exit(1)
                 else:
@@ -79,7 +79,7 @@ class GameController:
                 cv2.imwrite("./info_screenshots/info_could_not_recover_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
             if Config().general['restart_d2r_when_stuck']:
                 Logger.error("Could not recover from a max game length violation. Restarting the Game.")
-                if Config().general["custom_message_hook"]:
+                if messenger.enabled:
                     messenger.send_message("Got stuck and will now restart D2R")
                 if restart_game(Config().general["d2r_path"], Config().advanced_options["launch_options"]):
                     self.game_stats.log_end_game(failed=max_game_length_reached)
@@ -89,10 +89,11 @@ class GameController:
                         self.game_recovery = GameRecovery(self.death_manager)
                         return self.run_bot()
                 Logger.error("Could not restart the game. Quitting.")
-                messenger.send_message("Got stuck and could not restart the game. Quitting.")
+                if messenger.enabled:
+                    messenger.send_message("Got stuck and could not restart the game. Quitting.")
             else:
                 Logger.error("Could not recover from a max game length violation. Quitting botty.")
-                if Config().general["custom_message_hook"]:
+                if messenger.enabled:
                     messenger.send_message("Got stuck and will now quit botty")
             safe_exit(1)
 
