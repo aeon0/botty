@@ -194,7 +194,7 @@ class FoHdin(Paladin):
 
             else:
                 Logger.debug("No Mob found, attacking on Node on")
-            
+
             if self._skill_hotkeys["cleansing"]:
                 keyboard.send(self._skill_hotkeys["cleansing"])
                 wait(0.1, 0.2) #clear yourself from curses
@@ -241,11 +241,11 @@ class FoHdin(Paladin):
                 wait(0.5, 1.0) #clear area from corpses & heal
         else:
             Logger.debug("No Mob found, attacking Node 225 instead")
-            trav_attack_pos = self._pather.find_abs_node_pos(225, grab())
+            img = grab()
+            trav_attack_pos = self._pather.find_abs_node_pos(225, img) or self._pather.find_abs_node_pos(906, img)
             #Logger.info(f"trav_attack_pos: {trav_attack_pos}")
-            if trav_attack_pos is None:
-                trav_attack_pos = self._pather.find_abs_node_pos(906, grab())
-            self._cast_foh(trav_attack_pos, spray=80, time_in_s=atk_len_dur)
+            if trav_attack_pos:
+                self._cast_foh(trav_attack_pos, spray=80, time_in_s=atk_len_dur)
 
 
         self._pather.traverse_nodes([226], self, timeout=2.5, force_tp=True)
@@ -276,11 +276,11 @@ class FoHdin(Paladin):
                 wait(0.5, 1.0) #clear area from corpses & heal
         else:
             Logger.debug("No Mob found, attacking Node 226 instead")
-            trav_attack_pos = self._pather.find_abs_node_pos(226, grab())
+            img = grab()
+            trav_attack_pos = self._pather.find_abs_node_pos(226, img) or self._pather.find_abs_node_pos(906, img)
             #Logger.info(f"trav_attack_pos: {trav_attack_pos}")
-            if trav_attack_pos is None:
-                trav_attack_pos = self._pather.find_abs_node_pos(906, grab())
-            self._cast_foh(trav_attack_pos, spray=80, time_in_s=atk_len_dur)
+            if trav_attack_pos:
+                self._cast_foh(trav_attack_pos, spray=80, time_in_s=atk_len_dur)
 
         self._pather.traverse_nodes([300], self, timeout=2.5, force_tp=True)
         if self._skill_hotkeys["conviction"]: keyboard.send(self._skill_hotkeys["conviction"]) #conviction needs to be on for mob_detection
@@ -310,11 +310,11 @@ class FoHdin(Paladin):
                 wait(0.5, 1.0) #clear area from corpses & heal
         else:
             Logger.debug("No Mob found, attacking Node 300 instead")
-            trav_attack_pos = self._pather.find_abs_node_pos(300, grab())
+            img = grab()
+            trav_attack_pos = self._pather.find_abs_node_pos(300, img) or self._pather.find_abs_node_pos(906, img)
             #Logger.info(f"trav_attack_pos: {trav_attack_pos}")
-            if trav_attack_pos is None:
-                trav_attack_pos = self._pather.find_abs_node_pos(906, grab())
-            self._cast_foh(trav_attack_pos, spray=80, time_in_s=atk_len_dur)
+            if trav_attack_pos:
+                self._cast_foh(trav_attack_pos, spray=80, time_in_s=atk_len_dur)
 
         # Move outside since the trav.py expects to start searching for items there if char can teleport
         self._pather.traverse_nodes([226], self, timeout=2.5, force_tp=True)
@@ -327,45 +327,45 @@ class FoHdin(Paladin):
         atk_len_factor = 0.5 #we have a longer initial cast duration, but for the mob check iterations, we just use half of that
         atk_len = "atk_len_trav"
         atk_len_dur = int(Config().char[atk_len])*atk_len_factor
-        
+
         if self._skill_hotkeys["conviction"]: keyboard.send(self._skill_hotkeys["conviction"]) #conviction needs to be on for mob_detection
         self._cast_foh(cast_pos_abs, spray=80, time_in_s=int(Config().char["atk_len_eldritch"]))
-        
+
         for _ in range(int(Config().char["atk_len_eldritch"])):
             #lets check if there are still mobs & kill them
-            
+
             if (targets := get_visible_targets()):
                 nearest_mob_pos_abs = convert_screen_to_abs(targets[0].center)
-                Logger.debug("Mob found at " + str(nearest_mob_pos_abs) + '\033[96m'+" fisting him now "+ str(atk_len_dur) + " times (atk_len)!" +'\033[0m')    
+                Logger.debug("Mob found at " + str(nearest_mob_pos_abs) + '\033[96m'+" fisting him now "+ str(atk_len_dur) + " times (atk_len)!" +'\033[0m')
                 atk_len_dur = int(atk_len_dur)
                 print(atk_len_dur)
                 for _ in range(atk_len_dur):
                     self._cast_foh(nearest_mob_pos_abs, spray=11, time_in_s=atk_len_dur)
-                
+
                 if (targets := get_visible_targets()):
                     nearest_mob_pos_abs = convert_screen_to_abs(targets[0].center)
                     Logger.debug("Mob found at " + str(nearest_mob_pos_abs) + '\033[93m'+" bolting him now "+ str(atk_len_dur) + " seconds (atk_len)!" +'\033[0m')
                     for _ in range(atk_len_dur):
                         self._cast_holy_bolt(nearest_mob_pos_abs, spray=80, time_in_s=atk_len_dur)
-                
+
                 else:
                     Logger.debug("No Mob found, moving on")
 
                 if self._skill_hotkeys["cleansing"]:
                     keyboard.send(self._skill_hotkeys["cleansing"])
                     wait(0.1, 0.2) #clear yourself from curses
-                
+
         # Move to items
         if self._skill_hotkeys["redemption"]:
-            keyboard.send(self._skill_hotkeys["redemption"])  
-        
+            keyboard.send(self._skill_hotkeys["redemption"])
+
         pos_m = convert_abs_to_monitor((70, -200))
         self.pre_move()
-        self.move(pos_m, force_move=True)      
+        self.move(pos_m, force_move=True)
         self._pather.traverse_nodes(Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END)
         return True
 
-    
+
 
 
     """ DEFENSIVE VERSION FROM FAR AWAY
@@ -544,7 +544,7 @@ class FoHdin(Paladin):
             self._cast_holy_bolt(cast_pos_abs, spray=90, time_in_s=int(Config().char["atk_len_arc"]))
         wait(self._cast_duration, self._cast_duration + 0.2)
         return True
-    
+
 
      ########################################################################################
      # Chaos Sanctuary, Trash, Seal Bosses (a = Vizier, b = De Seis, c = Infector) & Diablo #
@@ -658,7 +658,7 @@ class FoHdin(Paladin):
             ### ATTACK ###
             self.cs_trash_atk_seq("atk_len_cs_trashmobs", 1)
             ### LOOT ###
-            self._picked_up_items |= self._pickit.pick_up_items(self)            
+            self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([673], self): return False # , timeout=3): # Re-adjust itself and continues to attack
 
         elif location == "entrance1_02": #node 673
@@ -666,7 +666,7 @@ class FoHdin(Paladin):
             ### ATTACK ###
             self.cs_trash_atk_seq("atk_len_cs_trashmobs", 1)
             ### LOOT ###
-            self._picked_up_items |= self._pickit.pick_up_items(self)            
+            self._picked_up_items |= self._pickit.pick_up_items(self)
             self._pather.traverse_nodes_fixed("diablo_entrance_1_1", self) # Moves char to postion close to node 674 continues to attack
             if not self._pather.traverse_nodes([674], self): return False#, timeout=3)
 
@@ -675,7 +675,7 @@ class FoHdin(Paladin):
             ### ATTACK ###
             self.cs_trash_atk_seq("atk_len_cs_trashmobs", 1)
             ### LOOT ###
-            self._picked_up_items |= self._pickit.pick_up_items(self)                
+            self._picked_up_items |= self._pickit.pick_up_items(self)
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([675], self): return False#, timeout=3) # Re-adjust itself
             self._pather.traverse_nodes_fixed("diablo_entrance_1_1", self) #static path to get to be able to spot 676
@@ -687,7 +687,7 @@ class FoHdin(Paladin):
             self.cs_trash_atk_seq("atk_len_cs_trashmobs", 1)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
-        
+
         # TRASH LAYOUT B
 
         elif location == "entrance2_01": #static_path "diablo_entrance_hall_2"
@@ -744,7 +744,7 @@ class FoHdin(Paladin):
                        ### ATTACK ###
             self.cs_trash_atk_seq("atk_len_cs_trashmobs", 1)
             ### LOOT ###
-            self._picked_up_items |= self._pickit.pick_up_items(self)                
+            self._picked_up_items |= self._pickit.pick_up_items(self)
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([609], self): return False#, timeout=3)
             self._picked_up_items |= self._pickit.pick_up_items(self)
@@ -885,7 +885,7 @@ class FoHdin(Paladin):
             ### APPROACH ###
             # if not self._pather.traverse_nodes([623,624], self): return False #
             ### ATTACK ###
-            self.cs_trash_atk_seq("atk_len_cs_trashmobs", 1)            
+            self.cs_trash_atk_seq("atk_len_cs_trashmobs", 1)
             ### LOOT ###
             # we loot at boss
 
@@ -1022,7 +1022,7 @@ class FoHdin(Paladin):
             ### ATTACK ###
             self.cs_trash_atk_seq("atk_len_cs_trashmobs", 1)
             ### LOOT ###
-            self._picked_up_items |= self._pickit.pick_up_items(self)                
+            self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([655], self): return False # , timeout=3):
             if self._skill_hotkeys["redemption"]:
                 keyboard.send(self._skill_hotkeys["redemption"])
@@ -1035,7 +1035,7 @@ class FoHdin(Paladin):
             ### ATTACK ###
             self.cs_trash_atk_seq("atk_len_cs_trashmobs", 1)
             ### LOOT ###
-            self._picked_up_items |= self._pickit.pick_up_items(self)                
+            self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([652], self): return False # , timeout=3):
             if self._skill_hotkeys["redemption"]:
                 keyboard.send(self._skill_hotkeys["redemption"])
@@ -1094,7 +1094,7 @@ class FoHdin(Paladin):
             ### ATTACK ###
             self.cs_trash_atk_seq("atk_len_cs_trashmobs", 1)
             ### LOOT ###
-            self._picked_up_items |= self._pickit.pick_up_items(self)        
+            self._picked_up_items |= self._pickit.pick_up_items(self)
             return True
 
 
@@ -1231,7 +1231,7 @@ class FoHdin(Paladin):
             return False
         return True
 
-    
+
     #no aura effect on dia. not good for mob detection
     def kill_diablo(self) -> bool:
         ### APPROACH ###
@@ -1261,7 +1261,7 @@ class FoHdin(Paladin):
         ### LOOT ###
         self._picked_up_items |= self._pickit.pick_up_items(self)
         return True
-        
+
     """
     def kill_diablo(self) -> bool:
         ### APPROACH ###
