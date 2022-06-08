@@ -89,7 +89,8 @@ class GameController:
                         self.game_recovery = GameRecovery(self.death_manager)
                         return self.run_bot()
                 Logger.error("Could not restart the game. Quitting.")
-                messenger.send_message("Got stuck and could not restart the game. Quitting.")
+                if Config().general["custom_message_hook"]:
+                    messenger.send_message("Got stuck and could not restart the game. Quitting.")
             else:
                 Logger.error("Could not recover from a max game length violation. Quitting botty.")
                 if Config().general["custom_message_hook"]:
