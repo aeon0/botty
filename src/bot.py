@@ -266,7 +266,8 @@ class Bot:
             hot_ip = Config().dclone["dclone_hotip"]
             Logger.debug(f"Current Game IP: {cur_game_ip}   and HOTIP: {hot_ip}")
             if hot_ip == cur_game_ip:
-                self._messenger.send_message(f"Dclone IP Found on IP: {cur_game_ip}")
+                if self._messenger.enabled:
+                    self._messenger.send_message(f"Dclone IP Found on IP: {cur_game_ip}")
                 print("Press Enter")
                 input()
                 os._exit(1)
@@ -431,7 +432,8 @@ class Bot:
             if elapsed_time > (Config().general["max_runtime_before_break_m"]*60):
                 break_msg = f'Ran for {hms(elapsed_time)}, taking a break for {hms(Config().general["break_length_m"]*60)}.'
                 Logger.info(break_msg)
-                self._messenger.send_message(break_msg)
+                if self._messenger.enabled:
+                    self._messenger.send_message(break_msg)
                 if not self._pausing:
                     self.toggle_pause()
 
@@ -439,7 +441,8 @@ class Bot:
 
                 break_msg = f'Break over, will now run for {hms(Config().general["max_runtime_before_break_m"]*60)}.'
                 Logger.info(break_msg)
-                self._messenger.send_message(break_msg)
+                if self._messenger.enabled:
+                    self._messenger.send_message(break_msg)
                 if self._pausing:
                     self.toggle_pause()
 
