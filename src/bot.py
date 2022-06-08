@@ -242,7 +242,8 @@ class Bot:
                 keyboard.send("esc")
             main_menu.start_game()
             view.move_to_corpse()
-        else: return
+        else:
+            self.restart_or_exit()
         self.trigger_or_stop("start_from_town")
 
     def on_start_from_town(self):
