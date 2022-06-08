@@ -1,5 +1,6 @@
 from utils.custom_mouse import mouse
 from utils.misc import cut_roi, roi_center, wait, is_in_roi
+
 from config import Config
 from screen import convert_screen_to_monitor, grab
 import template_finder
@@ -11,7 +12,7 @@ from ui_manager import detect_screen_object, ScreenObjects
 last_char_template = None
 online_character = None
 
-def select_online_tab(region, center):
+def select_online_tab(region, center) -> bool:
     btn_width = center[0] - region[0]
     if online_character:
         Logger.debug(f"Selecting online tab")
@@ -22,9 +23,17 @@ def select_online_tab(region, center):
     pos = convert_screen_to_monitor((x, center[1]))
     # move cursor to appropriate tab and select
     mouse.move(*pos)
-    wait(0.4, 0.6)
-    mouse.click(button="left")
-    wait(0.4, 0.6)
+    wait(0.3, 0.5)
+    attempts = 0
+    while attempts <= 4:
+        attempts += 1
+        mouse.click(button="left")
+        if (match := detect_screen_object(ScreenObjects.OnlineStatus, grab())).valid and online_character == online_active(match):
+            return True
+        wait(1.5)
+    online_str = "online" if online_character else "offline"
+    Logger.error(f"select_online_tab: unable to select {online_str} tab after {attempts} attempts")
+    return False
 
 def has_char_template_saved():
     return last_char_template is not None
@@ -69,23 +78,21 @@ def save_char_template():
     global last_char_template
     last_char_template = char_template
 
-def select_char():
+def select_char() -> bool:
     if last_char_template is not None:
         img = grab()
         if (match := detect_screen_object(ScreenObjects.OnlineStatus, img)).valid:
-            if online_active(match) and (not online_character):
-                select_online_tab(match.region, match.center)
-                img = grab()
-            elif not online_active(match) and (online_character):
-                select_online_tab(match.region, match.center)
+            if online_active(match) != online_character:
+                if not select_online_tab(match.region, match.center):
+                    return False
                 img = grab()
             wait(1, 1.5)
         else:
             Logger.error("select_char: Could not find online/offline tabs")
-            return
+            return False
         if not (match := detect_screen_object(ScreenObjects.SelectedCharacter, img)).valid:
             Logger.error("select_char: Could not find highlighted profile")
-            return
+            return False
         scrolls_attempts = 0
         while scrolls_attempts < 2:
             if scrolls_attempts > 0:
@@ -96,14 +103,14 @@ def select_char():
                 #print(f"{match.region} {desired_char.center}")
                 if is_in_roi(match.region, desired_char.center) and scrolls_attempts == 0:
                     Logger.debug("Saved character template found and already highlighted, continue")
-                    return
+                    return True
                 else:
                     Logger.debug("Selecting saved character")
                     mouse.move(*desired_char.center_monitor)
                     wait(0.4, 0.6)
                     mouse.click(button="left")
-                    wait(0.4), 0.6
-                    return
+                    wait(0.4, 0.6)
+                    return True
             else:
                 Logger.debug("Highlighted profile found but saved character not in view, scroll")
                 # We can scroll the characters only if we have the mouse in the char names selection so move the mouse there
@@ -115,3 +122,4 @@ def select_char():
                 scrolls_attempts += 1
                 wait(0.4, 0.6)
         Logger.error(f"select_char: unable to find saved profile after {scrolls_attempts} scroll attempts")
+        return False

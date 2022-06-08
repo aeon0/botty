@@ -368,7 +368,7 @@ class Config:
         self.poison_necro = self.configs["config"]["parser"]["poison_necro"]
         if "poison_necro" in self.configs["custom"]["parser"]:
             self.poison_necro.update(self.configs["custom"]["parser"]["poison_necro"])
-            
+
         self.bone_necro = self.configs["config"]["parser"]["bone_necro"]
         if "bone_necro" in self.configs["custom"]["parser"]:
             self.bone_necro.update(self.configs["custom"]["parser"]["bone_necro"])
