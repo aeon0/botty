@@ -100,16 +100,18 @@ class Bot:
         }
         # Adapt order to the config
         self._do_runs = OrderedDict((k, self._do_runs[k]) for k in Config().routes_order if k in self._do_runs and self._do_runs[k])
+    
+        runs = list(self._do_runs.keys())
         self._do_runs_reset = copy(self._do_runs)
         Logger.info(f"Doing runs: {self._do_runs_reset.keys()}")
         if Config().general["randomize_runs"]:
             self.shuffle_runs()
-        self._pindle = Pindle(self._pather, self._town_manager, self._char, self._pickit)
-        self._shenk = ShenkEld(self._pather, self._town_manager, self._char, self._pickit)
-        self._trav = Trav(self._pather, self._town_manager, self._char, self._pickit)
-        self._nihlathak = Nihlathak(self._pather, self._town_manager, self._char, self._pickit)
-        self._arcane = Arcane(self._pather, self._town_manager, self._char, self._pickit)
-        self._diablo = Diablo(self._pather, self._town_manager, self._char, self._pickit)
+        self._pindle = Pindle(self._pather, self._town_manager, self._char, self._pickit, runs)
+        self._shenk = ShenkEld(self._pather, self._town_manager, self._char, self._pickit, runs)
+        self._trav = Trav(self._pather, self._town_manager, self._char, self._pickit, runs)
+        self._nihlathak = Nihlathak(self._pather, self._town_manager, self._char, self._pickit, runs)
+        self._arcane = Arcane(self._pather, self._town_manager, self._char, self._pickit, runs)
+        self._diablo = Diablo(self._pather, self._town_manager, self._char, self._pickit, runs)
 
         # Create member variables
         self._picked_up_items = False
@@ -262,7 +264,7 @@ class Bot:
                 Logger.info(f"Please Enter the region ip and hot ip on config to use")
 
         # Run /nopickup command to avoid picking up stuff on accident
-        if not self._ran_no_pickup and not self._game_stats._nopickup_active:
+        if Config().char["enable_no_pickup"] and (not self._ran_no_pickup and not self._game_stats._nopickup_active):
             self._ran_no_pickup = True
             if view.enable_no_pickup():
                 self._game_stats._nopickup_active = True

@@ -361,9 +361,6 @@ class Poison_Necro(IChar):
         keyboard.send(Config().char["stand_still"], do_press=False)
 
 
-    def _lerp(self,a: float,b: float, f:float):
-        return a + f * (b - a)
-
     def _cast_circle(self, cast_dir: tuple[float,float],cast_start_angle: float=0.0, cast_end_angle: float=90.0,cast_div: int = 10,cast_v_div: int=4,cast_spell: str='raise_skeleton',delay: float=1.0,offset: float=1.0):
         Logger.info('\033[93m'+"circle cast ~>"+cast_spell+'\033[0m')
         keyboard.send(Config().char["stand_still"], do_release=False)

@@ -8,17 +8,22 @@ from utils.misc import wait
 from ui import waypoint
 
 class ShenkEld:
+
+    name = "run_shenk"
+
     def __init__(
         self,
         pather: Pather,
         town_manager: TownManager,
         char: IChar,
-        pickit: PickIt
+        pickit: PickIt,
+        runs: list[str]
     ):
         self._pather = pather
         self._town_manager = town_manager
         self._char = char
         self._pickit = pickit
+        self._runs = runs
 
     def approach(self, start_loc: Location) -> bool | Location:
         Logger.info("Run Eldritch")

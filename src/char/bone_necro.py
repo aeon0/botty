@@ -91,10 +91,6 @@ class Bone_Necro(IChar):
                 mouse.release(button="right")
         keyboard.send(Config().char["stand_still"], do_press=False)
 
-
-    def _lerp(self,a: float,b: float, f:float):
-        return a + f * (b - a)
-
     def _cast_circle(self, cast_dir: tuple[float,float],cast_start_angle: float=0.0, cast_end_angle: float=90.0,cast_div: int = 10,cast_spell: str='raise_skeleton',delay: float=1.0, radius=120, hold_duration: float = 3, hold=True):
         if hold:
             Logger.info(f'Circle cast {cast_spell} from {cast_start_angle}º to {cast_end_angle}º over {hold_duration}s')
