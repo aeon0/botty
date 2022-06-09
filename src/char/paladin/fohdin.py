@@ -90,7 +90,7 @@ class FoHdin(Paladin):
     def _cast_foh(self, cast_pos_abs: tuple[float, float], spray: int = 10, min_duration: float = 0, aura: str = "conviction"):
         return self._cast_left_skill_with_aura(skill_name = "foh", cast_pos_abs = cast_pos_abs, spray = spray, min_duration = min_duration, aura = aura)
 
-    def _cast_holy_bolt(self, cast_pos_abs: tuple[float, float], spray: int = 10, min_duration: float = 0, aura: str = "conviction"):
+    def _cast_holy_bolt(self, cast_pos_abs: tuple[float, float], spray: int = 10, min_duration: float = 0, aura: str = "concentration"):
         return self._cast_left_skill_with_aura(skill_name = "holy_bolt", cast_pos_abs = cast_pos_abs, spray = spray, min_duration = min_duration, aura = aura)
 
     def _cast_hammers(self, min_duration: float = 0, aura: str = "concentration"): #for nihlathak
@@ -117,10 +117,9 @@ class FoHdin(Paladin):
         default_target_abs: tuple[int, int] = (0, 0),
         min_duration: float = 0,
         max_duration: float = 15,
-        foh_to_holy_bolt_ratio: int = 4,
+        foh_to_holy_bolt_ratio: int = 3,
         target_detect: bool = True,
         default_spray: int = 50,
-        aura: str = "conviction"
     ) -> bool:
         start = time.time()
         target_check_count = 1
@@ -135,9 +134,9 @@ class FoHdin(Paladin):
 
             # cast foh to holy bolt with preset ratio (e.g. 3 foh followed by 1 holy bolt if foh_to_holy_bolt_ratio = 3)
             if foh_to_holy_bolt_ratio > 0 and not target_check_count % (foh_to_holy_bolt_ratio + 1):
-                self._cast_holy_bolt(cast_pos_abs, spray=spray, aura=aura)
+                self._cast_holy_bolt(cast_pos_abs, spray=spray)
             else:
-                self._cast_foh(cast_pos_abs, spray=spray, aura=aura)
+                self._cast_foh(cast_pos_abs, spray=spray)
 
             # if time > minimum and either targets aren't set or targets don't exist, exit loop
             if elapsed > min_duration and (not target_detect or not targets):
