@@ -21,6 +21,14 @@ class TargetInfo:
     center_monitor: tuple = None
     distance: int = 0
 
+def log_targets(targets: list[TargetInfo]):
+    if (num_targets := len(targets)) > 0:
+        if num_targets == 1:
+            msg = f"{num_targets} target detected"
+        elif num_targets > 1:
+            msg = f"{num_targets} targets detected, closest"
+        Logger.debug(f"{msg} at {targets[0].center}, distance: {round(targets[0].distance)}")
+
 def _dist_to_center(pos):
     return dist(pos, (1280/2, 720/2))
 
