@@ -86,7 +86,7 @@ class Hammerdin(IChar):
             self._pather.traverse_nodes((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, timeout=1.0, do_pre_move=self._do_pre_move)
         self._cast_hammers(Config().char["atk_len_pindle"])
         wait(0.1, 0.15)
-        self._move_and_attack((40, 20), Config().char["atk_len_pindle"] * 0.4)
+        self._move_and_attack((42, 23), Config().char["atk_len_pindle"] * 0.4)
         wait(0.1, 0.15)
         self._cast_hammers(1.6, "redemption")
         return True
