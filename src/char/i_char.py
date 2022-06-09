@@ -175,7 +175,7 @@ class IChar:
                 keyboard.send(Config().char["force_move"])
             else:
                 mouse.click(button="left")
-                
+
     def walk(self, pos_monitor: Tuple[float, float], force_tp: bool = False, force_move: bool = False):
         factor = Config().advanced_options["pathing_delay_factor"]
             # in case we want to walk we actually want to move a bit before the point cause d2r will always "overwalk"
@@ -192,7 +192,7 @@ class IChar:
         if force_move:
             keyboard.send(Config().char["force_move"])
         else:
-            mouse.click(button="left")                
+            mouse.click(button="left")
 
     def tp_town(self):
         # will check if tp is available and select the skill
@@ -275,12 +275,12 @@ class IChar:
             else:
                 Logger.warning("Failed to switch weapon, try again")
                 wait(0.5)
-                
-                
+
+
     def vec_to_monitor(self, target):
         circle_pos_screen = self._pather._adjust_abs_range_to_screen(target)
         return convert_abs_to_monitor(circle_pos_screen)
-        
+
     def cast_in_arc(self, ability: str, cast_pos_abs: Tuple[float, float] = [0,-100], time_in_s: float = 3, spread_deg: float = 10, hold=True):
         #scale cast time by damage_scaling
         time_in_s *= self.damage_scaling
@@ -307,11 +307,11 @@ class IChar:
                 wait(0.02, 0.06)
                 mouse.release(button="right")
                 wait(self._cast_duration, self._cast_duration)
-                
+
         if hold:
             mouse.release(button="right")
         keyboard.send(Config().char["stand_still"], do_press=False)
-    
+
 
     def pre_buff(self):
         pass
