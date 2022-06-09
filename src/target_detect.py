@@ -17,6 +17,7 @@ FILTER_RANGES=[
 class TargetInfo:
     roi: tuple = None
     center: tuple = None
+    center_abs: tuple = None
     center_monitor: tuple = None
     distance: int = 0
 
@@ -37,6 +38,7 @@ def get_visible_targets(img: np.ndarray = None, radius_min: int = 150, radius_ma
                         roi = rectangles[cnt],
                         center = position,
                         center_monitor = convert_screen_to_monitor(position),
+                        center_abs = convert_screen_to_abs(position),
                         distance = distance
                     ))
     if targets:
