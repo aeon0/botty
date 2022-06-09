@@ -53,7 +53,7 @@ if __name__ == "__main__":
     from screen import start_detecting_window, stop_detecting_window, grab
     from d2r_image import processing as d2r_image
     from d2r_image.demo import draw_items_on_image_data, gen_truth_from_ground_loot
-    from nip.transpile import should_keep, should_pickup
+    from nip.actions import should_keep, should_pickup
     import json
     from logger import Logger
     start_detecting_window()

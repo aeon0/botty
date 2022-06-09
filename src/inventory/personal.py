@@ -18,10 +18,10 @@ from ui_manager import detect_screen_object, is_visible, select_screen_object_ma
 from messages import Messenger
 from d2r_image import processing as d2r_image
 from d2r_image.data_models import HoveredItem, ItemText
-from nip.transpile import should_id, should_keep
 from screen import grab, convert_screen_to_monitor
 from item import consumables
 from nip.NTIPAliasStat import NTIPAliasStat as NTIP_STATS
+from nip.actions import should_id, should_keep
 
 inv_gold_full = False
 messenger = Messenger()

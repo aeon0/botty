@@ -21,7 +21,7 @@ from inventory import personal
 from d2r_image import processing as d2r_image
 from d2r_image.data_models import HoveredItem, EnhancedJSONEncoder
 from nip.NTIPAliasType import NTIPAliasType as NTIP_TYPES
-from nip.transpile import should_pickup
+from nip.actions import should_pickup
 
 
 class PickedUpResults(Enum):
@@ -75,6 +75,7 @@ class PickIt:
         self._fail_pickup_count = 0
         self._picked_up_items = []
         self._picked_up_item = False
+        
 
     def _ignore_consumable(self, item: HoveredItem):
         # ignore item if it's a consumable AND there's no need for that consumable
