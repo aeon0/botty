@@ -187,7 +187,7 @@ class FoHdin(Paladin):
         while (targets := get_visible_targets()) and (elapsed := (time.time() - start) <= atk_len_dur):
             nearest_mob_pos_abs = targets[0].center_abs
             Logger.debug("Mob found at " + str(nearest_mob_pos_abs) + '\033[96m'+" fisting him now "+ str(atk_len_dur) + " seconds!" +'\033[0m')
-            self._cast_foh(nearest_mob_pos_abs, spray=11, time_in_s=atk_len_dur)
+            self._cast_foh(nearest_mob_pos_abs, spray=11)
         # less than x seconds means no mobs were found
         if elapsed < 0.3:
             # if attack_node is true, then spray there
@@ -197,7 +197,7 @@ class FoHdin(Paladin):
                 trav_attack_pos = self._pather.find_abs_node_pos(traverse_node, img) or self._pather.find_abs_node_pos(906, img)
                 if trav_attack_pos:
                     Logger.debug(f"{msg}, attacking node #{traverse_node} instead")
-                    self._cast_foh(trav_attack_pos, spray=80, time_in_s=atk_len_dur)
+                    self._cast_foh(trav_attack_pos, spray=80)
                 else:
                     Logger.debug(msg)
         # mobs were found and initial attack sequence complete
@@ -218,7 +218,7 @@ class FoHdin(Paladin):
 
 
     def kill_council(self) -> bool:
-        atk_len_factor = 1
+        atk_len_factor = 3
         atk_len = "atk_len_trav"
         atk_len_dur = Config().char[atk_len] * atk_len_factor
 
