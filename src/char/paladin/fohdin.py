@@ -188,16 +188,18 @@ class FoHdin(Paladin):
             nearest_mob_pos_abs = targets[0].center_abs
             Logger.debug("Mob found at " + str(nearest_mob_pos_abs) + '\033[96m'+" fisting him now "+ str(atk_len_dur) + " seconds!" +'\033[0m')
             self._cast_foh(nearest_mob_pos_abs, spray=11, time_in_s=atk_len_dur)
-        # less than x seconds means no mobs were found, if attack_node is true, then spray there
-        if elapsed < 0.5 and attack_node:
-            img = grab()
-            msg = "No Mob found"
-            trav_attack_pos = self._pather.find_abs_node_pos(traverse_node, img) or self._pather.find_abs_node_pos(906, img)
-            if trav_attack_pos:
-                Logger.debug(f"{msg}, attacking node #{traverse_node} instead")
-                self._cast_foh(trav_attack_pos, spray=80, time_in_s=atk_len_dur)
-            else:
-                Logger.debug(msg)
+        # less than x seconds means no mobs were found
+        if elapsed < 0.3:
+            # if attack_node is true, then spray there
+            if attack_node:
+                img = grab()
+                msg = "No Mob found"
+                trav_attack_pos = self._pather.find_abs_node_pos(traverse_node, img) or self._pather.find_abs_node_pos(906, img)
+                if trav_attack_pos:
+                    Logger.debug(f"{msg}, attacking node #{traverse_node} instead")
+                    self._cast_foh(trav_attack_pos, spray=80, time_in_s=atk_len_dur)
+                else:
+                    Logger.debug(msg)
         # mobs were found and initial attack sequence complete
         else:
             # if mobs still exist try holy bolt
