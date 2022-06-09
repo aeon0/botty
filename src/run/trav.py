@@ -1,4 +1,5 @@
 from char import IChar
+from config import Config
 from logger import Logger
 from pather import Location, Pather
 from item.pickit import PickIt
@@ -29,6 +30,11 @@ class Trav:
     def approach(self, start_loc: Location) -> bool | Location:
         # Go to Travincal via waypoint
         Logger.info("Run Trav")
+        char_type = Config().char["type"].lower()
+        Logger.info(char_type)
+        if char_type == "trapsin":
+            if not self._char.capabilities.can_teleport_natively:
+                raise ValueError(f"Trav for {char_type} requires native teleport")
         if not self._town_manager.open_wp(start_loc):
             return False
         wait(0.4)
