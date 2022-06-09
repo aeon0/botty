@@ -36,14 +36,14 @@ class FoHdin(Paladin):
             Logger.warning(f"No hotkey for skill: {skill}")
             self._reset_skill(mouse_click_type)
 
-    def _log_cast(self, skill_name: str, cast_pos_abs: tuple[float, float], spray: int, time_in_s: float, aura: str):
+    def _log_cast(self, skill_name: str, cast_pos_abs: tuple[float, float], spray: int, min_duration: float, aura: str):
         msg = f"Casting skill {skill_name}"
         if cast_pos_abs:
             msg += f" at screen coordinate {convert_abs_to_screen(cast_pos_abs)}"
         if spray:
             msg += f" with spray of {spray}"
-        if time_in_s:
-            msg += f" for {round(time_in_s, 1)}s"
+        if min_duration:
+            msg += f" for {round(min_duration, 1)}s"
         if aura:
             msg += f" with {aura} active"
         Logger.debug(msg)
@@ -62,8 +62,8 @@ class FoHdin(Paladin):
         wait(0.06, 0.08)
         mouse.release(button = mouse_click_type)
 
-    def _cast_left_skill_with_aura(self, skill_name: str, cast_pos_abs: tuple[float, float] = None, spray: int = 0, time_in_s: float = 0, aura: str = ""):
-        self._log_cast(skill_name, cast_pos_abs, spray, time_in_s, aura)
+    def _cast_left_skill_with_aura(self, skill_name: str, cast_pos_abs: tuple[float, float] = None, spray: int = 0, min_duration: float = 0, aura: str = ""):
+        self._log_cast(skill_name, cast_pos_abs, spray, min_duration, aura)
 
         # set aura if needed
         if aura:
@@ -78,8 +78,8 @@ class FoHdin(Paladin):
 
         # cast left hand skill
         start = time.time()
-        if time_in_s:
-            while (time.time() - start) <= time_in_s:
+        if min_duration:
+            while (time.time() - start) <= min_duration:
                 self._click_cast(cast_pos_abs, spray)
         else:
             self._click_cast(cast_pos_abs, spray)
@@ -87,14 +87,14 @@ class FoHdin(Paladin):
         # release stand still key
         keyboard.send(Config().char["stand_still"], do_press=False)
 
-    def _cast_foh(self, cast_pos_abs: tuple[float, float], spray: int = 10, time_in_s: float = 0, aura: str = "conviction"):
-        return self._cast_left_skill_with_aura(skill_name = "foh", cast_pos_abs = cast_pos_abs, spray = spray, time_in_s = time_in_s, aura = aura)
+    def _cast_foh(self, cast_pos_abs: tuple[float, float], spray: int = 10, min_duration: float = 0, aura: str = "conviction"):
+        return self._cast_left_skill_with_aura(skill_name = "foh", cast_pos_abs = cast_pos_abs, spray = spray, min_duration = min_duration, aura = aura)
 
-    def _cast_holy_bolt(self, cast_pos_abs: tuple[float, float], spray: int = 10, time_in_s: float = 0, aura: str = "conviction"):
-        return self._cast_left_skill_with_aura(skill_name = "holy_bolt", cast_pos_abs = cast_pos_abs, spray = spray, time_in_s = time_in_s, aura = aura)
+    def _cast_holy_bolt(self, cast_pos_abs: tuple[float, float], spray: int = 10, min_duration: float = 0, aura: str = "conviction"):
+        return self._cast_left_skill_with_aura(skill_name = "holy_bolt", cast_pos_abs = cast_pos_abs, spray = spray, min_duration = min_duration, aura = aura)
 
-    def _cast_hammers(self, time_in_s: float = 0, aura: str = "concentration"): #for nihlathak
-        return self._cast_left_skill_with_aura(skill_name = "blessed_hammer", spray = 0, time_in_s = time_in_s, aura = aura)
+    def _cast_hammers(self, min_duration: float = 0, aura: str = "concentration"): #for nihlathak
+        return self._cast_left_skill_with_aura(skill_name = "blessed_hammer", spray = 0, min_duration = min_duration, aura = aura)
 
     def _move_and_attack(self, abs_move: tuple[int, int], atk_len: float): #for nihalthak
         pos_m = convert_abs_to_monitor(abs_move)
@@ -112,19 +112,46 @@ class FoHdin(Paladin):
             wait(0.6, 0.8) #clear area from corpses & heal
 
 
-    def _generic_target_foh_attack_sequence(self, atk_len_dur: float, duration_multiplier: float = 1, foh_to_holy_bolt_ratio: int = 4):
-        # check for targets and attack if they exist
+    def _generic_foh_attack_sequence(
+        self,
+        default_target_abs: tuple[int, int] = (0, 0),
+        min_duration: float = 0,
+        max_duration: float = 15,
+        foh_to_holy_bolt_ratio: int = 4,
+        target_detect: bool = True,
+        default_spray: int = 50,
+        aura: str = "conviction"
+    ) -> bool:
         start = time.time()
         target_check_count = 1
-        while (targets := get_visible_targets()) and (time.time() - start) <= (atk_len_dur * duration_multiplier):
-            log_targets(targets)
-            nearest_mob_pos_abs = targets[0].center_abs
+        while (elapsed := (time.time() - start)) <= max_duration:
+            cast_pos_abs = default_target_abs
+            spray = default_spray
+            # if targets are detected, switch to targeting with reduced spread rather than present default cast position and default spread
+            if target_detect and (targets := get_visible_targets()):
+                log_targets(targets)
+                spray = 5
+                cast_pos_abs = targets[0].center_abs
+
             # cast foh to holy bolt with preset ratio (e.g. 3 foh followed by 1 holy bolt if foh_to_holy_bolt_ratio = 3)
             if foh_to_holy_bolt_ratio > 0 and not target_check_count % (foh_to_holy_bolt_ratio + 1):
-                self._cast_holy_bolt(nearest_mob_pos_abs, spray=5)
+                self._cast_holy_bolt(cast_pos_abs, spray=spray, aura=aura)
             else:
-                self._cast_foh(nearest_mob_pos_abs, spray=5)
+                self._cast_foh(cast_pos_abs, spray=spray, aura=aura)
+
+            # if time > minimum and either targets aren't set or targets don't exist, exit loop
+            if elapsed > min_duration and (not target_detect or not targets):
+                break
             target_check_count += 1
+        return True
+
+
+    def _attack_node(self, node: int, backup_node: int = 0, min_duration: float = 0):
+        img = grab()
+        trav_attack_pos = self._pather.find_abs_node_pos(225, grab())
+        if (trav_attack_pos := self._pather.find_abs_node_pos(node, img)) or (trav_attack_pos := self._pather.find_abs_node_pos(backup_node, img)):
+            self._cast_foh(trav_attack_pos, spray=80, min_duration = min_duration)
+            Logger.debug(f"Attacking node {node}.")
 
 
     def kill_pindle(self) -> bool:
@@ -133,24 +160,22 @@ class FoHdin(Paladin):
 
         if self.capabilities.can_teleport_natively or self.capabilities.can_teleport_with_charges:
             # Slightly retreating, so the Merc gets charged
-            if not self._pather.traverse_nodes([102], self, timeout=1.0, do_pre_move=self._do_pre_move, force_move=True,force_tp=False, use_tp_charge=False): return False
+            if not self._pather.traverse_nodes([102], self, timeout=1.0, do_pre_move=self._do_pre_move, force_move=True,force_tp=False, use_tp_charge=False):
+                return False
             # Doing one Teleport to safe_dist to grab our Merc
-            if not self._pather.traverse_nodes([103], self, timeout=1.0, do_pre_move=self._do_pre_move, force_tp=True, use_tp_charge=True): return False
+            if not self._pather.traverse_nodes([103], self, timeout=1.0, do_pre_move=self._do_pre_move, force_tp=True, use_tp_charge=True):
+                return False
             # Slightly retreating, so the Merc gets charged
-            if not self._pather.traverse_nodes([103], self, timeout=1.0, do_pre_move=self._do_pre_move, force_move=True, force_tp=False, use_tp_charge=False): return False
+            if not self._pather.traverse_nodes([103], self, timeout=1.0, do_pre_move=self._do_pre_move, force_move=True, force_tp=False, use_tp_charge=False):
+                return False
         else:
             if not self._do_pre_move:
                 keyboard.send(self._skill_hotkeys["conviction"])
                 wait(0.05, 0.15)
             self._pather.traverse_nodes([103], self, timeout=1.0, do_pre_move=self._do_pre_move)
 
-        # Use the standard attack pattern w/o mob detection first
         cast_pos_abs = [pindle_pos_abs[0] * 0.9, pindle_pos_abs[1] * 0.9]
-        self._cast_foh(cast_pos_abs, spray=11, time_in_s=atk_len_dur)
-        wait(self._cast_duration, self._cast_duration + 0.2)
-
-        # Then use target-based attack sequence
-        self._generic_target_foh_attack_sequence(atk_len_dur, duration_multiplier=2)
+        self._generic_foh_attack_sequence(default_target_abs=cast_pos_abs, min_duration=atk_len_dur, max_duration=atk_len_dur*3, default_spray=11)
 
         if self.capabilities.can_teleport_natively:
             self._pather.traverse_nodes_fixed("pindle_end", self)
@@ -161,70 +186,36 @@ class FoHdin(Paladin):
             self._pather.traverse_nodes((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, timeout=1.0, do_pre_move=self._do_pre_move)
 
         # Use target-based attack sequence one more time before pickit
-        self._generic_target_foh_attack_sequence(atk_len_dur)
+        self._generic_foh_attack_sequence(default_target_abs=cast_pos_abs, max_duration=atk_len_dur, default_spray=11)
         self._cast_cleanse_redemption()
 
         return True
 
 
-    def _council_foh_attack_sequence(self, traverse_node: int = None, atk_len_dur: float = Config().char["atk_len_trav"], attack_node: bool = False):
-        if traverse_node is not None:
-            self._pather.traverse_nodes([traverse_node], self, timeout=2.5, force_tp=True)
-
-        if self._skill_hotkeys["conviction"]:
-            keyboard.send(self._skill_hotkeys["conviction"]) #conviction needs to be on for mob_detection
-
-        start = time.time()
-        # perform initial mobcheck and cast foh
-        elapsed = 0
-        while (targets := get_visible_targets()) and (elapsed := (time.time() - start) <= atk_len_dur):
-            nearest_mob_pos_abs = targets[0].center_abs
-            Logger.debug("Mob found at " + str(nearest_mob_pos_abs) + '\033[96m'+" fisting him now "+ str(atk_len_dur) + " seconds!" +'\033[0m')
-            self._cast_foh(nearest_mob_pos_abs, spray=11)
-        # less than x seconds means no mobs were found
-        if elapsed < 0.3:
-            # if attack_node is true, then spray there
-            if attack_node:
-                img = grab()
-                msg = "No Mob found"
-                trav_attack_pos = self._pather.find_abs_node_pos(traverse_node, img) or self._pather.find_abs_node_pos(906, img)
-                if trav_attack_pos:
-                    Logger.debug(f"{msg}, attacking node #{traverse_node} instead")
-                    self._cast_foh(trav_attack_pos, spray=80)
-                else:
-                    Logger.debug(msg)
-        # mobs were found and initial attack sequence complete
-        else:
-            # if mobs still exist try holy bolt
-            while (targets := get_visible_targets()) and (elapsed := (time.time() - start) <= atk_len_dur):
-                nearest_mob_pos_abs = targets[0].center_abs
-                Logger.debug("Mob found at " + str(nearest_mob_pos_abs) + '\033[93m'+" bolting him now "+ str(atk_len_dur) + " seconds!" +'\033[0m')
-                self._cast_holy_bolt(nearest_mob_pos_abs, spray=80)
-
-
     def kill_council(self) -> bool:
-        atk_len_factor = 3
-        atk_len_dur = float(Config().char["atk_len_trav"]) * atk_len_factor
+        atk_len_dur = float(Config().char["atk_len_trav"])
 
-        self._council_foh_attack_sequence(atk_len_dur = atk_len_dur)
-        self._council_foh_attack_sequence(traverse_node = 225, atk_len_dur = atk_len_dur, attack_node = True)
-        self._council_foh_attack_sequence(traverse_node = 226, atk_len_dur = atk_len_dur, attack_node = True)
-        self._council_foh_attack_sequence(traverse_node = 300, atk_len_dur = atk_len_dur, attack_node = True)
+        # traverse to nodes and attack
+        nodes = [225, 226, 300]
+        for node in nodes:
+            self._pather.traverse_nodes([node], self, timeout=2, force_tp=True)
+            default_target_abs = self._pather.find_abs_node_pos(node, img := grab()) or self._pather.find_abs_node_pos(906, img) or (-50, -50)
+            self._generic_foh_attack_sequence(default_target_abs=default_target_abs, min_duration=atk_len_dur, max_duration=atk_len_dur*3, default_spray=80)
+
+        # return to 226 and prepare for pickit
+        self._pather.traverse_nodes([226], self, timeout=2, force_tp=True)
+        default_target_abs = self._pather.find_abs_node_pos(226, img := grab()) or self._pather.find_abs_node_pos(906, img) or (-50, -50)
+        self._generic_foh_attack_sequence(default_target_abs=default_target_abs, max_duration=atk_len_dur*3, default_spray=80)
+
         self._cast_cleanse_redemption()
 
-        # Move outside since the trav.py expects to start searching for items there if char can teleport
-        self._pather.traverse_nodes([226], self, timeout=2.5, force_tp=True)
         return True
 
     def kill_eldritch(self) -> bool:
         eld_pos_abs = convert_screen_to_abs(Config().path["eldritch_end"][0])
         atk_len_dur = float(Config().char["atk_len_eldritch"])
 
-        # cast FOH, wait for mobs to get painted before attempting mob detect
-        self._cast_foh(eld_pos_abs, spray=80, time_in_s = atk_len_dur, aura = "conviction")
-
-        # now mob check attack sequence
-        self._generic_target_foh_attack_sequence(atk_len_dur, duration_multiplier = 3)
+        self._generic_foh_attack_sequence(default_target_abs=eld_pos_abs, min_duration=atk_len_dur, max_duration=atk_len_dur*3, default_spray=70)
 
         # move to end node
         pos_m = convert_abs_to_monitor((70, -200))
@@ -233,7 +224,7 @@ class FoHdin(Paladin):
         self._pather.traverse_nodes((Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END), self, timeout=0.1)
 
         # check mobs one more time before pickit
-        self._generic_target_foh_attack_sequence(atk_len_dur, duration_multiplier = 1)
+        self._generic_foh_attack_sequence(default_target_abs=eld_pos_abs, max_duration=atk_len_dur, default_spray=70)
         self._cast_cleanse_redemption()
 
         return True
@@ -249,11 +240,11 @@ class FoHdin(Paladin):
         self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, timeout=1.0, do_pre_move=self._do_pre_move, force_tp=True, use_tp_charge=True)
         wait(0.05, 0.1)
 
-        # cast FOH, wait for mobs to get painted before attempting mob detect
-        self._cast_foh([0,0], spray=11, time_in_s = atk_len_dur, aura = "conviction")
-
-        # now mob check attack sequence
-        self._generic_target_foh_attack_sequence(atk_len_dur, duration_multiplier = 3)
+        # bypass mob detect first
+        self._cast_foh((0, 0), spray=11, min_duration = 2, aura = "conviction")
+        # then do generic mob detect sequence
+        diff = atk_len_dur if atk_len_dur <= 2 else (atk_len_dur - 2)
+        self._generic_foh_attack_sequence(min_duration=atk_len_dur - diff, max_duration=atk_len_dur*3 - diff, default_spray=10, target_detect=False)
         self._cast_cleanse_redemption()
 
         return True
@@ -281,8 +272,8 @@ class FoHdin(Paladin):
         pos_m = convert_abs_to_monitor((-20, 20))
         mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
         for _ in range(int(Config().char["atk_len_arc"])):
-            self._cast_foh(cast_pos_abs, spray=80, time_in_s=int(Config().char["atk_len_arc"]))
-            self._cast_holy_bolt(cast_pos_abs, spray=90, time_in_s=int(Config().char["atk_len_arc"]))
+            self._cast_foh(cast_pos_abs, spray=80, min_duration=int(Config().char["atk_len_arc"]))
+            self._cast_holy_bolt(cast_pos_abs, spray=90, min_duration=int(Config().char["atk_len_arc"]))
         wait(self._cast_duration, self._cast_duration + 0.2)
         return True
 
@@ -306,8 +297,8 @@ class FoHdin(Paladin):
             nearest_mob_pos_abs = convert_screen_to_abs(targets[0].center)
             Logger.debug("Mob found at " + str(nearest_mob_pos_abs) + '\033[96m'+" fisting him now "+ str(atk_len) + " times!" +'\033[0m')
             #for _ in range(atk_len):
-            self._cast_foh(nearest_mob_pos_abs, spray=11, time_in_s=atk_len)
-            #    self._cast_holy_bolt(nearest_mob_pos_abs, spray=80, time_in_s=atk_len)
+            self._cast_foh(nearest_mob_pos_abs, spray=11, min_duration=atk_len)
+            #    self._cast_holy_bolt(nearest_mob_pos_abs, spray=80, min_duration=atk_len)
             #wait(self._cast_duration, self._cast_duration + 0.2)
             if (targets := get_visible_targets()):
                 nearest_mob_pos_abs = convert_screen_to_abs(targets[0].center)
@@ -315,7 +306,7 @@ class FoHdin(Paladin):
                 #print (nearest_mob_pos_abs)
                 # for _ in range(atk_len):
                 #    self._cast_foh(nearest_mob_pos_abs, spray=11)
-                self._cast_holy_bolt(nearest_mob_pos_abs, spray=80, time_in_s=atk_len)
+                self._cast_holy_bolt(nearest_mob_pos_abs, spray=80, min_duration=atk_len)
                 #wait(self._cast_duration, self._cast_duration + 0.2)
             else:
                 Logger.debug("No Mob found, moving on")
@@ -447,7 +438,7 @@ class FoHdin(Paladin):
                 print (nearest_mob_pos_abs)
                 for _ in range(int(Config().char["atk_len_cs_trashmobs"])*2):
                     self._cast_foh(nearest_mob_pos_abs, spray=11)
-                    self._cast_holy_bolt(nearest_mob_pos_abs, spray=80, time_in_s=int(Config().char["atk_len_cs_trashmobs"])*2)
+                    self._cast_holy_bolt(nearest_mob_pos_abs, spray=80, min_duration=int(Config().char["atk_len_cs_trashmobs"])*2)
                 wait(self._cast_duration, self._cast_duration + 0.2)
                 if self._skill_hotkeys["cleansing"]:
                     keyboard.send(self._skill_hotkeys["cleansing"])
@@ -989,7 +980,7 @@ class FoHdin(Paladin):
         for _ in range(atk_len_dur):
             self._cast_foh(nearest_mob_pos_abs, spray=11)
             Logger.debug("Mob found at " + str(nearest_mob_pos_abs) + '\033[93m'+" bolting him now "+ str(atk_len_dur) + "seconds!" +'\033[0m')
-            self._cast_holy_bolt(nearest_mob_pos_abs, spray=80, time_in_s=atk_len_dur)
+            self._cast_holy_bolt(nearest_mob_pos_abs, spray=80, min_duration=atk_len_dur)
         if self._skill_hotkeys["cleansing"]:
             keyboard.send(self._skill_hotkeys["cleansing"])
         wait(0.1, 0.2) #clear yourself from curses
