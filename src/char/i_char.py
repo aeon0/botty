@@ -275,6 +275,10 @@ class IChar:
                 Logger.warning("Failed to switch weapon, try again")
                 wait(0.5)
 
+    def switch_weapon(self): #for teleport on switch
+        wait(0.03)
+        keyboard.send(Config().char["weapon_switch"])
+        wait(0.25, 0.3)
 
     def vec_to_monitor(self, target):
         circle_pos_screen = self._pather._adjust_abs_range_to_screen(target)

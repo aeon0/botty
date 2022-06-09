@@ -40,14 +40,16 @@ class Diablo:
         Logger.info("Run Diablo")
         Logger.debug("settings for trash =" + str(Config().char["kill_cs_trash"]))
         Logger.debug("settings for mob_detection =" + str(Config().char["cs_mob_detect"]))
-        if not self._char.capabilities.can_teleport_natively:
+
+        if self._char.capabilities.can_teleport_with_charges:
+            Logger.info ("Dia with Tele charges on Alpha version!")    
+        elif not self._char.capabilities.can_teleport_natively:
             raise ValueError("Diablo requires teleport")
         if not self._town_manager.open_wp(start_loc):
             return False
         wait(0.4)
         waypoint.use_wp("River of Flame")
         return Location.A4_DIABLO_WP
-
 
     # BUY POTS & STASH WHEN AT PENTAGRAM
     def _cs_town_visit(self, location:str) -> bool:
@@ -454,15 +456,18 @@ class Diablo:
         self.used_tps = 0
         if do_pre_buff: self._char.pre_buff()
 
+        if Config().char["teleport_weapon_swap"]: self._char.switch_weapon() #switch to teleport
+
         #Clear Trash in CS
 
         if Config().char["kill_cs_trash"]:
             if not self._river_of_flames_trash(): return False
         else:
             if not self._river_of_flames(): return False
-
+            
         #Arrive at and clear Pentagram
         if not self._cs_pentagram(): return False
+        if Config().char["teleport_weapon_swap"]: self._char.switch_weapon() #switch from Teleport, the rest is w/o teleport :)
 
         """ NEW APPROACH ONLY HAS 50% SUCCESS RATE
         #if Config().char["kill_cs_trash"]: if not self._trash_seals("A", "dia_trash_a", [606], "dia_trash_a_loop", 0.78): return False
