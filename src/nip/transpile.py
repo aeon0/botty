@@ -1,27 +1,33 @@
-from ctypes import string_at
-from dataclasses import dataclass
-from distutils.log import error
-from xmlrpc.client import Boolean
 from nip.NTIPAliasQuality import NTIPAliasQuality
 from nip.NTIPAliasClass import NTIPAliasClass
 from nip.NTIPAliasClassID import NTIPAliasClassID
 from nip.NTIPAliasFlag import NTIPAliasFlag
 from nip.NTIPAliasStat import NTIPAliasStat
 from nip.NTIPAliasType import NTIPAliasType
-from nip.UniqueAndSetData import UniqueAndSetData
+
+
 # ! The above imports are necessary, they are used within the eval statements. Your text editor probably is not showing them as not in use.
 import os
 import glob
 import re
 from itertools import groupby
-from logger import Logger
+from dataclasses import dataclass
 
 from nip.lexer import Lexer, NipSyntaxError, NipSections
 from nip.tokens import Token, TokenType
+from nip.utils import find_unique_or_set_base
+from logger import Logger
 
-class NipSyntaxErrorSection(NipSyntaxError):
+
+class NipSyntaxErrorSection(NipSyntaxError): 
+    
+    # TODO CONVERT THIS TO THE OTHER ERROR CLASS IN lexer.py
+    
     def __init__(self, token, section):
         super().__init__(f"[ {token.type} ] : {token.value} can not be used in section [ {section} ].")
+
+    def __str__(self):
+        return f"[ {self.token_errored_on.type} : {self.token_errored_on.value} ] can not be used in section [ {self.section_errored_on} ]."
 
 @dataclass
 class NIPExpression:
@@ -31,36 +37,14 @@ class NIPExpression:
     should_pickup: str | None
     tokens: list[Token]
 
-def find_unique_or_set_base(unique_or_set_name) -> tuple[str, str]:
-    unique_or_set_name = unique_or_set_name.lower()
-    for key in UniqueAndSetData:
-        if UniqueAndSetData[key].get("uniques"):
-            for uniques in UniqueAndSetData[key]["uniques"]:
-                for unique in uniques:
-                    if unique.lower() == unique_or_set_name:
-                        return key, "unique"
-        if UniqueAndSetData[key].get("sets"):
-            for sets in UniqueAndSetData[key]["sets"]:
-                for set in sets:
-                    if set.lower() == unique_or_set_name:
-                        return key, "set"
-    return "", ""
 
-
-class NIPKeywords:
-    NTIPAliasQuality = "NTIPAliasQuality"
-    NTIPAliasClass = "NTIPAliasClass"
-    NTIPAliasClassID = "NTIPAliasClassID"
-    NTIPAliasFlag = "NTIPAliasFlag"
-    NTIPAliasType = "NTIPAliasType"
-    NTIPAliasStat = "NTIPAliasStat"
-    NTIPAliasType = "NTIPAliasType"
-
+nip_expressions: list[NIPExpression] = []
 
 
 def _create_nip_keyword_string(NTIPAlias) -> str:
     """keyword like [strength] or [sockets] ect"""
     return  f"(int(item_data['{NTIPAlias}']))"
+
 
 def _create_nip_value_string(NTIPAlias, NTIPAliasKey) -> str:
     """value like ring or sorceressitem ect"""
@@ -181,15 +165,119 @@ def transpile(tokens, isPickUpPhase=False):
     return expression
 
 
+def validate_correct_math_syntax(current_pos, all_tokens, left_token=None, right_token=None):
+    """Makes sure that there are no invalid math operations going on inside the expression"""
+    allowed_left_and_right_tokens = [
+        TokenType.ValueNTIPAliasClass,
+        TokenType.ValueNTIPAliasClassID,
+        TokenType.ValueNTIPAliasFlag,
+        TokenType.ValueNTIPAliasType,
+        TokenType.ValueNTIPAliasQuality,
+        TokenType.ValueNTIPAliasStat,
+        
+        TokenType.KeywordNTIPAliasClass,
+        TokenType.KeywordNTIPAliasFlag,
+        TokenType.KeywordNTIPAliasType,
+        TokenType.KeywordNTIPAliasQuality,
+        TokenType.KeywordNTIPAliasName,
+        TokenType.KeywordNTIPAliasIDName,
+        TokenType.KeywordNTIPAliasMaxQuantity,
+
+        TokenType.NUMBER,
+    ]
+    if left_token and left_token.type not in allowed_left_and_right_tokens:
+        raise NipSyntaxError("NIP_0x6", "unexpected token on left of math operator")
+    if right_token and right_token.type not in allowed_left_and_right_tokens:
+        raise NipSyntaxError("NIP_0x7", "unexpected token on right of math operator")
+
+OPENING_PARENTHESIS_COUNT = 0 # 
+def validate_correct_parenthesis_syntax(current_pos, all_tokens, left_token=None, right_token=None):
+    """Makes sure that every parenthesis is closed and that there are no unclosed parenthesis."""
+    global OPENING_PARENTHESIS_COUNT
+
+    token = all_tokens[current_pos]
+
+    if token.type == TokenType.LPAREN:
+        OPENING_PARENTHESIS_COUNT += 1
+    elif token.type == TokenType.RPAREN:
+        OPENING_PARENTHESIS_COUNT -= 1
+    
+    if current_pos == len(all_tokens) - 1:
+        if OPENING_PARENTHESIS_COUNT != 0:
+            # OPENING_PARENTHESIS_COUNT = 0
+            if OPENING_PARENTHESIS_COUNT > 0:
+                OPENING_PARENTHESIS_COUNT = 0
+                raise NipSyntaxError("NIP_0x8", "unclosed parenthesis")
+            else:
+                OPENING_PARENTHESIS_COUNT = 0
+                raise NipSyntaxError("NIP_0x9", "unopened parenthesis")
+        OPENING_PARENTHESIS_COUNT = 0
+        
+
+def validate_digits_syntax(left=None, right=None):
+    """Makes sure that the left and right tokens are valid to be next to a digit."""
+    allowed_left_and_right_tokens = [
+        TokenType.PLUS,
+        TokenType.MINUS,
+        TokenType.MULTIPLY,
+        TokenType.DIVIDE,
+        TokenType.MODULO,
+        TokenType.POW,
+        
+        TokenType.AND,
+        TokenType.OR,
+        TokenType.EQ,
+        TokenType.NE,
+        TokenType.GT,
+        TokenType.LT,
+        TokenType.GE,
+        TokenType.LE,
+
+        TokenType.SECTIONAND,
+
+        TokenType.LPAREN,
+        TokenType.RPAREN,
+
+    ]
+
+    if left:
+        if left.type not in allowed_left_and_right_tokens:
+            raise NipSyntaxError("NIP_0x10", "Expected operator on left of number")
+    if right:
+        if right.type not in allowed_left_and_right_tokens:
+            raise NipSyntaxError("NIP_0x11", "Expected operator on right of number")
     
 
-class NipValidationError(Exception):
-    def __init__(self, section, token_errored_on):
-        self.section_errored_on = section
-        self.token_errored_on = token_errored_on
+def validate_logical_operators(left=None, right=None):
+    """Makes sure that the logical operators are used correctly."""
+    allowed_left_and_right_tokens = [
+        TokenType.NUMBER,
 
-    def __str__(self):
-        return f"[ {self.token_errored_on.type} : {self.token_errored_on.value} ] can not be used in section [ {self.section_errored_on} ]."
+        TokenType.ValueNTIPAliasClass,
+        TokenType.ValueNTIPAliasClassID,
+        TokenType.ValueNTIPAliasFlag,
+        TokenType.ValueNTIPAliasType,
+        TokenType.ValueNTIPAliasQuality,
+        TokenType.ValueNTIPAliasStat,
+        
+        TokenType.KeywordNTIPAliasClass,
+        TokenType.KeywordNTIPAliasFlag,
+        TokenType.KeywordNTIPAliasType,
+        TokenType.KeywordNTIPAliasQuality,
+        TokenType.KeywordNTIPAliasName,
+        TokenType.KeywordNTIPAliasIDName,
+        TokenType.KeywordNTIPAliasMaxQuantity,
+
+    ]
+    if left:
+        if left.type not in allowed_left_and_right_tokens + [TokenType.RPAREN]:
+            print(left)
+            raise NipSyntaxError("NIP_0x12", "Expected token on left of logical operator")
+    if right:
+        if right.type not in allowed_left_and_right_tokens + [TokenType.LPAREN]:
+            raise NipSyntaxError("NIP_0x13", "Expected token on right of logical operator")
+    else:
+        raise NipSyntaxError("NIP_0x14", "Expected token on right of logical operator")
 
 
 def validate_nip_expression_syntax(nip_expression): # * enforces that {property} # {stats} # {maxquantity}
@@ -202,7 +290,6 @@ def validate_nip_expression_syntax(nip_expression): # * enforces that {property}
 
     split_nip_expression = nip_expression.split("#")
     split_nip_expression_len = len(split_nip_expression)
-
 
     if split_nip_expression_len >= 1 and split_nip_expression[0]: # property
         tokens = Lexer().create_tokens(split_nip_expression[0], NipSections.PROP)
@@ -242,15 +329,36 @@ def validate_nip_expression_syntax(nip_expression): # * enforces that {property}
                 raise NipSyntaxErrorSection(token, "maxquantity")
 
     # * Further syntax validation
-    for i, token in enumerate(all_tokens):
-        if token.type == TokenType.EQ:
-            if i == len(all_tokens) - 1: # * Check to make sure the next token is a token.
-                raise NipSyntaxError("No value after equal sign")
+    math_tokens = [TokenType.MULTIPLY, TokenType.PLUS, TokenType.MINUS, TokenType.DIVIDE, TokenType.MODULO, TokenType.POW]
+    logical_tokens = [TokenType.AND, TokenType.OR, TokenType.EQ, TokenType.NE, TokenType.GT, TokenType.LT, TokenType.GE, TokenType.LE]
 
+    for i, token in enumerate(all_tokens):
+        # Get the left and right tokens for the current token
+        left = None
+        right = None
+        if i > 0:
+            left = all_tokens[i-1]
+        if i < len(all_tokens)-1:
+            right = all_tokens[i+1]
+
+        if token.type == TokenType.LPAREN or token.type == TokenType.RPAREN or i == len(all_tokens) - 1: # * Also check the last token no matter what so if there is an opening parenthesis without a closing parenthesis it will raise an error
+            validate_correct_parenthesis_syntax(i, all_tokens, left_token=left, right_token=right)
+        elif token.type == TokenType.EQ:
+            if i == len(all_tokens) - 1: # * Check to make sure the next token is a token.
+                raise NipSyntaxError("NIP_0x15", "No value after equal sign")
+        elif token.type in math_tokens:
+            validate_correct_math_syntax(i, all_tokens, left_token=left, right_token=right)
+        # * Make sure two numbers aren't next to each other.
+        elif token.type == TokenType.NUMBER or token.type == TokenType.UNKNOWN:
+            validate_digits_syntax(left=left, right=right)
+        elif token.type in logical_tokens:
+            validate_logical_operators(left=left, right=right)
+    
     return True
 
 
-def remove_quantity(expression): # ! This is a bit ghetto, but since we're not using the maxquantity, we can just remove it.
+def remove_quantity(expression): # ! This is a bit ghetto, but since we're not using the maxquantity, we can just remove it. # 
+    # TODO FIX THIS SHIT
     split_expression = expression.split("#")
     if len(split_expression) == 3:
         split_expression = (split_expression[0] + "#" + split_expression[1]).split("#")
@@ -260,32 +368,6 @@ def remove_quantity(expression): # ! This is a bit ghetto, but since we're not u
             return "#".join(split_expression)
     return expression
 
-def prepare_nip_expression(expression: str) -> str:
-    if not expression.startswith("//") and not expression.startswith("-"):
-        expression = expression.lower()
-        expression = expression.split("//")[0] # * Ignore the comments inside the nip expression
-        expression = remove_quantity(expression)
-        if validate_nip_expression_syntax(expression):
-            return expression
-    return ''
-
-def transpile_nip_expression(expression: str | list[Token], isPickUpPhase=False):
-    if isinstance(expression, str):
-        expression = prepare_nip_expression(expression)
-        if expression:
-            tokens = Lexer().create_tokens(expression)
-            transpiled_expression = transpile(tokens, isPickUpPhase=isPickUpPhase)
-            if transpiled_expression:
-                return transpiled_expression
-    elif isinstance(expression, list):
-        transpiled_expression = transpile(expression, isPickUpPhase=isPickUpPhase)
-        if transpiled_expression:
-            return transpiled_expression
-
-
-
-
-nip_expressions: list[NIPExpression] = []
 
 def get_section_from_tokens(all_tokens: list[Token], section: NipSections | None = None) -> dict[NipSections, list[Token]]:
     tokens_split_by_section = []
@@ -313,9 +395,11 @@ def get_section_from_tokens(all_tokens: list[Token], section: NipSections | None
     return nip_map
 
 
-
 def load_nip_expression(nip_expression):
     nip_expression = prepare_nip_expression(nip_expression)
+
+    if not nip_expression: return
+
     tokens = Lexer().create_tokens(nip_expression)
     transpiled_expression = transpile_nip_expression(tokens)
 
@@ -330,188 +414,27 @@ def load_nip_expression(nip_expression):
                 should_pickup=transpile_nip_expression(split_tokens[NipSections.PROP], isPickUpPhase=True)
             )
         )
+        
+def prepare_nip_expression(expression: str) -> str:
+    if not expression.startswith("//") and not expression.startswith("-"):
+        expression = expression.lower()
+        expression = expression.replace("'", "")
+        expression = expression.split("//")[0] # * Ignore the comments inside the nip expression
+        expression = remove_quantity(expression)
+        if validate_nip_expression_syntax(expression):
+            return expression
+    return ''
 
-def should_keep(item_data):
-    for expression in nip_expressions:
-        try:
-            if eval(expression.transpiled):
-                return True, expression.raw
-        except:
-            pass
-            #print(f"Error: {expression.raw}") # TODO look at this errors .. CHECKED NOT ERRORING FOR NOW..
-    return False, ""
+def transpile_nip_expression(expression: str | list[Token], isPickUpPhase=False):
+    if isinstance(expression, str):
+        expression = prepare_nip_expression(expression)
+        if expression:
+            tokens = Lexer().create_tokens(expression)
+            transpiled_expression = transpile(tokens, isPickUpPhase=isPickUpPhase)
+            if transpiled_expression:
+                return transpiled_expression
+    elif isinstance(expression, list):
+        transpiled_expression = transpile(expression, isPickUpPhase=isPickUpPhase)
+        if transpiled_expression:
+            return transpiled_expression
 
-
-def _gold_pickup(item_data: dict, expression: NIPExpression) -> bool | None:
-    res = None
-    for i, token in enumerate(expression.tokens):
-        if token.type == TokenType.ValueNTIPAliasStat and token.value == str(NTIPAliasStat["gold"]):
-            read_gold = int(item_data["Amount"])
-            operator = expression.tokens[i + 1].value
-            desired_gold = int(expression.tokens[i + 2].value)
-            res = eval(f"{read_gold} {operator} {desired_gold}")
-            break
-    return res
-
-
-def _handle_pick_eth_sockets(item_data: dict, expression: NIPExpression) -> tuple[bool, str]:
-    expression_raw = prepare_nip_expression(expression.raw)
-    all_tokens = expression.tokens
-
-    # Check to see if there is any None types in the tokens.
-    # if None in all_tokens:
-    #     print(all_tokens)
-    #     Logger.error("None type found in tokens " + expression_raw)
-
-    tokens_by_section = get_section_from_tokens(all_tokens)
-    eth_keyword_present = "ethereal" in expression_raw.lower()
-    soc_keyword_present =  expression_raw.lower().count("[sockets]") == 1 # currently ignoring if there's socket logic; i.e., [sockets] == 0 || [sockets] == 5
-
-    eth = 0 # -1 = set to false, 0 = not set, 1 = set to true
-    soc = 0
-    if eth_keyword_present:
-        for i, token in enumerate(tokens := tokens_by_section[NipSections.PROP]):
-            if token.type == TokenType.ValueNTIPAliasFlag and str(token.value).lower() == "ethereal":
-                if tokens[i - 1].value == "==":
-                    eth = 1
-                else:
-                    eth = -1
-                break
-
-    if len(tokens_by_section) > 1 and soc_keyword_present:
-        for i, token in enumerate(tokens := tokens_by_section[NipSections.STAT]):
-            # print(f"tokens: {tokens}")
-            if token.type == TokenType.ValueNTIPAliasStat and token.value == str(NTIPAliasStat["sockets"]):
-                desired_sockets = int(tokens[i + 2].value)
-                if (desired_sockets > 0 and not (desired_sockets == 1 and tokens[i + 1].value == "<")) or (desired_sockets == 0 and tokens[i + 1].value == ">"):
-                    soc = 1
-                else:
-                    soc = -1
-                break
-    """
-        pickup table:
-                -1 eth  0 eth   1 eth
-        -1 soc    w      w,g      g
-         0 soc   w,g     w,g      g
-         1 soc    g       g       g
-    """
-
-    ignore = 0
-    if item_data["Color"] == "white":
-        ignore = eth == 1 or soc == 1
-    elif item_data["Color"] == "gray":
-        ignore = eth == soc == -1
-
-    pick_eval_expr = expression.should_pickup
-    # print(f"color: {item_data['Color']}, eth: {eth}, soc: {soc}, ignore: {ignore}")
-    if not ignore and eth_keyword_present:
-        # remove ethereal from expression
-        raw = expression.raw.replace("&& [flag]", "[flag]").replace("|| [flag]", "[flag]")
-        raw = re.sub(r"\[flag\] (==|!=)\sethereal", "", raw)
-        # print(f"Modified raw expression: {raw}")
-        pick_eval_expr = transpile_nip_expression(raw.split("#")[0], isPickUpPhase=True)
-        # print(f"Modified transpiled expression: {pick_eval_expr}")
-
-    return ignore, pick_eval_expr
-
-
-def should_pickup(item_data):
-    item_is_gold = item_data["BaseItem"]["DisplayName"] == "Gold"
-    for expression in nip_expressions:
-        if expression.raw:
-            # check gold
-            if item_is_gold and "[gold]" in expression.raw.lower():
-                if (res := _gold_pickup(item_data, expression)) is not None:
-                    return res, expression.raw
-            # check eth / sockets
-            pick_eval_expr = expression.should_pickup
-            if any(substring == item_data["Color"] for substring in ["white", "gray"]):
-                ignore, pick_eval_expr = _handle_pick_eth_sockets(item_data, expression)
-                if ignore:
-                    continue
-            try:
-                property_condition = eval(pick_eval_expr) # * This string in the eval uses the item_data that is being passed in
-                if property_condition:
-                    return True, expression.raw
-            except:
-                pass
-
-    return False, ""
-
-
-
-
-def should_id(item_data):
-    """
-        [name] == ring && [quality] == rare                     Don't ID.
-        [name] == ring && [quality] == rare # [strength] == 5   Do ID.
-    """
-    id = True
-
-    for expression in nip_expressions:
-        split_expression = expression.raw.split("#")
-        try:
-            if "[idname]" in expression.raw.lower():
-                    id = True
-                    return id
-            if eval(expression.should_id_transpiled):
-                if len(split_expression) == 1:
-                    id = False
-                    return id
-        except Exception as e:
-                print(f"Error: {expression.raw} {e}\n\n") # TODO look at these errors
-        return id
-
-def load_nip_expressions(filepath):
-    with open(filepath, "r") as f:
-        for i, line in enumerate(f):
-            try:
-                load_nip_expression(line.strip())
-            except Exception as e:
-                file = filepath.split('\\config/')[1].replace("/", "\\")
-                print(f"{file}:{e}:line {i + 1}") # TODO look at these errors
-
-
-def _test_nip_expression(item_data, raw_nip_expression):
-    try:
-        if eval(transpile_nip_expression(raw_nip_expression)):
-            return True
-    except:
-        pass
-    return False
-
-
-default_nip_file_path = os.path.join(os.path.abspath(os.path.join(os.path.join(os.path.dirname(__file__), os.pardir), os.pardir)), 'config/default.nip')
-nip_path = os.path.join(os.path.abspath(os.path.join(os.path.join(os.path.dirname(__file__), os.pardir), os.pardir)), 'config/nip')
-glob_nip_path = os.path.join(nip_path, '**', '*.nip')
-nip_file_paths = glob.glob(glob_nip_path, recursive=True)
-
-# * Remove all directories or files that are in the .nipignore file from nip_file_paths. (accepts glob patterns)
-if os.path.isfile(os.path.join(nip_path, '.nipignore')):
-    with open(os.path.join(nip_path, '.nipignore'), "r") as f:
-        for line in f:
-            line = line.strip()
-            line = line.replace("/", "\\")
-            remove_files = glob.glob(os.path.join(nip_path, line), recursive=True)
-            for remove_file in remove_files:
-                if remove_file in nip_file_paths:
-                    nip_file_paths.remove(remove_file)
-
-num_files = 0
-# load all nip expressions
-if len(nip_file_paths) > 0:
-    num_files = len(nip_file_paths)
-    for nip_file_path in nip_file_paths:
-        load_nip_expressions(nip_file_path)
-# fallback to default nip file if no custom nip files specified or existing files are excluded
-else:
-    num_files = 1
-    load_nip_expressions(default_nip_file_path)
-    Logger.warning("No .nip files in config/nip/, fallback to default.nip")
-Logger.info(f"Loaded {num_files} nip files with {len(nip_expressions)} total expressions.")
-
-
-if __name__ == "__main__":
-    item_data = {'Name': 'Stamina Potion', 'Color': 'white', 'Quality': 'normal', 'Text': 'STAMINA POTION', 'Amount': None, 'BaseItem': {'DisplayName': 'Stamina Potion', 'NTIPAliasClassID': 513, 'NTIPAliasType': 79, 'dimensions': [1, 1]}, 'Item': None, 'NTIPAliasType': [80, 9], 'NTIPAliasClassID': 513, 'NTIPAliasClass': None, 'NTIPAliasQuality': 2, 'NTIPAliasFlag': {'0x10': False, '0x4000000': False, '0x400000': False}}
-
-    # print(transpile_nip_expression("[Name] == Grandcharm && [Quality] == Magic # [Itemaddskilltab] >= 1"))

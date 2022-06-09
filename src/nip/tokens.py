@@ -1,5 +1,6 @@
 from enum import Enum, auto
 from dataclasses import dataclass
+from typing import Any
 
 class TokenType(Enum):
     NUMBER                      = auto()
@@ -50,7 +51,7 @@ class TokenType(Enum):
 @dataclass
 class Token:
     type: TokenType
-    value: any
+    value: str | int
 
     def __repr__(self) -> str:
         return f"{self.type} : {self.value}"
