@@ -39,6 +39,7 @@ class PickIt:
         self._picked_up_items = []
         self._picked_up_item = False
         self.timeout = 30
+        self.click_history = []
 
 
     def _log_data(self, items: list, img, counter, _uuid):
@@ -102,8 +103,14 @@ class PickIt:
             pos_m = convert_abs_to_monitor((0,-45))
             mouse.move(*pos_m)
             mouse.click(button="left")
+            self.click_history.append(pos_m)
+            Logger.debug("added" + str(pos_m) + " to our pickit backtrack stack")
+            Logger.debug("Our current pickit backtrack stack is: " + str(self.clist_history))
         else:
             char.pick_up_item((item.MonitorX, item.MonitorY), item_name=item.Name, prev_cast_start=0.1)
+            self.click_history.append(item.MonitorX, item.MonitorY)
+            Logger.debug("added" + str(pos_m) + " to our pickit backtrack stack")
+            Logger.debug("Our current pickit backtrack stack is: " + str(self.clist_history))
         return PickedUpResults.PickedUp
 
     def _pick_up_item(self, char: IChar, item: HoveredItem) -> bool:
@@ -193,6 +200,17 @@ class PickIt:
         keyboard.send(Config().char["show_items"])
         return len(self._picked_up_items) >= 1
 
+def click_backtrack(self):
+    for _ in self.click_history:
+        last_click = self.click_history.pop()
+        my_pos = (640, 320)
+        mirrored_click_x = my_pos[0] - (last_click[0] - my_pos[0])
+        mirrored_click_y = my_pos[1] - (last_click[1] - my_pos[1])
+        # convert this screenshot position to a screen position
+        pos_x, pos_y = self.convert_screen_to_abs((mirrored_click_x, mirrored_click_y))
+        Logger.debug('Backtracking to x:{} y:{}'.format(pos_x, pos_y))
+        pather._self.traverse_nodes_fixed(pos_x,pos_y)
+    return True
 
 if __name__ == "__main__":
     import os
