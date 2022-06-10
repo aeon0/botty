@@ -86,6 +86,8 @@ class Hammerdin(IChar):
             self._pather.traverse_nodes((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, timeout=1.0, do_pre_move=self._do_pre_move)
         self._cast_hammers(Config().char["atk_len_pindle"])
         wait(0.1, 0.15)
+        self._move_and_attack((40, 20), Config().char["atk_len_pindle"] * 0.4)
+        wait(0.1, 0.15)
         self._cast_hammers(1.6, "redemption")
         return True
 
@@ -138,6 +140,9 @@ class Hammerdin(IChar):
             self._move_and_attack((40, 10), atk_len)
             self._move_and_attack((-40, -20), atk_len)
         self._cast_hammers(1.6, "redemption")
+        if self._skill_hotkeys["cleansing"]:
+                        keyboard.send(self._skill_hotkeys["cleansing"])
+                        wait(0.5, 1.2)
         return True
 
     def kill_nihlathak(self, end_nodes: list[int]) -> bool:
