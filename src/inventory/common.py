@@ -51,11 +51,11 @@ def slot_has_item(slot_img: np.ndarray) -> bool:
 
 def close(img: np.ndarray | None = None, force: bool | None = False) -> np.ndarray | bool:
     if force:
-        keyboard.send("space") # * Pressing spacebar when a menu is up closes it, pressing spacebar when no menu does nothing, unlike esc which opens the main menu
+        keyboard.send("esc") # * Pressing spacebar when a menu is up closes it, pressing spacebar when no menu does nothing, unlike esc which opens the main menu
         return True
     img = grab() if img is None else img
     if is_visible(ScreenObjects.RightPanel, img) or is_visible(ScreenObjects.LeftPanel, img):
-        keyboard.send("space")
+        keyboard.send("esc")
         if not wait_until_hidden(ScreenObjects.RightPanel, 1) and not wait_until_hidden(ScreenObjects.LeftPanel, 1):
             success = view.return_to_play()
             if not success:
