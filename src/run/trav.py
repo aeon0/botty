@@ -31,9 +31,8 @@ class Trav:
         # Go to Travincal via waypoint
         Logger.info("Run Trav")
         char_type = Config().char["type"].lower()
-        Logger.info(char_type)
         if char_type == "trapsin":
-            if not self._char.capabilities.can_teleport_natively or not self._char.capabilities.can_teleport_with_charges:
+            if not (self._char.capabilities.can_teleport_natively or self._char.capabilities.can_teleport_with_charges):
                 raise ValueError(f"Trav for {char_type} requires teleport")
         if not self._town_manager.open_wp(start_loc):
             return False
