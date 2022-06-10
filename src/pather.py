@@ -511,7 +511,7 @@ class Pather:
             x_m += int(random.random() * 6 - 3)
             y_m += int(random.random() * 6 - 3)
             t0 = grab(force_new=True)
-            char.move((x_m, y_m))
+            char.move((x_m, y_m), force_tp=True)
             t1 = grab(force_new=True)
             # check difference between the two frames to determine if tele was good or not
             diff = cv2.absdiff(t0, t1)

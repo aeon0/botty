@@ -203,7 +203,7 @@ class PickIt:
         return len(self._picked_up_items) >= 1
 
     def click_backtrack(self, char: IChar) -> bool:
-        for _ in self.click_history:
+        while len(self.click_history) > 0:
             last_click = self.click_history.pop()
             newpos = convert_abs_to_screen((last_click[0] * - 1, last_click[1] * -1)) ## abs_to_Screen needs to be imported
             Logger.debug('Backtracking to x:{} y:{}'.format(newpos[0], newpos[1]))
