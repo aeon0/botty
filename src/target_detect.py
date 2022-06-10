@@ -4,7 +4,7 @@ import time
 from screen import convert_screen_to_monitor, grab, convert_screen_to_abs, convert_abs_to_monitor
 from logger import Logger
 from math import dist
-from utils.misc import color_filter
+from utils.misc import color_filter, is_in_roi
 import json
 from dataclasses import dataclass
 
@@ -32,7 +32,21 @@ def log_targets(targets: list[TargetInfo]):
 def _dist_to_center(pos):
     return dist(pos, (1280/2, 720/2))
 
-def get_visible_targets(img: np.ndarray = None, radius_min: int = 150, radius_max: int = 1280) -> list[TargetInfo]:
+def get_visible_targets(
+    img: np.ndarray = None,
+    radius_min: int = 150,
+    radius_max: int = 1280,
+    ignore_roi: list[int] = [600, 300, (1280/2 - 600)*2, (720/2 - 300)*2],
+    use_radius: bool = False
+) -> list[TargetInfo]:
+    """
+    :param img: The image to find targets in
+    :param radius_min: The minimum radius of the target [Default: 150, Integer 0 - 1280]
+    :param radius_max: The maximum radius of the target [Default: 1280, Integer 0 - 1280]
+    :param ignore_roi: The region of interest to ignore [Default: [600, 300, (1280/2 - 600)*2, (720/2 - 300)*2]]
+    :param use_radius: Whether to use the radius of the target (True) or the ignore_roi parameter (False)
+    Returns a list of TargetInfo objects
+    """
     img = grab() if img is None else img
     targets = []
     for filter in FILTER_RANGES:
@@ -41,7 +55,8 @@ def get_visible_targets(img: np.ndarray = None, radius_min: int = 150, radius_ma
         if positions:
             for cnt, position in enumerate(positions):
                 distance = _dist_to_center(position)
-                if radius_min <= _dist_to_center(position) <= radius_max:
+                condition = (radius_min <= distance <= radius_max) if use_radius else (not is_in_roi(ignore_roi, position))
+                if condition:
                     targets.append(TargetInfo(
                         roi = rectangles[cnt],
                         center = position,
@@ -235,4 +250,22 @@ if __name__ == "__main__":
     start_detecting_window()
     print("Move to d2r window and press f11")
     keyboard.wait("f11")
-    l = LiveViewer()
+    # l = LiveViewer()
+
+    masked_image = False
+
+    def _toggle_masked_image():
+        global masked_image
+        masked_image = not masked_image
+
+    while 1:
+        img = grab()
+        targets = get_visible_targets()
+
+        display_img = img.copy()
+
+        for target in targets:
+            x, y = target.center
+            cv2.rectangle(display_img, target.roi[:2], (target.roi[0] + target.roi[2], target.roi[1] + target.roi[3]), (0, 0, 255), 1)
+        cv2.imshow('test', display_img)
+        key = cv2.waitKey(1)

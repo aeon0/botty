@@ -4,8 +4,8 @@ import numpy as np
 import keyboard
 import time
 from utils.custom_mouse import mouse
-from template_finder import TemplateFinder
-from ui_manager import detect_screen_object, ScreenObjects, is_visible, wait_until_hidden
+from ui_manager import detect_screen_object, ScreenObjects, is_visible, wait_until_hidden, center_mouse
+import template_finder
 from utils.misc import wait, trim_black, color_filter, cut_roi
 from inventory import consumables
 from ui import view
@@ -80,12 +80,12 @@ def calc_item_roi(img_pre, img_post):
 
 def tome_state(img: np.ndarray = None, tome_type: str = "tp", roi: list = None):
     img = img if img is not None else grab()
-    if (tome_found := TemplateFinder().search([f"{tome_type.upper()}_TOME", f"{tome_type.upper()}_TOME_RED"], img, roi = roi, threshold = 0.8, best_match = True, normalize_monitor = True)).valid:
+    if (tome_found := template_finder.search([f"{tome_type.upper()}_TOME", f"{tome_type.upper()}_TOME_RED"], img, roi = roi, threshold = 0.8, best_match = True)).valid:
         if tome_found.name == f"{tome_type.upper()}_TOME":
             state = "ok"
         else:
             state = "empty"
-        position = tome_found.center
+        position = tome_found.center_monitor
     else:
         state = position = None
     return state, position
@@ -179,7 +179,11 @@ def get_active_tab(indicator: TemplateMatch = None) -> int:
     if indicator.valid:
         return indicator_location_to_tab_count(indicator.center)
     else:
-        Logger.error("common/get_active_tab(): Error finding tab indicator")
+        center_mouse()
+        if (indicator := detect_screen_object(ScreenObjects.TabIndicator)).valid:
+            return indicator_location_to_tab_count(indicator.center)
+        else:
+            Logger.error("common/get_active_tab(): Error finding tab indicator")
     return -1
 
 def select_tab(idx: int):

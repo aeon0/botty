@@ -1,8 +1,7 @@
 import itertools
 from logger import Logger
-from typing import List
 import numpy as np
-from template_finder import TemplateFinder
+import template_finder
 from inventory import common, consumables, personal
 from ui import view
 from ui_manager import is_visible, wait_until_visible, ScreenObjects, wait_until_hidden
@@ -72,7 +71,7 @@ def _cut_potion_img(img: np.ndarray, column: int, row: int) -> np.ndarray:
     ]
     return cut_roi(img, roi)
 
-def drink_potion(potion_type: str, merc: bool = False, stats: List = []) -> bool:
+def drink_potion(potion_type: str, merc: bool = False, stats: list = []) -> bool:
     img = grab()
     for i in range(4):
         potion_img = _cut_potion_img(img, i, 0)
@@ -151,7 +150,7 @@ def fill_up_belt_from_inventory(num_loot_columns: int):
     pot_positions = []
     for column, row in itertools.product(range(num_loot_columns), range(4)):
         center_pos, slot_img = common.get_slot_pos_and_img(img, column, row)
-        found = TemplateFinder().search(["GREATER_HEALING_POTION", "GREATER_MANA_POTION", "SUPER_HEALING_POTION", "SUPER_MANA_POTION", "FULL_REJUV_POTION", "REJUV_POTION"], slot_img, threshold=0.9).valid
+        found = template_finder.search(["GREATER_HEALING_POTION", "GREATER_MANA_POTION", "SUPER_HEALING_POTION", "SUPER_MANA_POTION", "FULL_REJUV_POTION", "REJUV_POTION"], slot_img, threshold=0.9).valid
         if found:
             pot_positions.append(center_pos)
     keyboard.press("shift")

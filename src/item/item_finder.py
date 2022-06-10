@@ -1,5 +1,4 @@
 import cv2
-from typing import Tuple
 import numpy as np
 import time
 import os
@@ -9,7 +8,6 @@ import math
 from config import Config
 from utils.misc import color_filter, cut_roi
 from item import ItemCropper
-from template_finder import TemplateFinder
 from ocr import OcrResult, Ocr
 
 
@@ -21,7 +19,7 @@ class Template:
 
 @dataclass
 class Item:
-    center: Tuple[float, float] = None # (x, y) in screen coordinates
+    center: tuple[float, float] = None # (x, y) in screen coordinates
     name: str = None
     score: float = -1.0
     dist: float = -1.0

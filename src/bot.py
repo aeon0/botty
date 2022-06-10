@@ -7,17 +7,17 @@ import random
 import cv2
 import math
 from copy import copy
-from typing import Union
 from collections import OrderedDict
 from health_manager import set_pause_state
 from transmute import Transmute
 from utils.misc import wait, hms
+from utils.restart import safe_exit, restart_game
 
 from game_stats import GameStats
 from logger import Logger
 from config import Config
 from screen import grab
-from template_finder import TemplateFinder
+import template_finder
 from char import IChar
 from item import ItemFinder
 from item.pickit import PickIt
@@ -32,7 +32,7 @@ from char.poison_necro import Poison_Necro
 from char.bone_necro import Bone_Necro
 from char.basic import Basic
 from char.basic_ranged import Basic_Ranged
-from ui_manager import wait_until_hidden, wait_until_visible, ScreenObjects, is_visible
+from ui_manager import wait_until_hidden, wait_until_visible, ScreenObjects, is_visible, detect_screen_object
 from ui import meters, skills, view, character_select, main_menu
 from inventory import personal, vendor, belt, common, consumables
 
@@ -44,7 +44,6 @@ from messages import Messenger
 from utils.dclone_ip import get_d2r_game_ip
 
 class Bot:
-    _MAIN_MENU_MARKERS = ["MAIN_MENU_TOP_LEFT","MAIN_MENU_TOP_LEFT_DARK"]
 
     def __init__(self, game_stats: GameStats):
         self._game_stats = game_stats
@@ -54,36 +53,36 @@ class Bot:
         self._pickit = PickIt(self._item_finder)
 
         # Create Character
-        if Config().char["type"] in ["sorceress", "light_sorc"]:
-            self._char: IChar = LightSorc(Config().light_sorc, self._pather)
-        elif Config().char["type"] == "blizz_sorc":
-            self._char: IChar = BlizzSorc(Config().blizz_sorc, self._pather)
-        elif Config().char["type"] == "nova_sorc":
-            self._char: IChar = NovaSorc(Config().nova_sorc, self._pather)
-        elif Config().char["type"] == "hydra_sorc":
-            self._char: IChar = HydraSorc(Config().hydra_sorc, self._pather)
-        elif Config().char["type"] in ["paladin", "hammerdin"]:
-        #elif Config().char["type"] == "hammerdin":
-            self._char: IChar = Hammerdin(Config().hammerdin, self._pather, self._pickit) #pickit added for diablo
-        elif Config().char["type"] in ["paladin", "fohdin"]:
-            self._char: IChar = FoHdin(Config().fohdin, self._pather, self._pickit) #pickit added for diablo
-        elif Config().char["type"] == "trapsin":
-            self._char: IChar = Trapsin(Config().trapsin, self._pather)
-        elif Config().char["type"] == "barbarian":
-            self._char: IChar = Barbarian(Config().barbarian, self._pather)
-        elif Config().char["type"] == "poison_necro":
-            self._char: IChar = Poison_Necro(Config().poison_necro, self._pather)
-        elif Config().char["type"] == "bone_necro":
-            self._char: IChar = Bone_Necro(Config().bone_necro, self._pather)
-        elif Config().char["type"] == "necro":
-            self._char: IChar = Necro(Config().necro, self._pather)
-        elif Config().char["type"] == "basic":
-            self._char: IChar = Basic(Config().basic, self._pather)
-        elif Config().char["type"] == "basic_ranged":
-            self._char: IChar = Basic_Ranged(Config().basic_ranged, self._pather)
-        else:
-            Logger.error(f'{Config().char["type"]} is not supported! Closing down bot.')
-            os._exit(1)
+        match Config().char["type"]:
+            case "sorceress" | "light_sorc":
+                self._char: IChar = LightSorc(Config().light_sorc, self._pather)
+            case "blizz_sorc":
+                self._char: IChar = BlizzSorc(Config().blizz_sorc, self._pather)
+            case "nova_sorc":
+                self._char: IChar = NovaSorc(Config().nova_sorc, self._pather)
+            case "hydra_sorc":
+                self._char: IChar = HydraSorc(Config().hydra_sorc, self._pather)
+            case "hammerdin" | "paladin":
+                self._char: IChar = Hammerdin(Config().hammerdin, self._pather, self._pickit) #pickit added for diablo
+            case "fohdin":
+                self._char: IChar = FoHdin(Config().fohdin, self._pather, self._pickit) #pickit added for diablo
+            case "trapsin":
+                self._char: IChar = Trapsin(Config().trapsin, self._pather)
+            case "barbarian":
+                self._char: IChar = Barbarian(Config().barbarian, self._pather)
+            case "poison_necro":
+                self._char: IChar = Poison_Necro(Config().poison_necro, self._pather)
+            case "bone_necro":
+                self._char: IChar = Bone_Necro(Config().bone_necro, self._pather)
+            case "necro":
+                self._char: IChar = Necro(Config().necro, self._pather)
+            case "basic":
+                self._char: IChar = Basic(Config().basic, self._pather)
+            case "basic_ranged":
+                self._char: IChar = Basic_Ranged(Config().basic_ranged, self._pather)
+            case _:
+                Logger.error(f'{Config().char["type"]} is not supported! Closing down bot.')
+                os._exit(1)
 
         # Create Town Manager
         a5 = A5(self._pather, self._char)
@@ -104,20 +103,22 @@ class Bot:
         }
         # Adapt order to the config
         self._do_runs = OrderedDict((k, self._do_runs[k]) for k in Config().routes_order if k in self._do_runs and self._do_runs[k])
+
+        runs = list(self._do_runs.keys())
         self._do_runs_reset = copy(self._do_runs)
         Logger.info(f"Doing runs: {self._do_runs_reset.keys()}")
         if Config().general["randomize_runs"]:
             self.shuffle_runs()
-        self._pindle = Pindle(self._pather, self._town_manager, self._char, self._pickit)
-        self._shenk = ShenkEld(self._pather, self._town_manager, self._char, self._pickit)
-        self._trav = Trav(self._pather, self._town_manager, self._char, self._pickit)
-        self._nihlathak = Nihlathak(self._pather, self._town_manager, self._char, self._pickit)
-        self._arcane = Arcane(self._pather, self._town_manager, self._char, self._pickit)
-        self._diablo = Diablo(self._pather, self._town_manager, self._char, self._pickit)
+        self._pindle = Pindle(self._pather, self._town_manager, self._char, self._pickit, runs)
+        self._shenk = ShenkEld(self._pather, self._town_manager, self._char, self._pickit, runs)
+        self._trav = Trav(self._pather, self._town_manager, self._char, self._pickit, runs)
+        self._nihlathak = Nihlathak(self._pather, self._town_manager, self._char, self._pickit, runs)
+        self._arcane = Arcane(self._pather, self._town_manager, self._char, self._pickit, runs)
+        self._diablo = Diablo(self._pather, self._town_manager, self._char, self._pickit, runs)
 
         # Create member variables
         self._picked_up_items = False
-        self._curr_loc: Union[bool, Location] = None
+        self._curr_loc: bool | Location = None
         self._use_id_tome = True
         self._use_keys = True
         self._pre_buffed = False
@@ -184,6 +185,17 @@ class Bot:
         if not self._stopping:
             self.trigger(name, **kwargs)
 
+    def restart_or_exit(self, message: str =""):
+        if message:
+            Logger.error(message)
+        if Config().general["restart_d2r_when_stuck"]:
+            Logger.info("Restart botty")
+            restart_game(Config().general["d2r_path"], Config().advanced_options["launch_options"])
+            self.stop()
+        else:
+            Logger.info("Shut down botty")
+            safe_exit()
+
     def current_game_length(self):
         return self._game_stats.get_current_game_length()
 
@@ -211,20 +223,22 @@ class Bot:
         self._game_stats.log_start_game()
         keyboard.release(Config().char["stand_still"])
         transition_to_screens = Bot._rebuild_as_asset_to_trigger({
-            "select_character": Bot._MAIN_MENU_MARKERS,
+            "select_character": main_menu.MAIN_MENU_MARKERS,
             "start_from_town": town_manager.TOWN_MARKERS,
         })
-        match = TemplateFinder().search_and_wait(list(transition_to_screens.keys()), best_match=True)
-        self.trigger_or_stop(transition_to_screens[match.name])
+        if (match := template_finder.search_and_wait(list(transition_to_screens.keys()), best_match=True)).valid:
+            self.trigger_or_stop(transition_to_screens[match.name])
+        else:
+            self.restart_or_exit(f"Failed to detect {list(transition_to_screens.keys())}.")
 
     def on_select_character(self):
-        if Config().general['restart_d2r_when_stuck']:
-            # Make sure the correct char is selected
-            if character_select.has_char_template_saved():
-                character_select.select_char()
-            else:
-                character_select.save_char_online_status()
-                character_select.save_char_template()
+        # Make sure the correct char is selected
+        if not character_select.has_char_template_saved():
+            character_select.save_char_online_status()
+            character_select.save_char_template()
+        else:
+            if not character_select.select_char():
+                self.restart_or_exit(f"Character select failed.")
         self.trigger_or_stop("create_game")
 
     def on_create_game(self):
@@ -234,7 +248,8 @@ class Bot:
                 keyboard.send("esc")
             main_menu.start_game()
             view.move_to_corpse()
-        else: return
+        else:
+            self.restart_or_exit()
         self.trigger_or_stop("start_from_town")
 
     def on_start_from_town(self):
@@ -258,7 +273,8 @@ class Bot:
             hot_ip = Config().dclone["dclone_hotip"]
             Logger.debug(f"Current Game IP: {cur_game_ip}   and HOTIP: {hot_ip}")
             if hot_ip == cur_game_ip:
-                self._messenger.send_message(f"Dclone IP Found on IP: {cur_game_ip}")
+                if self._messenger.enabled:
+                    self._messenger.send_message(f"Dclone IP Found on IP: {cur_game_ip}")
                 print("Press Enter")
                 input()
                 os._exit(1)
@@ -266,7 +282,7 @@ class Bot:
                 Logger.info(f"Please Enter the region ip and hot ip on config to use")
 
         # Run /nopickup command to avoid picking up stuff on accident
-        if not self._ran_no_pickup and not self._game_stats._nopickup_active:
+        if Config().char["enable_no_pickup"] and (not self._ran_no_pickup and not self._game_stats._nopickup_active):
             self._ran_no_pickup = True
             if view.enable_no_pickup():
                 self._game_stats._nopickup_active = True
@@ -423,7 +439,8 @@ class Bot:
             if elapsed_time > (Config().general["max_runtime_before_break_m"]*60):
                 break_msg = f'Ran for {hms(elapsed_time)}, taking a break for {hms(Config().general["break_length_m"]*60)}.'
                 Logger.info(break_msg)
-                self._messenger.send_message(break_msg)
+                if self._messenger.enabled:
+                    self._messenger.send_message(break_msg)
                 if not self._pausing:
                     self.toggle_pause()
 
@@ -431,7 +448,8 @@ class Bot:
 
                 break_msg = f'Break over, will now run for {hms(Config().general["max_runtime_before_break_m"]*60)}.'
                 Logger.info(break_msg)
-                self._messenger.send_message(break_msg)
+                if self._messenger.enabled:
+                    self._messenger.send_message(break_msg)
                 if self._pausing:
                     self.toggle_pause()
 
@@ -459,7 +477,7 @@ class Bot:
 
     # All the runs go here
     # ==================================
-    def _ending_run_helper(self, res: Union[bool, tuple[Location, bool]]):
+    def _ending_run_helper(self, res: bool | tuple[Location, bool]):
         self._game_stats._run_counter += 1
         self._game_stats.log_exp()
         # either fill member variables with result data or mark run as failed

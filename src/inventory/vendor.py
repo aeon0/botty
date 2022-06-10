@@ -1,6 +1,6 @@
 from math import floor
 import keyboard
-from template_finder import TemplateFinder
+import template_finder
 from config import Config
 import numpy as np
 from utils.misc import wait
@@ -49,20 +49,20 @@ def repair() -> bool:
     return True
 
 def gamble():
-    if (refresh_btn := TemplateFinder().search_and_wait("REFRESH", threshold=0.79, timeout=4, normalize_monitor=True)).valid:
+    if (refresh_btn := template_finder.search_and_wait("REFRESH", threshold=0.79, timeout=4)).valid:
         #Gambling window is open. Starting to spent some coins
         max_gamble_count = floor(2000000/188000) # leave about 500k gold and assume buying coronets at ~188k
         while get_gamble_status() and get_gamble_count() < max_gamble_count:
             img=grab()
             for item in Config().char["gamble_items"]:
                 # while desired gamble item is not on screen, refresh
-                while not (desired_item := TemplateFinder().search (item.upper(), grab(), roi=Config().ui_roi["left_inventory"], normalize_monitor=True)).valid:
-                    mouse.move(*refresh_btn.center, randomize=12, delay_factor=[1.0, 1.5])
+                while not (desired_item := template_finder.search (item.upper(), grab(), roi=Config().ui_roi["left_inventory"])).valid:
+                    mouse.move(*refresh_btn.center_monitor, randomize=12, delay_factor=[1.0, 1.5])
                     wait(0.1, 0.15)
                     mouse.click(button="left")
                     wait(0.1, 0.15)
                 # desired item found, purchase it
-                mouse.move(*desired_item.center, randomize=12, delay_factor=[1.0, 1.5])
+                mouse.move(*desired_item.center_monitor, randomize=12, delay_factor=[1.0, 1.5])
                 wait(0.1, 0.15)
                 mouse.click(button="right")
                 wait(0.4, 0.6)
@@ -109,8 +109,8 @@ def buy_item(template_name: str, quantity: int = 1, img: np.ndarray = None, shif
     """
     if img is None:
         img = grab()
-    if (desired_item := TemplateFinder().search(template_name, inp_img=img, roi=Config().ui_roi["left_inventory"], normalize_monitor=True)).valid:
-        mouse.move(*desired_item.center, randomize=8, delay_factor=[1.0, 1.5])
+    if (desired_item := template_finder.search(template_name, inp_img=img, roi=Config().ui_roi["left_inventory"])).valid:
+        mouse.move(*desired_item.center_monitor, randomize=8, delay_factor=[1.0, 1.5])
         if shift_click:
             keyboard.send('shift', do_release=False)
             wait(0.5, 0.8)

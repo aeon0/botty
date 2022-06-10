@@ -2,7 +2,7 @@ import keyboard
 from ui import skills
 from utils.custom_mouse import mouse
 from char import IChar,CharacterCapabilities
-from template_finder import TemplateFinder
+import template_finder
 from pather import Pather
 from logger import Logger
 from screen import convert_abs_to_monitor

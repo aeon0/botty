@@ -25,16 +25,18 @@ class FoHdin(Paladin):
         }
 
     def _reset_skill(self, mouse_click_type: str = "left"):
-        self._active[mouse_click_type] == ""
+        self._active_skill[mouse_click_type] == ""
 
     def _select_skill(self, skill: str, mouse_click_type: str = "left"):
         if skill in self._skill_hotkeys and self._skill_hotkeys[skill]:
             if self._active_skill[mouse_click_type] != skill:
                 self._active_skill[mouse_click_type] = skill
                 keyboard.send(self._skill_hotkeys[skill])
+            return True
         else:
             Logger.warning(f"No hotkey for skill: {skill}")
             self._reset_skill(mouse_click_type)
+            return False
 
     def _log_cast(self, skill_name: str, cast_pos_abs: tuple[float, float], spray: int, min_duration: float, aura: str):
         msg = f"Casting skill {skill_name}"
@@ -62,7 +64,7 @@ class FoHdin(Paladin):
         wait(0.06, 0.08)
         mouse.release(button = mouse_click_type)
 
-    def _cast_left_skill_with_aura(self, skill_name: str, cast_pos_abs: tuple[float, float] = None, spray: int = 0, min_duration: float = 0, aura: str = ""):
+    def _cast_skill_with_aura(self, skill_name: str, cast_pos_abs: tuple[float, float] = None, spray: int = 0, min_duration: float = 0, aura: str = ""):
         self._log_cast(skill_name, cast_pos_abs, spray, min_duration, aura)
 
         # set aura if needed
@@ -88,20 +90,20 @@ class FoHdin(Paladin):
         keyboard.send(Config().char["stand_still"], do_press=False)
 
     def _cast_foh(self, cast_pos_abs: tuple[float, float], spray: int = 10, min_duration: float = 0, aura: str = "conviction"):
-        return self._cast_left_skill_with_aura(skill_name = "foh", cast_pos_abs = cast_pos_abs, spray = spray, min_duration = min_duration, aura = aura)
+        return self._cast_skill_with_aura(skill_name = "foh", cast_pos_abs = cast_pos_abs, spray = spray, min_duration = min_duration, aura = aura)
 
-    def _cast_holy_bolt(self, cast_pos_abs: tuple[float, float], spray: int = 10, min_duration: float = 0, aura: str = "conviction"):
+    def _cast_holy_bolt(self, cast_pos_abs: tuple[float, float], spray: int = 10, min_duration: float = 0, aura: str = "concentration"):
         #if skill is bound : concentration, use concentration, otherwise move on with conviction. alternatively use redemption whilst holybolting. conviction does not help holy bolt (its magic damage)
-        return self._cast_left_skill_with_aura(skill_name = "holy_bolt", cast_pos_abs = cast_pos_abs, spray = spray, min_duration = min_duration, aura = aura)
+        return self._cast_skill_with_aura(skill_name = "holy_bolt", cast_pos_abs = cast_pos_abs, spray = spray, min_duration = min_duration, aura = aura)
 
     def _cast_hammers(self, min_duration: float = 0, aura: str = "concentration"): #for nihlathak
-        return self._cast_left_skill_with_aura(skill_name = "blessed_hammer", spray = 0, min_duration = min_duration, aura = aura)
+        return self._cast_skill_with_aura(skill_name = "blessed_hammer", spray = 0, min_duration = min_duration, aura = aura)
 
-    def _move_and_attack(self, abs_move: tuple[int, int], atk_len: float): #for nihalthak
+    def _move_and_attack(self, abs_move: tuple[int, int], atk_len: float, aura: str = "concentration"): #for nihalthak
         pos_m = convert_abs_to_monitor(abs_move)
         self.pre_move()
         self.move(pos_m, force_move=True)
-        self._cast_hammers(atk_len)
+        self._cast_hammers(atk_len, aura=aura)
 
     def _cast_cleanse_redemption(self): #do we really want to always cast both? we could set a param in the call of the function the distinguish between cleansing and redemption. at some places, the risk for getting cursed is low - but we would add 0.5 s for each call of that function for these cases
         if self._skill_hotkeys["cleansing"]:
@@ -118,13 +120,15 @@ class FoHdin(Paladin):
         default_target_abs: tuple[int, int] = (0, 0),
         min_duration: float = 0,
         max_duration: float = 15,
-        foh_to_holy_bolt_ratio: int = 4,
+        foh_to_holy_bolt_ratio: int = 3,
         target_detect: bool = True,
         default_spray: int = 50,
-        aura: str = "conviction"
+        aura: str = ""
     ) -> bool:
         start = time.time()
         target_check_count = 1
+        foh_aura = aura if aura else "conviction"
+        holy_bolt_aura = aura if aura else "concentration"
         while (elapsed := (time.time() - start)) <= max_duration:
             cast_pos_abs = default_target_abs
             spray = default_spray
@@ -136,23 +140,15 @@ class FoHdin(Paladin):
 
             # cast foh to holy bolt with preset ratio (e.g. 3 foh followed by 1 holy bolt if foh_to_holy_bolt_ratio = 3)
             if foh_to_holy_bolt_ratio > 0 and not target_check_count % (foh_to_holy_bolt_ratio + 1):
-                self._cast_holy_bolt(cast_pos_abs, spray=spray, aura=aura)
+                self._cast_holy_bolt(cast_pos_abs, spray=spray, aura=holy_bolt_aura)
             else:
-                self._cast_foh(cast_pos_abs, spray=spray, aura=aura)
+                self._cast_foh(cast_pos_abs, spray=spray, aura=foh_aura)
 
             # if time > minimum and either targets aren't set or targets don't exist, exit loop
             if elapsed > min_duration and (not target_detect or not targets):
                 break
             target_check_count += 1
         return True
-
-
-    def _attack_node(self, node: int, backup_node: int = 0, min_duration: float = 0):
-        img = grab()
-        trav_attack_pos = self._pather.find_abs_node_pos(225, grab())
-        if (trav_attack_pos := self._pather.find_abs_node_pos(node, img)) or (trav_attack_pos := self._pather.find_abs_node_pos(backup_node, img)):
-            self._cast_foh(trav_attack_pos, spray=80, min_duration = min_duration)
-            Logger.debug(f"Attacking node {node}.")
 
 
     def kill_pindle(self) -> bool:
@@ -254,29 +250,26 @@ class FoHdin(Paladin):
 
     #we just use hammers :)
     def kill_nihlathak(self, end_nodes: list[int]) -> bool:
+        atk_len_dur = Config().char["atk_len_nihlathak"]
         # Move close to nihlathak
         self._pather.traverse_nodes(end_nodes, self, timeout=0.8, do_pre_move=False)
-        # move mouse to center, otherwise hammers sometimes dont fly, not sure why
-        pos_m = convert_abs_to_monitor((0, 0))
-        mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-        self._cast_hammers(Config().char["atk_len_nihlathak"] * 0.4)
-        self._cast_hammers(0.8, "redemption")
-        self._move_and_attack((30, 15), Config().char["atk_len_nihlathak"] * 0.3)
-        self._cast_hammers(0.8, "redemption")
-        self._move_and_attack((-30, -15), Config().char["atk_len_nihlathak"] * 0.4)
-        wait(0.1, 0.15)
-        self._cast_hammers(1.2, "redemption")
+        if self._select_skill("blessed_hammer"):
+            self._cast_hammers(atk_len_dur/4)
+            self._cast_hammers(2*atk_len_dur/4, "redemption")
+            self._move_and_attack((30, 15), atk_len_dur/4, "redemption")
+        else:
+            Logger.warning("FOHDin without blessed hammer is not very strong vs. Nihlathak!")
+            self._generic_foh_attack_sequence(min_duration=atk_len_dur/2, max_duration=atk_len_dur, default_spray=70, aura="redemption")
+            self._generic_foh_attack_sequence(min_duration=atk_len_dur/2, max_duration=atk_len_dur, default_spray=70, aura="redemption")
+        self._generic_foh_attack_sequence(max_duration=atk_len_dur*2, default_spray=70)
+        self._cast_cleanse_redemption()
         return True
 
     def kill_summoner(self) -> bool:
         # Attack
-        cast_pos_abs = np.array([0, 0])
-        pos_m = convert_abs_to_monitor((-20, 20))
-        mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-        for _ in range(int(Config().char["atk_len_arc"])):
-            self._cast_foh(cast_pos_abs, spray=80, min_duration=int(Config().char["atk_len_arc"]))
-            self._cast_holy_bolt(cast_pos_abs, spray=90, min_duration=int(Config().char["atk_len_arc"]))
-        wait(self._cast_duration, self._cast_duration + 0.2)
+        atk_len_dur = Config().char["atk_len_arc"]
+        self._generic_foh_attack_sequence(min_duration=atk_len_dur, max_duration=atk_len_dur*2, default_spray=80)
+        self._cast_cleanse_redemption()
         return True
 
 

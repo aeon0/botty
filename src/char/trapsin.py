@@ -1,14 +1,12 @@
 import keyboard
 from utils.custom_mouse import mouse
 from char import IChar
-from template_finder import TemplateFinder
 from pather import Pather
 from logger import Logger
 from screen import convert_abs_to_monitor, convert_screen_to_abs, grab
 from config import Config
 from utils.misc import wait, rotate_vec, unit_vector
 import random
-from typing import Tuple
 from pather import Location, Pather
 import numpy as np
 
@@ -38,7 +36,7 @@ class Trapsin(IChar):
             mouse.click(button="right")
             wait(self._cast_duration)
 
-    def _left_attack(self, cast_pos_abs: Tuple[float, float], spray: int = 10):
+    def _left_attack(self, cast_pos_abs: tuple[float, float], spray: int = 10):
         keyboard.send(Config().char["stand_still"], do_release=False)
         if self._skill_hotkeys["skill_left"]:
             keyboard.send(self._skill_hotkeys["skill_left"])
@@ -53,7 +51,7 @@ class Trapsin(IChar):
         keyboard.send(Config().char["stand_still"], do_press=False)
 
 
-    def _right_attack(self, cast_pos_abs: Tuple[float, float], spray: float = 10):
+    def _right_attack(self, cast_pos_abs: tuple[float, float], spray: float = 10):
         keyboard.send(self._skill_hotkeys["lightning_sentry"])
         x = cast_pos_abs[0] + (random.random() * 2 * spray - spray)
         y = cast_pos_abs[1] + (random.random() * 2 * spray - spray)

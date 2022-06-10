@@ -9,7 +9,7 @@ from screen import grab
 from item import ItemFinder
 from config import Config
 import tkinter as tk
-from template_finder import TemplateFinder
+import template_finder
 from PIL import ImageTk, Image
 import re
 
@@ -298,7 +298,7 @@ class GraphicDebuggerController:
                 # Show Town A5 template matches
                 scores = {}
                 for template_name in search_templates:
-                    template_match = TemplateFinder().search(template_name, img, threshold=0.65)
+                    template_match = template_finder.search(template_name, img, threshold=0.65)
                     if template_match.valid:
                         scores[template_match.name] = template_match.score
                         cv2.putText(combined_img, str(template_name), template_match.center, cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
@@ -329,7 +329,7 @@ class GraphicDebuggerController:
             # Show Town A5 template matches
             scores = {}
             for template_name in search_templates:
-                template_match = TemplateFinder().search(template_name, img, threshold=0.65)
+                template_match = template_finder.search(template_name, img, threshold=0.65)
                 if template_match.valid:
                     scores[template_match.name] = template_match.score
                     cv2.putText(combined_img, str(template_name), template_match.center, cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
