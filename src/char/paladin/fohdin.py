@@ -91,6 +91,7 @@ class FoHdin(Paladin):
         return self._cast_left_skill_with_aura(skill_name = "foh", cast_pos_abs = cast_pos_abs, spray = spray, min_duration = min_duration, aura = aura)
 
     def _cast_holy_bolt(self, cast_pos_abs: tuple[float, float], spray: int = 10, min_duration: float = 0, aura: str = "conviction"):
+        #if skill is bound : concentration, use concentration, otherwise move on with conviction. alternatively use redemption whilst holybolting. conviction does not help holy bolt (its magic damage)
         return self._cast_left_skill_with_aura(skill_name = "holy_bolt", cast_pos_abs = cast_pos_abs, spray = spray, min_duration = min_duration, aura = aura)
 
     def _cast_hammers(self, min_duration: float = 0, aura: str = "concentration"): #for nihlathak
@@ -102,7 +103,7 @@ class FoHdin(Paladin):
         self.move(pos_m, force_move=True)
         self._cast_hammers(atk_len)
 
-    def _cast_cleanse_redemption(self):
+    def _cast_cleanse_redemption(self): #do we really want to always cast both? we could set a param in the call of the function the distinguish between cleansing and redemption. at some places, the risk for getting cursed is low - but we would add 0.5 s for each call of that function for these cases
         if self._skill_hotkeys["cleansing"]:
             keyboard.send(self._skill_hotkeys["cleansing"])
             wait(0.2, 0.4) #clear yourself from curses
@@ -163,6 +164,7 @@ class FoHdin(Paladin):
             if not self._pather.traverse_nodes([102], self, timeout=1.0, do_pre_move=self._do_pre_move, force_move=True,force_tp=False, use_tp_charge=False):
                 return False
             # Doing one Teleport to safe_dist to grab our Merc
+            Logger.debug("Teleporting backwards to let Pindle charge the MERC. Looks strange, but is intended!") #I would leave this message in, so users dont complain that there is a strange movement pattern.
             if not self._pather.traverse_nodes([103], self, timeout=1.0, do_pre_move=self._do_pre_move, force_tp=True, use_tp_charge=True):
                 return False
             # Slightly retreating, so the Merc gets charged
@@ -290,34 +292,11 @@ class FoHdin(Paladin):
         :param atk_len_factor: Multiplier (int) for the Param atk_len to adapt length for locations with large number of mobs
         Returns True
         """
-        #self._cast_foh((0,0), spray=11) #never wrong to cast a FOH on yourself :)
-        atk_len = int(Config().char[atk_len])*atk_len_factor
-        if self._skill_hotkeys["conviction"]: keyboard.send(self._skill_hotkeys["conviction"]) #conviction needs to be on for mob_detection
-        if (targets := get_visible_targets()):
-            nearest_mob_pos_abs = convert_screen_to_abs(targets[0].center)
-            Logger.debug("Mob found at " + str(nearest_mob_pos_abs) + '\033[96m'+" fisting him now "+ str(atk_len) + " times!" +'\033[0m')
-            #for _ in range(atk_len):
-            self._cast_foh(nearest_mob_pos_abs, spray=11, min_duration=atk_len)
-            #    self._cast_holy_bolt(nearest_mob_pos_abs, spray=80, min_duration=atk_len)
-            #wait(self._cast_duration, self._cast_duration + 0.2)
-            if (targets := get_visible_targets()):
-                nearest_mob_pos_abs = convert_screen_to_abs(targets[0].center)
-                Logger.debug("Mob found at " + str(nearest_mob_pos_abs) + '\033[93m'+" bolting him now "+ str(atk_len) + " seconds!" +'\033[0m')
-                #print (nearest_mob_pos_abs)
-                # for _ in range(atk_len):
-                #    self._cast_foh(nearest_mob_pos_abs, spray=11)
-                self._cast_holy_bolt(nearest_mob_pos_abs, spray=80, min_duration=atk_len)
-                #wait(self._cast_duration, self._cast_duration + 0.2)
-            else:
-                Logger.debug("No Mob found, moving on")
-            if self._skill_hotkeys["cleansing"]:
-                keyboard.send(self._skill_hotkeys["cleansing"])
-            wait(0.1, 0.2) #clear yourself & merc from curses to avoid interfering with mob detection
-            if self._skill_hotkeys["redemption"]:
-                keyboard.send(self._skill_hotkeys["redemption"])
-                wait(0.5, 1.0) #clear area from corpses & heal
-        else:
-            Logger.debug("No Mob found, moving on")
+        self._cast_foh((0,0), spray=11) #never wrong to cast a FOH on yourself :) even w/o mobs detected
+        atk_len_dur = float(Config().char[atk_len])*atk_len_factor
+        default_target_abs = (0, 0)
+        self._generic_foh_attack_sequence(default_target_abs=default_target_abs, max_duration=atk_len_dur*3, default_spray=80)
+        self._cast_cleanse_redemption()
         return True
 
     def kill_cs_trash(self, location:str) -> bool:
