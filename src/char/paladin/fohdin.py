@@ -791,11 +791,11 @@ class FoHdin(Paladin):
             #self._pather.traverse_nodes_fixed("dia_c2g_663", self) #agressive path, quite telestompy
             if not self._pather.traverse_nodes([662], self): return False # , timeout=3):
             ### ATTACK ###
-            self.cs_trash_atk_seq("atk_len_cs_trashmobs", 1)
+            self.cs_trash_atk_seq("atk_len_diablo_infector", 1)
             Logger.debug("Killing Infector at Position 1/2")
             if not self._pather.traverse_nodes([663], self): return False # , timeout=3):
             Logger.debug("Killing Infector at Position 2/2")
-            self.cs_trash_atk_seq("atk_len_cs_trashmobs", 1)
+            self.cs_trash_atk_seq("atk_len_diablo_infector", 1)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([664, 665], self): return False # , timeout=3):
