@@ -13,7 +13,7 @@ from ui_manager import ScreenObjects, is_visible
 from utils.custom_mouse import mouse
 from config import Config
 from logger import Logger
-from screen import grab, convert_abs_to_monitor, convert_screen_to_monitor
+from screen import grab, convert_abs_to_monitor, convert_screen_to_monitor, convert_abs_to_screen #last one used for backtrack
 from char import IChar
 from item import consumables
 from item.consumables import ITEM_CONSUMABLES_MAP
@@ -22,7 +22,7 @@ from d2r_image import processing as d2r_image
 from d2r_image.data_models import HoveredItem, EnhancedJSONEncoder
 from nip.NTIPAliasType import NTIPAliasType as NTIP_TYPES
 from nip.actions import should_pickup
-
+from pather import Pather #for backtrack
 
 class PickedUpResults(Enum):
     TeleportedTo   = 0
@@ -31,7 +31,8 @@ class PickedUpResults(Enum):
     InventoryFull  = 4
 
 class PickIt:
-    def __init__(self):
+    def __init__(self, pather):
+        self._pather = pather
         self._cached_pickit_items = {} # * Cache the result of whether or not we should pick up the item. this should save some time
         self._last_action = None
         self._prev_item_pickup_attempt = ''
@@ -105,12 +106,12 @@ class PickIt:
             mouse.click(button="left")
             self.click_history.append(pos_m)
             Logger.debug("added" + str(pos_m) + " to our pickit backtrack stack")
-            Logger.debug("Our current pickit backtrack stack is: " + str(self.clist_history))
+            Logger.debug("Our current pickit backtrack stack is: " + str(self.click_history))
         else:
             char.pick_up_item((item.MonitorX, item.MonitorY), item_name=item.Name, prev_cast_start=0.1)
-            self.click_history.append(item.MonitorX, item.MonitorY)
-            Logger.debug("added" + str(pos_m) + " to our pickit backtrack stack")
-            Logger.debug("Our current pickit backtrack stack is: " + str(self.clist_history))
+            #self.click_history.append((item.MonitorX, item.MonitorY))
+            #Logger.debug("added" + str(pos_m) + " to our pickit backtrack stack")
+            #Logger.debug("Our current pickit backtrack stack is: " + str(self.click_history))
         return PickedUpResults.PickedUp
 
     def _pick_up_item(self, char: IChar, item: HoveredItem) -> bool:
@@ -198,19 +199,16 @@ class PickIt:
             i+=1
 
         keyboard.send(Config().char["show_items"])
-        click_backtrack() #bring us back to the x,y position where we started our pickit.
+        self.click_backtrack(char) #bring us back to the x,y position where we started our pickit.
         return len(self._picked_up_items) >= 1
 
-def click_backtrack(self):
+def click_backtrack(self, char: IChar) -> bool:
     for _ in self.click_history:
         last_click = self.click_history.pop()
-        my_pos = (640, 320)
-        mirrored_click_x = my_pos[0] - (last_click[0] - my_pos[0])
-        mirrored_click_y = my_pos[1] - (last_click[1] - my_pos[1])
-        # convert this screenshot position to a screen position
-        pos_x, pos_y = self.convert_screen_to_abs((mirrored_click_x, mirrored_click_y))
-        Logger.debug('Backtracking to x:{} y:{}'.format(pos_x, pos_y))
-        pather._self.traverse_nodes_fixed(pos_x,pos_y)
+        newpos = convert_abs_to_screen((last_click[0] * - 1, last_click[1] * -1)) ## abs_to_Screen needs to be imported
+        Logger.debug('Backtracking to x:{} y:{}'.format(newpos[0], newpos[1]))
+        self._pather.traverse_nodes_fixed([newpos], self._char)
+        #self._pather.traverse_nodes_fixed(pos_x,pos_y)
     return True
 
 if __name__ == "__main__":

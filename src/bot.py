@@ -48,7 +48,7 @@ class Bot:
         self._game_stats = game_stats
         self._messenger = Messenger()
         self._pather = Pather()
-        self._pickit = PickIt()
+        self._pickit = PickIt(self._pather)
 
         # Create Character
         match Config().char["type"]:
