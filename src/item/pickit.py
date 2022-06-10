@@ -13,7 +13,7 @@ from ui_manager import ScreenObjects, is_visible
 from utils.custom_mouse import mouse
 from config import Config
 from logger import Logger
-from screen import grab, convert_abs_to_monitor, convert_screen_to_monitor, convert_abs_to_screen #last one used for backtrack
+from screen import grab, convert_abs_to_monitor, convert_screen_to_monitor, convert_abs_to_screen, convert_screen_to_abs #last two used for backtrack
 from char import IChar
 from item import consumables
 from item.consumables import ITEM_CONSUMABLES_MAP
@@ -104,8 +104,8 @@ class PickIt:
             pos_m = convert_abs_to_monitor((0,-45))
             mouse.move(*pos_m)
             mouse.click(button="left")
-            self.click_history.append(pos_m)
-            Logger.debug("added" + str(pos_m) + " to our pickit backtrack stack")
+            self.click_history.append(convert_screen_to_abs((item.ScreenX, item.ScreenY)))
+            Logger.debug("added " + str(convert_screen_to_abs((item.ScreenX, item.ScreenY))) + " to our pickit backtrack stack")
             Logger.debug("Our current pickit backtrack stack is: " + str(self.click_history))
         else:
             char.pick_up_item((item.MonitorX, item.MonitorY), item_name=item.Name, prev_cast_start=0.1)
@@ -202,14 +202,14 @@ class PickIt:
         self.click_backtrack(char) #bring us back to the x,y position where we started our pickit.
         return len(self._picked_up_items) >= 1
 
-def click_backtrack(self, char: IChar) -> bool:
-    for _ in self.click_history:
-        last_click = self.click_history.pop()
-        newpos = convert_abs_to_screen((last_click[0] * - 1, last_click[1] * -1)) ## abs_to_Screen needs to be imported
-        Logger.debug('Backtracking to x:{} y:{}'.format(newpos[0], newpos[1]))
-        self._pather.traverse_nodes_fixed([newpos], self._char)
-        #self._pather.traverse_nodes_fixed(pos_x,pos_y)
-    return True
+    def click_backtrack(self, char: IChar) -> bool:
+        for _ in self.click_history:
+            last_click = self.click_history.pop()
+            newpos = convert_abs_to_screen((last_click[0] * - 1, last_click[1] * -1)) ## abs_to_Screen needs to be imported
+            Logger.debug('Backtracking to x:{} y:{}'.format(newpos[0], newpos[1]))
+            self._pather.traverse_nodes_fixed([newpos], char)
+            #self._pather.traverse_nodes_fixed(pos_x,pos_y)
+        return True
 
 if __name__ == "__main__":
     import os
