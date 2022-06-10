@@ -198,6 +198,7 @@ class PickIt:
             i+=1
 
         keyboard.send(Config().char["show_items"])
+        click_backtrack() #bring us back to the x,y position where we started our pickit.
         return len(self._picked_up_items) >= 1
 
 def click_backtrack(self):
