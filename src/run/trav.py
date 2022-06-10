@@ -33,8 +33,8 @@ class Trav:
         char_type = Config().char["type"].lower()
         Logger.info(char_type)
         if char_type == "trapsin":
-            if not self._char.capabilities.can_teleport_natively:
-                raise ValueError(f"Trav for {char_type} requires native teleport")
+            if not self._char.capabilities.can_teleport_natively or not self._char.capabilities.can_teleport_with_charges:
+                raise ValueError(f"Trav for {char_type} requires teleport")
         if not self._town_manager.open_wp(start_loc):
             return False
         wait(0.4)
