@@ -5,6 +5,7 @@ from beautifultable import BeautifulTable
 import logging
 import traceback
 import screen
+import string
 from version import __version__
 from config import Config
 from logger import Logger
@@ -45,6 +46,19 @@ def on_exit():
     restore_d2r_window_visibility()
     os._exit(1)
 
+def startup_checks():
+    # check if paths contain non-ascii characters
+    check_for_non_ascii = {
+        "D2R path": Config().general["d2r_path"],
+        "Windows username": os.getlogin(),
+        "Botty path": os.getcwd()
+    }
+    for key, value in check_for_non_ascii.items():
+        strip_punctuation = value.translate(str.maketrans('', '', string.punctuation))
+        if not len(strip_punctuation) == len(strip_punctuation.encode()):
+            print(f"\n!! WARNING: {key} ({value}) contains incompatible characters. This could result in Botty encoding errors.\n")
+
+
 def main():
     controllers = Controllers(
         GameController(),
@@ -56,6 +70,7 @@ def main():
         Logger.init(logging.DEBUG)
     else:
         print(f"ERROR: Unkown logg_lvl {Config().advanced_options['logg_lvl']}. Must be one of [info, debug]")
+    startup_checks()
 
     # Create folder for debug screenshots if they dont exist yet
     if not os.path.exists("stats"):
@@ -98,4 +113,3 @@ if __name__ == "__main__":
         traceback.print_exc()
     print("Press Enter to exit ...")
     input()
-    

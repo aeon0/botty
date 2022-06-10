@@ -6,6 +6,7 @@ from logger import Logger
 from ui import error_screens
 from ui_manager import detect_screen_object, is_visible, select_screen_object_match, ScreenObjects
 
+MAIN_MENU_MARKERS = ["MAIN_MENU_TOP_LEFT","MAIN_MENU_TOP_LEFT_DARK"]
 
 def _play_active(match) -> bool:
     return match.name == "PLAY_BTN"
@@ -44,7 +45,7 @@ def start_game() -> bool:
             keyboard.release(difficulty_key)
             break
         else:
-            wait(1,2)
+            wait(0.2)
         # check for server issue
         if is_visible(ScreenObjects.ServerError):
             error_screens.handle_error()

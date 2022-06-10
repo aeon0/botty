@@ -1,20 +1,18 @@
 import keyboard
 from utils.custom_mouse import mouse
 from char import IChar
-from template_finder import TemplateFinder
+import template_finder
 from pather import Pather
 from logger import Logger
-from screen import grab, convert_abs_to_monitor, convert_screen_to_abs
+from screen import grab
 from config import Config
 from utils.misc import wait, rotate_vec, unit_vector
 import random
-from typing import Tuple
 from pather import Location, Pather
 import screen as screen
 import numpy as np
 import time
 import os
-from ui_manager import ScreenObjects
 
 class Poison_Necro(IChar):
     def __init__(self, skill_hotkeys: dict, pather: Pather):
@@ -29,7 +27,7 @@ class Poison_Necro(IChar):
         self._pather.offset_node(102, [15, 0])
         self._pather.offset_node(103, [15, 0])
         self._pather.offset_node(101, [100,-5])
-        
+
         #Diablo
         self._pather.offset_node(644, [150, -70])
         self._pather.offset_node(610620, [50, 50])
@@ -49,7 +47,7 @@ class Poison_Necro(IChar):
         roi = [640,0,640,720]
         img = grab()
 
-        template_match = TemplateFinder().search(
+        template_match = template_finder.search(
             ['SHENK_DEATH_1','SHENK_DEATH_2','SHENK_DEATH_3','SHENK_DEATH_4'],
             img,
             threshold=0.6,
@@ -67,7 +65,7 @@ class Poison_Necro(IChar):
         img = grab()
         max_rev = 13
 
-        template_match = TemplateFinder().search(
+        template_match = template_finder.search(
             ['REV_BASE'],
             img,
             threshold=0.6,
@@ -81,7 +79,7 @@ class Poison_Necro(IChar):
 
         for count in range(1,max_rev):
             rev_num = "REV_"+str(count)
-            template_match = TemplateFinder().search(
+            template_match = template_finder.search(
                 [rev_num],
                 img,
                 threshold=0.66,
@@ -102,14 +100,14 @@ class Poison_Necro(IChar):
             wait(0.03, 0.04)
             mouse.press(button="right")
             wait(0.12, 0.2)
-            mouse.release(button="right")    
+            mouse.release(button="right")
 
     def _count_skeletons(self):
         roi = [15,14,400,45]
         img = grab()
         max_skeles = 13
 
-        template_match = TemplateFinder().search(
+        template_match = template_finder.search(
             ['SKELE_BASE'],
             img,
             threshold=0.6,
@@ -123,7 +121,7 @@ class Poison_Necro(IChar):
 
         for count in range(1,max_skeles):
             skele_num = "SKELE_"+str(count)
-            template_match = TemplateFinder().search(
+            template_match = template_finder.search(
                 [skele_num],
                 img,
                 threshold=0.66,
@@ -137,7 +135,7 @@ class Poison_Necro(IChar):
         roi = [15,14,400,45]
         img = grab()
 
-        template_match = TemplateFinder().search(
+        template_match = template_finder.search(
             ['CLAY'],
             img,
             threshold=0.6,
@@ -159,7 +157,7 @@ class Poison_Necro(IChar):
         ''' print counts for summons '''
         Logger.info('\33[31m'+"Summon status | "+str(self._skeletons_count)+"skele | "+str(self._revive_count)+" rev | "+self._golem_count+" |"+'\033[0m')
 
-    def _revive(self, cast_pos_abs: Tuple[float, float], spray: int = 10, cast_count: int=12):
+    def _revive(self, cast_pos_abs: tuple[float, float], spray: int = 10, cast_count: int=12):
         Logger.info('\033[94m'+"raise revive"+'\033[0m')
         keyboard.send(Config().char["stand_still"], do_release=False)
         for _ in range(cast_count):
@@ -188,7 +186,7 @@ class Poison_Necro(IChar):
             mouse.release(button="right")
         keyboard.send(Config().char["stand_still"], do_press=False)
 
-    def _raise_skeleton(self, cast_pos_abs: Tuple[float, float], spray: int = 10, cast_count: int=16):
+    def _raise_skeleton(self, cast_pos_abs: tuple[float, float], spray: int = 10, cast_count: int=16):
         Logger.info('\033[94m'+"raise skeleton"+'\033[0m')
         keyboard.send(Config().char["stand_still"], do_release=False)
         for _ in range(cast_count):
@@ -217,7 +215,7 @@ class Poison_Necro(IChar):
             mouse.release(button="right")
         keyboard.send(Config().char["stand_still"], do_press=False)
 
-    def _raise_mage(self, cast_pos_abs: Tuple[float, float], spray: int = 10, cast_count: int=16):
+    def _raise_mage(self, cast_pos_abs: tuple[float, float], spray: int = 10, cast_count: int=16):
         Logger.info('\033[94m'+"raise mage"+'\033[0m')
         keyboard.send(Config().char["stand_still"], do_release=False)
         for _ in range(cast_count):
@@ -293,7 +291,7 @@ class Poison_Necro(IChar):
 
 
 
-    def _left_attack(self, cast_pos_abs: Tuple[float, float], spray: int = 10):
+    def _left_attack(self, cast_pos_abs: tuple[float, float], spray: int = 10):
         keyboard.send(Config().char["stand_still"], do_release=False)
         if self._skill_hotkeys["skill_left"]:
             keyboard.send(self._skill_hotkeys["skill_left"])
@@ -308,7 +306,7 @@ class Poison_Necro(IChar):
 
         keyboard.send(Config().char["stand_still"], do_press=False)
 
-    def _left_attack_single(self, cast_pos_abs: Tuple[float, float], spray: int = 10, cast_count: int=6):
+    def _left_attack_single(self, cast_pos_abs: tuple[float, float], spray: int = 10, cast_count: int=6):
         keyboard.send(Config().char["stand_still"], do_release=False)
         if self._skill_hotkeys["skill_left"]:
             keyboard.send(self._skill_hotkeys["skill_left"])
@@ -323,7 +321,7 @@ class Poison_Necro(IChar):
 
         keyboard.send(Config().char["stand_still"], do_press=False)
 
-    def _amp_dmg(self, cast_pos_abs: Tuple[float, float], spray: float = 10):
+    def _amp_dmg(self, cast_pos_abs: tuple[float, float], spray: float = 10):
         if self._skill_hotkeys["amp_dmg"]:
             keyboard.send(self._skill_hotkeys["amp_dmg"])
 
@@ -335,7 +333,7 @@ class Poison_Necro(IChar):
         wait(0.25, 0.35)
         mouse.release(button="right")
 
-    def _lower_res(self, cast_pos_abs: Tuple[float, float], spray: float = 10):
+    def _lower_res(self, cast_pos_abs: tuple[float, float], spray: float = 10):
         if self._skill_hotkeys["lower_res"]:
             keyboard.send(self._skill_hotkeys["lower_res"])
 
@@ -345,9 +343,9 @@ class Poison_Necro(IChar):
         mouse.move(*cast_pos_monitor)
         mouse.press(button="right")
         wait(0.25, 0.35)
-        mouse.release(button="right")        
+        mouse.release(button="right")
 
-    def _corpse_explosion(self, cast_pos_abs: Tuple[float, float], spray: int = 10,cast_count: int = 8):
+    def _corpse_explosion(self, cast_pos_abs: tuple[float, float], spray: int = 10,cast_count: int = 8):
         keyboard.send(Config().char["stand_still"], do_release=False)
         Logger.info('\033[93m'+"corpse explosion~> random cast"+'\033[0m')
         for _ in range(cast_count):
@@ -363,10 +361,7 @@ class Poison_Necro(IChar):
         keyboard.send(Config().char["stand_still"], do_press=False)
 
 
-    def _lerp(self,a: float,b: float, f:float):
-        return a + f * (b - a)
-
-    def _cast_circle(self, cast_dir: Tuple[float,float],cast_start_angle: float=0.0, cast_end_angle: float=90.0,cast_div: int = 10,cast_v_div: int=4,cast_spell: str='raise_skeleton',delay: float=1.0,offset: float=1.0):
+    def _cast_circle(self, cast_dir: tuple[float,float],cast_start_angle: float=0.0, cast_end_angle: float=90.0,cast_div: int = 10,cast_v_div: int=4,cast_spell: str='raise_skeleton',delay: float=1.0,offset: float=1.0):
         Logger.info('\033[93m'+"circle cast ~>"+cast_spell+'\033[0m')
         keyboard.send(Config().char["stand_still"], do_release=False)
         keyboard.send(self._skill_hotkeys[cast_spell])
@@ -462,11 +457,11 @@ class Poison_Necro(IChar):
         pos_m = screen.convert_abs_to_monitor((0, -200))
         self.pre_move()
         self.move(pos_m, force_move=True)
-        self._pather.traverse_nodes([229], self, timeout=2.5, force_tp=True, use_tp_charge=True)       
+        self._pather.traverse_nodes([229], self, timeout=2.5, force_tp=True, use_tp_charge=True)
         pos_m = screen.convert_abs_to_monitor((50, 0))
         self.walk(pos_m, force_move=True)
         #self._lower_res((-50, 0), spray=10)
-        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=4,cast_v_div=3,cast_spell='lower_res',delay=1.0)  
+        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=4,cast_v_div=3,cast_spell='lower_res',delay=1.0)
         self.poison_nova(2.0)
         #self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=9,cast_v_div=3,cast_spell='raise_skeleton',delay=1.2,offset=.8)
         pos_m = screen.convert_abs_to_monitor((200, 50))
@@ -529,7 +524,7 @@ class Poison_Necro(IChar):
         self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=7200,cast_div=2,cast_v_div=2,cast_spell='corpse_explosion',delay=3.0,offset=1.8)
         wait(self._cast_duration, self._cast_duration +.2)
         self.poison_nova(3.0)
-        return True 
+        return True
 
     def kill_summoner(self) -> bool:
         # Attack
@@ -543,7 +538,7 @@ class Poison_Necro(IChar):
         self.move(pos_m, force_move=True)
         wait(self._cast_duration, self._cast_duration + 0.2)
         self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=10,cast_v_div=4,cast_spell='raise_mage',delay=1.2,offset=.8)
-        return True               
+        return True
 
 
 if __name__ == "__main__":

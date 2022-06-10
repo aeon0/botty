@@ -4,7 +4,7 @@ from dataclasses import dataclass
 import time
 
 from utils.misc import color_filter, erode_to_black
-from template_finder import TemplateFinder
+import template_finder
 from ocr import Ocr, OcrResult
 from config import Config
 from logger import Logger
@@ -126,7 +126,7 @@ class ItemCropper:
             overlaps_inventory = False if (x+w<box2[0] or box2[0]+box2[2]<x or y+h+50+10<box2[1] or box2[1]+box2[3]<y) else True # padded height because footer isn't included in contour
             if contains_black and (contains_white or contains_orange) and mostly_dark and expected_height and expected_width and overlaps_inventory:
                 footer_height_max = (720 - (y + h)) if (y + h + 35) > 720 else 35
-                found_footer = TemplateFinder().search(["TO_TOOLTIP"], inp_img, threshold=0.8, roi=[x, y+h, w, footer_height_max]).valid
+                found_footer = template_finder.search(["TO_TOOLTIP"], inp_img, threshold=0.8, roi=[x, y+h, w, footer_height_max]).valid
                 if found_footer:
                     ocr_result = self._ocr.image_to_text(cropped_item, psm=6, model=model)[0]
                     result.color = "black"

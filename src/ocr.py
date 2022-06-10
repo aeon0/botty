@@ -7,7 +7,6 @@ from rapidfuzz.string_metric import levenshtein
 import csv
 from utils.misc import erode_to_black
 from logger import Logger
-from typing import List, Union
 from dataclasses import dataclass
 
 @dataclass
@@ -65,7 +64,7 @@ class Ocr:
         return image.tobytes(), width, height, bytes_per_pixel, bytes_per_line
 
     def image_to_text(self,
-        images: Union[np.ndarray, List[np.ndarray]],
+        images: np.ndarray | list[np.ndarray],
         model: str = "engd2r_inv_th",
         psm: int = 3,
         word_list: str = "all_strings.txt",

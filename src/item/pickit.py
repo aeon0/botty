@@ -179,7 +179,6 @@ if __name__ == "__main__":
     from config import Config
     from char.sorceress import LightSorc
     from char.paladin import Hammerdin
-    from template_finder import TemplateFinder
     from pather import Pather
     import keyboard
 

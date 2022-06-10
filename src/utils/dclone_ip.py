@@ -19,11 +19,11 @@ def get_d2r_game_ip():
     return "Unknown game server"
 
 def get_d2r_game_server_region_by_ip(ip):
-    us_server = ["158.115.222", "158.115.221"] 
-    eu_server = ["37.244.11", "37.244.48"] 
-    asia_server = ["34.92"] 
-    asia_mumbai = ["34.93", "35.200", "35.244"] 
-    us_sao_paolo = ["34.95", "35.198", "35.199", "35.247"] 
+    us_server = ["158.115.222", "158.115.221"]
+    eu_server = ["37.244.11", "37.244.48"]
+    asia_server = ["34.92"]
+    asia_mumbai = ["34.93", "35.200", "35.244"]
+    us_sao_paolo = ["34.95", "35.198", "35.199", "35.247"]
     asia_jakarta = ["34.101"]
     if any(tmp in ip for tmp in us_server):
         return "Us Server"
@@ -41,12 +41,13 @@ def get_d2r_game_server_region_by_ip(ip):
         return "Unknown Server"
     else:
         return "Blizzard Server"
-            
+
 if __name__ == "__main__":
     messenger = Messenger()
     if Config().dclone["region_ips"] != "" and Config().dclone["dclone_hotip"] != "":
         print(f"Current Game IP: {get_d2r_game_ip()}")
         print(f"Current Game Server: {get_d2r_game_server_region_by_ip(get_d2r_game_ip())}")
-        messenger.send_message(f"Dclone IP Found on {get_d2r_game_server_region_by_ip(get_d2r_game_ip())} on IP: {get_d2r_game_ip()}")
+        if messenger.enabled:
+            messenger.send_message(f"Dclone IP Found on {get_d2r_game_server_region_by_ip(get_d2r_game_ip())} on IP: {get_d2r_game_ip()}")
     else:
         print(f"Please Enter the region ip and hot ip on config to use")
