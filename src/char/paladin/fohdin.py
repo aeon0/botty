@@ -485,7 +485,7 @@ class FoHdin(Paladin):
             ### ATTACK ###
             self.cs_trash_atk_seq("atk_len_cs_trashmobs", 1)
             ### LOOT ###
-            self._picked_up_items |= self._pickit.pick_up_items(self)            #Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
+            self._picked_up_items |= self._pickit.pick_up_items(self)            #Logger.debug("No attack choreography available in FOHdin.py for this node " + location + " - skipping to shorten run.")
 
         elif location == "layoutcheck_b": #layout check seal B, node 634 B1-S, node 649 B2-U
             ### APPROACH ###
@@ -507,7 +507,7 @@ class FoHdin(Paladin):
             ### APPROACH ###
             ### ATTACK ###
             ### LOOT ###
-            Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
+            Logger.debug("No attack choreography available in FOHdin.py for this node " + location + " - skipping to shorten run.")
 
         elif location == "pent_before_b": #node 602, pentagram, before CTA buff & depature to layout check
             ### APPROACH ###
@@ -598,7 +598,7 @@ class FoHdin(Paladin):
             ### ATTACK ###
             ### LOOT ###
             # we loot at boss
-            Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
+            Logger.debug("No attack choreography available in FOHdin.py for this node " + location + " - skipping to shorten run.")
 
         elif location == "A2-Y_seal1":  #node 625 seal layout A2-Y: fake seal
             ### APPROACH ###
@@ -629,21 +629,21 @@ class FoHdin(Paladin):
             ### ATTACK ###
             ### LOOT ###
             # we loot at boss
-            Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
+            Logger.debug("No attack choreography available in FOHdin.py for this node " + location + " - skipping to shorten run.")
 
         elif location == "B1-S_02":
             ### APPROACH ###
             ### ATTACK ###
             ### LOOT ###
             # we loot at boss
-            Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
+            Logger.debug("No attack choreography available in FOHdin.py for this node " + location + " - skipping to shorten run.")
 
         elif location == "B1-S_03":
             ### APPROACH ###
             ### ATTACK ###
             ### LOOT ###
             # we loot at boss
-            Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
+            Logger.debug("No attack choreography available in FOHdin.py for this node " + location + " - skipping to shorten run.")
 
         elif location == "B1-S_seal2": #B only has 1 seal, which is the boss seal = seal2
             ### APPROACH ###
@@ -664,21 +664,21 @@ class FoHdin(Paladin):
             ### ATTACK ###
             ### LOOT ###
             # we loot at boss
-            Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
+            Logger.debug("No attack choreography available in FOHdin.py for this node " + location + " - skipping to shorten run.")
 
         elif location == "B2-U_02":
             ### APPROACH ###
             ### ATTACK ###
             ### LOOT ###
             # we loot at boss
-            Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
+            Logger.debug("No attack choreography available in FOHdin.py for this node " + location + " - skipping to shorten run.")
 
         elif location == "B2-U_03":
             ### APPROACH ###
             ### ATTACK ###
             ### LOOT ###
             # we loot at boss
-            Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
+            Logger.debug("No attack choreography available in FOHdin.py for this node " + location + " - skipping to shorten run.")
 
         elif location == "B2-U_seal2": #B only has 1 seal, which is the boss seal = seal2
             ### APPROACH ###
@@ -701,21 +701,21 @@ class FoHdin(Paladin):
             ### ATTACK ###
             ### LOOT ###
             # we loot at boss
-            Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
+            Logger.debug("No attack choreography available in FOHdin.py for this node " + location + " - skipping to shorten run.")
 
         elif location == "C1-F_02":
             ### APPROACH ###
             ### ATTACK ###
             ### LOOT ###
             # we loot at boss
-            Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
+            Logger.debug("No attack choreography available in FOHdin.py for this node " + location + " - skipping to shorten run.")
 
         elif location == "C1-F_03":
             ### APPROACH ###
             ### ATTACK ###
             ### LOOT ###
             # we loot at boss
-            Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
+            Logger.debug("No attack choreography available in FOHdin.py for this node " + location + " - skipping to shorten run.")
 
         elif location == "C1-F_seal1":
             ### APPROACH ###
@@ -754,40 +754,48 @@ class FoHdin(Paladin):
             ### ATTACK ###
             ### LOOT ###
             # we loot at boss
-            Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
+            Logger.debug("No attack choreography available in FOHdin.py for this node " + location + " - skipping to shorten run.")
 
         elif location == "C2-G_02": #skipped
             ### APPROACH ###
             ### ATTACK ###
             ### LOOT ###
             # we loot at boss
-            Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
+            Logger.debug("No attack choreography available in FOHdin.py for this node " + location + " - skipping to shorten run.")
 
         elif location == "C2-G_03": #skipped
             ### APPROACH ###
             ### ATTACK ###
             ### LOOT ###
             # we loot at boss
-            Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
+            Logger.debug("No attack choreography available in FOHdin.py for this node " + location + " - skipping to shorten run.")
 
         elif location == "C2-G_seal1":
             ### APPROACH ###
-            #if not self._pather.traverse_nodes([663, 662], self): return False # , timeout=3): #caused 7% failed runs, replaced by static path.
-            self._pather.traverse_nodes_fixed("dia_c2g_lc_661", self)
+            if not self._pather.traverse_nodes([663, 662], self): return False # , timeout=3): #caused 7% failed runs, replaced by static path.
+            #self._pather.traverse_nodes_fixed("dia_c2g_lc_661", self)
             ### ATTACK ###
+            self.cs_trash_atk_seq("atk_len_cs_trashmobs", 1)
             ### LOOT ###
-            # we loot at boss
-            Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
+            self._picked_up_items |= self._pickit.pick_up_items(self)
+            if not self._pather.traverse_nodes([662], self): return False # , timeout=3):
+            if self._skill_hotkeys["redemption"]:
+                keyboard.send(self._skill_hotkeys["redemption"])
+                wait(0.3, 0.6)
 
 
         elif location == "C2-G_seal2":
             ### APPROACH ###
             # Killing infector here, because for C2G its the only seal where a bossfight occures BETWEEN opening seals
             seal_layout="C2-G"
-            self._pather.traverse_nodes_fixed("dia_c2g_663", self)
+            #self._pather.traverse_nodes_fixed("dia_c2g_663", self) #agressive path, quite telestompy
+            if not self._pather.traverse_nodes([662], self): return False # , timeout=3):
             ### ATTACK ###
-            Logger.debug(seal_layout + ": Attacking Infector at position 1/1")
-            self.cs_trash_atk_seq("atk_len_diablo_infector", 1)
+            self.cs_trash_atk_seq("atk_len_cs_trashmobs", 1)
+            Logger.debug("Killing Infector at Position 1/2")
+            if not self._pather.traverse_nodes([663], self): return False # , timeout=3):
+            Logger.debug("Killing Infector at Position 2/2")
+            self.cs_trash_atk_seq("atk_len_cs_trashmobs", 1)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([664, 665], self): return False # , timeout=3):
@@ -853,27 +861,28 @@ class FoHdin(Paladin):
             return False
         return True
 
-### STOP HERE ###
 
     def kill_deseis(self, seal_layout:str) -> bool:
         if seal_layout == "B1-S":
             ### APPROACH ###
-            self._pather.traverse_nodes_fixed("dia_b1s_seal_deseis", self) # quite aggressive path, but has high possibility of directly killing De Seis with first hammers, for 50% of his spawn locations
-            nodes1 = [632]
-            nodes2 = [631]
-            nodes3 = [632]
+            #self._pather.traverse_nodes([633], self, timeout=3) # this should be a more safe spot to attack from as FOHdin.
+            #self._pather.traverse_nodes([634, 636], self, timeout=3) # this should be a more safe spot to attack from as FOHdin. cross river version
+            self._pather.traverse_nodes_fixed("dia_b1s_seal_deseis_foh", self)
+            nodes1 = [631]
+            #nodes2 = [630]
+            #nodes3 = [631]
             ### ATTACK ###
-            Logger.debug(seal_layout + ": Attacking De Seis at position 1/4")
+            Logger.debug(seal_layout + ": Attacking De Seis at position 1/2")
             self.cs_trash_atk_seq("atk_len_diablo_deseis", 1)
-            Logger.debug(seal_layout + ": Attacking De Seis at position 2/4")
+            Logger.debug(seal_layout + ": Attacking De Seis at position 2/2")
             self._pather.traverse_nodes(nodes1, self, timeout=3)
             self.cs_trash_atk_seq("atk_len_diablo_deseis", 1)
-            Logger.debug(seal_layout + ": Attacking De Seis at position 3/4")
-            self._pather.traverse_nodes(nodes2, self, timeout=3)
-            self.cs_trash_atk_seq("atk_len_diablo_deseis", 1)
-            Logger.debug(seal_layout + ": Attacking De Seis at position 4/4")
-            self._pather.traverse_nodes(nodes3, self, timeout=3)
-            self.cs_trash_atk_seq("atk_len_diablo_deseis", 1)
+            #Logger.debug(seal_layout + ": Attacking De Seis at position 3/3")
+            #self._pather.traverse_nodes(nodes2, self, timeout=3)
+            #self.cs_trash_atk_seq("atk_len_diablo_deseis", 1)
+            #Logger.debug(seal_layout + ": Attacking De Seis at position 4/4")
+            #self._pather.traverse_nodes(nodes3, self, timeout=3)
+            #self.cs_trash_atk_seq("atk_len_diablo_deseis", 1)
             wait(2.5, 3.5) # to keep redemption on for a couple of seconds before the next teleport to have more corpses cleared & increase chance to find next template
             Logger.debug(seal_layout + ": Waiting with Redemption active to clear more corpses.")
             #if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_check_deseis_dead" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
@@ -919,16 +928,32 @@ class FoHdin(Paladin):
     def kill_infector(self, seal_layout:str) -> bool:
         if seal_layout == "C1-F":
             ### APPROACH ###
-            self._pather.traverse_nodes_fixed("dia_c1f_652", self)
+            # self._pather.traverse_nodes_fixed("dia_c1f_652", self)
+            # we are FOHdins, we stay where we are
             ### ATTACK ###
-            Logger.debug(seal_layout + ": Attacking Infector at position 1/1")
+            Logger.debug(seal_layout + ": Attacking Infector at position 1/2")
+            self.cs_trash_atk_seq("atk_len_diablo_infector", 1)
+            self._pather.traverse_nodes_fixed("dia_c1f_652", self)
+            Logger.debug(seal_layout + ": Attacking Infector at position 2/2")
             self.cs_trash_atk_seq("atk_len_diablo_infector", 1)
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
 
         elif seal_layout == "C2-G":
             # NOT killing infector here, because for C2G its the only seal where a bossfight occures BETWEEN opening seals his attack sequence can be found in C2-G_seal2
-            Logger.debug(seal_layout + ": No need for attacking Infector at position 1/1 - he was killed during clearing the seal")
+            #Logger.debug(seal_layout + ": No need for attacking Infector at position 1/1 - he was killed during clearing the seal")
+            ### APPROACH ###
+            if not self._pather.traverse_nodes([665], self): return False # , timeout=3):
+            # we are FOHdins, we stay where we are
+            ### ATTACK ###
+            Logger.debug(seal_layout + ": Attacking Infector at position 1/2")
+            self.cs_trash_atk_seq("atk_len_diablo_infector", 1)
+            if not self._pather.traverse_nodes([663], self): return False # , timeout=3):
+            Logger.debug(seal_layout + ": Attacking Infector at position 2/2")
+            self.cs_trash_atk_seq("atk_len_diablo_infector", 1)
+            ### LOOT ###
+            self._picked_up_items |= self._pickit.pick_up_items(self)
+
 
         else:
             Logger.warning(seal_layout + ": Invalid location for kill_infector("+ seal_layout +"), should not happen.")
