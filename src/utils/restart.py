@@ -1,11 +1,11 @@
-import subprocess
 import os, sys
 import keyboard
-from bot import Bot
+import subprocess
+
 import template_finder
 from utils.misc import wait, set_d2r_always_on_top
 from screen import get_offset_state, grab
-from config import Config
+from ui.main_menu import MAIN_MENU_MARKERS
 
 
 def process_exists(process_name):
@@ -16,6 +16,10 @@ def process_exists(process_name):
     last_line = output.strip().split('\r\n')[-1]
     # because Fail message could be translated
     return last_line.lower().startswith(process_name.lower())
+
+def safe_exit(error_code=0):
+    kill_game()
+    os._exit(error_code)
 
 def kill_game():
     while process_exists("D2R.exe"):
@@ -29,7 +33,7 @@ def restart_game(d2r_path, launch_options):
     # This method should function similar to opening the exe via double-click
     os.startfile(f"{d2r_path}/D2R.exe", arguments = launch_options)
     wait(4.4, 5.5)
-    for i in range(20):
+    for _ in range(20):
         keyboard.send("space")
         wait(0.5, 1.0)
     success = False
@@ -39,8 +43,7 @@ def restart_game(d2r_path, launch_options):
         success = get_offset_state()
         wait(0.5, 1.0)
 
-
-    while not template_finder.search(Bot._MAIN_MENU_MARKERS, grab(), best_match=True).valid:
+    while not template_finder.search(MAIN_MENU_MARKERS, grab(), best_match=True).valid:
         keyboard.send("space")
         wait(2.0, 4.0)
         attempts += 1
