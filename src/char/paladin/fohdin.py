@@ -21,57 +21,6 @@ class FoHdin(Paladin):
         self._pather.adapt_path((Location.A3_TRAV_START, Location.A3_TRAV_CENTER_STAIRS), [220, 221, 222, 903, 904, 905, 906])
 
 
-    def _log_cast(self, skill_name: str, cast_pos_abs: tuple[float, float], spray: int, min_duration: float, aura: str):
-        msg = f"Casting skill {skill_name}"
-        if cast_pos_abs:
-            msg += f" at screen coordinate {convert_abs_to_screen(cast_pos_abs)}"
-        if spray:
-            msg += f" with spray of {spray}"
-        if min_duration:
-            msg += f" for {round(min_duration, 1)}s"
-        if aura:
-            msg += f" with {aura} active"
-        Logger.debug(msg)
-
-    def _click_cast(self, cast_pos_abs: tuple[float, float], spray: int, mouse_click_type: str = "left"):
-        if cast_pos_abs:
-            x = cast_pos_abs[0]
-            y = cast_pos_abs[1]
-            if spray:
-                x += (random.random() * 2 * spray - spray)
-                y += (random.random() * 2 * spray - spray)
-            pos_m = convert_abs_to_monitor((x, y))
-            mouse.move(*pos_m, delay_factor=[0.1, 0.2])
-            wait(0.06, 0.08)
-        mouse.press(button = mouse_click_type)
-        wait(0.06, 0.08)
-        mouse.release(button = mouse_click_type)
-
-    def _cast_skill_with_aura(self, skill_name: str, cast_pos_abs: tuple[float, float] = None, spray: int = 0, min_duration: float = 0, aura: str = ""):
-        #self._log_cast(skill_name, cast_pos_abs, spray, min_duration, aura)
-
-        # set aura if needed
-        if aura:
-            self._select_skill(aura, mouse_click_type = "right")
-
-        # ensure character stands still
-        keyboard.send(Config().char["stand_still"], do_release=False)
-
-        # set left hand skill
-        self._select_skill(skill_name, mouse_click_type = "left")
-        wait(0.05, 0.1)
-
-        # cast left hand skill
-        start = time.time()
-        if min_duration:
-            while (time.time() - start) <= min_duration:
-                self._click_cast(cast_pos_abs, spray)
-        else:
-            self._click_cast(cast_pos_abs, spray)
-
-        # release stand still key
-        keyboard.send(Config().char["stand_still"], do_press=False)
-
     def _cast_foh(self, cast_pos_abs: tuple[float, float], spray: int = 10, min_duration: float = 0, aura: str = "conviction"):
         return self._cast_skill_with_aura(skill_name = "foh", cast_pos_abs = cast_pos_abs, spray = spray, min_duration = min_duration, aura = aura)
 
@@ -87,17 +36,6 @@ class FoHdin(Paladin):
         self.pre_move()
         self.move(pos_m, force_move=True)
         self._cast_hammers(atk_len, aura=aura)
-
-    def _activate_redemption_aura(self, delay = [0.6, 0.8]):
-        self._select_skill("redemption", delay=delay)
-
-    def _activate_cleanse_aura(self, delay = [0.3, 0.4]):
-        self._select_skill("cleansing", delay=delay)
-
-    def _activate_cleanse_redemption(self):
-        self._activate_cleanse_aura()
-        self._activate_redemption_aura()
-
 
     def _generic_foh_attack_sequence(
         self,
@@ -135,6 +73,22 @@ class FoHdin(Paladin):
                 break
             target_check_count += 1
         return True
+
+    #FOHdin Attack Sequence Optimized for trash
+    def _cs_attack_sequence(self, min_duration: float = Config().char["atk_len_cs_trashmobs"], max_duration: float = Config().char["atk_len_cs_trashmobs"] * 3):
+        self._generic_foh_attack_sequence(default_target_abs=(20,20), min_duration = min_duration, max_duration = max_duration, default_spray=100, foh_to_holy_bolt_ratio=6)
+        self._activate_redemption_aura()
+
+    def _cs_trash_mobs_attack_sequence(self, min_duration: float = 1.2, max_duration: float = Config().char["atk_len_cs_trashmobs"]):
+        self._cs_attack_sequence(min_duration = min_duration, max_duration = max_duration)
+
+    def _cs_pickit(self, skip_inspect: bool = False):
+        new_items = self._pickit.pick_up_items(self)
+        self._picked_up_items |= new_items
+        if not skip_inspect and new_items:
+            set_panel_check_paused(True)
+            inspect_items(grab(), ignore_sell=True)
+            set_panel_check_paused(False)
 
 
     def kill_pindle(self) -> bool:
@@ -261,22 +215,6 @@ class FoHdin(Paladin):
      ########################################################################################
      # Chaos Sanctuary, Trash, Seal Bosses (a = Vizier, b = De Seis, c = Infector) & Diablo #
      ########################################################################################
-
-    #FOHdin Attack Sequence Optimized for trash
-    def _cs_attack_sequence(self, min_duration: float = Config().char["atk_len_cs_trashmobs"], max_duration: float = Config().char["atk_len_cs_trashmobs"] * 3):
-        self._generic_foh_attack_sequence(default_target_abs=(20,20), min_duration = min_duration, max_duration = max_duration, default_spray=100, foh_to_holy_bolt_ratio=6)
-        self._activate_redemption_aura()
-
-    def _cs_trash_mobs_attack_sequence(self, min_duration: float = 1.2, max_duration: float = Config().char["atk_len_cs_trashmobs"]):
-        self._cs_attack_sequence(min_duration = min_duration, max_duration = max_duration)
-
-    def _cs_pickit(self, skip_inspect: bool = False):
-        new_items = self._pickit.pick_up_items(self)
-        self._picked_up_items |= new_items
-        if not skip_inspect and new_items:
-            set_panel_check_paused(True)
-            inspect_items(grab(), ignore_sell=True)
-            set_panel_check_paused(False)
 
     def kill_cs_trash(self, location:str) -> bool:
 
