@@ -1151,7 +1151,7 @@
 //------------------------------------------------
 [Name] == Heavygloves && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 20     		// Bloodfist Perfect
 [Name] == Chaingloves && [Quality] == Unique && [Flag] != Ethereal # [Itemmagicbonus] >= 40     		// Chance Guards
-[Name] == Lightgauntlets && [Quality] == Unique && [Flag] != Ethereal # // Magefist
+[Name] == Lightgauntlets && [Quality] == Unique && [Flag] != Ethereal // Magefist
 [Name] == Gauntlets && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 10     		// Frostburn
 [Name] == Vampirebonegloves && [Quality] == Unique && [Flag] != Ethereal # [Strength] == 15      // Dracul's Grasp
 [Name] == Ogregauntlets && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddamage] >= 60 && [Strength] >= 20 && [Plusdefense] >= 210   // Steelrend Perfect
