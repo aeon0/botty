@@ -55,32 +55,33 @@ token_transpile_map = {
 def shift(l: list, index: int, value):
     return l[:index] + [value] + l[index+1:]
 
-def transpile(tokens, isPickUpPhase=False, t=None):
+def transpile(tokens: list[Token], isPickUpPhase: bool = False, transpiled_expressions: str = ""):
     expression = ""
     section_start = True
     section_open_paranthesis_count = 0
+    # print("tokens", tokens)
+    # print("detokenize", Lexer().detokenize(tokens))
 
     for i, token in enumerate(tokens):
         if token == None: continue
+        token_value = str(token.value)
         if section_start:
             expression += "("
             section_start = False
             section_open_paranthesis_count += 1
-            
-
         if token.type in token_transpile_map:
-            expression += f"({token_transpile_map[token.type].format(token.value)})"
+            expression += f"({token_transpile_map[token.type].format(token_value)})"
             continue
         match token.type:
             case TokenType.NE | TokenType.GT | TokenType.LT | TokenType.GE | TokenType.LE:
                 if tokens[i + 1].type != TokenType.ValueNTIPAliasFlag:
-                    expression += token.value
+                    expression += token_value
             case TokenType.EQ:
                 if tokens[i + 1].type == TokenType.ValueNTIPAliasFlag: continue
                 if isPickUpPhase and tokens[i + 1].type == TokenType.ValueNTIPAliasIDName: continue
                 expression += "=="
             case TokenType.OR | TokenType.AND | TokenType.LPAREN | TokenType.RPAREN | TokenType.PLUS | TokenType.MINUS | TokenType.MULTIPLY | TokenType.DIVIDE:
-                expression += token.value
+                expression += token_value
                 if token.type == TokenType.LPAREN:
                     section_open_paranthesis_count += 1
                 elif token.type == TokenType.RPAREN:
@@ -88,11 +89,10 @@ def transpile(tokens, isPickUpPhase=False, t=None):
             case TokenType.SECTIONAND:
                 expression += ")"
                 section_open_paranthesis_count -= 1
-                # shift(tokens, i, Token(TokenType.RPAREN, ")"))
-                expression += "and" # * The ')' closes the previous section '('
+                expression += "and"
                 section_start = True
             case TokenType.ValueNTIPAliasStat:
-                expression += f"(int(item_data['NTIPAliasStat'].get('{token.value}', 0)))"
+                expression += f"(int(item_data['NTIPAliasStat'].get('{token_value}', 0)))"
             case TokenType.KeywordNTIPAliasIDName:
                 if not isPickUpPhase:
                     expression += "(str(item_data['NTIPAliasIdName']).lower())"
@@ -103,25 +103,23 @@ def transpile(tokens, isPickUpPhase=False, t=None):
                     match condition_type.type:
                         case TokenType.EQ:
                             expression += f"(item_data['NTIPAliasFlag']['{flag}'])"
-                            break
                         case TokenType.NE:
                             expression += f"(not item_data['NTIPAliasFlag']['{flag}'])"
-                            break
             case TokenType.ValueNTIPAliasIDName:
                 if tokens[i - 2].type == TokenType.KeywordNTIPAliasIDName:
                     if isPickUpPhase:
-                        base, quality = find_unique_or_set_base(token.value)
+                        base, quality = find_unique_or_set_base(token_value)
                         expression += f"(int(item_data['NTIPAliasClassID']))==(int(NTIPAliasClassID['{base}']))and(int(item_data['NTIPAliasQuality']))==(int(NTIPAliasQuality['{quality}']))"
                     else:
-                        expression += f"(str('{token.value}').lower())"
+                        expression += f"(str('{token_value}').lower())"
                 else:
-                    expression += "(-1)"
+                    expression += "(0)"
             case TokenType.KeywordNTIPAliasType:
                 token_after_operator = tokens[i + 2]
                 # * The below code uses short-circuit evaluation
                 expression += f"(int(NTIPAliasType['{token_after_operator.value}']) in item_data['NTIPAliasType'] and int(NTIPAliasType['{token_after_operator.value}']) or -1)"
             case TokenType.UNKNOWN: # * _ is default..
-                expression += "(-1)"
+                expression += "(0)"
 
     for _ in range(section_open_paranthesis_count): # * This is needed to close the last section
         expression += ")"
