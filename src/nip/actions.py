@@ -22,7 +22,6 @@ from nip.transpile import (
     NIPExpression,
     nip_expressions,
     load_nip_expression,
-
     OPENING_PARENTHESIS_COUNT
 )
 from nip.utils import find_unique_or_set_base
@@ -39,6 +38,9 @@ class NIPExpression:
     transpiled: str
     should_pickup: str | None
     tokens: list[Token]
+
+
+
 
 
 def should_keep(item_data):
@@ -213,15 +215,105 @@ Logger.info(f"Loaded {num_files} nip files with {len(nip_expressions)} total exp
 
 
 if __name__ == "__main__":
-    item_data = {'Name': 'Stamina Potion', 'Color': 'white', 'Quality': 'normal', 'Text': 'STAMINA POTION', 'Amount': None, 'BaseItem': {'DisplayName': 'Stamina Potion', 'NTIPAliasClassID': 513, 'NTIPAliasType': 79, 'dimensions': [1, 1]}, 'Item': None, 'NTIPAliasType': [80, 9], 'NTIPAliasClassID': 513, 'NTIPAliasClass': None, 'NTIPAliasQuality': 2, 'NTIPAliasFlag': {'0x10': False, '0x4000000': False, '0x400000': False}}
-    # ((int(NTIPAliasType['gloves']) in item_data['NTIPAliasType'] and int(NTIPAliasType['gloves']) or -1)==(int(NTIPAliasType['gloves']))and(int(item_data['NTIPAliasQuality']))==(int(NTIPAliasQuality['rare']))and(item_data['NTIPAliasFlag']['0x400000']))and((int(item_data['NTIPAliasStat'].get('16', -1)))>=(180.0)and(int(item_data['NTIPAliasStat'].get('252', -1)))>=and((int(item_data['NTIPAliasStat'].get('16', -1)))>=(200.0)or(int(item_data['NTIPAliasStat'].get('93', -1)))>=(10.0)or((int(item_data['NTIPAliasStat'].get('2', -1)))+(int(item_data['NTIPAliasStat'].get('0', -1)))>=(10.0))or(int(item_data['NTIPAliasStat'].get('74', -1)))>=(5.0)or(int(item_data['NTIPAliasStat'].get('188,1', -1)))==(2.0)or(int(item_data['NTIPAliasStat'].get('188,2', -1)))==(2.0)or((int(item_data['NTIPAliasStat'].get('43', -1)))+(int(item_data['NTIPAliasStat'].get('39', -1)))+(int(item_data['NTIPAliasStat'].get('41', -1)))>=(20.0))))
-    # [Name] == Demonhead && [Quality] == Unique && [Flag] == Ethereal # [Strength] >= 30 && [Lifeleech] >= 10    		// Eth Andariel'S Visage
-    # ([Name] == Demonhead || [Name] == Bonevisage || [Name] == Diadem) && [Quality] <= Superior # [Enhanceddefense] > 0 && [Sockets] == 3
-    # ([Name] == Demonhead || [Name] == Bonevisage || [Name] == Spiredhelm || [Name] == Corona) && [Quality] == Magic # [Itemtohitpercentperlevel] >= 1 && ([Fhr] == 10 || [Maxhp] >= 30)      // Visionary Helmet Of X
-    # [Name] == Demonhead && [Quality] == Unique && [Flag] != Ethereal # [Strength] >= 30 && [Lifeleech] >= 10    		// Andariel'S Visage
-    
-    # print(nip_expressions[0].should_id_transpiled)
-    # print(nip_expressions[0].transpiled)
-    print(
-        transpile_nip_expression("[name] == LargeCharm# [itemmagicbonus] >= 6 && [frw] >= 5")
-    )
+    item_data = {
+    "Name": "Harlequin Crest",
+    "Quality": "unique",
+    "Text": "SHAKO|DEFENSE: 141|DURABILITY: 12 OF 12|REQUIRED STRENGTH: 50|UNIDENTIFIED",
+    "BaseItem": {
+        "DisplayName": "Shako",
+        "NTIPAliasClassID": 422,
+        "NTIPAliasType": 37,
+        "NTIPAliasStatProps": {
+            "194": {
+                "min": 0,
+                "max": 2
+            },
+            "72": 12,
+            "73": 12,
+            "31": {
+                "min": 98,
+                "max": 141
+            },
+            "0x400000": {
+                "min": 0,
+                "max": 1
+            }
+        },
+        "dimensions": [
+            2,
+            2
+        ],
+        "uniques": [
+            "HARLEQUINCREST"
+        ],
+        "NTIPAliasClass": 2
+    },
+    "Item": {
+        "DisplayName": "Harlequin Crest",
+        "NTIPAliasClassID": 422,
+        "NTIPAliasType": 37,
+        "NTIPAliasStatProps": {
+            "127": {
+                "min": 2,
+                "max": 2
+            },
+            "216": {
+                "min": False,
+                "max": False,
+                "par": 12
+            },
+            "217": {
+                "min": False,
+                "max": False,
+                "par": 12
+            },
+            "80": {
+                "min": 50,
+                "max": 50
+            },
+            "36": {
+                "min": 10,
+                "max": 10
+            },
+            "0": {
+                "min": 2,
+                "max": 2
+            },
+            "2": {
+                "min": 2,
+                "max": 2
+            },
+            "3": {
+                "min": 2,
+                "max": 2
+            },
+            "1": {
+                "min": 2,
+                "max": 2
+            }
+        }
+    },
+    "NTIPAliasIdName": "SHAKO",
+    "NTIPAliasType": [
+        37,
+        50
+    ],
+    "NTIPAliasClassID": 422,
+    "NTIPAliasClass": 2,
+    "NTIPAliasQuality": 7,
+    "NTIPAliasStat": {None},
+    "NTIPAliasFlag": {
+        "0x10": False,
+        "0x400000": False,
+        "0x4000000": False
+    }
+}
+
+    # item_data.get('NTIPAliasStat', {}).get('194', 0) == 1
+    # print(
+    #     transpile_nip_expression("[Name] == Shako && [Quality] == Unique # [sockets] == 1")
+    # )
+
+    # print(
+    #     should_keep(item_data)
+    # )
