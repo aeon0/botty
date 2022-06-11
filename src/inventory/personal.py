@@ -270,7 +270,7 @@ def open(img: np.ndarray = None) -> np.ndarray:
         img = grab()
     return img
 
-def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_stats: GameStats = None) -> list[BoxInfo]:
+def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_stats: GameStats = None, ignore_sell: bool = False) -> list[BoxInfo]:
     """
     Iterate over all picked items in inventory--ID items and decide which to stash
     :param img: Image in which the item is searched (item details should be visible)
@@ -377,6 +377,8 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
                     keep = keep_item(item_box, found_item) if found_item else False
                 if keep:
                     sell = need_id = False
+                if ignore_sell:
+                    sell = False
 
                 box = BoxInfo(
                     img = item_box.data,
