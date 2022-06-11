@@ -9,6 +9,7 @@ from nip.NTIPAliasType import NTIPAliasType
 import os
 import glob
 import re
+import traceback
 from itertools import groupby
 from dataclasses import dataclass
 
@@ -134,7 +135,12 @@ def should_pickup(item_data):
                 ignore, pick_eval_expr = _handle_pick_eth_sockets(item_data, expression)
                 if ignore:
                     continue
-            property_condition = eval(pick_eval_expr) # * This string in the eval uses the item_data that is being passed in
+
+            try:
+                property_condition = eval(pick_eval_expr) # * This string in the eval uses the item_data that is being passed in
+            except Exception as e:
+                print(e,expression,)
+                return
             if property_condition:
                 return True, expression.raw
        
@@ -161,6 +167,7 @@ def should_id(item_data):
                     return id
             return id
 
+
 def load_nip_expressions(filepath):
     with open(filepath, "r") as f:
         for i, line in enumerate(f):
@@ -169,10 +176,11 @@ def load_nip_expressions(filepath):
                 continue
             try:
                 load_nip_expression(line)
-                
             except Exception as e:
                 file = filepath.split('\\config/')[1].replace("/", "\\")
                 print(f"{file}:{e}:line {i + 1}") # TODO look at these errors
+                if False and traceback.print_exc(): # * Switch between True and False for debugging
+                    break
                 
 
 
@@ -209,17 +217,6 @@ Logger.info(f"Loaded {num_files} nip files with {len(nip_expressions)} total exp
 
 
 
-# print(nip_expressions)
-# for expression in nip_expressions:
-#     print(expression.raw)
-#     print(expression.tokens)
-#     print("\n")
-
-# with open("bad_lines.txt", "w") as f:
-#     for expression in nip_expressions:
-#         f.write(f"{expression.raw}" + "\n")
-
-
 if __name__ == "__main__":
     item_data = {'Name': 'Stamina Potion', 'Color': 'white', 'Quality': 'normal', 'Text': 'STAMINA POTION', 'Amount': None, 'BaseItem': {'DisplayName': 'Stamina Potion', 'NTIPAliasClassID': 513, 'NTIPAliasType': 79, 'dimensions': [1, 1]}, 'Item': None, 'NTIPAliasType': [80, 9], 'NTIPAliasClassID': 513, 'NTIPAliasClass': None, 'NTIPAliasQuality': 2, 'NTIPAliasFlag': {'0x10': False, '0x4000000': False, '0x400000': False}}
     # ((int(NTIPAliasType['gloves']) in item_data['NTIPAliasType'] and int(NTIPAliasType['gloves']) or -1)==(int(NTIPAliasType['gloves']))and(int(item_data['NTIPAliasQuality']))==(int(NTIPAliasQuality['rare']))and(item_data['NTIPAliasFlag']['0x400000']))and((int(item_data['NTIPAliasStat'].get('16', -1)))>=(180.0)and(int(item_data['NTIPAliasStat'].get('252', -1)))>=and((int(item_data['NTIPAliasStat'].get('16', -1)))>=(200.0)or(int(item_data['NTIPAliasStat'].get('93', -1)))>=(10.0)or((int(item_data['NTIPAliasStat'].get('2', -1)))+(int(item_data['NTIPAliasStat'].get('0', -1)))>=(10.0))or(int(item_data['NTIPAliasStat'].get('74', -1)))>=(5.0)or(int(item_data['NTIPAliasStat'].get('188,1', -1)))==(2.0)or(int(item_data['NTIPAliasStat'].get('188,2', -1)))==(2.0)or((int(item_data['NTIPAliasStat'].get('43', -1)))+(int(item_data['NTIPAliasStat'].get('39', -1)))+(int(item_data['NTIPAliasStat'].get('41', -1)))>=(20.0))))
@@ -227,21 +224,7 @@ if __name__ == "__main__":
     # ([Name] == Demonhead || [Name] == Bonevisage || [Name] == Diadem) && [Quality] <= Superior # [Enhanceddefense] > 0 && [Sockets] == 3
     # ([Name] == Demonhead || [Name] == Bonevisage || [Name] == Spiredhelm || [Name] == Corona) && [Quality] == Magic # [Itemtohitpercentperlevel] >= 1 && ([Fhr] == 10 || [Maxhp] >= 30)      // Visionary Helmet Of X
     # [Name] == Demonhead && [Quality] == Unique && [Flag] != Ethereal # [Strength] >= 30 && [Lifeleech] >= 10    		// Andariel'S Visage
-
+    
+    print(nip_expressions[0].should_id_transpiled)
+    print(nip_expressions[0].transpiled)
     # print(
-    #     eval(transpile_nip_expression(
-    #         '[Name] == Demonhead && [Quality] == Unique && [Flag] == Ethereal # [Strength] >= 30 && [Lifeleech] >= 10'
-    #     ))
-    # )
-
-    print(
-        eval(transpile_nip_expression(
-            '([Name] == Demonhead || [Name] == Bonevisage)'
-        ))
-    )
-
-    # print(
-    #     eval(transpile_nip_expression(
-    #         '([Name] == Demonhead || [Name] == Bonevisage || [Name] == Spiredhelm || [Name] == Corona) && [Quality] == Magic # [Itemtohitpercentperlevel] >= 1 && ([Fhr] == 10 || [Maxhp] >= 30)'
-    #     ))
-    # )

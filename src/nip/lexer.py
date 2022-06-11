@@ -58,12 +58,12 @@ class Lexer:
     def get_text(self):
         return "".join(self.text)
 
+
     def get_current_iteration_of_text_raw(self):
         """
             Returns the self.text in a string type, and at its current iteration.
         """
         return self.get_text()[self.text_i:]
-
 
     def _advance(self):
         try:
@@ -126,7 +126,6 @@ class Lexer:
 
 
     def _create_math_operator(self):
-        symbol = self.current_token
         symbol_map = {
             '+': TokenType.PLUS,
             '-': TokenType.MINUS,
@@ -137,6 +136,8 @@ class Lexer:
             "(": TokenType.LPAREN,
             ")": TokenType.RPAREN
         }
+
+        symbol = self.current_token
 
         if symbol in symbol_map:
             return Token(symbol_map[symbol], symbol)
@@ -161,7 +162,6 @@ class Lexer:
         if lookup_key:
             if self.current_section == NipSections.PROP:
                     match lookup_key:
-
                         case "name":
                             return Token(TokenType.KeywordNTIPAliasName, lookup_key)
                         case "flag":
@@ -227,11 +227,14 @@ class Lexer:
             elif lookup_key in NTIPAliasType and self.tokens[-2].type == TokenType.KeywordNTIPAliasType:
                 return Token(TokenType.ValueNTIPAliasType, lookup_key)
             else:
-                # Add all the NTIPAlias* to a dict
-                NTIPAliasAll = NTIPAliasClass | NTIPAliasQuality | NTIPAliasClassID | NTIPAliasFlag | NTIPAliasType
-                for key in NTIPAliasAll:
-                    if levenshtein(lookup_key, key) < 3:
-                        raise NipSyntaxError( "NIP_0x4", f"Unknown NTIP lookup: {lookup_key} did you mean {key}?", self.get_text())
+                if self.tokens[-2].type != TokenType.KeywordNTIPAliasIDName: # * Make sure the last token isn't [idname]
+                    # Add all the NTIPAlias* to a dict
+                    NTIPAliasAll = NTIPAliasClass | NTIPAliasQuality | NTIPAliasClassID | NTIPAliasFlag | NTIPAliasType
+                    for key in NTIPAliasAll:
+                        if levenshtein(lookup_key, key) < 3:
+                            raise NipSyntaxError( "NIP_0x4", f"Unknown NTIP lookup: {lookup_key} did you mean {key}?", self.get_text())
+                else:
+                    return Token(TokenType.ValueNTIPAliasIDName, lookup_key)
                 
                 return Token(TokenType.UNKNOWN, lookup_key)
         elif self.current_section == NipSections.STAT:
@@ -243,8 +246,6 @@ class Lexer:
 
     def _create_logical_operator(self) -> Token:
         char = self.current_token
-        # print(self.get_current_iteration_of_text_raw(), 123)
-        # self._advance()
         logical_operator_map = {
             ">": TokenType.GT,
             "<": TokenType.LT,

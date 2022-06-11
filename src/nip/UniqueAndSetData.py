@@ -3102,3 +3102,17 @@ UniqueAndSetData = {
         ]
     }
 }
+
+# set_and_unique_names = []
+
+# for k, v in UniqueAndSetData.items():
+#     if "sets" in v:
+#         for set_name in v["sets"][0]:
+#             set_and_unique_names.append(set_name.lower())
+#     if "uniques" in v:
+#         for unique_name in v["uniques"][0]:
+#             set_and_unique_names.append(unique_name.lower())
+# import json
+# # print("goldwrap".lower() in set_and_unique_names)
+
+# print(json.dumps(set_and_unique_names, indent=4))

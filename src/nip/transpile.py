@@ -4,23 +4,16 @@ from nip.NTIPAliasClassID import NTIPAliasClassID
 from nip.NTIPAliasFlag import NTIPAliasFlag
 from nip.NTIPAliasStat import NTIPAliasStat
 from nip.NTIPAliasType import NTIPAliasType
-
+from nip.NTIPAliasItemIDNames import NTIPAliasItemIDNames
 
 # ! The above imports are necessary, they are used within the eval statements. Your text editor probably is not showing them as not in use.
-import os
-import glob
-import re
-from itertools import groupby
-from dataclasses import dataclass
 
+from dataclasses import dataclass
 from nip.lexer import Lexer, NipSyntaxError, NipSections
 from nip.tokens import Token, TokenType
 from nip.utils import find_unique_or_set_base
-from logger import Logger
-
 
 class NipSyntaxErrorSection(NipSyntaxError): 
-    
     # TODO CONVERT THIS TO THE OTHER ERROR CLASS IN lexer.py
     
     def __init__(self, token, section):
@@ -41,131 +34,199 @@ class NIPExpression:
 nip_expressions: list[NIPExpression] = []
 
 
-def _create_nip_keyword_string(NTIPAlias) -> str:
-    """keyword like [strength] or [sockets] ect"""
-    return  f"(int(item_data['{NTIPAlias}']))"
+token_transpile_map = {
 
+    TokenType.NUMBER: "{}",
+    # TokenType.NUMBERPERCENT: "int({})",
 
-def _create_nip_value_string(NTIPAlias, NTIPAliasKey) -> str:
-    """value like ring or sorceressitem ect"""
-    return f"(int({NTIPAlias}['{NTIPAliasKey}']))"
+    # TokenType.KeywordNTIPAliasIDName: "str(item_data['NTIPAliasIdName']).lower()", # * Special case
+    TokenType.KeywordNTIPAliasName: "int(item_data['NTIPAliasClassID'])", # * [name] (NTIPAliasName) is an alias for NTIPAliasClassID
+    TokenType.KeywordNTIPAliasClass: "int(item_data['NTIPAliasClass'])", # * This is not ClassID, but Class which refers to normal, expectational, elte
+    TokenType.KeywordNTIPAliasQuality: "int(item_data['NTIPAliasQuality'])", 
+    # TokenType.KeywordNTIPAliasType: "int(item_data['NTIPAliasType'])", # * Special case
+    # TokenType.KeywordNTIPAliasFlag: "int(item_data['NTIPAliasFlag'])", # * Special case
 
+    # TokenType.ValueNTIPAliasFlag: "NTIPAliasFlag['{}']", # * Special case
+    TokenType.ValueNTIPAliasType: "int(NTIPAliasType['{}'])",
+    TokenType.ValueNTIPAliasClass: "int(NTIPAliasClass['{}'])",
+    TokenType.ValueNTIPAliasQuality: "int(NTIPAliasQuality['{}'])",
+    TokenType.ValueNTIPAliasClassID: "int(NTIPAliasClassID['{}'])",
+    # TokenType.ValueNTIPAliasIDName : "str(NTIPAliasIDName['{}']).lower()", # * Special case
+}
+def shift(l: list, index: int, value):
+    return l[:index] + [value] + l[index+1:]
 
-def transpile(tokens, isPickUpPhase=False):
+def transpile(tokens, isPickUpPhase=False, t=None):
     expression = ""
     section_start = True
+    section_open_paranthesis_count = 0
+
     for i, token in enumerate(tokens):
+        if token == None: continue
         if section_start:
             expression += "("
             section_start = False
-        if token == None:
+            section_open_paranthesis_count += 1
+            
+
+        if token.type in token_transpile_map:
+            expression += f"({token_transpile_map[token.type].format(token.value)})"
             continue
-        if token.type == TokenType.ValueNTIPAliasStat:
-            if len(tokens) >= i + 2 and tokens[i + 2].type == TokenType.NUMBERPERCENT: # Look at the other side of the comparsion.
-                expression += f"(int(-1))" # Ignore it since it wasn't a dict and the user tried to use a %
-                # Write an expression to test make sure the item_data['Item']['NTIPAliasStatProps'] is a dict.
-                # stat_value = f"(item_data['NTIPAliasStat']['{token.value}'])"
-                # stat_min_max = f"(item_data['Item']['NTIPAliasStatProps']['{token.value}'])"
-                # is_dict = eval(f"isinstance({stat_min_max}, dict)") # ghetto, but for now, ok..
-                # if is_dict:
-                    # expression += f"(int(({stat_value} - {stat_min_max}['min']) * 100.0 / ({stat_min_max}['max'] - {stat_min_max}['min'])))"
-                # else:
-            else:
-                expression += f"(int(item_data['NTIPAliasStat'].get('{token.value}', -1)))"
-                # expression += _create_nip_value_string(token.value)
-                # stat_value = f"(item_data['NTIPAliasStat']['{token.value}'])"
-                # stat_min_max = f"(item_data['Item']['NTIPAliasStatProps']['{token.value}'])"
-                # clamp value between min and max
-                # expression += f"(({stat_value} >= {stat_min_max}['max'] and {stat_min_max}['max']) or ({stat_value} <= {stat_min_max}['min'] and {stat_min_max}['min']) or {stat_value})"
-                # expression += f"(int(item_data['NTIPAliasStat']['{token.value}']))"
-
-        elif token.type == TokenType.ValueNTIPAliasFlag:
-            pass
-            # we don't need the flag value here, it's used below
-            # expression += f"NTIPAliasFlag['{token.value}']"
-        elif (token.type == TokenType.ValueNTIPAliasType or
-             token.type == TokenType.ValueNTIPAliasClass or
-             token.type == TokenType.ValueNTIPAliasQuality or
-             token.type == TokenType.ValueNTIPAliasClassID):
-            token_data = token.data()
-            expression += _create_nip_value_string(token_data["type"].replace("Value", ""), token_data["value"])
-            # expression += f"(int(NTIPAliasType['{token.value}']))"
-        elif token.type == TokenType.KeywordNTIPAliasIDName:
-            if not isPickUpPhase:
-                expression += "(str(item_data['NTIPAliasIdName']).lower())"
-        elif token.type == TokenType.KeywordNTIPAliasName:
-            expression += "(int(item_data['NTIPAliasClassID']))"
-        elif token.type == TokenType.KeywordNTIPAliasClass:
-            expression += "(int(item_data['NTIPAliasClass']))"
-            # token_data = token.data()
-            # expression += _create_nip_keyword_string(token_data["type"].replace("Value", ""))
-        elif token.type == TokenType.KeywordNTIPAliasQuality:
-            expression += "(int(item_data['NTIPAliasQuality']))"
-        elif token.type == TokenType.KeywordNTIPAliasFlag:
-            if tokens[i + 2].type == TokenType.ValueNTIPAliasFlag:
-                condition_type = tokens[i + 1]
-                if condition_type.type == TokenType.EQ:
-                    expression += f"(item_data['NTIPAliasFlag']['{NTIPAliasFlag[tokens[i + 2].value]}'])"
-                elif condition_type.type == TokenType.NE:
-                    expression += f"(not item_data['NTIPAliasFlag']['{NTIPAliasFlag[tokens[i + 2].value]}'])"
-            # Check if the flag we're looking for (i.e ethereal) is i + 2 away from here, if it is, grab it's value (0x400000) and place it inside the lookup.
-        elif token.type == TokenType.KeywordNTIPAliasType:
-            # expression += "(int(item_data['NTIPAliasType']))"
-            # NTIPAliasType["ring"] in item["NTIPAliasType"] and NTIPAliasType["ring"] or -1
-            operator = tokens[i + 1]
-            next_type = tokens[i + 2] # The type we're looking for
-            expression += f"(int(NTIPAliasType['{next_type.value}']) in item_data['NTIPAliasType'] and int(NTIPAliasType['{next_type.value}']) or -1)"
-        elif token.type == TokenType.EQ:
-            if tokens[i + 1].type != TokenType.ValueNTIPAliasFlag:
-                if not isPickUpPhase:
-                    expression += "=="
-                else:
-                    if not tokens[i - 1].type == TokenType.KeywordNTIPAliasIDName:
-                        expression += "=="
-        elif token.type == TokenType.NE:
-            if tokens[i + 1].type != TokenType.ValueNTIPAliasFlag:
-                expression += "!="
-        elif token.type == TokenType.GT:
-            if tokens[i + 1].type != TokenType.ValueNTIPAliasFlag:
-                expression += ">"
-        elif token.type == TokenType.LT:
-            if tokens[i + 1].type != TokenType.ValueNTIPAliasFlag:
-                expression += "<"
-        elif token.type == TokenType.GE:
-            if tokens[i + 1].type != TokenType.ValueNTIPAliasFlag:
-                expression += ">="
-        elif token.type == TokenType.LE:
-            if tokens[i + 1].type != TokenType.ValueNTIPAliasFlag:
-                expression += "<="
-        elif token.type == TokenType.NUMBER:
-            expression += f"({token.value})"
-        elif token.type == TokenType.NUMBERPERCENT:
-            expression += f"int({token.value})"
-        elif token.type == TokenType.AND:
-            if tokens[i - 1].type != TokenType.AND:
-                expression += "and"
-        elif token.type == TokenType.SECTIONAND:
-            if tokens[i - 1].type != TokenType.SECTIONAND:
+        match token.type:
+            case TokenType.NE | TokenType.GT | TokenType.LT | TokenType.GE | TokenType.LE:
+                if tokens[i + 1].type != TokenType.ValueNTIPAliasFlag:
+                    expression += token.value
+            case TokenType.EQ:
+                if tokens[i + 1].type == TokenType.ValueNTIPAliasFlag: continue
+                if isPickUpPhase and tokens[i + 1].type == TokenType.ValueNTIPAliasIDName: continue
+                expression += "=="
+            case TokenType.OR | TokenType.AND | TokenType.LPAREN | TokenType.RPAREN | TokenType.PLUS | TokenType.MINUS | TokenType.MULTIPLY | TokenType.DIVIDE:
+                expression += token.value
+                if token.type == TokenType.LPAREN:
+                    section_open_paranthesis_count += 1
+                elif token.type == TokenType.RPAREN:
+                    section_open_paranthesis_count -= 1
+            case TokenType.SECTIONAND:
                 expression += ")"
-                expression += "and"
+                section_open_paranthesis_count -= 1
+                # shift(tokens, i, Token(TokenType.RPAREN, ")"))
+                expression += "and" # * The ')' closes the previous section '('
                 section_start = True
-        elif token.type == TokenType.UNKNOWN:
-            if tokens[i - 2].type == TokenType.KeywordNTIPAliasIDName:
-                if isPickUpPhase:
-                    base, quality = find_unique_or_set_base(token.value)
-                    expression += f"(int(item_data['NTIPAliasClassID']))==(int(NTIPAliasClassID['{base}']))and(int(item_data['NTIPAliasQuality']))==(int(NTIPAliasQuality['{quality}']))"
+            case TokenType.ValueNTIPAliasStat:
+                expression += f"(int(item_data['NTIPAliasStat'].get('{token.value}', -1)))"
+            case TokenType.KeywordNTIPAliasIDName:
+                if not isPickUpPhase:
+                    expression += "(str(item_data['NTIPAliasIdName']).lower())"
+            case TokenType.KeywordNTIPAliasFlag:
+                if tokens[i + 2].type == TokenType.ValueNTIPAliasFlag: # * Get the token after the operator
+                    condition_type = tokens[i + 1] # * Get the operator
+                    flag = NTIPAliasFlag[tokens[i + 2].value] # * I.E if the input is ethereal, flag would be equal to "0x400000" (which is a string)
+                    match condition_type.type:
+                        case TokenType.EQ:
+                            expression += f"(item_data['NTIPAliasFlag']['{flag}'])"
+                            break
+                        case TokenType.NE:
+                            expression += f"(not item_data['NTIPAliasFlag']['{flag}'])"
+                            break
+            case TokenType.ValueNTIPAliasIDName:
+                if tokens[i - 2].type == TokenType.KeywordNTIPAliasIDName:
+                    if isPickUpPhase:
+                        base, quality = find_unique_or_set_base(token.value)
+                        expression += f"(int(item_data['NTIPAliasClassID']))==(int(NTIPAliasClassID['{base}']))and(int(item_data['NTIPAliasQuality']))==(int(NTIPAliasQuality['{quality}']))"
+                    else:
+                        expression += f"(str('{token.value}').lower())"
                 else:
-                    expression += f"(str('{token.value}').lower())"
-            else:
+                    expression += "(-1)"
+            case TokenType.KeywordNTIPAliasType:
+                token_after_operator = tokens[i + 2]
+                # * The below code uses short-circuit evaluation
+                expression += f"(int(NTIPAliasType['{token_after_operator.value}']) in item_data['NTIPAliasType'] and int(NTIPAliasType['{token_after_operator.value}']) or -1)"
+            case TokenType.UNKNOWN: # * _ is default..
                 expression += "(-1)"
-        else:
-            expression += f"{token.value}"
-        expression += "" # add space if spaces are needed
-    expression += ")" # * Close the last bracket since there is no other section and to close it.
+
+    for _ in range(section_open_paranthesis_count): # * This is needed to close the last section
+        expression += ")"
     return expression
+                        
+# TODO don't forget to remove this when done with it
+"""def transpile(tokens, isPickUpPhase=False):
+#     print(tokens)
+#     expression = ""
+#     section_start = True
+#     for i, token in enumerate(tokens):
+#         if section_start:
+#             expression += "("
+#             section_start = False
+#         if token.type == TokenType.ValueNTIPAliasStat:
+#             if len(tokens) >= i + 2 and tokens[i + 2].type == TokenType.NUMBERPERCENT: # Look at the other side of the comparsion.
+#                 expression += f"(int(-1))" # Ignore it since it wasn't a dict and the user tried to use a %
+#                 # Write an expression to test make sure the item_data['Item']['NTIPAliasStatProps'] is a dict.
+#                 # stat_value = f"(item_data['NTIPAliasStat']['{token.value}'])"
+#                 # stat_min_max = f"(item_data['Item']['NTIPAliasStatProps']['{token.value}'])"
+#                 # is_dict = eval(f"isinstance({stat_min_max}, dict)") # ghetto, but for now, ok..
+#                 # if is_dict:
+#                     # expression += f"(int(({stat_value} - {stat_min_max}['min']) * 100.0 / ({stat_min_max}['max'] - {stat_min_max}['min'])))"
+#                 # else:
+#             else:
+#                 expression += f"(int(item_data['NTIPAliasStat'].get('{token.value}', -1)))"
+#                 # expression += _create_nip_value_string(token.value)
+#                 # stat_value = f"(item_data['NTIPAliasStat']['{token.value}'])"
+#                 # stat_min_max = f"(item_data['Item']['NTIPAliasStatProps']['{token.value}'])"
+#                 # clamp value between min and max
+#                 # expression += f"(({stat_value} >= {stat_min_max}['max'] and {stat_min_max}['max']) or ({stat_value} <= {stat_min_max}['min'] and {stat_min_max}['min']) or {stat_value})"
+#                 # expression += f"(int(item_data['NTIPAliasStat']['{token.value}']))"
+
+#         elif token.type == TokenType.ValueNTIPAliasFlag:
+#             pass
+#             # we don't need the flag value here, it's used below
+#             # expression += f"NTIPAliasFlag['{token.value}']"
+#         elif (token.type == TokenType.ValueNTIPAliasType or
+#              token.type == TokenType.ValueNTIPAliasClass or
+#              token.type == TokenType.ValueNTIPAliasQuality or
+#              token.type == TokenType.ValueNTIPAliasClassID):
+#             token_data = token.data()
+#             expression += _create_nip_value_string(token_data["type"], token_data["value"])
+#         elif (
+#             token.type == TokenType.KeywordNTIPAliasName or
+#             token.type == TokenType.KeywordNTIPAliasClass or
+#             token.type == TokenType.KeywordNTIPAliasQuality
+#         ):
+#             token_data = token.data()
+#             expression += _create_nip_keyword_string(token_data["type"].replace("Keyword", ""))
+#         elif token.type == TokenType.KeywordNTIPAliasIDName:
+#             if not isPickUpPhase:
+#                 expression += "(str(item_data['NTIPAliasIdName']).lower())"
+#         elif token.type == TokenType.KeywordNTIPAliasFlag:
+#             if tokens[i + 2].type == TokenType.ValueNTIPAliasFlag:
+#                 condition_type = tokens[i + 1]
+#                 if condition_type.type == TokenType.EQ:
+#                     expression += f"(item_data['NTIPAliasFlag']['{NTIPAliasFlag[tokens[i + 2].value]}'])"
+#                 elif condition_type.type == TokenType.NE:
+#                     expression += f"(not item_data['NTIPAliasFlag']['{NTIPAliasFlag[tokens[i + 2].value]}'])"
+#             # Check if the flag we're looking for (i.e ethereal) is i + 2 away from here, if it is, grab it's value (0x400000) and place it inside the lookup.
+#         elif token.type == TokenType.KeywordNTIPAliasType:
+#             next_type = tokens[i + 2] # The type we're looking for
+#             expression += f"(int(NTIPAliasType['{next_type.value}']) in item_data['NTIPAliasType'] and int(NTIPAliasType['{next_type.value}']) or -1)"
+#         elif token.type == TokenType.EQ:
+#             if tokens[i + 1].type != TokenType.ValueNTIPAliasFlag:
+#                 if not isPickUpPhase:
+#                     expression += "=="
+#                 else:
+#                     if not tokens[i - 1].type == TokenType.KeywordNTIPAliasIDName:
+#                         expression += "=="
+#         elif token.type in [TokenType.NE, TokenType.GT, TokenType.LT, TokenType.GE, TokenType.LE]:
+#             if tokens[i + 1].type != TokenType.ValueNTIPAliasFlag:
+#                 expression += token.value
+#         elif token.type == TokenType.NUMBER:
+#             expression += f"({token.value})"
+#         elif token.type == TokenType.NUMBERPERCENT:
+#             expression += f"int({token.value})"
+#         elif token.type == TokenType.AND:
+#             if tokens[i - 1].type != TokenType.AND:
+#                 expression += "and"
+#         elif token.type == TokenType.SECTIONAND:
+#             if tokens[i - 1].type != TokenType.SECTIONAND:
+#                 expression += ")"
+#                 expression += "and"
+#                 section_start = True
+#         elif token.type == TokenType.UNKNOWN:
+#             if tokens[i - 2].type == TokenType.KeywordNTIPAliasIDName:
+#                 if isPickUpPhase:
+#                     base, quality = find_unique_or_set_base(token.value)
+#                     expression += f"(int(item_data['NTIPAliasClassID']))==(int(NTIPAliasClassID['{base}']))and(int(item_data['NTIPAliasQuality']))==(int(NTIPAliasQuality['{quality}']))"
+#                 else:
+#                     expression += f"(str('{token.value}').lower())"
+#             else:
+#                 expression += "(-1)"
+#         else:
+#             expression += f"{token.value}"
+#         expression += "" # add space if spaces are needed
+#     expression += ")" # * Close the last bracket since there is no other section and to close it.
+#     return expression
+"""
 
 
-def validate_correct_math_syntax(current_pos, all_tokens, left_token=None, right_token=None):
+def validate_correct_math_syntax(left_token=None, right_token=None):
     """Makes sure that there are no invalid math operations going on inside the expression"""
     allowed_left_and_right_tokens = [
         TokenType.ValueNTIPAliasClass,
@@ -190,7 +251,7 @@ def validate_correct_math_syntax(current_pos, all_tokens, left_token=None, right
     if right_token and right_token.type not in allowed_left_and_right_tokens:
         raise NipSyntaxError("NIP_0x7", "unexpected token on right of math operator")
 
-OPENING_PARENTHESIS_COUNT = 0 # 
+OPENING_PARENTHESIS_COUNT = 0
 def validate_correct_parenthesis_syntax(current_pos, all_tokens, left_token=None, right_token=None):
     """Makes sure that every parenthesis is closed and that there are no unclosed parenthesis."""
     global OPENING_PARENTHESIS_COUNT
@@ -201,6 +262,12 @@ def validate_correct_parenthesis_syntax(current_pos, all_tokens, left_token=None
         OPENING_PARENTHESIS_COUNT += 1
     elif token.type == TokenType.RPAREN:
         OPENING_PARENTHESIS_COUNT -= 1
+       
+        # * Backtrace until the last opening to make sure it wasn't from the past section.
+        for i in range(current_pos, -1, -1):
+            # print(all_tokens[i].type)
+            if all_tokens[i].type == TokenType.SECTIONAND:
+                raise NipSyntaxError("NIP_0x8", "parenthesis cannot cross the section and (#)")
     
     if current_pos == len(all_tokens) - 1:
         if OPENING_PARENTHESIS_COUNT != 0:
@@ -213,7 +280,6 @@ def validate_correct_parenthesis_syntax(current_pos, all_tokens, left_token=None
                 raise NipSyntaxError("NIP_0x9", "unopened parenthesis")
         OPENING_PARENTHESIS_COUNT = 0
         
-
 def validate_digits_syntax(left=None, right=None):
     """Makes sure that the left and right tokens are valid to be next to a digit."""
     allowed_left_and_right_tokens = [
@@ -271,7 +337,6 @@ def validate_logical_operators(left=None, right=None):
     ]
     if left:
         if left.type not in allowed_left_and_right_tokens + [TokenType.RPAREN]:
-            print(left)
             raise NipSyntaxError("NIP_0x12", "Expected token on left of logical operator")
     if right:
         if right.type not in allowed_left_and_right_tokens + [TokenType.LPAREN]:
@@ -344,10 +409,11 @@ def validate_nip_expression_syntax(nip_expression): # * enforces that {property}
         if token.type == TokenType.LPAREN or token.type == TokenType.RPAREN or i == len(all_tokens) - 1: # * Also check the last token no matter what so if there is an opening parenthesis without a closing parenthesis it will raise an error
             validate_correct_parenthesis_syntax(i, all_tokens, left_token=left, right_token=right)
         elif token.type == TokenType.EQ:
-            if i == len(all_tokens) - 1: # * Check to make sure the next token is a token.
+            if i == len(all_tokens) - 1: # * Check to make sure the next token is a token. 
+                # ! the logic only makes sense for the last token, what the fuck
                 raise NipSyntaxError("NIP_0x15", "No value after equal sign")
         elif token.type in math_tokens:
-            validate_correct_math_syntax(i, all_tokens, left_token=left, right_token=right)
+            validate_correct_math_syntax(left_token=left, right_token=right)
         # * Make sure two numbers aren't next to each other.
         elif token.type == TokenType.NUMBER or token.type == TokenType.UNKNOWN:
             validate_digits_syntax(left=left, right=right)
@@ -383,7 +449,6 @@ def get_section_from_tokens(all_tokens: list[Token], section: NipSections | None
             temp_section = []
         else:
             temp_section.append(token)
-    
     section_tokens_len = len(tokens_split_by_section)
 
     nip_map = {
@@ -395,26 +460,6 @@ def get_section_from_tokens(all_tokens: list[Token], section: NipSections | None
     return nip_map
 
 
-def load_nip_expression(nip_expression):
-    nip_expression = prepare_nip_expression(nip_expression)
-
-    if not nip_expression: return
-
-    tokens = Lexer().create_tokens(nip_expression)
-    transpiled_expression = transpile_nip_expression(tokens)
-
-    split_tokens = get_section_from_tokens(tokens)
-    if transpiled_expression:
-        nip_expressions.append(
-            NIPExpression(
-                raw=nip_expression,
-                tokens=tokens,
-                transpiled=transpiled_expression,
-                should_id_transpiled=transpile_nip_expression(split_tokens[NipSections.PROP]),
-                should_pickup=transpile_nip_expression(split_tokens[NipSections.PROP], isPickUpPhase=True)
-            )
-        )
-        
 def prepare_nip_expression(expression: str) -> str:
     if not expression.startswith("//") and not expression.startswith("-"):
         expression = expression.lower()
@@ -424,6 +469,7 @@ def prepare_nip_expression(expression: str) -> str:
         if validate_nip_expression_syntax(expression):
             return expression
     return ''
+
 
 def transpile_nip_expression(expression: str | list[Token], isPickUpPhase=False):
     if isinstance(expression, str):
@@ -437,4 +483,24 @@ def transpile_nip_expression(expression: str | list[Token], isPickUpPhase=False)
         transpiled_expression = transpile(expression, isPickUpPhase=isPickUpPhase)
         if transpiled_expression:
             return transpiled_expression
+
+def load_nip_expression(nip_expression):
+    nip_expression = prepare_nip_expression(nip_expression)
+
+    if not nip_expression: return
+
+    tokens = Lexer().create_tokens(nip_expression)
+    transpiled_expression = transpile_nip_expression(tokens)
+    split_tokens = get_section_from_tokens(tokens)
+    if transpiled_expression:
+        nip_expressions.append(
+            NIPExpression(
+                raw=nip_expression,
+                tokens=tokens,
+                transpiled=transpiled_expression,
+                should_id_transpiled=transpile_nip_expression(split_tokens[NipSections.PROP]),
+                should_pickup=transpile_nip_expression(split_tokens[NipSections.PROP], isPickUpPhase=True) # * Some stuff gets transpiled differently in the pickup phase
+            )
+        )
+        
 

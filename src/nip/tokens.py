@@ -32,6 +32,7 @@ class TokenType(Enum):
     KeywordNTIPAliasMaxQuantity = auto()
     KeywordNTIPAliasType        = auto()
 
+    ValueNTIPAliasIDName        = auto()
     ValueNTIPAliasClass         = auto()
     ValueNTIPAliasClassID       = auto()
     ValueNTIPAliasFlag          = auto()
