@@ -4,7 +4,6 @@ from nip.NTIPAliasClassID import NTIPAliasClassID
 from nip.NTIPAliasFlag import NTIPAliasFlag
 from nip.NTIPAliasStat import NTIPAliasStat
 from nip.NTIPAliasType import NTIPAliasType
-from nip.NTIPAliasItemIDNames import NTIPAliasItemIDNames
 
 # ! The above imports are necessary, they are used within the eval statements. Your text editor probably is not showing them as not in use.
 
