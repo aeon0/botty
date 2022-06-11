@@ -101,12 +101,14 @@ class PickIt:
             char.move((item.MonitorX, item.MonitorY), force_move=force_tp)
             time.sleep(0.1)
             # * Move mouse to the middle of the screen and click on the item you teleported to
+            if Config().general["info_screenshots"]: cv2.imwrite(f"./log/screenshots/info/backtrack_before_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
             pos_m = convert_abs_to_monitor((0,-45))
             mouse.move(*pos_m)
             mouse.click(button="left")
             self.click_history.append(convert_screen_to_abs((item.ScreenX, item.ScreenY)))
             Logger.debug("added " + str(convert_screen_to_abs((item.ScreenX, item.ScreenY))) + " to our pickit backtrack stack")
             Logger.debug("Our current pickit backtrack stack is: " + str(self.click_history))
+            if Config().general["info_screenshots"]: cv2.imwrite(f"./log/screenshots/info/backtrack_before2_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
         else:
             char.pick_up_item((item.MonitorX, item.MonitorY), item_name=item.Name, prev_cast_start=0.1)
             #self.click_history.append((item.MonitorX, item.MonitorY))
@@ -206,9 +208,13 @@ class PickIt:
         while len(self.click_history) > 0:
             last_click = self.click_history.pop()
             newpos = convert_abs_to_screen((last_click[0] * - 1, last_click[1] * -1)) ## abs_to_Screen needs to be imported
-            Logger.debug('Backtracking to x:{} y:{}'.format(newpos[0], newpos[1]))
-            self._pather.traverse_nodes_fixed([newpos], char)
+            if char.capabilities.can_teleport_natively:
+                Logger.debug('Backtracking to x:{} y:{}'.format(newpos[0], newpos[1]))
+                self._pather.traverse_nodes_fixed([newpos], char) #requires native teleport
+            else: 
+                Logger.debug('Backtracking requires native teleport (traverse_nodes_fixed), moving on w/o backtrack functionality - dont worry, it will still "run" - haha')
             #self._pather.traverse_nodes_fixed(pos_x,pos_y)
+        if Config().general["info_screenshots"]: cv2.imwrite(f"./log/screenshots/info/backtrack_after_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
         return True
 
 if __name__ == "__main__":
