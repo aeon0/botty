@@ -92,7 +92,7 @@ def transpile(tokens, isPickUpPhase=False, t=None):
                 expression += "and" # * The ')' closes the previous section '('
                 section_start = True
             case TokenType.ValueNTIPAliasStat:
-                expression += f"(int(item_data['NTIPAliasStat'].get('{token.value}', -1)))"
+                expression += f"(int(item_data['NTIPAliasStat'].get('{token.value}', 0)))"
             case TokenType.KeywordNTIPAliasIDName:
                 if not isPickUpPhase:
                     expression += "(str(item_data['NTIPAliasIdName']).lower())"
