@@ -43,10 +43,10 @@ class NIPExpression:
 
 def should_keep(item_data):
     for expression in nip_expressions:
+        print(item_data)
         if eval(expression.transpiled):
             return True, expression.raw
     return False, ""
-
 
 def _gold_pickup(item_data: dict, expression: NIPExpression) -> bool | None:
     res = None
@@ -153,19 +153,15 @@ def should_id(item_data):
         [name] == ring && [quality] == rare                     Don't ID.
         [name] == ring && [quality] == rare # [strength] == 5   Do ID.
     """
-    id = True
-
     for expression in nip_expressions:
         if expression and expression.should_id_transpiled:
             split_expression = expression.raw.split("#")
             if "[idname]" in expression.raw.lower():
                     return True
-            if eval(expression.should_id_transpiled):
-                if len(split_expression) == 1:
-                    id = False
-                else:
-                    return True
-    return id
+            if len(split_expression) == 1:
+                if eval(expression.should_id_transpiled):
+                    return False
+    return True
 
 
 def load_nip_expressions(filepath):
