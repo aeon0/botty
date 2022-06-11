@@ -22,7 +22,6 @@ from nip.transpile import (
     NIPExpression,
     nip_expressions,
     load_nip_expression,
-
     OPENING_PARENTHESIS_COUNT
 )
 from nip.utils import find_unique_or_set_base
@@ -31,14 +30,6 @@ from logger import Logger
 class NipSyntaxErrorSection(NipSyntaxError):
     def __init__(self, token, section):
         super().__init__(f"[ {token.type} ] : {token.value} can not be used in section [ {section} ].")
-
-@dataclass
-class NIPExpression:
-    raw: str
-    should_id_transpiled: str | None
-    transpiled: str
-    should_pickup: str | None
-    tokens: list[Token]
 
 
 def should_keep(item_data):
@@ -143,7 +134,7 @@ def should_pickup(item_data):
                 return
             if property_condition:
                 return True, expression.raw
-       
+
 
     return False, ""
 
@@ -181,7 +172,7 @@ def load_nip_expressions(filepath):
                 print(f"{file}:{e}:line {i + 1}") # TODO look at these errors
                 if False and traceback.print_exc(): # * Switch between True and False for debugging
                     break
-                
+
 
 
 
@@ -224,7 +215,7 @@ if __name__ == "__main__":
     # ([Name] == Demonhead || [Name] == Bonevisage || [Name] == Diadem) && [Quality] <= Superior # [Enhanceddefense] > 0 && [Sockets] == 3
     # ([Name] == Demonhead || [Name] == Bonevisage || [Name] == Spiredhelm || [Name] == Corona) && [Quality] == Magic # [Itemtohitpercentperlevel] >= 1 && ([Fhr] == 10 || [Maxhp] >= 30)      // Visionary Helmet Of X
     # [Name] == Demonhead && [Quality] == Unique && [Flag] != Ethereal # [Strength] >= 30 && [Lifeleech] >= 10    		// Andariel'S Visage
-    
+
     print(nip_expressions[0].should_id_transpiled)
     print(nip_expressions[0].transpiled)
     # print(

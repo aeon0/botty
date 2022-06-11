@@ -7,6 +7,7 @@ from common import ExpressionTest
 from functools import cache
 from pick_item_test_cases import NIP_PICK_TESTS
 import nip.transpile as nip_transpile
+from nip.actions import should_pickup
 import screen
 import utils.download_test_assets # downloads assets if they don't already exist, doesn't need to be called
 
@@ -37,7 +38,7 @@ def expressions_test_list() -> list[ExpressionTest]:
                             basename=key,
                             read_json=ground_item.as_dict(),
                             expression=expr[0],
-                            expected_result=expr[1],
+                            keep_or_pick_expected=expr[1],
                             transpiled=nip_transpile.transpile_nip_expression(expr[0])
                         ))
                     break
@@ -53,24 +54,12 @@ def test_ground_loot(ground_items: list[str, dict]):
     assert result == expected_properties
 
 
-@pytest.mark.parametrize('expression_test', expressions_test_list())
-def test_keep_item(expression_test: ExpressionTest, mocker):
-    should_pick_transpiled = nip_transpile.transpile_nip_expression(expression_test.expression.split("#")[0], isPickedUpPhase=True)
+@pytest.mark.parametrize('should_pick_expression', expressions_test_list())
+def test_keep_item(should_pick_expression: ExpressionTest, mocker):
     mocker.patch.object(nip_transpile, 'nip_expressions', [
-        nip_transpile.NIPExpression(
-                raw=expression_test.expression,
-                should_id_transpiled=nip_transpile.transpile_nip_expression(expression_test.expression.split("#")[0]),
-                transpiled=expression_test.transpiled,
-                should_pickup=should_pick_transpiled
-            )
+        nip_transpile.load_nip_expression(should_pick_expression.expression)
     ])
-    result, _ = nip_transpile.should_pickup(expression_test.read_json)
-    if bool(result) != expression_test.expected_result:
-        print(f"\nImage: {expression_test.basename}")
-        print(f"Read item: {expression_test.read_json}")
-        print(f"Expression: {expression_test.expression}")
-        print(f"Transpiled: {expression_test.transpiled}")
-        print(f"should_pick() transpiled: {should_pick_transpiled}")
-        print(f"Expected result: {expression_test.expected_result}")
-        print(f"Result: {result}\n")
-    assert bool(result) == expression_test.expected_result
+    result, _ = should_pickup(should_pick_expression.read_json)
+    if bool(result) != should_pick_expression.keep_or_pick_expected:
+        print(f"\n{should_pick_expression} \n")
+    assert bool(result) == should_pick_expression.keep_or_pick_expected

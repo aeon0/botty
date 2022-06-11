@@ -2,9 +2,10 @@
 from dataclasses import dataclass
 
 @dataclass
-class ExpressionTest():
+class ExpressionTest:
     basename: str = None
     expression: str = None
     transpiled: str = None
     read_json: dict = None
-    expected_result: bool = False
+    keep_or_pick_expected: bool = False
+    id_expected: bool = False

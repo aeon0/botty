@@ -12,9 +12,9 @@ from nip.lexer import Lexer, NipSyntaxError, NipSections
 from nip.tokens import Token, TokenType
 from nip.utils import find_unique_or_set_base
 
-class NipSyntaxErrorSection(NipSyntaxError): 
+class NipSyntaxErrorSection(NipSyntaxError):
     # TODO CONVERT THIS TO THE OTHER ERROR CLASS IN lexer.py
-    
+
     def __init__(self, token, section):
         super().__init__(f"[ {token.type} ] : {token.value} can not be used in section [ {section} ].")
 
@@ -41,7 +41,7 @@ token_transpile_map = {
     # TokenType.KeywordNTIPAliasIDName: "str(item_data['NTIPAliasIdName']).lower()", # * Special case
     TokenType.KeywordNTIPAliasName: "int(item_data['NTIPAliasClassID'])", # * [name] (NTIPAliasName) is an alias for NTIPAliasClassID
     TokenType.KeywordNTIPAliasClass: "int(item_data['NTIPAliasClass'])", # * This is not ClassID, but Class which refers to normal, expectational, elte
-    TokenType.KeywordNTIPAliasQuality: "int(item_data['NTIPAliasQuality'])", 
+    TokenType.KeywordNTIPAliasQuality: "int(item_data['NTIPAliasQuality'])",
     # TokenType.KeywordNTIPAliasType: "int(item_data['NTIPAliasType'])", # * Special case
     # TokenType.KeywordNTIPAliasFlag: "int(item_data['NTIPAliasFlag'])", # * Special case
 
@@ -66,7 +66,7 @@ def transpile(tokens, isPickUpPhase=False, t=None):
             expression += "("
             section_start = False
             section_open_paranthesis_count += 1
-            
+
 
         if token.type in token_transpile_map:
             expression += f"({token_transpile_map[token.type].format(token.value)})"
@@ -126,7 +126,7 @@ def transpile(tokens, isPickUpPhase=False, t=None):
     for _ in range(section_open_paranthesis_count): # * This is needed to close the last section
         expression += ")"
     return expression
-                        
+
 # TODO don't forget to remove this when done with it
 """def transpile(tokens, isPickUpPhase=False):
 #     print(tokens)
@@ -234,7 +234,7 @@ def validate_correct_math_syntax(left_token=None, right_token=None):
         TokenType.ValueNTIPAliasType,
         TokenType.ValueNTIPAliasQuality,
         TokenType.ValueNTIPAliasStat,
-        
+
         TokenType.KeywordNTIPAliasClass,
         TokenType.KeywordNTIPAliasFlag,
         TokenType.KeywordNTIPAliasType,
@@ -261,13 +261,13 @@ def validate_correct_parenthesis_syntax(current_pos, all_tokens, left_token=None
         OPENING_PARENTHESIS_COUNT += 1
     elif token.type == TokenType.RPAREN:
         OPENING_PARENTHESIS_COUNT -= 1
-       
+
         # * Backtrace until the last opening to make sure it wasn't from the past section.
         for i in range(current_pos, -1, -1):
             # print(all_tokens[i].type)
             if all_tokens[i].type == TokenType.SECTIONAND:
                 raise NipSyntaxError("NIP_0x8", "parenthesis cannot cross the section and (#)")
-    
+
     if current_pos == len(all_tokens) - 1:
         if OPENING_PARENTHESIS_COUNT != 0:
             # OPENING_PARENTHESIS_COUNT = 0
@@ -278,7 +278,7 @@ def validate_correct_parenthesis_syntax(current_pos, all_tokens, left_token=None
                 OPENING_PARENTHESIS_COUNT = 0
                 raise NipSyntaxError("NIP_0x9", "unopened parenthesis")
         OPENING_PARENTHESIS_COUNT = 0
-        
+
 def validate_digits_syntax(left=None, right=None):
     """Makes sure that the left and right tokens are valid to be next to a digit."""
     allowed_left_and_right_tokens = [
@@ -288,7 +288,7 @@ def validate_digits_syntax(left=None, right=None):
         TokenType.DIVIDE,
         TokenType.MODULO,
         TokenType.POW,
-        
+
         TokenType.AND,
         TokenType.OR,
         TokenType.EQ,
@@ -311,7 +311,7 @@ def validate_digits_syntax(left=None, right=None):
     if right:
         if right.type not in allowed_left_and_right_tokens:
             raise NipSyntaxError("NIP_0x11", "Expected operator on right of number")
-    
+
 
 def validate_logical_operators(left=None, right=None):
     """Makes sure that the logical operators are used correctly."""
@@ -324,7 +324,7 @@ def validate_logical_operators(left=None, right=None):
         TokenType.ValueNTIPAliasType,
         TokenType.ValueNTIPAliasQuality,
         TokenType.ValueNTIPAliasStat,
-        
+
         TokenType.KeywordNTIPAliasClass,
         TokenType.KeywordNTIPAliasFlag,
         TokenType.KeywordNTIPAliasType,
@@ -408,7 +408,7 @@ def validate_nip_expression_syntax(nip_expression): # * enforces that {property}
         if token.type == TokenType.LPAREN or token.type == TokenType.RPAREN or i == len(all_tokens) - 1: # * Also check the last token no matter what so if there is an opening parenthesis without a closing parenthesis it will raise an error
             validate_correct_parenthesis_syntax(i, all_tokens, left_token=left, right_token=right)
         elif token.type == TokenType.EQ:
-            if i == len(all_tokens) - 1: # * Check to make sure the next token is a token. 
+            if i == len(all_tokens) - 1: # * Check to make sure the next token is a token.
                 # ! the logic only makes sense for the last token, what the fuck
                 raise NipSyntaxError("NIP_0x15", "No value after equal sign")
         elif token.type in math_tokens:
@@ -418,11 +418,11 @@ def validate_nip_expression_syntax(nip_expression): # * enforces that {property}
             validate_digits_syntax(left=left, right=right)
         elif token.type in logical_tokens:
             validate_logical_operators(left=left, right=right)
-    
+
     return True
 
 
-def remove_quantity(expression): # ! This is a bit ghetto, but since we're not using the maxquantity, we can just remove it. # 
+def remove_quantity(expression): # ! This is a bit ghetto, but since we're not using the maxquantity, we can just remove it. #
     # TODO FIX THIS SHIT
     split_expression = expression.split("#")
     if len(split_expression) == 3:
@@ -483,23 +483,24 @@ def transpile_nip_expression(expression: str | list[Token], isPickUpPhase=False)
         if transpiled_expression:
             return transpiled_expression
 
-def load_nip_expression(nip_expression):
+def load_nip_expression(nip_expression) -> NIPExpression | None:
     nip_expression = prepare_nip_expression(nip_expression)
 
-    if not nip_expression: return
+    if not nip_expression:
+        return None
 
     tokens = Lexer().create_tokens(nip_expression)
     transpiled_expression = transpile_nip_expression(tokens)
     split_tokens = get_section_from_tokens(tokens)
     if transpiled_expression:
-        nip_expressions.append(
-            NIPExpression(
+        expression_obj = NIPExpression(
                 raw=nip_expression,
                 tokens=tokens,
                 transpiled=transpiled_expression,
                 should_id_transpiled=transpile_nip_expression(split_tokens[NipSections.PROP]),
                 should_pickup=transpile_nip_expression(split_tokens[NipSections.PROP], isPickUpPhase=True) # * Some stuff gets transpiled differently in the pickup phase
             )
-        )
-        
-
+        nip_expressions.append(expression_obj)
+        return expression_obj
+    else:
+        return None

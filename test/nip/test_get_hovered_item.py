@@ -6,9 +6,11 @@ from d2r_image.data_models import HoveredItem
 from functools import cache
 from keep_item_test_cases import NIP_KEEP_TESTS
 from common import ExpressionTest
-from nip.transpile import _test_nip_expression, transpile_nip_expression
 import screen
 import utils.download_test_assets # downloads assets if they don't already exist, doesn't need to be called
+import nip.transpile as nip_transpile
+from nip.actions import should_id, should_keep
+
 
 PATH='test/assets/hovered_items'
 screen.set_window_position(0, 0)
@@ -33,9 +35,10 @@ def expressions_test_list() -> list[ExpressionTest]:
             expressions.append(ExpressionTest(
                 basename=key,
                 read_json=load_hovered_items()[key].as_dict(),
-                expression=val[0],
-                expected_result=val[1],
-                transpiled=transpile_nip_expression(val[0])
+                expression=val["expression"],
+                keep_or_pick_expected=val["should_keep"],
+                id_expected=None if not "should_id" in val else val["should_id"],
+                transpiled=nip_transpile.transpile_nip_expression(val["expression"])
             ))
     return expressions
 
@@ -46,12 +49,24 @@ def test_hovered_item(hovered_item: list[str, dict]):
     expected_properties = HoveredItem.from_json(open(f"{PATH}/{basename}.json").read())
     assert result == expected_properties
 
-@pytest.mark.parametrize('expression_test', expressions_test_list())
-def test_keep_item(expression_test: ExpressionTest):
-    if (res := _test_nip_expression(expression_test.read_json, expression_test.expression)) != expression_test.expected_result:
-        print(f"\nImage: {expression_test.basename}")
-        print(f"Read item: {expression_test.read_json}")
-        print(f"Expression: {expression_test.expression}")
-        print(f"Transpiled: {expression_test.transpiled}")
-        print(f"Expected result: {expression_test.expected_result}\n")
-    assert res == expression_test.expected_result
+@pytest.mark.parametrize('should_keep_expression', expressions_test_list())
+def test_keep_item(should_keep_expression: ExpressionTest, mocker):
+    mocker.patch.object(nip_transpile, 'nip_expressions', [
+        nip_transpile.load_nip_expression(should_keep_expression.expression)
+    ])
+    result, _ = should_keep(should_keep_expression.read_json)
+    if bool(result) != should_keep_expression.keep_or_pick_expected:
+        print(f"\n{should_keep_expression} \n")
+    assert bool(result) == should_keep_expression.keep_or_pick_expected
+
+
+@pytest.mark.parametrize('should_id_expression', expressions_test_list())
+def test_should_id(should_id_expression: ExpressionTest, mocker):
+    if should_id_expression.id_expected is not None:
+        mocker.patch.object(nip_transpile, 'nip_expressions', [
+            nip_transpile.load_nip_expression(should_id_expression.expression)
+        ])
+        result = should_id(should_id_expression.read_json)
+        if bool(result) != should_id_expression.id_expected:
+            print(f"\n{should_id_expression} \n")
+        assert bool(result) == should_id_expression.id_expected
