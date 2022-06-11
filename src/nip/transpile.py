@@ -65,8 +65,8 @@ def transpile(tokens: list[Token], isPickUpPhase: bool = False, transpiled_expre
     section_start = True
     section_open_paranthesis_count = 0
 
-    print("tokens", tokens)
-    print("detokenize", Lexer().detokenize(tokens))
+    # print("tokens", tokens)
+    # print("detokenize", Lexer().detokenize(tokens))
 
     for i, token in enumerate(tokens):
         if token == None: continue
