@@ -55,6 +55,8 @@ token_transpile_map = {
 def shift(l: list, index: int, value):
     return l[:index] + [value] + l[index+1:]
 
+
+
 def transpile(tokens: list[Token], isPickUpPhase: bool = False, transpiled_expressions: str = ""):
     """
         Transpiles the tokens into python code, some of the code that gets transpiled is dependent if we are in the pickup phase or not
@@ -98,7 +100,7 @@ def transpile(tokens: list[Token], isPickUpPhase: bool = False, transpiled_expre
                 expression += "and"
                 section_start = True
             case TokenType.ValueNTIPAliasStat:
-                expression += f"(int(item_data['NTIPAliasStat'].get('{token_value}', 0)))"
+                expression += "(int(item_data.get('NTIPAliasStat', {})" + f".get('{token_value}', 0)))"
             case TokenType.KeywordNTIPAliasIDName:
                 if not isPickUpPhase:
                     expression += "(str(item_data['NTIPAliasIdName']).lower())"

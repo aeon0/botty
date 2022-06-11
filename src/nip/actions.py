@@ -180,9 +180,6 @@ def load_nip_expressions(filepath):
                     break
                 
 
-
-
-
 default_nip_file_path = os.path.join(os.path.abspath(os.path.join(os.path.join(os.path.dirname(__file__), os.pardir), os.pardir)), 'config/default.nip')
 nip_path = os.path.join(os.path.abspath(os.path.join(os.path.join(os.path.dirname(__file__), os.pardir), os.pardir)), 'config/nip')
 glob_nip_path = os.path.join(nip_path, '**', '*.nip')
@@ -215,105 +212,4 @@ Logger.info(f"Loaded {num_files} nip files with {len(nip_expressions)} total exp
 
 
 if __name__ == "__main__":
-    item_data = {
-    "Name": "Harlequin Crest",
-    "Quality": "unique",
-    "Text": "SHAKO|DEFENSE: 141|DURABILITY: 12 OF 12|REQUIRED STRENGTH: 50|UNIDENTIFIED",
-    "BaseItem": {
-        "DisplayName": "Shako",
-        "NTIPAliasClassID": 422,
-        "NTIPAliasType": 37,
-        "NTIPAliasStatProps": {
-            "194": {
-                "min": 0,
-                "max": 2
-            },
-            "72": 12,
-            "73": 12,
-            "31": {
-                "min": 98,
-                "max": 141
-            },
-            "0x400000": {
-                "min": 0,
-                "max": 1
-            }
-        },
-        "dimensions": [
-            2,
-            2
-        ],
-        "uniques": [
-            "HARLEQUINCREST"
-        ],
-        "NTIPAliasClass": 2
-    },
-    "Item": {
-        "DisplayName": "Harlequin Crest",
-        "NTIPAliasClassID": 422,
-        "NTIPAliasType": 37,
-        "NTIPAliasStatProps": {
-            "127": {
-                "min": 2,
-                "max": 2
-            },
-            "216": {
-                "min": False,
-                "max": False,
-                "par": 12
-            },
-            "217": {
-                "min": False,
-                "max": False,
-                "par": 12
-            },
-            "80": {
-                "min": 50,
-                "max": 50
-            },
-            "36": {
-                "min": 10,
-                "max": 10
-            },
-            "0": {
-                "min": 2,
-                "max": 2
-            },
-            "2": {
-                "min": 2,
-                "max": 2
-            },
-            "3": {
-                "min": 2,
-                "max": 2
-            },
-            "1": {
-                "min": 2,
-                "max": 2
-            }
-        }
-    },
-    "NTIPAliasIdName": "SHAKO",
-    "NTIPAliasType": [
-        37,
-        50
-    ],
-    "NTIPAliasClassID": 422,
-    "NTIPAliasClass": 2,
-    "NTIPAliasQuality": 7,
-    "NTIPAliasStat": {None},
-    "NTIPAliasFlag": {
-        "0x10": False,
-        "0x400000": False,
-        "0x4000000": False
-    }
-}
-
-    # item_data.get('NTIPAliasStat', {}).get('194', 0) == 1
-    # print(
-    #     transpile_nip_expression("[Name] == Shako && [Quality] == Unique # [sockets] == 1")
-    # )
-
-    # print(
-    #     should_keep(item_data)
-    # )
+    pass
