@@ -673,7 +673,7 @@ class Pather:
                 if (teleport_count + 1) % 30 == 0:
                     if (match := detect_screen_object(ScreenObjects.ShrineArea, img)).valid:
                         if Config().general["info_screenshots"]:
-                            cv2.imwrite(f"./info_screenshots/info_shrine_check_before" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
+                            cv2.imwrite(f"./log/screenshots/info_shrine_check_before" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
                         Logger.debug(f"Shrine found, activating it")
                         select_screen_object_match(match)
                         if Config().general["info_screenshots"]:
