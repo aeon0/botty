@@ -43,7 +43,6 @@ class NIPExpression:
 
 def should_keep(item_data):
     for expression in nip_expressions:
-        print(item_data)
         if eval(expression.transpiled):
             return True, expression.raw
     return False, ""
