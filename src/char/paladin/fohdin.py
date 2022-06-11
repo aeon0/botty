@@ -48,7 +48,7 @@ class FoHdin(Paladin):
         mouse.release(button = mouse_click_type)
 
     def _cast_skill_with_aura(self, skill_name: str, cast_pos_abs: tuple[float, float] = None, spray: int = 0, min_duration: float = 0, aura: str = ""):
-        self._log_cast(skill_name, cast_pos_abs, spray, min_duration, aura)
+        #self._log_cast(skill_name, cast_pos_abs, spray, min_duration, aura)
 
         # set aura if needed
         if aura:
@@ -118,7 +118,7 @@ class FoHdin(Paladin):
             spray = default_spray
             # if targets are detected, switch to targeting with reduced spread rather than present default cast position and default spread
             if target_detect and (targets := get_visible_targets()):
-                log_targets(targets)
+                # log_targets(targets)
                 spray = 5
                 cast_pos_abs = targets[0].center_abs
 
