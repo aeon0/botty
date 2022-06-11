@@ -62,10 +62,10 @@ class Trav:
             # Make sure we go back to the center to not hide the tp
             self._pather.traverse_nodes([230], self._char, timeout=2.5)
         if Config().char["prefer_act4_town"]:
-            Logger.debug("Going to A4 town to shorten run duration (start next game in A4, or perform maintenance in the smallest town")
+            Logger.debug("Going to A4 town to shorten run duration.")
             self._char.tp_town()
             wait(0.4)
-            curr_loc = Location.A3_STASH_WP
+            curr_loc = Location.A3_STASH_WP #it would make sense to directly walk to WP, instead of first walking to stash - this will save another second (screen coordinates: x 950, y 100)
             set_panel_check_paused(True)
             if not self._town_manager.open_wp(curr_loc):
                 return False
