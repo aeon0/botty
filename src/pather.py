@@ -651,7 +651,7 @@ class Pather:
                         # because of all the spells and monsters it often can not determine the final template
                         # Don't want to spam the log with errors in this case because it most likely worked out just fine
                         if timeout > 3.1:
-                            if Config().general["log/screenshots/info"]:
+                            if Config().general["info_screenshots"]:
                                 cv2.imwrite("./log/screenshots/info/info_pather_got_stuck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
                             Logger.error("Got stuck exit pather")
                         return False
