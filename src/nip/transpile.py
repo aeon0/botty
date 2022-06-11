@@ -55,32 +55,41 @@ token_transpile_map = {
 def shift(l: list, index: int, value):
     return l[:index] + [value] + l[index+1:]
 
-def transpile(tokens, isPickUpPhase=False, t=None):
+
+
+def transpile(tokens: list[Token], isPickUpPhase: bool = False, transpiled_expressions: str = ""):
+    """
+        Transpiles the tokens into python code, some of the code that gets transpiled is dependent if we are in the pickup phase or not
+    """
+
+
     expression = ""
     section_start = True
     section_open_paranthesis_count = 0
 
+    # print("tokens", tokens)
+    # print("detokenize", Lexer().detokenize(tokens))
+
     for i, token in enumerate(tokens):
         if token == None: continue
+        token_value = str(token.value)
         if section_start:
             expression += "("
             section_start = False
             section_open_paranthesis_count += 1
-
-
         if token.type in token_transpile_map:
-            expression += f"({token_transpile_map[token.type].format(token.value)})"
+            expression += f"({token_transpile_map[token.type].format(token_value)})"
             continue
         match token.type:
             case TokenType.NE | TokenType.GT | TokenType.LT | TokenType.GE | TokenType.LE:
                 if tokens[i + 1].type != TokenType.ValueNTIPAliasFlag:
-                    expression += token.value
+                    expression += token_value
             case TokenType.EQ:
                 if tokens[i + 1].type == TokenType.ValueNTIPAliasFlag: continue
                 if isPickUpPhase and tokens[i + 1].type == TokenType.ValueNTIPAliasIDName: continue
                 expression += "=="
             case TokenType.OR | TokenType.AND | TokenType.LPAREN | TokenType.RPAREN | TokenType.PLUS | TokenType.MINUS | TokenType.MULTIPLY | TokenType.DIVIDE:
-                expression += token.value
+                expression += token_value
                 if token.type == TokenType.LPAREN:
                     section_open_paranthesis_count += 1
                 elif token.type == TokenType.RPAREN:
@@ -88,11 +97,10 @@ def transpile(tokens, isPickUpPhase=False, t=None):
             case TokenType.SECTIONAND:
                 expression += ")"
                 section_open_paranthesis_count -= 1
-                # shift(tokens, i, Token(TokenType.RPAREN, ")"))
-                expression += "and" # * The ')' closes the previous section '('
+                expression += "and"
                 section_start = True
             case TokenType.ValueNTIPAliasStat:
-                expression += f"(int(item_data['NTIPAliasStat'].get('{token.value}', 0)))"
+                expression += "(int(item_data.get('NTIPAliasStat', {})" + f".get('{token_value}', 0)))"
             case TokenType.KeywordNTIPAliasIDName:
                 if not isPickUpPhase:
                     expression += "(str(item_data['NTIPAliasIdName']).lower())"
@@ -103,25 +111,23 @@ def transpile(tokens, isPickUpPhase=False, t=None):
                     match condition_type.type:
                         case TokenType.EQ:
                             expression += f"(item_data['NTIPAliasFlag']['{flag}'])"
-                            break
                         case TokenType.NE:
                             expression += f"(not item_data['NTIPAliasFlag']['{flag}'])"
-                            break
             case TokenType.ValueNTIPAliasIDName:
                 if tokens[i - 2].type == TokenType.KeywordNTIPAliasIDName:
                     if isPickUpPhase:
-                        base, quality = find_unique_or_set_base(token.value)
+                        base, quality = find_unique_or_set_base(token_value)
                         expression += f"(int(item_data['NTIPAliasClassID']))==(int(NTIPAliasClassID['{base}']))and(int(item_data['NTIPAliasQuality']))==(int(NTIPAliasQuality['{quality}']))"
                     else:
-                        expression += f"(str('{token.value}').lower())"
+                        expression += f"(str('{token_value}').lower())"
                 else:
-                    expression += "(-1)"
+                    expression += "(0)"
             case TokenType.KeywordNTIPAliasType:
                 token_after_operator = tokens[i + 2]
                 # * The below code uses short-circuit evaluation
                 expression += f"(int(NTIPAliasType['{token_after_operator.value}']) in item_data['NTIPAliasType'] and int(NTIPAliasType['{token_after_operator.value}']) or -1)"
             case TokenType.UNKNOWN: # * _ is default..
-                expression += "(-1)"
+                expression += "(0)"
 
     for _ in range(section_open_paranthesis_count): # * This is needed to close the last section
         expression += ")"
@@ -262,11 +268,11 @@ def validate_correct_parenthesis_syntax(current_pos, all_tokens, left_token=None
     elif token.type == TokenType.RPAREN:
         OPENING_PARENTHESIS_COUNT -= 1
 
-        # * Backtrace until the last opening to make sure it wasn't from the past section.
-        for i in range(current_pos, -1, -1):
-            # print(all_tokens[i].type)
-            if all_tokens[i].type == TokenType.SECTIONAND:
-                raise NipSyntaxError("NIP_0x8", "parenthesis cannot cross the section and (#)")
+        # TODO Backtrace until the last opening to make sure it wasn't from the past section.
+        # for i in range(current_pos, -1, -1):
+        #     # print(all_tokens[i].type)
+        #     if all_tokens[i].type == TokenType.SECTIONAND:
+        #         raise NipSyntaxError("NIP_0x8", "parenthesis cannot cross the section and (#)")
 
     if current_pos == len(all_tokens) - 1:
         if OPENING_PARENTHESIS_COUNT != 0:
@@ -334,6 +340,9 @@ def validate_logical_operators(left=None, right=None):
         TokenType.KeywordNTIPAliasMaxQuantity,
 
     ]
+
+    # print(right)
+
     if left:
         if left.type not in allowed_left_and_right_tokens + [TokenType.RPAREN]:
             raise NipSyntaxError("NIP_0x12", "Expected token on left of logical operator")
@@ -354,14 +363,14 @@ def validate_nip_expression_syntax(nip_expression): # * enforces that {property}
 
     split_nip_expression = nip_expression.split("#")
     split_nip_expression_len = len(split_nip_expression)
-
-    if split_nip_expression_len >= 1 and split_nip_expression[0]: # property
+    if split_nip_expression_len >= 1: # property
         tokens = Lexer().create_tokens(split_nip_expression[0], NipSections.PROP)
         all_tokens.extend(tokens)
         for token in tokens:
             if token.type == TokenType.ValueNTIPAliasStat:
                 raise NipSyntaxErrorSection(token, "property")
-    if split_nip_expression_len >= 2 and split_nip_expression[1]: # stats
+    if split_nip_expression_len >= 2: # stats
+        all_tokens.append(Token(TokenType.SECTIONAND, "#"))
         tokens = Lexer().create_tokens(split_nip_expression[1], NipSections.STAT)
         all_tokens.extend(tokens)
         for token in tokens:
@@ -376,7 +385,7 @@ def validate_nip_expression_syntax(nip_expression): # * enforces that {property}
             if is_invalid_stat_lookup:
                 raise NipSyntaxErrorSection(token, "stats")
 
-    if split_nip_expression_len >= 3 and split_nip_expression[2]: # maxquantity
+    if split_nip_expression_len >= 3: # maxquantity
         tokens = Lexer().create_tokens(split_nip_expression[2], NipSections.MAXQUANTITY)
         all_tokens.extend(tokens)
         for token in tokens:
@@ -393,8 +402,12 @@ def validate_nip_expression_syntax(nip_expression): # * enforces that {property}
                 raise NipSyntaxErrorSection(token, "maxquantity")
 
     # * Further syntax validation
+    # print(all_tokens[-1].type)
+
+    if all_tokens[-1].type == TokenType.SECTIONAND:
+        raise NipSyntaxError("NIP_0x16", "unexpected sectionand (#) at end of expression")
     math_tokens = [TokenType.MULTIPLY, TokenType.PLUS, TokenType.MINUS, TokenType.DIVIDE, TokenType.MODULO, TokenType.POW]
-    logical_tokens = [TokenType.AND, TokenType.OR, TokenType.EQ, TokenType.NE, TokenType.GT, TokenType.LT, TokenType.GE, TokenType.LE]
+    logical_tokens = [TokenType.AND, TokenType.OR, TokenType.EQ, TokenType.NE, TokenType.GT, TokenType.LT, TokenType.GE, TokenType.LE, TokenType.SECTIONAND]
 
     for i, token in enumerate(all_tokens):
         # Get the left and right tokens for the current token
@@ -416,7 +429,7 @@ def validate_nip_expression_syntax(nip_expression): # * enforces that {property}
         # * Make sure two numbers aren't next to each other.
         elif token.type == TokenType.NUMBER or token.type == TokenType.UNKNOWN:
             validate_digits_syntax(left=left, right=right)
-        elif token.type in logical_tokens:
+        elif token.type in logical_tokens or i == len(all_tokens) - 1:
             validate_logical_operators(left=left, right=right)
 
     return True

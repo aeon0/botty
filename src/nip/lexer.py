@@ -15,7 +15,6 @@ from colorama import init, Fore
 from rapidfuzz.string_metric import levenshtein
 
 
-
 init()
 
 WHITESPACE = " \t\n\r\v\f"
@@ -47,6 +46,7 @@ class Lexer:
         self.current_token: str | None = ""
         self.text_i: int = -1
         self.tokens: List[Token] = []
+
 
     def increment_section(self):
         if self.current_section == NipSections.PROP:
@@ -95,6 +95,70 @@ class Lexer:
             else:
                 raise NipSyntaxError("NIP_0x1", "Unknown token: " + self.current_token, self.get_text())
         return self.tokens
+
+    def detokenize(self, tokens: List[Token]) -> str:
+        """ Detokenizes a list of tokens. """
+        token_to_value = {
+            TokenType.NUMBER: '{}',
+            TokenType.NUMBERPERCENT: '{}%',
+            TokenType.PLUS: '+',
+            TokenType.MINUS: '-',
+            TokenType.MULTIPLY: '*',
+            TokenType.DIVIDE: '/',
+            TokenType.MODULO: '%',
+
+            TokenType.LPAREN: '(',
+            TokenType.RPAREN: ')',
+
+            TokenType.GT: '>',
+            TokenType.LT: '<',
+            TokenType.LE: '<=',
+            TokenType.GE: '>=',
+            TokenType.EQ: '==',
+            TokenType.NE: '!=',
+
+            TokenType.AND: '&&',
+            TokenType.OR: '||',
+
+            TokenType.SECTIONAND: '#',
+
+            TokenType.KeywordNTIPAliasIDName: '[idname]',
+            TokenType.KeywordNTIPAliasName: '[name]',
+            TokenType.KeywordNTIPAliasFlag: '[flag]',
+            TokenType.KeywordNTIPAliasQuality: '[quality]',
+            TokenType.KeywordNTIPAliasClass: '[class]',
+            TokenType.KeywordNTIPAliasMaxQuantity: '[maxquantity]',
+            TokenType.KeywordNTIPAliasType: '[type]',
+
+            TokenType.ValueNTIPAliasIDName: '{}',
+            TokenType.ValueNTIPAliasClass: '{}',
+            TokenType.ValueNTIPAliasClassID: '{}',
+            TokenType.ValueNTIPAliasFlag: '{}',
+            TokenType.ValueNTIPAliasQuality: '{}',
+            TokenType.ValueNTIPAliasStat: '{}',
+            TokenType.ValueNTIPAliasType: '{}',
+            TokenType.ValueNTIPAlias: '{}',
+        }
+
+        expression = ''
+
+        # * Find NTIPAliasStat key by value.
+        def find_stat_by_value(wanted_value):
+            for key, value in NTIPAliasStat.items():
+                if value == wanted_value:
+                    return key
+            return None
+
+        for token in tokens:
+            if token.type in token_to_value:
+                if token.type == TokenType.ValueNTIPAliasStat:
+                    expression += token_to_value[token.type].format(f'[{find_stat_by_value(token.value)}]')               
+                else:
+                    expression += token_to_value[token.type].format(token.value)                  
+            expression += ' '
+        return expression.strip()
+            
+                
 
     def _create_custom_digit_token(self, found_number, append_text="", append_front=False):
         """

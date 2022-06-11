@@ -1,5 +1,7 @@
 import os
 import cv2
+import json
+from dataclasses import asdict
 import pytest
 from d2r_image import processing
 from d2r_image.data_models import HoveredItem
@@ -56,7 +58,10 @@ def test_keep_item(should_keep_expression: ExpressionTest, mocker):
     ])
     result, _ = should_keep(should_keep_expression.read_json)
     if bool(result) != should_keep_expression.keep_or_pick_expected:
-        print(f"\n{should_keep_expression} \n")
+        print("\n")
+        print(json.dumps(asdict(should_keep_expression), indent=4))
+        print(f"should_keep result: {result}; test pass/fail below")
+        print("\n")
     assert bool(result) == should_keep_expression.keep_or_pick_expected
 
 
@@ -68,5 +73,7 @@ def test_should_id(should_id_expression: ExpressionTest, mocker):
         ])
         result = should_id(should_id_expression.read_json)
         if bool(result) != should_id_expression.id_expected:
-            print(f"\n{should_id_expression} \n")
+            print("\n")
+            print(json.dumps(asdict(should_id_expression), indent=4))
+            print(f"should_id result: {result}; test pass/fail below")
         assert bool(result) == should_id_expression.id_expected

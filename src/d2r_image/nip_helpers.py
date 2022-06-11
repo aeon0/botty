@@ -155,7 +155,7 @@ def parse_item(quality, item, _call_count=1):
         NTIPAliasClassID=base_item['NTIPAliasClassID'],
         NTIPAliasClass = 0 if (base_item is None or not 'NTIPAliasClass' in base_item) else base_item['NTIPAliasClass'],
         NTIPAliasQuality=NTIP_ALIAS_QUALITY_MAP[quality],
-        NTIPAliasStat=ntip_alias_stat,
+        NTIPAliasStat=ntip_alias_stat or {},
         NTIPAliasFlag={
             '0x10': item_is_identified,
             '0x400000': item_is_ethereal,

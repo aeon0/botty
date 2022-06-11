@@ -1,6 +1,8 @@
 import cv2
 import os
+import json
 import pytest
+from dataclasses import asdict
 from d2r_image import processing
 from d2r_image.data_models import GroundItemList
 from common import ExpressionTest
@@ -55,11 +57,14 @@ def test_ground_loot(ground_items: list[str, dict]):
 
 
 @pytest.mark.parametrize('should_pick_expression', expressions_test_list())
-def test_keep_item(should_pick_expression: ExpressionTest, mocker):
+def test_pick_item(should_pick_expression: ExpressionTest, mocker):
     mocker.patch.object(nip_transpile, 'nip_expressions', [
         nip_transpile.load_nip_expression(should_pick_expression.expression)
     ])
     result, _ = should_pickup(should_pick_expression.read_json)
     if bool(result) != should_pick_expression.keep_or_pick_expected:
-        print(f"\n{should_pick_expression} \n")
+        print("\n")
+        print(json.dumps(asdict(should_pick_expression), indent=4))
+        print(f"should_pickup result: {result}; test pass/fail below")
+        print("\n")
     assert bool(result) == should_pick_expression.keep_or_pick_expected

@@ -165,7 +165,7 @@ class HoveredItem:
     NTIPAliasClassID: int
     NTIPAliasClass: int | None
     NTIPAliasQuality: int
-    NTIPAliasStat: dict | None
+    NTIPAliasStat: dict
     NTIPAliasFlag: dict
 
     def __eq__(self, other):
