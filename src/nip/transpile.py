@@ -56,11 +56,17 @@ def shift(l: list, index: int, value):
     return l[:index] + [value] + l[index+1:]
 
 def transpile(tokens: list[Token], isPickUpPhase: bool = False, transpiled_expressions: str = ""):
+    """
+        Transpiles the tokens into python code, some of the code that gets transpiled is dependent if we are in the pickup phase or not
+    """
+
+
     expression = ""
     section_start = True
     section_open_paranthesis_count = 0
-    # print("tokens", tokens)
-    # print("detokenize", Lexer().detokenize(tokens))
+
+    print("tokens", tokens)
+    print("detokenize", Lexer().detokenize(tokens))
 
     for i, token in enumerate(tokens):
         if token == None: continue

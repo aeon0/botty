@@ -159,13 +159,13 @@ def should_id(item_data):
         if expression and expression.should_id_transpiled:
             split_expression = expression.raw.split("#")
             if "[idname]" in expression.raw.lower():
-                    id = True
-                    return id
+                    return True
             if eval(expression.should_id_transpiled):
                 if len(split_expression) == 1:
                     id = False
-                    return id
-            return id
+                else:
+                    return True
+    return id
 
 
 def load_nip_expressions(filepath):
@@ -225,6 +225,8 @@ if __name__ == "__main__":
     # ([Name] == Demonhead || [Name] == Bonevisage || [Name] == Spiredhelm || [Name] == Corona) && [Quality] == Magic # [Itemtohitpercentperlevel] >= 1 && ([Fhr] == 10 || [Maxhp] >= 30)      // Visionary Helmet Of X
     # [Name] == Demonhead && [Quality] == Unique && [Flag] != Ethereal # [Strength] >= 30 && [Lifeleech] >= 10    		// Andariel'S Visage
     
-    print(nip_expressions[0].should_id_transpiled)
-    print(nip_expressions[0].transpiled)
-    # print(
+    # print(nip_expressions[0].should_id_transpiled)
+    # print(nip_expressions[0].transpiled)
+    print(
+        transpile_nip_expression("[name] == LargeCharm# [itemmagicbonus] >= 6 && [frw] >= 5")
+    )
