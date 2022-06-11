@@ -42,29 +42,6 @@ class Hammerdin(Paladin):
             wait(0.01, 0.05)
             keyboard.send(Config().char["stand_still"], do_press=False)
 
-    def _cast_holy_bolt(self, cast_pos_abs: tuple[float, float], spray: int = 10, time_in_s: float = 4, aura: str = "conviction"):
-        if aura in self._skill_hotkeys and self._skill_hotkeys[aura]:
-            keyboard.send(self._skill_hotkeys[aura])
-            wait(0.05, 0.1)
-            keyboard.send(Config().char["stand_still"], do_release=False)
-            wait(0.05, 0.1)
-            if self._skill_hotkeys["holy_bolt"]:
-                keyboard.send(self._skill_hotkeys["holy_bolt"])
-            wait(0.05, 0.1)
-            x = cast_pos_abs[0] + (random.random() * 2 * spray - spray)
-            y = cast_pos_abs[1] + (random.random() * 2 * spray - spray)
-            pos_m = convert_abs_to_monitor((x, y))
-            mouse.move(*pos_m, delay_factor=[0.3, 0.6])
-            start = time.time()
-            while (time.time() - start) < time_in_s:
-                wait(0.06, 0.08)
-                mouse.press(button="left")
-                wait(0.1, 0.2)
-                mouse.release(button="left")
-            wait(0.01, 0.05)
-            keyboard.send(Config().char["stand_still"], do_press=False)
-
-    """
     def pre_buff(self):
         if Config().char["cta_available"]:
             self._pre_buff_cta()
@@ -88,7 +65,7 @@ class Hammerdin(Paladin):
         if should_cast_vigor and not can_teleport:
             keyboard.send(self._skill_hotkeys["vigor"])
             wait(0.15, 0.25)
-    """
+
     def _move_and_attack(self, abs_move: tuple[int, int], atk_len: float):
         pos_m = convert_abs_to_monitor(abs_move)
         self.pre_move()
@@ -97,9 +74,8 @@ class Hammerdin(Paladin):
 
     def kill_pindle(self) -> bool:
         wait(0.1, 0.15)
-        if self.capabilities.can_teleport_natively or self.capabilities.can_teleport_with_charges:
-            #self._pather.traverse_nodes_fixed("pindle_end", self)
-            if not self._pather.traverse_nodes([104], self, timeout=1.0, do_pre_move=self._do_pre_move, force_tp=True, use_tp_charge=True): return False
+        if self.capabilities.can_teleport_natively:
+            self._pather.traverse_nodes_fixed("pindle_end", self)
         else:
             if not self._do_pre_move:
                 keyboard.send(self._skill_hotkeys["concentration"])
@@ -107,12 +83,7 @@ class Hammerdin(Paladin):
             self._pather.traverse_nodes((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, timeout=1.0, do_pre_move=self._do_pre_move)
         self._cast_hammers(Config().char["atk_len_pindle"])
         wait(0.1, 0.15)
-        self._cast_hammers(0.8, "redemption")
-        self._move_and_attack((30, 15), Config().char["atk_len_pindle"] * 0.5) #a bit to bottom right for making sure missing hammers have a chance to hit
-        if not self._pather.traverse_nodes([104], self, timeout=1.0, do_pre_move=self._do_pre_move): return False #go back to Pindle_End (104) to porperly cast TP so no failed run occurs.
         self._cast_hammers(1.6, "redemption")
-
-
         return True
 
     def kill_eldritch(self) -> bool:
@@ -164,18 +135,6 @@ class Hammerdin(Paladin):
             self._move_and_attack((40, 10), atk_len)
             self._move_and_attack((-40, -20), atk_len)
         self._cast_hammers(1.6, "redemption")
-        Logger.debug("Checking for stray mobs")
-        if (targets := get_visible_targets()):
-            Logger.debug("I checked for mobs, seems to still be there let's use holy bolt.")
-            cast_pos_abs = convert_screen_to_abs(targets[0].center)
-            atk_len = int(atk_len)
-            self._cast_holy_bolt(cast_pos_abs, spray=80, time_in_s=atk_len)
-            if (targets := get_visible_targets()):
-                Logger.debug("I checked for mobs agian, seems to still be there lets use holy bolt a final time.")
-                cast_pos_abs = convert_screen_to_abs(targets[0].center)
-                self._cast_holy_bolt(cast_pos_abs, spray=80, time_in_s=atk_len)
-        else:
-            Logger.debug("No mobs detected")
         return True
 
     def kill_nihlathak(self, end_nodes: list[int]) -> bool:
