@@ -81,7 +81,7 @@ def return_to_play() -> bool:
     substrings = ["NPC", "Panel", "SaveAndExit"]
     img=grab()
     start=time.time()
-    while (elapsed := (time.time() - start) < 8):
+    while (elapsed := (time.time() - start) < 5):
         need_escape = False
         match = detect_screen_object(ScreenObjects.InGame, img)
         if match.valid and "DARK" in match.name:
@@ -92,7 +92,7 @@ def return_to_play() -> bool:
                     break
         if need_escape:
             keyboard.send("esc")
-            wait(1.7)
+            wait(1)
             img=grab()
         else:
             break

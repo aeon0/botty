@@ -163,7 +163,7 @@ class Pather:
             222: {"TRAV_5": (-218, 106), "TRAV_4": (120, 230), "TRAV_2": (426, 7), "TRAV_7": (-719, -166), "TRAV_7_V2": (-719, -166), "TRAV_1": (862, -153)},
             223: {"TRAV_5": (344, 123), 'TRAV_4': (682, 247), "TRAV_8": (-353, -31), "TRAV_7": (-157, -149), "TRAV_7_V2": (-157, -149), "TRAV_22": (-368, -222), "TRAV_22_V2": (-368, -222), "TRAV_23": (-579, 116)},
             224: {'TRAV_7': (411, -129), 'TRAV_7_V2': (411, -129), 'TRAV_27': (-363, 163), "TRAV_8": (214, -11), "TRAV_23": (-11, 136), "TRAV_10": (-130, -187), "TRAV_10_V2": (-130, -187), "TRAV_24": (-274, 15), "TRAV_22": (200, -202), "TRAV_22_V2": (200, -202)},
-            225: {'TRAV_27': (96, 359), 'TRAV_8': (670, 187), 'TRAV_7': (867, 69), 'TRAV_7_V2': (867, 69), "TRAV_11": (10, 214), "TRAV_19": (-298, 539), "TRAV_24": (181, 213), "TRAV_12": (-408, -73), "TRAV_25": (-538, 132)},
+            225: {'TRAV_27': (96, 359), 'TRAV_8': (670, 187), 'TRAV_7': (867, 69), 'TRAV_7_V2': (867, 69), "TRAV_11": (10, 214), "TRAV_19": (-298, 539), "TRAV_24": (181, 213), "TRAV_12": (-408, -73), "TRAV_25": (-538, 132), 'TRAV_225_V3_0': (549, -147), 'TRAV_225_V3_1': (555, 125), 'TRAV_225_V3_3': (-149, -229), 'TRAV_225_V3_7': (-242, 13), 'TRAV_V2_2': (-27, 103), 'TRAV_225_V3_2': (31, 135)},
             226: {"TRAV_12": (-75, -172), "TRAV_25": (-205, 33), "TRAV_13": (-252, 195), "TRAV_11": (343, 115), "TRAV_18": (-514, 373), "TRAV_19": (35, 440), "TRAV_17": (-231, 242), "TRAV_27": (428, 263), "TRAV_29": (-929, 334), "TRAV_28": (-614, 338)},
             227: {"TRAV_11": (65, -42), "TRAV_24": (236, -43), "TRAV_19": (-243, 283), 'TRAV_18': (-792, 216), "TRAV_12": (-356, -330), "TRAV_25": (-483, -124), 'TRAV_27': (154, 104)},
             228: {"TRAV_13": (8, 9), "TRAV_17": (29, 56), "TRAV_25": (58, -152), "TRAV_16": (-198, -110), "TRAV_18": (-251, 188)},
@@ -510,9 +510,9 @@ class Pather:
             x_m, y_m = convert_screen_to_monitor(path[i])
             x_m += int(random.random() * 6 - 3)
             y_m += int(random.random() * 6 - 3)
-            t0 = grab()
+            t0 = grab(force_new=True)
             char.move((x_m, y_m))
-            t1 = grab()
+            t1 = grab(force_new=True)
             # check difference between the two frames to determine if tele was good or not
             diff = cv2.absdiff(t0, t1)
             diff = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
@@ -637,10 +637,10 @@ class Pather:
             did_force_move = False
             teleport_count = 0
             while not continue_to_next_node:
-                img = grab()
+                img = grab(force_new=True)
                 # Handle timeout
                 if (time.time() - last_move) > timeout:
-                    if is_visible(ScreenObjects.WaypointLabel):
+                    if is_visible(ScreenObjects.WaypointLabel, img):
                         # sometimes bot opens waypoint menu, close it to find templates again
                         Logger.debug("Opened wp, closing it again")
                         keyboard.send("esc")
@@ -657,9 +657,11 @@ class Pather:
 
                 # Sometimes we get stuck at rocks and stuff, after a few seconds force a move into the last known direction
                 if not did_force_move and time.time() - last_move > 3.1:
-                    pos_abs = (0, 150)
                     if last_direction is not None:
                         pos_abs = last_direction
+                    else:
+                        angle = random.random() * math.pi * 2
+                        pos_abs = (math.cos(angle) * 150, math.sin(angle) * 150)
                     pos_abs = self._adjust_abs_range_to_screen(pos_abs)
                     Logger.debug(f"Pather: taking a random guess towards " + str(pos_abs))
                     x_m, y_m = convert_abs_to_monitor(pos_abs)
@@ -669,9 +671,9 @@ class Pather:
 
                 # Sometimes we get stuck at a Shrine or Stash, after a few seconds check if the screen was different, if force a left click.
                 if (teleport_count + 1) % 30 == 0:
-                    if (match := detect_screen_object(ScreenObjects.ShrineArea)).valid:
+                    if (match := detect_screen_object(ScreenObjects.ShrineArea, img)).valid:
                         if Config().general["info_screenshots"]:
-                            cv2.imwrite(f"./log/screenshots/info/info_shrine_check_before" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
+                            cv2.imwrite(f"./info_screenshots/info_shrine_check_before" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
                         Logger.debug(f"Shrine found, activating it")
                         select_screen_object_match(match)
                         if Config().general["info_screenshots"]:
@@ -754,7 +756,7 @@ if __name__ == "__main__":
     #char = Hammerdin(Config().hammerdin, pather, PickIt) #Config().char,
     #char.discover_capabilities()
 
-    #display_all_nodes(pather, "ELD")
+    display_all_nodes(pather, "TRAV_")
     #pather.traverse_nodes([120, 121, 122, 123, 122, 121, 120], char) #works!
     #pather.traverse_nodes_fixed("dia_trash_c", char)
     #display_all_nodes(pather, "SHENK")

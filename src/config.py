@@ -6,7 +6,7 @@ import os
 from dataclasses import dataclass
 from logger import Logger
 config_lock = threading.Lock()
-
+from utils.misc import wait
 
 def _default_iff(value, iff, default = None):
     return default if value == iff else value
@@ -61,24 +61,30 @@ class Config:
 
     def _select_val(self, section: str, key: str = None):
         found_in = ""
-        if section in self.configs["custom"]["parser"] and key in self.configs["custom"]["parser"][section]:
-            found_val = self.configs["custom"]["parser"][section][key]
-            found_in = "custom"
-        elif section in self.configs["config"]["parser"]:
-            found_val = self.configs["config"]["parser"][section][key]
-            found_in = "config"
-        elif section in self.configs["shop"]["parser"]:
-            found_val = self.configs["shop"]["parser"][section][key]
-            found_in = "shop"
-        else:
-            found_val = self.configs["game"]["parser"][section][key]
-            found_in = "game"
+        try:
+            if section in self.configs["custom"]["parser"] and key in self.configs["custom"]["parser"][section]:
+                found_val = self.configs["custom"]["parser"][section][key]
+                found_in = "custom"
+            elif section in self.configs["config"]["parser"]:
+                found_val = self.configs["config"]["parser"][section][key]
+                found_in = "config"
+            elif section in self.configs["shop"]["parser"]:
+                found_val = self.configs["shop"]["parser"][section][key]
+                found_in = "shop"
+            else:
+                found_val = self.configs["game"]["parser"][section][key]
+                found_in = "game"
 
-        for var_name in self.configs[found_in]["vars"]: # set variable.
-            if var_name in found_val:
-                var_val = self.configs[found_in]["vars"][var_name]
-                found_val = found_val.replace(var_name, var_val)
-        return found_val
+            for var_name in self.configs[found_in]["vars"]: # set variable.
+                if var_name in found_val:
+                    var_val = self.configs[found_in]["vars"][var_name]
+                    found_val = found_val.replace(var_name, var_val)
+            return found_val
+        except KeyError:
+            Logger.error(f"Key '{key}' not found in section '{section}'")
+            Logger.error("Closing in 10 seconds..")
+            wait(10)
+            os._exit(1)
 
     def turn_off_goldpickup(self):
         Logger.info("All stash tabs and character are full of gold, turn off gold pickup")
@@ -209,6 +215,7 @@ class Config:
             "runs_per_repair": False if not self._select_val("char", "runs_per_repair") else int(self._select_val("char", "runs_per_repair")),
             "gamble_items": False if not self._select_val("char", "gamble_items") else self._select_val("char", "gamble_items").replace(" ","").split(","),
             "sell_junk": bool(int(self._select_val("char", "sell_junk"))),
+            "enable_no_pickup": bool(int(self._select_val("char", "enable_no_pickup"))),
         }
         # Sorc base config
         sorc_base_cfg = dict(self.configs["config"]["parser"]["sorceress"])
@@ -331,9 +338,11 @@ class Config:
             "apply_pather_adjustment": bool(int(self._select_val("scepters", "apply_pather_adjustment"))),
         }
         stash_destination_str = self._select_val("transmute","stash_destination")
+        transmute_str = self._select_val("transmute","transmute")
         self.configs["transmute"]["parser"] = {
             "stash_destination": [int(x.strip()) for x in stash_destination_str.split(",")],
             "transmute_every_x_game": self._select_val("transmute","transmute_every_x_game"),
+            "transmute": [x.strip() for x in transmute_str.split(",")],
         }
 
 if __name__ == "__main__":

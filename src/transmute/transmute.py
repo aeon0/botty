@@ -17,6 +17,36 @@ import keyboard
 import cv2
 from inventory import personal, common
 
+CHIPPED_GEMS = [
+    "INVENTORY_TOPAZ_CHIPPED",
+    "INVENTORY_AMETHYST_CHIPPED",
+    "INVENTORY_SAPPHIRE_CHIPPED",
+    "INVENTORY_DIAMOND_CHIPPED",
+    "INVENTORY_RUBY_CHIPPED",
+    "INVENTORY_EMERALD_CHIPPED",
+    "INVENTORY_SKULL_CHIPPED"
+]
+
+FLAWED_GEMS = [
+    "INVENTORY_TOPAZ_FLAWED",
+    "INVENTORY_AMETHYST_FLAWED",
+    "INVENTORY_SAPPHIRE_FLAWED",
+    "INVENTORY_DIAMOND_FLAWED",
+    "INVENTORY_RUBY_FLAWED",
+    "INVENTORY_EMERALD_FLAWED",
+    "INVENTORY_SKULL_FLAWED"
+]
+
+STANDARD_GEMS = [
+    "INVENTORY_TOPAZ_STANDARD",
+    "INVENTORY_AMETHYST_STANDARD",
+    "INVENTORY_SAPPHIRE_STANDARD",
+    "INVENTORY_DIAMOND_STANDARD",
+    "INVENTORY_RUBY_STANDARD",
+    "INVENTORY_EMERALD_STANDARD",
+    "INVENTORY_SKULL_STANDARD"
+]
+
 FLAWLESS_GEMS = [
     "INVENTORY_TOPAZ_FLAWLESS",
     "INVENTORY_AMETHYST_FLAWLESS",
@@ -123,13 +153,13 @@ class Transmute:
     def inspect_inventory_area(self, known_items) -> InventoryCollection:
         return self.inspect_area(4, Config().char["num_loot_columns"], Config().ui_roi["right_inventory"], known_items)
 
-    def inspect_stash(self) -> Stash:
+    def inspect_stash(self, gemsToTransmute) -> Stash:
         stash = Stash()
         for i in range(4):
             common.select_tab(i)
             wait(0.4, 0.5)
             tab = self.inspect_area(
-                10, 10, Config().ui_roi["left_inventory"], FLAWLESS_GEMS)
+                10, 10, Config().ui_roi["left_inventory"], gemsToTransmute)
             stash.add_tab(i, tab)
         return stash
 
@@ -151,16 +181,16 @@ class Transmute:
                 common.select_tab(tab)
                 break
 
-    def put_back_all_gems(self, s: Stash) -> None:
+    def put_back_all_gems(self, s: Stash, gemsToTransmute,gemsToPutBack) -> None:
         Logger.info(
             f'Putting back gems in the following stash tabs (by priority): {Config().configs["transmute"]["parser"]["stash_destination"]}')
-        perfect_gems = self.inspect_inventory_area(
-            PERFECT_GEMS + FLAWLESS_GEMS)
+        inventory_gems = self.inspect_inventory_area(
+            gemsToPutBack + gemsToTransmute)
 
-        for gem in perfect_gems.all_items():
-            while perfect_gems.count_by(gem) > 0:
+        for gem in inventory_gems.all_items():
+            while inventory_gems.count_by(gem) > 0:
                 self.select_tab_with_enough_space(s)
-                self.pick_from_inventory_at(*perfect_gems.pop(gem))
+                self.pick_from_inventory_at(*inventory_gems.pop(gem))
 
     def should_transmute(self) -> bool:
         every_x_game = Config().configs["transmute"]["parser"]["transmute_every_x_game"]
@@ -176,37 +206,55 @@ class Transmute:
         if not force and not self.should_transmute():
             Logger.info(f"Skipping transmutes. Force: {force}, Game#: {self._game_stats._game_counter}")
             return None
-        self._run_gem_transmutes()
+        transmute_gems=Config().configs["transmute"]["parser"]["transmute"]
+        gemsToTransmute=[]
+        gemsToPutBack=[]
+        gemLoggerName=""
+        for gem in transmute_gems:
+            gemLoggerName+=gem+" "
+            if gem == "chipped":
+                gemsToTransmute+=CHIPPED_GEMS
+                gemsToPutBack+=FLAWED_GEMS
+            if gem == "flawed":
+                gemsToTransmute+=FLAWED_GEMS
+                gemsToPutBack+=STANDARD_GEMS
+            if gem == "standard":
+                gemsToTransmute+=STANDARD_GEMS
+                gemsToPutBack+=FLAWLESS_GEMS
+            if gem == "flawless":
+                gemsToTransmute+=FLAWLESS_GEMS
+                gemsToPutBack+=PERFECT_GEMS
+        self._run_gem_transmutes(gemsToTransmute,gemsToPutBack,gemLoggerName)
 
-    def check_cube_empty(self) -> bool:
+    def check_cube_empty(self,gemsToTransmute) -> bool:
         self.open_cube()
-        area = self.inspect_cube()
+        area = self.inspect_cube(gemsToTransmute)
         self.close_cube()
         return area.count_empty() == 12
 
-    def inspect_cube(self)-> InventoryCollection:
-        return self.inspect_area(4, 3, roi=Config().ui_roi["cube_area_roi"], known_items=FLAWLESS_GEMS)
+    def inspect_cube(self,gemsToTransmute)-> InventoryCollection:
+        return self.inspect_area(4, 3, roi=Config().ui_roi["cube_area_roi"], known_items=gemsToTransmute)
 
-    def _run_gem_transmutes(self) -> None:
-        Logger.info("Starting gem transmute")
+    def _run_gem_transmutes(self, gemsToTransmute,gemsToPutBack, gemLoggerName) -> None:
+        Logger.info(f"Starting {gemLoggerName}gem transmute")
         self._last_game = self._game_stats._game_counter
-        s = self.inspect_stash()
+        s = self.inspect_stash(gemsToTransmute)
         algorithm = SimpleGemPicking(s)
-        inv = self.inspect_inventory_area(FLAWLESS_GEMS)
+        inv = self.inspect_inventory_area(gemsToTransmute)
         is_cube_empty = None
         while True:
             while inv.count_empty() >= 3:
                 next_batch = algorithm.next_batch()
-                is_cube_empty = self.check_cube_empty() if is_cube_empty is None else is_cube_empty
+                is_cube_empty = self.check_cube_empty(gemsToTransmute) if is_cube_empty is None else is_cube_empty
                 if not is_cube_empty:
                     Logger.warning("Some items detected in the cube. Skipping transmute")
                     break
                 if next_batch is None:
-                    Logger.info("No more gems to cube")
+                    Logger.info(f"No more {gemLoggerName}gems to cube")
                     break
                 for tab, gem, x, y in next_batch:
                     self.pick_from_stash_at(tab, x, y)
-                inv = self.inspect_inventory_area(FLAWLESS_GEMS)
+                inv = self.inspect_inventory_area(gemsToTransmute)
             if inv.count() >= 3:
                 self.open_cube()
                 for gem in inv.all_items():
@@ -217,8 +265,8 @@ class Transmute:
                         self.transmute()
                         self.pick_from_cube_at(2, 3)
                 self.close_cube()
-                self.put_back_all_gems(s)
+                self.put_back_all_gems(s,gemsToTransmute,gemsToPutBack)
             else:
-                self.put_back_all_gems(s)
+                self.put_back_all_gems(s,gemsToTransmute,gemsToPutBack)
                 break
-        Logger.info("Finished gem transmute")
+        Logger.info(f"Finished {gemLoggerName}gem transmute")

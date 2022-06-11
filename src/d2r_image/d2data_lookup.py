@@ -178,7 +178,7 @@ def find_base_item_from_magic_item_text(magic_item_text, item_is_identified):
             base_item_str = res
 
     if not base_item_str:
-        Logger.error(f"Could not find base item for {magic_item_text}, {item_is_identified}")
+        Logger.warning(f"Could not find base item for {magic_item_text}, {item_is_identified}")
         return None
     return get_base(base_item_str)
 

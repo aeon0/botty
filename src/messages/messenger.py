@@ -14,6 +14,8 @@ class Messenger:
             self._message_api = DiscordEmbeds()
         else:
             self._message_api = None
+        self.enabled = Config().general["message_api_type"] and Config().general["custom_message_hook"]
+
 
     def send_item(self, item: str, image:  np.ndarray, location: str, ocr_text: str = '', nip_keep_expression: str = ''):
         self._message_api.send_item(item, image, location, ocr_text, nip_keep_expression)

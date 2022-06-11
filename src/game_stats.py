@@ -58,7 +58,7 @@ class GameStats:
             self._location_stats[self._location]["items"].append(item_name)
             self._location_stats["totals"]["items"] += 1
 
-        if send_message and not skip_log:
+        if send_message and self._messenger.enabled and not skip_log:
             self._messenger.send_item(item_name, img, self._location, ocr_text, expression)
 
     def log_death(self, img: str):
@@ -67,7 +67,8 @@ class GameStats:
             self._location_stats[self._location]["deaths"] += 1
             self._location_stats["totals"]["deaths"] += 1
 
-        self._messenger.send_death(self._location, img)
+        if self._messenger.enabled:
+            self._messenger.send_death(self._location, img)
 
     def log_chicken(self, img: str):
         self._chicken_counter += 1
@@ -75,7 +76,7 @@ class GameStats:
             self._location_stats[self._location]["chickens"] += 1
             self._location_stats["totals"]["chickens"] += 1
 
-        if Config().general["discord_log_chicken"]:
+        if Config().general["discord_log_chicken"] and self._messenger.enabled:
             self._messenger.send_chicken(self._location, img)
 
     def log_merc_death(self):
@@ -213,7 +214,8 @@ class GameStats:
 
     def _send_status_update(self):
         msg = f"Status Report\n{self._create_msg()}\nVersion: {__version__}"
-        self._messenger.send_message(msg)
+        if self._messenger.enabled:
+            self._messenger.send_message(msg)
 
     def _save_stats_to_file(self):
         msg = self._create_msg()

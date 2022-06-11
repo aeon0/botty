@@ -8,17 +8,22 @@ from utils.misc import wait
 from ui import loading
 
 class Pindle:
+
+    name = "run_pindle"
+
     def __init__(
         self,
         pather: Pather,
         town_manager: TownManager,
         char: IChar,
-        pickit: PickIt
+        pickit: PickIt,
+        runs: list[str]
     ):
         self._pather = pather
         self._town_manager = town_manager
         self._char = char
         self._pickit = pickit
+        self.runs = runs
 
     def approach(self, start_loc: Location) -> bool | Location:
         # Go through Red Portal in A5
