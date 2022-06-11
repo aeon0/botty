@@ -5,8 +5,10 @@ from item.pickit import PickIt
 import template_finder
 from town.town_manager import TownManager
 from utils.misc import wait
-
+from config import Config
 from ui import waypoint
+from health_manager import get_panel_check_paused, set_panel_check_paused
+
 
 class Trav:
 
@@ -59,4 +61,17 @@ class Trav:
         if self.name != self._runs[-1]:
             # Make sure we go back to the center to not hide the tp
             self._pather.traverse_nodes([230], self._char, timeout=2.5)
-        return (Location.A3_TRAV_CENTER_STAIRS, picked_up_items)
+        if Config().char["prefer_act4_town"]:
+            Logger.debug("Going to A4 town to shorten run duration (start next game in A4, or perform maintenance in the smallest town")
+            self._char.tp_town()
+            wait(0.4)
+            curr_loc = Location.A3_STASH_WP
+            set_panel_check_paused(True)
+            if not self._town_manager.open_wp(curr_loc):
+                return False
+            wait(0.4)
+            if waypoint.use_wp("The Pandemonium Fortress"):
+                set_panel_check_paused(False)
+                return (Location.A4_WP, picked_up_items)
+        else:
+            return (Location.A3_TRAV_CENTER_STAIRS, picked_up_items)

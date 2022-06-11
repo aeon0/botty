@@ -307,6 +307,7 @@ class Config:
             "gamble_items": False if not self._select_val("char", "gamble_items") else self._select_val("char", "gamble_items").replace(" ","").split(","),
             "sell_junk": bool(int(self._select_val("char", "sell_junk"))),
             "enable_no_pickup": bool(int(self._select_val("char", "enable_no_pickup"))),
+            "prefer_act4_town": bool(int(self._select_val("char", "enable_no_pickup"))),
         }
         # Sorc base config
         sorc_base_cfg = dict(self.configs["config"]["parser"]["sorceress"])
