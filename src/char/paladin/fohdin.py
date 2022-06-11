@@ -696,7 +696,7 @@ class FoHdin(Paladin):
                 ### LOOT ###
                 self._cs_pickit(skip_inspect=True)
                 if not self._pather.traverse_nodes([612], self): return False # , timeout=3):
-                self._activate_redemption_aura()
+                self._activate_cleanse_redemption()
                 self._cs_pickit()
                 if not self._pather.traverse_nodes([612], self): return False # , timeout=3): # recalibrate after loot
 
@@ -717,7 +717,7 @@ class FoHdin(Paladin):
                 if not self._pather.traverse_nodes([624], self): return False
                 if not self._pather.traverse_nodes_fixed("dia_a2y_hop_622", self): return False
                 Logger.debug(seal_layout + ": Hop!")
-                self._activate_redemption_aura()
+                self._activate_cleanse_redemption()
                 if not self._pather.traverse_nodes([622], self): return False #, timeout=3):
                 self._activate_redemption_aura()
                 self._cs_pickit()

@@ -487,7 +487,6 @@ class Diablo:
         if not self._pather.traverse_nodes([602], self._char): return False
         if Config().char["cs_town_visits"]: self._cs_town_visit("C")
         if do_pre_buff: self._char.pre_buff()
-
         if not self._layoutcheck("C", "Infector", "dia_c_layout_bold", "layoutcheck_c", [650660], 0.83, None, ["DIA_C2G_BOSS_CLOSED_LAYOUTCHECK1", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK4", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK5", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK2", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK3",], ["DIA_C1F_LAYOUTCHECK1", "DIA_C1F_LAYOUTCHECK2", "DIA_C1F_LAYOUTCHECK3"]): return False
         Logger.info("Waiting for Diablo to spawn")
         if not self._pather.traverse_nodes([602], self._char): return False
