@@ -819,7 +819,6 @@ class FoHdin(Paladin):
         diablo_abs = [100,-100] #hardcoded dia pos.
         self._generic_foh_attack_sequence(default_target_abs=diablo_abs, min_duration=atk_len_dur, max_duration=atk_len_dur*3, aura="concentration", foh_to_holy_bolt_ratio=2)
         self._activate_cleanse_redemption()
-        self._cs_attack_sequence()
         ### LOOT ###
         #self._cs_pickit()
         return True
