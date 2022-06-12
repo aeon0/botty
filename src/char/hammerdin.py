@@ -78,7 +78,6 @@ class Hammerdin(IChar):
     def kill_pindle(self) -> bool:
         wait(0.1, 0.15)
         if self.capabilities.can_teleport_with_charges:
-            keyboard.send(self._skill_hotkeys["teleport"])
             if not self._pather.traverse_nodes([104], self, timeout=1.0, force_tp=True, use_tp_charge=True):
                 return False
         elif self.capabilities.can_teleport_natively:
