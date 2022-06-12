@@ -5,206 +5,206 @@ NIP_PICK_TESTS = {
             "Text": "SUPERIOR AEGIS",
             "Color": "gray",
             "expressions": [
-                (
-                    "[type] == shield && [quality] >= normal && [flag] != ethereal # [sockets] >= 4",
-                    True
-                ),
-                (
-                    "[type] == shield",
-                    True
-                ),
-                (
-                    "[name] == Aegis && [flag] != ethereal",
-                    True
-                ),
-                (
-                    "[name] == Aegis && [quality] == superior",
-                    True
-                ),
-                (
-                    "[name] == Aegis && [quality] == superior && [flag] == ethereal",
-                    True
-                ),
-                (
-                    "[name] == Aegis && [quality] == superior && [flag] == ethereal # [sockets] >= 4",
-                    True
-                ),
-                (
-                    "[name] == Aegis && [flag] == ethereal # [sockets] >= 4",
-                    True
-                ),
-                (
-                    "[name] == Aegis && [quality] == superior && [flag] != ethereal # [sockets] == 0",
-                    False
-                ),
-                (
-                    "[name] == Aegis && [flag] == ethereal",
-                    True
-                ),
-                (
-                    "[name] == Aegis # [sockets] >= 4",
-                    True
-                ),
-                (
-                    "[name] == Aegis && [quality] == normal",
-                    False
-                ),
-                (
-                    "[quality] == normal",
-                    False
-                ),
+                {
+                    "expression": "[type] == shield && [quality] >= normal && [flag] != ethereal # [sockets] >= 4",
+                    "should_pickup": True
+                },
+                {
+                    "expression": "[type] == shield",
+                    "should_pickup": True
+                },
+                {
+                    "expression": "[name] == Aegis && [flag] != ethereal",
+                    "should_pickup": True
+                },
+                {
+                    "expression": "[name] == Aegis && [quality] == superior",
+                    "should_pickup": True
+                },
+                {
+                    "expression": "[name] == Aegis && [quality] == superior && [flag] == ethereal",
+                    "should_pickup": True
+                },
+                {
+                    "expression": "[name] == Aegis && [quality] == superior && [flag] == ethereal # [sockets] >= 4",
+                    "should_pickup": True
+                },
+                {
+                    "expression": "[name] == Aegis && [flag] == ethereal # [sockets] >= 4",
+                    "should_pickup": True
+                },
+                {
+                    "expression": "[name] == Aegis && [quality] == superior && [flag] != ethereal # [sockets] == 0",
+                    "should_pickup": False
+                },
+                {
+                    "expression": "[name] == Aegis && [flag] == ethereal",
+                    "should_pickup": True
+                },
+                {
+                    "expression": "[name] == Aegis # [sockets] >= 4",
+                    "should_pickup": True
+                },
+                {
+                    "expression": "[name] == Aegis && [quality] == normal",
+                    "should_pickup": False
+                },
+                {
+                    "expression": "[quality] == normal",
+                    "should_pickup": False
+                },
             ],
         },
         {
             "Color": "gray",
             "Text": "AEGIS",
             "expressions": [
-                (
-                    "[name] == Aegis && [quality] == normal",
-                    True
-                ),
-                (
-                    "[name] == Aegis && [quality] == superior",
-                    False
-                ),
-                (
-                    "[name] == Aegis && [flag] == ethereal",
-                    True
-                ),
-                (
-                    "[name] == Aegis # [sockets] > 0",
-                    True
-                ),
+                {
+                    "expression": "[name] == Aegis && [quality] == normal",
+                    "should_pickup": True
+                },
+                {
+                    "expression": "[name] == Aegis && [quality] == superior",
+                    "should_pickup": False
+                },
+                {
+                    "expression": "[name] == Aegis && [flag] == ethereal",
+                    "should_pickup": True
+                },
+                {
+                    "expression": "[name] == Aegis # [sockets] > 0",
+                    "should_pickup": True
+                },
             ],
         },
         {
             "Color": "gray",
             "Text": "AERIN SHIELD",
             "expressions": [
-                (
-                    "[type] == auricshields # [sockets] > 0",
-                    True
-                ),
-                (
-                    "[name] == aerinshield # [sockets] > 0",
-                    True
-                ),
-                (
-                    "[type] == auricshields && [flag] != ethereal # [sockets] == 0",
-                    False
-                ),
-                (
-                    "[type] == auricshields && [flag] != ethereal # [sockets] > 0",
-                    True
-                ),
-                (
-                    "[name] == aerinshield && [flag] != ethereal # [sockets] == 0",
-                    False
-                ),
-                (
-                    "[name] == aerinshield && [flag] != ethereal # [sockets] > 0",
-                    True
-                ),
-                (
-                    "[name] == aerinshield",
-                    True
-                ),
+                {
+                    "expression": "[type] == auricshields # [sockets] > 0",
+                    "should_pickup": True
+                },
+                {
+                    "expression": "[name] == aerinshield # [sockets] > 0",
+                    "should_pickup": True
+                },
+                {
+                    "expression": "[type] == auricshields && [flag] != ethereal # [sockets] == 0",
+                    "should_pickup": False
+                },
+                {
+                    "expression": "[type] == auricshields && [flag] != ethereal # [sockets] > 0",
+                    "should_pickup": True
+                },
+                {
+                    "expression": "[name] == aerinshield && [flag] != ethereal # [sockets] == 0",
+                    "should_pickup": False
+                },
+                {
+                    "expression": "[name] == aerinshield && [flag] != ethereal # [sockets] > 0",
+                    "should_pickup": True
+                },
+                {
+                    "expression": "[name] == aerinshield",
+                    "should_pickup": True
+                },
             ],
         },
         {
             "Color": "gray",
             "Text": "SUPERIOR AERIN SHIELD",
             "expressions": [
-                (
-                    "[type] == auricshields && [quality] == superior && [flag] != ethereal # [sockets] > 0",
-                    True
-                ),
+                {
+                    "expression": "[type] == auricshields && [quality] == superior && [flag] != ethereal # [sockets] > 0",
+                    "should_pickup": True
+                },
             ],
         },
         {
             "Color": "white",
             "Text": "13935 GOLD",
             "expressions": [
-                (
-                    "[Type] == Gold # [Gold] >= 1000",
-                    True
-                ),
-                (
-                    "[Type] == Gold # [Gold] < 1000",
-                    False
-                ),
+                {
+                    "expression": "[Type] == Gold # [Gold] >= 1000",
+                    "should_pickup": True
+                },
+                {
+                    "expression": "[Type] == Gold # [Gold] < 1000",
+                    "should_pickup": False
+                },
             ],
         },
         {
             "Color": "white",
             "Text": "AEGIS",
             "expressions": [
-                (
-                    "[name] == Aegis # [sockets] == 0",
-                    True
-                ),
-                (
-                    "[name] == Aegis # [sockets] > 0",
-                    False
-                ),
-                (
-                    "[name] == Aegis && [quality] == normal",
-                    True
-                ),
-                (
-                    "[name] == Aegis && [quality] == superior",
-                    False
-                ),
-                (
-                    "[name] == Aegis && [quality] > normal",
-                    False
-                ),
-                (
-                    "[name] == Aegis && [class] == elite",
-                    True
-                ),
+                {
+                    "expression": "[name] == Aegis # [sockets] == 0",
+                    "should_pickup": True
+                },
+                {
+                    "expression": "[name] == Aegis # [sockets] > 0",
+                    "should_pickup": False
+                },
+                {
+                    "expression": "[name] == Aegis && [quality] == normal",
+                    "should_pickup": True
+                },
+                {
+                    "expression": "[name] == Aegis && [quality] == superior",
+                    "should_pickup": False
+                },
+                {
+                    "expression": "[name] == Aegis && [quality] > normal",
+                    "should_pickup": False
+                },
+                {
+                    "expression": "[name] == Aegis && [class] == elite",
+                    "should_pickup": True
+                },
             ],
         },
         {
             "Color": "blue",
             "Text": "AEGIS",
             "expressions": [
-                (
-                    "[name] == Aegis && [quality] == magic",
-                    True
-                ),
-                (
-                    "[name] == Aegis && [quality] == magic # [sockets] == 0",
-                    True
-                ),
-                (
-                    "[name] == Aegis && [quality] >= superior",
-                    True
-                ),
-                (
-                    "[name] == Aegis && [quality] <= superior",
-                    False
-                ),
+                {
+                    "expression": "[name] == Aegis && [quality] == magic",
+                    "should_pickup": True
+                },
+                {
+                    "expression": "[name] == Aegis && [quality] == magic # [sockets] == 0",
+                    "should_pickup": True
+                },
+                {
+                    "expression": "[name] == Aegis && [quality] >= superior",
+                    "should_pickup": True
+                },
+                {
+                    "expression": "[name] == Aegis && [quality] <= superior",
+                    "should_pickup": False
+                },
             ],
         },
         {
             "Color": "yellow",
             "Text": "AEGIS",
             "expressions": [
-                (
-                    "[name] == Aegis && [quality] == rare",
-                    True
-                ),
+                {
+                    "expression": "[name] == Aegis && [quality] == rare",
+                    "should_pickup": True
+                },
             ],
         },
         {
             "Color": "gold",
             "Text": "AEGIS",
             "expressions": [
-                (
-                    "[name] == aegis && [quality] == unique",
-                    True
-                ),
+                {
+                    "expression": "[name] == aegis && [quality] == unique",
+                    "should_pickup": True
+                },
             ],
         },
     ],
@@ -213,46 +213,46 @@ NIP_PICK_TESTS = {
             "Color": "gray",
             "Text": "GREATER CLAWS",
             "expressions": [
-                (
-                    "[name] == greaterclaws && [quality] == normal",
-                    True
-                ),
-                (
-                    "[name] == greaterclaws && [class] == exceptional",
-                    True
-                ),
-                (
-                    "[type] == assassinclaw && [quality] == normal",
-                    True
-                ),
-                (
-                    "[type] == handtohand && [quality] == normal",
-                    True
-                ),
+                {
+                    "expression": "[name] == greaterclaws && [quality] == normal",
+                    "should_pickup": True
+                },
+                {
+                    "expression": "[name] == greaterclaws && [class] == exceptional",
+                    "should_pickup": True
+                },
+                {
+                    "expression": "[type] == assassinclaw && [quality] == normal",
+                    "should_pickup": True
+                },
+                {
+                    "expression": "[type] == handtohand && [quality] == normal",
+                    "should_pickup": True
+                },
             ],
         },
         {
             "Color": "gray",
             "Text": "SUPERIOR GREATER CLAWS",
             "expressions": [
-                (
-                    "[type] == handtohand && [quality] == superior",
-                    True
-                ),
-                (
-                    "[name] == greaterclaws && [quality] == superior",
-                    True
-                ),
+                {
+                    "expression": "[type] == handtohand && [quality] == superior",
+                    "should_pickup": True
+                },
+                {
+                    "expression": "[name] == greaterclaws && [quality] == superior",
+                    "should_pickup": True
+                },
             ],
         },
         {
             "Color": "white",
             "Text": "GREATER CLAWS",
             "expressions": [
-                (
-                    "[name] == greaterclaws && [flag] != ethereal && [quality] <= superior # [sockets] == 0 && [skilldragonflight] >= 2 && [skilllightningsentry] >= 2 ",
-                    True
-                ),
+                {
+                    "expression": "[name] == greaterclaws && [flag] != ethereal && [quality] <= superior # [sockets] == 0 && [skilldragonflight] >= 2 && [skilllightningsentry] >= 2 ",
+                    "should_pickup": True
+                },
             ],
         },
         {
@@ -268,14 +268,14 @@ NIP_PICK_TESTS = {
             "Color": "white",
             "Text": "SUPERIOR HIEROPHANT TROPHY",
             "expressions": [
-                (
-                    "[name] == hierophanttrophy",
-                    True
-                ),
-                (
-                    "[type] == voodooheads",
-                    True
-                ),
+                {
+                    "expression": "[name] == hierophanttrophy",
+                    "should_pickup": True
+                },
+                {
+                    "expression": "[type] == voodooheads",
+                    "should_pickup": True
+                },
             ],
         },
     ],
@@ -284,32 +284,32 @@ NIP_PICK_TESTS = {
             "Color": "white",
             "Text": "FLAWED EMERALD",
             "expressions": [
-                (
-                    "[name] >= chippedemerald && [name] <= perfectemerald",
-                    True
-                ),
-                (
-                    "[name] == flawedemerald",
-                    True
-                ),
-                (
-                    "[name] == emerald",
-                    False
-                ),
+                {
+                    "expression": "[name] >= chippedemerald && [name] <= perfectemerald",
+                    "should_pickup": True
+                },
+                {
+                    "expression": "[name] == flawedemerald",
+                    "should_pickup": True
+                },
+                {
+                    "expression": "[name] == emerald",
+                    "should_pickup": False
+                },
             ],
         },
         {
             "Color": "white",
             "Text": "FULL REJUVENATION POTION",
             "expressions": [
-                (
-                    "[name] == fullrejuvenationpotion",
-                    True
-                ),
-                (
-                    "[name] == rejuvenationpotion",
-                    False
-                ),
+                {
+                    "expression": "[name] == fullrejuvenationpotion",
+                    "should_pickup": True
+                },
+                {
+                    "expression": "[name] == rejuvenationpotion",
+                    "should_pickup": False
+                },
             ],
         },
         {
@@ -323,10 +323,10 @@ NIP_PICK_TESTS = {
             "Color": "orange",
             "Text": "FESTERING ESSENCE OF DESTRUCTION",
             "expressions": [
-                (
-                    "[name] == festeringessenceofdestruction",
-                    True
-                ),
+                {
+                    "expression": "[name] == festeringessenceofdestruction",
+                    "should_pickup": True
+                },
             ],
         },
     ],
@@ -335,82 +335,82 @@ NIP_PICK_TESTS = {
             "Color": "white",
             "Text": "REJUVENATION POTION",
             "expressions": [
-                (
-                    "[name] == fullrejuvenationpotion",
-                    False
-                ),
-                (
-                    "[name] == rejuvenationpotion",
-                    True
-                ),
+                {
+                    "expression": "[name] == fullrejuvenationpotion",
+                    "should_pickup": False
+                },
+                {
+                    "expression": "[name] == rejuvenationpotion",
+                    "should_pickup": True
+                },
             ],
         },
         {
             "Color": "white",
             "Text": "SUPER MANA POTION",
             "expressions": [
-                (
-                    "[name] == supermanapotion",
-                    True
-                ),
+                {
+                    "expression": "[name] == supermanapotion",
+                    "should_pickup": True
+                },
             ],
         },
         {
             "Color": "white",
             "Text": "SCROLL OF TOWN PORTAL",
             "expressions": [
-                (
-                    "[name] == scrolloftownportal",
-                    True
-                ),
+                {
+                    "expression": "[name] == scrolloftownportal",
+                    "should_pickup": True
+                },
             ],
         },
         {
             "Color": "white",
             "Text": "SCROLL OF IDENTIFY",
             "expressions": [
-                (
-                    "[name] == scrollofidentify",
-                    True
-                ),
+                {
+                    "expression": "[name] == scrollofidentify",
+                    "should_pickup": True
+                },
             ],
         },
         {
             "Color": "white",
             "Text": "SUPER HEALING POTION",
             "expressions": [
-                (
-                    "[name] == superhealingpotion",
-                    True
-                ),
+                {
+                    "expression": "[name] == superhealingpotion",
+                    "should_pickup": True
+                },
             ],
         },
         {
             "Color": "green",
             "Text": "RING",
             "expressions": [
-                (
-                    "[name] == ring && [quality] == set",
-                    True
-                ),
-                (
-                    "[type] == ring && [quality] == set # [hpregen] >= 2 && [maxhp] >= 15 // Angelic Halo",
-                    True
-                ),
+                {
+                    "expression": "[name] == ring && [quality] == set",
+                    "should_pickup": True
+                },
+                {
+                    "expression": "[type] == ring && [quality] == set # [hpregen] >= 2 && [maxhp] >= 15 // Angelic Halo",
+                    "should_pickup": True
+                },
             ],
         },
         {
             "Color": "orange",
             "Text": "SUR RUNE",
             "expressions": [
-                (
-                    "[name] >= elrune && [name] <= zodrune",
-                    True
-                ),
-                (
-                    "[name] == surrune",
-                    True
-                ),
+                {
+                    "expression": "[name] >= elrune && [name] <= zodrune",
+                    "should_pickup": True
+                },
+                {
+                    "expression": "[name] == surrune",
+                    "should_pickup": True
+                },
             ],
         },
     ],

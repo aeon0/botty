@@ -35,7 +35,7 @@ class NipSyntaxErrorSection(NipSyntaxError):
 
 
 
-def should_keep(item_data):
+def should_keep(item_data) -> tuple[bool, str]:
     for expression in nip_expressions:
         if eval(expression.transpiled):
             return True, expression.raw
@@ -114,7 +114,7 @@ def _handle_pick_eth_sockets(item_data: dict, expression: NIPExpression) -> tupl
     return ignore, pick_eval_expr
 
 
-def should_pickup(item_data):
+def should_pickup(item_data) -> tuple[bool, str]:
     item_is_gold = item_data["BaseItem"]["DisplayName"] == "Gold"
     for expression in nip_expressions:
         if expression.raw:
@@ -141,7 +141,7 @@ def should_pickup(item_data):
     return False, ""
 
 
-def should_id(item_data):
+def should_id(item_data) -> bool:
     """
         [name] == ring && [quality] == rare                     Don't ID.
         [name] == ring && [quality] == rare # [strength] == 5   Do ID.

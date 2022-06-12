@@ -496,24 +496,24 @@ def transpile_nip_expression(expression: str | list[Token], isPickUpPhase=False)
         if transpiled_expression:
             return transpiled_expression
 
-def load_nip_expression(nip_expression) -> NIPExpression | None:
+def generate_expression_object(nip_expression: str) -> NIPExpression | None:
     nip_expression = prepare_nip_expression(nip_expression)
 
-    if not nip_expression:
-        return None
+    if nip_expression:
+        tokens = Lexer().create_tokens(nip_expression)
+        if transpiled_expression := transpile_nip_expression(tokens):
+            split_tokens = get_section_from_tokens(tokens)
+            expression_obj = NIPExpression(
+                    raw=nip_expression,
+                    tokens=tokens,
+                    transpiled=transpiled_expression,
+                    should_id_transpiled=transpile_nip_expression(split_tokens[NipSections.PROP]),
+                    should_pickup=transpile_nip_expression(split_tokens[NipSections.PROP], isPickUpPhase=True) # * Some stuff gets transpiled differently in the pickup phase
+                )
+            return expression_obj
+    return None
 
-    tokens = Lexer().create_tokens(nip_expression)
-    transpiled_expression = transpile_nip_expression(tokens)
-    split_tokens = get_section_from_tokens(tokens)
-    if transpiled_expression:
-        expression_obj = NIPExpression(
-                raw=nip_expression,
-                tokens=tokens,
-                transpiled=transpiled_expression,
-                should_id_transpiled=transpile_nip_expression(split_tokens[NipSections.PROP]),
-                should_pickup=transpile_nip_expression(split_tokens[NipSections.PROP], isPickUpPhase=True) # * Some stuff gets transpiled differently in the pickup phase
-            )
+
+def load_nip_expression(nip_expression: str):
+    if (expression_obj := generate_expression_object(nip_expression)) is not None:
         nip_expressions.append(expression_obj)
-        return expression_obj
-    else:
-        return None

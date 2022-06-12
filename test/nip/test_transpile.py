@@ -32,6 +32,7 @@ def test_section_syntax():
             else:
                 pytest.fail(f"Syntax error should not have been raised for {section_syntax_test['raw_expression']}")
 
-def test_transpile():
-    for transpile_test in transpile_tests:
-        assert transpile_nip_expression(transpile_test["raw_expression"]) == transpile_test["transpiled_expression"]
+# OUTDATED
+# def test_transpile():
+#     for transpile_test in transpile_tests:
+#         assert transpile_nip_expression(transpile_test["raw_expression"]) == transpile_test["transpiled_expression"]

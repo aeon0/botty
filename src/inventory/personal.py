@@ -81,7 +81,7 @@ def stash_all_items(items: list = None):
     center_mouse()
     # Wait for stash to fully load
     if not common.wait_for_left_inventory():
-        Logger.error("stash_all_items(): Could not determine to be in stash menu. Continue...")
+        Logger.error("stash_all_items(): Failed to find stash menu. Continue...")
         return items
     # stash gold
     if Config().char["stash_gold"]:

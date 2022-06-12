@@ -57,8 +57,12 @@ def restore_settings_from_backup():
         print("No D2R settings backup file was found, couldn't restore.")
         return
     close_down_d2()
-    shutil.copyfile(backup_file, current_file)
-    print("D2R settings restored successfully.")
+    try:
+        shutil.copyfile(backup_file, current_file)
+        print("D2R settings restored successfully.")
+    except Exception as e:
+        print("D2R settings restored unsuccessfully.")
+        print(f"Error: {e}")
 
     backup_file = f"{d2_saved_games}/launch_options_backup.txt"
     current_file = f"{os.getenv('APPDATA')}/Battle.net/Battle.net.config"
@@ -72,11 +76,17 @@ def restore_settings_from_backup():
 
 def set_launch_settings(launch_options):
     close_down_bnet_launcher()
+    # open bnet config setts
     f = open(f"{os.getenv('APPDATA')}/Battle.net/Battle.net.config")
     curr_settings = json.load(f)
-    curr_settings["Games"]["osi"]["AdditionalLaunchArguments"] = launch_options
-    with open(f"{os.getenv('APPDATA')}/Battle.net/Battle.net.config", 'w') as outfile:
-        json.dump(curr_settings, outfile, indent=4)
+    # write launch options to bnet config
+    try:
+        curr_settings["Games"]["osi"]["AdditionalLaunchArguments"] = launch_options
+        with open(f"{os.getenv('APPDATA')}/Battle.net/Battle.net.config", 'w') as outfile:
+            json.dump(curr_settings, outfile, indent=4)
+    except:
+        print("Error: Could not set launch options.")
+        print(f"You might need to set the launch options manually. Add launch options to D2R in BNet launcher: {launch_options}")
 
 def copy_mod_files():
     new_path = os.path.join(Config().general['d2r_path'], "mods\\botty")
@@ -84,8 +94,8 @@ def copy_mod_files():
     try:
         shutil.rmtree(new_path)
         shutil.copytree("assets/mods/botty", new_path)
-    except OSError as error:
-        print(error)
+    except Exception as e:
+        print(f"Error copying mod files: {e}")
 
 def adjust_settings():
     close_down_d2()
