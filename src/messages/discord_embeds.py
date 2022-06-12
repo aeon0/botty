@@ -8,7 +8,7 @@ import discord
 from version import __version__
 import numpy as np
 from discord import Webhook, RequestsWebhookAdapter, Color, InvalidArgument
-
+import json
 class DiscordEmbeds(GenericApi):
     def __init__(self):
         self._file = None
@@ -28,7 +28,7 @@ class DiscordEmbeds(GenericApi):
                 Logger.error(f"Error initializing webhook {hook_url}: {e}")
         return hook
 
-    def send_item(self, item: str, image:  np.ndarray, location: str, ocr_text: str = '', nip_keep_expression: str = ''):
+    def send_item(self, item: str, image:  np.ndarray, location: str, ocr_text: str = '', nip_keep_expression: str = '', item_props: dict = {}):
         imgName = item.replace('_', '-')
 
         _, w, _ = image.shape
@@ -43,6 +43,18 @@ class DiscordEmbeds(GenericApi):
         e.set_image(url=f"attachment://{imgName}.png")
         e.add_field(name="OCR Text", value=f"{ocr_text}", inline=False)
         e.add_field(name="NIP", value=f"`{nip_keep_expression}`", inline=False)
+        # Escape the quotes
+
+        new_dict = {
+            "NTIPAliasIdName": item_props["NTIPAliasIdName"],
+            "NTIPAliasType": item_props["NTIPAliasType"],
+            "NTIPAliasClassID": item_props["NTIPAliasClassID"],
+            "NTIPAliasClass": item_props["NTIPAliasClass"],
+            "NTIPAliasQuality": item_props["NTIPAliasQuality"],
+            "NTIPAliasStat": item_props["NTIPAliasStat"],
+            "NTIPAliasFlag": item_props["NTIPAliasFlag"]
+        }
+        e.add_field(name="ItemProps", value= '`' + json.dumps(new_dict, sort_keys=True) + '`', inline=False)
         self._send_embed(e, self._loot_webhook, file)
 
     def send_death(self, location, image_path):

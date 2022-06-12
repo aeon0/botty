@@ -48,7 +48,7 @@ class GameStats:
         if self._location not in self._location_stats:
             self._location_stats[self._location] = { "items": [], "deaths": 0, "chickens": 0, "merc_deaths": 0, "failed_runs": 0 }
 
-    def log_item_keep(self, item_name: str, send_message: bool, img: np.ndarray, ocr_text: str = '', expression: str = ''):
+    def log_item_keep(self, item_name: str, send_message: bool, img: np.ndarray, ocr_text: str = '', expression: str = '', item_props: dict = {}):
         filtered_substrings = [" POTION", " OF IDENTIFY", " OF TOWN PORTAL", " AMETHYST", " RUBY", " TOPAZ", " EMERALD", " SAPPHIRE", " DIAMOND"]
         filtered_matches = ["DIAMOND", "AMETHYST", "RUBY", "TOPAZ", "EMERALD", "SAPPHIRE", "ARROWS", "BOLTS",
                             "CHIPPED SKULL", "FLAWED SKULL", "SKULL", "FLAWLESS SKULL", "PERFECT SKULL"]
@@ -59,7 +59,7 @@ class GameStats:
             self._location_stats["totals"]["items"] += 1
 
         if send_message and self._messenger.enabled and not skip_log:
-            self._messenger.send_item(item_name, img, self._location, ocr_text, expression)
+            self._messenger.send_item(item_name, img, self._location, ocr_text, expression, item_props)
 
     def log_death(self, img: str):
         self._death_counter += 1

@@ -17,8 +17,8 @@ class Messenger:
         self.enabled = Config().general["message_api_type"] and Config().general["custom_message_hook"]
 
 
-    def send_item(self, item: str, image:  np.ndarray, location: str, ocr_text: str = '', nip_keep_expression: str = ''):
-        self._message_api.send_item(item, image, location, ocr_text, nip_keep_expression)
+    def send_item(self, item: str, image:  np.ndarray, location: str, ocr_text: str = '', nip_keep_expression: str = '', item_props = {}):
+        self._message_api.send_item(item, image, location, ocr_text, nip_keep_expression, item_props)
 
     def send_death(self, location: str, image_path: str = None):
         self._message_api.send_death(location, image_path)
