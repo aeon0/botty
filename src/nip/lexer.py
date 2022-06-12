@@ -29,6 +29,7 @@ class NipSections(Enum):
     STAT = 2
     MAXQUANTITY = 3
 
+
 class NipSyntaxError(Exception):
     def __init__(self, ecode: str|int = 0, message: str = '', expression: str = ''):
         self.message = message
@@ -251,21 +252,21 @@ class Lexer:
                                 return Token(TokenType.ValueNTIPAliasType, NTIPAliasType[lookup_key])
                     Logger.warning(f"Unknown property lookup: \"{lookup_key}\" {''.join(self.text)}  {self.current_section}")
                     
-                    return Token(TokenType.UNKNOWN, "-1")
+                    return Token(TokenType.UNKNOWN, lookup_key)
             elif self.current_section == NipSections.STAT:
                 if lookup_key in NTIPAliasStat:
                     return Token(TokenType.ValueNTIPAliasStat, NTIPAliasStat[lookup_key])
                 else:
-                    spell_check = ""
-                    for key in NTIPAliasStat:
-                        if levenshtein(lookup_key, key) < 3:
-                            spell_check = f", did you mean {key}?"
-                    raise NipSyntaxError("NIP_0x3", f"Unknown NTIPStat lookup: {lookup_key}{spell_check}", self.get_text())
-                    # return Token(TokenType.UNKNOWN, "-1")
+                    # spell_check = ""
+                    # for key in NTIPAliasStat:
+                    #     if levenshtein(lookup_key, key) < 3:
+                    #         spell_check = f", did you mean {key}?"
+                    # raise NipSyntaxError("NIP_0x3", f"Unknown NTIPStat lookup: {lookup_key}{spell_check}", self.get_text())
+                    return Token(TokenType.UNKNOWN, lookup_key)
             elif self.current_section == NipSections.MAXQUANTITY:
                 pass
         
-        return Token(TokenType.UNKNOWN, "-1")
+            return Token(TokenType.UNKNOWN, lookup_key)
 
     def _create_d2r_image_data_lookup(self) -> Token:
         lookup_key = ""
@@ -290,23 +291,24 @@ class Lexer:
                 return Token(TokenType.ValueNTIPAliasFlag, lookup_key)
             elif lookup_key in NTIPAliasType and self.tokens[-2].type == TokenType.KeywordNTIPAliasType:
                 return Token(TokenType.ValueNTIPAliasType, lookup_key)
-            else:
-                if self.tokens[-2].type != TokenType.KeywordNTIPAliasIDName: # * Make sure the last token isn't [idname]
-                    # Add all the NTIPAlias* to a dict
-                    NTIPAliasAll = NTIPAliasClass | NTIPAliasQuality | NTIPAliasClassID | NTIPAliasFlag | NTIPAliasType
-                    for key in NTIPAliasAll:
-                        if levenshtein(lookup_key, key) < 3:
-                            raise NipSyntaxError( "NIP_0x4", f"Unknown NTIP lookup: {lookup_key} did you mean {key}?", self.get_text())
-                else:
-                    return Token(TokenType.ValueNTIPAliasIDName, lookup_key)
+            elif self.tokens[-2].type == TokenType.KeywordNTIPAliasIDName:
+                return Token(TokenType.ValueNTIPAliasIDName, lookup_key)
+                # if self.tokens[-2].type != TokenType.KeywordNTIPAliasIDName: # * Make sure the last token isn't [idname]
+                #     # Add all the NTIPAlias* to a dict
+                #     NTIPAliasAll = NTIPAliasClass | NTIPAliasQuality | NTIPAliasClassID | NTIPAliasFlag | NTIPAliasType
+                #     for key in NTIPAliasAll:
+                #         if levenshtein(lookup_key, key) < 3:
+                #             raise NipSyntaxError( "NIP_0x4", f"Unknown NTIP lookup: {lookup_key} did you mean {key}?", self.get_text())
+                # else:
+                #     return Token(TokenType.ValueNTIPAliasIDName, lookup_key)
                 
                 return Token(TokenType.UNKNOWN, lookup_key)
         elif self.current_section == NipSections.STAT:
             if lookup_key in NTIPAliasStat:
                 return Token(TokenType.ValueNTIPAliasStat, lookup_key)
             else:
-                return Token(TokenType.UNKNOWN, "-1")
-        return Token(TokenType.UNKNOWN, "-1")
+                return Token(TokenType.UNKNOWN, lookup_key)
+        return Token(TokenType.UNKNOWN, lookup_key)
 
     def _create_logical_operator(self) -> Token:
         char = self.current_token

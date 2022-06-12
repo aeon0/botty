@@ -252,9 +252,9 @@ def validate_correct_math_syntax(left_token=None, right_token=None):
         TokenType.NUMBER,
     ]
     if left_token and left_token.type not in allowed_left_and_right_tokens:
-        raise NipSyntaxError("NIP_0x6", "unexpected token on left of math operator")
+        raise NipSyntaxError("NIP_0x3", "unexpected token on left of math operator")
     if right_token and right_token.type not in allowed_left_and_right_tokens:
-        raise NipSyntaxError("NIP_0x7", "unexpected token on right of math operator")
+        raise NipSyntaxError("NIP_0x4", "unexpected token on right of math operator")
 
 OPENING_PARENTHESIS_COUNT = 0
 def validate_correct_parenthesis_syntax(current_pos, all_tokens, left_token=None, right_token=None):
@@ -279,10 +279,10 @@ def validate_correct_parenthesis_syntax(current_pos, all_tokens, left_token=None
             # OPENING_PARENTHESIS_COUNT = 0
             if OPENING_PARENTHESIS_COUNT > 0:
                 OPENING_PARENTHESIS_COUNT = 0
-                raise NipSyntaxError("NIP_0x8", "unclosed parenthesis")
+                raise NipSyntaxError("NIP_0x5", "unclosed parenthesis")
             else:
                 OPENING_PARENTHESIS_COUNT = 0
-                raise NipSyntaxError("NIP_0x9", "unopened parenthesis")
+                raise NipSyntaxError("NIP_0x6", "unopened parenthesis")
         OPENING_PARENTHESIS_COUNT = 0
 
 def validate_digits_syntax(left=None, right=None):
@@ -313,10 +313,10 @@ def validate_digits_syntax(left=None, right=None):
 
     if left:
         if left.type not in allowed_left_and_right_tokens:
-            raise NipSyntaxError("NIP_0x10", "Expected operator on left of number")
+            raise NipSyntaxError("NIP_0x7", "Expected operator on left of number")
     if right:
         if right.type not in allowed_left_and_right_tokens:
-            raise NipSyntaxError("NIP_0x11", "Expected operator on right of number")
+            raise NipSyntaxError("NIP_0x8", "Expected operator on right of number")
 
 
 def validate_logical_operators(left=None, right=None):
@@ -345,12 +345,12 @@ def validate_logical_operators(left=None, right=None):
 
     if left:
         if left.type not in allowed_left_and_right_tokens + [TokenType.RPAREN]:
-            raise NipSyntaxError("NIP_0x12", "Expected token on left of logical operator")
+            raise NipSyntaxError("NIP_0x9", "Expected token on left of logical operator")
     if right:
         if right.type not in allowed_left_and_right_tokens + [TokenType.LPAREN]:
-            raise NipSyntaxError("NIP_0x13", "Expected token on right of logical operator")
+            raise NipSyntaxError("NIP_0x10", "Expected token on right of logical operator")
     else:
-        raise NipSyntaxError("NIP_0x14", "Expected token on right of logical operator")
+        raise NipSyntaxError("NIP_0x11", "Expected token on right of logical operator")
 
 
 def validate_nip_expression_syntax(nip_expression): # * enforces that {property} # {stats} # {maxquantity}
@@ -367,8 +367,8 @@ def validate_nip_expression_syntax(nip_expression): # * enforces that {property}
         tokens = Lexer().create_tokens(split_nip_expression[0], NipSections.PROP)
         all_tokens.extend(tokens)
         for token in tokens:
-            if token.type == TokenType.ValueNTIPAliasStat:
-                raise NipSyntaxErrorSection(token, "property")
+            if token.type == TokenType.ValueNTIPAliasStat or token.type == TokenType.UNKNOWN:
+                raise NipSyntaxError("NIP_0x12", f"Invalid token '{token.value}' in property section")
     if split_nip_expression_len >= 2: # stats
         all_tokens.append(Token(TokenType.SECTIONAND, "#"))
         tokens = Lexer().create_tokens(split_nip_expression[1], NipSections.STAT)
@@ -379,13 +379,15 @@ def validate_nip_expression_syntax(nip_expression): # * enforces that {property}
                 token.type == TokenType.ValueNTIPAliasClassID and token.value != '523' or # 523 refers to gold
                 token.type == TokenType.ValueNTIPAliasFlag or
                 token.type == TokenType.ValueNTIPAliasType or
-                token.type == TokenType.ValueNTIPAliasQuality
+                token.type == TokenType.ValueNTIPAliasQuality or 
+                token.type == TokenType.UNKNOWN
             )
 
             if is_invalid_stat_lookup:
-                raise NipSyntaxErrorSection(token, "stats")
+                raise NipSyntaxError("NIP_0x13", f"Invalid token '{token.value}' in stats")
 
     if split_nip_expression_len >= 3: # maxquantity
+        # all_tokens.append(Token(TokenType.SECTIONAND, "#"))
         tokens = Lexer().create_tokens(split_nip_expression[2], NipSections.MAXQUANTITY)
         all_tokens.extend(tokens)
         for token in tokens:
@@ -395,17 +397,19 @@ def validate_nip_expression_syntax(nip_expression): # * enforces that {property}
                 token.type == TokenType.ValueNTIPAliasClassID or
                 token.type == TokenType.ValueNTIPAliasFlag or
                 token.type == TokenType.ValueNTIPAliasType or
-                token.type == TokenType.ValueNTIPAliasStat
+                token.type == TokenType.ValueNTIPAliasStat or
+                token.type == TokenType.UNKNOWN
             )
 
             if is_invalid_maxquantity_lookup:
-                raise NipSyntaxErrorSection(token, "maxquantity")
+                pass
+                raise NipSyntaxError("NIP_0x14", "Invalid maxquantity lookup")
 
     # * Further syntax validation
     # print(all_tokens[-1].type)
 
     if all_tokens[-1].type == TokenType.SECTIONAND:
-        raise NipSyntaxError("NIP_0x16", "unexpected sectionand (#) at end of expression")
+        raise NipSyntaxError("NIP_0x15", "unexpected sectionand (#) at end of expression")
     math_tokens = [TokenType.MULTIPLY, TokenType.PLUS, TokenType.MINUS, TokenType.DIVIDE, TokenType.MODULO, TokenType.POW]
     logical_tokens = [TokenType.AND, TokenType.OR, TokenType.EQ, TokenType.NE, TokenType.GT, TokenType.LT, TokenType.GE, TokenType.LE, TokenType.SECTIONAND]
 
@@ -423,7 +427,7 @@ def validate_nip_expression_syntax(nip_expression): # * enforces that {property}
         elif token.type == TokenType.EQ:
             if i == len(all_tokens) - 1: # * Check to make sure the next token is a token.
                 # ! the logic only makes sense for the last token, what the fuck
-                raise NipSyntaxError("NIP_0x15", "No value after equal sign")
+                raise NipSyntaxError("NIP_0x16", "No value after equal sign")
         elif token.type in math_tokens:
             validate_correct_math_syntax(left_token=left, right_token=right)
         # * Make sure two numbers aren't next to each other.
