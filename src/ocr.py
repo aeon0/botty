@@ -265,7 +265,7 @@ class Ocr:
         while "II" in text:
             cnt += 1
             if cnt >30:
-                Logger.error(f"Error 4 on {ocr_output}")
+                Logger.error(f"Error ' II ' -> ' 11 ' on {ocr_output}")
                 break
             text = text.replace("II", "11")
             repeat=True

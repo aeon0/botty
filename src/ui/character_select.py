@@ -7,6 +7,7 @@ import template_finder
 from utils.misc import wait
 from logger import Logger
 from ocr import Ocr
+import numpy as np
 from ui_manager import detect_screen_object, ScreenObjects
 
 last_char_template = None
@@ -34,6 +35,9 @@ def select_online_tab(region, center) -> bool:
     online_str = "online" if online_character else "offline"
     Logger.error(f"select_online_tab: unable to select {online_str} tab after {attempts} attempts")
     return False
+
+def get_saved_char_template() -> np.ndarray | None:
+    return None if not has_char_template_saved() else last_char_template
 
 def has_char_template_saved():
     return last_char_template is not None
