@@ -194,14 +194,14 @@ class Transmute:
 
     def should_transmute(self) -> bool:
         every_x_game = Config().configs["transmute"]["parser"]["transmute_every_x_game"]
-        
+
         if every_x_game is None or every_x_game == "" or int(every_x_game) <= 0:
             return False
         return self._game_stats._game_counter - self._last_game >= int(every_x_game)
 
     def run_transmutes(self, force=False) -> None:
         if not wait_until_visible(ScreenObjects.GoldBtnStash, timeout = 8).valid:
-            Logger.error("Could not determine to be in stash menu. Continue...")
+            Logger.error("Could not find stash menu. Continue...")
             return
         if not force and not self.should_transmute():
             Logger.info(f"Skipping transmutes. Force: {force}, Game#: {self._game_stats._game_counter}")

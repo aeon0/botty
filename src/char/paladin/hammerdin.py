@@ -74,8 +74,12 @@ class Hammerdin(Paladin):
 
     def kill_pindle(self) -> bool:
         wait(0.1, 0.15)
-        if self.capabilities.can_teleport_natively:
-            self._pather.traverse_nodes_fixed("pindle_end", self)
+        if self.capabilities.can_teleport_with_charges:
+            if not self._pather.traverse_nodes([104], self, timeout=1.0, force_tp=True, use_tp_charge=True):
+                return False
+        elif self.capabilities.can_teleport_natively:
+            if not self._pather.traverse_nodes_fixed("pindle_end", self):
+                return False
         else:
             if not self._do_pre_move:
                 keyboard.send(self._skill_hotkeys["concentration"])
