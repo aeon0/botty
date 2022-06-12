@@ -464,13 +464,9 @@ class Diablo:
         #Arrive at and clear Pentagram
         if not self._cs_pentagram(): return False
 
-        """ NEW APPROACH ONLY HAS 50% SUCCESS RATE
-        #if Config().char["kill_cs_trash"]: if not self._trash_seals("A", "dia_trash_a", [606], "dia_trash_a_loop", 0.78): return False
-        #if Config().char["kill_cs_trash"]: if not self._trash_seals("B", "dia_trash_b", [607], "dia_trash_b_loop", 0.85): return False #high threshold needed to avoid chasing 607 ghosts
-        #if Config().char["kill_cs_trash"]: if not self._trash_seals("C", "dia_trash_c", [608], "dia_trash_c_loop", 0.78): return False
-        """
         #OLD APPROACH HAS 80% SUCCESS RATE
         if Config().char["kill_cs_trash"]: self._trash_seals()
+
 
         # Maintenance at Pentagram after Trash & clear Seal A: Vizier (to the left)
         if Config().char["kill_cs_trash"]: self._char.kill_cs_trash("pent_before_a")
@@ -492,8 +488,6 @@ class Diablo:
         if Config().char["cs_town_visits"]: self._cs_town_visit("C")
         if do_pre_buff: self._char.pre_buff()
         if not self._layoutcheck("C", "Infector", "dia_c_layout_bold", "layoutcheck_c", [650660], 0.83, None, ["DIA_C2G_BOSS_CLOSED_LAYOUTCHECK1", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK4", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK5", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK2", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK3",], ["DIA_C1F_LAYOUTCHECK1", "DIA_C1F_LAYOUTCHECK2", "DIA_C1F_LAYOUTCHECK3"]): return False
-
-        # Kill Diablo
         Logger.info("Waiting for Diablo to spawn")
         if not self._pather.traverse_nodes([602], self._char): return False
         self._char.kill_diablo()

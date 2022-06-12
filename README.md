@@ -108,7 +108,7 @@ order=run_pindle, run_eldritch
 | atk_len_diablo_infector   | Attack length for hdin or number of attack sequences when fighting Sealboss C "Infector of Souls" in Chaos Sanctuary (Diablo) |
 | atk_len_diablo_infector   | Attack length for hdin or number of attack sequences when fighting Diablo in Chaos Sanctuary |
 | kill_cs_trash   | If 1, most Trash mob packs from Chaos Sancturay Entrance to Pentagram are cleared. If 0, the run starts at Pentagram and just kills Sealbosses & Diablo (default) |
-| cs_town_visits   | If 1, it will go to town, buy pots & stash items between clearing the seals, set 0 to deactivate (default) |
+| cs_town_visits   | CURRENTLY BROKEN, LEAVE AT 0 FOR NOW |
 | cs_mob_detect | If 1, it will attempt to use holy freeze from merc / conviction aura / poison to detect nearby mobs to help speed-up CS run.
 | take_health_potion | Health percentage when healing potion will be used. e.g. 0.6 = 60% helath |
 | take_mana_potion   | Mana percentage when mana potion will be used |

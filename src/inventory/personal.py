@@ -191,7 +191,7 @@ def log_item_fail(hovered_item, slot):
     if Config().general["info_screenshots"]:
         cv2.imwrite("./log/screenshots/info/failed_item_box_" + time.strftime("%Y%m%d_%H%M%S") + ".png", hovered_item)
 
-def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_stats: GameStats = None) -> list[BoxInfo]:
+def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_stats: GameStats = None, ignore_sell: bool = False) -> list[BoxInfo]:
     """
     Iterate over all picked items in inventory--ID items and decide which to stash
     :param img: Image in which the item is searched (item details should be visible)
@@ -266,7 +266,7 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
 
                 item_name = vendor_open and ocr_result_split[1] or ocr_result_split[0]
                 item_can_be_traded = not any(substring in item_name for substring in nontradable_items)
-                sell = Config().char["sell_junk"] and item_can_be_traded
+                sell = Config().char["sell_junk"] and item_can_be_traded and not ignore_sell
                 is_unidentified = is_visible(ScreenObjects.Unidentified, item_box.img)
                 need_id = None
                 keep = None
