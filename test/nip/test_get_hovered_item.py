@@ -7,11 +7,11 @@ from d2r_image import processing
 from d2r_image.data_models import HoveredItem
 from functools import cache
 from keep_item_test_cases import NIP_KEEP_TESTS
-from common import ExpressionTest
+from common import ExpressionTest, pretty_dict
 import screen
 import utils.download_test_assets # downloads assets if they don't already exist, doesn't need to be called
-import nip.transpile as nip_transpile
-from nip.actions import should_id, should_keep
+from nip.transpile import generate_expression_object, transpile_nip_expression
+import nip.actions as nip_actions
 
 
 PATH='test/assets/hovered_items'
@@ -38,9 +38,9 @@ def expressions_test_list() -> list[ExpressionTest]:
                 basename=key,
                 read_json=load_hovered_items()[key].as_dict(),
                 expression=val["expression"],
-                keep_or_pick_expected=val["should_keep"],
+                keep_expected=val["should_keep"],
                 id_expected=None if not "should_id" in val else val["should_id"],
-                transpiled=nip_transpile.transpile_nip_expression(val["expression"])
+                transpiled=transpile_nip_expression(val["expression"])
             ))
     return expressions
 
@@ -53,27 +53,35 @@ def test_hovered_item(hovered_item: list[str, dict]):
 
 @pytest.mark.parametrize('should_keep_expression', expressions_test_list())
 def test_keep_item(should_keep_expression: ExpressionTest, mocker):
-    mocker.patch.object(nip_transpile, 'nip_expressions', [
-        nip_transpile.load_nip_expression(should_keep_expression.expression)
+    mocker.patch.object(nip_actions, 'nip_expressions', [
+        generate_expression_object(should_keep_expression.expression)
     ])
-    result, _ = should_keep(should_keep_expression.read_json)
-    if bool(result) != should_keep_expression.keep_or_pick_expected:
+    result, matching_expression = nip_actions.should_keep(should_keep_expression.read_json)
+    if bool(result) != should_keep_expression.keep_expected:
         print("\n")
+        print("nip_expressions object:")
+        print(pretty_dict(asdict(nip_actions.nip_expressions[0])))
+        print("test expression object:")
         print(json.dumps(asdict(should_keep_expression), indent=4))
-        print(f"should_keep result: {result}; test pass/fail below")
+        if matching_expression:
+            print(f"matching expression: {matching_expression}")
+        print(f"should_keep() result: {result}; test pass/fail below")
         print("\n")
-    assert bool(result) == should_keep_expression.keep_or_pick_expected
+    assert bool(result) == should_keep_expression.keep_expected
 
 
-@pytest.mark.parametrize('should_id_expression', expressions_test_list())
+@pytest.mark.parametrize('should_id_expression', [expression for expression in expressions_test_list() if expression.id_expected is not None])
 def test_should_id(should_id_expression: ExpressionTest, mocker):
-    if should_id_expression.id_expected is not None:
-        mocker.patch.object(nip_transpile, 'nip_expressions', [
-            nip_transpile.load_nip_expression(should_id_expression.expression)
-        ])
-        result = should_id(should_id_expression.read_json)
-        if bool(result) != should_id_expression.id_expected:
-            print("\n")
-            print(json.dumps(asdict(should_id_expression), indent=4))
-            print(f"should_id result: {result}; test pass/fail below")
-        assert bool(result) == should_id_expression.id_expected
+    mocker.patch.object(nip_actions, 'nip_expressions', [
+        generate_expression_object(should_id_expression.expression)
+    ])
+    result = nip_actions.should_id(should_id_expression.read_json)
+    if bool(result) != should_id_expression.id_expected:
+        print("\n")
+        print("nip_expressions object:")
+        print(pretty_dict(asdict(nip_actions.nip_expressions[0])))
+        print("test expression object:")
+        print(json.dumps(asdict(should_id_expression), indent=4))
+        print(f"should_id() result: {result}; test pass/fail below")
+        print("\n")
+    assert bool(result) == should_id_expression.id_expected
