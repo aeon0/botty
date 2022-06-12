@@ -34,6 +34,7 @@ class Config:
     nova_sorc = {}
     hydra_sorc = {}
     hammerdin = {}
+    fohdin = {}
     trapsin = {}
     barbarian = {}
     poison_necro = {}
@@ -242,10 +243,20 @@ class Config:
             self.hydra_sorc.update(dict(self.configs["custom"]["parser"]["hydra_sorc"]))
         self.hydra_sorc.update(sorc_base_cfg)
 
-        # Palandin config
+        # Paladin base config
+        paladin_base_cfg = dict(self.configs["config"]["parser"]["paladin"])
+        if "paladin" in self.configs["custom"]["parser"]:
+            paladin_base_cfg.update(dict(self.configs["custom"]["parser"]["paladin"])) 
+        # Hammerdin config
         self.hammerdin = self.configs["config"]["parser"]["hammerdin"]
         if "hammerdin" in self.configs["custom"]["parser"]:
+            self.fohdin.update(self.configs["custom"]["parser"]["fohdin"])
             self.hammerdin.update(self.configs["custom"]["parser"]["hammerdin"])
+        # FoHdin config
+        self.fohdin = dict(self.configs["config"]["parser"]["fohdin"])
+        if "fohdin" in self.configs["custom"]["parser"]:
+            self.fohdin.update(self.configs["custom"]["parser"]["fohdin"])
+        self.fohdin.update(paladin_base_cfg)
 
         # Assasin config
         self.trapsin = self.configs["config"]["parser"]["trapsin"]

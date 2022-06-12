@@ -4,7 +4,7 @@ import time
 from screen import convert_screen_to_monitor, grab, convert_screen_to_abs, convert_abs_to_monitor
 from logger import Logger
 from math import dist
-from utils.misc import color_filter
+from utils.misc import color_filter, is_in_roi
 import json
 from dataclasses import dataclass
 
@@ -17,26 +17,51 @@ FILTER_RANGES=[
 class TargetInfo:
     roi: tuple = None
     center: tuple = None
+    center_abs: tuple = None
     center_monitor: tuple = None
     distance: int = 0
+
+def log_targets(targets: list[TargetInfo]):
+    if (num_targets := len(targets)) > 0:
+        if num_targets == 1:
+            msg = f"{num_targets} target detected"
+        elif num_targets > 1:
+            msg = f"{num_targets} targets detected, closest"
+        Logger.debug(f"{msg} at {targets[0].center}, distance: {round(targets[0].distance)}")
 
 def _dist_to_center(pos):
     return dist(pos, (1280/2, 720/2))
 
-def get_visible_targets(img: np.ndarray = None, radius_min: int = 150, radius_max: int = 1280) -> list[TargetInfo]:
+def get_visible_targets(
+    img: np.ndarray = None,
+    radius_min: int = 150,
+    radius_max: int = 1280,
+    ignore_roi: list[int] = [600, 300, (1280/2 - 600)*2, (720/2 - 300)*2],
+    use_radius: bool = False
+) -> list[TargetInfo]:
+    """
+    :param img: The image to find targets in
+    :param radius_min: The minimum radius of the target [Default: 150, Integer 0 - 1280]
+    :param radius_max: The maximum radius of the target [Default: 1280, Integer 0 - 1280]
+    :param ignore_roi: The region of interest to ignore [Default: [600, 300, (1280/2 - 600)*2, (720/2 - 300)*2]]
+    :param use_radius: Whether to use the radius of the target (True) or the ignore_roi parameter (False)
+    Returns a list of TargetInfo objects
+    """
     img = grab() if img is None else img
     targets = []
     for filter in FILTER_RANGES:
-        filterimage, threshz = _process_image(img, mask_char=True, mask_hud=True, info_ss=False, **filter) # HSV Filter for BLUE and GREEN (Posison Nova & Holy Freeze)
-        filterimage, rectangles, positions = _add_markers(filterimage, threshz, info_ss=False, rect_min_size=100, rect_max_size=200, marker=True) # rather large rectangles
+        filterimage, threshz = _process_image(img, mask_char=True, mask_hud=True, **filter) # HSV Filter for BLUE and GREEN (Posison Nova & Holy Freeze)
+        filterimage, rectangles, positions = _add_markers(filterimage, threshz, rect_min_size=100, rect_max_size=200, marker=True) # rather large rectangles
         if positions:
             for cnt, position in enumerate(positions):
                 distance = _dist_to_center(position)
-                if radius_min <= _dist_to_center(position) <= radius_max:
+                condition = (radius_min <= distance <= radius_max) if use_radius else (not is_in_roi(ignore_roi, position))
+                if condition:
                     targets.append(TargetInfo(
                         roi = rectangles[cnt],
                         center = position,
                         center_monitor = convert_screen_to_monitor(position),
+                        center_abs = convert_screen_to_abs(position),
                         distance = distance
                     ))
     if targets:
@@ -72,13 +97,12 @@ def _bright_contrast(img: np.ndarray, brightness: int = 255, contrast: int = 127
         cal = cv2.addWeighted(cal, alpha, cal, 0, gamma)
     return cal
 
-def _process_image(img, mask_char:bool=False, mask_hud:bool=True, info_ss:bool=False, erode:int=None, dilate:int=None, blur:int=None, lh:int=None, ls:int=None, lv:int=None, uh:int=None, us:int=None, uv:int=None, bright:int=None, contrast:int=None, thresh:int=None, invert:int=None):
+def _process_image(img, mask_char:bool=False, mask_hud:bool=True, erode:int=None, dilate:int=None, blur:int=None, lh:int=None, ls:int=None, lv:int=None, uh:int=None, us:int=None, uv:int=None, bright:int=None, contrast:int=None, thresh:int=None, invert:int=None):
     """
     Helper function that will apply HSV filters
     :param img: The image to which filters should be applied
     :param mask_char: apply a black rectangle to mask your char (e.g. filter out Set-Item glow effect or auras)  [Default: False, Bool]
     :param hud_mask: removes the HUD from the returned image  [Default: True, Bool]
-    :param info_ss: Save an image of the applied filters in folder log/screenshots/info  [Default: False, Bool]
     :param erode: erode (thin lines) in the picture [Default: None, Integer, no filter: 0,  0 - 36]
     :param dilate: dilate (thicken lines) in the picture [Default: None, Integer, no filter: 0, 0 - 36]
     :param blur: blur the picture [Default: None, no filter: 0, Integer, 0 - 30]
@@ -95,7 +119,6 @@ def _process_image(img, mask_char:bool=False, mask_hud:bool=True, info_ss:bool=F
     Returns variables filterimage and threshz
     """
     img = img
-    if info_ss: cv2.imwrite(f"./log/screenshots/info/info_apply_filter_input_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
     if mask_hud:
         hud_mask = cv2.imread(f"./assets/hud_mask.png", cv2.IMREAD_GRAYSCALE)
         img = cv2.bitwise_and(img, img, mask=hud_mask)
@@ -115,16 +138,14 @@ def _process_image(img, mask_char:bool=False, mask_hud:bool=True, info_ss:bool=F
     if thresh: _, threshz = cv2.threshold(threshz, thresh, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
     if invert: img = 255 - img
     filterimage = img
-    if info_ss: cv2.imwrite(f"./log/screenshots/info/info_apply_filter_output_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
     return filterimage, threshz
 
 # add rectangles and crosses - adapted from Nathan's Live-View
-def _add_markers(img:str, threshz:str, info_ss:bool=False, rect_min_size:int=20, rect_max_size:int=50, line_color:str=(0, 255, 0), line_type:str=cv2.LINE_4, marker:bool=False, marker_color:str=(0, 255, 255), marker_type:str=cv2.MARKER_CROSS):
+def _add_markers(img:str, threshz:str, rect_min_size:int=20, rect_max_size:int=50, line_color:str=(0, 255, 0), line_type:str=cv2.LINE_4, marker:bool=False, marker_color:str=(0, 255, 255), marker_type:str=cv2.MARKER_CROSS):
     """
     Helper function that will add rectangles and crosshairs to allow object detection
     :param img: The image to which filters should be applied
     :param threshz: The image that had the threshold adjusted (obtained from _process_image())
-    :param info_ss: Take a screenshot for each step [Default: False, Bool]
     :param rect_min_size: Minimum size for the rectangle to be drawn [Default: 20, Integer]
     :param rect_max_size: Minimum size for the rectangle to be drawn [Default: 50, Integer]
     :param line_color: Color of the rectangle line [Default: (0, 255, 0)]
@@ -210,7 +231,7 @@ class LiveViewer:
         except cv2.error:
             return
         self.image, threshz = _process_image(self.image, **self.settings)
-        filterimage, _, _ = _add_markers(self.image, threshz, info_ss=False, rect_min_size=100, rect_max_size=200, marker=True)
+        filterimage, _, _ = _add_markers(self.image, threshz, rect_min_size=100, rect_max_size=200, marker=True)
 
         cv2.imshow("Results", filterimage)
         cv2.waitKey(1)
@@ -229,4 +250,22 @@ if __name__ == "__main__":
     start_detecting_window()
     print("Move to d2r window and press f11")
     keyboard.wait("f11")
-    l = LiveViewer()
+    # l = LiveViewer()
+
+    masked_image = False
+
+    def _toggle_masked_image():
+        global masked_image
+        masked_image = not masked_image
+
+    while 1:
+        img = grab()
+        targets = get_visible_targets()
+
+        display_img = img.copy()
+
+        for target in targets:
+            x, y = target.center
+            cv2.rectangle(display_img, target.roi[:2], (target.roi[0] + target.roi[2], target.roi[1] + target.roi[3]), (0, 0, 255), 1)
+        cv2.imshow('test', display_img)
+        key = cv2.waitKey(1)

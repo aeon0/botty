@@ -1,27 +1,27 @@
 from enum import Enum
-from typing import Tuple
-import os
-import uuid
-import time
-import keyboard
-import cv2
-from numpy import ndarray
 from math import dist
+from numpy import ndarray
+from typing import Tuple
+import cv2
 import json
+import keyboard
+import os
+import time
+import uuid
 
-from ui_manager import ScreenObjects, is_visible
-from utils.custom_mouse import mouse
-from config import Config
-from logger import Logger
-from screen import grab, convert_abs_to_monitor, convert_screen_to_monitor
 from char import IChar
-from item import consumables
-from item.consumables import ITEM_CONSUMABLES_MAP
-from inventory import personal
+from config import Config
 from d2r_image import processing as d2r_image
 from d2r_image.data_models import HoveredItem, EnhancedJSONEncoder
-from nip.NTIPAliasType import NTIPAliasType as NTIP_TYPES
+from inventory import personal
+from item import consumables
+from item.consumables import ITEM_CONSUMABLES_MAP
+from logger import Logger
 from nip.actions import should_pickup
+from nip.NTIPAliasType import NTIPAliasType as NTIP_TYPES
+from screen import grab, convert_abs_to_monitor, convert_screen_to_monitor
+from ui_manager import ScreenObjects, is_visible
+from utils.custom_mouse import mouse
 
 
 class PickedUpResults(Enum):
@@ -75,7 +75,7 @@ class PickIt:
         self._fail_pickup_count = 0
         self._picked_up_items = []
         self._picked_up_item = False
-        
+
 
     def _ignore_consumable(self, item: HoveredItem):
         # ignore item if it's a consumable AND there's no need for that consumable
@@ -198,7 +198,7 @@ if __name__ == "__main__":
     import os
     from config import Config
     from char.sorceress import LightSorc
-    from char.hammerdin import Hammerdin
+    from char.paladin import Hammerdin
     from pather import Pather
     import keyboard
 

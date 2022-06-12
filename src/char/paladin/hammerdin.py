@@ -1,26 +1,24 @@
 import keyboard
+import random
+import time
+
+from char import CharacterCapabilities
+from char.paladin import Paladin
+from config import Config
+from logger import Logger
+from pather import Location
+from pather import Pather
+from pather import Pather, Location
+from screen import convert_abs_to_monitor, convert_screen_to_abs, grab
+from target_detect import get_visible_targets
 from ui import skills
 from utils.custom_mouse import mouse
-from char import IChar, CharacterCapabilities
-from pather import Pather
-from logger import Logger
-from screen import convert_abs_to_monitor
-from config import Config
 from utils.misc import wait
-import time
-from pather import Pather, Location
-from item.pickit import PickIt #for Diablo
-from target_detect import get_visible_targets
 
-
-class Hammerdin(IChar):
-    def __init__(self, skill_hotkeys: dict, pather: Pather, pickit: PickIt):
+class Hammerdin(Paladin):
+    def __init__(self, *args, **kwargs):
         Logger.info("Setting up Hammerdin")
-        super().__init__(skill_hotkeys)
-        self._pather = pather
-        self._do_pre_move = True
-        self._pickit = pickit #for Diablo
-        self._picked_up_items = False #for Diablo
+        super().__init__(*args, **kwargs)
         #hammerdin needs to be closer to shenk to reach it with hammers
         self._pather.offset_node(149, (70, 10))
 
@@ -74,8 +72,12 @@ class Hammerdin(IChar):
 
     def kill_pindle(self) -> bool:
         wait(0.1, 0.15)
-        if self.capabilities.can_teleport_natively:
-            self._pather.traverse_nodes_fixed("pindle_end", self)
+        if self.capabilities.can_teleport_with_charges:
+            if not self._pather.traverse_nodes([104], self, timeout=1.0, force_tp=True, use_tp_charge=True):
+                return False
+        elif self.capabilities.can_teleport_natively:
+            if not self._pather.traverse_nodes_fixed("pindle_end", self):
+                return False
         else:
             if not self._do_pre_move:
                 keyboard.send(self._skill_hotkeys["concentration"])

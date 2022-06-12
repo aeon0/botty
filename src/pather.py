@@ -169,7 +169,9 @@ class Pather:
             228: {"TRAV_13": (8, 9), "TRAV_17": (29, 56), "TRAV_25": (58, -152), "TRAV_16": (-198, -110), "TRAV_18": (-251, 188)},
             229: {"TRAV_18": (-250, 58), "TRAV_25": (59, -282), "TRAV_17": (30, -74), "TRAV_13": (9, -121), "TRAV_16": (-138, -241)},
             230: {"TRAV_19": (157, 39), "TRAV_18": (-392, -28), "TRAV_17": (-112, -160), "TRAV_13": (-133, -207), "TRAV_25": (-83, -368)},
-            300: {"TRAV_V3_4": (-101, 134), "TRAV_V3_5": (72, 220), "TRAV_V3_1": (237, -24), "TRAV_V3_3": (-318, 224), "TRAV_V3_11": (472, 39)},
+            300: {"TRAV_V3_4": (-101, 134), "TRAV_V3_5": (72, 220), "TRAV_V3_1": (237, -24), "TRAV_V3_3": (-318, 224), "TRAV_V3_11": (472, 39),
+                "TRAV_16": (129, -86), "TRAV_V2_0": (472, 65), "TRAV_17": (357, 84), "TRAV_12": (512, -333),
+            },
             301: {"TRAV_V3_7": (178, -33), "TRAV_V3_6": (170, 157), "TRAV_V3_0": (88, -235), "TRAV_V3_5": (-335, -95), "TRAV_V3_8": (444, -108)},
             302: {"TRAV_V3_0": (-18, 6), "TRAV_V3_7": (73, 208), "TRAV_V3_8": (339, 133), "TRAV_V3_6": (65, 398), "TRAV_V3_5": (-440, 146)},
             304: {"TRAV_V2_4": (125, -148), "TRAV_V2_3": (-187, 55), "TRAV_V2_1": (-207, 59), "TRAV_V2_2": (267, 183), "TRAV_V2_0": (-159, 403)},
@@ -749,7 +751,7 @@ if __name__ == "__main__":
     start_detecting_window()
     from config import Config
     from char.sorceress import LightSorc
-    from char.hammerdin import Hammerdin
+    from char.paladin.hammerdin import Hammerdin
     from item.pickit import PickIt
     pather = Pather()
 
