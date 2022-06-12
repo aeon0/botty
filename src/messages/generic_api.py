@@ -27,7 +27,7 @@ class GenericApi:
         self._send(msg)
 
     def send_message(self, msg: str):
-        self._send(msg)
+        self._send("```" + msg + "```")
 
     def _send(self, msg: str, loot = False):
         msg = f"{Config().general['name']}: {msg}"
