@@ -236,10 +236,11 @@ class Bot:
         else:
             if not character_select.select_char():
                 if Config().general["info_screenshots"]:
-                    cv2.imwrite("./info_screenshots/info_failed_character_select_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
+                    timestamp = time.strftime("%Y%m%d_%H%M%S")
+                    cv2.imwrite("./info_screenshots/info_failed_character_select_" + timestamp + ".png", grab())
                     if character_select.has_char_template_saved():
                         saved_char_img = character_select.get_saved_char_template()
-                        cv2.imwrite("./info_screenshots/info_failed_character_select_saved_template_" + time.strftime("%Y%m%d_%H%M%S") + ".png", saved_char_img)
+                        cv2.imwrite("./info_screenshots/info_failed_character_select_saved_template_" + timestamp + ".png", saved_char_img)
                 self.restart_or_exit(f"Character select failed.")
         self.trigger_or_stop("create_game")
 
