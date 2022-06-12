@@ -42,7 +42,7 @@ class DiscordEmbeds(GenericApi):
         e.set_thumbnail(url=f"{self._psnURL}41L6bd712.png")
         e.set_image(url=f"attachment://{imgName}.png")
         e.add_field(name="OCR Text", value=f"{ocr_text}", inline=False)
-        e.add_field(name="NIP", value=f"{nip_keep_expression}", inline=False)
+        e.add_field(name="NIP", value=f"`{nip_keep_expression}`", inline=False)
         self._send_embed(e, self._loot_webhook, file)
 
     def send_death(self, location, image_path):
