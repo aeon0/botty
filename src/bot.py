@@ -8,11 +8,11 @@ import cv2
 import math
 from copy import copy
 from collections import OrderedDict
+
 from health_manager import set_pause_state
 from transmute import Transmute
 from utils.misc import wait, hms
 from utils.restart import safe_exit, restart_game
-
 from game_stats import GameStats
 from logger import Logger
 from config import Config
@@ -234,6 +234,12 @@ class Bot:
             character_select.save_char_template()
         else:
             if not character_select.select_char():
+                if Config().general["info_screenshots"]:
+                    timestamp = time.strftime("%Y%m%d_%H%M%S")
+                    cv2.imwrite("./log/screenshots/info/info_failed_character_select_" + timestamp + ".png", grab())
+                    if character_select.has_char_template_saved():
+                        saved_char_img = character_select.get_saved_char_template()
+                        cv2.imwrite("./log/screenshots/info/info_failed_character_select_saved_template_" + timestamp + ".png", saved_char_img)
                 self.restart_or_exit(f"Character select failed.")
         self.trigger_or_stop("create_game")
 
