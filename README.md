@@ -127,7 +127,8 @@ order=run_pindle, run_eldritch
 | id_items           | Will identify items at cain before stashing them. Cain must be rescued for this to work.|
 | open_chests        | Open up chests in some places. E.g. on dead ends of arcane. Note: currently bad runtime. |
 | fill_shared_stash_first | Fill stash tabs starting from right to left, filling personal stash last |
-| gamble_items       | List of items to gamble when stash fills with gold. Leave blank to disable. Supported items currently include circlet, ring, coronet, talon, amulet
+| gamble_items       | List of items to gamble when stash fills with gold. Leave blank to disable. Supported items currently include circlet, ring, coronet, talon, amulet |
+| end_run_in_act       | Changes the act town at the end of a run (any of 1,2,3,4,5), default set to 0 to end the run in the act of your last run |
 
 | [transmute]             | Descriptions |
 | ------------------ | -------------------------------------------------------------------------------------------------|
