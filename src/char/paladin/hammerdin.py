@@ -35,10 +35,9 @@ class Hammerdin(Paladin):
             if not self._pather.traverse_nodes_fixed("pindle_end", self):
                 return False
         else:
-            if not self._do_pre_move:
-                keyboard.send(self._skill_hotkeys["concentration"])
-                wait(0.05, 0.15)
-            self._pather.traverse_nodes((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, timeout=1.0, do_pre_move=self._do_pre_move)
+            if not self.can_teleport():
+                self._activate_conviction_aura()
+            self._pather.traverse_nodes((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, timeout=1.0, do_pre_move=False)
         self._cast_hammers(Config().char["atk_len_pindle"])
         wait(0.1, 0.15)
         self._cast_hammers(1.6, "redemption")
@@ -49,10 +48,9 @@ class Hammerdin(Paladin):
             # Custom eld position for teleport that brings us closer to eld
             self._pather.traverse_nodes_fixed([(675, 30)], self)
         else:
-            if not self._do_pre_move:
-                keyboard.send(self._skill_hotkeys["concentration"])
-                wait(0.05, 0.15)
-            self._pather.traverse_nodes((Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END), self, timeout=1.0, do_pre_move=self._do_pre_move, force_tp=True)
+            if not self.can_teleport():
+                self._activate_conviction_aura()
+            self._pather.traverse_nodes((Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END), self, timeout=1.0, do_pre_move=False, force_tp=True)
         wait(0.05, 0.1)
         self._cast_hammers(Config().char["atk_len_eldritch"])
         wait(0.1, 0.15)
@@ -60,10 +58,9 @@ class Hammerdin(Paladin):
         return True
 
     def kill_shenk(self):
-        if not self._do_pre_move:
-            keyboard.send(self._skill_hotkeys["concentration"])
-            wait(0.05, 0.15)
-        self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, timeout=1.0, do_pre_move=self._do_pre_move, force_tp=True)
+        if not self.can_teleport():
+            self._activate_conviction_aura()
+        self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, timeout=1.0, do_pre_move=False, force_tp=True)
         wait(0.05, 0.1)
         self._cast_hammers(Config().char["atk_len_shenk"])
         wait(0.1, 0.15)
@@ -71,18 +68,16 @@ class Hammerdin(Paladin):
         return True
 
     def kill_council(self) -> bool:
-        if not self._do_pre_move:
-            keyboard.send(self._skill_hotkeys["concentration"])
-            wait(0.05, 0.15)
-        # Check out the node screenshot in assets/templates/trav/nodes to see where each node is at
         atk_len = Config().char["atk_len_trav"]
+        if not self.can_teleport():
+            self._activate_conviction_aura()
         # Go inside and hammer a bit
-        self._pather.traverse_nodes([228, 229], self, timeout=2.5, force_tp=True)
+        self._pather.traverse_nodes([228, 229], self, timeout=2.5, do_pre_move=False, force_tp=True)
         self._cast_hammers(atk_len)
         # Move a bit back and another round
         self._move_and_attack((40, 20), atk_len)
         # Here we have two different attack sequences depending if tele is available or not
-        if self.capabilities.can_teleport_natively or self.capabilities.can_teleport_with_charges:
+        if self.can_teleport():
             # Back to center stairs and more hammers
             self._pather.traverse_nodes([226], self, timeout=2.5, force_tp=True)
             self._cast_hammers(atk_len)

@@ -11,7 +11,6 @@ class Paladin(IChar):
         # Logger.info("Setting up Paladin")
         super().__init__(skill_hotkeys)
         self._pather = pather
-        self._do_pre_move = True
         self._pickit = pickit #for Diablo
         self._picked_up_items = False #for Diablo
 

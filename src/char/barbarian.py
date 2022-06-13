@@ -17,7 +17,6 @@ class Barbarian(IChar):
         Logger.info("Setting up Barbarian")
         super().__init__(skill_hotkeys)
         self._pather = pather
-        self._do_pre_move = True
         # offset shenk final position further to the right and bottom
 
     def _cast_war_cry(self, time_in_s: float):
@@ -88,11 +87,7 @@ class Barbarian(IChar):
         if self.capabilities.can_teleport_natively:
             self._pather.traverse_nodes_fixed("pindle_end", self)
         else:
-            if not self._do_pre_move:
-            #  keyboard.send(self._skill_hotkeys["concentration"])
-            #  wait(0.05, 0.15)
-                self._pather.traverse_nodes((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, timeout=1.0, do_pre_move=self._do_pre_move)
-        self._pather.traverse_nodes((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, timeout=0.1)
+            self._pather.traverse_nodes((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, timeout=1.0)
         self._cast_war_cry(Config().char["atk_len_pindle"])
         wait(0.1, 0.15)
         self._do_hork(4)
@@ -102,7 +97,7 @@ class Barbarian(IChar):
         if self.capabilities.can_teleport_natively:
             self._pather.traverse_nodes_fixed("eldritch_end", self)
         else:
-            self._pather.traverse_nodes((Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END), self, timeout=1.0, do_pre_move=self._do_pre_move)
+            self._pather.traverse_nodes((Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END), self, timeout=1.0)
         wait(0.05, 0.1)
         self._cast_war_cry(Config().char["atk_len_eldritch"])
         wait(0.1, 0.15)
@@ -110,7 +105,7 @@ class Barbarian(IChar):
         return True
 
     def kill_shenk(self):
-        self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, timeout=1.0, do_pre_move=self._do_pre_move)
+        self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, timeout=1.0)
         wait(0.05, 0.1)
         self._cast_war_cry(Config().char["atk_len_shenk"])
         wait(0.1, 0.15)

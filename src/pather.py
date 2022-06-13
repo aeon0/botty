@@ -627,7 +627,6 @@ class Pather:
 
         use_tp = char.capabilities.can_teleport_natively or (char.capabilities.can_teleport_with_charges and force_tp)
         if do_pre_move:
-            # we either want to tele charge but have no charges or don't wanna use the charge falling back to default pre_move handling
             char.pre_move()
 
         last_direction = None

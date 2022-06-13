@@ -19,7 +19,6 @@ class Basic_Ranged(IChar):
         Logger.info("Setting up Basic Ranged Character")
         super().__init__(skill_hotkeys)
         self._pather = pather
-        self._do_pre_move = True
 
     def _left_attack(self, cast_pos_abs: tuple[float, float], delay: tuple[float, float] = (0.2, 0.3), spray: int = 10):
         if self._skill_hotkeys["left_attack"]:
