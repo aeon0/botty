@@ -145,13 +145,13 @@ class IChar:
         """
         self._active_skill[mouse_click_type] = skill
 
-    def _check_hotkey(self, skill: str):
+    def _check_hotkey(self, skill: str) -> str | None:
         if not (
             skill in self._skill_hotkeys and (hotkey := self._skill_hotkeys[skill])
             or (skill in Config().char and (hotkey := Config().char[skill]))
         ):
             Logger.warning(f"No hotkey for skill: {skill}")
-            return False
+            return None
         return hotkey
 
     def _select_skill(self, skill: str, mouse_click_type: str = "left", delay: float | list | tuple = None) -> bool:
@@ -232,7 +232,7 @@ class IChar:
     def on_capabilities_discovered(self, capabilities: CharacterCapabilities):
         pass
 
-    def pick_up_item(self, pos: tuple[float, float], item_name: str = None, prev_cast_start: float = 0):
+    def pick_up_item(self, pos: tuple[float, float], item_name: str = None, prev_cast_start: float = 0) -> float:
         mouse.move(pos[0], pos[1])
         time.sleep(0.1)
         self._click_left()
@@ -284,7 +284,7 @@ class IChar:
             return True
         return False
 
-    def is_low_on_teleport_charges(self):
+    def is_low_on_teleport_charges(self) -> bool:
         img = grab()
         charges_remaining = skills.get_skill_charges(self._ocr, img)
         if charges_remaining:
@@ -296,7 +296,7 @@ class IChar:
                 Logger.error("is_low_on_teleport_charges: unable to determine skill charges, assume zero")
             return True
 
-    def _remap_skill_hotkey(self, skill_asset, hotkey, skill_roi, expanded_skill_roi):
+    def _remap_skill_hotkey(self, skill_asset, hotkey, skill_roi, expanded_skill_roi) -> bool:
         x, y, w, h = skill_roi
         x, y = convert_screen_to_monitor((x, y))
         mouse.move(x + w/2, y + h / 2)
@@ -310,17 +310,19 @@ class IChar:
             wait(0.3)
             self._click_left()
             wait(0.3)
+            return True
+        return False
 
-    def remap_right_skill_hotkey(self, skill_asset, hotkey):
+    def remap_right_skill_hotkey(self, skill_asset, hotkey) -> bool:
         return self._remap_skill_hotkey(skill_asset, hotkey, Config().ui_roi["skill_right"], Config().ui_roi["skill_right_expanded"])
 
-    def select_teleport(self):
+    def select_teleport(self) -> bool:
         if not self._select_skill("teleport", "right", delay = [0.1, 0.2]):
             return False
         return skills.is_right_skill_selected(["TELE_ACTIVE", "TELE_INACTIVE"])
 
-    def can_teleport(self):
-        return self.select_teleport()
+    def can_teleport(self) -> bool:
+        return (self.capabilities.can_teleport_natively or self.capabilities.can_teleport_with_charges) and self.select_teleport()
 
     def pre_move(self):
         # if teleport hotkey is set and if teleport is not already selected
@@ -375,7 +377,7 @@ class IChar:
         else:
             self._click_left()
 
-    def tp_town(self):
+    def tp_town(self) -> bool:
         # will check if tp is available and select the skill
         if not skills.has_tps():
             return False
@@ -453,11 +455,11 @@ class IChar:
                 wait(0.5)
 
 
-    def vec_to_monitor(self, target):
+    def vec_to_monitor(self, target: tuple[float, float]) -> tuple[float, float]:
         circle_pos_screen = self._pather._adjust_abs_range_to_screen(target)
         return convert_abs_to_monitor(circle_pos_screen)
 
-    def _lerp(self,a: float,b: float, f:float):
+    def _lerp(self, a: float, b: float, f:float) -> float:
         return a + f * (b - a)
 
     def cast_in_arc(self, ability: str, cast_pos_abs: tuple[float, float] = [0,-100], time_in_s: float = 3, spread_deg: float = 10, hold=True):

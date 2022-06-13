@@ -221,7 +221,7 @@ def image_is_equal(img1: np.ndarray, img2: np.ndarray) -> bool:
         return False
     return not(np.bitwise_xor(img1, img2).any())
 
-def arc_spread(cast_dir: tuple[float,float], spread_deg: float=10, radius_spread: tuple[float, float] = [.95, 1.05]):
+def arc_spread(cast_dir: tuple[float,float], spread_deg: float=10, radius_spread: tuple[float, float] = [.95, 1.05]) -> np.ndarray:
     """
         Given an x,y vec (target), generate a new target that is the same vector but rotated by +/- spread_deg/2
     """

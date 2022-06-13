@@ -31,8 +31,7 @@ class Paladin(IChar):
         super().pre_move()
         # in case teleport hotkey is not set or teleport can not be used, use vigor if set
         should_cast_vigor = self._skill_hotkeys["vigor"] and not skills.is_right_skill_selected(["VIGOR"])
-        can_teleport = self.capabilities.can_teleport_natively and skills.is_right_skill_active()
-        if should_cast_vigor and not can_teleport:
+        if should_cast_vigor and not self.can_teleport():
             self._select_skill("vigor", delay=None)
 
     def _activate_concentration_aura(self, delay=None):

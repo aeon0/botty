@@ -74,8 +74,7 @@ class Barbarian(IChar):
         super().pre_move()
         # in case teleport hotkey is not set or teleport can not be used, use leap if set
         should_cast_leap = self._skill_hotkeys["leap"] and not skills.is_left_skill_selected(["LEAP"])
-        can_teleport = self.capabilities.can_teleport_natively and skills.is_right_skill_active()
-        if  should_cast_leap and not can_teleport:
+        if should_cast_leap and not self.can_teleport():
             keyboard.send(self._skill_hotkeys["leap"])
             wait(0.15, 0.25)
 
