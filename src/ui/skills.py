@@ -23,8 +23,8 @@ def has_tps() -> bool:
     """
     :return: Returns True if botty has town portals available. False otherwise
     """
-    if Config().char["tp"]:
-        keyboard.send(Config().char["tp"])
+    if Config().char["town_portal"]:
+        keyboard.send(Config().char["town_portal"])
         if not (tps_remain := wait_until_visible(ScreenObjects.TownPortalSkill, timeout=4).valid):
             Logger.warning("You are out of tps")
             if Config().general["info_screenshots"]:

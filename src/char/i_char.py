@@ -206,7 +206,7 @@ class IChar:
     def _discover_capabilities(self) -> CharacterCapabilities:
         override = Config().advanced_options["override_capabilities"]
         if override is None:
-            if self._skill_hotkeys["teleport"]:
+            if Config().char["teleport"]:
                 if self.select_teleport():
                     if self.skill_is_charged():
                         return CharacterCapabilities(can_teleport_natively=False, can_teleport_with_charges=True)

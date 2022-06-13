@@ -269,9 +269,9 @@ class Bot:
             belt.fill_up_belt_from_inventory(Config().char["num_loot_columns"])
         self._char.discover_capabilities()
         if corpse_present and self._char.capabilities.can_teleport_with_charges and not self._char.select_teleport():
-            keybind = self._char._skill_hotkeys["teleport"]
+            keybind = Config().char["teleport"]
             Logger.info(f"Teleport keybind is lost upon death. Rebinding teleport to '{keybind}'")
-            self._char.remap_right_skill_hotkey("TELE_ACTIVE", self._char._skill_hotkeys["teleport"])
+            self._char.remap_right_skill_hotkey("TELE_ACTIVE", keybind)
 
         # Check for the current game ip and pause if we are able to obtain the hot ip
         if Config().dclone["region_ips"] != "" and Config().dclone["dclone_hotip"] != "":
