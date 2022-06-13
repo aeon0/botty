@@ -186,8 +186,8 @@ class IChar:
         self._cast_simple(skill_name="battle_command", mouse_click_type="right")
 
     def _cast_town_portal(self):
-        consumables.increment_need("tp", 1)
-        self._cast_simple(skill_name="tp", mouse_click_type="right")
+        consumables.increment_need("town_portal", 1)
+        self._cast_simple(skill_name="town_portal", mouse_click_type="right")
 
     @staticmethod
     def _weapon_switch():
