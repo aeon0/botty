@@ -114,6 +114,18 @@ class Pather:
             1017: {'A5_TOWN_AUTOMAP': (-360, 66)},
             1018: {'A5_TOWN_AUTOMAP': (-330, 88)},
             1019: {'A5_TOWN_AUTOMAP': (-288, 102)},
+            # Trav
+            1220: {'TRAV_AUTOMAP': (32, 26)},
+            1221: {'TRAV_AUTOMAP': (86, 5)},
+            1222: {'TRAV_AUTOMAP': (166, 20)},
+            1223: {'TRAV_AUTOMAP': (244, 20)},
+            1224: {'TRAV_AUTOMAP': (318, 24)},
+            1225: {'TRAV_AUTOMAP': (352, 44)},
+            1226: {'TRAV_AUTOMAP': (404, 28)},
+            1227: {'TRAV_AUTOMAP': (358, 14)},
+            1228: {'TRAV_AUTOMAP': (430, 10)},
+            1229: {'TRAV_AUTOMAP': (442, -8)},
+            1230: {'TRAV_AUTOMAP': (406, -25)},
 
             # A5 town
             0: {'A5_TOWN_0': (27, 249), 'A5_TOWN_1': (-92, -137), 'A5_TOWN_11': (-313, -177)},
@@ -951,3 +963,4 @@ if __name__ == "__main__":
     while True:
         keyboard.wait("f11")
         show_automap_pos(["A5_TOWN_AUTOMAP"])
+        #show_automap_pos(["TRAV_AUTOMAP"])
