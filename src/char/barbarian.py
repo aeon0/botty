@@ -70,7 +70,6 @@ class Barbarian(IChar):
         wait(self._cast_duration + 0.08, self._cast_duration + 0.1)
 
     def pre_move(self):
-        # select teleport if available
         super().pre_move()
         # in case teleport hotkey is not set or teleport can not be used, use leap if set
         should_cast_leap = self._skill_hotkeys["leap"] and not skills.is_left_skill_selected(["LEAP"])

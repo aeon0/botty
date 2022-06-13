@@ -166,14 +166,14 @@ class IChar:
         if self._active_skill[mouse_click_type] != skill:
             keyboard.send(hotkey)
             self._set_active_skill(mouse_click_type, skill)
-        if delay:
-            try:
-                wait(*delay)
-            except:
+            if delay:
                 try:
-                    wait(delay)
-                except Exception as e:
-                    Logger.warning(f"_select_skill: Failed to delay with delay: {delay}. Exception: {e}")
+                    wait(*delay)
+                except:
+                    try:
+                        wait(delay)
+                    except Exception as e:
+                        Logger.warning(f"_select_skill: Failed to delay with delay: {delay}. Exception: {e}")
         return True
 
     def _cast_teleport(self):
@@ -325,20 +325,11 @@ class IChar:
         return (self.capabilities.can_teleport_natively or self.capabilities.can_teleport_with_charges) and self.select_teleport()
 
     def pre_move(self):
-        # if teleport hotkey is set and if teleport is not already selected
-        if self.capabilities.can_teleport_natively:
-            self.select_teleport()
-            self._set_active_skill("right", "teleport")
+        pass
 
-    def move(self, pos_monitor: tuple[float, float], force_tp: bool = False, force_move: bool = False):
+    def move(self, pos_monitor: tuple[float, float], use_tp: bool = False, force_move: bool = False):
         factor = Config().advanced_options["pathing_delay_factor"]
-        if "teleport" in self._skill_hotkeys and self._skill_hotkeys["teleport"] and (
-            force_tp
-            or (
-                skills.is_right_skill_selected(["TELE_ACTIVE"])
-                and skills.is_right_skill_active()
-            )
-        ):
+        if use_tp and self.can_teleport(): # can_teleport() activates teleport hotkey if True
             mouse.move(pos_monitor[0], pos_monitor[1], randomize=3, delay_factor=[factor*0.1, factor*0.14])
             self._cast_simple(skill_name="teleport", mouse_click_type="right")
             wait(self._cast_duration, self._cast_duration + 0.02)
@@ -359,7 +350,7 @@ class IChar:
             else:
                 self._click_left()
 
-    def walk(self, pos_monitor: tuple[float, float], force_tp: bool = False, force_move: bool = False):
+    def walk(self, pos_monitor: tuple[float, float], force_move: bool = False):
         factor = Config().advanced_options["pathing_delay_factor"]
             # in case we want to walk we actually want to move a bit before the point cause d2r will always "overwalk"
         pos_screen = convert_monitor_to_screen(pos_monitor)

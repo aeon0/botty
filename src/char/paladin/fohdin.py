@@ -92,14 +92,14 @@ class FoHdin(Paladin):
 
         if self.capabilities.can_teleport_natively or self.capabilities.can_teleport_with_charges:
             # Slightly retreating, so the Merc gets charged
-            if not self._pather.traverse_nodes([102], self, timeout=1.0, do_pre_move=self._do_pre_move, force_move=True,force_tp=False, use_tp_charge=False):
+            if not self._pather.traverse_nodes([102], self, timeout=1.0, do_pre_move=self._do_pre_move, force_move=True, force_tp=False):
                 return False
             # Doing one Teleport to safe_dist to grab our Merc
             Logger.debug("Teleporting backwards to let Pindle charge the MERC. Looks strange, but is intended!") #I would leave this message in, so users dont complain that there is a strange movement pattern.
-            if not self._pather.traverse_nodes([103], self, timeout=1.0, do_pre_move=self._do_pre_move, force_tp=True, use_tp_charge=True):
+            if not self._pather.traverse_nodes([103], self, timeout=1.0, do_pre_move=self._do_pre_move, force_tp=True):
                 return False
             # Slightly retreating, so the Merc gets charged
-            if not self._pather.traverse_nodes([103], self, timeout=1.0, do_pre_move=self._do_pre_move, force_move=True, force_tp=False, use_tp_charge=False):
+            if not self._pather.traverse_nodes([103], self, timeout=1.0, do_pre_move=self._do_pre_move, force_move=True, force_tp=False):
                 return False
         else:
             if not self._do_pre_move:
@@ -167,7 +167,7 @@ class FoHdin(Paladin):
         # traverse to shenk
         if not self._do_pre_move:
             self._activate_conviction_aura()
-        self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, timeout=1.0, do_pre_move=self._do_pre_move, force_tp=True, use_tp_charge=True)
+        self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, timeout=1.0, do_pre_move=self._do_pre_move, force_tp=True)
         wait(0.05, 0.1)
 
         # bypass mob detect first

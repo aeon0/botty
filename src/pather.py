@@ -497,7 +497,8 @@ class Pather:
         return (rel_loc[0] + pos_abs[0], rel_loc[1] + pos_abs[1])
 
     def traverse_nodes_fixed(self, key: str | list[tuple[float, float]], char: IChar) -> bool:
-        if not char.capabilities.can_teleport_natively:
+        # this will check if character can teleport. for charged or native teleporters, it'll select teleport
+        if not (char.capabilities.can_teleport_natively and char.can_teleport()):
             error_msg = "Teleport is required for static pathing"
             Logger.error(error_msg)
             raise ValueError(error_msg)
@@ -599,7 +600,6 @@ class Pather:
         do_pre_move: bool = True,
         force_move: bool = False,
         threshold: float = 0.68,
-        use_tp_charge: bool = False
     ) -> bool:
         """Traverse from one location to another
         :param path: Either a list of node indices or a tuple with (start_location, end_location)
@@ -625,10 +625,8 @@ class Pather:
         else:
             Logger.debug(f"Traverse: {path}")
 
-        if use_tp_charge and char.select_teleport():
-            # this means we want to use tele charge and we were able to select it
-            pass
-        elif do_pre_move:
+        use_tp = char.capabilities.can_teleport_natively or (char.capabilities.can_teleport_with_charges and force_tp)
+        if do_pre_move:
             # we either want to tele charge but have no charges or don't wanna use the charge falling back to default pre_move handling
             char.pre_move()
 
@@ -667,7 +665,7 @@ class Pather:
                     pos_abs = self._adjust_abs_range_to_screen(pos_abs)
                     Logger.debug(f"Pather: taking a random guess towards " + str(pos_abs))
                     x_m, y_m = convert_abs_to_monitor(pos_abs)
-                    char.move((x_m, y_m), force_move=True)
+                    char.move((x_m, y_m), use_tp=use_tp, force_move=True)
                     did_force_move = True
                     last_move = time.time()
 
@@ -691,7 +689,7 @@ class Pather:
                     else:
                         # Move the char
                         x_m, y_m = convert_abs_to_monitor(node_pos_abs)
-                        char.move((x_m, y_m), force_tp=force_tp, force_move=force_move)
+                        char.move((x_m, y_m), use_tp=use_tp, force_move=force_move)
                         last_direction = node_pos_abs
                         last_move = time.time()
 

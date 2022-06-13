@@ -20,12 +20,6 @@ class Paladin(IChar):
         self._cast_holy_shield()
         wait(self._cast_duration, self._cast_duration + 0.06)
 
-    def on_capabilities_discovered(self, capabilities: CharacterCapabilities):
-        # In case we have a running pala, we want to switch to concentration when moving to the boss
-        # ass most likely we will click on some mobs and already cast hammers
-        if capabilities.can_teleport_natively:
-            self._do_pre_move = False
-
     def pre_move(self):
         # select teleport if available
         super().pre_move()

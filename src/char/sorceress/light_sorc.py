@@ -75,7 +75,7 @@ class LightSorc(Sorceress):
         wait(self._cast_duration, self._cast_duration + 0.2)
         pos_m = convert_abs_to_monitor((70, -200))
         self.pre_move()
-        self.move(pos_m, force_move=True)        
+        self.move(pos_m, force_move=True)
         self._pather.traverse_nodes(Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END)
         return True
 
