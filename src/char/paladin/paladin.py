@@ -30,12 +30,6 @@ class Paladin(IChar):
         mouse.click(button="right")
         wait(self._cast_duration, self._cast_duration + 0.06)
 
-    def on_capabilities_discovered(self, capabilities: CharacterCapabilities):
-        # In case we have a running pala, we want to switch to concentration when moving to the boss
-        # ass most likely we will click on some mobs and already cast hammers
-        if capabilities.can_teleport_natively:
-            self._do_pre_move = False
-
     def pre_move(self):
         # select teleport if available
         super().pre_move()
@@ -102,6 +96,12 @@ class Paladin(IChar):
 
     def _activate_cleanse_aura(self, delay = [0.3, 0.4]):
         self._select_skill("cleansing", delay=delay)
+
+    def _activate_conviction_aura(self, delay = None):
+        self._select_skill("conviction", delay=delay)
+
+    def _activate_concentration_aura(self, delay = None):
+        self._select_skill("concentration", delay=delay)
 
     def _activate_cleanse_redemption(self):
         self._activate_cleanse_aura()

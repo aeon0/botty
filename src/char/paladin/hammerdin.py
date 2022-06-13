@@ -50,12 +50,6 @@ class Hammerdin(Paladin):
         mouse.click(button="right")
         wait(self._cast_duration, self._cast_duration + 0.06)
 
-    def on_capabilities_discovered(self, capabilities: CharacterCapabilities):
-        # In case we have a running pala, we want to switch to concentration when moving to the boss
-        # ass most likely we will click on some mobs and already cast hammers
-        if capabilities.can_teleport_natively:
-            self._do_pre_move = False
-
     def pre_move(self):
         # select teleport if available
         super().pre_move()
@@ -82,9 +76,8 @@ class Hammerdin(Paladin):
                 return False
         else:
             if not self._do_pre_move:
-                keyboard.send(self._skill_hotkeys["concentration"])
-                wait(0.05, 0.15)
-            self._pather.traverse_nodes((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, timeout=1.0, do_pre_move=self._do_pre_move)
+                self._activate_concentration_aura()
+            self._pather.traverse_nodes((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, timeout=1.0, do_pre_move=False)
         self._cast_hammers(Config().char["atk_len_pindle"])
         wait(0.1, 0.15)
         self._cast_hammers(1.6, "redemption")
@@ -103,7 +96,9 @@ class Hammerdin(Paladin):
         return True
 
     def kill_shenk(self):
-        self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, timeout=1.0, do_pre_move=self._do_pre_move, force_tp=True, use_tp_charge=True)
+        if not self._do_pre_move:
+            self._activate_concentration_aura()
+        self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, timeout=1.0, do_pre_move=False, force_tp=True, use_tp_charge=True)
         wait(0.05, 0.1)
         self._cast_hammers(Config().char["atk_len_shenk"])
         wait(0.1, 0.15)
@@ -111,17 +106,18 @@ class Hammerdin(Paladin):
         return True
 
     def kill_council(self) -> bool:
-        # Check out the node screenshot in assets/templates/trav/nodes to see where each node is at
         atk_len = Config().char["atk_len_trav"]
+        if not self._do_pre_move:
+            self._activate_concentration_aura()
         # Go inside and hammer a bit
-        self._pather.traverse_nodes([228, 229], self, timeout=2.5, force_tp=True, use_tp_charge=True)
+        self._pather.traverse_nodes([228, 229], self, timeout=2.5, force_tp=True, use_tp_charge=True, do_pre_move=False)
         self._cast_hammers(atk_len)
         # Move a bit back and another round
         self._move_and_attack((40, 20), atk_len)
         # Here we have two different attack sequences depending if tele is available or not
         if self.capabilities.can_teleport_natively or self.capabilities.can_teleport_with_charges:
             # Back to center stairs and more hammers
-            self._pather.traverse_nodes([226], self, timeout=2.5, force_tp=True, use_tp_charge=True)
+            self._pather.traverse_nodes([226], self, timeout=2.5, force_tp=True, use_tp_charge=True, do_pre_move=False)
             self._cast_hammers(atk_len)
             # move a bit to the top
             self._move_and_attack((65, -30), atk_len)
