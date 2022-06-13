@@ -58,7 +58,12 @@ class ShenkEld:
             game_stats.update_location("Shk")
             self._curr_loc = Location.A5_SHENK_START
             # No force move, otherwise we might get stuck at stairs!
-            if not self._pather.traverse_nodes((Location.A5_SHENK_START, Location.A5_SHENK_SAFE_DIST), self._char):
+            if self._char.capabilities.can_teleport_natively:
+                self._pather.traverse_nodes_fixed([(1128, 710)]*4, self._char)
+                success = self._pather.traverse_nodes_automap([1148], self._char, force_tp=True)
+            else:
+                success = self._pather.traverse_nodes_automap((Location.A5_SHENK_START, Location.A5_SHENK_SAFE_DIST), self._char)
+            if not success:
                 return False
             self._char.kill_shenk()
             loc = Location.A5_SHENK_END

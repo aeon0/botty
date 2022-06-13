@@ -126,6 +126,11 @@ class Pather:
             1228: {'TRAV_AUTOMAP': (430, 10)},
             1229: {'TRAV_AUTOMAP': (442, -8)},
             1230: {'TRAV_AUTOMAP': (406, -25)},
+            # Shenk
+            1146: {'SHENK_WP_AUTOMAP': (66, 28), 'SHENK_ROCK_AUTOMAP': (124, 38)},
+            1147: {'SHENK_WP_AUTOMAP': (137, 108), 'SHENK_ROCK_AUTOMAP': (195, 118)},
+            1148: {'SHENK_WP_AUTOMAP': (213, 138), 'SHENK_ROCK_AUTOMAP': (271, 148)}, # A5_SHENK_SAFE_DIST
+            1149: {'SHENK_WP_AUTOMAP': (269, 168), 'SHENK_ROCK_AUTOMAP': (327, 178)},
 
             # A5 town
             0: {'A5_TOWN_0': (27, 249), 'A5_TOWN_1': (-92, -137), 'A5_TOWN_11': (-313, -177)},
@@ -423,6 +428,8 @@ class Pather:
             (Location.A5_LARZUK, Location.A5_MALAH): [1014, 1007, 1003, 1000, 1001],
             (Location.A5_NIHLATHAK_PORTAL, Location.A5_STASH): [1009, 1008, 1006, 1005],
             (Location.A5_NIHLATHAK_PORTAL, Location.A5_WP): [1009, 1008, 1006],
+            # Eldritch and Shenk
+            (Location.A5_SHENK_START, Location.A5_SHENK_SAFE_DIST): [1146, 1147, 1148],
         }
         self._paths = {
 	        # A5 Town
@@ -964,3 +971,5 @@ if __name__ == "__main__":
         keyboard.wait("f11")
         show_automap_pos(["A5_TOWN_AUTOMAP"])
         #show_automap_pos(["TRAV_AUTOMAP"])
+        #show_automap_pos(["SHENK_WP_AUTOMAP", "SHENK_WP1_AUTOMAP"])
+        #show_automap_pos(["SHENK_ROCK_AUTOMAP"])
