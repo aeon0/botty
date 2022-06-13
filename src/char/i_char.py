@@ -316,7 +316,7 @@ class IChar:
         return self._remap_skill_hotkey(skill_asset, hotkey, Config().ui_roi["skill_right"], Config().ui_roi["skill_right_expanded"])
 
     def select_teleport(self) -> bool:
-        if not self._select_skill("teleport", "right", delay = [0.1, 0.2]):
+        if not self._select_skill("teleport", "right", delay = [0.15, 0.2]):
             return False
         return skills.is_right_skill_selected(["TELE_ACTIVE", "TELE_INACTIVE"])
 
