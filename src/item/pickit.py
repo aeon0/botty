@@ -1,4 +1,5 @@
 import time
+from tracemalloc import start
 import keyboard
 import cv2
 from operator import itemgetter
@@ -177,15 +178,19 @@ class PickIt:
 if __name__ == "__main__":
     import os
     from config import Config
+    from screen import start_detecting_window, stop_detecting_window
     from char.sorceress import LightSorc
     from char.paladin import Hammerdin
     from pather import Pather
     import keyboard
+    from item import ItemFinder
 
-    keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
+    start_detecting_window()
+    keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or stop_detecting_window() or os._exit(1))
+    keyboard.wait("f11")
     keyboard.wait("f11")
     pather = Pather()
-    item_finder = ItemFinder()
-    char = Hammerdin(Config().hammerdin, Config().char, pather)
-    pickit = PickIt(item_finder)
+    pickit = PickIt(ItemFinder())
+    char = Hammerdin(Config().hammerdin, pather, pickit)
+    char.discover_capabilities()
     print(pickit.pick_up_items(char))

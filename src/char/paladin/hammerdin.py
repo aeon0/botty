@@ -35,8 +35,7 @@ class Hammerdin(Paladin):
             if not self._pather.traverse_nodes_fixed("pindle_end", self):
                 return False
         else:
-            if not self.can_teleport():
-                self._activate_conviction_aura()
+            self._activate_conviction_aura()
             self._pather.traverse_nodes((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, timeout=1.0, do_pre_move=False)
         self._cast_hammers(Config().char["atk_len_pindle"])
         wait(0.1, 0.15)

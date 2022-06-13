@@ -637,8 +637,9 @@ class Pather:
             teleport_count = 0
             while not continue_to_next_node:
                 img = grab(force_new=True)
+                elapsed = (time.time() - last_move)
                 # Handle timeout
-                if (time.time() - last_move) > timeout:
+                if elapsed > timeout:
                     if is_visible(ScreenObjects.WaypointLabel, img):
                         # sometimes bot opens waypoint menu, close it to find templates again
                         Logger.debug("Opened wp, closing it again")
@@ -655,7 +656,7 @@ class Pather:
                         return False
 
                 # Sometimes we get stuck at rocks and stuff, after a few seconds force a move into the last known direction
-                if not did_force_move and time.time() - last_move > 3.1:
+                if not did_force_move and elapsed > 3.1:
                     if last_direction is not None:
                         pos_abs = last_direction
                     else:
