@@ -160,6 +160,7 @@ class Config:
             "inventory_screen": self._select_val("char", "inventory_screen"),
             "teleport": self._select_val("char", "teleport"),
             "stand_still": self._select_val("char", "stand_still"),
+            "clear_screen": self._select_val("char", "clear_screen"),
             "force_move": self._select_val("char", "force_move"),
             "num_loot_columns": int(self._select_val("char", "num_loot_columns")),
             "take_health_potion": float(self._select_val("char", "take_health_potion")),

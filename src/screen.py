@@ -148,3 +148,11 @@ def convert_abs_to_monitor(abs_coord: tuple[float, float], avoid_hud: bool = Fal
         x = np.clip(w2 + abs_coord[0], 8, w2*2 - 9)
         y = np.clip(h2 + abs_coord[1], 8, h2*2 - 9)
     return (x + monitor_roi["left"], y + monitor_roi["top"])
+
+map_center = (642, 350)
+map_scale = 8
+map_offset = ((1 - map_scale) * map_center[0], (1 - map_scale) * map_center[1])
+def convert_map_to_screen(map_coord: tuple[float, float]) -> tuple[float, float]:
+    x = map_coord[0] * map_scale + map_offset[0]
+    y = map_coord[1] * map_scale + map_offset[1]
+    return (x, y)

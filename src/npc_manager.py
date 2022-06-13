@@ -1,15 +1,17 @@
 import time
 import os
 import numpy as np
+import cv2
 import keyboard
 import template_finder
 from config import Config
-from screen import grab
+from screen import grab, convert_map_to_screen, convert_screen_to_monitor
 from ui_manager import ScreenObjects, center_mouse, is_visible, wait_until_hidden
 from utils.misc import color_filter, wait
 from logger import Logger
 from utils.custom_mouse import mouse
 from math import sqrt
+from automap_finder import find_cross_on_map
 
 class Npc:
     #A1
@@ -227,14 +229,64 @@ def escape_dialogue(img) -> np.ndarray:
         img = grab()
     return img
 
-def open_npc_menu(npc_key: Npc) -> bool:
+def open_npc_menu_map(npc_key: Npc, area: str = None, toggle_map: bool = True) -> bool:
+    global npcs
+    roi = Config().ui_roi["cut_skill_bar"]
+    start = time.time()
+    if toggle_map:
+        keyboard.send("tab")
+    found_npc_menu = False
+    npc_roi = [590, 300, 100, 100]
+    if area is not None:
+        if 'top' in area:
+            npc_roi[3] -= 42
+        elif 'bottom' in area:
+            npc_roi[1] += 42
+            npc_roi[3] -= 42
+        if 'left' in area:
+            npc_roi[0] -= 10
+            npc_roi[2] -= 30
+        elif 'right' in area:
+            npc_roi[0] += 40
+            npc_roi[2] -= 30
+    while (time.time() - start) < 10:
+        img = grab(force_new=True)
+        map_center = find_cross_on_map(img, "npc", npc_roi, True)
+        if map_center is not None:
+            npc_center = convert_map_to_screen(map_center)
+            mouse.move(*convert_screen_to_monitor((npc_center[0], npc_center[1] - 30)), delay_factor=(0.1, 0.15))
+        else:
+            center_mouse()
+        img = escape_dialogue(grab())
+        _, filtered_inp_w = color_filter(img, Config().colors["white"])
+        _, filtered_inp_g = color_filter(img, Config().colors["gold"])
+        res_w = template_finder.search(npcs[npc_key]["name_tag_white"], filtered_inp_w, 0.9, roi=roi).valid
+        res_g = template_finder.search(npcs[npc_key]["name_tag_gold"], filtered_inp_g, 0.9, roi=roi).valid
+        if res_w:
+            mouse.click(button="left")
+            wait(0.7, 0.8)
+            _, filtered_inp = color_filter(grab(), Config().colors["gold"])
+            res = template_finder.search(npcs[npc_key]["name_tag_gold"], filtered_inp, 0.9, roi=roi).valid
+            if res:
+                found_npc_menu = True
+                break
+        elif res_g:
+            found_npc_menu = True
+            break
+        wait(0.3, 0.4)
+    if not found_npc_menu:
+        cv2.imwrite(f"./info_screenshots/automap_npc_failure_{time.strftime('%m%d_%H%M%S')}.png", grab())
+    keyboard.send(Config().char["clear_screen"])
+    return found_npc_menu
+
+def open_npc_menu(npc_key: Npc, timeout = 35) -> bool:
     global npcs
     roi = Config().ui_roi["cut_skill_bar"]
     roi_npc_search = Config().ui_roi["search_npcs"]
     # Search for npc name tags by hovering to all template locations that are found
     start = time.time()
     attempts = 0
-    while (time.time() - start) < 35:
+    while (time.time() - start) < timeout:
         img = grab()
         results = []
         for key in npcs[npc_key]["template_group"]:
