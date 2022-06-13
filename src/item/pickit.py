@@ -164,7 +164,7 @@ class PickIt:
                         picked_up_items.append(closest_item.name)
                 else:
                     char.pre_move()
-                    char.move((x_m, y_m), force_move=True)
+                    char.move((x_m, y_m), use_tp=char.capabilities.can_teleport_natively, force_move=True)
                     if not char.capabilities.can_teleport_natively:
                         time.sleep(0.3)
                     time.sleep(0.1)

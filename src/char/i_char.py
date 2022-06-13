@@ -234,9 +234,8 @@ class IChar:
 
     def pick_up_item(self, pos: tuple[float, float], item_name: str = None, prev_cast_start: float = 0) -> float:
         mouse.move(pos[0], pos[1])
-        time.sleep(0.1)
         self._click_left()
-        wait(0.2, 0.3)
+        wait(0.3, 0.4)
         return prev_cast_start
 
     def select_by_template(
