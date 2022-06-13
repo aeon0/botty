@@ -1,25 +1,23 @@
-from turtle import Screen
-from inventory import consumables
-from typing import Callable
 import cv2
 import keyboard
 import math
 import numpy as np
 import random
 import time
+from typing import Callable
 
 from char.capabilities import CharacterCapabilities
 from config import Config
 from logger import Logger
+from inventory import consumables
 from ocr import Ocr
 from screen import grab, convert_monitor_to_screen, convert_screen_to_abs, convert_abs_to_monitor, convert_screen_to_monitor, convert_abs_to_screen
+import template_finder
 from ui import skills
 from ui_manager import detect_screen_object, ScreenObjects
 from ui_manager import is_visible, wait_until_visible
 from utils.custom_mouse import mouse
 from utils.misc import wait, cut_roi, is_in_roi, color_filter, arc_spread
-import template_finder
-
 
 
 class IChar:
@@ -33,25 +31,19 @@ class IChar:
         # Add a bit to be on the save side
         self._cast_duration = Config().char["casting_frames"] * 0.04 + 0.01
         self._last_tp = time.time()
+        self._mouse_click_held = {
+            "left": False,
+            "right": False
+        }
         self._ocr = Ocr()
         self._skill_hotkeys = skill_hotkeys
         self._standing_still = False
         self.capabilities = None
         self.damage_scaling = float(Config().char.get("damage_scaling", 1.0))
 
-    def _log_cast(self, skill_name: str, cast_pos_abs: tuple[float, float], spray: int, min_duration: float, aura: str):
-        msg = f"Casting skill {skill_name}"
-        if cast_pos_abs:
-            msg += f" at screen coordinate {convert_abs_to_screen(cast_pos_abs)}"
-        if spray:
-            msg += f" with spray of {spray}"
-        if min_duration:
-            msg += f" for {round(min_duration, 1)}s"
-        if aura:
-            msg += f" with {aura} active"
-        Logger.debug(msg)
 
-    def _click(self, mouse_click_type: str = "left", wait_before_release: float = 0.0):
+    @staticmethod
+    def _click(mouse_click_type: str = "left", wait_before_release: float = 0.0):
         """
         Sends a click to the mouse.
         """
@@ -61,6 +53,16 @@ class IChar:
             mouse.press(button = mouse_click_type)
             wait(wait_before_release)
             mouse.release(button = mouse_click_type)
+
+    def _hold_click(self, mouse_click_type: str = "left", enable: bool = True):
+        if enable:
+            if not self._mouse_click_held[mouse_click_type]:
+                self._mouse_click_held[mouse_click_type] = True
+                mouse.press(button = mouse_click_type)
+        else:
+            if self._mouse_click_held[mouse_click_type]:
+                self._mouse_click_held[mouse_click_type] = False
+                mouse.release(button = mouse_click_type)
 
     def _click_left(self, wait_before_release: float = 0.0):
         self._click("left", wait_before_release = wait_before_release)
@@ -108,7 +110,7 @@ class IChar:
         if aura:
             self._select_skill(aura, mouse_click_type = "right")
 
-        keyboard.send(Config().char["stand_still"], do_release=False)
+        self._stand_still(True)
 
         # set left hand skill
         self._select_skill(skill_name, mouse_click_type = "left")
@@ -122,7 +124,20 @@ class IChar:
         else:
             self._cast_at_position(cast_pos_abs, spray)
 
-        keyboard.send(Config().char["stand_still"], do_press=False)
+        self._stand_still(False)
+
+    @staticmethod
+    def _log_cast(skill_name: str, cast_pos_abs: tuple[float, float], spray: int, min_duration: float, aura: str):
+        msg = f"Casting skill {skill_name}"
+        if cast_pos_abs:
+            msg += f" at screen coordinate {convert_abs_to_screen(cast_pos_abs)}"
+        if spray:
+            msg += f" with spray of {spray}"
+        if min_duration:
+            msg += f" for {round(min_duration, 1)}s"
+        if aura:
+            msg += f" with {aura} active"
+        Logger.debug(msg)
 
     def _set_active_skill(self, mouse_click_type: str = "left", skill: str =""):
         """
@@ -175,12 +190,13 @@ class IChar:
 
     def _stand_still(self, enable: bool):
         if enable:
-            self._stand_still_enabled = True
-            keyboard.send(Config().char["stand_still"], do_release=False)
+            if not self._stand_still_enabled:
+                keyboard.send(Config().char["stand_still"], do_release=False)
+                self._stand_still_enabled = True
         else:
-            self._stand_still_enabled = False
-            keyboard.send(Config().char["stand_still"], do_press=False)
-
+            if self._stand_still_enabled:
+                keyboard.send(Config().char["stand_still"], do_press=False)
+                self._stand_still_enabled = False
 
     def _discover_capabilities(self) -> CharacterCapabilities:
         override = Config().advanced_options["override_capabilities"]
@@ -215,7 +231,7 @@ class IChar:
         mouse.move(pos[0], pos[1])
         time.sleep(0.1)
         self._click_left()
-        wait(0.45, 0.5)
+        wait(0.2, 0.3)
         return prev_cast_start
 
     def select_by_template(
@@ -440,13 +456,13 @@ class IChar:
         Logger.debug(f'Casting {ability} for {time_in_s:.02f}s at {cast_pos_abs} with {spread_deg}°')
         if not self._skill_hotkeys[ability]:
             raise ValueError(f"You did not set {ability} hotkey!")
-        keyboard.send(Config().char["stand_still"], do_release=False)
+        self._stand_still(True)
         self._select_skill(skill = ability, mouse_click_type="right", delay=(0.02, 0.08))
 
         target = self.vec_to_monitor(arc_spread(cast_pos_abs, spread_deg=spread_deg))
         mouse.move(*target,delay_factor=[0.95, 1.05])
         if hold:
-            self._click_right()
+            self._hold_click("right", True)
         start = time.time()
         while (time.time() - start) < time_in_s:
             target = self.vec_to_monitor(arc_spread(cast_pos_abs, spread_deg=spread_deg))
@@ -458,8 +474,8 @@ class IChar:
                 wait(self._cast_duration, self._cast_duration)
 
         if hold:
-            mouse.release(button="right")
-        keyboard.send(Config().char["stand_still"], do_press=False)
+            self._hold_click("right", False)
+        self._stand_still(False)
 
     def pre_buff(self):
         pass
