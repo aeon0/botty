@@ -33,13 +33,6 @@ def has_tps() -> bool:
     else:
         return False
 
-def select_tp(tp_hotkey):
-    if tp_hotkey and not is_right_skill_selected(
-        ["TELE_ACTIVE", "TELE_INACTIVE"]):
-        keyboard.send(tp_hotkey)
-        wait(0.1, 0.2)
-    return is_right_skill_selected(["TELE_ACTIVE", "TELE_INACTIVE"])
-
 def is_right_skill_active() -> bool:
     """
     :return: Bool if skill is red/available or not. Skill must be selected on right skill slot when calling the function.
