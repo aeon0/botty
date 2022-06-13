@@ -23,25 +23,27 @@ class Paladin(IChar):
         # select teleport if available
         super().pre_move()
         # in case teleport hotkey is not set or teleport can not be used, use vigor if set
-        should_cast_vigor = self._skill_hotkeys["vigor"] and not skills.is_right_skill_selected(["VIGOR"])
-        if should_cast_vigor and not self.can_teleport():
-            self._select_skill("vigor", delay=None)
+        if not self.can_teleport():
+            self._activate_vigor_aura()
 
     def _activate_concentration_aura(self, delay=None):
-        self._select_skill("concentration", delay=delay)
+        self._select_skill("concentration", delay=delay, mouse_click_type="right")
 
     def _activate_redemption_aura(self, delay = [0.6, 0.8]):
-        self._select_skill("redemption", delay=delay)
+        self._select_skill("redemption", delay=delay, mouse_click_type="right")
 
     def _activate_cleanse_aura(self, delay = [0.3, 0.4]):
-        self._select_skill("cleansing", delay=delay)
+        self._select_skill("cleansing", delay=delay, mouse_click_type="right")
 
     def _activate_conviction_aura(self, delay = None):
-        self._select_skill("conviction", delay=delay)
+        self._select_skill("conviction", delay=delay, mouse_click_type="right")
+
+    def _activate_vigor_aura(self, delay = None):
+        self._select_skill("vigor", delay=delay, mouse_click_type="right")
+
+    def _cast_holy_shield(self):
+        self._cast_simple(skill_name="holy_shield", mouse_click_type="right")
 
     def _activate_cleanse_redemption(self):
         self._activate_cleanse_aura()
         self._activate_redemption_aura()
-
-    def _cast_holy_shield(self):
-        self._cast_simple(skill_name="holy_shield", mouse_click_type="right")

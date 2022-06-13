@@ -514,7 +514,7 @@ class Pather:
             x_m += int(random.random() * 6 - 3)
             y_m += int(random.random() * 6 - 3)
             t0 = grab(force_new=True)
-            char.move((x_m, y_m))
+            char.move((x_m, y_m), use_tp=True)
             t1 = grab(force_new=True)
             # check difference between the two frames to determine if tele was good or not
             diff = cv2.absdiff(t0, t1)
@@ -625,7 +625,7 @@ class Pather:
         else:
             Logger.debug(f"Traverse: {path}")
 
-        use_tp = char.capabilities.can_teleport_natively or (char.capabilities.can_teleport_with_charges and force_tp)
+        use_tp = (char.capabilities.can_teleport_natively or (char.capabilities.can_teleport_with_charges and force_tp)) and char.can_teleport()
         if do_pre_move:
             char.pre_move()
 

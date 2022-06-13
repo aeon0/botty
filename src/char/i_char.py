@@ -147,7 +147,7 @@ class IChar:
 
     def _check_hotkey(self, skill: str) -> str | None:
         if not (
-            skill in self._skill_hotkeys and (hotkey := self._skill_hotkeys[skill])
+            (skill in self._skill_hotkeys and (hotkey := self._skill_hotkeys[skill]))
             or (skill in Config().char and (hotkey := Config().char[skill]))
         ):
             Logger.warning(f"No hotkey for skill: {skill}")
@@ -167,9 +167,9 @@ class IChar:
             keyboard.send(hotkey)
             self._set_active_skill(mouse_click_type, skill)
             if delay:
-                try:
+                if isinstance(delay, (list, tuple)):
                     wait(*delay)
-                except:
+                else:
                     try:
                         wait(delay)
                     except Exception as e:
@@ -186,7 +186,7 @@ class IChar:
         self._cast_simple(skill_name="battle_command", mouse_click_type="right")
 
     def _cast_town_portal(self):
-        consumables.increment_need("town_portal", 1)
+        consumables.increment_need("tp", 1)
         self._cast_simple(skill_name="town_portal", mouse_click_type="right")
 
     @staticmethod
@@ -195,13 +195,13 @@ class IChar:
 
     def _stand_still(self, enable: bool):
         if enable:
-            if not self._stand_still_enabled:
+            if not self._standing_still:
                 keyboard.send(Config().char["stand_still"], do_release=False)
-                self._stand_still_enabled = True
+                self._standing_still = True
         else:
-            if self._stand_still_enabled:
+            if self._standing_still:
                 keyboard.send(Config().char["stand_still"], do_press=False)
-                self._stand_still_enabled = False
+                self._standing_still = False
 
     def _discover_capabilities(self) -> CharacterCapabilities:
         override = Config().advanced_options["override_capabilities"]
@@ -322,7 +322,7 @@ class IChar:
         return skills.is_right_skill_selected(["TELE_ACTIVE", "TELE_INACTIVE"])
 
     def can_teleport(self) -> bool:
-        return (self.capabilities.can_teleport_natively or self.capabilities.can_teleport_with_charges) and self.select_teleport()
+        return (self.capabilities.can_teleport_natively or self.capabilities.can_teleport_with_charges) and self.select_teleport() and skills.is_right_skill_active()
 
     def pre_move(self):
         pass
