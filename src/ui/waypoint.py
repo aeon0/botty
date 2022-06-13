@@ -10,7 +10,7 @@ from ui_manager import detect_screen_object, ScreenObjects
 
 _WAYPOINTS = {
     # Act 1
-    "Rouge Encampment": (1, 0),
+    "Rogue Encampment": (1, 0),
     "Cold Plains": (1, 1),
     "Stony Field": (1, 2),
     "Dark Wood": (1, 3),
