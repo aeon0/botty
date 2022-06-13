@@ -268,7 +268,7 @@ class Bot:
             wait_until_hidden(ScreenObjects.Corpse)
             belt.fill_up_belt_from_inventory(Config().char["num_loot_columns"])
         self._char.discover_capabilities()
-        if corpse_present and self._char.capabilities.can_teleport_with_charges and not self._char.select_tp():
+        if corpse_present and self._char.capabilities.can_teleport_with_charges and not self._char.select_teleport():
             keybind = self._char._skill_hotkeys["teleport"]
             Logger.info(f"Teleport keybind is lost upon death. Rebinding teleport to '{keybind}'")
             self._char.remap_right_skill_hotkey("TELE_ACTIVE", self._char._skill_hotkeys["teleport"])
@@ -383,7 +383,7 @@ class Bot:
         # Check if we are out of tps or need repairing
         need_repair = is_visible(ScreenObjects.NeedRepair)
         need_routine_repair = False if not Config().char["runs_per_repair"] else self._game_stats._run_counter % Config().char["runs_per_repair"] == 0
-        need_refill_teleport = self._char.capabilities.can_teleport_with_charges and (not self._char.select_tp() or self._char.is_low_on_teleport_charges())
+        need_refill_teleport = self._char.capabilities.can_teleport_with_charges and (not self._char.select_teleport() or self._char.is_low_on_teleport_charges())
         if need_repair or need_routine_repair or need_refill_teleport or sell_items:
             if need_repair:
                 Logger.info("Repair needed. Gear is about to break")

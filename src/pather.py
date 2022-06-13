@@ -625,7 +625,7 @@ class Pather:
         else:
             Logger.debug(f"Traverse: {path}")
 
-        if use_tp_charge and char.select_tp():
+        if use_tp_charge and char.select_teleport():
             # this means we want to use tele charge and we were able to select it
             pass
         elif do_pre_move:

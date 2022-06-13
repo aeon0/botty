@@ -145,16 +145,21 @@ class IChar:
         """
         self._active_skill[mouse_click_type] = skill
 
-    def _select_skill(self, skill: str, mouse_click_type: str = "left", delay: float | list | tuple = None) -> bool:
-        """
-        Sets the active skill on left or right.
-        Will only set skill if not already selected
-        """
+    def _check_hotkey(self, skill: str):
         if not (
             skill in self._skill_hotkeys and (hotkey := self._skill_hotkeys[skill])
             or (skill in Config().char and (hotkey := Config().char[skill]))
         ):
             Logger.warning(f"No hotkey for skill: {skill}")
+            return False
+        return hotkey
+
+    def _select_skill(self, skill: str, mouse_click_type: str = "left", delay: float | list | tuple = None) -> bool:
+        """
+        Sets the active skill on left or right.
+        Will only set skill if not already selected
+        """
+        if not (hotkey := self._check_hotkey(skill)):
             self._set_active_skill(mouse_click_type, "")
             return False
 
@@ -202,7 +207,7 @@ class IChar:
         override = Config().advanced_options["override_capabilities"]
         if override is None:
             if self._skill_hotkeys["teleport"]:
-                if self.select_tp():
+                if self.select_teleport():
                     if self.skill_is_charged():
                         return CharacterCapabilities(can_teleport_natively=False, can_teleport_with_charges=True)
                     else:
@@ -309,13 +314,18 @@ class IChar:
     def remap_right_skill_hotkey(self, skill_asset, hotkey):
         return self._remap_skill_hotkey(skill_asset, hotkey, Config().ui_roi["skill_right"], Config().ui_roi["skill_right_expanded"])
 
-    def select_tp(self):
-        return skills.select_tp(self._skill_hotkeys["teleport"])
+    def select_teleport(self):
+        if not self._select_skill("teleport", "right", delay = [0.1, 0.2]):
+            return False
+        return skills.is_right_skill_selected(["TELE_ACTIVE", "TELE_INACTIVE"])
+
+    def can_teleport(self):
+        return self.select_teleport()
 
     def pre_move(self):
         # if teleport hotkey is set and if teleport is not already selected
         if self.capabilities.can_teleport_natively:
-            self.select_tp()
+            self.select_teleport()
             self._set_active_skill("right", "teleport")
 
     def move(self, pos_monitor: tuple[float, float], force_tp: bool = False, force_move: bool = False):
