@@ -24,6 +24,7 @@ class Location:
     A5_MALAH = "a5_malah"
     A5_NIHLATHAK_PORTAL = "a5_nihlathak_portal"
     A5_LARZUK = "a5_larzuk"
+    A5_ANYA = "a5_anya"
     # Pindle
     A5_PINDLE_START = "a5_pindle_start"
     A5_PINDLE_SAFE_DIST = "a5_pindle_safe_dist"
@@ -94,6 +95,26 @@ class Pather:
         self._range_x = [-Config().ui_pos["center_x"] + 7, Config().ui_pos["center_x"] - 7]
         self._range_y = [-Config().ui_pos["center_y"] + 7, Config().ui_pos["center_y"] - Config().ui_pos["skill_bar_height"] - 33]
         self._nodes = {
+            # Automap nodes
+            # A5 town
+            1000: {'A5_TOWN_AUTOMAP': (-118, -38)},
+            1001: {'A5_TOWN_AUTOMAP': (-178, -52)},
+            1003: {'A5_TOWN_AUTOMAP': (-140, -12)},
+            1004: {'A5_TOWN_AUTOMAP': (-170, 12)},
+            1005: {'A5_TOWN_AUTOMAP': (-152, 36)},
+            1006: {'A5_TOWN_AUTOMAP': (-204, 66)},
+            1007: {'A5_TOWN_AUTOMAP': (-112, 10)},
+            1008: {'A5_TOWN_AUTOMAP': (-222, 84)},
+            1009: {'A5_TOWN_AUTOMAP': (-264, 104)},
+            1010: {'A5_TOWN_AUTOMAP': (-256, 40)},
+            1011: {'A5_TOWN_AUTOMAP': (-222, 46)},
+            1012: {'A5_TOWN_AUTOMAP': (-300, 2)},
+            1014: {'A5_TOWN_AUTOMAP': (-82, 34)},
+            1016: {'A5_TOWN_AUTOMAP': (-222, -50)},
+            1017: {'A5_TOWN_AUTOMAP': (-360, 66)},
+            1018: {'A5_TOWN_AUTOMAP': (-330, 88)},
+            1019: {'A5_TOWN_AUTOMAP': (-288, 102)},
+
             # A5 town
             0: {'A5_TOWN_0': (27, 249), 'A5_TOWN_1': (-92, -137), 'A5_TOWN_11': (-313, -177)},
             1: {'A5_TOWN_0': (-311, 191), 'A5_TOWN_1': (-429, -194), 'A5_TOWN_0.5': (478, 233), 'A5_TOWN_11': (-651, -231)},
@@ -349,6 +370,47 @@ class Pather:
             911: {"NECRO_TRAV_22": (13, 171), "NECRO_TRAV_21": (212, 307), },
         }
         self._paths_automap = {
+            # A5 Town
+            (Location.A5_TOWN_START, Location.A5_NIHLATHAK_PORTAL): [1003, 1006, 1008, 1009],
+            (Location.A5_TOWN_START, Location.A5_ANYA): [1003, 1006, 1008, 1009, 1019],
+            (Location.A5_TOWN_START, Location.A5_STASH): [1003, 1004],
+            (Location.A5_TOWN_START, Location.A5_WP): [1003, 1004],
+            (Location.A5_TOWN_START, Location.A5_QUAL_KEHK): [1003, 1004, 1006, 1010, 1012],
+            (Location.A5_TOWN_START, Location.A5_MALAH): [1001],
+            (Location.A5_TOWN_START, Location.A5_LARZUK): [1003, 1007, 1014],
+            (Location.A5_MALAH, Location.A5_TOWN_START): [1001, 1000],
+            (Location.A5_MALAH, Location.A5_QUAL_KEHK): [1016, 1012],
+            (Location.A5_MALAH, Location.A5_STASH): [1001, 1000, 1003, 1004],
+            (Location.A5_MALAH, Location.A5_LARZUK): [1001, 1000, 1003, 1007, 1014],
+            (Location.A5_MALAH, Location.A5_WP): [1001, 1000, 1003, 1004],
+            (Location.A5_MALAH, Location.A5_NIHLATHAK_PORTAL): [1016, 1012, 1018],
+            (Location.A5_MALAH, Location.A5_ANYA): [1016, 1012, 1018],
+            (Location.A5_STASH, Location.A5_NIHLATHAK_PORTAL): [1006, 1008, 1009],
+            (Location.A5_STASH, Location.A5_ANYA): [1006, 1008, 1009, 1019],
+            (Location.A5_STASH, Location.A5_QUAL_KEHK): [1006, 1010, 1012],
+            (Location.A5_STASH, Location.A5_LARZUK): [1014],
+            (Location.A5_STASH, Location.A5_WP): [],
+            (Location.A5_STASH, Location.A5_MALAH): [1004, 1003, 1000, 1001],
+            (Location.A5_WP, Location.A5_STASH): [],
+            (Location.A5_WP, Location.A5_LARZUK): [1005, 1014],
+            (Location.A5_WP, Location.A5_NIHLATHAK_PORTAL): [1006, 1008, 1009],
+            (Location.A5_WP, Location.A5_ANYA): [1006, 1008, 1009, 1019],
+            (Location.A5_WP, Location.A5_QUAL_KEHK): [1006, 1010, 1012],
+            (Location.A5_WP, Location.A5_MALAH): [1004, 1003, 1000, 1001],
+            (Location.A5_QUAL_KEHK, Location.A5_NIHLATHAK_PORTAL): [1012, 1018],
+            (Location.A5_QUAL_KEHK, Location.A5_ANYA): [1012, 1018],
+            (Location.A5_QUAL_KEHK, Location.A5_WP): [1012, 1010, 1011],
+            (Location.A5_QUAL_KEHK, Location.A5_STASH): [1012, 1010, 1006, 1005],
+            (Location.A5_QUAL_KEHK, Location.A5_LARZUK): [1012, 1010, 1006, 1005, 1014],
+            (Location.A5_QUAL_KEHK, Location.A5_MALAH): [1012, 1016],
+            (Location.A5_LARZUK, Location.A5_QUAL_KEHK): [1014, 1006, 1010, 1012],
+            (Location.A5_LARZUK, Location.A5_NIHLATHAK_PORTAL): [1014, 1008, 1009],
+            (Location.A5_LARZUK, Location.A5_ANYA): [1014, 1008, 1009, 1019],
+            (Location.A5_LARZUK, Location.A5_WP): [1014, 1005],
+            (Location.A5_LARZUK, Location.A5_STASH): [1014, 1005],
+            (Location.A5_LARZUK, Location.A5_MALAH): [1014, 1007, 1003, 1000, 1001],
+            (Location.A5_NIHLATHAK_PORTAL, Location.A5_STASH): [1009, 1008, 1006, 1005],
+            (Location.A5_NIHLATHAK_PORTAL, Location.A5_WP): [1009, 1008, 1006],
         }
         self._paths = {
 	        # A5 Town
@@ -879,9 +941,13 @@ if __name__ == "__main__":
     #char = Hammerdin(Config().hammerdin, pather, PickIt) #Config().char,
     #char.discover_capabilities()
 
-    display_all_nodes(pather, "SHENK_")
+    #display_all_nodes(pather, "SHENK_")
     #pather.traverse_nodes([120, 121, 122, 123, 122, 121, 120], char) #works!
     #pather.traverse_nodes_fixed("dia_trash_c", char)
     #display_all_nodes(pather, "SHENK")
     #pather.traverse_nodes([141,142,143], char)
-    #stop_detecting_window()
+    stop_detecting_window()
+
+    while True:
+        keyboard.wait("f11")
+        show_automap_pos(["A5_TOWN_AUTOMAP"])
