@@ -62,7 +62,7 @@ class IChar:
     def _discover_capabilities(self) -> CharacterCapabilities:
         override = Config().advanced_options["override_capabilities"]
         if override is None:
-            if self._skill_hotkeys["teleport"]:
+            if Config().char["teleport"]:
                 if self.select_tp():
                     if self.skill_is_charged():
                         return CharacterCapabilities(can_teleport_natively=False, can_teleport_with_charges=True)
@@ -171,7 +171,7 @@ class IChar:
         return self._remap_skill_hotkey(skill_asset, hotkey, Config().ui_roi["skill_right"], Config().ui_roi["skill_right_expanded"])
 
     def select_tp(self):
-        return skills.select_tp(self._skill_hotkeys["teleport"])
+        return skills.select_tp(Config().char["teleport"])
 
     def pre_move(self):
         # if teleport hotkey is set and if teleport is not already selected
@@ -181,7 +181,7 @@ class IChar:
 
     def move(self, pos_monitor: tuple[float, float], force_tp: bool = False, force_move: bool = False):
         factor = Config().advanced_options["pathing_delay_factor"]
-        if "teleport" in self._skill_hotkeys and self._skill_hotkeys["teleport"] and (
+        if "teleport" in Config().char and Config().char["teleport"] and (
             force_tp
             or (
                 skills.is_right_skill_selected(["TELE_ACTIVE"])
