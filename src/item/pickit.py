@@ -1,17 +1,17 @@
-import time
-from tracemalloc import start
-import keyboard
-import cv2
 from operator import itemgetter
-from ui_manager import ScreenObjects, is_visible
-from utils.custom_mouse import mouse
+import cv2
+import keyboard
+import parse
+import time
+
+from char import IChar
 from config import Config
+from inventory import consumables
+from item import ItemFinder, Item
 from logger import Logger
 from screen import grab, convert_abs_to_monitor, convert_screen_to_monitor
-from item import ItemFinder, Item
-from char import IChar
-from inventory import consumables
-import parse
+from ui_manager import ScreenObjects, is_visible
+from utils.custom_mouse import mouse
 
 
 class PickIt:
