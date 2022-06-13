@@ -1,6 +1,3 @@
-import keyboard
-import numpy as np
-import random
 import time
 
 from char.paladin import Paladin
@@ -9,9 +6,8 @@ from health_manager import set_panel_check_paused
 from inventory.personal import inspect_items
 from logger import Logger
 from pather import Location
-from screen import convert_abs_to_monitor, convert_screen_to_abs, grab, convert_abs_to_screen
+from screen import convert_abs_to_monitor, convert_screen_to_abs, grab
 from target_detect import get_visible_targets, log_targets
-from utils.custom_mouse import mouse
 from utils.misc import wait
 
 class FoHdin(Paladin):
@@ -20,6 +16,14 @@ class FoHdin(Paladin):
         super().__init__(*args, **kwargs)
         self._pather.adapt_path((Location.A3_TRAV_START, Location.A3_TRAV_CENTER_STAIRS), [220, 221, 222, 903, 904, 905, 906])
 
+    def _move_and_attack(self, abs_move: tuple[int, int], atk_len: float):
+        pos_m = convert_abs_to_monitor(abs_move)
+        self.pre_move()
+        self.move(pos_m, force_move=True)
+        self._cast_hammers(atk_len)
+
+    def _cast_hammers(self, min_duration: float = 0, aura: str = "concentration"): #for nihlathak
+        return self._cast_left_with_aura(skill_name = "blessed_hammer", spray = 0, min_duration = min_duration, aura = aura)
 
     def _cast_foh(self, cast_pos_abs: tuple[float, float], spray: int = 10, min_duration: float = 0, aura: str = "conviction"):
         return self._cast_left_with_aura(skill_name = "foh", cast_pos_abs = cast_pos_abs, spray = spray, min_duration = min_duration, aura = aura)
@@ -99,8 +103,7 @@ class FoHdin(Paladin):
                 return False
         else:
             if not self._do_pre_move:
-                keyboard.send(self._skill_hotkeys["conviction"])
-                wait(0.05, 0.15)
+                self._activate_conviction_aura()
             self._pather.traverse_nodes([103], self, timeout=1.0, do_pre_move=self._do_pre_move)
 
         cast_pos_abs = [pindle_pos_abs[0] * 0.9, pindle_pos_abs[1] * 0.9]
@@ -110,8 +113,7 @@ class FoHdin(Paladin):
             self._pather.traverse_nodes_fixed("pindle_end", self)
         else:
             if not self._do_pre_move:
-                keyboard.send(self._skill_hotkeys["redemption"])
-                wait(0.05, 0.15)
+                self._activate_redemption_aura()
             self._pather.traverse_nodes((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, timeout=1.0, do_pre_move=self._do_pre_move)
 
         # Use target-based attack sequence one more time before pickit
@@ -164,8 +166,7 @@ class FoHdin(Paladin):
 
         # traverse to shenk
         if not self._do_pre_move:
-            keyboard.send(self._skill_hotkeys["conviction"])
-            wait(0.05, 0.15)
+            self._activate_conviction_aura()
         self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, timeout=1.0, do_pre_move=self._do_pre_move, force_tp=True, use_tp_charge=True)
         wait(0.05, 0.1)
 

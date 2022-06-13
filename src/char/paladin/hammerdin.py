@@ -1,21 +1,14 @@
 import keyboard
-from screen import convert_abs_to_monitor, convert_screen_to_abs, grab
-from utils.custom_mouse import mouse
-from char.paladin import Paladin
-from pather import Pather
-from logger import Logger
-from config import Config
-from utils.misc import wait
-import time
-from pather import Location
-import random
 
-from ui import skills
-from char import IChar, CharacterCapabilities
+from char.paladin import Paladin
+from config import Config
+from logger import Logger
+from pather import Pather
 from pather import Pather, Location
-from item.pickit import PickIt #for Diablo
-import numpy as np
+from screen import convert_abs_to_monitor, convert_screen_to_abs, grab
 from target_detect import get_visible_targets
+from utils.custom_mouse import mouse
+from utils.misc import wait
 
 class Hammerdin(Paladin):
     def __init__(self, *args, **kwargs):
@@ -24,6 +17,14 @@ class Hammerdin(Paladin):
         #hammerdin needs to be closer to shenk to reach it with hammers
         self._pather.offset_node(149, (70, 10))
 
+    def _cast_hammers(self, min_duration: float = 0, aura: str = "concentration"): #for nihlathak
+        return self._cast_left_with_aura(skill_name = "blessed_hammer", spray = 0, min_duration = min_duration, aura = aura)
+
+    def _move_and_attack(self, abs_move: tuple[int, int], atk_len: float):
+        pos_m = convert_abs_to_monitor(abs_move)
+        self.pre_move()
+        self.move(pos_m, force_move=True)
+        self._cast_hammers(atk_len)
 
     def kill_pindle(self) -> bool:
         wait(0.1, 0.15)

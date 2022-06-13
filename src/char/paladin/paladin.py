@@ -1,17 +1,10 @@
-import keyboard
-from ui import skills
-import time
-import random
-from utils.custom_mouse import mouse
 from char import IChar, CharacterCapabilities
-from pather import Pather
-from logger import Logger
-from config import Config
-from utils.misc import wait
-from screen import convert_abs_to_screen, convert_abs_to_monitor
-from pather import Pather
-#import cv2 #for Diablo
 from item.pickit import PickIt #for Diablo
+from pather import Pather
+from pather import Pather
+from screen import convert_abs_to_monitor
+from ui import skills
+from utils.misc import wait
 
 class Paladin(IChar):
     def __init__(self, skill_hotkeys: dict, pather: Pather, pickit: PickIt):
@@ -42,12 +35,6 @@ class Paladin(IChar):
         if should_cast_vigor and not can_teleport:
             self._select_skill("vigor", delay=None)
 
-    def _move_and_attack(self, abs_move: tuple[int, int], atk_len: float):
-        pos_m = convert_abs_to_monitor(abs_move)
-        self.pre_move()
-        self.move(pos_m, force_move=True)
-        self._cast_hammers(atk_len)
-
     def _activate_concentration_aura(self, delay=None):
         self._select_skill("concentration", delay=delay)
 
@@ -57,12 +44,12 @@ class Paladin(IChar):
     def _activate_cleanse_aura(self, delay = [0.3, 0.4]):
         self._select_skill("cleansing", delay=delay)
 
+    def _activate_conviction_aura(self, delay = None):
+        self._select_skill("conviction", delay=delay)
+
     def _activate_cleanse_redemption(self):
         self._activate_cleanse_aura()
         self._activate_redemption_aura()
 
     def _cast_holy_shield(self):
         self._cast_simple(skill_name="holy_shield", mouse_click_type="right")
-
-    def _cast_hammers(self, min_duration: float = 0, aura: str = "concentration"): #for nihlathak
-        return self._cast_left_with_aura(skill_name = "blessed_hammer", spray = 0, min_duration = min_duration, aura = aura)
