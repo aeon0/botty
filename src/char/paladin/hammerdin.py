@@ -35,8 +35,7 @@ class Hammerdin(Paladin):
             if not self._pather.traverse_nodes_fixed("pindle_end", self):
                 return False
         else:
-            self._activate_conviction_aura()
-            self._pather.traverse_nodes((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, timeout=1.0, do_pre_move=False)
+            self._pather.traverse_nodes((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, timeout=1.0, active_skill="concentration")
         self._cast_hammers(Config().char["atk_len_pindle"])
         wait(0.1, 0.15)
         self._cast_hammers(1.6, "redemption")
@@ -47,9 +46,7 @@ class Hammerdin(Paladin):
             # Custom eld position for teleport that brings us closer to eld
             self._pather.traverse_nodes_fixed([(675, 30)], self)
         else:
-            if not self.can_teleport():
-                self._activate_conviction_aura()
-            self._pather.traverse_nodes((Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END), self, timeout=1.0, do_pre_move=False, force_tp=True)
+            self._pather.traverse_nodes((Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END), self, timeout=1.0, force_tp=True, active_skill="concentration")
         wait(0.05, 0.1)
         self._cast_hammers(Config().char["atk_len_eldritch"])
         wait(0.1, 0.15)
@@ -57,9 +54,7 @@ class Hammerdin(Paladin):
         return True
 
     def kill_shenk(self):
-        if not self.can_teleport():
-            self._activate_conviction_aura()
-        self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, timeout=1.0, do_pre_move=False, force_tp=True)
+        self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, timeout=1.0, force_tp=True, active_skill="concentration")
         wait(0.05, 0.1)
         self._cast_hammers(Config().char["atk_len_shenk"])
         wait(0.1, 0.15)
@@ -68,10 +63,8 @@ class Hammerdin(Paladin):
 
     def kill_council(self) -> bool:
         atk_len = Config().char["atk_len_trav"]
-        if not self.can_teleport():
-            self._activate_conviction_aura()
         # Go inside and hammer a bit
-        self._pather.traverse_nodes([228, 229], self, timeout=2.5, do_pre_move=False, force_tp=True)
+        self._pather.traverse_nodes([228, 229], self, timeout=2.5, force_tp=True, active_skill="concentration")
         self._cast_hammers(atk_len)
         # Move a bit back and another round
         self._move_and_attack((40, 20), atk_len)
@@ -91,7 +84,7 @@ class Hammerdin(Paladin):
 
     def kill_nihlathak(self, end_nodes: list[int]) -> bool:
         # Move close to nihlathak
-        self._pather.traverse_nodes(end_nodes, self, timeout=0.8, do_pre_move=False)
+        self._pather.traverse_nodes(end_nodes, self, timeout=0.8)
         # move mouse to center, otherwise hammers sometimes dont fly, not sure why
         pos_m = convert_abs_to_monitor((0, 0))
         mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])

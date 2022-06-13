@@ -9,6 +9,13 @@ from config import Config
 import template_finder
 from ui_manager import wait_until_visible, ScreenObjects
 
+RIGHT_SKILL_ROI = [
+        Config().ui_pos["skill_right_x"] - (Config().ui_pos["skill_width"] // 2),
+        Config().ui_pos["skill_y"] - (Config().ui_pos["skill_height"] // 2),
+        Config().ui_pos["skill_width"],
+        Config().ui_pos["skill_height"]
+]
+
 def is_left_skill_selected(template_list: list[str]) -> bool:
     """
     :return: Bool if skill is currently the selected skill on the left skill slot.
@@ -36,13 +43,7 @@ def is_right_skill_active() -> bool:
     """
     :return: Bool if skill is red/available or not. Skill must be selected on right skill slot when calling the function.
     """
-    roi = [
-        Config().ui_pos["skill_right_x"] - (Config().ui_pos["skill_width"] // 2),
-        Config().ui_pos["skill_y"] - (Config().ui_pos["skill_height"] // 2),
-        Config().ui_pos["skill_width"],
-        Config().ui_pos["skill_height"]
-    ]
-    img = cut_roi(grab(), roi)
+    img = cut_roi(grab(), RIGHT_SKILL_ROI)
     avg = np.average(img)
     return avg > 75.0
 

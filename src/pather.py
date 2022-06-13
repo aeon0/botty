@@ -600,12 +600,17 @@ class Pather:
         do_pre_move: bool = True,
         force_move: bool = False,
         threshold: float = 0.68,
+        active_skill: str = "",
     ) -> bool:
         """Traverse from one location to another
         :param path: Either a list of node indices or a tuple with (start_location, end_location)
         :param char: Char that is traversing the nodes
         :param timeout: Timeout in second. If no more move was found in that time it will cancel traverse
         :param force_move: Bool value if force move should be used for pathing
+        :param force_tp: Bool value if teleport should be used for pathing for charged characters
+        :param do_pre_move: Bool value if pre-move function should be used prior to moving
+        :param threshold: Threshold for template matching
+        :param active_skill: Name of the skill/aura that should be active during the traverse for walking chars or charged TP chars not using TP
         :return: Bool if traversed successful or False if it got stuck
         """
         if len(path) == 0:
@@ -628,6 +633,11 @@ class Pather:
         use_tp = (char.capabilities.can_teleport_natively or (char.capabilities.can_teleport_with_charges and force_tp)) and char.can_teleport()
         if do_pre_move:
             char.pre_move()
+        if not use_tp:
+            if active_skill == "":
+                active_skill = char.default_move_skill
+            if active_skill is not None:
+                char.select_skill(active_skill, mouse_click_type = "right")
 
         last_direction = None
         for i, node_idx in enumerate(path):

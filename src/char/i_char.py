@@ -14,7 +14,7 @@ from ocr import Ocr
 from screen import grab, convert_monitor_to_screen, convert_screen_to_abs, convert_abs_to_monitor, convert_screen_to_monitor, convert_abs_to_screen
 import template_finder
 from ui import skills
-from ui_manager import detect_screen_object, ScreenObjects
+from ui_manager import detect_screen_object, ScreenObjects, wait_for_update
 from ui_manager import is_visible, wait_until_visible
 from utils.custom_mouse import mouse
 from utils.misc import wait, cut_roi, is_in_roi, color_filter, arc_spread
@@ -38,6 +38,7 @@ class IChar:
         self._ocr = Ocr()
         self._skill_hotkeys = skill_hotkeys
         self._standing_still = False
+        self.default_move_skill = ""
         self.capabilities = None
         self.damage_scaling = float(Config().char.get("damage_scaling", 1.0))
 
@@ -84,8 +85,7 @@ class IChar:
         Casts a skill at a given position.
         """
         if cast_pos_abs:
-            x = cast_pos_abs[0]
-            y = cast_pos_abs[1]
+            x, y = cast_pos_abs
             if spray:
                 x += (random.random() * 2 * spray - spray)
                 y += (random.random() * 2 * spray - spray)
@@ -164,8 +164,12 @@ class IChar:
             return False
 
         if self._active_skill[mouse_click_type] != skill:
+            # img = grab()
             keyboard.send(hotkey)
             self._set_active_skill(mouse_click_type, skill)
+            # if not wait_for_update(img=img, roi= skills.RIGHT_SKILL_ROI, timeout=3):
+            #     Logger.warning(f"_select_skill: Failed to select skill {skill}, no update after hotkey")
+            #     return False
             if delay:
                 if isinstance(delay, (list, tuple)):
                     wait(*delay)
@@ -175,6 +179,9 @@ class IChar:
                     except Exception as e:
                         Logger.warning(f"_select_skill: Failed to delay with delay: {delay}. Exception: {e}")
         return True
+
+    def select_skill(self, skill: str, mouse_click_type: str = "left", delay: float | list | tuple = None) -> bool:
+        return self._select_skill(skill, mouse_click_type, delay)
 
     def _cast_teleport(self):
         self._cast_simple(skill_name="teleport", mouse_click_type="right")
@@ -215,6 +222,9 @@ class IChar:
                 return CharacterCapabilities(can_teleport_natively=False, can_teleport_with_charges=True)
             else:
                 return CharacterCapabilities(can_teleport_natively=False, can_teleport_with_charges=False)
+        elif override == "walk":
+            Logger.debug(f"override_capabilities is set to {override}")
+            return CharacterCapabilities(can_teleport_natively=False, can_teleport_with_charges=False)
         else:
             Logger.debug(f"override_capabilities is set to {override}")
             return CharacterCapabilities(

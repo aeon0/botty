@@ -102,9 +102,7 @@ class FoHdin(Paladin):
             if not self._pather.traverse_nodes([103], self, timeout=1.0, force_move=True, force_tp=False):
                 return False
         else:
-            if not self.can_teleport():
-                self._activate_conviction_aura()
-            self._pather.traverse_nodes([103], self, timeout=1.0, do_pre_move=False)
+            self._pather.traverse_nodes([103], self, timeout=1.0, active_skill="conviction")
 
         cast_pos_abs = [pindle_pos_abs[0] * 0.9, pindle_pos_abs[1] * 0.9]
         self._generic_foh_attack_sequence(default_target_abs=cast_pos_abs, min_duration=atk_len_dur, max_duration=atk_len_dur*3, default_spray=11)
@@ -113,7 +111,7 @@ class FoHdin(Paladin):
             self._pather.traverse_nodes_fixed("pindle_end", self)
         else:
             self._activate_redemption_aura()
-            self._pather.traverse_nodes((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, timeout=1.0, do_pre_move=False)
+            self._pather.traverse_nodes((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, timeout=1.0)
 
         # Use target-based attack sequence one more time before pickit
         self._generic_foh_attack_sequence(default_target_abs=cast_pos_abs, max_duration=atk_len_dur, default_spray=11)
@@ -164,9 +162,7 @@ class FoHdin(Paladin):
         atk_len_dur = float(Config().char["atk_len_shenk"])
 
         # traverse to shenk
-        if not self.can_teleport():
-            self._activate_conviction_aura()
-        self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, timeout=1.0, do_pre_move=False, force_tp=True)
+        self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, timeout=1.0, force_tp=True, active_skill="conviction")
         wait(0.05, 0.1)
 
         # bypass mob detect first
@@ -182,7 +178,7 @@ class FoHdin(Paladin):
     def kill_nihlathak(self, end_nodes: list[int]) -> bool:
         atk_len_dur = Config().char["atk_len_nihlathak"]
         # Move close to nihlathak
-        self._pather.traverse_nodes(end_nodes, self, timeout=0.8, do_pre_move=False)
+        self._pather.traverse_nodes(end_nodes, self, timeout=0.8)
         if self._select_skill("blessed_hammer"):
             self._cast_hammers(atk_len_dur/4)
             self._cast_hammers(2*atk_len_dur/4, "redemption")

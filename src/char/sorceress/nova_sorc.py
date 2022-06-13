@@ -82,7 +82,7 @@ class NovaSorc(Sorceress):
     def kill_nihlathak(self, end_nodes: list[int]) -> bool:
         atk_len = Config().char["atk_len_nihlathak"] * 0.3
         # Move close to nihlathak
-        self._pather.traverse_nodes(end_nodes, self, timeout=0.8, do_pre_move=False)
+        self._pather.traverse_nodes(end_nodes, self, timeout=0.8)
         # move mouse to center
         pos_m = convert_abs_to_monitor((0, 0))
         mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])

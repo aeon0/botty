@@ -13,18 +13,12 @@ class Paladin(IChar):
         self._pather = pather
         self._pickit = pickit #for Diablo
         self._picked_up_items = False #for Diablo
+        self.default_move_skill = "vigor"
 
     def pre_buff(self):
         self._pre_buff_cta()
         self._cast_holy_shield()
         wait(self._cast_duration, self._cast_duration + 0.06)
-
-    def pre_move(self):
-        # select teleport if available
-        super().pre_move()
-        # in case teleport hotkey is not set or teleport can not be used, use vigor if set
-        if not self.can_teleport():
-            self._activate_vigor_aura()
 
     def _activate_concentration_aura(self, delay=None):
         self._select_skill("concentration", delay=delay, mouse_click_type="right")

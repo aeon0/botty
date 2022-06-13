@@ -513,7 +513,7 @@ class Poison_Necro(IChar):
 
     def kill_nihlathak(self, end_nodes: list[int]) -> bool:
         # Move close to nihlathak
-        self._pather.traverse_nodes(end_nodes, self, timeout=0.8, do_pre_move=True)
+        self._pather.traverse_nodes(end_nodes, self, timeout=0.8)
         pos_m = screen.convert_abs_to_monitor((20, 20))
         self.walk(pos_m, force_move=True)
         self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=4,cast_v_div=3,cast_spell='lower_res',delay=1.0)
