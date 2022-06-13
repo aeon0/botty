@@ -1,18 +1,18 @@
-import random
 import keyboard
-import time
 import numpy as np
+import random
+import time
 
-from health_manager import get_panel_check_paused, set_panel_check_paused
-from inventory.personal import inspect_items
-from screen import convert_abs_to_monitor, convert_screen_to_abs, grab, convert_abs_to_screen
-from utils.custom_mouse import mouse
 from char.paladin import Paladin
-from logger import Logger
 from config import Config
-from utils.misc import wait
+from health_manager import set_panel_check_paused
+from inventory.personal import inspect_items
+from logger import Logger
 from pather import Location
-from target_detect import get_visible_targets, TargetInfo, log_targets
+from screen import convert_abs_to_monitor, convert_screen_to_abs, grab, convert_abs_to_screen
+from target_detect import get_visible_targets, log_targets
+from utils.custom_mouse import mouse
+from utils.misc import wait
 
 class FoHdin(Paladin):
     def __init__(self, *args, **kwargs):
@@ -22,20 +22,11 @@ class FoHdin(Paladin):
 
 
     def _cast_foh(self, cast_pos_abs: tuple[float, float], spray: int = 10, min_duration: float = 0, aura: str = "conviction"):
-        return self._cast_skill_with_aura(skill_name = "foh", cast_pos_abs = cast_pos_abs, spray = spray, min_duration = min_duration, aura = aura)
+        return self._cast_left_with_aura(skill_name = "foh", cast_pos_abs = cast_pos_abs, spray = spray, min_duration = min_duration, aura = aura)
 
     def _cast_holy_bolt(self, cast_pos_abs: tuple[float, float], spray: int = 10, min_duration: float = 0, aura: str = "concentration"):
         #if skill is bound : concentration, use concentration, otherwise move on with conviction. alternatively use redemption whilst holybolting. conviction does not help holy bolt (its magic damage)
-        return self._cast_skill_with_aura(skill_name = "holy_bolt", cast_pos_abs = cast_pos_abs, spray = spray, min_duration = min_duration, aura = aura)
-
-    def _cast_hammers(self, min_duration: float = 0, aura: str = "concentration"): #for nihlathak
-        return self._cast_skill_with_aura(skill_name = "blessed_hammer", spray = 0, min_duration = min_duration, aura = aura)
-
-    def _move_and_attack(self, abs_move: tuple[int, int], atk_len: float, aura: str = "concentration"): #for nihalthak
-        pos_m = convert_abs_to_monitor(abs_move)
-        self.pre_move()
-        self.move(pos_m, force_move=True)
-        self._cast_hammers(atk_len, aura=aura)
+        return self._cast_left_with_aura(skill_name = "holy_bolt", cast_pos_abs = cast_pos_abs, spray = spray, min_duration = min_duration, aura = aura)
 
     def _generic_foh_attack_sequence(
         self,

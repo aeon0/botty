@@ -24,53 +24,6 @@ class Hammerdin(Paladin):
         #hammerdin needs to be closer to shenk to reach it with hammers
         self._pather.offset_node(149, (70, 10))
 
-    def _cast_hammers(self, time_in_s: float, aura: str = "concentration"):
-        if aura in self._skill_hotkeys and self._skill_hotkeys[aura]:
-            keyboard.send(self._skill_hotkeys[aura])
-            wait(0.05, 0.1)
-            keyboard.send(Config().char["stand_still"], do_release=False)
-            wait(0.05, 0.1)
-            if self._skill_hotkeys["blessed_hammer"]:
-                keyboard.send(self._skill_hotkeys["blessed_hammer"])
-            wait(0.05, 0.1)
-            start = time.time()
-            while (time.time() - start) < time_in_s:
-                wait(0.06, 0.08)
-                mouse.press(button="left")
-                wait(0.1, 0.2)
-                mouse.release(button="left")
-            wait(0.01, 0.05)
-            keyboard.send(Config().char["stand_still"], do_press=False)
-
-    def pre_buff(self):
-        if Config().char["cta_available"]:
-            self._pre_buff_cta()
-        keyboard.send(self._skill_hotkeys["holy_shield"])
-        wait(0.04, 0.1)
-        mouse.click(button="right")
-        wait(self._cast_duration, self._cast_duration + 0.06)
-
-    def on_capabilities_discovered(self, capabilities: CharacterCapabilities):
-        # In case we have a running pala, we want to switch to concentration when moving to the boss
-        # ass most likely we will click on some mobs and already cast hammers
-        if capabilities.can_teleport_natively:
-            self._do_pre_move = False
-
-    def pre_move(self):
-        # select teleport if available
-        super().pre_move()
-        # in case teleport hotkey is not set or teleport can not be used, use vigor if set
-        should_cast_vigor = self._skill_hotkeys["vigor"] and not skills.is_right_skill_selected(["VIGOR"])
-        can_teleport = self.capabilities.can_teleport_natively and skills.is_right_skill_active()
-        if should_cast_vigor and not can_teleport:
-            keyboard.send(self._skill_hotkeys["vigor"])
-            wait(0.15, 0.25)
-
-    def _move_and_attack(self, abs_move: tuple[int, int], atk_len: float):
-        pos_m = convert_abs_to_monitor(abs_move)
-        self.pre_move()
-        self.move(pos_m, force_move=True)
-        self._cast_hammers(atk_len)
 
     def kill_pindle(self) -> bool:
         wait(0.1, 0.15)

@@ -30,8 +30,7 @@ def has_tps() -> bool:
             if Config().general["info_screenshots"]:
                 cv2.imwrite("./info_screenshots/debug_out_of_tps_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
         return tps_remain
-    else:
-        return False
+    return False
 
 def select_tp(tp_hotkey):
     if tp_hotkey and not is_right_skill_selected(
