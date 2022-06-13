@@ -1,0 +1,1947 @@
+// Pickit V5
+// By Sosa, Gleed, Legit
+
+
+//==================================================================//
+//<<<<<<<<<<<<<<<<<<<<<<<<<<<< Misc >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
+//==================================================================//
+
+//------------------------------------------
+//================= Utility ================
+//------------------------------------------
+//[Type] == Gold # [Gold] >= 10000
+[Name] == Scrolloftownportal
+[Name] == Scrollofidentify
+
+//------------------------------------------
+//================= Potions ================
+//------------------------------------------
+//[Name] == Greaterhealingpotion
+//[Name] == Greatermanapotion
+[Name] == Superhealingpotion
+[Name] == Supermanapotion
+[Name] == Rejuvenationpotion
+[Name] == Fullrejuvenationpotion
+
+//----------------------------------------
+//================= Ubers ================
+//----------------------------------------
+[Name] == Keyofterror
+[Name] == Keyofhate
+[Name] == Keyofdestruction
+
+//-----------------------------------------
+//================= Tokens ================
+//-----------------------------------------
+[Name] == Twistedessenceofsuffering
+[Name] == Chargedessenceofhatred
+[Name] == Burningessenceofterror
+[Name] == Festeringessenceofdestruction
+
+//----------------------------------------
+//================= Runes ================
+//----------------------------------------
+[Name] >= Lumrune && [Name] <= Zodrune
+//[Name] == Elrune
+//[Name] == Eldrune
+//[Name] == Tirrune
+//[Name] == Nefrune
+//[Name] == Ethrune
+//[Name] == Ithrune
+//[Name] == Talrune
+//[Name] == Ralrune
+//[Name] == Ortrune
+//[Name] == Thulrune
+//[Name] == Amnrune
+//[Name] == Solrune
+//[Name] == Shaelrune
+//[Name] == Dolrune
+//[Name] == Helrune
+//[Name] == Iorune
+//[Name] == Lumrune
+//[Name] == Korune
+//[Name] == Falrune
+//[Name] == Lemrune
+//[Name] == Pulrune
+//[Name] == Umrune
+//[Name] == Malrune
+//[Name] == Istrune
+//[Name] == Gulrune
+//[Name] == Vexrune
+//[Name] == Ohmrune
+//[Name] == Lorune
+//[Name] == Surrune
+//[Name] == Berrune
+//[Name] == Jahrune
+//[Name] == Chamrune
+//[Name] == Zodrune
+
+//---------------------------------------
+//================= Gems ================
+//---------------------------------------
+//[Name] == Chippedaamethyst
+//[Name] == Chippeddiamond
+//[Name] == Chippedemerald
+//[Name] == Chippedruby
+//[Name] == Chippedsapphire
+//[Name] == Chippedskull
+//[Name] == Chippedtopaz
+//[Name] == Flawedamethyst
+//[Name] == Flaweddiamond
+//[Name] == Flawedemerald
+//[Name] == Flawedruby
+//[Name] == Flawedsapphire
+//[Name] == Flawedskull
+//[Name] == Flawedtopaz
+//[Name] == Amethyst
+//[Name] == Diamond
+//[Name] == Emerald
+//[Name] == Ruby
+//[Name] == Skull
+//[Name] == Sapphire
+//[Name] == Topaz
+[Name] == Flawlessamethyst
+[Name] == Flawlessdiamond
+[Name] == Flawlessemerald
+[Name] == Flawlessruby
+[Name] == Flawlesssapphire
+[Name] == Flawlessskull
+[Name] == Flawlesstopaz
+//[Name] == Perfectamethyst
+//[Name] == Perfectdiamond
+//[Name] == Perfectemerald
+//[Name] == Perfectruby
+//[Name] == Perfectsapphire
+//[Name] == Perfectskull
+//[Name] == Perfecttopaz
+
+//=========================================================================//
+//<<<<<<<<<<<<<<<<<<<<<<<<<<<< Magic Items >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
+//=========================================================================//
+
+//-----------------------------------------------
+//================= Grand Charms ================
+//-----------------------------------------------
+[Name] == Grandcharm && [Quality] == Magic # [Coldresist]+[Fireresist]+[Lightresist]+[Poisonresist] >= 60 // Plain +15 All Res
+[Name] == Grandcharm && [Quality] == Magic # [Itemaddskilltab] >= 1 // All Plain Skillers
+//[Name] == Grandcharm && [Quality] == Magic # ([Coldresist] >= 30 || [Fireresist] >= 30 || [Lightresist] >= 30 || [Poisonresist] >= 30)      // All +30 Single Res Gc
+//[Name] == Grandcharm && [Quality] == Magic && [Flag] != Ethereal # [Maxhp] >= 40        // All +40 Max Hp Gc
+//[Name] == Grandcharm && [Quality] == Magic # [Fhr] >= 12 && [Itemaddskilltab] >= 1 // All Plain Fhr Skillers
+//[Name] == Grandcharm && [Quality] == Magic # [Frw] >= 7 && [Itemaddskilltab] >= 1 // All Plain Frw Skillers
+
+
+// Plain Skillers
+//[Name] == Grandcharm && [Quality] == Magic # [Fireskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Coldskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Lightningskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Trapsskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Shadowdisciplinesskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Martialartsskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Javelinandspearskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Passiveandmagicskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Bowandcrossbowskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Palicombatskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Defensiveaurasskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Offensiveaurasskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Elementalskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Shapeshiftingskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Druidsummoningskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Warcriesskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Masteriesskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Barbcombatskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Poisonandboneskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Necromancersummoningskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Cursesskilltab] >= 1
+
+// +Fhr Skillers
+//[Name] == Grandcharm && [Quality] == Magic # [Fhr] >= 12 && [Fireskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Fhr] >= 12 && [Coldskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Fhr] >= 12 && [Lightningskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Fhr] >= 12 && [Trapsskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Fhr] >= 12 && [Shadowdisciplinesskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Fhr] >= 12 && [Martialartsskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Fhr] >= 12 && [Javelinandspearskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Fhr] >= 12 && [Passiveandmagicskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Fhr] >= 12 && [Bowandcrossbowskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Fhr] >= 12 && [Palicombatskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Fhr] >= 12 && [Defensiveaurasskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Fhr] >= 12 && [Offensiveaurasskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Fhr] >= 12 && [Elementalskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Fhr] >= 12 && [Shapeshiftingskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Fhr] >= 12 && [Druidsummoningskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Fhr] >= 12 && [Warcriesskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Fhr] >= 12 && [Masteriesskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Fhr] >= 12 && [Barbcombatskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Fhr] >= 12 && [Poisonandboneskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Fhr] >= 12 && [Necromancersummoningskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Fhr] >= 12 && [Cursesskilltab] >= 1
+
+// +Frw Skillers
+//[Name] == Grandcharm && [Quality] == Magic # [Frw] >= 7 && [Fireskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Frw] >= 7 && [Coldskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Frw] >= 7 && [Lightningskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Frw] >= 7 && [Trapsskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Frw] >= 7 && [Shadowdisciplinesskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Frw] >= 7 && [Martialartsskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Frw] >= 7 && [Javelinandspearskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Frw] >= 7 && [Passiveandmagicskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Frw] >= 7 && [Bowandcrossbowskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Frw] >= 7 && [Palicombatskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Frw] >= 7 && [Defensiveaurasskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Frw] >= 7 && [Offensiveaurasskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Frw] >= 7 && [Elementalskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Frw] >= 7 && [Shapeshiftingskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Frw] >= 7 && [Druidsummoningskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Frw] >= 7 && [Warcriesskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Frw] >= 7 && [Masteriesskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Frw] >= 7 && [Barbcombatskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Frw] >= 7 && [Poisonandboneskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Frw] >= 7 && [Necromancersummoningskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Frw] >= 7 && [Cursesskilltab] >= 1
+
+// +35 Hp Skillers
+//[Name] == Grandcharm && [Quality] == Magic # [Maxhp] >= 35 && [Fireskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Maxhp] >= 35 && [Coldskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Maxhp] >= 35 && [Lightningskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Maxhp] >= 35 && [Trapsskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Maxhp] >= 35 && [Shadowdisciplinesskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Maxhp] >= 35 && [Martialartsskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Maxhp] >= 35 && [Javelinandspearskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Maxhp] >= 35 && [Passiveandmagicskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Maxhp] >= 35 && [Bowandcrossbowskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Maxhp] >= 35 && [Palicombatskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Maxhp] >= 35 && [Defensiveaurasskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Maxhp] >= 35 && [Offensiveaurasskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Maxhp] >= 35 && [Elementalskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Maxhp] >= 35 && [Shapeshiftingskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Maxhp] >= 35 && [Druidsummoningskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Maxhp] >= 35 && [Warcriesskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Maxhp] >= 35 && [Masteriesskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Maxhp] >= 35 && [Barbcombatskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Maxhp] >= 35 && [Poisonandboneskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Maxhp] >= 35 && [Necromancersummoningskilltab] >= 1
+//[Name] == Grandcharm && [Quality] == Magic # [Maxhp] >= 35 && [Cursesskilltab] >= 1
+
+// All Res Grand Charms
+//[Name] == Grandcharm && [Quality] == Magic # [Coldresist]+[Fireresist]+[Lightresist]+[Poisonresist] >= 60 && [Frw] >= 7
+//[Name] == Grandcharm && [Quality] == Magic # [Coldresist]+[Fireresist]+[Lightresist]+[Poisonresist] >= 60 && [Fhr] >= 12
+//[Name] == Grandcharm && [Quality] == Magic # [Coldresist]+[Fireresist]+[Lightresist]+[Poisonresist] >= 60 && [Maxhp] >= 35
+
+// Melee Grand Charms
+[Name] == Grandcharm && [Quality] == Magic # [Tohit] >= 76 && [Maxdamage] >= 14
+[Name] == Grandcharm && [Quality] == Magic # [Tohit] >= 76 && [Maxdamage] >= 10 && [Frw] >= 7
+[Name] == Grandcharm && [Quality] == Magic # [Tohit] >= 76 && [Maxdamage] >= 10 && [Fhr] >= 12
+[Name] == Grandcharm && [Quality] == Magic # [Tohit] >= 76 && [Maxdamage] >= 10 && [Maxhp] >= 35
+[Name] == Grandcharm && [Quality] == Magic # [Tohit] >= 132 && [Maxhp] >= 35
+
+//-----------------------------------------------
+//================= Small Charms ================
+//-----------------------------------------------
+
+[Name] == Smallcharm && [Quality] == Magic # [Coldresist]+[Fireresist]+[Lightresist]+[Poisonresist] >= 20    // +5 All Res
+[Name] == Smallcharm && [Quality] == Magic # [Maxhp] >= 15          // Plain +Hp
+[Name] == Smallcharm && [Quality] == Magic # [Itemmagicbonus] >= 7     // Plain +Magic Find
+[Name] == Smallcharm && [Quality] == Magic # [Coldresist] >= 11         // Plain +Cold Res
+[Name] == Smallcharm && [Quality] == Magic # [Fireresist] >= 11         // Plain +Fire Res
+[Name] == Smallcharm && [Quality] == Magic # [Lightresist] >= 11        // Plain +Light Res
+[Name] == Smallcharm && [Quality] == Magic # [Poisonresist] >= 11       // Plain +Poison Res
+[Name] == Smallcharm && [Quality] == Magic # [Poisonmindam] >= 205       // Plain +100 Poison Dmg
+
+// Melee Small Charms
+[Name] == Smallcharm && [Quality] == Magic # [Firemindam] >= 26 && [Firemaxdam] >= 42
+[Name] == Smallcharm && [Quality] == Magic # [Lightmaxdam] >= 99
+[Name] == Smallcharm && [Quality] == Magic # [Coldmindam] >= 15 && [Coldmaxdam] >= 29
+[Name] == Smallcharm && [Quality] == Magic # [Poisonmaxdam] >= 385 // 451
+[Name] == Smallcharm && [Quality] == Magic # [Maxdamage] >= 4 && [Tohit] >= 20
+
+// +Life Small Charms
+//[Name] == Smallcharm && [Quality] == Magic # [Maxhp] >= 20 && [Maxmana] >= 17
+//[Name] == Smallcharm && [Quality] == Magic # [Maxhp] >= 20 && [Fireresist] >= 11
+//[Name] == Smallcharm && [Quality] == Magic # [Maxhp] >= 20 && [Coldresist] >= 11
+//[Name] == Smallcharm && [Quality] == Magic # [Maxhp] >= 20 && [Lightresist] >= 11
+//[Name] == Smallcharm && [Quality] == Magic # [Maxhp] >= 20 && [Poisonresist] >= 11
+//[Name] == Smallcharm && [Quality] == Magic # [Maxhp] >= 15 && [Coldresist]+[Fireresist]+[Lightresist]+[Poisonresist] >= 20
+//[Name] == Smallcharm && [Quality] == Magic # [Maxhp] >= 15 && [Tohit] >= 15 && [Maxdamage] >= 3
+//[Name] == Smallcharm && [Quality] == Magic # [Maxhp] == 15 && [Tohit] >= 20 && [Maxdamage] >= 3
+//[Name] == Smallcharm && [Quality] == Magic # [Maxhp] == 20 && [Tohit] >= 20 && [Maxdamage] >= 3
+//[Name] == Smallcharm && [Quality] == Magic # [Maxhp] >= 20 && [Tohit] >= 36
+//[Name] == Smallcharm && [Quality] == Magic # [Maxhp] >= 20 && [Firemindam] >= 19 && [Firemaxdam] >= 29
+//[Name] == Smallcharm && [Quality] == Magic # [Maxhp] >= 20 && [Lightmaxdam] >= 71
+//[Name] == Smallcharm && [Quality] == Magic # [Maxhp] >= 20 && [Coldmindam] >= 10 && [Coldmaxdam] >= 20
+
+// +Magic Find Small Charms
+//[Name] == Smallcharm && [Quality] == Magic # [Itemmagicbonus] >= 7 && [Fireresist] >= 11
+//[Name] == Smallcharm && [Quality] == Magic # [Itemmagicbonus] >= 7 && [Coldresist] >= 11
+//[Name] == Smallcharm && [Quality] == Magic # [Itemmagicbonus] >= 7 && [Lightresist] >= 11
+//[Name] == Smallcharm && [Quality] == Magic # [Itemmagicbonus] >= 7 && [Poisonresist] >= 11
+//[Name] == Smallcharm && [Quality] == Magic # [Itemmagicbonus] >= 7 && [Coldresist]+[Fireresist]+[Lightresist]+[Poisonresist] >= 20
+//[Name] == Smallcharm && [Quality] == Magic # [Itemmagicbonus] >= 7 && [Maxdamage] >= 3 && [Tohit] >= 20
+
+// +Frw Small Charms
+[Name] == Smallcharm && [Quality] == Magic # [Frw] >= 3 && [Fireresist] >= 9
+[Name] == Smallcharm && [Quality] == Magic # [Frw] >= 3 && [Coldresist] >= 9
+[Name] == Smallcharm && [Quality] == Magic # [Frw] >= 3 && [Lightresist] >= 9
+[Name] == Smallcharm && [Quality] == Magic # [Frw] >= 3 && [Poisonresist] >= 9
+[Name] == Smallcharm && [Quality] == Magic # [Frw] >= 3 && [Coldresist]+[Fireresist]+[Lightresist]+[Poisonresist] >= 15
+[Name] == Smallcharm && [Quality] == Magic # [Frw] >= 3 && [Tohit] >= 20 && [Maxdamage] >= 3
+[Name] == Smallcharm && [Quality] == Magic # [Frw] >= 3 && [Tohit] >= 36
+
+// +Fhr Small Charms
+[Name] == Smallcharm && [Quality] == Magic # [Fhr] >= 5 && [Fireresist] >= 11
+[Name] == Smallcharm && [Quality] == Magic # [Fhr] >= 5 && [Coldresist] >= 11
+[Name] == Smallcharm && [Quality] == Magic # [Fhr] >= 5 && [Lightresist] >= 11
+[Name] == Smallcharm && [Quality] == Magic # [Fhr] >= 5 && [Poisonresist] >= 11
+[Name] == Smallcharm && [Quality] == Magic # [Fhr] >= 5 && [Coldresist]+[Fireresist]+[Lightresist]+[Poisonresist] >= 20
+[Name] == Smallcharm && [Quality] == Magic # [Fhr] >= 5 && [Tohit] >= 20 && [Maxdamage] >= 3
+[Name] == Smallcharm && [Quality] == Magic # [Fhr] >= 5 && [Tohit] >= 36
+
+//------------------------------------------
+//================= Jewelry ================
+//------------------------------------------
+// Magic Jewels
+[Name] == Jewel && [Quality] == Magic # [Enhanceddamage] >= 35 && ([Ias] == 15 || [Itemreqpercent] <= -15 || [Fireresist] >= 30 || [Mindamage] >= 10 || [Maxdamage] >= 15)		// Ruby Jewel Of X
+[Name] == Jewel && [Quality] == Magic # [Fireresist]+[Coldresist]+[Lightresist]+[Poisonresist] >= 60 && [Ias] >= 15		// Scintillating Jewel Of Fervor
+[Name] == Jewel && [Quality] == Magic # [Tohit] >= 100 && [Ias] >= 15		// Argent Jewel Of Fervor
+[Name] == Jewel && [Quality] == Magic # [Maxdamage] >= 30		// Vermilion Jewel Of Carnage
+[Name] == Jewel && [Quality] == Magic # [Maxdamage] >= 15 && ([Itemreqpercent] <= -15 || [Ias] >= 15)		// Vermilion Jewel Of X
+[Name] == Jewel && [Quality] == Magic # [Mindamage] >= 8 && [Maxdamage] >= 15	// Crimson Jewel Of Carnage
+[Name] == Jewel && [Quality] == Magic # [Maxdamage] >= 24		// Carmine Jewel Of Carnage (Lld)
+[Name] == Jewel && [Quality] == Magic # [Enhanceddamage] >= 20 && [Maxdamage] >= 15		// Rusty Jewel Of Carnage (Lld)
+[Name] == Jewel && [Quality] == Magic # [Enhanceddamage] >= 20 && [Maxdamage] >= 9		// Rusty Jewel Of Wrath (Lld)
+[Name] == Jewel && [Quality] == Magic # [Poisonmindam] >= 103		// Jewel Of Envy (Vlld)
+
+// Magic Amulets
+//[Name] == Amulet && [Quality] == Magic # [Itemchargedskill] == 54		// Tele Amulet
+//[Type] == Amulet && [Quality] == Magic # [Itemaddskilltab] >= 3 && ([Fcr] >= 10 || [Itemmagicbonus] >= 35)        // +3 Skill Fcr/Mf Amulet
+
+//-------------------------------------------
+//================= Circlets ================
+//-------------------------------------------
+[Type] == Circlet && [Quality] == Magic && [Flag] != Ethereal # [Itemchargedskill] == 54		// Tele Circlet
+[Type] == Circlet && [Quality] == Magic && [Flag] != Ethereal # [Barbarianskills] == 2 && [Itemgoldbonus] >= 70		// Gf Barb
+[Type] == Circlet && [Quality] == Magic && [Flag] != Ethereal # [Sockets] == 3 && ([Frw] == 30 || [Strength] >= 25 || [Dexterity] >= 25 || [Itemmagicbonus] == 35 || [Maxhp] == 100 || [Fcr] == 20 || [Normaldamagereduction] == 25)		// Artisan's Circlet Of X
+[Type] == Circlet && [Quality] == Magic && [Flag] != Ethereal # [Maxmana] == 120 && [Normaldamagereduction] == 25		// Bahamut's Circlet Of Life Everlasting		
+[Type] == Circlet && [Quality] == Magic && [Flag] != Ethereal # ([Itemaddclassskills] >= 2 || [Itemaddskilltab] == 3) && [Fcr] >= 20		// X Circlet Of The Magus
+
+//------------------------------------------
+//================= Helmets ================
+//------------------------------------------
+([Name] == Demonhead || [Name] == Bonevisage || [Name] == Spiredhelm || [Name] == Corona) && [Quality] == Magic # [Itemtohitpercentperlevel] >= 1 && ([Fhr] == 10 || [Maxhp] >= 30)      // Visionary Helmet Of X
+
+// Magic Barbarian Helmets
+//[Type] == Primalhelm && [Quality] == Magic && [Flag] != Ethereal # ([Barbarianskills] == 2 || [Warcriesskilltab] >= 2) && [Skillbattleorders] >= 3        // All B.O Helms
+([Name] == Assaulthelmet || [Name] == Avengerguard || [Name] == Savagehelmet || [Name] == Slayerguard || [Name] == Conquerorcrown || [Name] == Guardiancrown) && [Quality] == Magic # ([Barbarianskills]+[Skillbattleorders] >= 5 || [Warcriesskilltab]+[Skillbattleorders] >= 6)     // 5-6 B.O Arreat Style
+
+// Magic Druid Pelts
+//[Type] == Pelt && [Quality] == Magic && [Flag] != Ethereal # [Skilltornado]+[Druidskills] >= 5       // Windy Druid Pelt
+//[Type] == Pelt && [Quality] == Magic && [Flag] != Ethereal # [Skilltornado]+[Elementalskilltab] >= 5       // Windy Druid Pelt   
+//[Type] == Pelt && [Quality] == Magic && [Flag] != Ethereal # [Skillfissure]+[Druidskills] >= 5       // Fissure Druid Pelt
+//[Type] == Pelt && [Quality] == Magic && [Flag] != Ethereal # [Skillfissure]+[Elementalskilltab] >= 5       // Fissure Druid Pelt
+
+//------------------------------------------
+//================= Shields ================
+//------------------------------------------
+[Name] == Monarch && [Quality] == Magic # [Sockets] == 4 && [Itemfasterblockrate] == 30     // Jmod
+[Name] == Monarch && [Quality] == Magic # [Sockets] == 4 && [Fhr] == 17     // Jmoe
+[Name] == Monarch && [Quality] == Magic # [Sockets] == 4 && [Maxhp] >= 60       // Jmoc
+[Name] == Monarch && [Quality] == Magic # [Sockets] == 4 && [Itemreqpercent] == -30     // Jmos
+//([Name] == Crownshield || [Name] == Royalshield || [Name] == Sacredtarge || [Name] == Sacredrondache) && [Quality] == Magic # [Sockets] == 4 && [Fhr] == 17  // Paladin Jmod
+//([Name] == Crownshield || [Name] == Royalshield || [Name] == Sacredtarge || [Name] == Sacredrondache) && [Quality] == Magic # [Sockets] == 4 && [Itemfasterblockrate] == 30  // Paladin Jmoe
+//([Name] == Crownshield || [Name] == Royalshield || [Name] == Sacredtarge || [Name] == Sacredrondache) && [Quality] == Magic # [Sockets] == 4 && [Maxhp] >= 60 // Paladin Jmoc
+//([Name] == Crownshield || [Name] == Royalshield || [Name] == Sacredtarge || [Name] == Sacredrondache) && [Quality] == Magic # [Sockets] == 4 && [Itemreqpercent] == -30 // Paladin Jmos
+//[Type] == Voodooheads && [Quality] == Magic && [Class] >= Exceptional && [Flag] != Ethereal # ([Necromancerskills] >= 1 || [Poisonandboneskilltab] >= 1) && [Fbr] >= 30 && [Skillbonespear] == 1
+
+//------------------------------------------
+//================= Weapons ================
+//------------------------------------------
+// B.O Sticks
+//[Name] == Throwingspear && [Quality] == Magic # [Warcriesskilltab] >= 3
+
+// Gg Club
+([Name] == Club || [Name] == Spikedclub) && [Quality] == Magic # [Warcriesskilltab] >= 3 && [Strength] > 0
+
+// Magic Scepters
+//[Type] == Scepter && [Quality] == Magic # ([Paladinskills]+[Skillblessedhammer] >= 5) && ([Skillconcentration] >= 3  || ([Fcr] >= 10 && [Skillconcentration] >= 2))
+//[Type] == Scepter && [Quality] == Magic # ([Paladinskills]+[Skillfistoftheheavens] >= 5) && ([Skillconviction] >= 3 || ([Fcr] >= 10 && [Skillconviction] >= 2))
+//[Type] == Scepter && [Quality] == Magic # ([Palicombatskilltab]+[Skillblessedhammer] >= 6) && ([Skillconcentration] >= 3 || ([Fcr] >= 10 && [Skillconcentration] >= 2))
+//[Type] == Scepter && [Quality] == Magic # ([Palicombatskilltab]+[Skillfistoftheheavens] >= 6) && ([Skillconviction] >= 3 || ([Fcr] >= 10 && [Skillconviction] >= 2))
+
+//  Magic Sorceress Orbs
+//[Type] == Orb && [Quality] == Magic # [Sorceressskills]+[Skilllightning] >= 5 && (([Fcr] >= 20 && [Skilllightningmastery] >= 1) || [Skilllightningmastery] >= 3)     // Light Orb
+//[Type] == Orb && [Quality] == Magic # [Lightningskilltab]+[Skilllightning] >= 6 && (([Fcr] >= 20 && [Skilllightningmastery] >= 1) || [Skilllightningmastery] >= 3)       // Light Orb
+//[Type] == Orb && [Quality] == Magic # ([Sorceressskills]+[Skillfrozenorb] >= 5 || [Sorceressskills]+[Skillblizzard] >= 5) && (([Fcr] >= 20 && [Skillcoldmastery] >= 1) || [Skillcoldmastery] >= 3)       // Cold Orb
+//[Type] == Orb && [Quality] == Magic # ([Coldskilltab]+[Skillfrozenorb] >= 6 || [Coldskilltab]+[Skillblizzard] >= 6)  && (([Fcr] >= 20 && [Skillcoldmastery] >= 1) || [Skillcoldmastery] >= 3)     // Cold Orb
+//[Type] == Orb && [Quality] == Magic # [Sorceressskills]+[Skillfireball] >= 5 && (([Fcr] >= 20 && [Skillfiremastery] >= 1) || [Skillfiremastery] >= 3)        // Fire Orb
+//[Type] == Orb && [Quality] == Magic # ([Fireskilltab]+[Skillenchant] >= 6 || [Fireskilltab]+[Skillfireball] >= 6) && (([Fcr] >= 20 && [Skillfiremastery] >= 1) || [Skillfiremastery] >= 3)       // Fire Orb
+//[Type] == Orb && [Quality] == Magic # [Fireskilltab]+[Skillhydra] >= 6 && [Skillfiremastery] >= 2        // Hydra Orb
+
+// Magic Javelins
+([Name] == Maidenjavelin || [Name] == Ceremonialjavelin || [Name] == Matriarchaljavelin) && [Quality] >= Magic # [Amazonskills] == 2 && [Javelinandspearskilltab] >= 2 && [Ias] >= 30
+([Name] == Maidenjavelin || [Name] == Ceremonialjavelin || [Name] == Matriarchaljavelin) && [Quality] >= Magic # [Javelinandspearskilltab] >= 4 && [Ias] >= 30
+([Name] == Maidenjavelin || [Name] == Ceremonialjavelin || [Name] == Matriarchaljavelin) && [Quality] == Magic # [Amazonskills] >= 2 && [Javelinandspearskilltab] >= 2 && [Ias] >= 30
+([Name] == Maidenjavelin || [Name] == Ceremonialjavelin || [Name] == Matriarchaljavelin) && [Quality] == Magic # [Javelinandspearskilltab] >= 4 && [Ias] >= 30
+
+// Magic Claws
+([Name] == Greatertalons || [Name] == Feralclaws || [Name] == Greaterclaws || [Name] == Runictalons) && [Quality] == Magic && [Flag] != Ethereal # [Ias] >= 40 && [Skilllightningsentry]+[Assassinskills] >= 5
+([Name] == Greatertalons || [Name] == Feralclaws || [Name] == Greaterclaws || [Name] == Runictalons) && [Quality] == Magic && [Flag] != Ethereal # [Ias] >= 40 && [Skilllightningsentry]+[Trapsskilltab] >= 6
+([Name] == Greatertalons || [Name] == Feralclaws || [Name] == Greaterclaws || [Name] == Runictalons) && [Quality] == Magic && [Flag] != Ethereal # [Ias] >= 40 && [Skillwakeoffire]+[Assassinskills] >= 5
+([Name] == Greatertalons || [Name] == Feralclaws || [Name] == Greaterclaws || [Name] == Runictalons) && [Quality] == Magic && [Flag] != Ethereal # [Ias] >= 40 && [Skillwakeoffire]+[Trapsskilltab] >= 6
+([Name] == Greatertalons || [Name] == Feralclaws || [Name] == Greaterclaws || [Name] == Runictalons) && [Quality] == Magic && [Flag] != Ethereal # [Ias] >= 40 && [Skilllightningsentry] >= 3
+([Name] == Greatertalons || [Name] == Feralclaws || [Name] == Greaterclaws || [Name] == Runictalons) && [Quality] == Magic && [Flag] != Ethereal # [Ias] >= 40 && [Skillwakeoffire] >= 3
+
+//------------------------------------------
+//================= Armors  ================
+//------------------------------------------
+//([Name] == Archonplate || [Name] == Duskshroud || [Name] == Wirefleece || [Name] == Greathauberk || [Name] == Sacredarmor) && [Quality] == Magic && [Flag] != Ethereal # [Sockets] == 4 && [Maxhp] >= 85      // Jeweler's Armor Of The Whale
+//([Name] == Archonplate || [Name] == Duskshroud || [Name] == Wirefleece || [Name] == Greathauberk || [Name] == Sacredarmor) && [Quality] == Magic && [Flag] != Ethereal # [Sockets] == 4 && [Fhr] >= 24        // Jeweler's Armor Of Stability
+//([Name] == Archonplate || [Name] == Duskshroud || [Name] == Wirefleece || [Name] == Greathauberk || [Name] == Sacredarmor) && [Quality] == Magic && [Flag] != Ethereal # [Sockets] == 4 && [Itemfasterblockrate] == 30        // Jeweler's Armor Of Deflecting
+//([Name] == Mageplate || [Name] == Breastplate || [Name] == Lightplate) && [Quality] == Magic # [Sockets] == 3 && ([Maxhp] == 80 || [Itemlevelreq] <= 30)      // Artisan's Armor Of X
+
+//------------------------------------------
+//================= Gloves  ================
+//------------------------------------------
+//[Type] == Gloves && [Quality] == Magic && [Flag] != Ethereal # [Ias] >= 20 && ([Javelinandspearskilltab] == 3 || [Bowandcrossbowskilltab] == 3 || [Martialartsskilltab] == 3)     // 3/20 Gloves
+
+//========================================================================//
+//<<<<<<<<<<<<<<<<<<<<<<<<<<<< Rare Items >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
+//========================================================================//
+
+//------------------------------------------
+//================= Jewelry ================
+//------------------------------------------
+// Rare Amulets
+// Caster Amulet
+//[Type] == Amulet && [Quality] == Rare # [Itemchargedskill] == 54        // Rare Tele Amulet
+//[Type] == Amulet && [Quality] == Rare # [Itemaddclassskills] >= 2 && [Fcr] >= 10        // All 2/10 Amulets
+[Type] == Amulet && [Quality] == Rare # [Druidskills] == 2 && [Fcr] == 10 && ([Strength] >= 15 || [Dexterity] >= 10 || [Strength]+[Dexterity] >= 20) && ([Maxhp] >= 30 || [Maxmana] >= 50 || [Itemmagicbonus] >= 25 || [Fireresist]+[Lightresist]+[Coldresist]+[Poisonresist] >= 30)
+[Type] == Amulet && [Quality] == Rare # [Barbarianskills] == 2 && [Fcr] == 10 && ([Strength] >= 15 || [Dexterity] >= 10 || [Strength]+[Dexterity] >= 20) && ([Maxhp] >= 30 || [Maxmana] >= 50 || [Itemmagicbonus] >= 25 || [Fireresist]+[Lightresist]+[Coldresist]+[Poisonresist] >= 30)
+[Type] == Amulet && [Quality] == Rare # [Necromancerskills] == 2 && [Fcr] == 10 && ([Strength] >= 15 || [Dexterity] >= 10 || [Strength]+[Dexterity] >= 20) && ([Maxhp] >= 30 || [Maxmana] >= 50 || [Itemmagicbonus] >= 25 || [Fireresist]+[Lightresist]+[Coldresist]+[Poisonresist] >= 30)
+[Type] == Amulet && [Quality] == Rare # [Paladinskills] == 2 && [Fcr] == 10 && ([Strength] >= 15 || [Dexterity] >= 10 || [Strength]+[Dexterity] >= 20) && ([Maxhp] >= 30 || [Maxmana] >= 50 || [Itemmagicbonus] >= 25 || [Fireresist]+[Lightresist]+[Coldresist]+[Poisonresist] >= 30)
+[Type] == Amulet && [Quality] == Rare # [Assassinskills] == 2 && [Fcr] == 10 && ([Strength] >= 15 || [Dexterity] >= 10 || [Strength]+[Dexterity] >= 20) && ([Maxhp] >= 30 || [Maxmana] >= 50 || [Itemmagicbonus] >= 25 || [Fireresist]+[Lightresist]+[Coldresist]+[Poisonresist] >= 30)
+[Type] == Amulet && [Quality] == Rare # [Sorceressskills] == 2 && [Fcr] == 10 && ([Strength] >= 15 || [Dexterity] >= 10 || [Strength]+[Dexterity] >= 20) && ([Maxhp] >= 30 || [Maxmana] >= 50 || [Itemmagicbonus] >= 25 || [Fireresist]+[Lightresist]+[Coldresist]+[Poisonresist] >= 30)
+
+//Stat Amulet
+[Type] == Amulet && [Quality] == Rare # [Paladinskills] == 2 && [Strength]+[Dexterity] >= 15 && ([Maxhp] >= 35 || [Fireresist]+[Lightresist]+[Coldresist]+[Poisonresist] >= 30)
+[Type] == Amulet && [Quality] == Rare # [Amazonskills] == 2 && [Strength]+[Dexterity] >= 15 && ([Maxhp] >= 35 || [Fireresist]+[Lightresist]+[Coldresist]+[Poisonresist] >= 30)
+[Type] == Amulet && [Quality] == Rare # [Druidskills] == 2 && [Strength]+[Dexterity] >= 15 && ([Maxhp] >= 35 || [Fireresist]+[Lightresist]+[Coldresist]+[Poisonresist] >= 30)
+[Type] == Amulet && [Quality] == Rare # [Assassinskills] == 2 && [Strength]+[Dexterity] >= 15 && ([Maxhp] >= 35 || [Fireresist]+[Lightresist]+[Coldresist]+[Poisonresist] >= 30)
+[Type] == Amulet && [Quality] == Rare # [Barbarianskills] == 2 && [Strength]+[Dexterity] >= 15 && ([Maxhp] >= 35 || [Fireresist]+[Lightresist]+[Coldresist]+[Poisonresist] >= 30)
+[Type] == Amulet && [Quality] == Rare # [Barbarianskills] == 2 && ([Itemgoldbonus] >= 70 && [Itemmagicbonus] >= 15) || [Itemgoldbonus] >= 80      // Gf Amulet
+
+//Lld Amulet
+[Type] == Amulet && [Quality] == Rare # [Itemaddskilltab] >= 2 && [Fcr] == 10 && ([Strength] >= 6 && [Dexterity] >= 6) && ([Maxhp] >= 25 || [Maxmana] >= 60 || [Fireresist]+[Lightresist]+[Coldresist]+[Poisonresist] >= 20 || [Itemdamagetomana] >= 12)
+
+// Rare Rings
+[Type] == Ring && [Quality] >= Rare # [Fcr] >= 10 && [Strength] >= 15 && [Dexterity] >= 10 && ([Maxmana] >= 65 || [Hpregen] >= 5 || [Maxhp] >= 20 || [Fireresist]+[Lightresist]+[Coldresist]+[Poisonresist] >= 30)     // Caster Ring
+[Type] == Ring && [Quality] == Rare # [Tohit] >= 100 && [Lifeleech]+[Manaleech] >= 9      // Melee Dual Leech Ring
+[Type] == Ring && [Quality] == Rare # [Tohit] >= 100 && [Strength] >= 15 && [Dexterity] >= 10 && ([Maxhp] >= 30 || [Fireresist]+[Lightresist]+[Coldresist]+[Poisonresist] >= 30)      // Melee Dual Stat Ring
+[Type] == Ring && [Quality] == Rare # [Tohit] >= 100 && ([Mindamage] > 7 || [Maxdamage] > 9) && ([Strength]+[Dexterity] >= 10 || [Maxhp] >= 30 || [Fireresist]+[Lightresist]+[Coldresist]+[Poisonresist] >= 20)      // Bva Ring
+[Type] == Ring && [Quality] == Rare # [Fcr] == 10 && [Tohit] >= 80 && ([Maxhp] >= 20 && [Maxmana] >= 20 || [Maxmana] >= 60 || [Maxhp] >= 40)    // Bvc Ring
+[Type] == Ring && [Quality] == Rare # [Fcr] >= 10 && [Hpregen] >= 5 && [Maxmana] >= 25 && [Strength] >= 0     // Lld Caster Ring
+
+// Rare Jewels
+//[Type] == Jewel && [Quality] == Rare # [Maxdamage] >= 18 && [Mindamage] >= 18     // Impossible 18/18 Jewel
+[Type] == Jewel && [Quality] == Rare # [Maxdamage] >= 14 && [Mindamage] >= 12     // Min/Max Damage Jewel
+[Type] == Jewel && [Quality] == Rare # [Strength] >= 7 && [Dexterity] >= 7 && ([Fhr] >= 7 || [Enhanceddamage] >= 30 || [Fireresist]+[Lightresist]+[Coldresist]+[Poisonresist] >= 30 || [Itemreqpercent] <= -15)     // Stat Jewel
+[Type] == Jewel && [Quality] == Rare # [Enhanceddamage] >= 30 && ([Mindamage]+[Maxdamage] >= 10) || ([Strength] >= 15  && [Dexterity] >= 10 || [Strength]+[Dexterity] >= 25 || [Fireresist]+[Lightresist]+[Coldresist]+[Poisonresist] >= 30)     // Ed Jewel
+[Type] == Jewel && [Quality] == Rare # [Fireresist]+[Coldresist]+[Lightresist]+[Poisonresist] >= 40 && [Strength] >= 7 || [Dexterity] >= 7 || [Fhr] == 7 || [Itemreqpercent] == -15   // 40% Res Jewel
+[Type] == Jewel && [Quality] == Rare # [Fhr] == 7 && ([Strength] >= 6 || [Dexterity] >= 7 || [Strength]+[Dexterity] >= 10 || [Itemreqpercent] == -15) && ([Maxmana] >= 20 || [Maxhp] >= 20 || [Fireresist]+[Lightresist]+[Coldresist]+[Poisonresist] >= 30)       // Fhr Jewel
+[Type] == Jewel && [Quality] == Rare # [Enhanceddamage] >= 20 && [Strength] >= 5 && [Dexterity] >= 5      // Lld
+
+//-------------------------------------------
+//================= Circlets ================
+//-------------------------------------------
+//[Type] == Circlet && [Quality] == Rare # [Itemchargedskill] == 54        // Rare Tele Circlet
+//[Type] == Circlet && [Quality] == Rare # [Itemaddclassskills] >= 2 && [Fcr] >= 20 && [Sockets] == 2        // All 2 Class Skills/20/2 Fcr Circlets
+//[Type] == Circlet && [Quality] == Rare # [Itemaddskilltab] >= 2 && [Fcr] >= 20 && [Sockets] == 2        // All 2 Tree Skills/20/2 Fcr Circlets
+[Type] == Circlet && [Quality] == Rare # [Druidskills] == 2 && [Fcr] == 20 && ([Dexterity] >= 15 || [Strength] >= 15) && ([Maxhp] >= 30 || [Maxmana] >= 60 || [Fireresist]+[Coldresist]+[Lightresist]+[Poisonresist] >= 60) && [Sockets] >= 0      // Fcr Stat Circlet
+[Type] == Circlet && [Quality] == Rare # [Sorceressskills] == 2 && [Fcr] == 20 && ([Dexterity] >= 15 || [Strength] >= 15) && ([Maxhp] >= 30 || [Maxmana] >= 60 || [Fireresist]+[Coldresist]+[Lightresist]+[Poisonresist] >= 60) && [Sockets] >= 0      // Fcr Stat Circlet
+[Type] == Circlet && [Quality] == Rare # [Assassinskills] == 2 && [Fcr] == 20 && ([Dexterity] >= 15 || [Strength] >= 15) && ([Maxhp] >= 30 || [Maxmana] >= 60 || [Fireresist]+[Coldresist]+[Lightresist]+[Poisonresist] >= 60) && [Sockets] >= 0      // Fcr Stat Circlet
+[Type] == Circlet && [Quality] == Rare # [Paladinskills] == 2 && [Fcr] == 20 && ([Dexterity] >= 15 || [Strength] >= 15) && ([Maxhp] >= 30 || [Maxmana] >= 60 || [Fireresist]+[Coldresist]+[Lightresist]+[Poisonresist] >= 60) && [Sockets] >= 0      // Fcr Stat Circlet
+[Type] == Circlet && [Quality] == Rare # [Barbarianskills] == 2 && [Fcr] == 20 && ([Dexterity] >= 15 || [Strength] >= 15) && ([Maxhp] >= 30 || [Maxmana] >= 60 || [Fireresist]+[Coldresist]+[Lightresist]+[Poisonresist] >= 60) && [Sockets] >= 0      // Fcr Stat Circlet
+[Type] == Circlet && [Quality] == Rare # [Necromancerskills] == 2 && [Fcr] == 20 && ([Dexterity] >= 15 || [Strength] >= 15) && ([Maxhp] >= 30 || [Maxmana] >= 60 || [Fireresist]+[Coldresist]+[Lightresist]+[Poisonresist] >= 60) && [Sockets] >= 0      // Fcr Stat Circlet
+[Type] == Circlet && [Quality] == Rare # [Barbarianskills] == 2 && [Itemgoldbonus] == 70 && [Sockets] >= 0      // Gf Barb
+[Type] == Circlet && [Quality] == Rare # [Amazonskills] == 2 && [Frw] >= 30 && ([Dexterity] >= 10 || [Strength] >= 15) && ([Manaleech] >= 6 || [Lifeleech] >= 7 || [Maxhp] >= 60 || [Coldresist] >= 20 && [Lightresist] >= 20 || [Fireresist]+[Coldresist]+[Lightresist]+[Poisonresist] >= 60) && [Sockets] >= 0        // Frw Circlet
+[Type] == Circlet && [Quality] == Rare # [Assassinskills] ==2 && [Frw] >= 30 && ([Dexterity] >= 10 || [Strength] >= 15) && ([Maxhp] >= 60 || [Coldresist] >= 20 && [Lightresist] >= 20 || [Fireresist]+[Coldresist]+[Lightresist]+[Poisonresist] >= 60) && [Sockets] >= 0        // Frw Circlet
+[Type] == Circlet && [Quality] == Rare # [Barbarianskills] == 2 && [Frw] >= 30 && ([Dexterity] >= 10 || [Strength] >= 15) && ([Manaleech] >= 0 || [Maxhp] >= 30 || [Coldresist] >= 20 && [Lightresist] >= 20 || [Fireresist]+[Coldresist]+[Lightresist]+[Poisonresist] >= 60) && [Sockets] >= 0        // Frw Circlet
+[Type] == Circlet && [Quality] == Rare # ([Itemaddclassskills] >= 2 || [Itemaddskilltab] >= 2) && [Itemtohitpercentperlevel] >= 1 && [Fhr] >= 10 && ([Fcr] >= 20 || [Strength] >= 15 && [Dexterity] >= 10 || [Manaleech] >= 5 || [Lifeleech] >= 5 || [Maxdamage] >= 7) && [Sockets] >= 0       // Visionary Circlet
+
+//------------------------------------------
+//================= Helmets ================
+//------------------------------------------
+//[Type] == Helm && [Quality] == Rare && [Class] == Elite && [Flag] == Ethereal # [Itemtohitpercentperlevel] >= 1 && [Sockets] == 2 && [Itemreplenishdurability] >= 1 && ([Enhanceddefense] >= 100 || [Maxhp] >= 20 || [Fhr] == 10 || [Itempoisonlengthresist] == 25 || [Palicombatskilltab] == 2)
+//[Type] == Helm && [Quality] == Rare && [Flag] != Ethereal # [Itemtohitpercentperlevel] >= 1 && [Sockets] == 2 && [Maxhp] >= 30 && ([Enhanceddefense] >= 100 || [Fhr] == 10 || [Itempoisonlengthresist] == 25 || [Palicombatskilltab] == 2)
+//[Type] == Helm && [Quality] == Rare && [Flag] != Ethereal # [Itemtohitpercentperlevel] >= 1 && [Sockets] == 2 && [Fhr] == 10 && ([Enhanceddefense] >= 100 || [Itempoisonlengthresist] == 25 || [Palicombatskilltab] == 2)
+//[Type] == Helm && [Quality] == Rare && [Flag] != Ethereal # [Itemtohitpercentperlevel] >= 1 && [Sockets] == 2 && [Enhanceddefense] >= 100 && ([Itempoisonlengthresist] == 25 || [Palicombatskilltab] == 2)
+//[Type] == Helm && [Quality] == Rare && [Flag] != Ethereal # [Itemtohitpercentperlevel] >= 1 && [Sockets] == 2 && [Itempoisonlengthresist] == 25 && [Palicombatskilltab] == 2
+//[Name] == Bonevisage && [Quality] == Rare # [Itemtohitpercentperlevel] >= 1 && [Itemtohitpercent] >= 5 && [Sockets] == 2
+//[Name] == Corona && [Quality] == Rare # [Itemtohitpercentperlevel] >= 1 && [Itemtohitpercent] >= 5 && [Sockets] == 2
+
+// Rare Barb Helms
+([Name] == Jawbonecap || [Name] == Fangedhelm || [Name] == Assaulthelmet || [Name] == Avengerguard || [Name] == Lionhelm || [Name] == Ragemask || [Name] == Savagehelmet || [Name] == Slayerguard || [Name] == Carnagehelm) && [Quality] == Rare # ([Skillbattleorders] >= 2 && [Warcriesskilltab] == 3 || [Skillbattleorders] == 3 && [Barbarianskills] == 2) && [Sockets] >= 0
+([Name] == Jawbonecap || [Name] == Fangedhelm || [Name] == Assaulthelmet || [Name] == Avengerguard || [Name] == Lionhelm || [Name] == Ragemask || [Name] == Savagehelmet || [Name] == Slayerguard || [Name] == Carnagehelm) && [Quality] == Rare && [Flag] != Ethereal # [Barbarianskills]+[Skillbattleorders] >= 5 && (([Maxhp] >= 20) || ([Itemtohitpercentperlevel] >= 1)) && [Sockets] >= 0
+([Name] == Jawbonecap || [Name] == Fangedhelm || [Name] == Assaulthelmet || [Name] == Avengerguard || [Name] == Lionhelm || [Name] == Ragemask || [Name] == Savagehelmet || [Name] == Slayerguard || [Name] == Carnagehelm) && [Quality] == Rare && [Flag] == Ethereal # [Barbarianskills]+[Skillbattleorders] >= 5 && ([Maxhp] >= 20 || [Itemtohitpercentperlevel] >= 1 || [Itemreplenishdurability] >= 1) && [Sockets] >= 0
+([Name] == Jawbonecap || [Name] == Fangedhelm || [Name] == Assaulthelmet || [Name] == Avengerguard || [Name] == Lionhelm || [Name] == Ragemask || [Name] == Savagehelmet || [Name] == Slayerguard || [Name] == Carnagehelm) && [Quality] == Rare && [Flag] == Ethereal # [Enhanceddefense] >= 180 && [Itemreplenishdurability] >= 1 && ([Itemtohitpercentperlevel] >= 1)  && [Sockets] >= 0
+
+// Rare Druid Pelts
+//[Type] == Pelt && [Quality] == Rare && [Flag] != Ethereal && [Class] >= Exceptional # ([Druidskills] >= 2 || [Elementalskilltab] >= 2) && [Skilltornado] == 3 && [Sockets] >= 0
+//[Type] == Pelt && [Quality] == Rare && [Flag] != Ethereal && [Class] >= Exceptional # ([Druidskills] >= 2 || [Shapeshiftingskilltab] == 2) && [Itemtohitpercentperlevel] >= 1 && ([Skillfireclaws] == 3 || [Skillfury] == 3) && [Sockets] >= 0
+//[Type] == Pelt && [Quality] == Rare && [Flag] != Ethereal && [Class] >= Exceptional # ([Druidskills] == 2 || [Elementalskilltab] >= 2) && ([Skilltornado] >= 3 || [Skillfissure] == 3) && [Sockets] >= 0
+//[Type] == Pelt && [Quality] == Rare && [Flag] != Ethereal && [Class] >= Exceptional # ([Druidskills] == 2 || [Druidsummoningskilltab] >= 2) && [Skillsummongrizzly] >= 3 && [Sockets] >= 0
+
+//------------------------------------------
+//================= Shields ================
+//------------------------------------------
+//[Type] == Shield && [Quality] == Rare && [Flag] == Ethereal # [Enhanceddefense] >= 150 && [Sockets] == 2 && [Itemreplenishdurability] >= 1
+//[Type] == Shield && [Quality] == Rare && [Flag] != Ethereal # [Fhr] >= 17 && [Sockets] == 2 && [Fbr] >= 30 && ([Maxhp] >= 30 || [Coldresist]+[Fireresist]+[Lightresist]+[Poisonresist] >= 40)
+//[Type] == Shield && [Quality] == Rare && [Flag] == Ethereal # [Fhr] >= 17 && [Sockets] == 2 && [Fbr] >= 30 && ([Maxhp] >= 30 || [Coldresist]+[Fireresist]+[Lightresist]+[Poisonresist] >= 40) && [Itemreplenishdurability] >= 1
+//[Type] == Shield && [Quality] == Rare && [Flag] != Ethereal # [Maxhp] >= 30 && [Coldresist]+[Fireresist]+[Lightresist]+[Poisonresist] >= 40 && [Sockets] == 2 && [Fbr] >= 30
+//[Type] == Shield && [Quality] == Rare && [Flag] == Ethereal # [Maxhp] >= 30 && [Coldresist]+[Fireresist]+[Lightresist]+[Poisonresist] >= 40 && [Sockets] == 2 && [Fbr] >= 30 && [Itemreplenishdurability] >= 1
+//[Type] == Voodooheads && [Quality] == Rare # [Necromancerskills] == 2 && ([Skillbonespear] >= 3 || [Skillpoisonnova] >= 3) && ([Sockets] >= 2 || ([Fbr] >= 30 && ([Maxhp] >= 20 || [Fhr] >= 17)))
+//[Type] == Auricshields && [Quality] == Rare && [Flag] != Ethereal # [Sockets] == 2 && [Paladinskills] >= 2 && [Fbr] == 30
+//[Type] == Auricshields && [Quality] == Rare && [Flag] == Ethereal # [Sockets] == 2 && [Paladinskills] >= 2 && [Fbr] >= 15 && [Itemreplenishdurability] >= 1
+
+//------------------------------------------
+//================= Weapons ================
+//------------------------------------------
+// Rare Claws
+[Type] == Assassinclaw && [Quality] == Rare # [Assassinskills]+[Skilllightningsentry] >= 5  && [Ias] >= 20 && [Sockets] >= 0
+[Type] == Assassinclaw && [Quality] == Rare # [Assassinskills]+[Skilllightningsentry] >= 3 && [Ias] >= 40 && [Sockets] >= 0
+[Type] == Assassinclaw && [Quality] == Rare # [Trapsskilltab] >= 2 && [Skillwakeoffire] >= 3 && [Ias] >= 30 && [Sockets] >= 0
+[Type] == Assassinclaw && [Quality] == Rare # [Assassinskills] >= 2 && [Skillwakeoffire] >= 3 && [Ias] >= 30 && [Sockets] >= 0
+[Type] == Assassinclaw && [Quality] == Rare && [Flag] == Ethereal # [Enhanceddamage] >= 300 && [Itemskillonattack] == 66 && [Ias] >= 20 && [Sockets] >= 0
+[Type] == Assassinclaw && [Quality] == Rare && [Flag] == Ethereal # [Ias] >= 20 && ([Enhanceddamage] >= 400 || ([Enhanceddamage] >= 275 && [Itemtohitperlevel] >= 1)) && [Sockets] >= 0
+[Type] == Assassinclaw && [Quality] == Rare && [Flag] == Ethereal # [Ias] >= 40 && ([Enhanceddamage] >= 350 || ([Enhanceddamage] >= 250 && [Itemtohitperlevel] >= 1)) && [Sockets] >= 0
+
+// Rare Sorceress Orbs
+[Type] == Orb && [Quality] == Rare # [Sorceressskills] >= 2 && [Skillfireball] >= 3 && [Fcr] >= 20 && ([Sockets] >= 0 || [Maxmana] >= 50 || [Energy] >= 12 && [Maxmana] >= 35)
+[Type] == Orb && [Quality] == Rare # [Sorceressskills] >= 2 && [Skillmeteor] >= 3 && [Fcr] >= 20 && ([Sockets] >= 0 || [Maxmana] >= 50 || [Energy] >= 12 && [Maxmana] >= 35)
+[Type] == Orb && [Quality] == Rare # [Sorceressskills] >= 2 && [Skillblizzard] >= 3 && [Fcr] >= 20 && ([Sockets] >= 0 || [Maxmana] >= 50 || [Energy] >= 12 && [Maxmana] >= 35)
+[Type] == Orb && [Quality] == Rare # [Sorceressskills] >= 2 && [Skillfrozenorb] >= 3 && [Fcr] >= 20 && ([Sockets] >= 0 || [Maxmana] >= 50 || [Energy] >= 12 && [Maxmana] >= 35)
+[Type] == Orb && [Quality] == Rare # [Sorceressskills] >= 2 && [Skilllightning] >= 3 && [Fcr] >= 20 && ([Sockets] >= 0 || [Maxmana] >= 50 || [Energy] >= 12 && [Maxmana] >= 35)
+[Type] == Orb && [Quality] == Rare # [Sorceressskills] >= 2 && [Skillchainlightning] >= 3 && [Fcr] >= 20 && ([Sockets] >= 0 || [Maxmana] >= 50 || [Energy] >= 12 && [Maxmana] >= 35)
+[Type] == Orb && [Quality] == Rare # [Sorceressskills] >= 2 && [Skillnova] >= 3 && [Fcr] >= 20 && ([Sockets] >= 0 || [Maxmana] >= 50 || [Energy] >= 12 && [Maxmana] >= 35)
+[Type] == Orb && [Quality] == Rare # [Fireskilltab] >= 2 && [Skillfireball] >= 3 && [Fcr] >= 20 && ([Sockets] >= 0 || [Maxmana] >= 50 || [Energy] >= 12 && [Maxmana] >= 35)
+[Type] == Orb && [Quality] == Rare # [Fireskilltab] >= 2 && [Skillmeteor] >= 3 && [Fcr] >= 20 && ([Sockets] >= 0 || [Maxmana] >= 50 || [Energy] >= 12 && [Maxmana] >= 35)
+[Type] == Orb && [Quality] == Rare # [Coldskilltab] >= 2 && [Skillblizzard] >= 3 && [Fcr] >= 20 && ([Sockets] >= 0 || [Maxmana] >= 50 || [Energy] >= 12 && [Maxmana] >= 35)
+[Type] == Orb && [Quality] == Rare # [Coldskilltab] >= 2 && [Skillfrozenorb] >= 3 && [Fcr] >= 20 && ([Sockets] >= 0 || [Maxmana] >= 50 || [Energy] >= 12 && [Maxmana] >= 35)
+[Type] == Orb && [Quality] == Rare # [Lightningskilltab] >= 2 && [Skilllightning] >= 3 && [Fcr] >= 20 && ([Sockets] >= 0 || [Maxmana] >= 50 || [Energy] >= 12 && [Maxmana] >= 35)
+[Type] == Orb && [Quality] == Rare # [Lightningskilltab] >= 2 && [Skillchainlightning] >= 3 && [Fcr] >= 20 && ([Sockets] >= 0 || [Maxmana] >= 50 || [Energy] >= 12 && [Maxmana] >= 35)
+[Type] == Orb && [Quality] == Rare # [Lightningskilltab] >= 2 && [Skillnova] >= 3 && [Fcr] >= 20 && ([Sockets] >= 0 || [Maxmana] >= 50 || [Energy] >= 12 && [Maxmana] >= 35)
+
+// Rare Enchant Orbs
+//[Type] == Orb && [Quality] <= Rare # [Skillenchant] >= 2 && [Fireskilltab] == 3
+//[Type] == Orb && [Quality] <= Rare # [Skillenchant] == 3 && [Fireskilltab] >= 2
+//[Type] == Orb && [Quality] <= Rare # [Skillenchant] == 3 && [Sorceressskills] == 2
+
+// Rare Javelins
+([Name] == Ceremonialjavelin || [Name] == Matriarchaljavelin || [Name] == Maidenjavelin) && [Quality] == Rare # [Javelinandspearskilltab] >= 2 && [Amazonskills] >= 2 && [Ias] >= 30
+([Name] == Ceremonialjavelin || [Name] == Matriarchaljavelin || [Name] == Maidenjavelin) && [Quality] == Rare # [Javelinandspearskilltab] >= 4 && [Ias] >= 30
+
+
+// Rare Bows
+//[Type] == Bow && [Quality] == Rare # [Itemskillonattack] == 66 && ([Enhanceddamage] >= 400 || ([Enhanceddamage] >= 300 && [Itemtohitperlevel] >= 1))
+//[Type] == Bow && [Quality] == Rare # ([Ias] >= 20 || [Sockets] == 2 || [Enhanceddamage] >= 450) && ([Enhanceddamage] >= 400 || ((([Enhanceddamage] >= 250 && [Itemskillonattack] == 66) || [Enhanceddamage] >= 300) && [Itemtohitperlevel] >= 1) || ([Enhanceddamage] >= 350 && [Itemskillonattack] == 66))
+//[Type] == Bow && [Quality] == Rare # [Ias] >= 20 && [Sockets] == 2 && [Enhanceddamage] >= 300 || (([Enhanceddamage] >= 225 && [Itemskillonattack] == 66) || ([Enhanceddamage] >= 250 && [Itemtohitperlevel] >= 1))
+
+//----------------------------------------
+//================= Belts ================
+//----------------------------------------
+[Type] == Belt && [Quality] == Rare && [Flag] != Ethereal # [Fhr] >= 24 && [Strength] >= 20 && ([Maxhp] >= 40 || [Itemgoldbonus] >= 75 || [Lightresist] >= 20 && [Fireresist] >= 20 && [Coldresist] >= 20)
+[Type] == Belt && [Quality] == Rare && [Flag] != Ethereal # [Fhr] >= 24 && [Strength] >= 20 && ([Maxhp] >= 40 || [Itemgoldbonus] >= 75)
+[Type] == Belt && [Quality] == Rare && [Flag] == Ethereal # [Enhanceddefense] >= 90 && [Itemreplenishdurability] >= 1 && ([Fhr] >= 17 || ([Coldresist]+[Fireresist]+[Lightresist] >= 25) || ([Strength]+[Dexterity] >= 10) || [Maxhp] >= 20)
+[Type] == Belt && [Quality] == Rare && [Flag] == Ethereal # [Fhr] == 24 && [Strength] >= 29 && [Maxhp] >= 55 && [Itemreplenishdurability] >= 1
+
+//----------------------------------------
+//================= Boots ================
+//----------------------------------------
+[Type] == Boots && [Quality] == Rare && [Flag] != Ethereal # [Frw] >= 30 && [Fhr] >= 10 && [Dexterity] >= 0 && ([Lightresist]+[Fireresist] >= 35 || [Coldresist]+[Lightresist] >= 35 || [Fireresist]+[Coldresist] >= 35)        // Dual Res
+[Type] == Boots && [Quality] == Rare && [Flag] != Ethereal # [Frw] >= 30 && [Fhr] >= 10 && [Dexterity] >= 0 && ([Coldresist] >= 20 && [Fireresist] >= 20 && [Lightresist] >= 20)       // Tri Res
+[Type] == Boots && [Quality] == Rare && [Flag] == Ethereal # [Frw] >= 20 && [Fhr] >= 10 && [Dexterity] >= 8 && [Fireresist]+[Lightresist]+[Coldresist] >= 60 && [Itemreplenishdurability] >= 1       // Eth Rep 
+
+//-----------------------------------------
+//================= Gloves ================
+//-----------------------------------------
+[Type] == Gloves && [Quality] == Rare && [Flag] == Ethereal # [Enhanceddefense] >= 180 && [Itemreplenishdurability] >= 1 &&  ([Enhanceddefense] >= 200 || [Ias] >= 10 || ([Dexterity]+[Strength] >= 10) || [Hpregen] >= 5 || [Passiveandmagicskilltab] == 2 || [Javelinandspearskilltab] == 2 || ([Coldresist]+[Fireresist]+[Lightresist] >= 20))
+[Type] == Gloves && [Quality] == Rare && [Flag] != Ethereal # [Dexterity]+[Strength] >= 25 && [Coldresist]+[Fireresist]+[Lightresist] >= 55
+[Type] == Gloves && [Quality] == Rare && [Flag] != Ethereal # [Ias] >= 20 && ([Dexterity] >= 15 || [Strength] >= 15) && ([Bowandcrossbowskilltab] == 2 || [Passiveandmagicskilltab] == 2 || [Javelinandspearskilltab] == 2) && [Coldresist]+[Fireresist]+[Lightresist] >= 25
+[Type] == Gloves && [Quality] == Rare && [Flag] != Ethereal # [Ias] >= 20 && [Dexterity]+[Strength] >= 20 && (([Coldresist]+[Fireresist]+[Lightresist] >= 35) || ([Coldresist]+[Fireresist] >= 40) || ([Coldresist]+[Lightresist] >= 40) || ([Fireresist]+[Lightresist] >= 40))
+[Type] == Gloves && [Quality] == Rare && [Flag] != Ethereal # [Ias] >= 20 && [Dexterity]+[Strength] >= 20 && ([Bowandcrossbowskilltab] == 2 || [Passiveandmagicskilltab] == 2 || [Javelinandspearskilltab] == 2)
+[Type] == Gloves && [Quality] == Rare && [Flag] == Ethereal # [Dexterity]+[Strength] >= 25 && [Coldresist]+[Fireresist]+[Lightresist] >= 60 && [Itemreplenishdurability] >= 1
+[Type] == Gloves && [Quality] == Rare && [Flag] == Ethereal # [Ias] >= 20 && ([Dexterity] >= 15 || [Strength] >= 15) && ([Bowandcrossbowskilltab] == 2 || [Passiveandmagicskilltab] == 2 || [Javelinandspearskilltab] == 2) && [Coldresist]+[Fireresist]+[Lightresist] >= 25 && [Itemreplenishdurability] >= 1
+[Type] == Gloves && [Quality] == Rare && [Flag] == Ethereal # [Ias] >= 20 && [Dexterity]+[Strength] >= 20 && (([Coldresist]+[Fireresist]+[Lightresist] >= 35) || ([Coldresist]+[Fireresist] >= 40) || ([Coldresist]+[Lightresist] >= 40) || ([Fireresist]+[Lightresist] >= 40)) && [Itemreplenishdurability] >= 1
+[Type] == Gloves && [Quality] == Rare && [Flag] == Ethereal # [Ias] >= 20 && [Dexterity]+[Strength] >= 20 && ([Bowandcrossbowskilltab] == 2 || [Passiveandmagicskilltab] == 2 || [Javelinandspearskilltab] == 2) && [Itemreplenishdurability] >= 1
+
+//==============================================================================//
+//<<<<<<<<<<<<<<<<<<<<<<<< White/Eth/Socketed Bases >>>>>>>>>>>>>>>>>>>>>>>>>>>>//
+//==============================================================================//
+
+//-------------------------------------------------------
+//================= White/Superior Armor ================
+//-------------------------------------------------------
+// <<< White Armor >>>
+//[Name] == Archonplate && [Quality] == Normal && [Flag] != Ethereal
+//[Name] == Duskshroud && [Quality] == Normal && [Flag] != Ethereal
+//[Name] == Mageplate && [Quality] == Normal && [Flag] != Ethereal
+//[Name] == Greathauberk && [Quality] == Normal && [Flag] != Ethereal
+//[Name] == Wirefleece && [Quality] == Normal && [Flag] != Ethereal
+//[Name] == Scarabhusk && [Quality] == Normal && [Flag] != Ethereal
+//[Name] == Wyrmhide && [Quality] == Normal && [Flag] != Ethereal
+//[Name] == Lightplate && [Quality] == Normal && [Flag] != Ethereal
+//[Name] == Sacredarmor && [Quality] == Normal && [Flag] != Ethereal
+
+// <<< White Superior Armor >>>
+[Name] == Archonplate && [Quality] == Superior && [Flag] != Ethereal # [Enhanceddefense] >= 10
+[Name] == Duskshroud && [Quality] == Superior && [Flag] != Ethereal # [Enhanceddefense] >= 10
+[Name] == Mageplate && [Quality] == Superior && [Flag] != Ethereal # [Enhanceddefense] >= 10
+[Name] == Greathauberk && [Quality] == Superior && [Flag] != Ethereal # [Enhanceddefense] >= 10
+[Name] == Wirefleece && [Quality] == Superior && [Flag] != Ethereal # [Enhanceddefense] >= 10
+[Name] == Scarabhusk && [Quality] == Superior && [Flag] != Ethereal # [Enhanceddefense] >= 10
+[Name] == Wyrmhide && [Quality] == Superior && [Flag] != Ethereal # [Enhanceddefense] >= 10
+//[Name] == Lightplate && [Quality] == Superior && [Flag] != Ethereal # [Enhanceddefense] >= 10
+//[Name] == Sacredarmor && [Quality] == Superior && [Flag] != Ethereal # [Enhanceddefense] >= 10
+
+//--------------------------------------------------------
+//================= White Socketed Armors ================
+//--------------------------------------------------------
+// <<< White Socketed Armor >>>
+[Name] == Archonplate && [Quality] == Normal && [Flag] != Ethereal # [Sockets] >= 3
+[Name] == Duskshroud && [Quality] == Normal && [Flag] != Ethereal # [Sockets] >= 3
+[Name] == Mageplate && [Quality] == Normal && [Flag] != Ethereal # [Sockets] == 3
+[Name] == Greathauberk && [Quality] == Normal && [Flag] != Ethereal # [Sockets] >= 3
+[Name] == Wirefleece && [Quality] == Normal && [Flag] != Ethereal # [Sockets] >= 3
+[Name] == Scarabhusk && [Quality] == Normal && [Flag] != Ethereal # [Sockets] >= 3
+[Name] == Wyrmhide && [Quality] == Normal && [Flag] != Ethereal # [Sockets] >= 3
+//[Name] == Lightplate && [Quality] == Normal && [Flag] != Ethereal # [Sockets] == 3
+//[Name] == Sacredarmor && [Quality] == Normal && [Flag] != Ethereal # [Sockets] >= 3
+
+// <<< White Socketed Superior Armor >>>
+[Name] == Archonplate && [Quality] == Superior && [Flag] != Ethereal # [Sockets] >= 3 && [Enhanceddefense] >= 10
+[Name] == Duskshroud && [Quality] == Superior && [Flag] != Ethereal # [Sockets] >= 3 && [Enhanceddefense] >= 10
+[Name] == Mageplate && [Quality] == Superior && [Flag] != Ethereal # [Sockets] == 3 && [Enhanceddefense] >= 10
+[Name] == Greathauberk && [Quality] == Superior && [Flag] != Ethereal # [Sockets] >= 3 && [Enhanceddefense] >= 10
+[Name] == Wirefleece && [Quality] == Superior && [Flag] != Ethereal # [Sockets] >= 3 && [Enhanceddefense] >= 10
+[Name] == Scarabhusk && [Quality] == Superior && [Flag] != Ethereal # [Sockets] >= 3 && [Enhanceddefense] >= 10
+[Name] == Wyrmhide && [Quality] == Superior && [Flag] != Ethereal # [Sockets] >= 3 && [Enhanceddefense] >= 10
+[Name] == Lightplate && [Quality] == Superior && [Flag] != Ethereal # [Sockets] == 3 && [Enhanceddefense] >= 10
+[Name] == Sacredarmor && [Quality] == Superior && [Flag] != Ethereal # [Sockets] >= 3 && [Enhanceddefense] >= 10
+
+//-----------------------------------------------------------
+//================= Ethereal Socketed Armors ================
+//-----------------------------------------------------------
+// <<< Ethereal Socketed Armor >>>
+[Name] == Archonplate && [Quality] == Normal && [Flag] == Ethereal # ([Sockets] == 0 || [Sockets] >= 3)
+[Name] == Duskshroud && [Quality] == Normal && [Flag] == Ethereal # ([Sockets] == 0 || [Sockets] >= 3)
+//[Name] == Mageplate && [Quality] == Normal && [Flag] == Ethereal # ([Sockets] == 0 || [Sockets] >= 3)
+//[Name] == Greathauberk && [Quality] == Normal && [Flag] == Ethereal # ([Sockets] == 0 || [Sockets] >= 3)
+[Name] == Wirefleece && [Quality] == Normal && [Flag] == Ethereal # ([Sockets] == 0 || [Sockets] >= 3)
+[Name] == Scarabhusk && [Quality] == Normal && [Flag] == Ethereal # ([Sockets] == 0 || [Sockets] >= 3)
+[Name] == Wyrmhide && [Quality] == Normal && [Flag] == Ethereal # ([Sockets] == 0 || [Sockets] >= 3)
+//[Name] == Lightplate && [Quality] == Normal && [Flag] == Ethereal # ([Sockets] == 0 || [Sockets] >= 3)
+[Name] == Sacredarmor && [Quality] == Normal && [Flag] == Ethereal # ([Sockets] == 0 || [Sockets] >= 3)
+
+// <<< Ethereal Socketed Superior Armor >>>
+[Name] == Archonplate && [Quality] == Superior && [Flag] == Ethereal # ([Sockets] == 0 || [Sockets] >= 3) && [Enhanceddefense] >= 10
+[Name] == Duskshroud && [Quality] == Superior && [Flag] == Ethereal # ([Sockets] == 0 || [Sockets] >= 3) && [Enhanceddefense] >= 10
+[Name] == Mageplate && [Quality] == Superior && [Flag] == Ethereal # ([Sockets] == 0 || [Sockets] >= 3) && [Enhanceddefense] >= 10
+[Name] == Greathauberk && [Quality] == Superior && [Flag] == Ethereal # ([Sockets] == 0 || [Sockets] >= 3) && [Enhanceddefense] >= 10
+[Name] == Wirefleece && [Quality] == Superior && [Flag] == Ethereal # ([Sockets] == 0 || [Sockets] >= 3) && [Enhanceddefense] >= 10
+[Name] == Scarabhusk && [Quality] == Superior && [Flag] == Ethereal # ([Sockets] == 0 || [Sockets] >= 3) && [Enhanceddefense] >= 10
+[Name] == Wyrmhide && [Quality] == Superior && [Flag] == Ethereal # ([Sockets] == 0 || [Sockets] >= 3) && [Enhanceddefense] >= 10
+[Name] == Lightplate && [Quality] == Superior && [Flag] == Ethereal # ([Sockets] == 0 || [Sockets] >= 3) && [Enhanceddefense] >= 10
+[Name] == Sacredarmor && [Quality] == Superior && [Flag] == Ethereal # ([Sockets] == 0 || [Sockets] >= 3) && [Enhanceddefense] >= 10
+
+//---------------------------------------------------------------
+//================= Eth/Non-Eth Socketed Helmets ================
+//---------------------------------------------------------------
+([Name] == Corona || [Name] == Demonhead || [Name] == Bonevisage || [Name] == Diadem) && [Quality] == Normal && [Flag] != Ethereal # [Sockets] == 3
+([Name] == Corona || [Name] == Demonhead || [Name] == Bonevisage || [Name] == Diadem) && [Quality] == Superior && [Flag] != Ethereal # [Enhanceddefense] >= 15 && [Sockets] == 3         // Delirium Or Dream Perfect
+
+//-------------------------------------------------------------
+//================= White/Eth Socketed Shields ================
+//-------------------------------------------------------------
+// White/Eth Monarch
+//[Name] == Monarch && [Quality] == Normal
+
+// White/Eth Superior Monarch
+[Name] == Monarch && [Quality] == Superior
+
+// Eth/Non-Eth Socketed Monarch
+[Name] == Monarch && [Quality] == Normal # [Sockets] == 4
+
+// Eth/Non-Eth Superior Socketed Monarch
+[Name] == Monarch && [Quality] == Superior # [Enhanceddefense] > 10 && [Sockets] == 4
+
+// White Paladin Shields
+[Type] == Auricshields && [Quality] == Normal && [Class] == Elite && [Flag] != Ethereal # [Allresist] >= 40
+
+// White Superior Paladin Shields
+[Type] == Auricshields && [Quality] == Superior && [Class] == Elite && [Flag] != Ethereal # [Enhanceddefense] > 10 && [Allresist] >= 40
+
+// Eth/Non-Eth Socketed Paladin Shields
+[Type] == Auricshields && [Quality] == Normal && [Class] == Elite # [Allresist] >= 40 && ([Sockets] >= 3 || [Sockets] == 4)
+
+// Eth/Non-Eth Superior Socketed Paladin Shields
+[Type] == Auricshields && [Quality] == Superior && [Class] == Elite # [Enhanceddefense] > 10 && [Allresist] >= 40 && ([Sockets] >= 3 || [Sockets] == 4)
+
+// Eth Exile Base
+[Type] == Auricshields && [Quality] <= Superior && [Flag] == Ethereal # [Enhanceddefense] > 0 && [Allresist] >= 40 && [Sockets] >= 4
+
+// V/Lld Paladin Shield Base
+//([Name] == Akarantarge || [Name] == Akaranrondache || [Name] == Crownshield) && [Quality] <= Superior && [Flag] != Ethereal # [Allresist] >= 40
+
+//----------------------------------------------------------
+//================= White Barbarian Helmets ================
+//----------------------------------------------------------
+// White Barbarian Helmets
+[Type] == Primalhelm && [Class] == Elite && [Quality] <= Superior && [Flag] != Ethereal # [Skillbattleorders]+[Skillbattlecommand] >= 4
+
+
+// Socketed Barbarian Helmets
+[Type] == Primalhelm && [Class] == Elite && [Quality] == Normal && [Flag] != Ethereal #  ([Skillbattleorders]+[Skillbattlecommand] >= 4 || [Skillbattleorders]+[Skillfinditem] >= 4 || [Skillbattleorders]+[Skillshout] >= 4)
+[Type] == Primalhelm && [Class] == Elite && [Quality] == Normal && [Flag] != Ethereal #  ([Skillbattleorders]+[Skillbattlecommand] >= 4 || [Skillbattleorders]+[Skillfinditem] >= 4 || [Skillbattleorders]+[Skillshout] >= 4) && [Sockets] == 3
+
+//----------------------------------------------------
+//================= White Druid Pelts ================
+//----------------------------------------------------
+//  Druid Pelts
+[Type] == Pelt && [Quality] == Normal && [Flag] != Ethereal # [Skillhurricane] >= 2 && [Skilltornado] >= 2
+[Type] == Pelt && [Quality] == Normal && [Flag] != Ethereal # [Skillfissure] >= 2 && [Skillvolcano] >= 2
+[Type] == Pelt && [Quality] == Normal && [Flag] != Ethereal # [Skilltornado] == 3 && ([Skillcyclonearmor] >= 2 || [Skillhurricane] >= 2 || [Skilloaksage] >= 2)
+[Type] == Pelt && [Quality] == Normal && [Flag] != Ethereal # [Skillhurricane] >= 2 && [Skilltornado] >= 2 && [Sockets] == 3
+[Type] == Pelt && [Quality] == Normal && [Flag] != Ethereal # [Skillfissure] >= 2 && [Skillvolcano] >= 2 && [Sockets] == 3
+[Type] == Pelt && [Quality] == Normal && [Flag] != Ethereal # [Skilltornado] == 3 && ([Skillcyclonearmor] >= 2 || [Skillhurricane] >= 2 || [Skilloaksage] >= 2) && [Sockets] == 3
+
+//----------------------------------------------------------
+//================= White Necromancer Heads ================
+//----------------------------------------------------------
+// White Necromancer Offhand
+[Type] == Voodooheads && [Class] == Elite && [Quality] == Normal && [Flag] != Ethereal # ([Skillbonespear]+[Skillbonespirit] >= 6 || [Skillpoisonexplosion]+[Skillpoisonnova] >= 6)
+[Type] == Voodooheads && [Class] == Elite && [Quality] == Normal && [Flag] != Ethereal # ([Skillbonespear]+[Skillbonespirit] >= 6 || [Skillpoisonexplosion]+[Skillpoisonnova] >= 6) && [Sockets] == 2
+
+//------------------------------------------------------------------
+//================= White/Ethereal Socketed Weapons ================
+//------------------------------------------------------------------
+// White 1h Weapons
+//[Name] == Berserkeraxe && [Quality] == Normal && [Flag] != Ethereal
+//[Name] == Crystalsword && [Quality] == Normal && [Flag] != Ethereal
+//[Name] == Flail && [Quality] == Normal && [Flag] != Ethereal
+//[Name] == Phaseblade && [Quality] == Normal && [Flag] != Ethereal
+//[Name] == Warscepter && [Quality] == Normal && [Flag] != Ethereal
+//[Name] == Divinescepter && [Quality] == Normal && [Flag] != Ethereal
+//[Name] == Caduceus && [Quality] == Normal && [Flag] != Ethereal
+
+// Non Eth/Eth Socketed 1h Weapons
+[Name] == Berserkeraxe && [Quality] == Normal # [Sockets] >= 5
+[Name] == Crystalsword && [Quality] == Normal # [Sockets] >= 4
+[Name] == Flail && [Quality] == Normal # [Sockets] >= 4
+[Name] == Phaseblade && [Quality] == Normal # [Sockets] >= 5
+[Name] == Warscepter && [Quality] == Normal # [Sockets] == 5
+[Name] == Divinescepter && [Quality] == Normal # [Sockets] == 5
+[Name] == Caduceus && [Quality] == Normal # [Sockets] == 5
+
+// Non Eth/Eth Superior 1h Weapons
+[Name] == Berserkeraxe && [Quality] == Superior && [Flag] != Ethereal # [Enhanceddamage] >= 12
+[Name] == Crystalsword && [Quality] == Superior # [Enhanceddamage] >= 12
+[Name] == Flail && [Quality] == Superior # [Enhanceddamage] >= 12
+[Name] == Phaseblade && [Quality] == Superior # [Enhanceddamage] >= 12
+[Name] == Warscepter && [Quality] == Superior # [Enhanceddamage] >= 12
+[Name] == Divinescepter && [Quality] == Superior # [Enhanceddamage] >= 12
+[Name] == Caduceus && [Quality] == Superior # [Enhanceddamage] >= 12
+
+// Non Eth/Eth Socketed Superior 1h Weapons
+[Name] == Berserkeraxe && [Quality] == Superior # [Enhanceddamage] >= 12 # [Sockets] >= 5
+[Name] == Crystalsword && [Quality] == Superior # [Enhanceddamage] >= 12 # [Sockets] >= 4
+[Name] == Flail && [Quality] == Superior # [Enhanceddamage] >= 12 # [Sockets] >= 4
+[Name] == Phaseblade && [Quality] == Superior # [Enhanceddamage] >= 12 # [Sockets] >= 5
+[Name] == Warscepter && [Quality] == Superior # [Enhanceddamage] >= 12 # [Sockets] >= 5
+[Name] == Divinescepter && [Quality] == Superior # [Enhanceddamage] >= 12 # [Sockets] >= 5
+[Name] == Caduceus && [Quality] == Superior # [Enhanceddamage] >= 12 # [Sockets] >= 5
+
+// Eth Nonsup/Superior Socketed 1h Weapons
+[Name] == Berserkeraxe && [Quality] == Normal && [Flag] == Ethereal # [Sockets] >= 5  
+[Name] == Berserkeraxe && [Quality] == Superior && [Flag] == Ethereal # [Sockets] >= 5 && [Enhanceddamage] >= 12
+
+// White 2h Weapons
+//[Name] == Colossusvoulge && [Quality] == Normal && [Flag] != Ethereal
+//[Name] == Thresher && [Quality] == Normal && [Flag] != Ethereal
+//[Name] == Giantthresher && [Quality] == Normal && [Flag] != Ethereal
+//[Name] == Crypticaxe && [Quality] == Normal && [Flag] != Ethereal
+//[Name] == Mancatcher && [Quality] == Normal && [Flag] != Ethereal
+
+// White Superior 2h Weapons
+//[Name] == Warpike && [Quality] == Superior && [Flag] != Ethereal # ([Sockets] == 0 || [Sockets] >= 4) && [Enhanceddamage] >= 15
+//[Name] == Colossusvoulge && [Quality] == Superior && [Flag] != Ethereal ([Sockets] == 0 || [Sockets] >= 4) && [Enhanceddamage] >= 15
+//[Name] == Thresher && [Quality] == Superior && [Flag] != Ethereal # ([Sockets] == 0 || [Sockets] >= 4) && [Enhanceddamage] >= 15
+//[Name] == Giantthresher && [Quality] == Superior && [Flag] != Ethereal # ([Sockets] == 0 || [Sockets] >= 4) && [Enhanceddamage] >= 15
+//[Name] == Crypticaxe && [Quality] == Superior && [Flag] != Ethereal # ([Sockets] == 0 || [Sockets] >= 4) && [Enhanceddamage] >= 15
+//[Name] == Greatpoleaxe && [Quality] == Superior && [Flag] != Ethereal # ([Sockets] == 0 || [Sockets] >= 4) && [Enhanceddamage] >= 15
+//[Name] == Ghostspear && [Quality] == Superior && [Flag] != Ethereal # ([Sockets] == 0 || [Sockets] >= 4) && [Enhanceddamage] >= 15
+//[Name] == Mancatcher && [Quality] == Superior && [Flag] != Ethereal # ([Sockets] == 0 || [Sockets] >= 4) && [Enhanceddamage] >= 15
+
+// Eth Socketed 2h Weapons
+[Name] == Warpike && [Quality] == Normal && [Flag] == Ethereal # [Sockets] == 6
+[Name] == Colossusvoulge && [Quality] == Normal && [Flag] == Ethereal # [Sockets] >= 4
+[Name] == Thresher && [Quality] == Normal && [Flag] == Ethereal # [Sockets] >= 4
+[Name] == Giantthresher && [Quality] == Normal && [Flag] == Ethereal # [Sockets] >= 4
+[Name] == Crypticaxe && [Quality] == Normal && [Flag] == Ethereal # [Sockets] >= 4
+[Name] == Greatpoleaxe && [Quality] == Normal && [Flag] == Ethereal # [Sockets] >= 4
+[Name] == Ghostspear && [Quality] == Normal && [Flag] == Ethereal # [Sockets] >= 4
+[Name] == Mancatcher && [Quality] == Normal && [Flag] == Ethereal # [Sockets] >= 4
+
+// Eth Superior Socketed 2h Weapons
+[Name] == Warpike && [Quality] == Superior && [Flag] == Ethereal # ([Sockets] == 0 || [Sockets] >= 4) && [Enhanceddamage] >= 10
+[Name] == Colossusvoulge && [Quality] == Superior && [Flag] == Ethereal # ([Sockets] == 0 || [Sockets] >= 4) && [Enhanceddamage] >= 10
+[Name] == Thresher && [Quality] == Superior && [Flag] == Ethereal # ([Sockets] == 0 || [Sockets] >= 4) && [Enhanceddamage] >= 10
+[Name] == Giantthresher && [Quality] == Superior && [Flag] == Ethereal # ([Sockets] == 0 || [Sockets] >= 4) && [Enhanceddamage] >= 10
+[Name] == Crypticaxe && [Quality] == Superior && [Flag] == Ethereal # ([Sockets] == 0 || [Sockets] >= 4) && [Enhanceddamage] >= 10
+[Name] == Greatpoleaxe && [Quality] == Superior && [Flag] == Ethereal # ([Sockets] == 0 || [Sockets] >= 4) && [Enhanceddamage] >= 10
+[Name] == Ghostspear && [Quality] == Superior && [Flag] == Ethereal # ([Sockets] == 0 || [Sockets] >= 4) && [Enhanceddamage] >= 10
+[Name] == Mancatcher && [Quality] == Superior && [Flag] == Ethereal # ([Sockets] == 0 || [Sockets] >= 4) && [Enhanceddamage] >= 10
+
+//--------------------------------------------------------------------------------------
+//================= White/Ethereal Socketed/Non-Socketed Assassin Claws ================
+//--------------------------------------------------------------------------------------
+// White Assassin Claws
+[Type] == Assassinclaw && [Class] == Elite && [Quality] <= Superior && [Flag] != Ethereal # ([Sockets] == 0 || [Sockets] == 3) && ([Skilllightningsentry] >= 3 || [Skilldeathsentry] >= 3) // Chaos
+[Type] == Assassinclaw && [Class] == Elite && [Quality] <= Superior && [Flag] != Ethereal # ([Sockets] == 0 || [Sockets] == 3) && [Skillvenom] >= 3 && ([Skillweaponblock] >= 3 || [Skillclawmastery] >= 2 || [Skillfade] >= 2 || [Skillbladeshield] >= 2 || [Skilldragonflight] >= 2 || [Skillmindblast] >= 1)  // Chaos
+[Type] == Assassinclaw && [Class] == Elite && [Quality] <= Superior && [Flag] != Ethereal # ([Sockets] == 0 || [Sockets] == 3) && [Skillbladeshield] >= 3 && ([Skillweaponblock] >= 3 || [Skillclawmastery] >= 2 || [Skillfade] >= 2 || [Skillvenom] >= 2 || [Skilldragonflight] >= 2 || [Skillmindblast] >= 1)  // Chaos
+[Type] == Assassinclaw && [Class] == Elite && [Quality] <= Superior && [Flag] != Ethereal # ([Sockets] == 0 || [Sockets] == 3) && [Skillweaponblock] >= 3 && ([Skillclawmastery] >= 2 || [Skillfade] >= 2 || [Skillvenom] >= 2 || [Skillbladeshield] >= 2 || [Skilldragonflight] >= 2 || [Skillmindblast] >= 1)  // Chaos
+
+
+//------------------------------------------------------------------------------
+//================= White/Ethereal Socketed/Non-Socketed Staves ================
+//------------------------------------------------------------------------------
+
+// White/Eth/Non-Eth Socketed Battle Staffs
+[Name] == Gnarledstaff && [Quality] <= Superior # [Skillenergyshield] == 3 && [Skillchillingarmor] >= 1 && ([Sockets] == 0 || [Sockets] >= 4)
+[Name] == Battlestaff && [Quality] <= Superior # [Skillenergyshield] == 3 && [Skillchillingarmor] >= 1 && ([Sockets] == 0 || [Sockets] >= 4)
+[Name] == Gnarledstaff && [Quality] <= Superior # [Skillthunderstorm] == 3 && ([Skillenergyshield] == 3 || [Skillchillingarmor] >= 1) && ([Sockets] == 0 || [Sockets] >= 4)
+[Name] == Battlestaff && [Quality] <= Superior # [Skillthunderstorm] == 3 && ([Skillenergyshield] == 3 || [Skillchillingarmor] >= 1) && ([Sockets] == 0 || [Sockets] >= 4)
+[Name] == Gnarledstaff && [Quality] <= Superior # [Skillenergyshield] == 3 && [Skillenchant] >= 1 && ([Sockets] == 0 || [Sockets] >= 4)
+[Name] == Battlestaff && [Quality] <= Superior # [Skillenergyshield] == 3 && [Skillenchant] >= 1 && ([Sockets] == 0 || [Sockets] >= 4)
+[Name] == Gnarledstaff && [Quality] <= Superior # [Skillenergyshield] == 3 && [Skillenchant] >= 1 && ([Sockets] == 0 || [Sockets] >= 4)
+[Name] == Battlestaff && [Quality] <= Superior # [Skillenergyshield] == 3 && [Skillenchant] >= 1 && ([Sockets] == 0 || [Sockets] >= 4)
+[Name] == Battlestaff && [Quality] <= Superior # [Skillthunderstorm] == 3 && ([Skillenergyshield] == 3 || [Skillenchant] >= 1) && ([Sockets] == 0 || [Sockets] >= 4)
+[Name] == Gnarledstaff && [Quality] <= Superior # [Skillthunderstorm] == 3 && ([Skillenergyshield] == 3 || [Skillenchant] >= 1) && ([Sockets] == 0 || [Sockets] >= 4)
+
+//------------------------------------------------------------------------------
+//================= White Socketed/Non-Socketed Wands ================
+//------------------------------------------------------------------------------
+// White/Ethereal Socketed/Non-Socketed Necro Wands
+[Type] == Wand && [Name] != Wand && [Name] != Burntwand && [Name] != Yewwand && [Quality] <= Superior # [Skillbonespear] == 3 && ([Skillbonearmor] >= 2 || [Skillbonespirit] >= 2 || [Skillteeth] >= 2 || [Skillbonewall] >= 1) && ([Sockets] == 0 || [Sockets] != 1)
+[Type] == Wand && [Name] != Wand && [Name] != Burntwand && [Name] != Yewwand && [Quality] <= Superior # [Skillpoisonnova] == 3 && ([Skillcorpseexplosion] >= 2 || [Skilllowerresist] >= 2 || [Skillbonearmor] >= 2) && ([Sockets] == 0 || [Sockets] != 1)
+
+//----------------------------------------------------------------------------
+//================= White Socketed/Non-Socketed Bows ================
+//----------------------------------------------------------------------------
+// Normal
+//[Type] == Bow && [Class] == Elite && [Quality] == Normal # ([Sockets] == 0 || [Sockets] == 4)       // Faith
+[Type] == Amazonbow && [Class] == Elite && [Quality] == Normal # [Bowandcrossbowskilltab] == 3 && ([Sockets] >= 0 || [Sockets] >= 4)        // Faith
+
+// Superior
+[Type] == Bow && [Class] == Elite && [Quality] == Superior # ([Sockets] == 0 || [Sockets] == 4) && [Enhanceddamage] > 10     // Faith
+[Type] == Amazonbow && [Class] == Elite && [Quality] == Superior # [Bowandcrossbowskilltab] == 3 && ([Sockets] >= 0 || [Sockets] >= 4) && [Enhanceddamage] > 10      // Faith
+
+
+//=======================================================================//
+//<<<<<<<<<<<<<<<<<<<<<<<<<<<< Set Items >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
+//=======================================================================//
+
+//--------------------------------------------------
+//================= Angelic Raiment ================
+//--------------------------------------------------
+//[Name] == Ringmail		&& [Quality] == Set     // Angelic Mantle
+//[Name] == Sabre && [Quality] == Set     // Angelic Sickle
+//[Type] == Ring && [Quality] == Set # [Maxhp] == 20    // Angelic Halo
+//[Type] == Amulet && [Quality] == Set # [Itemlightradius] == 3 && [Itemdamagetomana] == 20  // Angelic Wings
+
+//---------------------------------------------------
+//================= Arcanna's Tricks ================
+//---------------------------------------------------
+//[Type] == Amulet && [Quality] == Set # [Maxmana] == 15    // Arcanna's Sign
+//[Name] == Skullcap && [Quality] == Set     // Arcanna's Head
+//[Name] == Lightplate && [Quality] == Set     // Arcanna's Flesh
+//[Name] == Warstaff && [Quality] == Set     // Arcanna's Deathwand
+
+//----------------------------------------------
+//================= Arctic Gear ================
+//----------------------------------------------
+//[Name] == Quiltedarmor && [Quality] == Set     // Arctic Furs
+//[Name] == Lightbelt && [Quality] == Set     // Arctic Binding
+//[Name] == Lightgauntlets && [Quality] == Set # [Maxhp] == 20 && [Ias] == 10   // Arctic Mitts
+//[Name] == Shortwarbow && [Quality] == Set     // Arctic Horn
+
+//------------------------------------------------------
+//================= Berserker's Arsenal ================
+//------------------------------------------------------
+//[Name] == Helm && [Quality] == Set     // Berserker's Headgear
+//[Name] == Splintmail && [Quality] == Set     // Berserker's Hauberk
+//[Name] == Doubleaxe && [Quality] == Set     // Berserker's Hatchet
+
+//-------------------------------------------------
+//================= Cathan's Traps ================
+//-------------------------------------------------
+//[Type] == Ring && [Quality] == Set # [Lifeleech] == 6 && [Normaldamagereduction] == 2  // Cathan's Seal
+//[Type] == Amulet && [Quality] == Set # [Fhr] == 10 && [Lightmaxdam] == 5   // Cathan's Sigil
+//[Name] == Chainmail && [Quality] == Set     // Cathan's Mesh
+//[Name] == Mask && [Quality] == Set     // Cathan's Visage
+
+//----------------------------------------------------
+//================= Civerb's Vestment ================
+//----------------------------------------------------
+//[Name] == Grandscepter && [Quality] == Set     // Civerb's Cudgel
+//[Type] == Amulet && [Quality] == Set # [Manarecovery] == 40 && [Hpregen] == 4  	// Civerb's Icon
+//[Name] == Largeshield && [Quality] == Set     // Civerb's Ward
+
+//---------------------------------------------------
+//================= Cleglaw's Braces ================
+//---------------------------------------------------
+//[Name] == Longsword && [Quality] == Set     // Cleglaw's Tooth
+//[Name] == Chaingloves && [Quality] == Set     // Cleglaw's Pincers
+//[Name] == Smallshield && [Quality] == Set     // Cleglaw's Claw
+
+//------------------------------------------------
+//================= Death's Guise ================
+//------------------------------------------------
+//[Name] == Warsword && [Quality] == Set      // Death's Touch
+//[Name] == Leathergloves && [Quality] == Set     // Death's Hand
+//[Name] == Sash && [Quality] == Set     // Death's Guard
+
+//--------------------------------------------------
+//================= Hsaru's Defense ================
+//--------------------------------------------------
+
+//[Name] == Buckler && [Quality] == Set     // Hsarus' Iron Fist
+//[Name] == Belt && [Quality] == Set # [Coldresist] == 20 && [Maxhp] == 20   // Hsarus' Iron Stay
+//[Name] == Chainboots && [Quality] == Set     // Hsarus' Iron Heel
+
+//-------------------------------------------------
+//================= Infernal Tools ================
+//-------------------------------------------------
+//[Name] == Cap && [Quality] == Set # [Fireresist] == 10 && [Lightresist] == 10 && [Coldresist] == 10 && [Poisonresist] == 10 // Infernal Cranium
+//[Name] == Grimwand && [Quality] == Set     // Infernal Touch
+//[Name] == Heavybelt && [Quality] == Set # [Maxhp] == 20 && [Enhanceddefense] == 25  	// Infernal Sign
+
+//--------------------------------------------------
+//================= Iratha's Finery ================
+//--------------------------------------------------
+//[Name] == Heavybelt && [Quality] == Set # [Mindamage] == 5    // Iratha's Cord
+//[Name] == Crown && [Quality] == Set # [Fireresist] == 30 && [Lightresist] == 30  // Iratha's Coil
+//[Type] == Amulet && [Quality] == Set # [Poisonresist] == 30 && [Poisonlength] == -75  // Iratha's Collar
+//[Name] == Lightgauntlets && [Quality] == Set # [Coldresist] == 30 // Iratha's Cuff
+
+//----------------------------------------------------
+//================= Isenhart's Armory ================
+//----------------------------------------------------
+//[Name] == Broadsword && [Quality] == Set     // Isenhart's Lightbrand
+//[Name] == Fullhelm && [Quality] == Set     // Isenhart's Horns
+//[Name] == Breastplate && [Quality] == Set     // Isenhart's Case
+//[Name] == Gothicshield && [Quality] == Set     // Isenhart's Parry
+
+//------------------------------------------------------
+//================= Milabrega's Regalia ================
+//------------------------------------------------------
+//[Name] == Kiteshield && [Quality] == Set     // Milabrega's Orb
+//[Name] == Ancientarmor && [Quality] == Set     // Milabrega's Robe
+//[Name] == Warscepter && [Quality] == Set     // Milabrega's Rod
+//[Name] == Crown && [Quality] == Set # [Maxhp] == 15 && [Maxmana] == 15   // Milabrega's Diadem
+
+//------------------------------------------------
+//================= Sigon's Steel ================
+//------------------------------------------------
+//[Name] == Greathelm && [Quality] == Set     // Sigon's Visor
+//[Name] == Gothicplate && [Quality] == Set     // Sigon's Shelter
+//[Name] == Greaves && [Quality] == Set     // Sigon's Sabot
+//[Name] == Towershield && [Quality] == Set     // Sigon's Guard
+//[Name] == Platedbelt && [Quality] == Set     // Sigon's Warp
+//[Name] == Gauntlets && [Quality] == Set     // Sigon's Gage
+
+//-------------------------------------------------------
+//================= Tancred's Battlegear ================
+//-------------------------------------------------------
+//[Name] == Bonehelm && [Quality] == Set     // Tancred's Skull
+//[Name] == Fullplatemail && [Quality] == Set     // Tancred's Spine
+//[Name] == Boots && [Quality] == Set # [Staminarecoverybonus] == 25 && [Dexterity] == 10  // Tancred's Hobnails
+//[Name] == Militarypick && [Quality] == Set     // Tancred's Crowbill
+//[Type] == Amulet && [Quality] == Set # [Magicdamagereduction] == 1 && [Normaldamagereduction] == 2 // Tancred's Weird
+
+//-----------------------------------------------
+//================= Vidala's Rig ================
+//-----------------------------------------------
+//[Type] == Amulet && [Quality] == Set # [Coldresist] == 20 && [Maxmana] == 15  	// Vidala's Snare
+//[Name] == Longbattlebow && [Quality] == Set     // Vidala's Barb
+//[Name] == Leatherarmor && [Quality] == Set     // Vidala's Ambush
+//[Name] == Lightplatedboots && [Quality] == Set     // Vidala's Fetlock
+
+//-----------------------------------------------------
+//================= Aldur's Watchtower ================
+//-----------------------------------------------------
+//[Name] == Huntersguise && [Quality] == Set     // Aldur's Stony Gaze
+//[Name] == Battleboots && [Quality] == Set      // Aldur's Advance
+//[Name] == Shadowplate && [Quality] == Set     // Aldur's Deception
+//[Name] == Jaggedstar && [Quality] == Set     // Aldur's Rhythm
+
+//-------------------------------------------------------
+//================= Bul-Katho's Children ================
+//-------------------------------------------------------
+//[Name] == Colossusblade && [Quality] == Set     // Bul-Kathos' Sacred Charge
+//[Name] == Mythicalsword && [Quality] == Set     // Bul-Kathos' Tribal Guardian
+
+//-----------------------------------------------------
+//================= Cow King's Leathers ================
+//-----------------------------------------------------
+//[Name] == Warhat && [Quality] == Set     // Cow King's Horns
+//[Name] == Studdedleather && [Quality] == Set     // Cow King's Hide
+//[Name] == Heavyboots && [Quality] == Set # [Dexterity] == 20 && [Itemmagicbonus] == 25  // Cow King's Hooves
+
+//-----------------------------------------------
+//================= The Disciple ================
+//-----------------------------------------------
+//[Type] == Amulet && [Quality] == Set # [Itemallskills] == 1 && [Coldresist] == 18  // Telling Of Beads
+//[Name] == Bramblemitts && [Quality] == Set     // Laying Of Hands
+//[Name] == Duskshroud && [Quality] == Set     // Dark Adherent
+//[Name] == Demonhideboots && [Quality] == Set     // Rite Of Passage
+//[Name] == Mithrilcoil && [Quality] == Set     //Credendum
+
+//----------------------------------------------------
+//================= Griswold's Legacy ================
+//----------------------------------------------------
+//[Name] == Ornateplate && [Quality] == Set #     // Griswold's Heart
+//[Name] == Corona && [Quality] == Set # [Itemmagicbonus] >= 20    // Griswold's Valor
+//[Name] == Corona && [Quality] == Set # [Itemmagicbonus] >= 30 && [Enhanceddefense] >= 75    // Griswold's Valor Perfect
+//[Name] == Caduceus && [Quality] == Set # [Sockets] >= 3 && [Enhanceddamage] >= 200  	// Griswold's Redemption
+//[Name] == Caduceus && [Quality] == Set # [Sockets] >= 4 && [Enhanceddamage] >= 240  	// Griswold's Redemption Perfect
+//[Name] == Vortexshield && [Quality] == Set     // Griswold's Honor
+//[Name] == Vortexshield && [Quality] == Set # [Defense] >= 330    // Griswold's Honor Perfect
+
+
+//-----------------------------------------------------
+//================= Heaven's Bretheren ================
+//-----------------------------------------------------
+//[Name] == Cuirass && [Quality] == Set     // Haemosu's Adamant
+//[Name] == Reinforcedmace && [Quality] == Set     // Dangoon's Teaching
+//[Name] == Ward && [Quality] == Set     	// Taebaek's Glory
+//[Name] == Spiredhelm && [Quality] == Set     // Ondal's Almighty
+
+//---------------------------------------------------
+//================= Hwanin's Majesty ================
+//---------------------------------------------------
+//[Name] == Grandcrown && [Quality] == Set     // Hwanin's Splendor
+//[Name] == Bill && [Quality] == Set     // Hwanin's Justice
+//[Name] == Tigulatedmail && [Quality] == Set     // Hwanin's Refuge
+//[Name] == Belt && [Quality] == Set # [Lightmindam] == 3 && [Lightmaxdam] == 33   // Hwanin's Blessing
+
+//------------------------------------------------
+//================= Immortal King ================
+//------------------------------------------------
+//[Name] == Warbelt && [Quality] == Set     // Immortal King's Detail
+//[Name] == Avengerguard && [Quality] == Set     // Immortal King's Will
+//[Name] == Ogremaul && [Quality] == Set     // Immortal King's Stone Crusher
+//[Name] == Sacredarmor && [Quality] == Set     // Immortal King's Soul Cage
+//[Name] == Wargauntlets && [Quality] == Set     // Immortal King's Forge
+//[Name] == Warboots && [Quality] == Set     // Immortal King's Pillar
+
+//--------------------------------------------------------
+//================= M'Avina's Battle Hymn ================
+//--------------------------------------------------------
+// M'Avina's Battle Hymn
+//[Name] == Diadem && [Quality] == Set     // M'Avina's True Sight
+//[Name] == Grandmatronbow && [Quality] == Set     // M'Avina's Caster
+//[Name] == Krakenshell && [Quality] == Set     // M'Avina's Embrace
+//[Name] == Battlegauntlets && [Quality] == Set     // M'Avina's Icy Clutch
+//[Name] == Sharkskinbelt && [Quality] == Set     // M'Avina's Tenet
+
+//--------------------------------------------------
+//================= Natalya's Odium ================
+//--------------------------------------------------
+// Natalya's Odium
+//[Name] == Grimhelm && [Quality] == Set      // Natalya's Totem
+//[Name] == Scissorssuwayyah && [Quality] == Set     	// Natalya's Mark
+//[Name] == Loricatedmail && [Quality] == Set # [Defense] >= 721 && [Sockets] >= 3	  	// Natalya's Shadow
+//[Name] == Meshboots && [Quality] == Set # [Lightresist] >= 25 && [Coldresist] >= 25   // Natalya's Soul
+
+//--------------------------------------------------------
+//================= Naj's Ancient Vestege ================
+//--------------------------------------------------------
+//[Name] == Circlet && [Quality] == Set     // Naj's Circlet
+//[Name] == Hellforgeplate && [Quality] == Set     // Naj's Light Plate
+//[Name] == Elderstaff && [Quality] == Set     // Naj's Puzzler
+
+//------------------------------------------------
+//================= Orphan's Call ================
+//------------------------------------------------
+//[Name] == Wingedhelm && [Quality] == Set     // Guillaume's Face
+//[Name] == Roundshield && [Quality] == Set     // Whistan's Guard
+//[Name] == Sharkskingloves && [Quality] == Set     // Magnus' Skin
+//[Name] == Battlebelt && [Quality] == Set     // Wilhelm's Pride
+
+//-------------------------------------------------
+//================= Sander's Folly ================
+//-------------------------------------------------
+//[Name] == Cap && [Quality] == Set # [Itemmagicbonus] == 35   	// Sander's Paragon
+//[Name] == Bonewand && [Quality] == Set     //Sander's Superstition
+//[Name] == Heavygloves && [Quality] == Set # [Maxhp] == 40    // Sander's Taboo
+//[Name] == Heavyboots && [Quality] == Set # [Dexterity] == 10 && [Strength] == 5   // Sander's Riprap
+
+//---------------------------------------------------------
+//================= Sazabi's Grand Tribute ================
+//---------------------------------------------------------
+[Name] == Basinet && [Quality] == Set     // Sazabi's Mental Sheath
+[Name] == Crypticsword && [Quality] == Set     // Sazabi's Cobalt Redeemer
+[Name] == Balrogskin && [Quality] == Set     // Sazabi's Ghost Liberator
+
+//--------------------------------------------------------
+//================= Tal-Rasha's Wrappings ================
+//--------------------------------------------------------
+[Name] == Swirlingcrystal && [Quality] == Set     // Tal Rasha's Lidless Eye
+//[Name] == Swirlingcrystal && [Quality] == Set # [Plusskillcoldmastery] == 2 && [Plusskillfiremastery] == 2 && [Plusskilllightningmastery] == 2     // Tal Rasha's Lidless Eye Perfect
+//[Name] == Deathmask && [Quality] == Set     // Tal Rasha's Horadric Crest
+[Name] == Lacqueredplate && [Quality] == Set      // Tal Rasha's Guardianship
+//[Name] == Lacqueredplate && [Quality] == Set # [Defense] >= 941     // Tal Rasha's Guardianship Perfect
+[Type] == Amulet && [Quality] == Set # [Sorceressskills] == 2   	// Tal Rasha's Adjucation
+[Name] == Meshbelt && [Quality] == Set # [Itemmagicbonus] >= 10   	// Tal Rasha's Fine-Spun Cloth
+//[Name] == Meshbelt && [Quality] == Set # [Itemmagicbonus] == 15   	// Tal Rasha's Fine-Spun Cloth Perfect
+
+//----------------------------------------------------
+//================= Trang-Ouls Avatar ================
+//----------------------------------------------------
+//[Name] == Bonevisage && [Quality] == Set      // Trang-Oul's Guise
+//[Name] == Chaosarmor && [Quality] == Set      // Trang-Oul's Scales
+//[Name] == Cantortrophy && [Quality] == Set        // Trang-Oul's Wing
+//[Name] == Trollbelt && [Quality] == Set       // Trang-Oul's Girth
+[Name] == Heavybracers && [Quality] == Set        // Trang-Oul's Claws
+
+//========================================================================//
+//<<<<<<<<<<<<<<<<<<<<<<<<<<<< UNID Items >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
+//========================================================================//
+
+//MAGIC CHARMS FOR CUBING
+//[Name] == GrandCharm && [Quality] == Magic
+//[Name] == SmallCharm && [Quality] == Magic
+
+//RARE
+//[Type] == Ring && [Quality] == Rare											//RARE RING
+//[Type] == Amulet && [Quality] == Rare											//RARE AMULET
+//[Type] == Jewel && [Quality] == Rare											//RARE JEWEL
+//[Type] == Jewel && [Quality] == magic										//Magic Jewel
+[Type] == Amulet && [Quality] == Unique										//Any UNIQUE AMULET
+[Type] == Ring && [Quality] == Unique											//Any UNIQUE RING
+[Type] == Jewel && [Quality] == Unique											//RAINBOW FACET
+
+//UNIQUE CHARMS
+//[Name] == GrandCharm && [Quality] == Unique									//GHEED'S FORTUNE
+//[Name] == LargeCharm && [Quality] == Unique 									//Any HELLFIRE TORCH
+//[Name] == SmallCharm && [Quality] == Unique									//Any ANNIHILUS
+
+//UNIQUE GLOVES
+//[Name] == ChainGloves && [Quality] == Unique	
+//[Name] == LightGauntlets && [Quality] == Unique									//MAGEFIST
+//[Name] == Gauntlets && [Quality] == Unique										//FROSTBURN
+//[Name] == VampireboneGloves && [Quality] == Unique								//DRACUL'S GRASP
+//[Name] == Vambraces && [Quality] == Unique										//SOUL DRAINER
+//[Name] == OgreGauntlets && [Quality] == Unique									//STEELREND
+
+//UNIQUE BELTS
+//[Name] == DemonhideSash && [Quality] == Unique	
+//[Name] == SpiderwebSash && [Quality] == Unique									// ARACHNID MESH
+//[Name] == VampirefangBelt && [Quality] == Unique								// NOSFERATU'S COIL
+//[Name] == MithrilCoil && [Quality] == Unique									// VERDUNGO'S HEARTY CORD
+//[Name] == HeavyBelt && [Quality] == Unique 									    // Goldwrap
+
+//UNIQUE BOOTS
+//[Name] == Boots && [Quality] == Unique && [Flag] != Ethereal					// HOTSPUR
+//[Name] == SharkskinBoots && [Quality] == Unique								// WATERWALK
+//[Name] == BattleBoots && [Quality] == Unique									// WAR TRAVELER
+//[Name] == WarBoots && [Quality] == Unique										// GORE RIDER
+//[Name] == ScarabshellBoots && [Quality] == Unique && [Flag] != Ethereal			// SANDSTORM TREK
+//[Name] == ScarabshellBoots && [Quality] == Unique && [Flag] == Ethereal			// Ethereal SANDSTORM TREK
+//[Name] == BoneweaveBoots && [Quality] == Unique								// MARROWWALK
+//[Name] == WyrmhideBoots && [Quality] == Unique									// MERMAN'S SPROCKET
+//[Name] == MyrmidonGreaves && [Quality] == Unique								// SHADOW DANCER
+
+//UNIQUE HELMS
+//[Name] == SkullCap && [Quality] == Unique && [Flag] != Ethereal				    // TARNHELM
+//[Name] == Sallet && [Quality] == Unique 										// ROCK STOPPER
+//[Name] == Casque && [Quality] == Unique 										// STEALSKULL
+//[Name] == GrandCrown && [Quality] == Unique 									// CROWN OF THEIVES
+//[Name] == GrimHelm && [Quality] == Unique 										// VAMPIRE GAZE
+//[Name] == Shako && [Quality] == Unique											// HARLEQUIN CREST
+//[Name] == SpiredHelm && [Quality] == Unique										// NIGHTWING'S VEIL
+//[Name] == Demonhead && [Quality] == Unique && [Flag] != Ethereal                // Andariel's Visage
+//[Name] == Demonhead && [Quality] == Unique && [Flag] == Ethereal				// ETH ANDARIEL'S VISAGE
+//[Name] == BoneVisage && [Quality] == Unique										// GIANT SKULL
+//[Name] == Tiara && [Quality] == Unique											// KIRA'S GUARDIAN
+//[Name] == Diadem && [Quality] == Unique											// GRIFFON'S EYE
+//[Name] == Corona && [Quality] == Unique											// CROWN OF AGES
+
+//UNIQUE ARMOR
+//[Name] == SerpentskinArmor && [Quality] == Unique	
+//[Name] == SerpentskinArmor && [Quality] == Unique && [Flag] == Ethereal							// SKIN OF THE VIPERMAGI
+//[Name] == Cuirass && [Quality] == Unique	                                                          // Eth Duriels Shell
+//[Name] == Cuirass && [Quality] == Unique && [Flag] == Ethereal									// DURIEL'S SHELL
+//[Name] == MeshArmor && [Quality] == Unique                                                                // Eth ShaftStop
+//[Name] == MeshArmor && [Quality] == Unique && [Flag] == Ethereal											// SHAFTSTOP
+//[Name] == RussetArmor && [Quality] == Unique && [Flag] == Ethereal									// SKULLDER'S IRE
+//[Name] == RussetArmor && [Quality] == Unique                                                          // Eth Skullder's Ire
+//[Name] == TemplarCoat && [Quality] == Unique 	                                                        // Eth Guardian Angel
+//[Name] == TemplarCoat && [Quality] == Unique 	&& [Flag] == Ethereal									// GUARDIAN ANGEL
+//[Name] == SharktoothArmor && [Quality] == Unique 								// TOOTHROW
+//[Name] == DuskShroud && [Quality] == Unique									// ORMUS' ROBES
+//[Name] == WireFleece && [Quality] == Unique
+//[Name] == WireFleece && [Quality] == Unique && [Flag] == Ethereal	 									//THE GLADIATOR'S BANE
+//[Name] == BalrogSkin && [Quality] == Unique
+//[Name] == BalrogSkin && [Quality] == Unique && [Flag] == Ethereal											// ARKAINE'S VALOR
+//[Name] == KrakenShell && [Quality] == Unique 									// LEVIATHAN
+//[Name] == ShadowPlate && [Quality] == Unique 									// SHADOW KEEPER or STEEL CARAPACE
+//[Name] == SacredArmor && [Quality] == Unique
+//[Name] == SacredArmor && [Quality] == Unique && [Flag] == Ethereal										// TEMPLAR'S MIGHT or TYREAL'S MIGHT
+
+//UNIQUE SHIELDS
+//[Name] == RoundShield && [Quality] == Unique									// MOSER'S BLESSED CIRCLE
+//[Name] == BarbedShield && [Quality] == Unique && [Flag] != Ethereal				// LANCE GUARD
+//[Name] == Pavise && [Quality] == Unique && [Flag] != Ethereal					// GERKE'S SANCTUARY
+//[Name] == GrimShield && [Quality] == Unique && [Flag] != Ethereal				// LIDLESS WALL
+//[Name] == GrimShield && [Quality] == Unique && [Flag] == Ethereal				// Ethereal LIDLESS WALL
+//[Name] == Luna && [Quality] == Unique && [Flag] != Ethereal						// BLACKOAK SHIELD
+//[Name] == Monarch && [Quality] == Unique										// STORMSHIELD
+//[Name] == TrollNest && [Quality] == Unique && [Flag] != Ethereal				// HEAD HUNTER'S GLORY
+//[Name] == Ward && [Quality] == Unique && [Flag] != Ethereal						// SPIRIT WARD
+
+//UNIQUE DAGGERS
+//[Name] == Dagger && [Quality] == Unique 										// GULL
+//[Name] == BoneKnife && [Quality] == Unique										// WIZARD SPIKE
+//[Name] == FangedKnife && [Quality] == Unique									// FLESHRIPPER
+//[Name] == LegendSpike && [Quality] == Unique									// GHOSTFLAME
+
+//UNIQUE SWORDS
+//[Name] == Tulwar && [Quality] == Unique											// BLADE OF ALI BABA
+//[Name] == Ataghan && [Quality] == Unique							 			// DJINN SLAYER
+//[Name] == ChampionSword && [Quality] == Unique								// DOOMBRINGER
+//[Name] == BattleSword && [Quality] == Unique && [Flag] != Ethereal			// HEADSTRIKER
+//[Name] == BattleSword && [Quality] == Unique && [Flag] == Ethereal				// Ethereal HEADSTRIKER
+//[Name] == ColossusBlade && [Quality] == Unique									// THE GRANDFATHER
+//[Name] == PhaseBlade && [Quality] == Unique										// AZUREWRATH or LIGHTSABRE
+
+//UNIQUE AXES
+//[Name] == Tomahawk && [Quality] == Unique && [Flag] != Ethereal					// RAZOR'S EDGE
+//[Name] == Tomahawk && [Quality] == Unique && [Flag] == Ethereal					// Ethereal RAZOR'S EDGE
+//[Name] == EttinAxe && [Quality] == Unique && [Flag] != Ethereal				// RUNE MASTER
+//[Name] == EttinAxe && [Quality] == Unique && [Flag] == Ethereal					// Ethereal RUNE MASTER
+//[Name] == BerserkerAxe && [Quality] == Unique 									// DEATH CLEAVER
+//[Name] == GloriousAxe && [Quality] == Unique 									// EXECUTIONER'S JUSTICE
+
+//UNIQUE BOWS
+//[Name] == ShortSiegeBow && [Quality] == Unique								// WITCHWILD STRING
+//[Name] == WardBow && [Quality] == Unique										// WIDOWMAKER
+//[Name] == HydraBow && [Quality] == Unique										// WINDFORCE
+//[Name] == Ballista && [Quality] == Unique										// Buriza-Do Kyanon
+
+//UNIQUE MACES
+//[Name] == DevilStar && [Quality] == Unique										// BARANAR'S STAR
+//[Name] == MartelDeFer && [Quality] == Unique 									// THE GAVEL OF PAIN
+//[Name] == TyrantClub && [Quality] == Unique										// DEMON LIMB
+//[Name] == Scourge && [Quality] == Unique && [Flag] != Ethereal					// STORMLASH or HORIZON'S TORNADO
+//[Name] == Scourge && [Quality] == Unique && [Flag] == Ethereal					// Ethereal STORMLASH  or Ethereal HORIZON'S TORNADO
+//[Name] == LegendaryMallet && [Quality] == Unique 								// STONE CRUSHER or SHAEFER'S HAMMER
+//[Name] == ThunderMaul && [Quality] == Unique 									// EARTH SHIFTER or CRANIUM BASHER
+
+//UNIQUE POLEARMS
+//[Name] == OgreAxe && [Quality] == Unique && [Flag] != Ethereal					// BONEHEW
+//[Name] == OgreAxe && [Quality] == Unique && [Flag] == Ethereal					// Ethereal BONEHEW
+//[Name] == Thresher && [Quality] == Unique && [Flag] != Ethereal					// THE REAPER'S TOLL
+//[Name] == Thresher && [Quality] == Unique && [Flag] == Ethereal					// Ethereal THE REAPER'S TOLL
+//[Name] == CrypticAxe && [Quality] == Unique && [Flag] != Ethereal 				// TOMB REAVER
+//[Name] == CrypticAxe && [Quality] == Unique && [Flag] == Ethereal				// Ethereal TOMB REAVER
+//[Name] == GiantThresher && [Quality] == Unique									// STORMSPIRE
+
+//UNIQUE SCEPTERS
+//[Name] == MightyScepter && [Quality] == Unique				 					// HEAVEN'S LIGHT or THE REDEEMER
+//[Name] == Caduceus && [Quality] == Unique										/ /ASTREON'S IRON WARD
+
+//UNIQUE SPEARS 
+//[Name] == Fuscina && [Quality] == Unique										// KELPIE SNARE
+//[Name] == Yari && [Quality] == Unique && [Flag] == Ethereal					// Ethereal HONE SUNDAN
+//[Name] == WarPike && [Quality] == Unique 										// STEEL PILLAR
+
+//UNIQUE STAVES
+//[Name] == Quarterstaff && [Quality] == Unique && [Flag] == Ethereal			// Ethereal RIBCRACKER
+//[Name] == ElderStaff && [Quality] == Unique && [Flag] == Ethereal				// Ethereal ONDAL'S WISDOM
+//[Name] == ArchonStaff && [Quality] == Unique									// MANG SONG'S LESSON
+
+//UNIQUE THROWING WEAPONS
+//[Name] == WingedKnife && [Quality] == Unique && [Flag] == Ethereal			// Ethereal WARSHRIKE
+//[Name] == WingedAxe && [Quality] == Unique && [Flag] == Ethereal				// Ethereal LACERATOR
+
+//UNIQUE WANDS 
+//[Name] == BurntWand && [Quality] == Unique										// SUICIDE BRANCH
+//[Name] == BurntWand && [Quality] == Unique && [Flag] == Ethereal				// Ethereal SUICIDE BRANCH
+//[Name] == TombWand && [Quality] == Unique										// ARM OF KING LEORIC
+//[Name] == LichWand && [Quality] == Unique 										//BONESHADE
+//[Name] == UnearthedWand && [Quality] == Unique									// DEATH'S WEB
+
+
+//UNIQUE AMAZON
+//[Name] == Ceremonial Javelin && [Quality] == Unique
+//[Name] == Ceremonial Javelin && [Quality] == Unique && [Flag] == Ethereal		// Ethereal TITAN'S REVENGE
+//[Name] == MatriarchalJavelin && [Quality] == Unique								// THUNDERSTROKE
+//[Name] == MatriarchalSpear && [Quality] == Unique								// STONERAVEN
+
+//UNIQUE ASSASSIN 
+//[Name] == BattleCestus && [Quality] == Unique 								 	// SHADOW KILLER
+
+//UNIQUE BARBARIAN 
+//[Name] == FuryVisor && [Quality] == Unique  && [Flag] != Ethereal				// WOLFHOWL
+//[Name] == Slayerguard && [Quality] == Unique  && [Flag] == Ethereal				// Eth Arreats Face
+//[Name] == Slayerguard && [Quality] == Unique
+
+//UNIQUE DRUID
+//[Name] == TotemicMask && [Quality] == Unique 									// JALAL'S MANE
+//[Name] == BloodSpirit && [Quality] == Unique 									// CEREBUS' BITE
+//[Name] == SkySpirit && [Quality] == Unique 							 			// RAVENLORE
+//[Name] == EarthSpirit && [Quality] == Unique 									// SPIRIT KEEPER
+
+//UNIQUE NECROMANCER 
+//[Name] == SuccubusSkull && [Quality] == Unique && [Flag] != Ethereal 			// BONEFLAME
+//[Name] == BloodlordSkull && [Quality] == Unique 								// DARKFORCE SPAWN
+//[Name] == HierophantTrophy && [Quality] == Unique
+
+
+//UNIQUE PALADIN
+//[Name] == GildedShield && [Quality] == Unique && [Flag] != Ethereal				// HERALD OF ZAKARUM
+//[Name] == GildedShield && [Quality] == Unique && [Flag] == Ethereal				// Ethereal HERALD OF ZAKARUM
+//[Name] == SacredRondache && [Quality] == Unique 								// ALMA NEGRA
+//[Name] == SacredRondache && [Quality] == Unique && [Flag] == Ethereal			// Ethereal ALMA NEGRA
+//[Name] == GildedShield && [Quality] == Unique 									// DRAGONSCALE
+
+//UNIQUE SORCERESS
+//[Name] == SwirlingCrystal && [Quality] == Unique && [Flag] != Ethereal		// THE OCULUS
+//[Name] == SwirlingCrystal && [Quality] == Unique && [Flag] == Ethereal		// Ethereal THE OCULUS
+//[Name] == EldritchOrb && [Quality] == Unique 									// ESCHUTA'S TEMPER
+//[Name] == EldritchOrb && [Quality] == Unique && [Flag] == Ethereal			// Ethereal ESCHUTA'S TEMPER
+//[Name] == DimensionalShard && [Quality] == Unique								// DEATH'S FATHOM
+
+//==========================================================================//
+//<<<<<<<<<<<<<<<<<<<<<<<<<<<< Unique Items >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
+//==========================================================================//
+
+//------------------------------------------------
+//================= Unique Gloves ================
+//------------------------------------------------
+//[Name] == Leathergloves && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 10        // The Hand Of Broc
+//[Name] == Leathergloves && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 20        // The Hand Of Broc Perfect
+//[Name] == Heavygloves && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 10     	// Bloodfist
+//[Name] == Heavygloves && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 20     	// Bloodfist Perfect
+[Name] == Chaingloves && [Quality] == Unique && [Flag] != Ethereal # [Itemmagicbonus] >= 25    	// Chance Guards
+[Name] == Chaingloves && [Quality] == Unique && [Flag] != Ethereal # [Itemmagicbonus] >= 40 && [Enhanceddefense] >= 30      // Chance Guards Perfect
+[Name] == Lightgauntlets && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 20     // Magefist
+[Name] == Lightgauntlets && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 30     // Magefist Perfect
+//[Name] == Gauntlets && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 10     	// Frostburn
+//[Name] == Gauntlets && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 20     	// Frostburn Perfect
+[Name] == Vampirebonegloves && [Quality] == Unique && [Flag] != Ethereal # [Strength] == 10      // Dracul's Grasp
+//[Name] == Vampirebonegloves && [Quality] == Unique && [Flag] != Ethereal # [Strength] == 15 && [Lifeleech] >= 10 && [Enhanceddefense] >= 120      // Dracul's Grasp Perfect
+//[Name] == Ogregauntlets && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddamage] >= 30 && [Strength] >= 15 && [Plusdefense] >= 170       // Steelrend
+//[Name] == Ogregauntlets && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddamage] >= 60 && [Strength] >= 20 && [Plusdefense] >= 210       // Steelrend Perfect
+
+//-----------------------------------------------
+//================= Unique Belts ================
+//-----------------------------------------------
+//[Name] == Sash && [Quality] == Unique && [Flag] != Ethereal # [Allresist] >= 5      // Lenymo
+//[Name] == Belt && [Quality] == Unique && [Flag] != Ethereal # [Allresist] >= 10 && [Enhanceddefense] >= 30      // Nightsmoke
+//[Name] == Belt && [Quality] == Unique && [Flag] != Ethereal # [Allresist] >= 15 && [Enhanceddefense] >= 50      // Nightsmoke Perfect
+//[Name] == Heavybelt && [Quality] == Unique && [Flag] != Ethereal # [Itemgoldbonus] >= 50        // Goldwrap
+//[Name] == Heavybelt && [Quality] == Unique && [Flag] != Ethereal # [Itemgoldbonus] >= 80 && [Enhanceddefense] >= 60     // Goldwrap Perfect
+//[Name] == Demonhidesash && [Quality] == Unique && [Flag] != Ethereal # [Lifeleech] >= 6 && [Damageresist] >= 12 && [Magicdamagereduction] >= 12	&& [Enhanceddefense] >= 150     // String Of Ears
+//[Name] == Demonhidesash && [Quality] == Unique && [Flag] != Ethereal # [Lifeleech] >= 8 && [Damageresist] >= 15 && [Magicdamagereduction] >= 15	&& [Enhanceddefense] >= 180     // String Of Ears Perfect
+//[Name] == Sharkskinbelt && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 120 && [Plusdefense] >= 15     // Razortail
+//[Name] == Sharkskinbelt && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 150 && [Plusdefense] >= 15     // Razortail Perfect
+//[Name] == Meshbelt && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 120  // Gloom's Trap
+//[Name] == Meshbelt && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 150  // Gloom's Trap Perfect
+//[Name] == Battlebelt && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 130        // Snowclash
+//[Name] == Battlebelt && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 170        // Snowclash Perfect
+//[Name] == Warbelt && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 160       // Thundergod's Vigor
+//[Name] == Warbelt && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 200       // Thundergod's Vigor Perfect
+//[Name] == Spiderwebsash && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 90      // Arachnid Mesh
+//[Name] == Spiderwebsash && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 120      // Arachnid Mesh Perfect
+//[Name] == Vampirefangbelt && [Quality] == Unique && [Flag] != Ethereal # [Lifeleech] >= 5 && [Defense] >= 50         // Nosferatu's Coil
+//[Name] == Vampirefangbelt && [Quality] == Unique && [Flag] != Ethereal # [Lifeleech] >= 7 && [Defense] >= 60         // Nosferatu's Coil Perfect
+//[Name] == Mithrilcoil && [Quality] == Unique && [Flag] != Ethereal # [Damageresist] >= 10 && [Enhanceddefense] >= 90 && [Hpregen] >= 10    // Verdungo's Hearty Cord
+//[Name] == Mithrilcoil && [Quality] == Unique && [Flag] != Ethereal # [Damageresist] >= 15 && [Enhanceddefense] >= 140 && [Hpregen] >= 13    // Verdungo's Hearty Cord Perfect
+
+//-----------------------------------------------
+//================= Unique Boots ================
+//-----------------------------------------------
+[Name] == Boots && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 10      // Hotspurs
+[Name] == Heavyboots && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 20     // Gorefoot
+[Name] == Chainboots && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 30     // Treads Of Cthon
+[Name] == Lightplatedboots && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 50      // Goblin Toe
+[Name] == Greaves && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 60      // Tearhaunch
+[Name] == Demonhideboots && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 120 && [Itemgoldbonus] >= 40       // Infernostride
+//[Name] == Demonhideboots && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] == 150 && [Itemgoldbonus] == 70       // Infernostride Perfect
+[Name] == Sharkskinboots && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 180        // Waterwalk
+[Name] == Meshboots && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 150     // Silkweave
+[Name] == Battleboots && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 150 && [Itemgoldbonus] >= 30        // War Traveler
+[Name] == Battleboots && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] == 190 && [Itemgoldbonus] == 50        // War Traveler Perfect
+[Name] == Warboots && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 160      // Gore Rider
+[Name] == Scarabshellboots && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 140 && [Strength] >= 10 && [Vitality] >= 10 && [Poisonresist] >= 40     // Sandstorm Trek
+[Name] == Scarabshellboots && [Quality] == Unique && [Flag] == Ethereal # [Enhanceddefense] >= 140 && [Strength] >= 10 && [Vitality] >= 10 && [Poisonresist] >= 40     // Eth Sandstorm Trek
+//[Name] == Scarabshellboots && [Quality] == Unique && [Flag] == Ethereal # [Enhanceddefense] == 170 && [Strength] == 15 && [Vitality] == 15 && [Poisonresist] == 70     // Eth Sandstorm Trek Perfect
+[Name] == Boneweaveboots && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 170 && [Strength] >= 10 && [Skillskeletonmastery] >= 1     // Marrowwalk
+//[Name] == Boneweaveboots && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] == 200 && [Strength] == 20 && [Skillskeletonmastery] == 2     // Marrowwalk Perfect
+[Name] == Myrmidongreaves && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 70 && [Shadowdisciplinesskilltab] >= 1 && [Dexterity] >= 15        // Shadow Dancer
+//[Name] == Myrmidongreaves && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] == 100 && [Shadowdisciplinesskilltab] == 2 && [Dexterity] == 25        // Shadow Dancer Perfect
+
+//-------------------------------------------------
+//================= Unique Helmets ================
+//-------------------------------------------------
+//[Name] == Cap && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddamage] >= 30     // Biggin's Bonnet
+//[Name] == Skullcap && [Quality] == Unique && [Flag] != Ethereal # [Itemmagicbonus] >= 25     // Tarnhelm
+//[Name] == Skullcap && [Quality] == Unique && [Flag] != Ethereal # [Itemmagicbonus] == 30       // Tarnhelm Perfect
+//[Name] == Helm && [Quality] == Unique && [Flag] != Ethereal # [Lightresist] >= 15       // Coif Of Glory
+//[Name] == Fullhelm && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddamage] >= 30 && [Plusdefense] >= 10     // Duskdeep
+//[Name] == Greathelm && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddamage] >= 80       // Howltusk
+//[Name] == Mask && [Quality] == Unique && [Flag] != Ethereal # [Allres] >= 10        // The Face Of Horror
+//[Name] == Crown && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddamage] >= 30     // Undead Crown
+//[Name] == Bonehelm && [Quality] == Unique && [Flag] != Ethereal # [Necromancerskills] >= 1      // Wormskull
+//[Name] == Warhat && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddamage] >= 100        // Peasant Crown 
+//[Name] == Sallet && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddamage] >= 160 && [Coldresist]+[Lightresist]+[Fireresist] >= 60       // Rockstopper
+//[Name] == Sallet && [Quality] == Unique && [Flag] == Ethereal # [Enhanceddamage] >= 160 && [Coldresist]+[Lightresist]+[Fireresist] >= 60       // Eth Rockstopper
+//[Name] == Sallet && [Quality] == Unique && [Flag] == Ethereal # [Enhanceddamage] == 220 && [Coldresist]+[Lightresist]+[Fireresist] == 130       // Eth Rockstopper Perfect
+//[Name] == Casque && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddamage] >= 200 && [Itemmagicbonus] >= 30     // Stealskull
+//[Name] == Casque && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddamage] == 240 && [Itemmagicbonus] == 50     // Stealskull Perfect
+//[Name] == Basinet && [Quality] == Unique && [Flag] != Ethereal # [Manaleech] >= 5    // Darksight Helm
+//[Name] == Wingedhelm && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 150 && [Amazonskills] >= 1       // Valkyrie Wing
+//[Name] == Wingedhelm && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] == 200 && [Amazonskills] == 2       // Valkyrie Wing Perfect
+//[Name] == Deathmask && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 180        // Blackhorn's Face
+[Name] == Grandcrown && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 160 && [Lifeleech] >= 9 && [Itemgoldbonus] >= 80     // Crown Of Thieves
+[Name] == Grandcrown && [Quality] == Unique && [Flag] == Ethereal # [Enhanceddefense] >= 160 && [Lifeleech] >= 9 && [Itemgoldbonus] >= 80     // Eth Crown Of Thieves
+//[Name] == Grandcrown && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] == 200 && [Lifeleech] == 12 && [Itemgoldbonus] == 100     // Eth Crown Of Thieves Perfect
+[Name] == Grimhelm && [Quality] == Unique && [Flag] != Ethereal # [Lifeleech] >= 6 && [Manaleech] >= 6 && [Magicdamagereduction] >= 10 && [Damageresist] >= 15    // Vampire Gaze
+[Name] == Grimhelm && [Quality] == Unique && [Flag] == Ethereal # [Lifeleech] >= 6 && [Manaleech] >= 6 && [Magicdamagereduction] >= 10 && [Damageresist] >= 15    // Eth Vampire Gaze
+//[Name] == Grimhelm && [Quality] == Unique && [Flag] == Ethereal # [Lifeleech] == 8 && [Manaleech] == 8 && [Magicdamagereduction] == 15 && [Damageresist] == 20    // Eth Vampire Gaze Perfect
+[Name] == Shako && [Quality] == Unique && [Flag] != Ethereal # [Defense] >= 98     // Harlequin Crest Shako
+//[Name] == Shako && [Quality] == Unique && [Flag] != Ethereal # [Defense] >= 141     // Harlequin Crest Shako Perfect
+//[Name] == Armet && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 100 && [Manaleech] >= 4     // Steel Shade
+//[Name] == Spiredhelm && [Quality] == Unique && [Flag] != Ethereal # [Allres] >= 50       // Veil Of Steel
+[Name] == Spiredhelm && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 90 && [Dexterity] >= 10 && [Itemabsorbcold] >= 5 && [Passivecoldmastery] >= 8       // Nightwing's Veil
+//[Name] == Spiredhelm && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] == 120 && [Dexterity] == 20 && [Itemabsorbcold] == 9 && [Passivecoldmastery] == 15       // Nightwing's Veil Perfect
+[Name] == Demonhead && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 100 && [Lifeleech] >= 8 && [Strength] >= 25      // Andariel's Visage
+[Name] == Demonhead && [Quality] == Unique && [Flag] == Ethereal # [Enhanceddefense] >= 100 && [Lifeleech] >= 8 && [Strength] >= 25      // Eth Andariel's Visage
+//[Name] == Demonhead && [Quality] == Unique && [Flag] == Ethereal # [Enhanceddefense] == 150 && [Lifeleech] == 10 && [Strength] == 30      // Eth Andariel's Visage Perfect 
+[Name] == Corona && [Quality] == Unique && [Flag] != Ethereal # [Plusdefense] >= 100 && [Normaldamagereduction] >= 10 && [Allres] >= 20 && [Sockets] >= 1        // Crown Of Ages
+//[Name] == Corona && [Quality] == Unique && [Flag] != Ethereal # [Plusdefense] == 150 && [Normaldamagereduction] == 15 && [Allres] == 30 && [Sockets] == 2        // Crown Of Ages Perfect
+[Name] == Corona && [Quality] == Unique && [Flag] != Ethereal # [Plusdefense] >= 250 && [Strength] >= 25 && [Sockets] >= 1       // Giant Skull
+//[Name] == Corona && [Quality] == Unique && [Flag] != Ethereal # [Plusdefense] == 320 && [Strength] == 35 && [Sockets] == 2       // Giant Skull Perfect
+
+//-----------------------------------------------
+//================= Unique Armor ================
+//-----------------------------------------------
+//[Name] == Quiltedarmor && [Quality] == Unique && [Flag] != Ethereal # [Fireresist] == 20        // Greyform
+//[Name] == Leatherarmor && [Quality] == Unique && [Flag] != Ethereal # [Frw] == 10        // Blinkbat's Form
+//[Name] == Hardleatherarmor && [Quality] == Unique && [Flag] != Ethereal # [Normaldamagereduction] == 2        // The Centurion
+//[Name] == Studdedleather && [Quality] == Unique && [Flag] != Ethereal # [Dexterity] == 10        // Twitchthroe
+//[Name] == Ringmail && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 70       // Darkglow
+//[Name] == Ringmail && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] == 100      // Darkglow Perfect
+//[Name] == Scalemail && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 80      // Hawkmail
+//[Name] == Scalemail && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 100      // Hawkmail Perfect
+//[Name] == Breastplate && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 60        // Venom Ward
+//[Name] == Breastplate && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 100        // Venom Ward Perfect
+//[Name] == Chainmail && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 75      // Sparking Mail
+//[Name] == Chainmail && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 85      // Sparking Mail Perfect
+//[Name] == Scalemail && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 70      // Iceblink
+//[Name] == Scalemail && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 80      // Iceblink Perfect
+//[Name] == Lightplate && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] == 100     // Heavenly Garb
+//[Name] == Fieldplate && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 100     // Rockfleece
+//[Name] == Fieldplate && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 130     // Rockfleece Perfect
+//[Name] == Platemail && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 100     // Boneflesh
+//[Name] == Platemail && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 120     // Boneflesh Perfect
+//[Name] == Gothicplate && [Quality] == Unique && [Flag] != Ethereal      // Rattlecage
+//[Name] == Fullplatemail && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 120     // Goldskin
+//[Name] == Fullplatemail && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 150     // Goldskin Perfect
+//[Name] == Ancientarmor && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 100     // Silks Of The Victor
+//[Name] == Ancientarmor && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 120     // Silks Of The Victor Perfect
+//[Name] == Ghostarmor && [Quality] == Unique && [Flag] != Ethereal # [Magicdamagereduction] >= 7     // The Spirit Shroud
+//[Name] == Ghostarmor && [Quality] == Unique && [Flag] != Ethereal # [Magicdamagereduction] == 11     // The Spirit Shroud Perfect
+[Name] == Serpentskinarmor && [Quality] == Unique && [Flag] != Ethereal # [Magicdamagereduction] >= 9 && [Allres] >= 20     // Skin Of The Vipermagi
+//[Name] == Serpentskinarmor && [Quality] == Unique && [Flag] != Ethereal # [Magicdamagereduction] == 13 && [Allres] == 35     // Skin Of The Vipermagi Perfect
+//[Name] == Demonhidearmor && [Quality] == Unique && [Flag] != Ethereal # [Lifeleech] >= 5 && [Enhanceddefense] >= 150      // Skin Of The Flayed One
+//[Name] == Demonhidearmor && [Quality] == Unique && [Flag] != Ethereal # [Lifeleech] == 7 && [Enhanceddefense] == 190      // Skin Of The Flayed One Perfect
+//[Name] == Trellisedarmor && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 50 && [Magicdamagereduction] >= 10 && [Normaldamagereduction] >= 15        // Iron Pelt
+//[Name] == Trellisedarmor && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] == 100 && [Magicdamagereduction] == 16 && [Normaldamagereduction] == 20        // Iron Pelt Perfect
+//[Name] == Tiguilatedmail && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 150        // Crow Caw
+//[Name] == Tiguilatedmail && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] == 180        // Crow Caw Perfect
+//[Name] == Linkedmail && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 120        // Spirit Forge
+//[Name] == Linkedmail && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] == 160        // Spirit Forge Perfect
+[Name] == Cuirass && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 160       // Duriel's Shell
+[Name] == Cuirass && [Quality] == Unique && [Flag] == Ethereal # [Enhanceddefense] >= 160       // Eth Duriel's Shell
+//[Name] == Cuirass && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] == 200       // Duriel's Shell Perfect
+//[Name] == Cuirass && [Quality] == Unique && [Flag] == Ethereal # [Enhanceddefense] == 200       // Eth Duriel's Shell Perfect
+[Name] == Mesharmor && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 180     // Shaftstop
+[Name] == Mesharmor && [Quality] == Unique && [Flag] == Ethereal # [Enhanceddefense] >= 180     // Eth Shaftstop
+//[Name] == Mesharmor && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] == 220     // Shaftstop Perfect
+//[Name] == Mesharmor && [Quality] == Unique && [Flag] == Ethereal # [Enhanceddefense] == 220     // Eth Shaftstop Perfect
+[Name] == Russetarmor && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 160     // Skullder's Ire
+[Name] == Russetarmor && [Quality] == Unique && [Flag] == Ethereal # [Enhanceddefense] >= 160     // Eth Skullder's Ire
+//[Name] == Russetarmor && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] == 200     // Skullder's Ire Perfect
+//[Name] == Russetarmor && [Quality] == Unique && [Flag] == Ethereal # [Enhanceddefense] == 200     // Eth Skullder's Ire Perfect
+//[Name] == Mageplate && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 140 && [Magicdamagereduction] >= 6     // Que-Hegan's Wisdom
+//[Name] == Mageplate && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] == 160 && [Magicdamagereduction] == 10     // Que-Hegan's Wisdom Perfect
+//[Name] == Sharktootharmor && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 160 && [Plusdefense] >= 40        // Toothrow
+//[Name] == Sharktootharmor && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] == 220 && [Plusdefense] == 60        // Toothrow Perfect
+[Name] == Templarcoat && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 180       // Guardian Angel
+[Name] == Templarcoat && [Quality] == Unique && [Flag] == Ethereal # [Enhanceddefense] >= 180       // Eth Guardian Angel
+//[Name] == Templarcoat && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] == 200       // Guardian Angel Perfect
+//[Name] == Templarcoat && [Quality] == Unique && [Flag] == Ethereal # [Enhanceddefense] == 200       // Eth Guardian Angel Perfect
+//[Name] == Embossedplate && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 120     // Atma's Wail
+//[Name] == Embossedplate && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] == 160     // Atma's Wail Perfect
+//[Name] == Chaosarmor && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 140 && [Itemdemondamagepercent] >= 30 && [Itemdemontohit] >= 200       // Black Hades
+//[Name] == Chaosarmor && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] == 200 && [Itemdemondamagepercent] == 60 && [Itemdemontohit] == 250       // Black Hades Perfect
+//[Name] == Ornateplate && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 150       // Corpsemourne
+//[Name] == Ornateplate && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] == 180     // Corpsemourne Perfect
+[Name] == Duskshroud && [Quality] == Unique && [Flag] != Ethereal # [Passiveltngmastery] >= 15 && ([Skilllightning] >= 3 || [Skillnova] >= 3)       // Light Ormus' Robes
+[Name] == Duskshroud && [Quality] == Unique && [Flag] != Ethereal # [Passivecoldmastery] >= 15 && [Skillblizzard] >= 3      // Cold Ormus' Robes
+[Name] == Duskshroud && [Quality] == Unique && [Flag] != Ethereal # [Passivefiremastery] >= 15 && ([Skillfireball] >= 3 || [Skillfirebolt] >= 3 || [Skillhydra] >= 3 || [Skillmeteor] >= 3)     // Fire Ormus' Robes
+[Name] == Wirefleece && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 150 && [Normaldamagereduction] >= 15 && [Magicdamagereduction] >= 15       // The Gladiator's Bane
+[Name] == Wirefleece && [Quality] == Unique && [Flag] == Ethereal # [Enhanceddefense] >= 150 && [Normaldamagereduction] >= 15 && [Magicdamagereduction] >= 15       // Eth The Gladiator's Bane
+//[Name] == Wirefleece && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] == 180 && [Normaldamagereduction] == 20 && [Magicdamagereduction] == 20      // The Gladiator's Bane Perfect
+//[Name] == Wirefleece && [Quality] == Unique && [Flag] == Ethereal # [Enhanceddefense] == 180 && [Normaldamagereduction] == 20 && [Magicdamagereduction] == 20      // Eth The Gladiator's Bane Perfect
+//[Name] == Balrogskin && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 150 && [Normaldamagereduction] >= 10       // Arkaine's Valor
+//[Name] == Balrogskin && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] == 180 && [Normaldamagereduction] == 15       // Arkaine's Valor Perfect
+//[Name] == Krakenshell && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 170 && [Plusdefense] >= 100 && [Strength] >= 40       // Leviathan
+//[Name] == Krakenshell && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] == 200 && [Plusdefense] == 150 && [Strength] == 50       // Leviathan Perfect
+//[Name] == Shadowplate && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 190       // Steel Carapace
+//[Name] == Sacredarmor && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 170 && [Offensiveaurasskilltab] >= 1       // Templar's Might
+//[Name] == Sacredarmor && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 120 && [Strength] >= 20 && [Allres] >= 20       // Tyrael's Might
+//[Name] == Sacredarmor && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] == 150 && [Strength] == 30 && [Allres] == 30 && [Itemdemondamagepercent] == 100       // Tyrael's Might Perfect
+
+
+//-------------------------------------------------
+//================= Unique Shields ================
+//-------------------------------------------------
+//[Name] == Buckler && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 30      // Pelta Lunata
+//[Name] == Buckler && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] == 40      // Pelta Lunata Perfect
+//[Name] == Smallshield && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 40        // Umbral Disk
+//[Name] == Smallshield && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] == 50 && [Maxdurability] == 15       // Umbral Disk Perfect
+//[Name] == Largeshield && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 50        // Stormguild
+//[Name] == Largeshield && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] == 60      // Stormguild Perfect
+//[Name] == Kiteshield && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 60     // Steelclash
+//[Name] == Kiteshield && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] == 100      // Steelclash Perfect
+//[Name] == Spikedshield && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 30     	// Swordback Hold
+//[Name] == Spikedshield && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] == 60     	// Swordback Hold Perfect
+//[Name] == Towershield && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 80       // Bverrit Keep
+//[Name] == Towershield && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] == 120       // Bverrit Keep Perfect
+//[Name] == Boneshield && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 30        // Wall Of The Eyeless
+//[Name] == Boneshield && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] == 40        // Wall Of The Eyeless Perfect
+//[Name] == Gothicshield && [Quality] == Unique && [Flag] != Ethereal # [Allres] >= 30        // The Ward
+//[Name] == Gothicshield && [Quality] == Unique && [Flag] != Ethereal # [Allres] == 50        // The Ward Perfect
+//[Name] == Defender && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 100        // Visceratuant
+//[Name] == Defender && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] == 150        // Visceratuant Perfect
+//[Name] == Roundshield && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 180        // Moser's Blessed Circle  
+//[Name] == Roundshield && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] == 220        // Moser's Blessed Circle Perfect
+//[Name] == Scutum && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 160        // Stormchaser
+//[Name] == Scutum && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] == 220        // Stormchaser Perfect
+//[Name] == Dragonshield && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 140 && [Allres] >= 25     	// Tiamat's Rebuke
+//[Name] == Dragonshield && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 200 && [Allres] >= 35     	// Tiamat's Rebuke Perfect
+//[Name] == Barbedshield && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 70     	// Lance Guard
+//[Name] == Barbedshield && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] == 120     	// Lance Guard Perfect
+[Name] == Pavise && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] == 180 && [Allres] >= 20      // Gerke's Sanctuary
+//[Name] == Pavise && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] == 240 && [Allres] == 30      // Gerke's Sanctuary Perfect
+//[Name] == Grimshield && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 80 && [Manarecovery] >= 3      // Lidless Wall
+//[Name] == Grimshield && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] == 130 && [Manarecovery] == 5      // Lidless Wall Perfect
+//[Name] == Ancientshield && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 160     // Radament's Sphere
+//[Name] == Ancientshield && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] == 200     // Radament's Sphere Perfect
+//[Name] == Luna && [Quality] == Unique && [Flag] != Ethereal // Blackoak Shield
+//[Name] == Luna && [Quality] == Unique && [Flag] != Ethereal # [Defense] == 123 // Blackoak Shield Perfect
+[Name] == Monarch && [Quality] == Unique && [Flag] != Ethereal # [Normaldamagereduction] >= 35 // Stormshield
+//[Name] == Monarch && [Quality] == Unique && [Flag] != Ethereal # [Defense] == 148 // Stormshield Perfect
+//[Name] == Bladebarrier && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 120 && [Normaldamagereduction] >= 15     // Spike Thorn
+//[Name] == Bladebarrier && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] == 150 && [Normaldamagereduction] == 20     // Spike Thorn Perfect
+//[Name] == Aegis && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 150 && [Lifeleech] >= 5 && [Coldresist] >= 40       // Medusa's Gaze
+//[Name] == Aegis && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] == 180 && [Lifeleech] == 9 && [Coldresist] == 80       // Medusa's Gaze Perfect
+//[Name] == Trollnest && [Quality] == Unique && [Flag] != Ethereal # [Armorclassvsmissile] >= 300 && [Plusdefense] >= 320 && [Sockets] >= 1 && [Hpregen] >= 5     // Head Hunter's Glory
+//[Name] == Trollnest && [Quality] == Unique && [Flag] != Ethereal # [Armorclassvsmissile] == 350 && [Plusdefense] == 420 && [Sockets] == 3 && [Hpregen] == 7     // Head Hunter's Glory Perfect
+//[Name] == Ward && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 130 && [Toblock] >= 20 && [Itemabsorbcold] >= 6 && [Allres] >= 30        // Spirit Ward
+//[Name] == Ward && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] == 180 && [Toblock] == 30 && [Itemabsorbcold] == 11 && [Allres] == 40        // Spirit Ward Perfect
+
+//-------------------------------------------------
+//================= Unique Daggers ================
+//-------------------------------------------------
+//[Name] == Dagger && [Quality] == Unique && [Flag] != Ethereal # [Itemgoldbonus] == 100      // Gull
+//[Idname] == Thediggler      // The Diggler
+//[Idname] == Thejadetando        // The Jade Tan Do
+//[Name] == Blade && [Quality] == Unique && [Flag] != Ethereal # [Fcr] == 50 && [Allres] == 10      // Spectral Shard
+//[Idname] == Spineripper     // Spineripper
+//[Name] == Rondel && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddamage] >= 190     // Heart Carver
+//[Idname] == Blackbogssharp      // Blackbog's Sharp
+//[Idname] == Stormspike      // Stormspike
+[Name] == Boneknife && [Quality] == Unique && [Flag] != Ethereal # [Allres] == 75       // Wizardspike
+//[Idname] == Fleshripper     // Fleshripper
+//[Idname] == Ghostsflame        // Ghostflame
+
+//------------------------------------------------
+//================= Unique Swords ================
+//------------------------------------------------
+//[Idname] == Rixotskeen      // Rixot's Keen
+//[Idname] == Bloodcrescent       // Blood Crescent
+//[Idname] == Skewerofkrintiz     // Skewer Of Krintiz
+//[Idname] == Gleamscythe     // Gleamscythe
+//[Idname] == Griswoldsedge       // Griswold's Edge
+//[Idname] == Hellplague      // Hellplague
+//[Idname] == Shadowfang      // Shadowfang
+//[Idname] == Soulflay        // Soulflay
+//[Idname] == Blacktongue     // Blacktongue
+//[Idname] == Ripsaw      // Ripsaw
+//[Idname] == Thepatriarch        // The Patriarch
+//[Idname] == Bloodletter     // Bloodletter
+//[Idname] == Coldsteeleye        // Coldsteel Eye
+//[Idname] == Hexfire     // Hexfire
+[Idname] == Bladeofalibaba      // Blade Of Ali Baba
+//[Idname] == Ginthersrift        // Ginther's Rift
+//[Name] == Battlesword && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddamage] >= 150        // Headstriker
+[Name] == Battlesword && [Quality] == Unique && [Flag] == Ethereal # [Enhanceddamage] >= 150        // Eth Headstriker
+//[Idname] == Theatlantean        // The Atlantean
+//[Idname] == Cranitevomir        // Cranite Vomir
+//[Idname] == Bingszwang      // Bing Sz Wang
+//[Idname] == Thevilehusk     // The Vile Husk
+//[Idname] == Cloudcrack      // Cloudcrack
+//[Idname] == Todesfaelleflamme       // Todesfaelle Flamme
+//[Idname] == Swordguard      // Swordguard
+//[Idname] == Djinnslayer     // Djinn Slayer
+//[Idname] == Bloodmoon       // Bloodmoon
+[Name] == Phaseblade && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddamage] >= 150 && [Manaleech] >= 5       // Lightsabre
+[Name] == Phaseblade && [Quality] == Unique && [Flag] != Ethereal # [Ias] == 30 && [Enhanceddamage] >= 230      // Azurewrath
+//[Idname] == Frostwind       // Frostwind
+//[Idname] == Flamebellow         // Flamebellow
+//[Idname] == Doombringer     // Doombringer
+//[Idname] == Thegrandfather      // The Grandfather
+
+//----------------------------------------------
+//================= Unique Axes ================
+//----------------------------------------------
+//[Idname] == Thegnasher      // The Gnasher
+//[Idname] == Deathspade      // Deathspade
+//[Idname] == Bladebone       // Bladebone
+//[Idname] == Skullsplitter       // Skull Splitter
+//[Idname] == Rakescar        // Rakescar
+//[Idname] == Axeoffechmar        // Axe Of Fechmar
+//[Idname] == Goreshovel  // Goreshovel
+//[Idname] == Thechieftain        // The Chieftain
+//[Idname] == Brainhew        // Brainhew
+//[Idname] == Homongous   // Homongous
+//[Idname] == Coldkill        // Coldkill
+//[Idname] == Butcherspupil       // Butcher's Pupil
+//[Idname] == Islestrike      // Islestrike
+//[Idname] == Pompeiiswrath       // Pompeii's Wrath
+//[Idname] == Guardiannaga        // Guardian Naga
+//[Idname] == Warlordstrust       // Warlord's Trust
+//[Idname] == Spellsteel      // Spellsteel
+//[Idname] == Stormrider      // Stormrider
+//[Idname] == Boneslayersblade        // Boneslayer Blade
+//[Idname] == Theminotaur     // The Minotaur
+//[Idname] == Razorsedge      // Razor's Edge
+//[Idname] == Runemaster      // Rune Master
+//[Idname] == Cranebeak       // Cranebeak
+//[Idname] == Deathcleaver        // Death Cleaver
+//[Idname] == Etherealedge        // Ethereal Edge
+//[Idname] == Hellslayer      // Hellslayer
+//[Idname] == Messerschmidtsreaver        // Messerschmidt's Reaver
+//[Idname] == Executionersjustice     // Executioner's Justice
+
+//----------------------------------------------------------
+//================= Unique Bows & Crossbows ================
+//----------------------------------------------------------
+//[Idname] == Pluckeye        // Pluckeye
+//[Idname] == Witherstring        // Witherstring
+//[Idname] == Ravenclaw       // Raven Claw
+//[Idname] == Roguesbow       // Rogue's Bow
+//[Idname] == Stormstrike     // Stormstrike
+//[Idname] == Wizendraw       // Wizendraw
+//[Idname] == Hellclap        // Hellclap
+//[Idname] == Blastbark       // Blastbark
+//[Idname] == Skystrike       // Skystrike
+//[Idname] == Riphook     // Riphook
+//[Idname] == Kukoshakaku     // Kuko Shakaku
+//[Idname] == Endlesshail     // Endlesshail
+//[Idname] == Witchwildstring     // Witchwild String
+//[Idname] == Cliffkiller     // Cliffkiller
+//[Idname] == Magewrath       // Magewrath
+//[Idname] == Goldstrikearch      // Goldstrike Arch
+//[Idname] == Eaglehorn       // Eaglehorn
+//[Idname] == Widowmaker      // Widowmaker
+[Name] == Hydrabow && [Quality] == Unique && [Flag] != Ethereal # [Manaleech] >= 6      // Windforce
+//[Name] == Hydrabow && [Quality] == Unique && [Flag] != Ethereal # [Manaleech] == 8      // Windforce Perfect
+//[Idname] == Leadcrow        // Leadcrow
+//[Idname] == Ichorstring     // Ichorstring
+//[Idname] == Hellcast        // Hellcast
+//[Idname] == Doomslinger     // Doomslinger
+//[Idname] == Langerbriser        // Langer Briser
+//[Idname] == Pusspitter      // Pus Spitter
+//[Name] == Ballista && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddamage] >= 150 && [Plusdefense] >= 75        // Buriza-Do Kyanon
+//[Idname] == Demonmachine        // Demon Machine
+//[Name] == Colossuscrossbow && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddamage] >= 180 && [Tohit] >= 100     // Hellrack
+//[Idname] == Gutsiphon       // Gut Siphon
+
+//-----------------------------------------------
+//================= Unique Maces ================
+//-----------------------------------------------
+//[Idname] == Felloak     // Felloak
+//[Idname] == Stoutnail       // Stoutnail
+//[Idname] == Crushflange     // Crushflange
+//[Idname] == Thegeneralstandoliga        // The General's Tan Do Li Ga
+//[Idname] == Ironstone       // Ironstone
+//[Idname] == Bonesnap       // Bonesnap
+//[Idname] == Steeldriver     // Steeldriver
+//[Idname] == Darkclancrusher     // Dark Clan Crusher
+//[Idname] == Fleshrender     // Fleshrender
+//[Idname] == Sureshrillfrost     // Sureshrill Frost
+//[Idname] == Moonfall        // Moonfall
+//[Idname] == Baezilsvortex       // Baezil's Vortex
+//[Idname] == Earthshaker     // Earthshaker
+//[Idname] == Bloodtreestump      // Bloodtree Stump
+[Name] == Marteldefer && [Quality] == Unique # [Enhanceddamage] >= 130        // The Gavel Of Pain (Wc Gf Barb Offhand)
+//[Idname] == Nordstenderizer     // Nord's Tenderizer
+//[Idname] == // Demon Limb
+//[Idname] == Baranarsstar        // Baranar's Star
+//[Idname] == Horizonstornado     // Horizon's Tornado
+[Name] == Scourge && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddamage] >= 240 && [Itemabsorblight] >= 3        // Stormlash
+//[Idname] == Stonecrusher        // Stonecrusher
+//[Idname] == Shaefershammer      // Shaefer's Hammer
+//[Idname] == Windhammer      // Windhammer
+//[Idname] == Earthshifter        // Earth Shifter
+//[Idname] == Thecraniumbasher        // The Cranium Basher
+
+//--------------------------------------------------
+//================= Unique Polearms ================
+//--------------------------------------------------
+//[Idname] == Dimoakshew      // Dimoak's Hew
+//[Idname] == Steelgoad       // Steelgoad
+//[Idname] == Soulharvest     // Soul Harvest
+//[Idname] == Thebattlebranch     // The Battlebranch
+//[Idname] == Woestave    // Woestave
+//[Idname] == Thegrimreaper       // The Grim Reaper
+//[Idname] == Themeatscrapper     // The Meat Scrapper
+//[Idname] == Blackleechblade     // Blackleach Blade
+//[Idname] == Athenaswrath        // Athena's Wrath
+//[Idname] == Pierretombalecouant     // Pierre Tombale Couant
+//[Idname] == Husoldalevo     // Husoldal Evo
+//[Idname] == Grimsburningdead        // Grim's Burning Dead
+[Name] == Ogreaxe && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddamage] >= 270       // Bonehew
+[Name] == Ogreaxe && [Quality] == Unique && [Flag] == Ethereal # [Enhanceddamage] >= 270       // Eth Bonehew
+//[Name] == Ogreaxe && [Quality] == Unique && [Flag] == Ethereal # [Enhanceddamage] == 320      // Eth Bonehew Perfect
+[Name] == Thresher && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddamage] >= 190     // The Reaper's Toll
+[Name] == Thresher && [Quality] == Unique && [Flag] == Ethereal # [Enhanceddamage] >= 190     // Eth The Reaper's Toll
+//[Name] == Thresher && [Quality] == Unique && [Flag] == Ethereal # [Enhanceddamage] == 240 && [Lifeleech] == 15     // Eth The Reaper's Toll Perfect
+[Name] == Crypticaxe && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddamage] >= 200 && [Sockets] >= 1     // Tomb Reaver
+[Name] == Crypticaxe && [Quality] == Unique && [Flag] == Ethereal # [Enhanceddamage] >= 200 && [Sockets] >= 1     // Eth Tomb Reaver
+//[Name] == Crypticaxe && [Quality] == Unique && [Flag] == Ethereal # [Enhanceddamage] == 280 && [Sockets] == 3 && [Hpregen] == 14 && [Allres] == 50     // Eth Tomb Reaver Perfect
+//[Idname] == Stormspire      // Stormspire
+
+
+//--------------------------------------------------
+//================= Unique Scepters ================
+//--------------------------------------------------
+//[Idname] == Knellstriker        // Knell Striker
+//[Idname] == Rusthandle      // Rusthandle
+//[Idname] == Stormeye        // Stormeye
+//[Idname] == Zakarumshand        // Zakarum's Hand
+//[Idname] == Thefetidsprinkler       // The Fetid Sprinkler
+//[Idname] == Handofblessedlight      // Hand Of Blessed Light
+//[Idname] == Heavenslight        // Heaven's Light
+//[Idname] == Theredeemer     // The Redeemer
+//[Idname] == Astreonsironwand        // Astreon's Iron Wand
+
+//------------------------------------------------
+//================= Unique Spears ================
+//------------------------------------------------
+//[Idname] == Thedragonchang      // The Dragon Chang
+//[Idname] == Razortine       // Razortine
+//[Idname] == Bloodthief      // Bloodthief
+//[Idname] == Lanceofyaggi        // Lance Of Yaggi
+//[Idname] == Thetannergorerod        // The Tanner Gorerod
+//[Idname] == Theimpaler      // The Impaler
+//[Idname] == Kelpiesnare     // Kelpie Snare
+//[Idname] == Soulfeasttine       // Soulfeast Tine
+[Name] == Yari && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddamage] >= 160        // Hone Sundan
+[Name] == Yari && [Quality] == Unique && [Flag] == Ethereal # [Enhanceddamage] >= 160        // Eth Hone Sundan
+//[Name] == Yari && [Quality] == Unique && [Flag] == Ethereal # [Enhanceddamage] == 200        // Eth Hone Sundan Perfect
+//[Idname] == Spireofhonor        // Spire Of Honor
+[Name] == Hyperionspear && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddamage] >= 180 && [Itemaddskilltab] >= 2        // Arioc's Needle
+[Name] == Hyperionspear && [Quality] == Unique && [Flag] == Ethereal # [Enhanceddamage] >= 180 && [Itemaddskilltab] >= 2        // Eth Arioc's Needle Sundan
+//[Name] == Hyperionspear && [Quality] == Unique && [Flag] == Ethereal # [Enhanceddamage] == 230 && [Itemaddskilltab] == 4        // Eth Arioc's Needle Sundan Perfect
+//[Idname] == Viperfork       // Viperfork
+//[Idname] == Steelpiller     // Steel Piller
+
+//------------------------------------------------
+//================= Unique Staves ================
+//------------------------------------------------
+//[Idname] == Boneash     // Boneash
+//[Idname] == Serpentlord     // Serpent Lord
+//[Idname] == Spireoflazarus      // Spire Of Lazarus
+//[Idname] == Thesalamander       // The Salamander
+//[Idname] == Theironjangbong     // The Iron Jang Bong
+//[Idname] == Razorswitch     // Razorswitch
+[Name] == Quarterstaff && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddamage] >= 200       // Ribcracker
+[Name] == Quarterstaff && [Quality] == Unique && [Flag] == Ethereal # [Enhanceddamage] >= 200       // Eth Ribcracker
+[Name] == Quarterstaff && [Quality] == Unique && [Flag] == Ethereal # [Enhanceddamage] == 300       // Eth Ribcracker Perfect
+//[Idname] == Chromaticire        // Chromatic Ire
+//[Idname] == Warspear        // Warspear
+//[Idname] == Skullcollector      // Skull Collector
+[Name] == Elderstaff && [Quality] == Unique # [Itemaddskilltab] >= 2      // Ondal's Wisdom (Eth/Non-Eth)
+[Name] == Elderstaff && [Quality] == Unique # [Itemaddskilltab] == 4 && [Magicdamagereduction] == 8 && [Energy] == 50 && [Plusdefense] == 550      // Ondal's Wisdom (Eth/Non-Eth) Perfect
+//[Idname] == Mangsongslesson     // Mang Song's Lesson
+
+//----------------------------------------------------------
+//================= Unique Throwing Weapons ================
+//----------------------------------------------------------
+//[Idname] == Deathbit        // Deathbit
+[Name] == Battledart && [Quality] == Unique && [Flag] == Ethereal # [Enhanceddamage] >= 180 && [Lifeleech] >= 9 && [Manaleech] >= 6 && [Tohit] >= 450  // Eth Deathbit Perfect
+//[Idname] == Thescalper      // The Scalper
+[Name] == Francisca && [Quality] == Unique && [Flag] == Ethereal # [Enhanceddamage] >= 200 && [Lifeleech] >= 6    // Eth The Scalper Perfect
+//[Idname] == Warshrike   // Warshrike
+[Name] == Wingedknife && [Quality] == Unique && [Flag] == Ethereal # [Enhanceddamage] >= 250     	// Eth Warshrike Perfect
+//[Idname] == Gimmershred     // Gimmershred
+//[Idname] == Lacerator   // Lacerator
+[Name] == Wingedaxe && [Quality] == Unique && [Flag] == Ethereal # [Enhanceddamage] >= 210     	// Eth Lacerator Perfect
+
+//-----------------------------------------------
+//================= Unique Wands ================
+//-----------------------------------------------
+//[Idname] == Torchofiro      // Torch Of Iro
+//[Idname] == Maelstrom       // Maelstrom
+//[Idname] == Gravenspine     // Gravenspine
+//[Idname] == Umeslament      // Ume's Lament
+//[Idname] == Suicidebranch       // Suicide Branch
+//[Idname] == Carinshard      // Carin Shard
+//[Idname] == Armofkingleoric     // Arm Of King Leoric
+//[Idname] == Blackhandkey        // Blackhand Key
+//[Idname] == Boneshade       // Boneshade
+[Name] == Lichwand && [Quality] == Unique # [Skillbonespirit] >= 2 && [Skillbonespear] >= 3 && [Skillbonewall] >= 3 && [Skillbonearmor] >= 5 && [Skillteeth] >= 5 // Boneshade Perfect
+[Name] == Unearthedwand && [Quality] == Unique && [Flag] != Ethereal # [Poisonandboneskilltab] >= 1 && [Passivepoispierce] >= 40     // Death's Web
+[Name] == Unearthedwand && [Quality] == Unique && [Flag] == Ethereal # [Poisonandboneskilltab] >= 1 && [Passivepoispierce] >= 40     // Eth Death's Web
+[Name] == Unearthedwand && [Quality] == Unique && [Flag] == Ethereal # [Poisonandboneskilltab] == 2 && [Passivepoispierce] == 50 && [Manarecovery] == 12 && [Hpregen] == 12    // Eth Death's Web Perfect
+
+//---------------------------------------------------------
+//================= Unique Amazon Specific ================
+//---------------------------------------------------------
+//[Idname] == Stoneraven      // Stoneraven
+//[Idname] == Lycandersflank      // Lycander's Flank
+//[Idname] == Lycandersaim        // Lycander's Aim
+[Name] == Ceremonialbow && [Quality] == Unique # [Enhanceddamage] >= 190 && [Manaleech] >= 8     	// Lycander's Aim Perfect
+//[Idname] == Titansrevenge       // Titan's Revenge
+[Name] == Ceremonialjavelin && [Quality] == Unique && [Flag] == Ethereal # [Enhanceddamage] >= 150 && [Lifeleech] >= 6    // Eth Titan's Revenge
+//[Idname] == Thunderstroke   // Thunderstroke
+[Name] == Matriarchaljavelin && [Quality] == Unique && [Flag] != Ethereal # [Javelinandspearskilltab] >= 4 && [Enhanceddamage] >= 200   // Thunderstroke Perfect
+//[Idname] == Bloodravenscharge       // Blood Raven's Charge
+
+//-----------------------------------------------------------
+//================= Unique Assassin Specific ================
+//-----------------------------------------------------------
+//[Idname] == Shadowkiller        // Shadow Killer
+//[Idname] == Bartucscutthroat        // Bartuc's Cut-Throat
+//[Idname] == Jadetalon       // Jade Talon
+//[Idname] == Firelizardstalons       // Firelizard's Talons
+[Name] == Greatertalons && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddamage] >= 120 && [Lifeleech] >= 5    // Bartuc's Cut-Throat
+[Name] == Greatertalons && [Quality] == Unique && [Flag] == Ethereal # [Enhanceddamage] >= 120 && [Lifeleech] >= 5    // Eth Bartuc's Cut-Throat
+[Name] == Feralclaws && [Quality] == Unique && [Flag] == Ethereal # [Enhanceddamage] >= 270 && [Martialartsskilltab] >= 3 && [Skillwakeofinferno] >= 2 && [Skillwakeoffire] >= 2 && [Fireresist] >= 70 // Eth Firelizard's Talons Perfect
+[Name] == Wristsword && [Quality] == Unique && [Flag] == Ethereal # [Enhanceddamage] >= 240 && [Martialartsskilltab] >= 2 && [Shadowdisciplinesskilltab] >= 2 && [Manaleech] >= 15 && [Fireresist] >= 50 // Eth Jade Talon Perfect
+
+//--------------------------------------------------------------
+//================= Unique Necromancer Specific ================
+//--------------------------------------------------------------
+//[Name] == Hierophanttrophy && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 150      // Homunculus
+//[Name] == Succubusskull && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 120 && [Necromancerskills] >= 1 && [Allresist] >= 20       // Boneflame
+//[Name] == Bloodlordskull && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 140 && [Necromancersummoningskilltab] >= 1 && [Poisonandboneskilltab] >= 1 && [Cursesskilltab] >= 1        // Darkforce Spawn
+
+//------------------------------------------------------------
+//================= Unique Barbarian Specific ================
+//------------------------------------------------------------
+[Name] == Slayerguard && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 150 && [Lifeleech] >= 3       // Arreat's Face
+[Name] == Slayerguard && [Quality] == Unique && [Flag] == Ethereal # [Enhanceddefense] >= 150 && [Lifeleech] >= 3       // Eth Arreat's Face
+//[Name] == Slayerguard && [Quality] == Unique && [Flag] == Ethereal # [Enhanceddefense] == 200 && [Lifeleech] == 6       // Eth Arreat's Face Perfect
+//[Name] == Furyvisor && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 120 && [Warcriesskilltab] >= 2 && [Skillferalrage] >= 3 && [Skilllycanthropy] >= 3 && [Skillwerewolf] >= 3 && [Strength] >= 8 && [Dexterity] >= 8 && [Vitality] >= 8 // Wolfhowl
+//[Name] == Furyvisor && [Quality] == Unique && [Flag] == Ethereal # [Enhanceddefense] >= 120 && [Warcriesskilltab] >= 2 && [Skillferalrage] >= 3 && [Skilllycanthropy] >= 3 && [Skillwerewolf] >= 3 && [Strength] >= 8 && [Dexterity] >= 8 && [Vitality] >= 8 // Eth Wolfhowl
+//[Name] == Conquerorcrown && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 140 && [Hpregen] >= 15 && [Skillbattleorders] >= 1 && [Skillbattlecommand] >= 1        // Halaberd's Reign
+//[Name] == Conquerorcrown && [Quality] == Unique && [Flag] == Ethereal # [Enhanceddefense] >= 140 && [Hpregen] >= 15 && [Skillbattleorders] >= 1 && [Skillbattlecommand] >= 1        // Eth Halaberd's Reign
+//[Name] == Destroyerhelm && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 120 && [Lifeleech] > 0 && [Itemattackertakesdamage] > 0 && [Warcriesskilltab] >= 1 && [Masteriesskilltab] >= 1 && [Barbcombatskilltab] >= 1     // Demonhorn's Edge
+//[Name] == Destroyerhelm && [Quality] == Unique && [Flag] == Ethereal # [Enhanceddefense] >= 120 && [Lifeleech] > 0 && [Itemattackertakesdamage] > 0 && [Warcriesskilltab] >= 1 && [Masteriesskilltab] >= 1 && [Barbcombatskilltab] >= 1     // Eth Demonhorn's Edge
+
+
+//------------------------------------------------------------
+//================= Unique Sorceress Orbs ================
+//------------------------------------------------------------
+[Name] == Eldritchorb && [Quality] == Unique # [Sorceressskills] >= 1 && [Passivefiremastery] >= 10 && [Passiveltngmastery] >= 10     // Eschuta's Temper
+//[Name] == Eldritchorb && [Quality] == Unique # [Sorceressskills] == 3 && [Passivefiremastery] == 20 && [Passiveltngmastery] == 20 && [Energy] == 30     // Eschuta's Temper Perfect
+[Name] == Dimensionalshard && [Quality] == Unique # [Passivecoldpierce] >= 15 && [Lightresist] >= 25       // Death's Fathom
+//[Name] == Dimensionalshard && [Quality] == Unique # [Passivecoldpierce] == 30 && [Lightresist] == 40       // Death's Fathom Perfect
+[Name] == Swirlingcrystal && [Quality] == Unique # [Sorceressskills] >= 3       // The Oculus
+
+//--------------------------------------------------------
+//================= Unique Druid Pelts ================
+//--------------------------------------------------------
+//[Name] == Totemicmask && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 150     // Jalal's Mane
+//[Name] == Totemicmask && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] == 200     // Jalal's Mane Perfect
+//[Name] == Bloodspirit && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 130 && [Itemtohitpercent] >= 60 && [Lifeleech] >= 7 && [Shapeshiftingskilltab] >= 2 && [Skillferalrage] >= 1       // Cerebus' Bite
+//[Name] == Bloodspirit && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] == 140 && [Itemtohitpercent] == 120 && [Lifeleech] == 10 && [Shapeshiftingskilltab] == 4 && [Skillferalrage] == 2       // Cerebus' Bite Perfect
+//[Name] == Skyspirit && [Quality] == Unique && [Flag] != Ethereal  # [Enhanceddefense] >= 120 &&  [Passivefirepierce] >= 10 && [Fireresist] >= 15     // Ravenlore
+//[Name] == Skyspirit && [Quality] == Unique && [Flag] != Ethereal  # [Enhanceddefense] == 150 && [Passivefirepierce] == 20 && [Fireresist] == 25     // Ravenlore Perfect
+//[Idname] == Spiritkeeper        // Spirit Keeper
+
+//----------------------------------------------------------
+//================= Unique Paladin Shields ================
+//----------------------------------------------------------
+//[Name] == Sacredrondache && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 150 && [Enhanceddamage] >= 60 && [Paladinskills] >= 2 && [Itemtohitpercent] >= 60 && [Magicdamagereduction] >= 6 // Alma Negra
+[Name] == Gildedshield && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 150     	// Herald Of Zakarum
+[Name] == Gildedshield && [Quality] == Unique && [Flag] == Ethereal # [Enhanceddefense] >= 150     	// Eth Herald Of Zakarum
+//[Name] == Gildedshield && [Quality] == Unique && [Flag] == Ethereal # [Enhanceddefense] == 200     	// Eth Herald Of Zakarum Perfect
+//[Name] == Zakarumshield && [Quality] == Unique # [Enhanceddefense] >= 150 && [Itemabsorbfirepercent] >= 15 && [Strength] >= 20   	// Dragonscale
+
+//-----------------------------------------------
+//================= Unique Rings ================
+//-----------------------------------------------
+[Type] == Ring && [Quality] == Unique # [Itemmagicbonus] >= 15       // Nagelring
+//[Type] == Ring && [Quality] == Unique # [Itemmagicbonus] == 30 && [Tohit] == 75     // Nagelring Perfect
+//[Type] == Ring && [Quality] == Unique # [Hpregen] >= 5 && [Manaleech] >= 4      // Manald Heal
+//[Type] == Ring && [Quality] == Unique # [Hpregen] == 8 && [Manaleech] == 7      // Manald Heal Perfect
+[Type] == Ring && [Quality] == Unique # [Itemmaxmanapercent] >= 25       // Stone Of Jordan
+[Type] == Ring && [Quality] == Unique # [Maxhp] >= 35 && [Magicdamagereduction] >= 12     	// Dwarf Star
+//[Type] == Ring && [Quality] == Unique # [Maxhp] >= 35 && [Magicdamagereduction] == 15     	// Dwarf Star Perfect
+[Type] == Ring && [Quality] == Unique # [Dexterity] >= 15 && [Tohit] >= 150      // Raven Frost
+//[Type] == Ring && [Quality] == Unique # [Dexterity] == 20 && [Tohit] == 250      // Raven Frost Perfect
+[Type] == Ring && [Quality] == Unique # [Lifeleech] >= 3 && [Itemallskills] == 1      // Bul-Kathos' Wedding Band
+//[Type] == Ring && [Quality] == Unique # [Lifeleech] == 5 && [Itemallskills] == 1      // Bul-Kathos' Wedding Band Perfect
+[Type] == Ring && [Quality] == Unique # [Poisonresist] >= 20 && [Normaldamagereduction] >= 7     // Nature's Peace
+//[Type] == Ring && [Quality] == Unique # [Poisonresist] == 30 && [Itemdamagetomana] == 11     // Nature's Peace Perfect
+[Type] == Ring && [Quality] == Unique # [Itemabsorblightpercent] >= 10 && [Itemmagicbonus] >= 10      	// Wisp Protector
+//[Type] == Ring && [Quality] == Unique # [Itemabsorblightpercent] == 20 && [Itemmagicbonus] == 20      	// Wisp Protector Perfect
+[Type] == Ring && [Quality] == Unique # [Lifeleech] >= 6 && [Armorclassvsmissile] >= 100     // Carrion Wind
+//[Type] == Ring && [Quality] == Unique # [Lifeleech] == 9 && [Armorclassvsmissile] == 160     // Carrion Wind Perfect
+
+//-------------------------------------------------
+//================= Unique Amulets ================
+//-------------------------------------------------
+//[Type] == Amulet && [Quality] == Unique # [Fireresist] >= 50        // Nokozan Relic
+//[Type] == Amulet && [Quality] == Unique # [Lifeleech] >= 3 && [Armorclassvsmissile] >= 10        // The Eye Of Etlitch
+//[Type] == Amulet && [Quality] == Unique # [Lifeleech] >= 7 && [Armorclassvsmissile] >= 40        // The Eye Of Etlitch Perfect
+//[Type] == Amulet && [Quality] == Unique # [Allres] >= 10 && [Enhanceddefense] >= 10       // The Mahim-Oak Curio 
+//[Type] == Amulet && [Quality] == Unique # [Allres] >= 15 && [Strength] >= 12        // Saracen's Chance
+//[Type] == Amulet && [Quality] == Unique # [Allres] == 25 && [Strength] >= 12        // Saracen's Chance Perfect
+//[Type] == Amulet && [Quality] == Unique # [Dexterity] >= 25 && [Ias] >= 20     // The Cat's Eye
+//[Type] == Amulet && [Quality] == Unique # [Lifeleech] >= 3 && [Manaleech] >= 11     // Crescent Moon
+//[Type] == Amulet && [Quality] == Unique # [Lifeleech] == 6 && [Manaleech] == 15     // Crescent Moon Perfect
+[Type] == Amulet && [Quality] == Unique # [Lightresist] >= 35       // Highlord's Wrath
+//[Type] == Amulet && [Quality] == Unique # [Poisonresist] >= 75      // Atma's Scarab
+[Type] == Amulet && [Quality] == Unique # [Hpregen] >= 10 && [Fireskilltab] >= 2       // The Rising Sun
+[Type] == Amulet && [Quality] == Unique # [Itemallskills] == 2 && [Allresist] >= 20     // Mara's Kaleidoscope
+//[Type] == Amulet && [Quality] == Unique # [Itemallskills] == 2 && [Allresist] == 30     // Mara's Kaleidoscope Perfect
+//[Type] == Amulet && [Quality] == Unique # [Defensiveaurasskilltab] >= 1     // Seraph's Hymn
+//[Type] == Amulet && [Quality] == Unique # [Defensiveaurasskilltab] == 2 && [Itemdemondamagepercent] == 50 && [Itemundeaddamagepercent] == 50 && [Itemdemontohit] == 250 && [Itemundeadtohit] == 250      // Seraph's Hymn Perfect
+[Type] == Amulet && [Quality] == Unique # [Coldresist] >= 35 && [Plusdefense] >= 300 && [Allres] >= 25 && [Tohit] >= 400       // Metalgrid
+//[Type] == Amulet && [Quality] == Unique # [Coldresist] == 45 && [Plusdefense] == 350 && [Allres] == 35 && [Tohit] == 450        // Metalgrid Perfect
+
+//------------------------------------------------
+//================= Unique Jewels ================
+//------------------------------------------------
+[Name] == Jewel && [Quality] == Unique # [Passivecoldmastery] >= 4 && [Passivecoldpierce] >= 4   // Rainbow Facet Cold
+[Name] == Jewel && [Quality] == Unique # [Passivefiremastery] >= 4 && [Passivefirepierce] >= 4   // Rainbow Facet Fire
+[Name] == Jewel && [Quality] == Unique # [Passiveltngmastery] >= 4 && [Passiveltngpierce] >= 4		// Rainbow Facet Light
+[Name] == Jewel && [Quality] == Unique # [Passivepoismastery] >= 4 && [Passivepoispierce] >= 4	    // Rainbow Facet Poison
