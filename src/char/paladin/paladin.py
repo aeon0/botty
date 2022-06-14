@@ -20,24 +20,23 @@ class Paladin(IChar):
         self._cast_holy_shield()
         wait(self._cast_duration, self._cast_duration + 0.06)
 
-    def _activate_concentration_aura(self, delay=None):
-        self._select_skill("concentration", delay=delay, mouse_click_type="right")
+    def _activate_concentration_aura(self, delay=None) -> bool:
+        return self._select_skill("concentration", delay=delay, mouse_click_type="right")
 
-    def _activate_redemption_aura(self, delay = [0.6, 0.8]):
-        self._select_skill("redemption", delay=delay, mouse_click_type="right")
+    def _activate_redemption_aura(self, delay = [0.6, 0.8]) -> bool:
+        return self._select_skill("redemption", delay=delay, mouse_click_type="right")
 
-    def _activate_cleanse_aura(self, delay = [0.3, 0.4]):
-        self._select_skill("cleansing", delay=delay, mouse_click_type="right")
+    def _activate_cleanse_aura(self, delay = [0.3, 0.4]) -> bool:
+        return self._select_skill("cleansing", delay=delay, mouse_click_type="right")
 
-    def _activate_conviction_aura(self, delay = None):
-        self._select_skill("conviction", delay=delay, mouse_click_type="right")
+    def _activate_conviction_aura(self, delay = None) -> bool:
+        return self._select_skill("conviction", delay=delay, mouse_click_type="right")
 
-    def _activate_vigor_aura(self, delay = None):
-        self._select_skill("vigor", delay=delay, mouse_click_type="right")
+    def _activate_vigor_aura(self, delay = None) -> bool:
+        return self._select_skill("vigor", delay=delay, mouse_click_type="right")
 
-    def _cast_holy_shield(self):
-        self._cast_simple(skill_name="holy_shield", mouse_click_type="right")
+    def _cast_holy_shield(self) -> bool:
+        return self._cast_simple(skill_name="holy_shield", mouse_click_type="right")
 
-    def _activate_cleanse_redemption(self):
-        self._activate_cleanse_aura()
-        self._activate_redemption_aura()
+    def _activate_cleanse_redemption(self) -> bool:
+        return self._activate_cleanse_aura() or self._activate_redemption_aura()

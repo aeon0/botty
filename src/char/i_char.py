@@ -71,12 +71,13 @@ class IChar:
     def _click_right(self, wait_before_release: float = 0.0):
         self._click("right", wait_before_release = wait_before_release)
 
-    def _cast_simple(self, skill_name: str, mouse_click_type: str = "left", duration: float = 0):
+    def _cast_simple(self, skill_name: str, mouse_click_type: str = "left", duration: float = 0) -> bool:
         """
         Selects and casts a skill.
         """
         if self._active_skill[mouse_click_type] != skill_name:
-            self._select_skill(skill_name, mouse_click_type = mouse_click_type)
+            if not self._select_skill(skill_name, mouse_click_type = mouse_click_type):
+                return False
             wait(0.04)
         start = time.time()
         if duration:
@@ -87,12 +88,17 @@ class IChar:
             self._stand_still(False)
         else:
             self._click(mouse_click_type)
+        return True
 
-
-    def _cast_at_position(self, cast_pos_abs: tuple[float, float], spray: int, mouse_click_type: str = "left", duration: float = 0):
+    def _cast_at_position(self, skill_name: str, cast_pos_abs: tuple[float, float], spray: int, mouse_click_type: str = "left", duration: float = 0) -> bool:
         """
         Casts a skill at a given position.
         """
+        if self._active_skill[mouse_click_type] != skill_name:
+            if not self._select_skill(skill_name, mouse_click_type = mouse_click_type):
+                return False
+            wait(0.04)
+
         if cast_pos_abs:
             x, y = cast_pos_abs
             if spray:
@@ -110,8 +116,9 @@ class IChar:
             self._stand_still(False)
         else:
             self._click(mouse_click_type)
+        return True
 
-    def _cast_left_with_aura(self, skill_name: str, cast_pos_abs: tuple[float, float] = None, spray: int = 0, min_duration: float = 0, aura: str = ""):
+    def _cast_left_with_aura(self, skill_name: str, cast_pos_abs: tuple[float, float] = None, spray: int = 0, min_duration: float = 0, aura: str = "") -> bool:
         """
         Casts a skill with an aura active
         :param skill_name: name of skill in params file; i.e., "holy_bolt"
@@ -124,9 +131,7 @@ class IChar:
         #self._log_cast(skill_name, cast_pos_abs, spray, min_duration, aura)
         if aura:
             self._select_skill(aura, mouse_click_type = "right")
-        self._select_skill(skill_name, mouse_click_type = "left")
-        wait(0.05, 0.1)
-        self._cast_at_position(cast_pos_abs, spray, duration = min_duration)
+        return self._cast_at_position(skill_name=skill_name, cast_pos_abs=cast_pos_abs, spray=spray, mouse_click_type="left", duration=min_duration)
 
     @staticmethod
     def _log_cast(skill_name: str, cast_pos_abs: tuple[float, float], spray: int, min_duration: float, aura: str):
@@ -152,7 +157,7 @@ class IChar:
             (skill in self._skill_hotkeys and (hotkey := self._skill_hotkeys[skill]))
             or (skill in Config().char and (hotkey := Config().char[skill]))
         ):
-            Logger.warning(f"No hotkey for skill: {skill}")
+            # Logger.warning(f"No hotkey for skill: {skill}")
             return None
         return hotkey
 
@@ -185,18 +190,19 @@ class IChar:
     def select_skill(self, skill: str, mouse_click_type: str = "left", delay: float | list | tuple = None) -> bool:
         return self._select_skill(skill, mouse_click_type, delay)
 
-    def _cast_teleport(self):
-        self._cast_simple(skill_name="teleport", mouse_click_type="right")
+    def _cast_teleport(self) -> bool:
+        return self._cast_simple(skill_name="teleport", mouse_click_type="right")
 
-    def _cast_battle_orders(self):
-        self._cast_simple(skill_name="battle_orders", mouse_click_type="right")
+    def _cast_battle_orders(self) -> bool:
+        return self._cast_simple(skill_name="battle_orders", mouse_click_type="right")
 
-    def _cast_battle_command(self):
-        self._cast_simple(skill_name="battle_command", mouse_click_type="right")
+    def _cast_battle_command(self) -> bool:
+        return self._cast_simple(skill_name="battle_command", mouse_click_type="right")
 
-    def _cast_town_portal(self):
-        consumables.increment_need("tp", 1)
-        self._cast_simple(skill_name="town_portal", mouse_click_type="right")
+    def _cast_town_portal(self) -> bool:
+        if res := self._cast_simple(skill_name="town_portal", mouse_click_type="right"):
+            consumables.increment_need("tp", 1)
+        return res
 
     @staticmethod
     def _weapon_switch():

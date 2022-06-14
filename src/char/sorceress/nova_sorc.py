@@ -17,7 +17,7 @@ class NovaSorc(Sorceress):
         # we want to change positions a bit of end points
         self._pather.offset_node(149, (70, 10))
 
-    def _cast_nova(self, min_duration: float = 0):
+    def _cast_nova(self, min_duration: float = 0) -> bool:
         return self._cast_simple(skill_name = "nova", mouse_click_type = "right", duration = min_duration)
 
     def _move_and_attack(self, abs_move: tuple[int, int], atk_len: float):

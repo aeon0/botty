@@ -65,17 +65,17 @@ class Sorceress(IChar):
         self._cast_thunder_storm()
         self._cast_frozen_armor()
 
-    def _cast_static(self, duration: float = 1.4):
-        self._cast_simple(skill_name="static_field", mouse_click_type = "right", duration=duration)
+    def _cast_static(self, duration: float = 1.4) -> bool:
+        return self._cast_simple(skill_name="static_field", mouse_click_type = "right", duration=duration)
 
-    def _cast_telekinesis(self, cast_pos_abs: tuple[float, float]):
-        self._cast_at_position(cast_pos_abs, spray = 0, mouse_click_type = "right")
+    def _cast_telekinesis(self, cast_pos_abs: tuple[float, float]) -> bool:
+        return self._cast_at_position(skill_name="telekinesis", cast_pos_abs = cast_pos_abs, spray = 0, mouse_click_type = "right")
 
-    def _cast_thunder_storm(self):
-        self._cast_simple(skill_name="thunder_storm", mouse_click_type="right")
+    def _cast_thunder_storm(self) -> bool:
+        return self._cast_simple(skill_name="thunder_storm", mouse_click_type="right")
 
-    def _cast_energy_shield(self):
-        self._cast_simple(skill_name="energy_shield", mouse_click_type="right")
+    def _cast_energy_shield(self) -> bool:
+        return self._cast_simple(skill_name="energy_shield", mouse_click_type="right")
 
-    def _cast_frozen_armor(self):
-        self._cast_simple(skill_name="frozen_armor", mouse_click_type="right")
+    def _cast_frozen_armor(self) -> bool:
+        return self._cast_simple(skill_name="frozen_armor", mouse_click_type="right")
