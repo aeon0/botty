@@ -60,8 +60,8 @@ order=run_pindle, run_eldritch
 | saved_games_folder       | [Optional] Defaults to `~\Saved Games\Diablo II Resurrected`. Used to store configuration settings for `f9` / auto settings. |
 | custom_loot_message_hook      | Add your message hook here (such as Discord channel) to get info about loot |
 | custom_message_hook      | Add your message hook here (such as Discord channel) to get info about botty status updates, discord webhook is default. |
-| discord_log_chicken      | Set to `1` to enable messages about bot chickens, `0` to disable.
-| discord_status_count     | Number of games between discord status messages being sent. Leave empty for no status reports.
+| discord_log_chicken      | Set to `1` to enable messages about bot chickens, `0` to disable. |
+| discord_status_count     | Number of games between discord status messages being sent. Leave empty for no status reports. |
 | message_api_type         | Which api to use to send botty messages.  Supports "generic_api" (basic discord), or "discord" (discord embeds with images). |
 | break_length_m           | Break for `break_length_m` minutes every `max_runtime_before_break_m` minutes |
 | max_runtime_before_break_m | ^ |
