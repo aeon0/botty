@@ -30,7 +30,6 @@ class Config:
     gamble = {}
     ui_roi = {}
     ui_pos = {}
-    dclone = {}
     routes = {}
     routes_order = []
     char = {}
@@ -235,12 +234,6 @@ class Config:
             "loot_screenshots": bool(int(self._select_val("general", "loot_screenshots"))),
             "d2r_path": _default_iff(self._select_val("general", "d2r_path"), "", "C:\Program Files (x86)\Diablo II Resurrected"),
             "restart_d2r_when_stuck": bool(int(self._select_val("general", "restart_d2r_when_stuck"))),
-        }
-
-        # Added for dclone ip hunting
-        self.dclone = {
-            "region_ips": self._select_val("dclone", "region_ips"),
-            "dclone_hotip": self._select_val("dclone", "dclone_hotip"),
         }
 
         self.routes = {}
