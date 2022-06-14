@@ -46,8 +46,7 @@ class Bone_Necro(IChar):
     def pre_buff(self):
         self.bone_armor()
         #only CTA if pre trav
-        if Config().char["cta_available"]:
-            self._pre_buff_cta()
+        self._pre_buff_cta()
         Logger.info("prebuff/cta")
 
     def _clay_golem(self):

@@ -71,16 +71,25 @@ class IChar:
     def _click_right(self, wait_before_release: float = 0.0):
         self._click("right", wait_before_release = wait_before_release)
 
-    def _cast_simple(self, skill_name: str, mouse_click_type: str = "left"):
+    def _cast_simple(self, skill_name: str, mouse_click_type: str = "left", duration: float = 0):
         """
         Selects and casts a skill.
         """
         if self._active_skill[mouse_click_type] != skill_name:
             self._select_skill(skill_name, mouse_click_type = mouse_click_type)
             wait(0.04)
-        self._click(mouse_click_type)
+        start = time.time()
+        if duration:
+            self._stand_still(True)
+            while (time.time() - start) <= duration:
+                self._click(mouse_click_type)
+                wait(self._cast_duration)
+            self._stand_still(False)
+        else:
+            self._click(mouse_click_type)
 
-    def _cast_at_position(self, cast_pos_abs: tuple[float, float], spray: int, mouse_click_type: str = "left"):
+
+    def _cast_at_position(self, cast_pos_abs: tuple[float, float], spray: int, mouse_click_type: str = "left", duration: float = 0):
         """
         Casts a skill at a given position.
         """
@@ -92,7 +101,15 @@ class IChar:
             pos_m = convert_abs_to_monitor((x, y))
             mouse.move(*pos_m, delay_factor=[0.1, 0.2])
             wait(0.06, 0.08)
-        self._click(mouse_click_type)
+        start = time.time()
+        if duration:
+            self._stand_still(True)
+            while (time.time() - start) <= duration:
+                self._click(mouse_click_type)
+                wait(self._cast_duration)
+            self._stand_still(False)
+        else:
+            self._click(mouse_click_type)
 
     def _cast_left_with_aura(self, skill_name: str, cast_pos_abs: tuple[float, float] = None, spray: int = 0, min_duration: float = 0, aura: str = ""):
         """
@@ -105,26 +122,11 @@ class IChar:
         """
 
         #self._log_cast(skill_name, cast_pos_abs, spray, min_duration, aura)
-
-        # set aura if needed
         if aura:
             self._select_skill(aura, mouse_click_type = "right")
-
-        self._stand_still(True)
-
-        # set left hand skill
         self._select_skill(skill_name, mouse_click_type = "left")
         wait(0.05, 0.1)
-
-        # cast left hand skill
-        start = time.time()
-        if min_duration:
-            while (time.time() - start) <= min_duration:
-                self._cast_at_position(cast_pos_abs, spray)
-        else:
-            self._cast_at_position(cast_pos_abs, spray)
-
-        self._stand_still(False)
+        self._cast_at_position(cast_pos_abs, spray, duration = min_duration)
 
     @staticmethod
     def _log_cast(skill_name: str, cast_pos_abs: tuple[float, float], spray: int, min_duration: float, aura: str):
@@ -418,6 +420,8 @@ class IChar:
         return False
 
     def _pre_buff_cta(self):
+        if not Config().char["cta_available"]:
+            return
         # Save current skill img
         skill_before = cut_roi(grab(), Config().ui_roi["skill_right"])
         # Try to switch weapons and select bo until we find the skill on the right skill slot

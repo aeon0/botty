@@ -18,8 +18,7 @@ class Trapsin(IChar):
         self._pather = pather
 
     def pre_buff(self):
-        if Config().char["cta_available"]:
-            self._pre_buff_cta()
+        self._pre_buff_cta()
         if self._skill_hotkeys["fade"]:
             keyboard.send(self._skill_hotkeys["fade"])
             wait(0.1, 0.13)

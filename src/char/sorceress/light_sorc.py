@@ -15,6 +15,17 @@ class LightSorc(Sorceress):
         Logger.info("Setting up Light Sorc")
         super().__init__(*args, **kwargs)
 
+    #    def _cast_chain_lightning(self, cast_pos_abs: tuple[float, float], duration: float = 0):
+    #        return self._cast_left_with_aura(skill_name="chain_lightning", spray = 10, cast_pos_abs = cast_pos_abs, min_duration = duration)
+    #
+    #    def _cast_lightning(self, cast_pos_abs: tuple[float, float], duration: float = 0):
+    #        return self._cast_left_with_aura(skill_name="lightning", spray = 10, cast_pos_abs = cast_pos_abs, min_duration = duration)
+    #
+    #    def _cast_frozen_orb(self, cast_pos_abs: tuple[float, float], duration: float = 0):
+    #        self._select_skill("frozen_orb", mouse_click_type = "right")
+    #        wait(0.05, 0.1)
+    #        self._cast_at_position(cast_pos_abs, spray=10, duration = duration)
+
     def _chain_lightning(self, cast_pos_abs: tuple[float, float], delay: tuple[float, float] = (0.2, 0.3), spray: int = 10):
         keyboard.send(Config().char["stand_still"], do_release=False)
         if self._skill_hotkeys["chain_lightning"]:

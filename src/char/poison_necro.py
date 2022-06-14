@@ -247,8 +247,7 @@ class Poison_Necro(IChar):
 
     def pre_buff(self):
         #only CTA if pre trav
-        if Config().char["cta_available"]:
-            self._pre_buff_cta()
+        self._pre_buff_cta()
         if self._shenk_dead==1:
             Logger.info("trav buff?")
             #self._heart_of_wolverine()
