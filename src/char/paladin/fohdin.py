@@ -97,20 +97,19 @@ class FoHdin(Paladin):
 
         if self.capabilities.can_teleport_natively or self.capabilities.can_teleport_with_charges:
             # Slightly retreating, so the Merc gets charged
-            if not self._pather.traverse_nodes([102], self, timeout=1.0, do_pre_move=self._do_pre_move, force_move=True,force_tp=False, use_tp_charge=False):
+            if not self._pather.traverse_nodes([102], self, timeout=1.0, do_pre_move=False, force_move=True,force_tp=False, use_tp_charge=False):
                 return False
             # Doing one Teleport to safe_dist to grab our Merc
             Logger.debug("Teleporting backwards to let Pindle charge the MERC. Looks strange, but is intended!") #I would leave this message in, so users dont complain that there is a strange movement pattern.
-            if not self._pather.traverse_nodes([103], self, timeout=1.0, do_pre_move=self._do_pre_move, force_tp=True, use_tp_charge=True):
+            if not self._pather.traverse_nodes([103], self, timeout=1.0, do_pre_move=False, force_tp=True, use_tp_charge=True):
                 return False
             # Slightly retreating, so the Merc gets charged
-            if not self._pather.traverse_nodes([103], self, timeout=1.0, do_pre_move=self._do_pre_move, force_move=True, force_tp=False, use_tp_charge=False):
+            if not self._pather.traverse_nodes([103], self, timeout=1.0, do_pre_move=False, force_move=True, force_tp=False, use_tp_charge=False):
                 return False
         else:
-            if not self._do_pre_move:
-                keyboard.send(self._skill_hotkeys["conviction"])
-                wait(0.05, 0.15)
-            self._pather.traverse_nodes([103], self, timeout=1.0, do_pre_move=self._do_pre_move)
+            keyboard.send(self._skill_hotkeys["conviction"])
+            wait(0.15)
+            self._pather.traverse_nodes([103], self, timeout=1.0, do_pre_move=False)
 
         cast_pos_abs = [pindle_pos_abs[0] * 0.9, pindle_pos_abs[1] * 0.9]
         self._generic_foh_attack_sequence(default_target_abs=cast_pos_abs, min_duration=atk_len_dur, max_duration=atk_len_dur*3, default_spray=11)
@@ -118,10 +117,9 @@ class FoHdin(Paladin):
         if self.capabilities.can_teleport_natively:
             self._pather.traverse_nodes_fixed("pindle_end", self)
         else:
-            if not self._do_pre_move:
-                keyboard.send(self._skill_hotkeys["redemption"])
-                wait(0.05, 0.15)
-            self._pather.traverse_nodes((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, timeout=1.0, do_pre_move=self._do_pre_move)
+            keyboard.send(self._skill_hotkeys["redemption"])
+            wait(0.15)
+            self._pather.traverse_nodes((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, timeout=1.0, do_pre_move=False)
 
         # Use target-based attack sequence one more time before pickit
         self._generic_foh_attack_sequence(default_target_abs=cast_pos_abs, max_duration=atk_len_dur, default_spray=11)
@@ -133,15 +131,18 @@ class FoHdin(Paladin):
     def kill_council(self) -> bool:
         atk_len_dur = float(Config().char["atk_len_trav"])
 
+        keyboard.send(self._skill_hotkeys["conviction"])
+        wait(.15)
+
         # traverse to nodes and attack
         nodes = [225, 226, 300]
-        for node in nodes:
-            self._pather.traverse_nodes([node], self, timeout=2, force_tp=True)
+        for i, node in enumerate(nodes):
+            self._pather.traverse_nodes([node], self, timeout=2, do_pre_move = False, force_tp=(self.capabilities.can_teleport_natively or i > 0), use_tp_charge=(self.capabilities.can_teleport_natively or i > 0))
             default_target_abs = self._pather.find_abs_node_pos(node, img := grab()) or self._pather.find_abs_node_pos(906, img) or (-50, -50)
             self._generic_foh_attack_sequence(default_target_abs=default_target_abs, min_duration=atk_len_dur, max_duration=atk_len_dur*3, default_spray=80)
 
         # return to 226 and prepare for pickit
-        self._pather.traverse_nodes([226], self, timeout=2, force_tp=True)
+        self._pather.traverse_nodes([226], self, timeout=2, do_pre_move = False, force_tp=True, use_tp_charge=True)
         default_target_abs = self._pather.find_abs_node_pos(226, img := grab()) or self._pather.find_abs_node_pos(906, img) or (-50, -50)
         self._generic_foh_attack_sequence(default_target_abs=default_target_abs, max_duration=atk_len_dur*3, default_spray=80)
 
@@ -172,10 +173,9 @@ class FoHdin(Paladin):
         atk_len_dur = float(Config().char["atk_len_shenk"])
 
         # traverse to shenk
-        if not self._do_pre_move:
-            keyboard.send(self._skill_hotkeys["conviction"])
-            wait(0.05, 0.15)
-        self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, timeout=1.0, do_pre_move=self._do_pre_move, force_tp=True, use_tp_charge=True)
+        keyboard.send(self._skill_hotkeys["conviction"])
+        wait(0.15)
+        self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, timeout=1.0, do_pre_move=False, force_tp=True, use_tp_charge=True)
         wait(0.05, 0.1)
 
         # bypass mob detect first

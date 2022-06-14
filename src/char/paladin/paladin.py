@@ -18,7 +18,6 @@ class Paladin(IChar):
         Logger.info("Setting up Paladin")
         super().__init__(skill_hotkeys)
         self._pather = pather
-        self._do_pre_move = True
         self._pickit = pickit #for Diablo
         self._picked_up_items = False #for Diablo
 
@@ -29,12 +28,6 @@ class Paladin(IChar):
         wait(0.04, 0.1)
         mouse.click(button="right")
         wait(self._cast_duration, self._cast_duration + 0.06)
-
-    def on_capabilities_discovered(self, capabilities: CharacterCapabilities):
-        # In case we have a running pala, we want to switch to concentration when moving to the boss
-        # ass most likely we will click on some mobs and already cast hammers
-        if capabilities.can_teleport_natively:
-            self._do_pre_move = False
 
     def pre_move(self):
         # select teleport if available
