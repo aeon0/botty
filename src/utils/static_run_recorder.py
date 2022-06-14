@@ -1,7 +1,18 @@
-from screen import convert_monitor_to_screen
+from tracemalloc import start
+from screen import convert_monitor_to_screen, start_detecting_window, stop_detecting_window
 import mouse
+import keyboard
+from logger import Logger
+import os
 
 if __name__ == "__main__":
+
+    keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or stop_detecting_window() or os._exit(1))
+    Logger.warning("Press F11 to Run, F12 to Stop")
+    start_detecting_window()
+    keyboard.wait("f11")
+    Logger.warning("Record a sequence of teleports by right clicking to the corresponding coordinates")
+
     pos_list = []
     while 1:
         mouse.wait(button=mouse.RIGHT, target_types=mouse.DOWN)

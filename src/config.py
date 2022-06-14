@@ -143,6 +143,7 @@ class Config:
             "pickit_screenshots": bool(int(self._select_val("general", "pickit_screenshots"))),
             "d2r_path": _default_iff(self._select_val("general", "d2r_path"), "", "C:\Program Files (x86)\Diablo II Resurrected"),
             "restart_d2r_when_stuck": bool(int(self._select_val("general", "restart_d2r_when_stuck"))),
+            "use_automap_navigation": bool(int(self._select_val("general", "use_automap_navigation"))),
         }
 
         self.routes = {}
@@ -212,6 +213,8 @@ class Config:
             "sell_junk": bool(int(self._select_val("char", "sell_junk"))),
             "enable_no_pickup": bool(int(self._select_val("char", "enable_no_pickup"))),
             "safer_routines": bool(int(self._select_val("char", "safer_routines"))),
+            "show_automap": self._select_val("char", "show_automap"),
+            "cs_rush_seals": bool(int(self._select_val("char", "cs_rush_seals"))),
         }
         # Sorc base config
         sorc_base_cfg = dict(self.configs["config"]["parser"]["sorceress"])

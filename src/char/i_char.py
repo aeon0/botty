@@ -350,37 +350,46 @@ class IChar:
         pass
 
     def kill_pindle(self) -> bool:
-        raise ValueError("Pindle is not implemented!")
+        raise ValueError("Pindle is not implemented for this character!")
 
     def kill_shenk(self) -> bool:
-        raise ValueError("Shenk is not implemented!")
+        raise ValueError("Shenk is not implemented for this character!")
 
     def kill_eldritch(self) -> bool:
-        raise ValueError("Eldritch is not implemented!")
+        raise ValueError("Eldritch is not implemented for this character!")
 
     def kill_council(self) -> bool:
-        raise ValueError("Council is not implemented!")
+        raise ValueError("Council is not implemented for this character!")
 
     def kill_nihlathak(self, end_nodes: list[int]) -> bool:
-        raise ValueError("Nihlathak is not implemented!")
+        raise ValueError("Nihlathak is not implemented for this character!")
 
     def kill_summoner(self) -> bool:
-        raise ValueError("Arcane is not implemented!")
+        raise ValueError("Arcane is not implemented for this character!")
 
     def kill_diablo(self) -> bool:
-        raise ValueError("Diablo is not implemented!")
+        raise ValueError("Diablo is not implemented for this character!")
 
     def kill_deseis(self, seal_layout:str) -> bool:
-        raise ValueError("Diablo De Seis is not implemented!")
+        raise ValueError("Diablo De Seis is not implemented for this character!")
 
     def kill_infector(self, seal_layout:str) -> bool:
-        raise ValueError("Diablo Infector is not implemented!")
+        raise ValueError("Diablo Infector is not implemented for this character!")
 
     def kill_vizier(self, seal_layout:str) -> bool:
-        raise ValueError("Diablo Vizier is not implemented!")
+        raise ValueError("Diablo Vizier is not implemented for this character!")
 
     def kill_cs_trash(self, location:str) -> bool:
-        raise ValueError("Diablo CS Trash is not implemented!")
+        raise ValueError("Diablo CS Trash is not implemented for this character!")
+
+    def kill_deseis_automap(self, seal_layout:str) -> bool:
+        raise ValueError("Diablo De Seis is not implemented for this character!")
+
+    def kill_infector_automap(self, seal_layout:str) -> bool:
+        raise ValueError("Diablo Infector is not implemented for this character!")
+
+    def kill_vizier_automap(self, seal_layout:str) -> bool:
+        raise ValueError("Diablo Vizier is not implemented for this character!")
 
 if __name__ == "__main__":
     import os

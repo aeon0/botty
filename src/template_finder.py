@@ -188,9 +188,11 @@ def search_and_wait(
             if template_match.valid:
                 break
     if not time_remains:
-        Logger.debug(f"Could not find desired templates")
+        if not suppress_debug:
+            Logger.debug(f"Could not find desired templates")
     else:
-        Logger.debug(f"Found match: {template_match.name} ({template_match.score*100:.1f}% confidence)")
+        if not suppress_debug:
+            Logger.debug(f"Found match: {template_match.name} ({template_match.score*100:.1f}% confidence)")
     return template_match
 
 

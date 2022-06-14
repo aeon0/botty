@@ -780,7 +780,8 @@ class Hammerdin(Paladin):
                 ### ATTACK ###
                 ### LOOT ###
                 # we loot at boss
-                if not self._pather.traverse_nodes([625], self): return False # , timeout=3):
+                if not Config().char["cs_rush_seals"]:
+                    if not self._pather.traverse_nodes([625], self): return False # , timeout=3):
                 if self._skill_hotkeys["redemption"]:
                     keyboard.send(self._skill_hotkeys["redemption"])
                     wait(0.3, 0.6)
@@ -790,7 +791,8 @@ class Hammerdin(Paladin):
                 ### ATTACK ###
                 ### LOOT ###
                 # we loot at boss
-                self._pather.traverse_nodes_fixed("dia_a2y_sealfake_sealboss", self) #instead of traversing node 626 which causes issues
+                if not Config().char["cs_rush_seals"]:
+                    self._pather.traverse_nodes_fixed("dia_a2y_sealfake_sealboss", self) #instead of traversing node 626 which causes issues
                 if self._skill_hotkeys["redemption"]:
                     keyboard.send(self._skill_hotkeys["redemption"])
                     wait(0.3, 0.6)
@@ -1042,80 +1044,124 @@ class Hammerdin(Paladin):
 
     def kill_vizier(self, seal_layout:str) -> bool:
         if seal_layout == "A1-L":
-            ### APPROACH ###
-            if not self._pather.traverse_nodes([612], self): return False # , timeout=3):
-            ### ATTACK ###
-            Logger.debug(seal_layout + ": Attacking Vizier at position 1/2")
-            if not Config().char['cs_mob_detect'] or get_visible_targets():
-                pos_m = convert_abs_to_monitor((0, 0))
-                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                self._move_and_attack((30, 15), Config().char["atk_len_diablo_vizier"] * 0.5)
-                self._move_and_attack((-30, -15), Config().char["atk_len_diablo_vizier"] * 0.5)
-                self._cast_hammers(1, "redemption")
-            Logger.debug(seal_layout + ": Attacking Vizier at position 2/2")
-            self._pather.traverse_nodes([611], self, timeout=3)
-            if not Config().char['cs_mob_detect'] or get_visible_targets():
-                self._move_and_attack((30, 15), Config().char["atk_len_diablo_vizier"] * 0.5)
-                self._move_and_attack((-30, -15), Config().char["atk_len_diablo_vizier"]) # no factor, so merc is not reset by teleport and he his some time to move & kill stray bosses
-                self._cast_hammers(1, "redemption")
-                if self._skill_hotkeys["cleansing"]:
-                    keyboard.send(self._skill_hotkeys["cleansing"])
-                    wait(0.1, 0.2)
+            if Config().char["cs_rush_seals"]:
+                ### APPROACH ###
+                if not self._pather.traverse_nodes([612], self): return False # , timeout=3):
+                ### ATTACK ###
+                Logger.debug(seal_layout + ": Attacking Vizier")
+                if not Config().char['cs_mob_detect'] or get_visible_targets():
+                    pos_m = convert_abs_to_monitor((0, 0))
+                    mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+                    self._move_and_attack((30, 15), Config().char["atk_len_diablo_vizier"] * 0.5)
+                    self._move_and_attack((-30, -15), Config().char["atk_len_diablo_vizier"] * 0.5)
+                    self._cast_hammers(1, "redemption")
+                    if self._skill_hotkeys["cleansing"]:
+                        keyboard.send(self._skill_hotkeys["cleansing"])
+                        wait(0.1, 0.2)
+                    if self._skill_hotkeys["redemption"]:
+                        keyboard.send(self._skill_hotkeys["redemption"])
+                        wait(0.3, 0.6)
+                    wait(0.3, 1.2)
+                ### LOOT ###
+                self._picked_up_items |= self._pickit.pick_up_items(self)
+                if not self._pather.traverse_nodes([612], self): return False # , timeout=3):
                 if self._skill_hotkeys["redemption"]:
                     keyboard.send(self._skill_hotkeys["redemption"])
                     wait(0.3, 0.6)
-                wait(0.3, 1.2)
-            ### LOOT ###
-            self._picked_up_items |= self._pickit.pick_up_items(self)
-            if not self._pather.traverse_nodes([612], self): return False # , timeout=3):
-            if self._skill_hotkeys["redemption"]:
-                keyboard.send(self._skill_hotkeys["redemption"])
-                wait(0.3, 0.6)
-            self._picked_up_items |= self._pickit.pick_up_items(self)
-            if not self._pather.traverse_nodes([612], self): return False # , timeout=3): # recalibrate after loot
+                self._picked_up_items |= self._pickit.pick_up_items(self)
+                if not self._pather.traverse_nodes([612], self): return False # , timeout=3): # recalibrate after loot
+            
+            else:
+                ### APPROACH ###
+                if not self._pather.traverse_nodes([612], self): return False # , timeout=3):
+                ### ATTACK ###
+                Logger.debug(seal_layout + ": Attacking Vizier at position 1/2")
+                if not Config().char['cs_mob_detect'] or get_visible_targets():
+                    pos_m = convert_abs_to_monitor((0, 0))
+                    mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+                    self._move_and_attack((30, 15), Config().char["atk_len_diablo_vizier"] * 0.5)
+                    self._move_and_attack((-30, -15), Config().char["atk_len_diablo_vizier"] * 0.5)
+                    self._cast_hammers(1, "redemption")
+                Logger.debug(seal_layout + ": Attacking Vizier at position 2/2")
+                self._pather.traverse_nodes([611], self, timeout=3)
+                if not Config().char['cs_mob_detect'] or get_visible_targets():
+                    self._move_and_attack((30, 15), Config().char["atk_len_diablo_vizier"] * 0.5)
+                    self._move_and_attack((-30, -15), Config().char["atk_len_diablo_vizier"]) # no factor, so merc is not reset by teleport and he his some time to move & kill stray bosses
+                    self._cast_hammers(1, "redemption")
+                    if self._skill_hotkeys["cleansing"]:
+                        keyboard.send(self._skill_hotkeys["cleansing"])
+                        wait(0.1, 0.2)
+                    if self._skill_hotkeys["redemption"]:
+                        keyboard.send(self._skill_hotkeys["redemption"])
+                        wait(0.3, 0.6)
+                    wait(0.3, 1.2)
+                ### LOOT ###
+                self._picked_up_items |= self._pickit.pick_up_items(self)
+                if not self._pather.traverse_nodes([612], self): return False # , timeout=3):
+                if self._skill_hotkeys["redemption"]:
+                    keyboard.send(self._skill_hotkeys["redemption"])
+                    wait(0.3, 0.6)
+                self._picked_up_items |= self._pickit.pick_up_items(self)
+                if not self._pather.traverse_nodes([612], self): return False # , timeout=3): # recalibrate after loot
 
         elif seal_layout == "A2-Y":
-            ### APPROACH ###
-            if not self._pather.traverse_nodes([627, 622], self): return False # , timeout=3):
-            ### ATTACK ###
-            Logger.debug(seal_layout + ": Attacking Vizier at position 1/2")
-            if not Config().char['cs_mob_detect'] or get_visible_targets():
-                pos_m = convert_abs_to_monitor((0, 0))
-                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                self._move_and_attack((30, 15), Config().char["atk_len_diablo_vizier"] * 0.5)
-                self._move_and_attack((-30, -15), Config().char["atk_len_diablo_vizier"] * 0.5)
-                self._cast_hammers(1, "redemption")
-            Logger.debug(seal_layout + ": Attacking Vizier at position 2/2")
-            self._pather.traverse_nodes([623], self, timeout=3)
-            if not Config().char['cs_mob_detect'] or get_visible_targets():
-                self._move_and_attack((30, 15), Config().char["atk_len_diablo_vizier"] * 0.5)
-                self._move_and_attack((-30, -15), Config().char["atk_len_diablo_vizier"] * 0.5)
-                self._cast_hammers(1, "redemption")
-            Logger.debug(seal_layout + ": Attacking Vizier at position 3/3")
-            if not self._pather.traverse_nodes([624], self): return False
-            if not Config().char['cs_mob_detect'] or get_visible_targets():
-                self._move_and_attack((30, 15), Config().char["atk_len_diablo_vizier"] * 0.5)
-                self._move_and_attack((-30, -15), Config().char["atk_len_diablo_vizier"])
-                wait(0.1, 0.15)
-                self._cast_hammers(2, "redemption")
-                self._cast_hammers(1, "cleansing")
+            if Config().char["cs_rush_seals"]:
+                ### APPROACH ###
+                if not self._pather.traverse_nodes([627, 622], self): return False # , timeout=3):
+                ### ATTACK ###
+                Logger.debug(seal_layout + ": Attacking Vizier")
+                if not Config().char['cs_mob_detect'] or get_visible_targets():
+                    pos_m = convert_abs_to_monitor((0, 0))
+                    mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+                    self._move_and_attack((30, 15), Config().char["atk_len_diablo_vizier"] * 0.5)
+                    self._move_and_attack((-30, -15), Config().char["atk_len_diablo_vizier"] * 0.5)
+                    self._cast_hammers(1, "redemption")
+                ### LOOT ###
+                self._picked_up_items |= self._pickit.pick_up_items(self)
+                if not self._pather.traverse_nodes([622], self): return False # , timeout=3): #recalibrate after loot
+
+            else:
+                ### APPROACH ###
+                if not self._pather.traverse_nodes([627, 622], self): return False # , timeout=3):
+                ### ATTACK ###
+                Logger.debug(seal_layout + ": Attacking Vizier at position 1/2")
+                if not Config().char['cs_mob_detect'] or get_visible_targets():
+                    pos_m = convert_abs_to_monitor((0, 0))
+                    mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+                    self._move_and_attack((30, 15), Config().char["atk_len_diablo_vizier"] * 0.5)
+                    self._move_and_attack((-30, -15), Config().char["atk_len_diablo_vizier"] * 0.5)
+                    self._cast_hammers(1, "redemption")
+                Logger.debug(seal_layout + ": Attacking Vizier at position 2/2")
+                self._pather.traverse_nodes([623], self, timeout=3)
+                if not Config().char['cs_mob_detect'] or get_visible_targets():
+                    self._move_and_attack((30, 15), Config().char["atk_len_diablo_vizier"] * 0.5)
+                    self._move_and_attack((-30, -15), Config().char["atk_len_diablo_vizier"] * 0.5)
+                    self._cast_hammers(1, "redemption")
+                Logger.debug(seal_layout + ": Attacking Vizier at position 3/3")
+                if not self._pather.traverse_nodes([624], self): return False
+                if not Config().char['cs_mob_detect'] or get_visible_targets():
+                    self._move_and_attack((30, 15), Config().char["atk_len_diablo_vizier"] * 0.5)
+                    self._move_and_attack((-30, -15), Config().char["atk_len_diablo_vizier"])
+                    wait(0.1, 0.15)
+                    self._cast_hammers(2, "redemption")
+                    self._cast_hammers(1, "cleansing")
+                    if self._skill_hotkeys["redemption"]:
+                        keyboard.send(self._skill_hotkeys["redemption"])
+                        wait(0.3, 0.6)
+                ### LOOT ###
+                self._picked_up_items |= self._pickit.pick_up_items(self)
+                if not self._pather.traverse_nodes([624], self): return False
+                if not self._pather.traverse_nodes_fixed("dia_a2y_hop_622", self): return False
+                Logger.debug(seal_layout + ": Hop!")
                 if self._skill_hotkeys["redemption"]:
                     keyboard.send(self._skill_hotkeys["redemption"])
                     wait(0.3, 0.6)
-            ### LOOT ###
-            self._picked_up_items |= self._pickit.pick_up_items(self)
-            if not self._pather.traverse_nodes([624], self): return False
-            if not self._pather.traverse_nodes_fixed("dia_a2y_hop_622", self): return False
-            Logger.debug(seal_layout + ": Hop!")
-            if self._skill_hotkeys["redemption"]:
-                keyboard.send(self._skill_hotkeys["redemption"])
-                wait(0.3, 0.6)
-            if not self._pather.traverse_nodes([622], self): return False #, timeout=3):
-            if self._skill_hotkeys["redemption"]:
-                keyboard.send(self._skill_hotkeys["redemption"])
-                wait(0.3, 0.6)
-            self._picked_up_items |= self._pickit.pick_up_items(self)
-            if not self._pather.traverse_nodes([622], self): return False # , timeout=3): #recalibrate after loot
+                if not self._pather.traverse_nodes([622], self): return False #, timeout=3):
+                if self._skill_hotkeys["redemption"]:
+                    keyboard.send(self._skill_hotkeys["redemption"])
+                    wait(0.3, 0.6)
+                self._picked_up_items |= self._pickit.pick_up_items(self)
+                if not self._pather.traverse_nodes([622], self): return False # , timeout=3): #recalibrate after loot
 
         else:
             Logger.warning(seal_layout + ": Invalid location for kill_deseis("+ seal_layout +"), should not happen.")

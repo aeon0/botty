@@ -683,7 +683,7 @@ class FoHdin(Paladin):
                     self._pather.traverse_nodes([node], self, timeout=3)
                     self._cs_attack_sequence(min_duration=atk_dur_min, max_duration=atk_dur_max)
                 self._activate_redemption_aura(delay=[1, 2])
-                #if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_check_deseis_dead" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
+                #if Config().general["info_screenshots"]: cv2.imwrite(f"./log/screenshots/info/info_check_deseis_dead" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
                 ### LOOT ###
                 self._cs_pickit()
 
@@ -699,7 +699,7 @@ class FoHdin(Paladin):
                     Logger.debug(f"{seal_layout}: Attacking De Seis at position {i+2}/{len(nodes)+1}")
                     self._pather.traverse_nodes([node], self, timeout=3)
                     self._cs_attack_sequence(min_duration=2, max_duration=atk_dur_max)
-                #if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_check_deseis_dead" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
+                #if Config().general["info_screenshots"]: cv2.imwrite(f"./log/screenshots/info/info_check_deseis_dead" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
                 ### LOOT ###
                 self._cs_pickit(skip_inspect=True)
                 if not self._pather.traverse_nodes([641], self): return False # , timeout=3):
@@ -759,4 +759,69 @@ class FoHdin(Paladin):
         self._activate_cleanse_redemption()
         ### LOOT ###
         #self._cs_pickit()
+        return True
+
+
+    ####### AUTOMAP #########
+    def kill_vizier_automap(self, seal_layout:str) -> bool:
+        atk_dur_min = Config().char["atk_len_diablo_vizier"]
+        atk_dur_max = atk_dur_min * 3
+        match seal_layout:
+            case "A1-L":
+                if not self._pather.traverse_nodes_automap([1612], self): return False
+                Logger.debug(seal_layout + ": Attacking Vizier")
+                self._cs_attack_sequence(min_duration=atk_dur_min, max_duration=atk_dur_max)
+                self._cs_pickit(skip_inspect=True)
+                self._activate_cleanse_redemption()
+            case "A2-Y":
+                if not self._pather.traverse_nodes_automap([1622], self): return False
+                Logger.debug(seal_layout + ": Attacking Vizier")
+                self._cs_attack_sequence(min_duration=atk_dur_min, max_duration=atk_dur_max)
+                self._cs_pickit(skip_inspect=True)
+                self._activate_cleanse_redemption()
+            case _:
+                Logger.warning(seal_layout + ": Invalid location for kill_vizier("+ seal_layout +"), should not happen.")
+                return False
+        return True
+
+    def kill_deseis_automap(self, seal_layout:str) -> bool:
+        atk_dur_min = Config().char["atk_len_diablo_deseis"]
+        atk_dur_max = atk_dur_min * 3
+        match seal_layout:
+            case "B1-S":
+                if not self._pather.traverse_nodes_automap([1632], self): return False                      #NODES!
+                Logger.debug(seal_layout + ": Attacking DeSeis")
+                self._cs_attack_sequence(min_duration=atk_dur_min, max_duration=atk_dur_max)
+                self._cs_pickit(skip_inspect=True)
+                self._activate_cleanse_redemption()
+            case "B2-U":
+                if not self._pather.traverse_nodes_automap([1], self): return False                      #NODES!
+                Logger.debug(seal_layout + ": Attacking DeSeis")
+                self._cs_attack_sequence(min_duration=atk_dur_min, max_duration=atk_dur_max)
+                self._cs_pickit(skip_inspect=True)
+                self._activate_cleanse_redemption()
+            case _:
+                Logger.warning(seal_layout + ": Invalid location for kill_deseis("+ seal_layout +"), should not happen.")
+                return False
+        return True
+
+    def kill_infector_automap(self, seal_layout:str) -> bool:
+        atk_dur_min = Config().char["atk_len_diablo_infector"]
+        atk_dur_max = atk_dur_min * 3
+        match seal_layout:
+            case "C1-F":
+                if not self._pather.traverse_nodes_automap([1653], self): return False                      #NODES!
+                Logger.debug(seal_layout + ": Attacking Infector")
+                self._cs_attack_sequence(min_duration=atk_dur_min, max_duration=atk_dur_max)
+                self._cs_pickit(skip_inspect=True)
+                self._activate_cleanse_redemption()
+            case "C2-G":
+                if not self._pather.traverse_nodes_automap([1], self): return False                      #NODES!
+                Logger.debug(seal_layout + ": Attacking Infector")
+                self._cs_attack_sequence(min_duration=atk_dur_min, max_duration=atk_dur_max)
+                self._cs_pickit(skip_inspect=True)
+                self._activate_cleanse_redemption()
+            case _:
+                Logger.warning(seal_layout + ": Invalid location for kill_infector("+ seal_layout +"), should not happen.")
+                return False
         return True

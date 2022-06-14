@@ -275,7 +275,7 @@ def open_npc_menu_map(npc_key: Npc, area: str = None, toggle_map: bool = True) -
             break
         wait(0.3, 0.4)
     if not found_npc_menu:
-        cv2.imwrite(f"./info_screenshots/automap_npc_failure_{time.strftime('%m%d_%H%M%S')}.png", grab())
+        cv2.imwrite(f"./log/screenshots/info/automap_npc_failure_{time.strftime('%m%d_%H%M%S')}.png", grab())
     keyboard.send(Config().char["clear_screen"])
     return found_npc_menu
 
