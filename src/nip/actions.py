@@ -1,20 +1,16 @@
-from nip.NTIPAliasQuality import NTIPAliasQuality
-from nip.NTIPAliasClass import NTIPAliasClass
-from nip.NTIPAliasClassID import NTIPAliasClassID
-from nip.NTIPAliasFlag import NTIPAliasFlag
-from nip.NTIPAliasStat import NTIPAliasStat
-from nip.NTIPAliasType import NTIPAliasType
+"""
+    Provides actions to perform tests on items in game.
+"""
 
-# ! The above imports are necessary, they are used within the eval statements. Your text editor probably is not showing them as not in use.
+
 import os
-import glob
 import re
+import glob
 import traceback
-from itertools import groupby
+from logger import Logger
 from dataclasses import dataclass
-
-from nip.lexer import Lexer, NipSyntaxError, NipSections
-from nip.tokens import Token, TokenType
+from nip.lexer import NipSections
+from nip.tokens import TokenType
 from nip.transpile import (
     prepare_nip_expression,
     transpile_nip_expression,
@@ -22,20 +18,29 @@ from nip.transpile import (
     NIPExpression,
     nip_expressions,
     load_nip_expression,
-    OPENING_PARENTHESIS_COUNT
 )
+
+# ! The below imports are necessary, they are used within the eval statements. Your text editor probably is not showing them as not in use.
+from nip.NTIPAliasQuality import NTIPAliasQuality
+from nip.NTIPAliasClass import NTIPAliasClass
+from nip.NTIPAliasClassID import NTIPAliasClassID
+from nip.NTIPAliasFlag import NTIPAliasFlag
+from nip.NTIPAliasStat import NTIPAliasStat
+from nip.NTIPAliasType import NTIPAliasType
 from nip.utils import find_unique_or_set_base
-from logger import Logger
-
-class NipSyntaxErrorSection(NipSyntaxError):
-    def __init__(self, token, section):
-        super().__init__(f"[ {token.type} ] : {token.value} can not be used in section [ {section} ].")
-
-
 
 
 
 def should_keep(item_data) -> tuple[bool, str]:
+    """Decides whether or not to keep an item.
+    Args:
+        item_data (dict): The item data.
+    returns:
+        tuple[bool, str]: A tuple containing the following:
+            bool: Whether or not to keep the item.
+            str: The raw expression to use for the keep condition.
+
+    """
     for expression in nip_expressions:
         if eval(expression.transpiled):
             return True, expression.raw
@@ -54,19 +59,23 @@ def _gold_pickup(item_data: dict, expression: NIPExpression) -> bool | None:
 
 
 def _handle_pick_eth_sockets(item_data: dict, expression: NIPExpression) -> tuple[bool, str]:
+    """Handles the pick condition for eth and sockets.
+        Args:
+            item_data (dict): The item data.
+            expression (NIPExpression): The expression to use.
+        Returns:
+            tuple[bool, str]: A tuple containing the following:
+                bool: Whether or not to keep the item.
+                NipExpression: The expression object that was used to evaluate the condition.
+        """
     expression_raw = prepare_nip_expression(expression.raw)
     all_tokens = expression.tokens
-
-    # Check to see if there is any None types in the tokens.
-    # if None in all_tokens:
-    #     print(all_tokens)
-    #     Logger.error("None type found in tokens " + expression_raw)
 
     tokens_by_section = get_section_from_tokens(all_tokens)
     eth_keyword_present = "ethereal" in expression_raw.lower()
     soc_keyword_present =  expression_raw.lower().count("[sockets]") == 1 # currently ignoring if there's socket logic; i.e., [sockets] == 0 || [sockets] == 5
 
-    eth = 0 # -1 = set to false, 0 = not set, 1 = set to true
+    eth = 0 # * -1 = set to false, 0 = not set, 1 = set to true
     soc = 0
     if eth_keyword_present:
         for i, token in enumerate(tokens := tokens_by_section[NipSections.PROP]):
@@ -79,7 +88,6 @@ def _handle_pick_eth_sockets(item_data: dict, expression: NIPExpression) -> tupl
 
     if len(tokens_by_section) > 1 and soc_keyword_present:
         for i, token in enumerate(tokens := tokens_by_section[NipSections.STAT]):
-            # print(f"tokens: {tokens}")
             if token.type == TokenType.ValueNTIPAliasStat and token.value == str(NTIPAliasStat["sockets"]):
                 desired_sockets = int(tokens[i + 2].value)
                 if (desired_sockets > 0 and not (desired_sockets == 1 and tokens[i + 1].value == "<")) or (desired_sockets == 0 and tokens[i + 1].value == ">"):
@@ -87,13 +95,14 @@ def _handle_pick_eth_sockets(item_data: dict, expression: NIPExpression) -> tupl
                 else:
                     soc = -1
                 break
-    """
-        pickup table:
-                -1 eth  0 eth   1 eth
-        -1 soc    w      w,g      g
-         0 soc   w,g     w,g      g
-         1 soc    g       g       g
-    """
+    
+
+    # pickup table:
+    # * w = white, g = gray
+    #         -1 eth  0 eth   1 eth
+    # -1 soc    w      w,g      g
+    #  0 soc   w,g     w,g      g
+    #  1 soc    g       g       g
 
     ignore = 0
     if item_data["Color"] == "white":
@@ -115,7 +124,18 @@ def _handle_pick_eth_sockets(item_data: dict, expression: NIPExpression) -> tupl
 
 
 def should_pickup(item_data) -> tuple[bool, str]:
+    """Decides whether or not to keep an item.
+    Args:
+        item_data (dict): The item data.
+    returns:
+        tuple[bool, str]: A tuple containing the following:
+            bool: Whether or not to keep the item.
+            str: The raw expression to use for the keep condition.
+    """
+
+    pick_eval_expr = ""
     item_is_gold = item_data["BaseItem"]["DisplayName"] == "Gold"
+
     for expression in nip_expressions:
         if expression.raw:
             # check gold
@@ -129,11 +149,7 @@ def should_pickup(item_data) -> tuple[bool, str]:
                 if ignore:
                     continue
 
-            try:
-                property_condition = eval(pick_eval_expr) # * This string in the eval uses the item_data that is being passed in
-            except Exception as e:
-                print(e,expression,)
-                return
+            property_condition = eval(pick_eval_expr) # * This string in the eval uses the item_data that is being passed in
             if property_condition:
                 return True, expression.raw
 
@@ -142,22 +158,40 @@ def should_pickup(item_data) -> tuple[bool, str]:
 
 
 def should_id(item_data) -> bool:
-    """
-        [name] == ring && [quality] == rare                     Don't ID.
-        [name] == ring && [quality] == rare # [strength] == 5   Do ID.
+    """Checks if the item should be identified.
+
+        Args:
+            item_data (dict): The item data.
+
+        Returns: (bool):
+            True if the item should be identified, False otherwise.
+
+        Raises:
+            None
+
+        Examples:
+            [name] == ring && [quality] == rare -> True
+            [name] == ring && [quality] == rare # [strength] == 5 -> Falsep
     """
     for expression in nip_expressions:
         if expression and expression.should_id_transpiled:
             split_expression = expression.raw.split("#")
             if "[idname]" in expression.raw.lower():
-                    return True
+                return True
             if len(split_expression) == 1:
                 if eval(expression.should_id_transpiled):
                     return False
     return True
 
 
-def load_nip_expressions(filepath):
+def _load_nip_expressions(filepath):
+    """
+        Loads the NIP expressions from the file.
+        Args:
+            filepath (str): The path to the file.
+        Returns:
+            None
+    """
     with open(filepath, "r") as f:
         for i, line in enumerate(f):
             line = line.strip()
@@ -193,15 +227,116 @@ num_files = 0
 if len(nip_file_paths) > 0:
     num_files = len(nip_file_paths)
     for nip_file_path in nip_file_paths:
-        load_nip_expressions(nip_file_path)
+        _load_nip_expressions(nip_file_path)
 # fallback to default nip file if no custom nip files specified or existing files are excluded
 else:
     num_files = 1
-    load_nip_expressions(default_nip_file_path)
+    _load_nip_expressions(default_nip_file_path)
     Logger.warning("No .nip files in config/nip/, fallback to default.nip")
 Logger.info(f"Loaded {num_files} nip files with {len(nip_expressions)} total expressions.")
 
 
 
 if __name__ == "__main__":
-    pass
+    item_data2 = {
+    "Name": "Nightwing's Veil",
+    "Quality": "unique",
+    "Text": "NIGHTWING'S VEIL|SPIRED HELM|DEFENSE: 313|DURABILITY: 23 OF 40|REQUIRED STRENGTH: 96|REQUIRED LEVEL: 67|+2 TO ALL SKILLS|+13% TO COLD SKILL DAMAGE|+96% ENHANCED DEFENSE|+15 TO DEXTERITY|+8 COLD ABSORB|HALF FREEZE DURATION|REQUIREMENTS -50%",
+    "BaseItem": {
+        "DisplayName": "Spired Helm",
+        "NTIPAliasClassID": 426,
+        "NTIPAliasType": 37,
+        "NTIPAliasStatProps": {
+            "194": {
+                "min": 0,
+                "max": 3
+            },
+            "72": 40,
+            "73": 40,
+            "31": {
+                "min": 114,
+                "max": 159
+            },
+            "0x400000": {
+                "min": 0,
+                "max": 1
+            }
+        },
+        "dimensions": [
+            2,
+            2
+        ],
+        "sets": [
+            "ONDALSALMIGHTY"
+        ],
+        "uniques": [
+            "VEILOFSTEEL",
+            "NIGHTWINGSVEIL"
+        ],
+        "NTIPAliasClass": 2
+    },
+    "Item": {
+        "DisplayName": "Nightwing's Veil",
+        "NTIPAliasClassID": 426,
+        "NTIPAliasType": 37,
+        "NTIPAliasStatProps": {
+            "16,0": {
+                "min": 90,
+                "max": 120
+            },
+            "127": {
+                "min": 2,
+                "max": 2
+            },
+            "2": {
+                "min": 10,
+                "max": 20
+            },
+            "149": {
+                "min": 5,
+                "max": 9
+            },
+            "118": {
+                "min": 1,
+                "max": 1
+            },
+            "331": {
+                "min": 8,
+                "max": 15
+            },
+            "91": {
+                "min": -50,
+                "max": -50
+            }
+        }
+    },
+    "NTIPAliasIdName": "NIGHTWINGSVEIL",
+    "NTIPAliasType": [
+        37,
+        50
+    ],
+    "NTIPAliasClassID": 426,
+    "NTIPAliasClass": 2,
+    "NTIPAliasQuality": 7,
+    "NTIPAliasStat": {
+        "31": 313,
+        "72": 23,
+        "73": 40,
+        "92": 67,
+        "127": 2,
+        "331": 13,
+        "16": 96,
+        "2": 15,
+        "148": 8,
+        "118": 1,
+        "91": -50
+    },
+    "NTIPAliasFlag": {
+        "0x10": 1,
+        "0x400000": 0,
+        "0x4000000": 0
+    }
+}
+    esp = "[Name] == Spiredhelm && [Quality] == Unique && [Flag] != Ethereal # [Itemabsorbcold] >= 5 "
+    print(transpile_nip_expression(esp))
+    print(eval(transpile_nip_expression(esp)))
