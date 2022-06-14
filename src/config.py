@@ -165,6 +165,7 @@ class Config:
             "type": self._select_val("char", "type"),
             "show_items": self._select_val("char", "show_items"),
             "inventory_screen": self._select_val("char", "inventory_screen"),
+            "teleport": self._select_val("char", "teleport"),
             "stand_still": self._select_val("char", "stand_still"),
             "force_move": self._select_val("char", "force_move"),
             "num_loot_columns": int(self._select_val("char", "num_loot_columns")),
@@ -176,7 +177,7 @@ class Config:
             "heal_rejuv_merc": float(self._select_val("char", "heal_rejuv_merc")),
             "chicken": float(self._select_val("char", "chicken")),
             "merc_chicken": float(self._select_val("char", "merc_chicken")),
-            "tp": self._select_val("char", "tp"),
+            "town_portal": self._select_val("char", "town_portal"),
             "belt_rows": int(self._select_val("char", "belt_rows")),
             "show_belt": self._select_val("char", "show_belt"),
             "potion1": self._select_val("char", "potion1"),
@@ -246,19 +247,19 @@ class Config:
         # Paladin base config
         paladin_base_cfg = dict(self.configs["config"]["parser"]["paladin"])
         if "paladin" in self.configs["custom"]["parser"]:
-            paladin_base_cfg.update(dict(self.configs["custom"]["parser"]["paladin"])) 
+            paladin_base_cfg.update(dict(self.configs["custom"]["parser"]["paladin"]))
         # Hammerdin config
         self.hammerdin = self.configs["config"]["parser"]["hammerdin"]
         if "hammerdin" in self.configs["custom"]["parser"]:
-            self.fohdin.update(self.configs["custom"]["parser"]["fohdin"])
             self.hammerdin.update(self.configs["custom"]["parser"]["hammerdin"])
+        self.hammerdin.update(paladin_base_cfg)
         # FoHdin config
         self.fohdin = dict(self.configs["config"]["parser"]["fohdin"])
         if "fohdin" in self.configs["custom"]["parser"]:
             self.fohdin.update(self.configs["custom"]["parser"]["fohdin"])
         self.fohdin.update(paladin_base_cfg)
 
-        # Assasin config
+        # Assassin config
         self.trapsin = self.configs["config"]["parser"]["trapsin"]
         if "trapsin" in self.configs["custom"]["parser"]:
             self.trapsin.update(self.configs["custom"]["parser"]["trapsin"])
