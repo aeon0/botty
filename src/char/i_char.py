@@ -339,7 +339,21 @@ class IChar:
         return skills.is_right_skill_selected(["TELE_ACTIVE", "TELE_INACTIVE"])
 
     def can_teleport(self) -> bool:
-        return (self.capabilities.can_teleport_natively or self.capabilities.can_teleport_with_charges) and self.select_teleport() and skills.is_right_skill_active()
+        can_tp = False
+        if res := (self.capabilities.can_teleport_natively or self.capabilities.can_teleport_with_charges):
+            can_tp |= res
+        else:
+            print("can't tp because no capability")
+        if res := self.select_teleport():
+            can_tp &= res
+        else:
+            print("can't tp because can't select skill")
+        if res := skills.is_right_skill_active():
+            can_tp &= res
+        else:
+            print("can't tp because skill is not active")
+        return res
+        #return (self.capabilities.can_teleport_natively or self.capabilities.can_teleport_with_charges) and self.select_teleport() and skills.is_right_skill_active()
 
     def pre_move(self):
         pass
@@ -425,9 +439,9 @@ class IChar:
                 mouse.move(*pos_away, randomize=40, delay_factor=[0.8, 1.4])
         return False
 
-    def _pre_buff_cta(self):
+    def _pre_buff_cta(self) -> bool:
         if not Config().char["cta_available"]:
-            return
+            return False
         # Save current skill img
         skill_before = cut_roi(grab(), Config().ui_roi["skill_right"])
         # Try to switch weapons and select bo until we find the skill on the right skill slot
@@ -453,7 +467,7 @@ class IChar:
 
         # Make sure the switch back to the original weapon is good
         start = time.time()
-        while time.time() - start < 4:
+        while (elapsed := time.time() - start < 4):
             self._weapon_switch()
             wait(0.3, 0.35)
             skill_after = cut_roi(grab(), Config().ui_roi["skill_right"])
@@ -463,6 +477,7 @@ class IChar:
             else:
                 Logger.warning("Failed to switch weapon, try again")
                 wait(0.5)
+        return elapsed
 
 
     def vec_to_monitor(self, target: tuple[float, float]) -> tuple[float, float]:

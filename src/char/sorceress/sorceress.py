@@ -60,10 +60,14 @@ class Sorceress(IChar):
         return super().select_by_template(template_type, success_func, timeout, threshold)
 
     def pre_buff(self):
-        self._pre_buff_cta()
-        self._cast_energy_shield()
-        self._cast_thunder_storm()
-        self._cast_frozen_armor()
+        if self._pre_buff_cta():
+            wait(self._cast_duration + 0.1)
+        if self._cast_energy_shield():
+            wait(self._cast_duration + 0.1)
+        if self._cast_thunder_storm():
+            wait(self._cast_duration + 0.1)
+        if self._cast_frozen_armor():
+            wait(self._cast_duration + 0.1)
 
     def _cast_static(self, duration: float = 1.4) -> bool:
         return self._cast_simple(skill_name="static_field", mouse_click_type = "right", duration=duration)
