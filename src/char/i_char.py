@@ -90,7 +90,7 @@ class IChar:
         mouse.move(pos[0], pos[1])
         time.sleep(0.1)
         mouse.click(button="left")
-        wait(0.45, 0.5)
+        wait(0.25, 0.3)
         return prev_cast_start
 
     def select_by_template(
