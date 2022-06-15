@@ -98,7 +98,6 @@ order=run_pindle, run_eldritch
 | weapon_switch      | Hotkey for "weapon switch" (only needed if cta_available=1) |
 | battle_order       | Hotkey for battle orders from cta (only needed if cta_available=1) |
 | battle_command     | Hotkey for battle command from cta (only needed if cta_available=1) |
-| min_gold_to_pick   | Minimum quantity of gold to pickup (also must set misc_gold=1 in pickit config) |
 | stash_gold         | Bool value to stash gold each time when stashing items |
 | use_merc           | Set to 1 for using merc. Set to 0 for not using merc (will not revive merc when dead), default = 1 |
 | atk_len_arc        | Attack length for hdin/sorc fighting arcane  |
