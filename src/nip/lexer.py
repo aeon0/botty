@@ -364,4 +364,4 @@ class Lexer:
             pythonic_operator = found_text.replace("#", "and").replace("||", "or").replace("&&", "and")
             return Token(logical_operator_map[found_text], pythonic_operator)
         else:
-            raise NipSyntaxError("NIP_0x5, "f"Invalid logical operator: '{char}'", self._get_text())
+            raise NipSyntaxError("NIP_0x5", f"Invalid logical operator: '{char}'", self._get_text())
