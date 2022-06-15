@@ -96,20 +96,17 @@ class PickIt:
         return PickedUpResult.PickedUp
 
     def _pick_up_item(self, char: IChar, item: GroundItem) -> PickedUpResult:
-        same_ID = item.ID == self._prev_item_pickup_attempt.ID
-        same_UID = item.UID == self._prev_item_pickup_attempt.UID # contains box location
-
         pickup_failed = False
-        if same_UID or same_ID:
-            self._fail_pickup_count += 1
         # gold moves when you try to pick it and are overburdened
-        if same_ID and item.BaseItem["DisplayName"] == "Gold":
+        if (item.ID == self._prev_item_pickup_attempt.ID) and item.BaseItem["DisplayName"] == "Gold":
+            self._fail_pickup_count += 1
             if is_visible(ScreenObjects.Overburdened):
                 personal.set_inventory_gold_full(True)
                 return PickedUpResult.GoldFull
             pickup_failed = self._fail_pickup_count >= 1
         # other items don't move, so should have same location
-        if same_UID:
+        if (item.UID == self._prev_item_pickup_attempt.UID):
+            self._fail_pickup_count += 1
             wait(0.25, 0.35)
             if is_visible(ScreenObjects.Overburdened):
                 return PickedUpResult.InventoryFull
