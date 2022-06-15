@@ -337,6 +337,6 @@ if __name__ == "__main__":
         "0x4000000": 0
     }
 }
-    esp ="[name] == ancientarmor # [sockets] >"
+    esp ="[Name] == ring # (8))"
     print(transpile_nip_expression(esp))
     # print(eval(transpile_nip_expression(esp)))

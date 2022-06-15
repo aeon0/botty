@@ -255,11 +255,19 @@ def validate_correct_math_syntax(left_token=None, right_token=None):
     if right_token and right_token.type not in allowed_left_and_right_tokens:
         raise NipSyntaxError("NIP_0x4", "unexpected token on right of math operator")
 
-OPENING_PARENTHESIS_COUNT = 0
+OPENING_PARENTHESIS_COUNT = 0 # * This needs to be reset every time an validation error occurs
+
+oNipSyntaxError = NipSyntaxError
+def NipSyntaxError(error_code, error_message): # * "hook" the error constructor so every time the error is raised / called, we reset the opening parenthesis count
+    global OPENING_PARENTHESIS_COUNT
+    OPENING_PARENTHESIS_COUNT = 0
+    return oNipSyntaxError(error_code, error_message)
+
+
 def validate_correct_parenthesis_syntax(current_pos, all_tokens, left_token=None, right_token=None):
     """Makes sure that every parenthesis is closed and that there are no unclosed parenthesis."""
     global OPENING_PARENTHESIS_COUNT
-
+    print(OPENING_PARENTHESIS_COUNT)
     token = all_tokens[current_pos]
 
     if token.type == TokenType.LPAREN:
@@ -275,7 +283,6 @@ def validate_correct_parenthesis_syntax(current_pos, all_tokens, left_token=None
 
     if current_pos == len(all_tokens) - 1:
         if OPENING_PARENTHESIS_COUNT != 0:
-            # OPENING_PARENTHESIS_COUNT = 0
             if OPENING_PARENTHESIS_COUNT > 0:
                 OPENING_PARENTHESIS_COUNT = 0
                 raise NipSyntaxError("NIP_0x6", "unclosed parenthesis")
@@ -340,8 +347,6 @@ def validate_logical_operators(left=None, right=None):
 
     ]
 
-    # print(right)
-
     if left:
         if left.type not in allowed_left_and_right_tokens + [TokenType.RPAREN]:
             raise NipSyntaxError("NIP_0x10", "Expected token on left of logical operator")
@@ -386,7 +391,6 @@ def validate_nip_expression_syntax(nip_expression): # * enforces that {property}
                 raise NipSyntaxError("NIP_0x14", f"Invalid token '{token.value}' in stats section")
 
     if split_nip_expression_len >= 3: # maxquantity
-        print('c')
         # all_tokens.append(Token(TokenType.SECTIONAND, "#"))
         tokens = Lexer().create_tokens(split_nip_expression[2], NipSections.MAXQUANTITY)
         all_tokens.extend(tokens)
@@ -406,13 +410,11 @@ def validate_nip_expression_syntax(nip_expression): # * enforces that {property}
                 raise NipSyntaxError("NIP_0x15", "Invalid maxquantity lookup")
 
     # * Further syntax validation
-    # print(all_tokens[-1].type)
 
     if all_tokens[-1].type == TokenType.SECTIONAND:
         raise NipSyntaxError("NIP_0x16", "unexpected sectionand (#) at end of expression")
     math_tokens = [TokenType.MULTIPLY, TokenType.PLUS, TokenType.MINUS, TokenType.DIVIDE, TokenType.MODULO, TokenType.POW]
     logical_tokens = [TokenType.AND, TokenType.OR, TokenType.EQ, TokenType.NE, TokenType.GT, TokenType.LT, TokenType.GE, TokenType.LE, TokenType.SECTIONAND]
-
     for i, token in enumerate(all_tokens):
         # Get the left and right tokens for the current token
         left = None
@@ -421,10 +423,8 @@ def validate_nip_expression_syntax(nip_expression): # * enforces that {property}
             left = all_tokens[i-1]
         if i < len(all_tokens)-1:
             right = all_tokens[i+1]
-
-        if token.type == TokenType.LPAREN or token.type == TokenType.RPAREN or i == len(all_tokens) - 1: # * Also check the last token no matter what so if there is an opening parenthesis without a closing parenthesis it will raise an error
-            validate_correct_parenthesis_syntax(i, all_tokens, left_token=left, right_token=right)
-        elif token.type == TokenType.EQ:
+       
+        if token.type == TokenType.EQ:
             if i == len(all_tokens) - 1: # * Check to make sure the next token is a token.
                 # ! the logic only makes sense for the last token, what the fuck
                 raise NipSyntaxError("NIP_0x17", "No value after equal sign")
@@ -433,9 +433,12 @@ def validate_nip_expression_syntax(nip_expression): # * enforces that {property}
         # * Make sure two numbers aren't next to each other.
         elif token.type == TokenType.NUMBER or token.type == TokenType.UNKNOWN:
             validate_digits_syntax(left=left, right=right)
-        elif token.type in logical_tokens or i == len(all_tokens) - 1:
+        
+        if token.type in logical_tokens:
             validate_logical_operators(left=left, right=right)
 
+        if token.type == TokenType.LPAREN or token.type == TokenType.RPAREN: # * Also check the last token no matter what so if there is an opening parenthesis without a closing parenthesis it will raise an error
+            validate_correct_parenthesis_syntax(i, all_tokens, left_token=left, right_token=right)
     return True
 
 
