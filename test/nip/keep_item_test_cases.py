@@ -83,6 +83,10 @@ NIP_KEEP_TESTS = {
             "expression": "[name] == BecdeCorbin # [itemchargedskill] == 126",
             "should_keep": True
         },
+        {
+            "expression": "[name] == BecdeCorbin # [itemchargedskill] == 127",
+            "should_keep": False
+        },
     ],
     # white phase blade
     "D2R_3BGDpVHQQS": [
@@ -1014,6 +1018,21 @@ NIP_KEEP_TESTS = {
         {
             "expression": "[Name] == jewel && [quality] == unique # [passivefirepierce]+[passivefiremastery] >= 10",
             "should_keep": True
+        },
+    ],
+    # nightwing veil
+    "nightwing": [
+        {
+            "expression": "[name] == spiredhelm && [quality] == unique && [flag] != ethereal # [dexterity] >= 10 && [passivecoldmastery] >= 8",
+            "should_keep": True
+        },
+        {
+            "expression": "[name] == spiredhelm && [quality] == unique && [flag] != ethereal # [dexterity] >= 10 && [itemabsorbcold] >= 8",
+            "should_keep": True
+        },
+        {
+            "expression": "[name] == spiredhelm && [quality] == unique && [flag] != ethereal # [dexterity] >= 10 && [itemabsorbcold] >= 9",
+            "should_keep": False
         },
     ],
 }
