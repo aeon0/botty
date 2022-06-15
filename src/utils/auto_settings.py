@@ -89,13 +89,28 @@ def set_launch_settings(launch_options):
         print(f"You might need to set the launch options manually. Add launch options to D2R in BNet launcher: {launch_options}")
 
 def copy_mod_files():
-    new_path = os.path.join(Config().general['d2r_path'], "mods\\botty")
+    mod_name = Config().general["name"]
+    old_path = "assets/mods/botty"
+    new_path = os.path.join(Config().general['d2r_path'], f"mods/{mod_name}")
     os.makedirs(new_path, exist_ok=True)
     try:
+        # copy mod files to d2r directory
         shutil.rmtree(new_path)
-        shutil.copytree("assets/mods/botty", new_path)
+        shutil.copytree(old_path, new_path)
+        os.rename(f"{new_path}/botty.mpq", f"{new_path}/{mod_name}.mpq")
+
+        # modify modinfo.json to use mod_name
+        mod_info_path = f"{new_path}/{mod_name}.mpq/modinfo.json"
+        with open(mod_info_path, "rb") as file:
+            data=file.read()
+            mod_info=json.loads(data)
+        mod_info["name"] = mod_name
+        with open(mod_info_path, 'w') as outfile:
+            json.dump(mod_info, outfile, indent=4)
+
     except Exception as e:
         print(f"Error copying mod files: {e}")
+        print(f"You might need to copy the mod files from {old_path} to {new_path} manually.")
 
 def adjust_settings():
     close_down_d2()

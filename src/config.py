@@ -127,7 +127,7 @@ class Config:
 
         self.general = {
             "saved_games_folder": self._select_val("general", "saved_games_folder"),
-            "name": self._select_val("general", "name"),
+            "name": _default_iff(self._select_val("general", "name"), "", "botty"),
             "max_game_length_s": float(self._select_val("general", "max_game_length_s")),
             "max_consecutive_fails": int(self._select_val("general", "max_consecutive_fails")),
             "max_runtime_before_break_m": float(_default_iff(self._select_val("general", "max_runtime_before_break_m"), '', 0)),
@@ -303,7 +303,7 @@ class Config:
             "hwnd_window_process": _default_iff(Config()._select_val("advanced_options", "hwnd_window_process"), ''),
             "window_client_area_offset": tuple(map(int, Config()._select_val("advanced_options", "window_client_area_offset").split(","))),
             "ocr_during_pickit": bool(int(self._select_val("advanced_options", "ocr_during_pickit"))),
-            "launch_options": self._select_val("advanced_options", "launch_options"),
+            "launch_options": self._select_val("advanced_options", "launch_options").replace("<name>", self.general["name"]),
             "override_capabilities": _default_iff(Config()._select_optional("advanced_options", "override_capabilities"), ""),
         }
 
