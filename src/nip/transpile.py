@@ -234,20 +234,19 @@ def transpile(tokens: list[Token], isPickUpPhase: bool = False, transpiled_expre
 def validate_correct_math_syntax(left_token=None, right_token=None):
     """Makes sure that there are no invalid math operations going on inside the expression"""
     allowed_left_and_right_tokens = [
+        TokenType.KeywordNTIPAliasClass,
+        TokenType.KeywordNTIPAliasFlag,
+        TokenType.KeywordNTIPAliasMaxQuantity,
+        TokenType.KeywordNTIPAliasName,
+        TokenType.KeywordNTIPAliasQuality,
+        TokenType.KeywordNTIPAliasType,
+
         TokenType.ValueNTIPAliasClass,
         TokenType.ValueNTIPAliasClassID,
         TokenType.ValueNTIPAliasFlag,
-        TokenType.ValueNTIPAliasType,
         TokenType.ValueNTIPAliasQuality,
         TokenType.ValueNTIPAliasStat,
-
-        TokenType.KeywordNTIPAliasClass,
-        TokenType.KeywordNTIPAliasFlag,
-        TokenType.KeywordNTIPAliasType,
-        TokenType.KeywordNTIPAliasQuality,
-        TokenType.KeywordNTIPAliasName,
-        TokenType.KeywordNTIPAliasIDName,
-        TokenType.KeywordNTIPAliasMaxQuantity,
+        TokenType.ValueNTIPAliasType,
 
         TokenType.NUMBER,
     ]
@@ -379,12 +378,12 @@ def validate_nip_expression_syntax(nip_expression): # * enforces that {property}
                 token.type == TokenType.ValueNTIPAliasClassID and token.value != '523' or # 523 refers to gold
                 token.type == TokenType.ValueNTIPAliasFlag or
                 token.type == TokenType.ValueNTIPAliasType or
-                token.type == TokenType.ValueNTIPAliasQuality or 
+                token.type == TokenType.ValueNTIPAliasQuality or
                 token.type == TokenType.UNKNOWN
             )
 
             if is_invalid_stat_lookup:
-                raise NipSyntaxError("NIP_0x13", f"Invalid token '{token.value}' in stats")
+                raise NipSyntaxError("NIP_0x13", f"Invalid token '{token.value}' in stats section")
 
     if split_nip_expression_len >= 3: # maxquantity
         # all_tokens.append(Token(TokenType.SECTIONAND, "#"))

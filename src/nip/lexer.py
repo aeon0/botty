@@ -146,22 +146,22 @@ class Lexer:
 
             TokenType.SECTIONAND: '#',
 
-            TokenType.KeywordNTIPAliasIDName: '[idname]',
-            TokenType.KeywordNTIPAliasName: '[name]',
-            TokenType.KeywordNTIPAliasFlag: '[flag]',
-            TokenType.KeywordNTIPAliasQuality: '[quality]',
             TokenType.KeywordNTIPAliasClass: '[class]',
+            TokenType.KeywordNTIPAliasFlag: '[flag]',
+            TokenType.KeywordNTIPAliasIDName: '[idname]',
             TokenType.KeywordNTIPAliasMaxQuantity: '[maxquantity]',
+            TokenType.KeywordNTIPAliasName: '[name]',
+            TokenType.KeywordNTIPAliasQuality: '[quality]',
             TokenType.KeywordNTIPAliasType: '[type]',
 
-            TokenType.ValueNTIPAliasIDName: '{}',
+            TokenType.ValueNTIPAlias: '{}',
             TokenType.ValueNTIPAliasClass: '{}',
             TokenType.ValueNTIPAliasClassID: '{}',
             TokenType.ValueNTIPAliasFlag: '{}',
+            TokenType.ValueNTIPAliasIDName: '{}',
             TokenType.ValueNTIPAliasQuality: '{}',
             TokenType.ValueNTIPAliasStat: '{}',
             TokenType.ValueNTIPAliasType: '{}',
-            TokenType.ValueNTIPAlias: '{}',
         }
 
         expression = ''
@@ -176,13 +176,13 @@ class Lexer:
         for token in tokens:
             if token.type in token_to_value:
                 if token.type == TokenType.ValueNTIPAliasStat:
-                    expression += token_to_value[token.type].format(f'[{find_stat_by_value(token.value)}]')               
+                    expression += token_to_value[token.type].format(f'[{find_stat_by_value(token.value)}]')
                 else:
-                    expression += token_to_value[token.type].format(token.value)                  
+                    expression += token_to_value[token.type].format(token.value)
             expression += ' '
         return expression.strip()
-            
-                
+
+
 
     def _create_custom_digit_token(self, found_number, append_text="", append_front=False):
         """
@@ -195,7 +195,7 @@ class Lexer:
                 found_number = append_text + found_number
             else:
                 found_number += append_text
-        
+
         return Token(TokenType.NUMBER, float(found_number))
 
     def _create_digits(self) -> Token:
@@ -229,7 +229,7 @@ class Lexer:
 
         if symbol in symbol_map:
             return Token(symbol_map[symbol], symbol)
-        
+
         return Token(TokenType.UNKNOWN, symbol)
 
     def _create_keyword_lookup(self) -> Token:
@@ -262,7 +262,7 @@ class Lexer:
                             return Token(TokenType.KeywordNTIPAliasType, lookup_key)
                         case "idname":
                             return Token(TokenType.KeywordNTIPAliasIDName, lookup_key)
-                        case _: # ? This is default.. 
+                        case _: # ? This is default..
                             if lookup_key in NTIPAliasClass:
                                 return Token(TokenType.ValueNTIPAliasClass, NTIPAliasClass[lookup_key])
                             elif lookup_key in NTIPAliasQuality:
@@ -274,7 +274,7 @@ class Lexer:
                             elif lookup_key in NTIPAliasType:
                                 return Token(TokenType.ValueNTIPAliasType, NTIPAliasType[lookup_key])
                     Logger.warning(f"Unknown property lookup: \"{lookup_key}\" {''.join(self.text)}  {self.current_section}")
-                    
+
                     return Token(TokenType.UNKNOWN, lookup_key)
             elif self.current_section == NipSections.STAT:
                 if lookup_key in NTIPAliasStat:
@@ -288,12 +288,12 @@ class Lexer:
                     return Token(TokenType.UNKNOWN, lookup_key)
             elif self.current_section == NipSections.MAXQUANTITY:
                 pass
-        
+
             return Token(TokenType.UNKNOWN, lookup_key)
 
     def _create_d2r_image_data_lookup(self) -> Token:
         lookup_key = ""
-        
+
         found_lookup_key = re.match(r"^(\w+)\s*", self._get_current_iteration_of_text_raw())
         # print(found_lookup_key, self._get_current_iteration_of_text_raw())
         if found_lookup_key:
@@ -302,7 +302,7 @@ class Lexer:
                 self._advance()
             lookup_key = found
 
-        if self.current_section == NipSections.PROP: 
+        if self.current_section == NipSections.PROP:
             # TODO: The second checks (i.e NTIPAliasClass and self.tokens[-2].type == TokenType.CLASS:) seem a little misplaced, possibly put them inside the validation function that is inside transpiler.py and throw a warning accordingly.
             if lookup_key in NTIPAliasClass and self.tokens[-2].type == TokenType.KeywordNTIPAliasClass:
                 return Token(TokenType.ValueNTIPAliasClass, lookup_key)
@@ -324,7 +324,7 @@ class Lexer:
                 #             raise NipSyntaxError( "NIP_0x4", f"Unknown NTIP lookup: {lookup_key} did you mean {key}?", self._get_text())
                 # else:
                 #     return Token(TokenType.ValueNTIPAliasIDName, lookup_key)
-                
+
                 return Token(TokenType.UNKNOWN, lookup_key)
         elif self.current_section == NipSections.STAT:
             if lookup_key in NTIPAliasStat:
@@ -360,7 +360,7 @@ class Lexer:
                 self._increment_section()
             for _ in range(len(found_text)):
                 self._advance()
-            
+
             pythonic_operator = found_text.replace("#", "and").replace("||", "or").replace("&&", "and")
             return Token(logical_operator_map[found_text], pythonic_operator)
         else:
