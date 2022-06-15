@@ -39,9 +39,7 @@ from inventory import personal, vendor, belt, common
 from run import Pindle, ShenkEld, Trav, Nihlathak, Arcane, Diablo
 from town import TownManager, A1, A2, A3, A4, A5, town_manager
 
-# Added for dclone ip hunt
 from messages import Messenger
-from utils.dclone_ip import get_d2r_game_ip
 
 class Bot:
 
@@ -271,20 +269,6 @@ class Bot:
             keybind = Config().char["teleport"]
             Logger.info(f"Teleport keybind is lost upon death. Rebinding teleport to '{keybind}'")
             self._char.remap_right_skill_hotkey("TELE_ACTIVE", Config().char["teleport"])
-
-        # Check for the current game ip and pause if we are able to obtain the hot ip
-        if Config().dclone["region_ips"] != "" and Config().dclone["dclone_hotip"] != "":
-            cur_game_ip = get_d2r_game_ip()
-            hot_ip = Config().dclone["dclone_hotip"]
-            Logger.debug(f"Current Game IP: {cur_game_ip}   and HOTIP: {hot_ip}")
-            if hot_ip == cur_game_ip:
-                if self._messenger.enabled:
-                    self._messenger.send_message(f"Dclone IP Found on IP: {cur_game_ip}")
-                print("Press Enter")
-                input()
-                os._exit(1)
-            else:
-                Logger.info(f"Please Enter the region ip and hot ip on config to use")
 
         # Run /nopickup command to avoid picking up stuff on accident
         if Config().char["enable_no_pickup"] and (not self._ran_no_pickup and not self._game_stats._nopickup_active):

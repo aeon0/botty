@@ -102,7 +102,7 @@ class Diablo:
                         Logger.debug("CS after town: Re-open TP")
                         if Config().general["info_screenshots"]: cv2.imwrite(f"./log/screenshots/info/TP_after_town" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
                         if not skills.has_tps():
-                            Logger.warning("CS after Town: failed to open TP, higher chance of failing runs from now on, you should buy new TPs! (hint: always_repair=1)")
+                            Logger.warning("CS after Town: failed to open TP, higher chance of failing runs from now on, you should buy new TPs!")
                             self.used_tps += 20
                         mouse.click(button="right")
                         self.used_tps += 1
