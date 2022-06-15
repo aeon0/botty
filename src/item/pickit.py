@@ -1,5 +1,4 @@
 from enum import Enum
-from math import dist
 from numpy import ndarray
 import cv2
 import json
@@ -7,7 +6,6 @@ import keyboard
 import os
 import time
 import uuid
-from operator import itemgetter
 
 from char import IChar
 from config import Config
@@ -19,8 +17,8 @@ from item.consumables import ITEM_CONSUMABLES_MAP
 from logger import Logger
 from nip.actions import should_pickup
 from nip.NTIPAliasType import NTIPAliasType as NTIP_TYPES
-from screen import grab, convert_abs_to_monitor, convert_screen_to_monitor
-from ui_manager import ScreenObjects, detect_screen_object, is_visible, wait_until_visible
+from screen import grab, convert_abs_to_monitor
+from ui_manager import ScreenObjects, is_visible
 from utils.custom_mouse import mouse
 from utils.misc import wait
 
@@ -106,14 +104,14 @@ class PickIt:
             self._fail_pickup_count += 1
         # gold moves when you try to pick it and are overburdened
         if same_ID and item.BaseItem["DisplayName"] == "Gold":
-            if detect_screen_object(ScreenObjects.Overburdened).valid:
+            if is_visible(ScreenObjects.Overburdened):
                 personal.set_inventory_gold_full(True)
                 return PickedUpResult.GoldFull
             pickup_failed = self._fail_pickup_count >= 1
         # other items don't move, so should have same location
         if same_UID:
             wait(0.25, 0.35)
-            if detect_screen_object(ScreenObjects.Overburdened).valid:
+            if is_visible(ScreenObjects.Overburdened):
                 return PickedUpResult.InventoryFull
             elif self._fail_pickup_count >= 1:
                 # * +1 because we failed at picking it up once already, we just can't detect the first failure (unless it is due to full inventory)
