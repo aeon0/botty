@@ -456,9 +456,9 @@ class Diablo:
         self.used_tps = 0
         if do_pre_buff: self._char.pre_buff()
 
-        if Config().char["teleport_weapon_swap"]: self._char.switch_weapon() #switch to teleport
-
         #Clear Trash in CS
+
+        if Config().char["teleport_weapon_swap"]: self._char.switch_to_tele_offhand() #switch to teleport
 
         if Config().char["kill_cs_trash"]:
             if not self._river_of_flames_trash(): return False
@@ -467,7 +467,9 @@ class Diablo:
             
         #Arrive at and clear Pentagram
         if not self._cs_pentagram(): return False
-        if Config().char["teleport_weapon_swap"]: self._char.switch_weapon() #switch from Teleport, the rest is w/o teleport :)
+        
+        if Config().char["teleport_weapon_swap"]: self._char.switch_from_tele_offhand() #switch to back to main
+        #rest of the run is w/o tele staff - must be changed to walking nodes :D
 
         #OLD APPROACH HAS 80% SUCCESS RATE
         if Config().char["kill_cs_trash"]: self._trash_seals()
