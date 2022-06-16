@@ -68,7 +68,6 @@ def inventory_has_items(img: np.ndarray = None, close_window = False) -> bool:
         common.close()
     if items:
         return True
-    common.close(force=True) # Close the inventory if it is empty
     return False
 
 
@@ -161,7 +160,7 @@ def stash_all_items(items: list = None):
 
 def open(img: np.ndarray = None) -> np.ndarray:
     img = grab() if img is None else img
-    if not is_visible(ScreenObjects.RightPanel, img):
+    if not common.inventory_is_open():
         keyboard.send(Config().char["inventory_screen"])
         if not wait_until_visible(ScreenObjects.RightPanel, 1).valid:
             if not view.return_to_play():
@@ -312,7 +311,7 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
 
                         box.keep = keep
                         if keep:
-                            Logger.debug(f"Keep {item_name}. Expression: {expression}")
+                            Logger.info(f"Keep {item_name}. Expression: {expression}")
                             sell = False
                         elif need_id:
                             Logger.debug(f"Need to ID {item_name}.")
@@ -351,9 +350,7 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
             log_item_fail(hovered_item, slot)
 
     if close_window:
-        if not is_visible(ScreenObjects.RightPanel, img):
-            center_mouse()
-        common.close(force=True)
+        common.close()
     return boxes
 
 def transfer_items(items: list, action: str = "drop", img: np.ndarray = None) -> list:
