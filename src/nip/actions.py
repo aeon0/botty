@@ -53,6 +53,7 @@ def _gold_pickup(item_data: dict, expression: NIPExpression) -> bool | None:
             token.type == TokenType.ValueNTIPAliasStat
             and token.value == str(NTIPAliasStat["gold"])
             and "Amount" in item_data
+            and item_data["Amount"] is not None
         ):
             try:
                 read_gold = int(item_data["Amount"])
