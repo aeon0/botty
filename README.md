@@ -34,13 +34,10 @@ Check out the [development.md](development.md) docu for infos on how to build fr
 You can support this project by giving feedback, reporting bugs, or creating pull requests.
 Contributions are welcome, and we encourage you to contribute to this project if you would like to help out. Botty is a open source project and almost excessively maintained by contributors (there has been 50+ contributors! <3). In our [**discord**](https://discord.gg/Jf3J8cuXWg) there is a contributor role, and you can ping one of the admins and ask for the role to talk to other contributors! Though you don't need to be in the [**discord**](https://discord.gg/Jf3J8cuXWg) to contribute, we do encourage you to do so.
 
-
-## BNIP
-
-  
+## BNIP Pickit
 
 Botty NIP (BNIP) is an extended version of Njaguar's Item Parser (NIP).
-BNIP is compatible with NIP.
+BNIP is compatible with NIP (with some minor exceptions as discussed below).
 
 There is a default nip file that comes with botty called "default.nip" inside config folder, you can add your own nip files by putting them inside config/nip with a file extension of .nip. Creating your own nip file also turns off the default.nip.
 
@@ -48,12 +45,11 @@ We suggest you read the NIP guide if you are unfamiliar with NIP https://github.
 
 ### New features in BNIP
 
-Stuff like [defense], [poisonmaxdam], etc, is no longer calculated, but is now read as it's raw value. Example: Adds 5-10 poison damage over 1 seconds [poisonmaxdam] equal to 10.
+Poison damage is no longer calculated, but is now read as it's raw value. Example: Adds 5-10 poison damage over 1 seconds can be picked with `[poisonmindam] == 5 && [poisonmaxdam] == 10`. "313 Poison Damage over 5 seconds" can be picked with `[poisonmindam] == 313` or  `[poisonmaxdam] == 313`.
 
-[allres] is a thing now. example: [type] == amulet # [allres] == 30
+`[allres]` is a thing now. example: `[type] == amulet && [quality] == unique # [allres] == 30` will pick up Mara's
 
-[idname] can now be used for unique / set items. I.E [idname] == thestoneofjordan (this forces the item to be ID'd so be careful if you want to keep unid unique rings)
-
+`[idname]` can now be used for unique / set items. For example, `[idname] == thestoneofjordan` will pick up SoJ. Keep in mind, however, this forces the item to be ID'd so be careful if you want to keep unid items.
 
 ## Graphic Debugger
 
