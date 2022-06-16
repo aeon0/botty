@@ -61,7 +61,8 @@ def close(img: np.ndarray = None) -> np.ndarray | None:
     img = grab() if img is None else img
     if inventory_is_open(img):
         # close open inventory
-        keyboard.send("esc")
+        if Config().char["clear_screen"]:
+            keyboard.send(Config().char["clear_screen"])
         # check to ensure it closed
         wait(0.04, 0.08)
         timer = True
