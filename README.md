@@ -34,6 +34,25 @@ Check out the [development.md](development.md) docu for infos on how to build fr
 You can support this project by giving feedback, reporting bugs, or creating pull requests.
 Contributions are welcome, and we encourage you to contribute to this project if you would like to help out. Botty is a open source project and almost excessively maintained by contributors (there has been 50+ contributors! <3). In our [**discord**](https://discord.gg/Jf3J8cuXWg) there is a contributor role, and you can ping one of the admins and ask for the role to talk to other contributors! Though you don't need to be in the [**discord**](https://discord.gg/Jf3J8cuXWg) to contribute, we do encourage you to do so.
 
+
+## BNIP
+
+  
+
+Botty NIP (BNIP) is an extended version of Njaguar's Item Parser (NIP).
+BNIP is compatible with NIP.
+
+We suggest you read the NIP guide if you are unfamiliar with NIP https://github.com/blizzhackers/pickits/blob/master/NipGuide.md
+
+### New features in BNIP
+
+Stuff like [defense], [poisonmaxdam], etc, is no longer calculated, but is now read as it's raw value. Example: Adds 5-10 poison damage over 1 seconds [poisonmaxdam] equal to 10.
+
+[allres] is a thing now. example: [type] == amulet # [allres] == 30
+
+[idname] can now be used for unique / set items. I.E [idname] == thestoneofjordan (this forces the item to be ID'd so be careful if you want to keep unid unique rings)
+
+
 ## Graphic Debugger
 
 To check if you graphic settings are good and if the bot would pick up items there is a **Graphic Debugger Mode**. Start botty and press F10 (Default key). This will open up a (mostly black) window. Start a game in D2R and go to A5. You should see some templates with blue circles detected and scores printed out to the console. To check item finding, throw some items of different types on the ground. The debug window should show the item names with black background. If you throw an item on the ground that should be picked up, it will have a red circle. The console will print out the scores for each item that would be picked up. Scores should be well above 0.9 for these items.</br>
