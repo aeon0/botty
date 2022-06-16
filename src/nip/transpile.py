@@ -298,7 +298,7 @@ def validate_nip_expression_syntax(nip_expression): # * enforces that {property}
                 raise NipSyntaxError("NIP_0x15", "Invalid maxquantity lookup")
 
     # * Further syntax validation
-    print(all_tokens)
+    # print(all_tokens)
     if all_tokens[-1].type == TokenType.SECTIONAND:
         raise NipSyntaxError("NIP_0x16", "unexpected sectionand (#) at end of expression")
     math_tokens = [TokenType.MULTIPLY, TokenType.PLUS, TokenType.MINUS, TokenType.DIVIDE, TokenType.MODULO, TokenType.POW]
