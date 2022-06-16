@@ -44,12 +44,14 @@ def expressions_test_list() -> list[ExpressionTest]:
             ))
     return expressions
 
-@pytest.mark.parametrize('hovered_item', load_hovered_items().items())
-def test_hovered_item(hovered_item: list[str, dict]):
-    basename = hovered_item[0]
-    result = hovered_item[1]
-    expected_properties = HoveredItem.from_json(open(f"{PATH}/{basename}.json").read())
-    assert result == expected_properties
+# this test has essentially been made obsolete by the nip should_keep() tests
+
+# @pytest.mark.parametrize('hovered_item', load_hovered_items().items())
+# def test_hovered_item(hovered_item: list[str, dict]):
+#     basename = hovered_item[0]
+#     result = hovered_item[1]
+#     expected_properties = HoveredItem.from_json(open(f"{PATH}/{basename}.json").read())
+#     assert result == expected_properties
 
 @pytest.mark.parametrize('should_keep_expression', expressions_test_list())
 def test_keep_item(should_keep_expression: ExpressionTest, mocker):

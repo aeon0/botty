@@ -46,14 +46,16 @@ def expressions_test_list() -> list[ExpressionTest]:
                     break
     return expressions
 
-@pytest.mark.parametrize('ground_items', load_ground_loot().items())
-def test_ground_loot(ground_items: list[str, dict]):
-    basename = ground_items[0]
-    result = ground_items[1]
-    x = open(f"{PATH}/{basename}.json").read()
-    expected_properties = GroundItemList.from_json(x)
-    # print(f"expected_properties: {expected_properties}")
-    assert result == expected_properties
+# this test has essentially been made obsolete by the nip should_pick() tests
+
+# @pytest.mark.parametrize('ground_items', load_ground_loot().items())
+# def test_ground_loot(ground_items: list[str, dict]):
+#     basename = ground_items[0]
+#     result = ground_items[1]
+#     x = open(f"{PATH}/{basename}.json").read()
+#     expected_properties = GroundItemList.from_json(x)
+#     # print(f"expected_properties: {expected_properties}")
+#     assert result == expected_properties
 
 
 @pytest.mark.parametrize('should_pick_expression', expressions_test_list())
