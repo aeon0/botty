@@ -135,7 +135,7 @@ class HealthManager:
                     elif merc_health_percentage <= Config().char["heal_merc"] and last_drink > merc_hp_potion_delay:
                         belt.drink_potion("health", merc=True, stats=[merc_health_percentage])
                         self._last_merc_heal = time.time()
-                if not get_panel_check_paused() and (common.inventory_is_open(img)):
+                if not get_panel_check_paused() and (is_visible(ScreenObjects.LeftPanel, img) or is_visible(ScreenObjects.RightPanel, img)):
                     Logger.warning(f"Found an open inventory / quest / skill / stats page. Close it.")
                     self._count_panel_detects += 1
                     if self._count_panel_detects >= 2:
