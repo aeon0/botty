@@ -171,7 +171,8 @@ def validate_correct_parenthesis_syntax(current_pos, all_tokens, left_token=None
         TokenType.LE,
         TokenType.OR,
         TokenType.AND,
-        TokenType.SECTIONAND
+        TokenType.SECTIONAND,
+        TokenType.NOTIFICATION
     ]
 
     global OPENING_PARENTHESIS_COUNT
