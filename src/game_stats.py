@@ -59,7 +59,8 @@ class GameStats:
             self._location_stats["totals"]["items"] += 1
 
         if send_message and self._messenger.enabled and not skip_log:
-            self._messenger.send_item(item_name, img, self._location, ocr_text, expression, item_props)
+            if expression[0] != "@":
+                self._messenger.send_item(item_name, img, self._location, ocr_text, expression, item_props)
 
     def log_death(self, img: str):
         self._death_counter += 1

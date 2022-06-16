@@ -106,6 +106,9 @@ class Lexer:
                 self.tokens.append(self._create_keyword_lookup())
             elif self.current_token in CHARS:
                 self.tokens.append(self._create_d2r_image_data_lookup())
+            elif self.current_section == NipSections.PROP and self.text_i == 0 and self.current_token == "@":
+                self.tokens.append(Token(TokenType.NOTIFICATION, '@'))
+                self._advance()
             else:
                 raise NipSyntaxError("NIP_0x1", "Unknown token: " + self.current_token, self._get_text())
         return self.tokens

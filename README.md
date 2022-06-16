@@ -51,6 +51,11 @@ Poison damage is no longer calculated, but is now read as it's raw value. Exampl
 
 `[idname]` can now be used for unique / set items. For example, `[idname] == thestoneofjordan` will pick up SoJ. Keep in mind, however, this forces the item to be ID'd so be careful if you want to keep unid items.
 
+If you have the discord webhook hooked up to alert you when the bot keeps items, you can suppress these alerts by adding a "@" in front of your expression.
+
+@[type] == ring = no notification
+[type] == ring = notification
+
 ## Graphic Debugger
 
 To check if you graphic settings are good and if the bot would pick up items there is a **Graphic Debugger Mode**. Start botty and press F10 (Default key). This will open up a (mostly black) window. Start a game in D2R and go to A5. You should see some templates with blue circles detected and scores printed out to the console. To check item finding, throw some items of different types on the ground. The debug window should show the item names with black background. If you throw an item on the ground that should be picked up, it will have a red circle. The console will print out the scores for each item that would be picked up. Scores should be well above 0.9 for these items.</br>
