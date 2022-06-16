@@ -184,6 +184,7 @@ def should_id(item_data) -> bool:
     return True
 
 
+expression_to_line_number_map = {}
 def _load_nip_expressions(filepath):
     """
         Loads the NIP expressions from the file.
@@ -235,108 +236,7 @@ else:
     Logger.warning("No .nip files in config/nip/, fallback to default.nip")
 Logger.info(f"Loaded {num_files} nip files with {len(nip_expressions)} total expressions.")
 
-
+nip_expressions = sorted(nip_expressions, key=lambda x: len(x.raw))
 
 if __name__ == "__main__":
-    item_data2 = {
-    "Name": "Nightwing's Veil",
-    "Quality": "unique",
-    "Text": "NIGHTWING'S VEIL|SPIRED HELM|DEFENSE: 313|DURABILITY: 23 OF 40|REQUIRED STRENGTH: 96|REQUIRED LEVEL: 67|+2 TO ALL SKILLS|+13% TO COLD SKILL DAMAGE|+96% ENHANCED DEFENSE|+15 TO DEXTERITY|+8 COLD ABSORB|HALF FREEZE DURATION|REQUIREMENTS -50%",
-    "BaseItem": {
-        "DisplayName": "Spired Helm",
-        "NTIPAliasClassID": 426,
-        "NTIPAliasType": 37,
-        "NTIPAliasStatProps": {
-            "194": {
-                "min": 0,
-                "max": 3
-            },
-            "72": 40,
-            "73": 40,
-            "31": {
-                "min": 114,
-                "max": 159
-            },
-            "0x400000": {
-                "min": 0,
-                "max": 1
-            }
-        },
-        "dimensions": [
-            2,
-            2
-        ],
-        "sets": [
-            "ONDALSALMIGHTY"
-        ],
-        "uniques": [
-            "VEILOFSTEEL",
-            "NIGHTWINGSVEIL"
-        ],
-        "NTIPAliasClass": 2
-    },
-    "Item": {
-        "DisplayName": "Nightwing's Veil",
-        "NTIPAliasClassID": 426,
-        "NTIPAliasType": 37,
-        "NTIPAliasStatProps": {
-            "16,0": {
-                "min": 90,
-                "max": 120
-            },
-            "127": {
-                "min": 2,
-                "max": 2
-            },
-            "2": {
-                "min": 10,
-                "max": 20
-            },
-            "149": {
-                "min": 5,
-                "max": 9
-            },
-            "118": {
-                "min": 1,
-                "max": 1
-            },
-            "331": {
-                "min": 8,
-                "max": 15
-            },
-            "91": {
-                "min": -50,
-                "max": -50
-            }
-        }
-    },
-    "NTIPAliasIdName": "NIGHTWINGSVEIL",
-    "NTIPAliasType": [
-        37,
-        50
-    ],
-    "NTIPAliasClassID": 426,
-    "NTIPAliasClass": 2,
-    "NTIPAliasQuality": 7,
-    "NTIPAliasStat": {
-        "31": 313,
-        "72": 23,
-        "73": 40,
-        "92": 67,
-        "127": 2,
-        "331": 13,
-        "16": 96,
-        "2": 15,
-        "148": 8,
-        "118": 1,
-        "91": -50
-    },
-    "NTIPAliasFlag": {
-        "0x10": 1,
-        "0x400000": 0,
-        "0x4000000": 0
-    }
-}
-    esp ="[Name] == ring # (8))"
-    print(transpile_nip_expression(esp))
-    # print(eval(transpile_nip_expression(esp)))
+    print(transpile_nip_expression("[name] == ring && [quality] == rare"))

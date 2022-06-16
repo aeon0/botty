@@ -225,6 +225,7 @@ def validate_logical_operators(left=None, right=None):
         TokenType.ValueNTIPAliasType,
         TokenType.ValueNTIPAliasQuality,
         TokenType.ValueNTIPAliasStat,
+        TokenType.ValueNTIPAliasIDName,
 
         TokenType.KeywordNTIPAliasClass,
         TokenType.KeywordNTIPAliasFlag,
@@ -412,3 +413,6 @@ def generate_expression_object(nip_expression: str) -> NIPExpression | None:
 def load_nip_expression(nip_expression: str):
     if (expression_obj := generate_expression_object(nip_expression)) is not None:
         nip_expressions.append(expression_obj)
+
+
+    
