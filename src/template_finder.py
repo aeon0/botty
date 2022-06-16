@@ -250,9 +250,11 @@ if __name__ == "__main__":
 
     _template_list = ["SHENK_0","SHENK_1","SHENK_10","SHENK_11","SHENK_12","SHENK_13","SHENK_15","SHENK_16","SHENK_17","SHENK_18","SHENK_19","SHENK_2","SHENK_20","SHENK_3","SHENK_4","SHENK_6","SHENK_7","SHENK_8","SHENK_9","SHENK_DEATH_0","SHENK_DEATH_1","SHENK_DEATH_2","SHENK_DEATH_3","SHENK_DEATH_4","SHENK_V2_3","SHENK_V2_4","SHENK_V2_6","SHENK_V2_7","SHENK_V2_8"]
 
+    _template_list += ["ELDRITCH_0","ELDRITCH_0_V2","ELDRITCH_0_V3","ELDRITCH_1","ELDRITCH_1_V2","ELDRITCH_2","ELDRITCH_2_V2","ELDRITCH_3","ELDRITCH_4","ELDRITCH_5","ELDRITCH_6","ELDRITCH_7","ELDRITCH_7_V2","ELDRITCH_8","ELDRITCH_8_V2","ELDRITCH_9","ELDRITCH_START","ELDRITCH_START_V2"]
+
     _current_template_idx = -1
     _last_stored_idx = 0
-    _current_threshold = 0.5
+    _current_threshold = 0.6
     _visible_templates = []
 
     def _save_visible_templates():
