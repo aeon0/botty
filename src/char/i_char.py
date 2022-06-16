@@ -31,6 +31,7 @@ class IChar:
             "left": "",
             "right": ""
         }
+        self._use_safer_routines = Config().char["safer_routines"]
 
     def _set_active_skill(self, mouse_click_type: str = "left", skill: str =""):
         self._active_skill[mouse_click_type] = skill
