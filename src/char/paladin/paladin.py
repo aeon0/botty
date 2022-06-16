@@ -77,7 +77,7 @@ class Paladin(IChar):
 
         # set left hand skill
         self._select_skill(skill_name, mouse_click_type = "left")
-        wait(0.05, 0.1)
+        wait(0.04)
 
         # cast left hand skill
         start = time.time()

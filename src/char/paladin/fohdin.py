@@ -60,17 +60,18 @@ class FoHdin(Paladin):
                 spray = 5
                 cast_pos_abs = targets[0].center_abs
 
-            # TODO: add delay between FOH casts--doesn't properly cast each FOH in sequence
-
-            # cast foh to holy bolt with preset ratio (e.g. 3 foh followed by 1 holy bolt if foh_to_holy_bolt_ratio = 3)
-            if foh_to_holy_bolt_ratio > 0 and not target_check_count % (foh_to_holy_bolt_ratio + 1):
-                self._cast_holy_bolt(cast_pos_abs, spray=spray, aura=holy_bolt_aura)
-            else:
-                self._cast_foh(cast_pos_abs, spray=spray, aura=foh_aura)
-
             # if time > minimum and either targets aren't set or targets don't exist, exit loop
             if elapsed > min_duration and (not target_detect or not targets):
                 break
+            else:
+
+                # TODO: add delay between FOH casts--doesn't properly cast each FOH in sequence
+                # cast foh to holy bolt with preset ratio (e.g. 3 foh followed by 1 holy bolt if foh_to_holy_bolt_ratio = 3)
+                if foh_to_holy_bolt_ratio > 0 and not target_check_count % (foh_to_holy_bolt_ratio + 1):
+                    self._cast_holy_bolt(cast_pos_abs, spray=spray, aura=holy_bolt_aura)
+                else:
+                    self._cast_foh(cast_pos_abs, spray=spray, aura=foh_aura)
+
             target_check_count += 1
         return True
 
@@ -95,7 +96,7 @@ class FoHdin(Paladin):
         atk_len_dur = float(Config().char["atk_len_pindle"])
         pindle_pos_abs = convert_screen_to_abs(Config().path["pindle_end"][0])
 
-        if self.capabilities.can_teleport_natively or self.capabilities.can_teleport_with_charges:
+        if (self.capabilities.can_teleport_natively or self.capabilities.can_teleport_with_charges) and self._use_safer_routines:
             # Slightly retreating, so the Merc gets charged
             if not self._pather.traverse_nodes([102], self, timeout=1.0, do_pre_move=False, force_move=True,force_tp=False, use_tp_charge=False):
                 return False
