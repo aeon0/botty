@@ -45,6 +45,9 @@ class TokenType(Enum):
     COMMENT                     = auto()
 
     SECTIONAND                  = auto()
+
+    NOTIFICATION                = auto()
+
     UNKNOWN                     = auto()
 
 
