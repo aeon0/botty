@@ -156,12 +156,37 @@ def NipSyntaxError(error_code, error_message): # * "hook" the error constructor 
 
 def validate_correct_parenthesis_syntax(current_pos, all_tokens, left_token=None, right_token=None):
     """Makes sure that every parenthesis is closed and that there are no unclosed parenthesis."""
+
+
+    allowed_left_and_right_tokens = [
+        TokenType.PLUS,
+        TokenType.MINUS,
+        TokenType.MULTIPLY,
+        TokenType.DIVIDE,
+        TokenType.EQ,
+        TokenType.NE,
+        TokenType.GT,
+        TokenType.LT,
+        TokenType.GE,
+        TokenType.LE,
+        TokenType.OR,
+        TokenType.AND,
+        TokenType.SECTIONAND
+    ]
+
     global OPENING_PARENTHESIS_COUNT
     token = all_tokens[current_pos]
     if token.type == TokenType.LPAREN:
         OPENING_PARENTHESIS_COUNT += 1
+        if left_token and left_token.type not in allowed_left_and_right_tokens:
+            raise NipSyntaxError("NIP_0x18", "unexpected token on left of parenthesis")
     elif token.type == TokenType.RPAREN:
+        if right_token and right_token.type not in allowed_left_and_right_tokens:
+            raise NipSyntaxError("NIP_0x19", "unexpected token on right of parenthesis")
         OPENING_PARENTHESIS_COUNT -= 1
+
+
+
 
         # TODO Backtrace until the last opening to make sure it wasn't from the past section.
         # for i in range(current_pos, -1, -1):
