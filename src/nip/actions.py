@@ -183,8 +183,8 @@ def should_id(item_data) -> bool:
                     return False
     return True
 
-
-expression_to_line_number_map = {}
+# Get where python program is at.
+print(f"{__file__} is at {os.path.dirname(os.path.realpath(__file__))}")
 def _load_nip_expressions(filepath):
     """
         Loads the NIP expressions from the file.
