@@ -2,6 +2,7 @@ import cv2
 import pytest
 import screen
 
+import utils.download_test_assets # downloads assets if they don't already exist, doesn't need to be called
 from target_detect import get_visible_targets
 import screen
 

@@ -8,7 +8,7 @@ from char import IChar
 from config import Config
 from utils.custom_mouse import mouse
 from utils.misc import wait
-from inventory import consumables
+from item import consumables
 
 
 class Chest:
@@ -48,7 +48,7 @@ class Chest:
                     Logger.debug(f"Opening {template_match.name} ({template_match.score*100:.1f}% confidence)")
                     # TODO: Act as picking up a potion to support telekinesis. This workaround needs a proper solution.
                     self._char.pick_up_item(template_match.center_monitor, 'potion')
-                    wait(0.13, 0.16)
+                    wait(0.33, 0.36)
                     if template_finder.search("LOCKED", grab(), threshold=0.85).valid:
                         templates.remove(template_match.name)
                         Logger.debug("No more keys, removing locked chest template")

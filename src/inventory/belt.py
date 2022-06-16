@@ -1,8 +1,9 @@
 import itertools
+from item import consumables
 from logger import Logger
 import numpy as np
 import template_finder
-from inventory import common, consumables, personal
+from inventory import common, personal
 from ui import view
 from ui_manager import is_visible, wait_until_visible, ScreenObjects, wait_until_hidden
 from utils.custom_mouse import mouse
