@@ -6,7 +6,7 @@ dependencies:
   - pywin32
   - pip
   - leptonica
-  - tesseract>=5.0.1
+  - tesseract=5.1.0
   - pkg-config
   - pip:
     - pyinstaller
