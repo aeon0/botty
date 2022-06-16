@@ -1,21 +1,19 @@
 import keyboard
-from screen import convert_abs_to_monitor, convert_screen_to_abs, grab
-from utils.custom_mouse import mouse
-from char.paladin import Paladin
-from pather import Pather
-from logger import Logger
-from config import Config
-from utils.misc import wait
-import time
-from pather import Location
 import random
+import time
 
-from ui import skills
-from char import IChar, CharacterCapabilities
+from char import CharacterCapabilities
+from char.paladin import Paladin
+from config import Config
+from logger import Logger
+from pather import Location
+from pather import Pather
 from pather import Pather, Location
-from item.pickit import PickIt #for Diablo
-import numpy as np
+from screen import convert_abs_to_monitor, convert_screen_to_abs, grab
 from target_detect import get_visible_targets
+from ui import skills
+from utils.custom_mouse import mouse
+from utils.misc import wait
 
 class Hammerdin(Paladin):
     def __init__(self, *args, **kwargs):
@@ -1163,7 +1161,7 @@ class Hammerdin(Paladin):
                 keyboard.send(self._skill_hotkeys["redemption"])
                 wait(2.5, 3.5) # to keep redemption on for a couple of seconds before the next teleport to have more corpses cleared & increase chance to find next template
                 Logger.debug(seal_layout + ": Waiting with Redemption active to clear more corpses.")
-            #if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_check_deseis_dead" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
+            #if Config().general["info_screenshots"]: cv2.imwrite(f"./log/screenshots/info/info_check_deseis_dead" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
 
@@ -1203,7 +1201,7 @@ class Hammerdin(Paladin):
                 if self._skill_hotkeys["redemption"]:
                     keyboard.send(self._skill_hotkeys["redemption"])
                     wait(0.3, 0.6)
-            #if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_check_deseis_dead" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
+            #if Config().general["info_screenshots"]: cv2.imwrite(f"./log/screenshots/info/info_check_deseis_dead" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
             ### LOOT ###
             self._picked_up_items |= self._pickit.pick_up_items(self)
             if not self._pather.traverse_nodes([641], self): return False # , timeout=3):

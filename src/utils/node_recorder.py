@@ -13,15 +13,15 @@ import math
 
 class NodeRecorder:
     def __init__(self, run_name):
-        if os.path.exists("generated"):
-            for path in Path("generated").glob("**/*"):
+        if os.path.exists("log/screenshots/generated"):
+            for path in Path("log/screenshots/generated").glob("**/*"):
                 if path.is_file():
                     os.remove(path)
                 elif path.is_dir():
                     shutil.rmtree(path)
-            shutil.rmtree("generated")
-        os.system("mkdir generated")
-        os.system(f"cd generated && mkdir templates && cd templates && mkdir {run_name} && cd {run_name} && mkdir nodes")
+            shutil.rmtree("log/screenshots/generated")
+        os.makedirs("log/screenshots/generated", exist_ok=True)
+        os.system(f"cd log/screenshots/generated && mkdir templates && cd templates && mkdir {run_name} && cd {run_name} && mkdir nodes")
         self._run_name = run_name
         self._offset = 100
         self._template_counter = 0
@@ -30,7 +30,7 @@ class NodeRecorder:
         self._curr_state = 0
         self._upper_left = None
         template_finder._templates = {}
-        self._pather_code_file = "generated/pather_generated.py"
+        self._pather_code_file = "log/screenshots/generated/pather_generated.py"
         self.ref_points = {}
         self.nodes = {}
         self.debug_node_pos = {}
@@ -72,7 +72,7 @@ class NodeRecorder:
                     self._template_counter += 1
                     # save as png
                     template_img = cut_roi(img, [*self._upper_left, width, height])
-                    template_path = f"generated/templates/{self._run_name}/{ref_point_name}.png"
+                    template_path = f"log/screenshots/generated/templates/{self._run_name}/{ref_point_name}.png"
                     cv2.imwrite(template_path, template_img)
                     self._upper_left = None
                     template_img = load_template(template_path)

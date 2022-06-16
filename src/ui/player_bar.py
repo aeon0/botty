@@ -4,7 +4,7 @@ from utils.custom_mouse import mouse
 from utils.misc import cut_roi, wait
 from logger import Logger
 from config import Config
-from ocr import Ocr
+from d2r_image import ocr
 
 def get_experience():
     # mouseover exp bar
@@ -17,9 +17,9 @@ def get_experience():
 
     mouse.move(x_m, y_m-50, randomize = (8,1))
     crop = cut_roi(img, Config().ui_roi["xp_bar_text"])
-    ocr_result = Ocr().image_to_text(
+    ocr_result = ocr.image_to_text(
         images = crop,
-        model = "engd2r_inv_th",
+        model = "ground-eng_inconsolata_inv_th_fast",
         psm = 7,
         scale = 1.3,
         crop_pad = True,
@@ -28,8 +28,7 @@ def get_experience():
         digits_only = False,
         fix_regexps = False,
         check_known_errors = False,
-        check_wordlist = False,
-        word_match_threshold = 0.5
+        correct_words = False
     )[0]
 
     split_text = ocr_result.text.split(' ')

@@ -3,7 +3,7 @@ import random
 import time
 import cv2
 import math
-from inventory import consumables
+from item import consumables
 import keyboard
 import numpy as np
 from char.capabilities import CharacterCapabilities
@@ -15,7 +15,6 @@ from logger import Logger
 from config import Config
 from screen import grab, convert_monitor_to_screen, convert_screen_to_abs, convert_abs_to_monitor, convert_screen_to_monitor
 import template_finder
-from ocr import Ocr
 from ui_manager import detect_screen_object, ScreenObjects
 
 class IChar:
@@ -24,7 +23,6 @@ class IChar:
     def __init__(self, skill_hotkeys: dict):
         self._skill_hotkeys = skill_hotkeys
         self._last_tp = time.time()
-        self._ocr = Ocr()
         # Add a bit to be on the save side
         self._cast_duration = Config().char["casting_frames"] * 0.04 + 0.01
         self.damage_scaling = float(Config().char.get("damage_scaling", 1.0))
@@ -92,7 +90,7 @@ class IChar:
         mouse.move(pos[0], pos[1])
         time.sleep(0.1)
         mouse.click(button="left")
-        wait(0.45, 0.5)
+        wait(0.25, 0.3)
         return prev_cast_start
 
     def select_by_template(
@@ -142,7 +140,7 @@ class IChar:
 
     def is_low_on_teleport_charges(self):
         img = grab()
-        charges_remaining = skills.get_skill_charges(self._ocr, img)
+        charges_remaining = skills.get_skill_charges(img)
         if charges_remaining:
             Logger.debug(f"{charges_remaining} teleport charges remain")
             return charges_remaining <= 3
@@ -391,12 +389,9 @@ if __name__ == "__main__":
     keyboard.wait("f11")
     from utils.misc import cut_roi
     from config import Config
-    import template_finder
-    from ocr import Ocr
     from ui import skills
 
     skill_hotkeys = {}
-    ocr = Ocr()
 
     i_char = IChar({})
 

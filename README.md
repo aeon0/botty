@@ -34,6 +34,23 @@ Check out the [development.md](development.md) docu for infos on how to build fr
 You can support this project by giving feedback, reporting bugs, or creating pull requests.
 Contributions are welcome, and we encourage you to contribute to this project if you would like to help out. Botty is a open source project and almost excessively maintained by contributors (there has been 50+ contributors! <3). In our [**discord**](https://discord.gg/Jf3J8cuXWg) there is a contributor role, and you can ping one of the admins and ask for the role to talk to other contributors! Though you don't need to be in the [**discord**](https://discord.gg/Jf3J8cuXWg) to contribute, we do encourage you to do so.
 
+## BNIP Pickit
+
+Botty NIP (BNIP) is an extended version of Njaguar's Item Parser (NIP).
+BNIP is compatible with NIP (with some minor exceptions as discussed below).
+
+There is a default nip file that comes with botty called "default.nip" inside config folder, you can add your own nip files by putting them inside config/nip with a file extension of .nip. Creating your own nip file also turns off the default.nip.
+
+We suggest you read the NIP guide if you are unfamiliar with NIP https://github.com/blizzhackers/pickits/blob/master/NipGuide.md
+
+### New features in BNIP
+
+Poison damage is no longer calculated, but is now read as it's raw value. Example: Adds 5-10 poison damage over 1 seconds can be picked with `[poisonmindam] == 5 && [poisonmaxdam] == 10`. "313 Poison Damage over 5 seconds" can be picked with `[poisonmindam] == 313` or  `[poisonmaxdam] == 313`.
+
+`[allres]` is a thing now. example: `[type] == amulet && [quality] == unique # [allres] == 30` will pick up Mara's
+
+`[idname]` can now be used for unique / set items. For example, `[idname] == thestoneofjordan` will pick up SoJ. Keep in mind, however, this forces the item to be ID'd so be careful if you want to keep unid items.
+
 ## Graphic Debugger
 
 To check if you graphic settings are good and if the bot would pick up items there is a **Graphic Debugger Mode**. Start botty and press F10 (Default key). This will open up a (mostly black) window. Start a game in D2R and go to A5. You should see some templates with blue circles detected and scores printed out to the console. To check item finding, throw some items of different types on the ground. The debug window should show the item names with black background. If you throw an item on the ground that should be picked up, it will have a red circle. The console will print out the scores for each item that would be picked up. Scores should be well above 0.9 for these items.</br>
@@ -70,6 +87,7 @@ order=run_pindle, run_eldritch
 | max_game_length_s        | Max game length in seconds. Botty will attempt to stop whatever it's doing and try to restart a new game at specified interval. If this fails, botty will attempt to shut down D2R and Bnet. |
 | restart_d2r_when_stuck   | Set to `1` and botty will attempt to restart d2r in the case that botty is unable to recover its state (e.g: game crash). |
 | info_screenshots         | If `1`, the bot takes a screenshot with timestamp on every stuck / chicken / timeout / inventory full event. This is 1 by Default, so remember to clean up the folder every once in a while. |
+| pickit_screenshots         | If `1`, the bot takes a screenshot with timestamp on every ground loot snapshot taken during pickit routine, can be useful for debugging. |
 | loot_screenshots         | If `1`, the bot takes a screenshot with timestamp everytime he presses `show_items` button and saves it to `loot_screenshots` folder. Remember to clear them once in a while... |
 
 | [routes]     | Descriptions                                                             |
@@ -97,7 +115,6 @@ order=run_pindle, run_eldritch
 | weapon_switch      | Hotkey for "weapon switch" (only needed if cta_available=1) |
 | battle_order       | Hotkey for battle orders from cta (only needed if cta_available=1) |
 | battle_command     | Hotkey for battle command from cta (only needed if cta_available=1) |
-| min_gold_to_pick   | Minimum quantity of gold to pickup (also must set misc_gold=1 in pickit config) |
 | stash_gold         | Bool value to stash gold each time when stashing items |
 | use_merc           | Set to 1 for using merc. Set to 0 for not using merc (will not revive merc when dead), default = 1 |
 | atk_len_arc        | Attack length for hdin/sorc fighting arcane  |

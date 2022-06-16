@@ -10,9 +10,8 @@ from screen import grab, convert_monitor_to_screen
 
 class GenOcrTruth:
     def __init__(self):
-        if not os.path.exists("generated"):
-            os.system("mkdir generated")
-            os.system(f"cd generated && mkdir ground-truth")
+        os.makedirs("log/screenshots/generated", exist_ok=True)
+        os.system(f"cd log/screenshots/generated && mkdir ground-truth")
         self._half_width = Config().ui_pos["screen_width"] // 2
         self._half_height = Config().ui_pos["screen_height"] // 2
         self._upper_left = None
@@ -43,7 +42,7 @@ class GenOcrTruth:
                         width = (bottom_right[0] - self._upper_left[0])
                         height = (bottom_right[1] - self._upper_left[1])
                         template_img = cut_roi(img, [*self._upper_left, width, height])
-                        basename = f"generated/ground-truth/{time.strftime('%Y%m%d_%H%M%S')}"
+                        basename = f"log/screenshots/generated/ground-truth/{time.strftime('%Y%m%d_%H%M%S')}"
                         cv2.imshow(time.strftime('%Y%m%d_%H%M%S'), template_img)
                         cv2.waitKey(1)
                         print(f"new template: {basename} = ")

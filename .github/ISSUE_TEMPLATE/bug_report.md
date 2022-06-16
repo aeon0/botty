@@ -29,7 +29,7 @@ A clear and concise description of what you expected to happen.
 If applicable, add screenshots or even better a short video of the error happening to help explain your problem. Botty often automatically makes screenshots when something goes wrong. Add these also.
 
 **Logs**
-Add the relevant part of the info.log in this section. Either upload it as a fail or copy-paste the relevant part in here.
+Add the relevant part of the log/log_(time).txt in this section. Either upload it as a fail or copy-paste the relevant part in here.
 
 **Additional info**
 Add any other information about the problem here.
