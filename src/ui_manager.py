@@ -257,6 +257,11 @@ class ScreenObjects:
         threshold=0.8,
         roi="deposit_btn",
     )
+    InventoryBackground=ScreenObject(
+        ref="INVENTORY_BG_PATTERN",
+        roi="inventory_bg_pattern",
+        threshold=0.8,
+    )
 
 def detect_screen_object(screen_object: ScreenObject, img: np.ndarray = None) -> TemplateMatch:
     roi = Config().ui_roi[screen_object.roi] if screen_object.roi else None

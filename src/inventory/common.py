@@ -49,18 +49,32 @@ def slot_has_item(slot_img: np.ndarray) -> bool:
     avg_brightness = np.average(slot_img[:, :, 2])
     return avg_brightness > 16.0
 
-def close(img: np.ndarray | None = None, force: bool | None = False) -> np.ndarray | bool:
-    if force:
-        keyboard.send("space") # * Pressing spacebar when a menu is up closes it, pressing spacebar when no menu does nothing, unlike esc which opens the main menu
-        return True
+def inventory_is_open(img: np.ndarray = None) -> bool:
     img = grab() if img is None else img
-    if is_visible(ScreenObjects.RightPanel, img) or is_visible(ScreenObjects.LeftPanel, img):
-        keyboard.send("space")
-        if not wait_until_hidden(ScreenObjects.RightPanel, 1) and not wait_until_hidden(ScreenObjects.LeftPanel, 1):
+    return (
+        is_visible(ScreenObjects.RightPanel, img)
+        or is_visible(ScreenObjects.LeftPanel, img)
+        or is_visible(ScreenObjects.InventoryBackground, img)
+    )
+
+def close(img: np.ndarray = None) -> np.ndarray | None:
+    img = grab() if img is None else img
+    if inventory_is_open(img):
+        # close open inventory
+        keyboard.send("esc")
+        # check to ensure it closed
+        wait(0.04, 0.08)
+        timer = True
+        start = time.time()
+        while inventory_is_open() and (timer := time.time() - start < 1.5):
+            wait(0.04)
+        # if inventory still open, try another method
+        if not timer:
             success = view.return_to_play()
             if not success:
-                return False
+                return None
     return img
+
 
 def calc_item_roi(img_pre, img_post):
     try:
