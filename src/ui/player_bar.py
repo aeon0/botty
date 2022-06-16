@@ -39,8 +39,7 @@ def get_experience():
         required_exp = int(split_text[3].replace(',', '').replace('.', ''))
         return current_exp, required_exp
     except Exception as e:
-        Logger.error(f"EXP OCR Error: {split_text}")
-        Logger.error(f"EXP OCR Error: {str(e)}")
+        Logger.warning(f"EXP OCR Error: {split_text}. Exception: {e}")
         return 0,0
 
 

@@ -22,7 +22,6 @@ class Config:
     gamble = {}
     ui_roi = {}
     ui_pos = {}
-    dclone = {}
     routes = {}
     routes_order = []
     char = {}
@@ -34,6 +33,7 @@ class Config:
     nova_sorc = {}
     hydra_sorc = {}
     hammerdin = {}
+    fohdin = {}
     trapsin = {}
     barbarian = {}
     poison_necro = {}
@@ -127,7 +127,7 @@ class Config:
 
         self.general = {
             "saved_games_folder": self._select_val("general", "saved_games_folder"),
-            "name": self._select_val("general", "name"),
+            "name": _default_iff(self._select_val("general", "name"), "", "botty"),
             "max_game_length_s": float(self._select_val("general", "max_game_length_s")),
             "max_consecutive_fails": int(self._select_val("general", "max_consecutive_fails")),
             "max_runtime_before_break_m": float(_default_iff(self._select_val("general", "max_runtime_before_break_m"), '', 0)),
@@ -145,12 +145,6 @@ class Config:
             "restart_d2r_when_stuck": bool(int(self._select_val("general", "restart_d2r_when_stuck"))),
         }
 
-        # Added for dclone ip hunting
-        self.dclone = {
-            "region_ips": self._select_val("dclone", "region_ips"),
-            "dclone_hotip": self._select_val("dclone", "dclone_hotip"),
-        }
-
         self.routes = {}
         order_str = self._select_val("routes", "order")
         self.routes_order = [x.strip() for x in order_str.split(",")]
@@ -164,6 +158,7 @@ class Config:
             "type": self._select_val("char", "type"),
             "show_items": self._select_val("char", "show_items"),
             "inventory_screen": self._select_val("char", "inventory_screen"),
+            "teleport": self._select_val("char", "teleport"),
             "stand_still": self._select_val("char", "stand_still"),
             "force_move": self._select_val("char", "force_move"),
             "num_loot_columns": int(self._select_val("char", "num_loot_columns")),
@@ -175,7 +170,7 @@ class Config:
             "heal_rejuv_merc": float(self._select_val("char", "heal_rejuv_merc")),
             "chicken": float(self._select_val("char", "chicken")),
             "merc_chicken": float(self._select_val("char", "merc_chicken")),
-            "tp": self._select_val("char", "tp"),
+            "town_portal": self._select_val("char", "town_portal"),
             "belt_rows": int(self._select_val("char", "belt_rows")),
             "show_belt": self._select_val("char", "show_belt"),
             "potion1": self._select_val("char", "potion1"),
@@ -186,7 +181,6 @@ class Config:
             "belt_hp_columns": int(self._select_val("char", "belt_hp_columns")),
             "belt_mp_columns": int(self._select_val("char", "belt_mp_columns")),
             "stash_gold": bool(int(self._select_val("char", "stash_gold"))),
-            "min_gold_to_pick": int(_default_iff(self._select_val("char", "min_gold_to_pick"), '', 0)),
             "use_merc": bool(int(self._select_val("char", "use_merc"))),
             "id_items": bool(int(self._select_val("char", "id_items"))),
             "open_chests": bool(int(self._select_val("char", "open_chests"))),
@@ -242,12 +236,22 @@ class Config:
             self.hydra_sorc.update(dict(self.configs["custom"]["parser"]["hydra_sorc"]))
         self.hydra_sorc.update(sorc_base_cfg)
 
-        # Palandin config
+        # Paladin base config
+        paladin_base_cfg = dict(self.configs["config"]["parser"]["paladin"])
+        if "paladin" in self.configs["custom"]["parser"]:
+            paladin_base_cfg.update(dict(self.configs["custom"]["parser"]["paladin"]))
+        # Hammerdin config
         self.hammerdin = self.configs["config"]["parser"]["hammerdin"]
         if "hammerdin" in self.configs["custom"]["parser"]:
             self.hammerdin.update(self.configs["custom"]["parser"]["hammerdin"])
+        self.hammerdin.update(paladin_base_cfg)
+        # FoHdin config
+        self.fohdin = dict(self.configs["config"]["parser"]["fohdin"])
+        if "fohdin" in self.configs["custom"]["parser"]:
+            self.fohdin.update(self.configs["custom"]["parser"]["fohdin"])
+        self.fohdin.update(paladin_base_cfg)
 
-        # Assasin config
+        # Assassin config
         self.trapsin = self.configs["config"]["parser"]["trapsin"]
         if "trapsin" in self.configs["custom"]["parser"]:
             self.trapsin.update(self.configs["custom"]["parser"]["trapsin"])
@@ -298,7 +302,7 @@ class Config:
             "hwnd_window_process": _default_iff(Config()._select_val("advanced_options", "hwnd_window_process"), ''),
             "window_client_area_offset": tuple(map(int, Config()._select_val("advanced_options", "window_client_area_offset").split(","))),
             "ocr_during_pickit": bool(int(self._select_val("advanced_options", "ocr_during_pickit"))),
-            "launch_options": self._select_val("advanced_options", "launch_options"),
+            "launch_options": self._select_val("advanced_options", "launch_options").replace("<name>", self.general["name"]),
             "override_capabilities": _default_iff(Config()._select_optional("advanced_options", "override_capabilities"), ""),
         }
 

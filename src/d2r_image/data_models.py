@@ -111,24 +111,33 @@ class D2Data:
 @dataclass_json
 @dataclass
 class GroundItem:
-    BoundingBox: dict
-    Name: str
-    Color: str
-    Quality: str
-    Text: str
-    Amount: int | None
-    BaseItem: dict
-    Item: dict | None
-    NTIPAliasType: list[str]
-    NTIPAliasClassID: int
-    NTIPAliasClass: int | None
-    NTIPAliasQuality: int
-    NTIPAliasFlag: dict
+    BoundingBox: dict = None
+    BoundingBoxMonitor: dict = None
+    Center: list[int] = None
+    CenterMonitor: list[int] = None
+    Distance: int = None
+    Name: str = None
+    Color: str = None
+    Quality: str = None
+    Text: str = None
+    Amount: int | None = None
+    BaseItem: dict = None
+    Item: dict | None = None
+    NTIPAliasType: list[str] = None
+    NTIPAliasClassID: int = None
+    NTIPAliasClass: int | None = None
+    NTIPAliasQuality: int = None
+    NTIPAliasFlag: dict = None
+    ID: str = ""
+    UID: str = ""
 
     def __eq__(self, other):
         if self and not other:
             return False
         return self.to_json() == other.to_json()
+
+    def __getitem__(self, key):
+        return super().__getattribute__(key)
 
     def as_dict(self):
         return {
@@ -165,7 +174,7 @@ class HoveredItem:
     NTIPAliasClassID: int
     NTIPAliasClass: int | None
     NTIPAliasQuality: int
-    NTIPAliasStat: dict | None
+    NTIPAliasStat: dict
     NTIPAliasFlag: dict
 
     def __eq__(self, other):

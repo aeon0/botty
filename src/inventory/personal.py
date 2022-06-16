@@ -45,9 +45,11 @@ class BoxInfo:
 def get_inventory_gold_full():
     return inv_gold_full
 
-def set_inventory_gold_full(bool):
+def set_inventory_gold_full(new_value: bool):
     global inv_gold_full
-    inv_gold_full = bool
+    if get_inventory_gold_full() != new_value:
+        Logger.info(f"Set inventory gold full: {new_value}")
+        inv_gold_full = new_value
 
 def inventory_has_items(img: np.ndarray = None, close_window = False) -> bool:
     """
@@ -75,13 +77,13 @@ def stash_all_items(items: list = None):
     Stashing all items in inventory. Stash UI must be open when calling the function.
     """
     global messenger
-    if items is None:
+    if not get_inventory_gold_full() and items is None:
         Logger.debug("No items to stash, skip")
         return None
     center_mouse()
     # Wait for stash to fully load
     if not common.wait_for_left_inventory():
-        Logger.error("stash_all_items(): Could not determine to be in stash menu. Continue...")
+        Logger.error("stash_all_items(): Failed to find stash menu. Continue...")
         return items
     # stash gold
     if Config().char["stash_gold"]:
@@ -118,6 +120,8 @@ def stash_all_items(items: list = None):
                     return stash_all_items(items=items)
             else:
                 set_inventory_gold_full(False)
+    if not items:
+        return []
     # check if stash tab is completely full (no empty slots)
     common.select_tab(stash.get_curr_stash()["items"])
     while stash.get_curr_stash()["items"] <= 3:
@@ -191,7 +195,7 @@ def log_item_fail(hovered_item, slot):
     if Config().general["info_screenshots"]:
         cv2.imwrite("./log/screenshots/info/failed_item_box_" + time.strftime("%Y%m%d_%H%M%S") + ".png", hovered_item)
 
-def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_stats: GameStats = None) -> list[BoxInfo]:
+def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_stats: GameStats = None, ignore_sell: bool = False) -> list[BoxInfo]:
     """
     Iterate over all picked items in inventory--ID items and decide which to stash
     :param img: Image in which the item is searched (item details should be visible)
@@ -215,12 +219,12 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
         if (slot[1], slot[2]) in already_detected_slots: continue
         # ignore this slot if it lies within in a previous item's ROI (no dimension property)
         if any(is_in_roi(item_roi, slot[0]) for item_roi in item_rois): continue
-        img = grab()
+        img = grab(True)
         x_m, y_m = convert_screen_to_monitor(slot[0])
         delay = [0.2, 0.3] if count else [1, 1.3]
         mouse.move(x_m, y_m, randomize = 10, delay_factor = delay)
         wait(0.1, 0.2)
-        hovered_item = grab()
+        hovered_item = grab(True)
         # get the item description box
         item_properties, item_box = (None, None)
         try: # ! This happens because we don't know the items slot count. To get more context remove the try and catch and see what happens
@@ -247,10 +251,10 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
                             break
                         Logger.debug(f"inspect_items: pre=post, try again. slot {slot[0]}")
                         center_mouse(delay_factor=[0.05, 0.1])
-                        img = grab()
+                        img = grab(True)
                         mouse.move(x_m, y_m, randomize = 10, delay_factor = delay)
                         wait(0.05, 0.1)
-                        hovered_item = grab()
+                        hovered_item = grab(True)
                         cnt += 1
                         if cnt >= 2:
                             Logger.error(f"inspect_items: Unable to get item's inventory ROI, slot {slot[0]}")
@@ -266,7 +270,7 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
 
                 item_name = vendor_open and ocr_result_split[1] or ocr_result_split[0]
                 item_can_be_traded = not any(substring in item_name for substring in nontradable_items)
-                sell = Config().char["sell_junk"] and item_can_be_traded
+                sell = Config().char["sell_junk"] and item_can_be_traded and not ignore_sell
                 is_unidentified = is_visible(ScreenObjects.Unidentified, item_box.img)
                 need_id = None
                 keep = None
@@ -286,7 +290,7 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
                     if (is_unidentified and should_id(item_properties.as_dict())):
                         need_id = True
                         center_mouse()
-                        tome_state, tome_pos = common.tome_state(grab(), tome_type = "id", roi = Config().ui_roi["restricted_inventory_area"])
+                        tome_state, tome_pos = common.tome_state(grab(True), tome_type = "id", roi = Config().ui_roi["restricted_inventory_area"])
                     if is_unidentified and tome_state is not None and tome_state == "ok":
                         common.id_item_with_tome([x_m, y_m], tome_pos)
                         need_id = False
@@ -294,7 +298,7 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
                         # recapture box after ID
                         mouse.move(x_m, y_m, randomize = 4, delay_factor = delay)
                         wait(0.05, 0.1)
-                        hovered_item = grab()
+                        hovered_item = grab(True)
                         item_properties, item_box = d2r_image.get_hovered_item(hovered_item)
 
                     if item_box is not None:
@@ -325,7 +329,7 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
                         # if item is to be kept and is already ID'd or doesn't need ID, log and stash
                         if (keep and not need_id):
                             if game_stats is not None:
-                                game_stats.log_item_keep(item_name, True, item_box.img, item_box.ocr_result.text, expression)
+                                game_stats.log_item_keep(item_name, True, item_box.img, item_box.ocr_result.text, expression, item_properties.as_dict())
                         # if item is to be kept or still needs to be sold or identified, append to list
                         if keep or sell or need_id:
                             # save item info
@@ -354,7 +358,9 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
 
 def transfer_items(items: list, action: str = "drop", img: np.ndarray = None) -> list:
     #requires open inventory / stash / vendor
-    img = img if img is not None else grab()
+    if not items:
+        return []
+    img = img if img is not None else grab(True)
     filtered = []
     left_panel_open = is_visible(ScreenObjects.LeftPanel, img)
     match action:
@@ -379,7 +385,7 @@ def transfer_items(items: list, action: str = "drop", img: np.ndarray = None) ->
             keyboard.send('ctrl', do_release=False)
             wait(0.1, 0.2)
         for item in filtered:
-            pre_hover_img = grab()
+            pre_hover_img = grab(True)
             _, slot_img = common.get_slot_pos_and_img(pre_hover_img, item.column, item.row)
             if not common.slot_has_item(slot_img):
                 # item no longer exists in that position...
@@ -392,7 +398,7 @@ def transfer_items(items: list, action: str = "drop", img: np.ndarray = None) ->
             # move to item position and left click
             mouse.move(*item.pos, randomize=4, delay_factor=[0.2, 0.4])
             wait(0.2, 0.4)
-            pre_transfer_img = grab()
+            pre_transfer_img = grab(True)
             mouse.press(button="left")
             # wait for inventory image to update indicating successful transfer / item select
             success = wait_for_update(pre_transfer_img, Config().ui_roi["open_inventory_area"], 3)
@@ -447,7 +453,7 @@ def update_tome_key_needs(img: np.ndarray = None, item_type: str = "tp") -> bool
         return False
     mouse.move(*match.center_monitor, randomize=4, delay_factor=[0.5, 0.7])
     wait(0.2, 0.2)
-    hovered_item = grab()
+    hovered_item = grab(True)
     # get the item description box
     item_properties, item_box = d2r_image.get_hovered_item(hovered_item)
     if item_box is not None:

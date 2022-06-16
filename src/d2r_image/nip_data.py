@@ -167,28 +167,28 @@ NIP_ALIAS_STAT_PATTERNS = {
         ]
     ],
     "{:d} Fire Absorb": [
-        "142"
-    ],
-    "Fire Absorb {:d}%": [
         "143"
     ],
-    "{:d} Lightning Absorb": [
-        "144"
+    "Fire Absorb {:d}%": [
+        "142"
     ],
-    "Lightning Absorb {:d}%": [
+    "{:d} Lightning Absorb": [
         "145"
     ],
-    "{:d} Magic Absorb": [
-        "146"
+    "Lightning Absorb {:d}%": [
+        "144"
     ],
-    "Magic Absorb {:d}%": [
+    "{:d} Magic Absorb": [
         "147"
     ],
+    "Magic Absorb {:d}%": [
+        "146"
+    ],
     "{:d} Cold Absorb": [
-        "148"
+        "149"
     ],
     "Cold Absorb {:d}%": [
-        "149"
+        "148"
     ],
     "Durability: {:d} of {:d}": [
         "72",

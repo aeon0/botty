@@ -8,11 +8,11 @@ import cv2
 import math
 from copy import copy
 from collections import OrderedDict
+
 from health_manager import set_pause_state
 from transmute import Transmute
 from utils.misc import wait, hms
 from utils.restart import safe_exit, restart_game
-
 from game_stats import GameStats
 from logger import Logger
 from config import Config
@@ -24,7 +24,8 @@ from item import consumables
 from pather import Pather, Location
 from char.sorceress import LightSorc, BlizzSorc, NovaSorc,HydraSorc
 from char.trapsin import Trapsin
-from char.hammerdin import Hammerdin
+from char.paladin.hammerdin import Hammerdin
+from char.paladin import FoHdin
 from char.barbarian import Barbarian
 from char.necro import Necro
 from char.poison_necro import Poison_Necro
@@ -38,9 +39,7 @@ from inventory import personal, vendor, belt, common
 from run import Pindle, ShenkEld, Trav, Nihlathak, Arcane, Diablo
 from town import TownManager, A1, A2, A3, A4, A5, town_manager
 
-# Added for dclone ip hunt
 from messages import Messenger
-from utils.dclone_ip import get_d2r_game_ip
 
 class Bot:
 
@@ -60,8 +59,10 @@ class Bot:
                 self._char: IChar = NovaSorc(Config().nova_sorc, self._pather)
             case "hydra_sorc":
                 self._char: IChar = HydraSorc(Config().hydra_sorc, self._pather)
-            case "hammerdin":
+            case "hammerdin" | "paladin":
                 self._char: IChar = Hammerdin(Config().hammerdin, self._pather, self._pickit) #pickit added for diablo
+            case "fohdin":
+                self._char: IChar = FoHdin(Config().fohdin, self._pather, self._pickit) #pickit added for diablo
             case "trapsin":
                 self._char: IChar = Trapsin(Config().trapsin, self._pather)
             case "barbarian":
@@ -234,6 +235,12 @@ class Bot:
             character_select.save_char_template()
         else:
             if not character_select.select_char():
+                if Config().general["info_screenshots"]:
+                    timestamp = time.strftime("%Y%m%d_%H%M%S")
+                    cv2.imwrite("./log/screenshots/info/info_failed_character_select_" + timestamp + ".png", grab())
+                    if character_select.has_char_template_saved():
+                        saved_char_img = character_select.get_saved_char_template()
+                        cv2.imwrite("./log/screenshots/info/info_failed_character_select_saved_template_" + timestamp + ".png", saved_char_img)
                 self.restart_or_exit(f"Character select failed.")
         self.trigger_or_stop("create_game")
 
@@ -259,23 +266,9 @@ class Bot:
             belt.fill_up_belt_from_inventory(Config().char["num_loot_columns"])
         self._char.discover_capabilities()
         if corpse_present and self._char.capabilities.can_teleport_with_charges and not self._char.select_tp():
-            keybind = self._char._skill_hotkeys["teleport"]
+            keybind = Config().char["teleport"]
             Logger.info(f"Teleport keybind is lost upon death. Rebinding teleport to '{keybind}'")
-            self._char.remap_right_skill_hotkey("TELE_ACTIVE", self._char._skill_hotkeys["teleport"])
-
-        # Check for the current game ip and pause if we are able to obtain the hot ip
-        if Config().dclone["region_ips"] != "" and Config().dclone["dclone_hotip"] != "":
-            cur_game_ip = get_d2r_game_ip()
-            hot_ip = Config().dclone["dclone_hotip"]
-            Logger.debug(f"Current Game IP: {cur_game_ip}   and HOTIP: {hot_ip}")
-            if hot_ip == cur_game_ip:
-                if self._messenger.enabled:
-                    self._messenger.send_message(f"Dclone IP Found on IP: {cur_game_ip}")
-                print("Press Enter")
-                input()
-                os._exit(1)
-            else:
-                Logger.info(f"Please Enter the region ip and hot ip on config to use")
+            self._char.remap_right_skill_hotkey("TELE_ACTIVE", Config().char["teleport"])
 
         # Run /nopickup command to avoid picking up stuff on accident
         if Config().char["enable_no_pickup"] and (not self._ran_no_pickup and not self._game_stats._nopickup_active):

@@ -265,7 +265,7 @@ def _ocr_result_dictionary_check(
             # if the word is the last word on the line don't lookahead
             if word_cnt == (len(line) - 1):
                 if result.score_normalized >= normalized_lev_threshold:
-                    Logger.debug(f"_ocr_result_dictionary_check: change {word} -> {result.match} similarity: {result.score_normalized*100:.1f}%, OCR confidence: {int(confidences[total_word_count]*100)}%")
+                    # Logger.debug(f"_ocr_result_dictionary_check: change {word} -> {result.match} similarity: {result.score_normalized*100:.1f}%, OCR confidence: {int(confidences[total_word_count]*100)}%")
                     new_line.append(result.match)
                 else:
                     new_line.append(word)
@@ -275,7 +275,7 @@ def _ocr_result_dictionary_check(
             # if next word is in wordlist or doesn't contain characters, save current word
             if next_word in word_list or not _contains_characters(word):
                 if result.score_normalized >= normalized_lev_threshold:
-                    Logger.debug(f"_ocr_result_dictionary_check: change {word} -> {result.match} similarity: {result.score_normalized*100:.1f}%, OCR confidence: {int(confidences[total_word_count]*100)}%")
+                    # Logger.debug(f"_ocr_result_dictionary_check: change {word} -> {result.match} similarity: {result.score_normalized*100:.1f}%, OCR confidence: {int(confidences[total_word_count]*100)}%")
                     new_line.append(result.match)
                 else:
                     new_line.append(word)
@@ -286,11 +286,11 @@ def _ocr_result_dictionary_check(
             if combined_result.score < (result.score + next_result.score):
                 # combined lev score is superior to sum of individual lev scores, replace with combined string
                 skip_next = True
-                Logger.debug(f'_ocr_result_dictionary_check: change "{word} {next_word}" -> {combined_result.match} similarity: {combined_result.score_normalized*100:.1f}%, OCR confidence: {int(confidences[total_word_count]*100)}%, {int(confidences[total_word_count+1]*100)}%')
+                # Logger.debug(f'_ocr_result_dictionary_check: change "{word} {next_word}" -> {combined_result.match} similarity: {combined_result.score_normalized*100:.1f}%, OCR confidence: {int(confidences[total_word_count]*100)}%, {int(confidences[total_word_count+1]*100)}%')
                 new_line.append(combined_result.match)
             else:
                 if result.score_normalized >= normalized_lev_threshold:
-                    Logger.debug(f"_ocr_result_dictionary_check: change {word} -> {result.match} similarity: {result.score_normalized*100:.1f}%, OCR confidence: {int(confidences[total_word_count]*100)}%")
+                    # Logger.debug(f"_ocr_result_dictionary_check: change {word} -> {result.match} similarity: {result.score_normalized*100:.1f}%, OCR confidence: {int(confidences[total_word_count]*100)}%")
                     new_line.append(result.match)
                 else:
                     new_line.append(word)

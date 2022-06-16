@@ -14,10 +14,11 @@ import d2r_image.d2data_lookup as d2data_lookup
 from d2r_image.d2data_lookup import fuzzy_base_item_match
 from d2r_image.processing_data import EXPECTED_HEIGHT_RANGE, EXPECTED_WIDTH_RANGE, GAUS_FILTER, ITEM_COLORS, QUALITY_COLOR_MAP, Runeword, HUD_MASK, BOX_EXPECTED_HEIGHT_RANGE, BOX_EXPECTED_WIDTH_RANGE
 from d2r_image.strings_store import base_items
-from utils.misc import color_filter, erode_to_black
+from utils.misc import color_filter, erode_to_black, slugify
 from d2r_image.ocr import image_to_text
 
-from utils.misc import color_filter, cut_roi
+from screen import convert_screen_to_monitor
+from utils.misc import color_filter, cut_roi, roi_center
 from logger import Logger
 from config import Config
 import template_finder
@@ -508,7 +509,7 @@ def set_gray_and_normal_and_magic_base_items(items_by_quality):
                         if quality not in items_to_remove:
                             items_to_remove[quality] = []
                         items_to_remove[quality].append(item)
-                        print(f'remove {item}')
+                        # print(f'remove {item}')
         elif quality == ItemQuality.Magic.value:
             for item in items_by_quality[quality]:
                 item_is_identified = d2data_lookup.magic_item_is_identified(item['text'])
@@ -565,13 +566,16 @@ def build_d2_items(items_by_quality: dict) -> GroundItemList | None:
     for quality in items_by_quality:
         for item in items_by_quality[quality]:
             try:
+                bounding_box = [item['x'], item['y'], item['w'], item['h']]
+                bounding_box_monitor = [round(x) for x in [*convert_screen_to_monitor((item['x'], item['y'])), item['w'], item['h']]]
+                center = roi_center(bounding_box)
+                center_monitor = (round(x) for x in convert_screen_to_monitor(center))
                 new_item = GroundItem(
-                    BoundingBox={
-                        'x': item['x'],
-                        'y': item['y'],
-                        'w': item['w'],
-                        'h': item['h'],
-                    },
+                    BoundingBox=dict(zip(["x", "y", "w", "h"], bounding_box)),
+                    BoundingBoxMonitor=dict(zip(["x", "y", "w", "h"], bounding_box_monitor)),
+                    Center=dict(zip(["x", "y"], center)),
+                    CenterMonitor=dict(zip(["x", "y"], center_monitor)),
+                    Distance=round(math.dist((item['x'], item['y']), (Config().ui_pos["screen_width"] / 2, Config().ui_pos["screen_height"] / 2))),
                     Name=item['name'] if 'name' in item else item['text'],
                     Color=item['color'],
                     Quality=item['quality'].value,
@@ -590,6 +594,8 @@ def build_d2_items(items_by_quality: dict) -> GroundItemList | None:
                         "0x400000": item['quality'] == ItemQuality.Gray.value,
                     }
                 )
+                new_item.ID = slugify(f"{new_item.Name}_{'_'.join([str(value) for _, value in new_item.as_dict().items()])}")
+                new_item.UID = f"{new_item.ID}_{'_'.join([str(value) for value in center])}"
                 if d2_items is None:
                     d2_items = []
                 d2_items.append(new_item)

@@ -1,3 +1,7 @@
+"""
+    Lexer for NIP expressions.
+"""
+
 from dataclasses import dataclass
 from logger import Logger
 from nip.NTIPAliasQuality import NTIPAliasQuality
@@ -9,11 +13,9 @@ from nip.NTIPAliasType import NTIPAliasType
 from nip.tokens import Token, TokenType
 
 from enum import Enum
-from typing import List
 import re
 from colorama import init, Fore
 from rapidfuzz.string_metric import levenshtein
-
 
 
 init()
@@ -29,6 +31,7 @@ class NipSections(Enum):
     PROP = 1
     STAT = 2
     MAXQUANTITY = 3
+
 
 class NipSyntaxError(Exception):
     def __init__(self, ecode: str|int = 0, message: str = '', expression: str = ''):
@@ -46,24 +49,25 @@ class Lexer:
         self.current_section: NipSections = NipSections.PROP
         self.current_token: str | None = ""
         self.text_i: int = -1
-        self.tokens: List[Token] = []
+        self.tokens: list[Token] = []
 
-    def increment_section(self):
+
+    def _increment_section(self):
         if self.current_section == NipSections.PROP:
             self.current_section = NipSections.STAT
         elif self.current_section == NipSections.STAT:
             self.current_section = NipSections.MAXQUANTITY
 
 
-    def get_text(self):
+    def _get_text(self):
         return "".join(self.text)
 
-    def get_current_iteration_of_text_raw(self):
+
+    def _get_current_iteration_of_text_raw(self):
         """
             Returns the self.text in a string type, and at its current iteration.
         """
-        return self.get_text()[self.text_i:]
-
+        return self._get_text()[self.text_i:]
 
     def _advance(self):
         try:
@@ -74,6 +78,16 @@ class Lexer:
 
 
     def create_tokens(self, nip_expression: str, starting_section: NipSections = NipSections.PROP):
+        """Creates token from a nip expression string
+
+            Args:
+                nip_expression (str): the nip expression string
+                starting_section (NipSections): the section to start parsing from
+            Returns:
+                A list of tokens
+            Raises:
+                NipSyntaxError: If there is a syntax error in the nip expression
+        """
         self.current_section = starting_section
         self.text = list(nip_expression)
         self._advance()
@@ -93,8 +107,82 @@ class Lexer:
             elif self.current_token in CHARS:
                 self.tokens.append(self._create_d2r_image_data_lookup())
             else:
-                raise NipSyntaxError("NIP_0x1", "Unknown token: " + self.current_token, self.get_text())
+                raise NipSyntaxError("NIP_0x1", "Unknown token: " + self.current_token, self._get_text())
         return self.tokens
+
+    def detokenize(self, tokens: list[Token]) -> str:
+        """Detokenizes a list of tokens into a nip expression string
+
+            Args:
+                tokens (list[Token]): the list of tokens to detokenize
+            Returns:
+                A nip expression string
+            Raises:
+                None
+
+            """
+
+        token_to_value = {
+            TokenType.NUMBER: '{}',
+            TokenType.NUMBERPERCENT: '{}%',
+            TokenType.PLUS: '+',
+            TokenType.MINUS: '-',
+            TokenType.MULTIPLY: '*',
+            TokenType.DIVIDE: '/',
+            TokenType.MODULO: '%',
+
+            TokenType.LPAREN: '(',
+            TokenType.RPAREN: ')',
+
+            TokenType.GT: '>',
+            TokenType.LT: '<',
+            TokenType.LE: '<=',
+            TokenType.GE: '>=',
+            TokenType.EQ: '==',
+            TokenType.NE: '!=',
+
+            TokenType.AND: '&&',
+            TokenType.OR: '||',
+
+            TokenType.SECTIONAND: '#',
+
+            TokenType.KeywordNTIPAliasClass: '[class]',
+            TokenType.KeywordNTIPAliasFlag: '[flag]',
+            TokenType.KeywordNTIPAliasIDName: '[idname]',
+            TokenType.KeywordNTIPAliasMaxQuantity: '[maxquantity]',
+            TokenType.KeywordNTIPAliasName: '[name]',
+            TokenType.KeywordNTIPAliasQuality: '[quality]',
+            TokenType.KeywordNTIPAliasType: '[type]',
+
+            TokenType.ValueNTIPAlias: '{}',
+            TokenType.ValueNTIPAliasClass: '{}',
+            TokenType.ValueNTIPAliasClassID: '{}',
+            TokenType.ValueNTIPAliasFlag: '{}',
+            TokenType.ValueNTIPAliasIDName: '{}',
+            TokenType.ValueNTIPAliasQuality: '{}',
+            TokenType.ValueNTIPAliasStat: '{}',
+            TokenType.ValueNTIPAliasType: '{}',
+        }
+
+        expression = ''
+
+        # * Find NTIPAliasStat key by value.
+        def find_stat_by_value(wanted_value):
+            for key, value in NTIPAliasStat.items():
+                if value == wanted_value:
+                    return key
+            return None
+
+        for token in tokens:
+            if token.type in token_to_value:
+                if token.type == TokenType.ValueNTIPAliasStat:
+                    expression += token_to_value[token.type].format(f'[{find_stat_by_value(token.value)}]')
+                else:
+                    expression += token_to_value[token.type].format(token.value)
+            expression += ' '
+        return expression.strip()
+
+
 
     def _create_custom_digit_token(self, found_number, append_text="", append_front=False):
         """
@@ -107,26 +195,25 @@ class Lexer:
                 found_number = append_text + found_number
             else:
                 found_number += append_text
-        
+
         return Token(TokenType.NUMBER, float(found_number))
 
     def _create_digits(self) -> Token:
-        found_decimal_number = re.match(r"^-*[0-9]+\.[0-9]+", self.get_current_iteration_of_text_raw())
+        found_decimal_number = re.match(r"^-*[0-9]+\.[0-9]+", self._get_current_iteration_of_text_raw())
         if found_decimal_number:
             return self._create_custom_digit_token(found_decimal_number.group(0))
 
-        shorthand_decimal_number = re.match(r"^-*\.[0-9]+", self.get_current_iteration_of_text_raw())
+        shorthand_decimal_number = re.match(r"^-*\.[0-9]+", self._get_current_iteration_of_text_raw())
         if shorthand_decimal_number:
             return self._create_custom_digit_token(shorthand_decimal_number.group(0), "0", append_front=True)
 
-        found_whole_number = re.match(r"^-*[0-9]+", self.get_current_iteration_of_text_raw())
+        found_whole_number = re.match(r"^-*[0-9]+", self._get_current_iteration_of_text_raw())
         if found_whole_number:
             return self._create_custom_digit_token(found_whole_number.group(0))
         return Token(TokenType.UNKNOWN, self.current_token)
 
 
     def _create_math_operator(self):
-        symbol = self.current_token
         symbol_map = {
             '+': TokenType.PLUS,
             '-': TokenType.MINUS,
@@ -138,9 +225,11 @@ class Lexer:
             ")": TokenType.RPAREN
         }
 
+        symbol = self.current_token
+
         if symbol in symbol_map:
             return Token(symbol_map[symbol], symbol)
-        
+
         return Token(TokenType.UNKNOWN, symbol)
 
     def _create_keyword_lookup(self) -> Token:
@@ -149,7 +238,7 @@ class Lexer:
         """
         lookup_key = ""
         if self.text:
-            found_match = re.match(r"\[\w+\]|\[d+\]", self.get_current_iteration_of_text_raw()) # Finds the first match of [word] or [21234223892] (numbers :P)
+            found_match = re.match(r"\[\w+\]|\[d+\]", self._get_current_iteration_of_text_raw()) # Finds the first match of [word] or [21234223892] (numbers :P)
             if found_match:
                 found = found_match.group(0)
                 for char in found:
@@ -157,11 +246,10 @@ class Lexer:
                         lookup_key += char
                     self._advance()
             else:
-                raise NipSyntaxError("NIP_0x2", "Missing ] after keyword", self.get_text())
+                raise NipSyntaxError("NIP_0x2", "Missing ] after keyword", self._get_text())
         if lookup_key:
             if self.current_section == NipSections.PROP:
                     match lookup_key:
-
                         case "name":
                             return Token(TokenType.KeywordNTIPAliasName, lookup_key)
                         case "flag":
@@ -174,7 +262,7 @@ class Lexer:
                             return Token(TokenType.KeywordNTIPAliasType, lookup_key)
                         case "idname":
                             return Token(TokenType.KeywordNTIPAliasIDName, lookup_key)
-                        case _: # ? This is default.. 
+                        case _: # ? This is default..
                             if lookup_key in NTIPAliasClass:
                                 return Token(TokenType.ValueNTIPAliasClass, NTIPAliasClass[lookup_key])
                             elif lookup_key in NTIPAliasQuality:
@@ -186,35 +274,35 @@ class Lexer:
                             elif lookup_key in NTIPAliasType:
                                 return Token(TokenType.ValueNTIPAliasType, NTIPAliasType[lookup_key])
                     Logger.warning(f"Unknown property lookup: \"{lookup_key}\" {''.join(self.text)}  {self.current_section}")
-                    
-                    return Token(TokenType.UNKNOWN, "-1")
+
+                    return Token(TokenType.UNKNOWN, lookup_key)
             elif self.current_section == NipSections.STAT:
                 if lookup_key in NTIPAliasStat:
                     return Token(TokenType.ValueNTIPAliasStat, NTIPAliasStat[lookup_key])
                 else:
-                    spell_check = ""
-                    for key in NTIPAliasStat:
-                        if levenshtein(lookup_key, key) < 3:
-                            spell_check = f", did you mean {key}?"
-                    raise NipSyntaxError("NIP_0x3", f"Unknown NTIPStat lookup: {lookup_key}{spell_check}", self.get_text())
-                    # return Token(TokenType.UNKNOWN, "-1")
+                    # spell_check = ""
+                    # for key in NTIPAliasStat:
+                    #     if levenshtein(lookup_key, key) < 3:
+                    #         spell_check = f", did you mean {key}?"
+                    # raise NipSyntaxError("NIP_0x3", f"Unknown NTIPStat lookup: {lookup_key}{spell_check}", self._get_text())
+                    return Token(TokenType.UNKNOWN, lookup_key)
             elif self.current_section == NipSections.MAXQUANTITY:
                 pass
-        
-        return Token(TokenType.UNKNOWN, "-1")
+
+            return Token(TokenType.UNKNOWN, lookup_key)
 
     def _create_d2r_image_data_lookup(self) -> Token:
         lookup_key = ""
-        
-        found_lookup_key = re.match(r"^(\w+)\s*", self.get_current_iteration_of_text_raw())
-        # print(found_lookup_key, self.get_current_iteration_of_text_raw())
+
+        found_lookup_key = re.match(r"^(\w+)\s*", self._get_current_iteration_of_text_raw())
+        # print(found_lookup_key, self._get_current_iteration_of_text_raw())
         if found_lookup_key:
             found = found_lookup_key.group(1).replace("'", "\\'") # Replace ' with escaped \'
             for _ in range(len(found)):
                 self._advance()
             lookup_key = found
 
-        if self.current_section == NipSections.PROP: 
+        if self.current_section == NipSections.PROP:
             # TODO: The second checks (i.e NTIPAliasClass and self.tokens[-2].type == TokenType.CLASS:) seem a little misplaced, possibly put them inside the validation function that is inside transpiler.py and throw a warning accordingly.
             if lookup_key in NTIPAliasClass and self.tokens[-2].type == TokenType.KeywordNTIPAliasClass:
                 return Token(TokenType.ValueNTIPAliasClass, lookup_key)
@@ -226,25 +314,27 @@ class Lexer:
                 return Token(TokenType.ValueNTIPAliasFlag, lookup_key)
             elif lookup_key in NTIPAliasType and self.tokens[-2].type == TokenType.KeywordNTIPAliasType:
                 return Token(TokenType.ValueNTIPAliasType, lookup_key)
-            else:
-                # Add all the NTIPAlias* to a dict
-                NTIPAliasAll = NTIPAliasClass | NTIPAliasQuality | NTIPAliasClassID | NTIPAliasFlag | NTIPAliasType
-                for key in NTIPAliasAll:
-                    if levenshtein(lookup_key, key) < 3:
-                        raise NipSyntaxError( "NIP_0x4", f"Unknown NTIP lookup: {lookup_key} did you mean {key}?", self.get_text())
-                
+            elif self.tokens[-2].type == TokenType.KeywordNTIPAliasIDName:
+                return Token(TokenType.ValueNTIPAliasIDName, lookup_key)
+                # if self.tokens[-2].type != TokenType.KeywordNTIPAliasIDName: # * Make sure the last token isn't [idname]
+                #     # Add all the NTIPAlias* to a dict
+                #     NTIPAliasAll = NTIPAliasClass | NTIPAliasQuality | NTIPAliasClassID | NTIPAliasFlag | NTIPAliasType
+                #     for key in NTIPAliasAll:
+                #         if levenshtein(lookup_key, key) < 3:
+                #             raise NipSyntaxError( "NIP_0x4", f"Unknown NTIP lookup: {lookup_key} did you mean {key}?", self._get_text())
+                # else:
+                #     return Token(TokenType.ValueNTIPAliasIDName, lookup_key)
+
                 return Token(TokenType.UNKNOWN, lookup_key)
         elif self.current_section == NipSections.STAT:
             if lookup_key in NTIPAliasStat:
                 return Token(TokenType.ValueNTIPAliasStat, lookup_key)
             else:
-                return Token(TokenType.UNKNOWN, "-1")
-        return Token(TokenType.UNKNOWN, "-1")
+                return Token(TokenType.UNKNOWN, lookup_key)
+        return Token(TokenType.UNKNOWN, lookup_key)
 
     def _create_logical_operator(self) -> Token:
         char = self.current_token
-        # print(self.get_current_iteration_of_text_raw(), 123)
-        # self._advance()
         logical_operator_map = {
             ">": TokenType.GT,
             "<": TokenType.LT,
@@ -263,15 +353,15 @@ class Lexer:
 
         pattern = r"(>=|<=|==|!=|&&|\|\||>|<|\#)"
 
-        found = re.match(pattern, self.get_current_iteration_of_text_raw())
+        found = re.match(pattern, self._get_current_iteration_of_text_raw())
         if found:
             found_text = found.group(1)
             if logical_operator_map[found_text] == TokenType.SECTIONAND:
-                self.increment_section()
+                self._increment_section()
             for _ in range(len(found_text)):
                 self._advance()
-            
+
             pythonic_operator = found_text.replace("#", "and").replace("||", "or").replace("&&", "and")
             return Token(logical_operator_map[found_text], pythonic_operator)
         else:
-            raise NipSyntaxError("NIP_0x5, "f"Invalid logical operator: '{char}'", self.get_text())
+            raise NipSyntaxError("NIP_0x5", f"Invalid logical operator: '{char}'", self._get_text())
