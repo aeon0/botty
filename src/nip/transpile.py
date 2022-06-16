@@ -178,10 +178,10 @@ def validate_correct_parenthesis_syntax(current_pos, all_tokens, left_token=None
     token = all_tokens[current_pos]
     if token.type == TokenType.LPAREN:
         OPENING_PARENTHESIS_COUNT += 1
-        if left_token and left_token.type not in allowed_left_and_right_tokens:
+        if left_token and left_token.type not in allowed_left_and_right_tokens + [TokenType.LPAREN]:
             raise NipSyntaxError("NIP_0x18", "unexpected token on left of parenthesis")
     elif token.type == TokenType.RPAREN:
-        if right_token and right_token.type not in allowed_left_and_right_tokens:
+        if right_token and right_token.type not in allowed_left_and_right_tokens + [TokenType.RPAREN]:
             raise NipSyntaxError("NIP_0x19", "unexpected token on right of parenthesis")
         OPENING_PARENTHESIS_COUNT -= 1
 
