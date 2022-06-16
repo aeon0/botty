@@ -3,16 +3,17 @@ import cv2
 import numpy as np
 import keyboard
 import time
+import itertools
 from utils.custom_mouse import mouse
 from ui_manager import detect_screen_object, ScreenObjects, is_visible, wait_until_hidden, center_mouse
 import template_finder
 from utils.misc import wait, trim_black, color_filter, cut_roi
-from inventory import consumables
+from item import consumables
 from ui import view
 from screen import convert_screen_to_monitor, grab
 from logger import Logger
-from ocr import Ocr
 from template_finder import TemplateMatch
+from d2r_image import ocr
 
 def get_slot_pos_and_img(img: np.ndarray, column: int, row: int) -> tuple[tuple[int, int],  np.ndarray]:
     """
@@ -48,15 +49,32 @@ def slot_has_item(slot_img: np.ndarray) -> bool:
     avg_brightness = np.average(slot_img[:, :, 2])
     return avg_brightness > 16.0
 
-def close(img: np.ndarray = None) -> np.ndarray:
+def inventory_is_open(img: np.ndarray = None) -> bool:
     img = grab() if img is None else img
-    if is_visible(ScreenObjects.RightPanel, img) or is_visible(ScreenObjects.LeftPanel, img):
+    return (
+        is_visible(ScreenObjects.RightPanel, img)
+        or is_visible(ScreenObjects.LeftPanel, img)
+        or is_visible(ScreenObjects.InventoryBackground, img)
+    )
+
+def close(img: np.ndarray = None) -> np.ndarray | None:
+    img = grab() if img is None else img
+    if inventory_is_open(img):
+        # close open inventory
         keyboard.send("esc")
-        if not wait_until_hidden(ScreenObjects.RightPanel, 1) and not wait_until_hidden(ScreenObjects.LeftPanel, 1):
+        # check to ensure it closed
+        wait(0.04, 0.08)
+        timer = True
+        start = time.time()
+        while inventory_is_open() and (timer := time.time() - start < 1.5):
+            wait(0.04)
+        # if inventory still open, try another method
+        if not timer:
             success = view.return_to_play()
             if not success:
                 return None
     return img
+
 
 def calc_item_roi(img_pre, img_post):
     try:
@@ -77,6 +95,16 @@ def calc_item_roi(img_pre, img_post):
     except BaseException as err:
         Logger.error(f"_calc_item_roi: Unexpected {err=}, {type(err)=}")
         return None
+
+def dimensions_to_slots(dimensions: list, row_col: tuple) -> list:
+    row_min = row_col[0]
+    row_max = row_min + dimensions[1]
+    col_min = row_col[1]
+    col_max = col_min + dimensions[0]
+    slots = set()
+    for row, col in itertools.product(range(row_min, row_max), range(col_min, col_max)):
+        slots.add((row, col))
+    return slots
 
 def tome_state(img: np.ndarray = None, tome_type: str = "tp", roi: list = None):
     img = img if img is not None else grab()
@@ -110,9 +138,9 @@ def read_gold(img: np.ndarray = None, type: str = "inventory"):
     img = cut_roi(img, Config().ui_roi[f"{type}_gold_digits"])
     # _, img = color_filter(img, Config().colors["gold_numbers"])
     img = np.pad(img, pad_width=[(8, 8),(8, 8),(0, 0)], mode='constant')
-    ocr_result = Ocr().image_to_text(
+    ocr_result = ocr.image_to_text(
         images = img,
-        model = "engd2r_inv_th_fast",
+        model = "hover-eng_inconsolata_inv_th_fast",
         psm = 13,
         scale = 1.2,
         crop_pad = False,
@@ -122,7 +150,7 @@ def read_gold(img: np.ndarray = None, type: str = "inventory"):
         digits_only = True,
         fix_regexps = False,
         check_known_errors = False,
-        check_wordlist = False,
+        correct_words = False,
     )[0]
     number=int(ocr_result.text.strip())
     Logger.debug(f"{type.upper()} gold: {number}")

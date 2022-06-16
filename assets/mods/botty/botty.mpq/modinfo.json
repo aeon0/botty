@@ -1,7 +1,4 @@
 ﻿{
-
-"name": "botty",
-
-"savepath": "../"
-
+    "name": "botty",
+    "savepath": "../"
 }

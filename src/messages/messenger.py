@@ -17,8 +17,8 @@ class Messenger:
         self.enabled = Config().general["message_api_type"] and Config().general["custom_message_hook"]
 
 
-    def send_item(self, item: str, image:  np.ndarray, location: str, ocr_text: str = None):
-        self._message_api.send_item(item, image, location, ocr_text)
+    def send_item(self, item: str, image:  np.ndarray, location: str, ocr_text: str = '', nip_keep_expression: str = '', item_props = {}):
+        self._message_api.send_item(item, image, location, ocr_text, nip_keep_expression, item_props)
 
     def send_death(self, location: str, image_path: str = None):
         self._message_api.send_death(location, image_path)
@@ -43,8 +43,8 @@ if __name__ == "__main__":
     location = "Shenk"
 
     # messenger.send_item(item, img, location)
-    # messenger.send_death(location, "./info_screenshots/info_debug_chicken_20211220_110621.png")
-    # messenger.send_chicken(location, "./info_screenshots/info_debug_chicken_20211220_110621.png")
+    # messenger.send_death(location, "./log/screenshots/info/info_debug_chicken_20211220_110621.png")
+    # messenger.send_chicken(location, "./log/screenshots/info/info_debug_chicken_20211220_110621.png")
     messenger.send_stash()
     messenger.send_gold()
     messenger.send_message("This is a test message")

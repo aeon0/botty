@@ -15,18 +15,29 @@ from ui_manager import ScreenObjects, is_visible
 from random import uniform
 
 pause_state = True
+panel_check_paused = False
 
 def get_pause_state():
-    global pause_state
     return pause_state
 
 def set_pause_state(state: bool):
     global pause_state
     prev = get_pause_state()
     if prev != state:
-        debug_str = "pausing" if state else "active"
+        debug_str = "paused" if state else "active"
         Logger.info(f"Health Manager is now {debug_str}")
         pause_state = state
+
+def get_panel_check_paused():
+    return panel_check_paused
+
+def set_panel_check_paused(state: bool):
+    global panel_check_paused
+    prev = get_panel_check_paused()
+    if prev != state:
+        debug_str = "pausing" if state else "activating"
+        Logger.info(f"Health Manager is now {debug_str} inventory panel check")
+        panel_check_paused = state
 
 class HealthManager:
     def __init__(self):
@@ -64,7 +75,7 @@ class HealthManager:
         mouse.release(button="right")
         view.save_and_exit()
         if Config().general["info_screenshots"]:
-            self._last_chicken_screenshot = "./info_screenshots/info_debug_chicken_" + time.strftime("%Y%m%d_%H%M%S") + ".png"
+            self._last_chicken_screenshot = "./log/screenshots/info/info_debug_chicken_" + time.strftime("%Y%m%d_%H%M%S") + ".png"
             cv2.imwrite(self._last_chicken_screenshot, img)
         self._did_chicken = True
         set_pause_state(True)
@@ -124,7 +135,7 @@ class HealthManager:
                     elif merc_health_percentage <= Config().char["heal_merc"] and last_drink > merc_hp_potion_delay:
                         belt.drink_potion("health", merc=True, stats=[merc_health_percentage])
                         self._last_merc_heal = time.time()
-                if is_visible(ScreenObjects.LeftPanel, img) or is_visible(ScreenObjects.RightPanel, img):
+                if not get_panel_check_paused() and (is_visible(ScreenObjects.LeftPanel, img) or is_visible(ScreenObjects.RightPanel, img)):
                     Logger.warning(f"Found an open inventory / quest / skill / stats page. Close it.")
                     self._count_panel_detects += 1
                     if self._count_panel_detects >= 2:

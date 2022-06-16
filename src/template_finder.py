@@ -103,7 +103,7 @@ def _single_template_match(template: Template, inp_img: np.ndarray = None, roi: 
         template_img = template.img_bgr
 
     if not (img.shape[0] > template_img.shape[0] and img.shape[1] > template_img.shape[1]):
-        Logger.error(f"Image shape and template shape are incompatible: {template.name}. Image: {img.shape}, Template: {template_img.shape}")
+        Logger.error(f"Image shape and template shape are incompatible: {template.name}. Image: {img.shape}, Template: {template_img.shape}, roi: {roi}")
     else:
         res = cv2.matchTemplate(img, template_img, cv2.TM_CCOEFF_NORMED, mask = template.alpha_mask)
         np.nan_to_num(res, copy=False, nan=0.0, posinf=0.0, neginf=0.0)
@@ -173,7 +173,7 @@ def search_and_wait(
     """
     Helper function that will loop and keep searching for a template
     :param timeout: After this amount of time the search will stop and it will return [False, None]
-    :Other params are the same as for TemplateFinder.search()
+    :Other params are the same as for template_finder.search()
     :returns a TemplateMatch object
     """
     if not suppress_debug:
@@ -204,7 +204,7 @@ def search_all(
 ) -> list[TemplateMatch]:
     """
     Returns a list of all templates scoring above set threshold on the screen
-    :Other params are the same as for TemplateFinder.search()
+    :Other params are the same as for template_finder.search()
     :return: Returns a list of TemplateMatch objects
     """
     templates = _process_template_refs(ref)
@@ -256,8 +256,7 @@ if __name__ == "__main__":
     _visible_templates = []
 
     def _save_visible_templates():
-        if not os.path.exists("info_screenshots"):
-            os.system("mkdir info_screenshots")
+        os.makedirs("log/screenshots/info", exist_ok=True)
         for match in _visible_templates:
             cv2.imwrite(match['filename'], match['img'])
             Logger.info(f"{match['filename']} saved")
@@ -313,7 +312,7 @@ if __name__ == "__main__":
                 cv2.rectangle(display_img, template_match.region[:2], (template_match.region[0] + template_match.region[2], template_match.region[1] + template_match.region[3]), (0, 0, 255), 1)
                 print(f"Name: {template_match.name} Pos: {template_match.center}, Dist: {625-x, 360-y}, Score: {template_match.score}")
                 match = {
-                    'filename': f"./info_screenshots/{key.lower()}.png",
+                    'filename': f"./log/screenshots/info/{key.lower()}.png",
                     'img': cut_roi(img, template_match.region)
                 }
                 _visible_templates.append(match)

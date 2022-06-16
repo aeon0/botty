@@ -9,10 +9,10 @@ wkdir = os.getcwd()
 
 #initialize strings
 simple_string = [
-    "Run Diablo", 
+    "Run Diablo",
     "ROF: Calibrated at WAYPOINT",
-    "ROF: Teleporting directly to PENTAGRAM", 
-    
+    "ROF: Teleporting directly to PENTAGRAM",
+
     "ROF: Teleporting to CS ENTRANCE",
     "CS Trash: Calibrated at CS ENTRANCE",
     "CS Trash: Starting to clear Trash",
@@ -23,7 +23,7 @@ simple_string = [
     "CS Trash (A): Layout_check step 1/2",
     "CS Trash (A): Layout_check step 2/2",
     "CS Trash (A): Layout_check failed",
-    
+
     "CS Trash (A): clearing second hall (1/3)",
     "CS Trash (A): clearing second hall (2/3)",
     "CS Trash (A): clearing second hall (3/3)",
@@ -40,11 +40,11 @@ simple_string = [
 
     "CS Trash (B): clearing third hall (1/1)",
 
-    "CS Trash: looping to PENTAGRAM", 
-    "CS: Calibrated at PENTAGRAM", 
+    "CS Trash: looping to PENTAGRAM",
+    "CS: Calibrated at PENTAGRAM",
     "CS: OPEN TP",
     "CS: failed to open TP",
-    
+
     "CS TRASH: A Pent to LC",
     "CS TRASH: A looping to PENTAGRAM",
     "CS TRASH: A calibrated at PENTAGRAM",
@@ -57,15 +57,15 @@ simple_string = [
     "CS TRASH: C looping to PENTAGRAM",
     "CS TRASH: C calibrated at PENTAGRAM",
 
-    "Checking Layout for Vizier", 
-    "Checking Layout for De Seis", 
-    "Checking Layout for Infector", 
-    
-    "Waiting for Diablo to spawn", 
-    
-    "End game", 
-    "End failed game", 
-    "Trying to chicken", 
+    "Checking Layout for Vizier",
+    "Checking Layout for De Seis",
+    "Checking Layout for Infector",
+
+    "Waiting for Diablo to spawn",
+
+    "End game",
+    "End failed game",
+    "Trying to chicken",
     "You have died",
 
     "Shrine found, activating it",
@@ -85,13 +85,13 @@ trash_event=[""]
 lc_prefix=["Found Match:"]
 lc_event=[
         'DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_TP', 'DIA_NEW_PENT_2',
-        "DIA_A2Y_LAYOUTCHECK0", "DIA_A2Y_LAYOUTCHECK1", "DIA_A2Y_LAYOUTCHECK2", "DIA_A2Y_LAYOUTCHECK4", "DIA_A2Y_LAYOUTCHECK5", "DIA_A2Y_LAYOUTCHECK6", 
-        "DIA_A1L_LAYOUTCHECK0", "DIA_A1L_LAYOUTCHECK4", "DIA_A1L_LAYOUTCHECK4LEFT", "DIA_A1L_LAYOUTCHECK1", "DIA_A1L_LAYOUTCHECK2", "DIA_A1L_LAYOUTCHECK3","DIA_A1L_LAYOUTCHECK4RIGHT","DIA_A1L_LAYOUTCHECK5", 
-        "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3", 
-        "DIA_B2U_LAYOUTCHECK2", "DIA_B2U_LAYOUTCHECK1", "DIA_B2U_LAYOUTCHECK2SMALL","DIA_B2U_LAYOUTCHECK3", "DIA_B2U_LAYOUTCHECK4", "DIA_B2U_LAYOUTCHECK5","DIA_B2U_LAYOUTCHECK6","DIA_B2U_LAYOUTCHECK7","DIA_B2U_LAYOUTCHECK8","DIA_B2U_LAYOUTCHECK9", 
-        "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK1", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK4", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK5", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK2", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK3", 
+        "DIA_A2Y_LAYOUTCHECK0", "DIA_A2Y_LAYOUTCHECK1", "DIA_A2Y_LAYOUTCHECK2", "DIA_A2Y_LAYOUTCHECK4", "DIA_A2Y_LAYOUTCHECK5", "DIA_A2Y_LAYOUTCHECK6",
+        "DIA_A1L_LAYOUTCHECK0", "DIA_A1L_LAYOUTCHECK4", "DIA_A1L_LAYOUTCHECK4LEFT", "DIA_A1L_LAYOUTCHECK1", "DIA_A1L_LAYOUTCHECK2", "DIA_A1L_LAYOUTCHECK3","DIA_A1L_LAYOUTCHECK4RIGHT","DIA_A1L_LAYOUTCHECK5",
+        "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3",
+        "DIA_B2U_LAYOUTCHECK2", "DIA_B2U_LAYOUTCHECK1", "DIA_B2U_LAYOUTCHECK2SMALL","DIA_B2U_LAYOUTCHECK3", "DIA_B2U_LAYOUTCHECK4", "DIA_B2U_LAYOUTCHECK5","DIA_B2U_LAYOUTCHECK6","DIA_B2U_LAYOUTCHECK7","DIA_B2U_LAYOUTCHECK8","DIA_B2U_LAYOUTCHECK9",
+        "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK1", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK4", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK5", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK2", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK3",
         "DIA_C1F_LAYOUTCHECK1", "DIA_C1F_LAYOUTCHECK2", "DIA_C1F_LAYOUTCHECK3",
-        "DIABLO_ENTRANCE_12", "DIABLO_ENTRANCE_13", "DIABLO_ENTRANCE_15", "DIABLO_ENTRANCE_16", "DIABLO_ENTRANCE_19", "DIABLO_ENTRANCE_18","DIABLO_ENTRANCE_50", "DIABLO_ENTRANCE_51", "DIABLO_ENTRANCE_52", "DIABLO_ENTRANCE_53", "DIABLO_ENTRANCE_54", "DIABLO_ENTRANCE_55", 
+        "DIABLO_ENTRANCE_12", "DIABLO_ENTRANCE_13", "DIABLO_ENTRANCE_15", "DIABLO_ENTRANCE_16", "DIABLO_ENTRANCE_19", "DIABLO_ENTRANCE_18","DIABLO_ENTRANCE_50", "DIABLO_ENTRANCE_51", "DIABLO_ENTRANCE_52", "DIABLO_ENTRANCE_53", "DIABLO_ENTRANCE_54", "DIABLO_ENTRANCE_55",
         "DIABLO_ENTRANCE2_15", "DIABLO_ENTRANCE2_23", "DIABLO_ENTRANCE2_19", "DIABLO_ENTRANCE2_17", "DIABLO_ENTRANCE2_50", "DIABLO_ENTRANCE2_51", "DIABLO_ENTRANCE2_52","DIABLO_ENTRANCE2_53","DIABLO_ENTRANCE2_54","DIABLO_ENTRANCE2_55","DIABLO_ENTRANCE2_56"
         ]
 error_string = ["End failed game"]
@@ -104,7 +104,7 @@ reference_complex = 0
 #initialize counter
 simple_counter = numpy.zeros (len (simple_string)+1)
 complex_counter = numpy.zeros ((len (prefix_string)+1, len (complex_string)+1))
-lc_counter = numpy.zeros ((len (lc_prefix)+1, len (lc_event)+1)) 
+lc_counter = numpy.zeros ((len (lc_prefix)+1, len (lc_event)+1))
 
 layout_check_counter = 0
 #check where layoutcheck 2/2 is
@@ -114,7 +114,7 @@ for string in complex_string:
     layout_check_counter += 1
 
 #open file and gather information line by line
-log_str = wkdir + "/info.log"
+log_str = wkdir + "/log/log.txt"
 log_file = open (log_str, "r")
 log_lines = log_file.readlines ()
 traverse_line = 0
@@ -128,10 +128,10 @@ for line in log_lines:
     prefix_counter = 0
     lc_cl_counter = 0
     #check simple strings
-    for string in simple_string: 
+    for string in simple_string:
         if string in line:
             simple_counter [simple_item_counter] += 1
-            break    
+            break
         simple_item_counter += 1
     #check concat strings
     for prefix in prefix_string:
@@ -239,7 +239,7 @@ table4.columns.header = ["TEMPLATES CHECKED", "#"]
 table4.columns.alignment["TEMPLATES CHECKED"] = BeautifulTable.ALIGN_LEFT
 result_file.write (str (table4))
 result_file.write ("\n")
-    
+
 result_file.write ("\n")
 result_file.write ("\n")
 result_file.write ("========================================================\n")
@@ -265,6 +265,6 @@ for error in error_array:
         result_file.write (line)
 
 Logger.info ("=================================================================================================")
-Logger.info ("Parsed info.log - results & details for failed runs stored in " + str(result_file) + " in botty root folder")
+Logger.info ("Parsed log/log.txt - results & details for failed runs stored in " + str(result_file) + " in botty root folder")
 Logger.info ("=================================================================================================")
-#Logger.info ("\n" + str(table1)) 
+#Logger.info ("\n" + str(table1))

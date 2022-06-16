@@ -49,7 +49,7 @@ class GameController:
                 if max_game_length_reached:
                     Logger.info(f"Max game length reached. Attempting to restart {Config().general['name']}!")
                     if Config().general["info_screenshots"]:
-                        cv2.imwrite("./info_screenshots/info_max_game_length_reached_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
+                        cv2.imwrite("./log/screenshots/info/info_max_game_length_reached_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
                 elif self.death_manager.died():
                     self.game_stats.log_death(self.death_manager._last_death_screenshot)
                 elif self.health_manager.did_chicken():
@@ -76,7 +76,7 @@ class GameController:
             return self.run_bot()
         else:
             if Config().general["info_screenshots"]:
-                cv2.imwrite("./info_screenshots/info_could_not_recover_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
+                cv2.imwrite("./log/screenshots/info/info_could_not_recover_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
             if Config().general['restart_d2r_when_stuck']:
                 Logger.error("Could not recover from a max game length violation. Restarting the Game.")
                 if messenger.enabled:

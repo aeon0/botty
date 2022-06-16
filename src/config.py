@@ -11,14 +11,6 @@ from utils.misc import wait
 def _default_iff(value, iff, default = None):
     return default if value == iff else value
 
-@dataclass
-class ItemProps:
-    pickit_type: int = 0
-    include: list[str] = None
-    exclude: list[str] = None
-    include_type: str = "OR"
-    exclude_type: str = "OR"
-
 class Config:
     data_loaded = False
 
@@ -30,11 +22,9 @@ class Config:
     gamble = {}
     ui_roi = {}
     ui_pos = {}
-    dclone = {}
     routes = {}
     routes_order = []
     char = {}
-    items = {}
     colors = {}
     shop = {}
     path = {}
@@ -43,6 +33,7 @@ class Config:
     nova_sorc = {}
     hydra_sorc = {}
     hammerdin = {}
+    fohdin = {}
     trapsin = {}
     barbarian = {}
     poison_necro = {}
@@ -77,9 +68,6 @@ class Config:
             elif section in self.configs["config"]["parser"]:
                 found_val = self.configs["config"]["parser"][section][key]
                 found_in = "config"
-            elif section in self.configs["pickit"]["parser"]:
-                found_val = self.configs["pickit"]["parser"][section][key]
-                found_in = "pickit"
             elif section in self.configs["shop"]["parser"]:
                 found_val = self.configs["shop"]["parser"][section][key]
                 found_in = "shop"
@@ -98,105 +86,26 @@ class Config:
             wait(10)
             os._exit(1)
 
-    def parse_item_config_string(self, key: str = None) -> ItemProps:
-        string = self._select_val("items", key).upper()
-        return self.string_to_item_prop (string)
-
-    def string_to_item_prop (self, string: str) -> ItemProps:
-        item_props = ItemProps()
-        brk_on = 0
-        brk_off = 0
-        section = 0
-        counter = 0
-        start_section = 0
-        start_item = 0
-        include_list = []
-        exclude_list = []
-        for char in string:
-            new_section = False
-            counter+=1
-            if char == "(":
-                brk_on +=1
-            elif char == ")":
-                brk_off += 1
-            if ((char == "," and brk_on==brk_off)):
-                new_section = True
-                if  (counter == len (string)):
-                    string_section = string [start_section:counter]
-                else:
-                    string_section = string [start_section:counter-1]
-                if section == 0:
-                    item_props.pickit_type = int (string_section)
-                section +=1
-                start_section = counter
-            if ((char == "," and (brk_on==brk_off+1)) or new_section or counter == len (string)):
-                if new_section:
-                    section -=1
-                if start_item ==0:
-                    start_item = start_section
-                if  (counter == len (string)):
-                    item = string [start_item:counter]
-                else:
-                    item = string [start_item:counter-1]
-                if section == 0 and counter == len (string):
-                    item_props.pickit_type = int (item)
-                    pass
-                if section ==1:
-                    include_list.append (item)
-                    start_item = counter +1
-                elif section ==2:
-                    exclude_list.append (item)
-                    start_item = counter +1
-                if new_section:
-                    section +=1
-        if (len (include_list)>0 and (len (include_list[0]) >=6)):
-            if ("AND" in include_list[0][0: 6] and not ")" in include_list[0]):
-                item_props.include_type = "AND"
-            else:
-                item_props.include_type = "OR"
-        if (len (exclude_list)>0 and (len (exclude_list[0]) >=6)):
-            if ("AND" in exclude_list[0][0:6] and not ")" in include_list[0]):
-                item_props.exclude_type = "AND"
-            else:
-                item_props.exclude_type = "OR"
-        for i in range (len(include_list)):
-            include_list[i]  = include_list[i].replace (" ","").replace ("OR(","").replace ("AND(", "").replace ("(", "").replace (")","")
-            include_list[i]  = include_list[i].split (",")
-        for l in range (len (exclude_list)):
-            exclude_list[l] = exclude_list[l].replace (" ","").replace ("OR(","").replace ("AND(", "").replace ("(", "").replace (")","")
-            exclude_list[l] = exclude_list[l].split (",")
-        item_props.include = include_list
-        item_props.exclude = exclude_list
-        return item_props
-
     def turn_off_goldpickup(self):
         Logger.info("All stash tabs and character are full of gold, turn off gold pickup")
         with config_lock:
             self.char["stash_gold"] = False
-            self.items["misc_gold"].pickit_type = 0
 
     def turn_on_goldpickup(self):
         Logger.info("All stash tabs and character are no longer full of gold. Turn gold stashing back on.")
         self.char["stash_gold"] = True
-        # if gold pickup in pickit config was originally on but turned off, turn back on
-        if self.string_to_item_prop(self._select_val("items", "misc_gold")).pickit_type > 0:
-            Logger.info("Turn gold pickup back on")
-            with config_lock:
-                self.items["misc_gold"].pickit_type = 1
 
     def load_data(self):
         Logger.debug("Loading config")
         self.configs = {
             "config": {"parser": configparser.ConfigParser(), "vars": {}},
             "game": {"parser": configparser.ConfigParser(), "vars": {}},
-            "pickit": {"parser": configparser.ConfigParser(), "vars": {}},
             "shop": {"parser": configparser.ConfigParser(), "vars": {}},
             "transmute": {"parser": configparser.ConfigParser(), "vars": {}},
             "custom": {"parser": configparser.ConfigParser(), "vars": {}},
         }
         self.configs["config"]["parser"].read('config/params.ini')
         self.configs["game"]["parser"].read('config/game.ini')
-        self.configs["pickit"]["parser"].read('config/pickit.ini')
         self.configs["shop"]["parser"].read('config/shop.ini')
         self.configs["transmute"]["parser"].read('config/transmute.ini')
 
@@ -218,7 +127,7 @@ class Config:
 
         self.general = {
             "saved_games_folder": self._select_val("general", "saved_games_folder"),
-            "name": self._select_val("general", "name"),
+            "name": _default_iff(self._select_val("general", "name"), "", "botty"),
             "max_game_length_s": float(self._select_val("general", "max_game_length_s")),
             "max_consecutive_fails": int(self._select_val("general", "max_consecutive_fails")),
             "max_runtime_before_break_m": float(_default_iff(self._select_val("general", "max_runtime_before_break_m"), '', 0)),
@@ -231,15 +140,9 @@ class Config:
             "discord_status_count": False if not self._select_val("general", "discord_status_count") else int(self._select_val("general", "discord_status_count")),
             "discord_log_chicken": bool(int(self._select_val("general", "discord_log_chicken"))),
             "info_screenshots": bool(int(self._select_val("general", "info_screenshots"))),
-            "loot_screenshots": bool(int(self._select_val("general", "loot_screenshots"))),
+            "pickit_screenshots": bool(int(self._select_val("general", "pickit_screenshots"))),
             "d2r_path": _default_iff(self._select_val("general", "d2r_path"), "", "C:\Program Files (x86)\Diablo II Resurrected"),
             "restart_d2r_when_stuck": bool(int(self._select_val("general", "restart_d2r_when_stuck"))),
-        }
-
-        # Added for dclone ip hunting
-        self.dclone = {
-            "region_ips": self._select_val("dclone", "region_ips"),
-            "dclone_hotip": self._select_val("dclone", "dclone_hotip"),
         }
 
         self.routes = {}
@@ -255,6 +158,7 @@ class Config:
             "type": self._select_val("char", "type"),
             "show_items": self._select_val("char", "show_items"),
             "inventory_screen": self._select_val("char", "inventory_screen"),
+            "teleport": self._select_val("char", "teleport"),
             "stand_still": self._select_val("char", "stand_still"),
             "force_move": self._select_val("char", "force_move"),
             "num_loot_columns": int(self._select_val("char", "num_loot_columns")),
@@ -266,7 +170,7 @@ class Config:
             "heal_rejuv_merc": float(self._select_val("char", "heal_rejuv_merc")),
             "chicken": float(self._select_val("char", "chicken")),
             "merc_chicken": float(self._select_val("char", "merc_chicken")),
-            "tp": self._select_val("char", "tp"),
+            "town_portal": self._select_val("char", "town_portal"),
             "belt_rows": int(self._select_val("char", "belt_rows")),
             "show_belt": self._select_val("char", "show_belt"),
             "potion1": self._select_val("char", "potion1"),
@@ -277,7 +181,6 @@ class Config:
             "belt_hp_columns": int(self._select_val("char", "belt_hp_columns")),
             "belt_mp_columns": int(self._select_val("char", "belt_mp_columns")),
             "stash_gold": bool(int(self._select_val("char", "stash_gold"))),
-            "min_gold_to_pick": int(_default_iff(self._select_val("char", "min_gold_to_pick"), '', 0)),
             "use_merc": bool(int(self._select_val("char", "use_merc"))),
             "id_items": bool(int(self._select_val("char", "id_items"))),
             "open_chests": bool(int(self._select_val("char", "open_chests"))),
@@ -308,6 +211,8 @@ class Config:
             "sell_junk": bool(int(self._select_val("char", "sell_junk"))),
             "enable_no_pickup": bool(int(self._select_val("char", "enable_no_pickup"))),
             "teleport_weapon_swap": bool(int(self._select_val("char", "teleport_weapon_swap"))),#for diablo
+            "safer_routines": bool(int(self._select_val("char", "safer_routines"))),
+          
         }
         # Sorc base config
         sorc_base_cfg = dict(self.configs["config"]["parser"]["sorceress"])
@@ -334,12 +239,22 @@ class Config:
             self.hydra_sorc.update(dict(self.configs["custom"]["parser"]["hydra_sorc"]))
         self.hydra_sorc.update(sorc_base_cfg)
 
-        # Palandin config
+        # Paladin base config
+        paladin_base_cfg = dict(self.configs["config"]["parser"]["paladin"])
+        if "paladin" in self.configs["custom"]["parser"]:
+            paladin_base_cfg.update(dict(self.configs["custom"]["parser"]["paladin"]))
+        # Hammerdin config
         self.hammerdin = self.configs["config"]["parser"]["hammerdin"]
         if "hammerdin" in self.configs["custom"]["parser"]:
             self.hammerdin.update(self.configs["custom"]["parser"]["hammerdin"])
+        self.hammerdin.update(paladin_base_cfg)
+        # FoHdin config
+        self.fohdin = dict(self.configs["config"]["parser"]["fohdin"])
+        if "fohdin" in self.configs["custom"]["parser"]:
+            self.fohdin.update(self.configs["custom"]["parser"]["fohdin"])
+        self.fohdin.update(paladin_base_cfg)
 
-        # Assasin config
+        # Assassin config
         self.trapsin = self.configs["config"]["parser"]["trapsin"]
         if "trapsin" in self.configs["custom"]["parser"]:
             self.trapsin.update(self.configs["custom"]["parser"]["trapsin"])
@@ -390,18 +305,9 @@ class Config:
             "hwnd_window_process": _default_iff(Config()._select_val("advanced_options", "hwnd_window_process"), ''),
             "window_client_area_offset": tuple(map(int, Config()._select_val("advanced_options", "window_client_area_offset").split(","))),
             "ocr_during_pickit": bool(int(self._select_val("advanced_options", "ocr_during_pickit"))),
-            "launch_options": self._select_val("advanced_options", "launch_options"),
+            "launch_options": self._select_val("advanced_options", "launch_options").replace("<name>", self.general["name"]),
             "override_capabilities": _default_iff(Config()._select_optional("advanced_options", "override_capabilities"), ""),
         }
-
-        self.items = {}
-        for key in self.configs["pickit"]["parser"]["items"]:
-            try:
-                self.items[key] = self.parse_item_config_string(key)
-                if self.items[key].pickit_type and not os.path.exists(f"./assets/items/{key}.png"):
-                    Logger.warning(f"You activated {key} in pickit, but there is no img available in assets/items")
-            except ValueError as e:
-                Logger.error(f"Error with pickit config: {key} ({e})")
 
         self.colors = {}
         for key in self.configs["game"]["parser"]["colors"]:
@@ -449,17 +355,3 @@ class Config:
 if __name__ == "__main__":
     from copy import deepcopy
     config = Config()
-
-    # Check if any added items miss templates
-    for k in config.items:
-        if not os.path.exists(f"./assets/items/{k}.png"):
-            Logger.warning(f"Template not found: {k}")
-
-    # Check if any item templates miss a config
-    for filename in os.listdir(f'assets/items'):
-        filename = filename.lower()
-        if filename.endswith('.png'):
-            item_name = filename[:-4]
-            blacklist_item = item_name.startswith("bl__")
-            if item_name not in config.items and not blacklist_item:
-                Logger.warning(f"Config not found for: " + filename)

@@ -3,7 +3,7 @@ import random
 import time
 import cv2
 import math
-from inventory import consumables
+from item import consumables
 import keyboard
 import numpy as np
 from char.capabilities import CharacterCapabilities
@@ -15,7 +15,6 @@ from logger import Logger
 from config import Config
 from screen import grab, convert_monitor_to_screen, convert_screen_to_abs, convert_abs_to_monitor, convert_screen_to_monitor
 import template_finder
-from ocr import Ocr
 from ui_manager import detect_screen_object, ScreenObjects
 
 class IChar:
@@ -24,16 +23,45 @@ class IChar:
     def __init__(self, skill_hotkeys: dict):
         self._skill_hotkeys = skill_hotkeys
         self._last_tp = time.time()
-        self._ocr = Ocr()
         # Add a bit to be on the save side
         self._cast_duration = Config().char["casting_frames"] * 0.04 + 0.01
         self.damage_scaling = float(Config().char.get("damage_scaling", 1.0))
         self.capabilities = None
+        self._active_skill = {
+            "left": "",
+            "right": ""
+        }
+        self._use_safer_routines = Config().char["safer_routines"]
+
+    def _set_active_skill(self, mouse_click_type: str = "left", skill: str =""):
+        self._active_skill[mouse_click_type] = skill
+
+    def _select_skill(self, skill: str, mouse_click_type: str = "left", delay: float | list | tuple = None):
+        if not (
+            skill in self._skill_hotkeys and (hotkey := self._skill_hotkeys[skill])
+            or (skill in Config().char and (hotkey := Config().char[skill]))
+        ):
+            Logger.warning(f"No hotkey for skill: {skill}")
+            self._set_active_skill(mouse_click_type, "")
+            return False
+
+        if self._active_skill[mouse_click_type] != skill:
+            keyboard.send(hotkey)
+        self._set_active_skill(mouse_click_type, skill)
+        if delay:
+            try:
+                wait(*delay)
+            except:
+                try:
+                    wait(delay)
+                except Exception as e:
+                    Logger.warning(f"_select_skill: Failed to delay with delay: {delay}. Exception: {e}")
+        return True
 
     def _discover_capabilities(self) -> CharacterCapabilities:
         override = Config().advanced_options["override_capabilities"]
         if override is None:
-            if self._skill_hotkeys["teleport"]:
+            if Config().char["teleport"]:
                 if self.select_tp():
                     if self.skill_is_charged():
                         return CharacterCapabilities(can_teleport_natively=False, can_teleport_with_charges=True)
@@ -63,7 +91,7 @@ class IChar:
         mouse.move(pos[0], pos[1])
         time.sleep(0.1)
         mouse.click(button="left")
-        wait(0.45, 0.5)
+        wait(0.25, 0.3)
         return prev_cast_start
 
     def select_by_template(
@@ -113,7 +141,7 @@ class IChar:
 
     def is_low_on_teleport_charges(self):
         img = grab()
-        charges_remaining = skills.get_skill_charges(self._ocr, img)
+        charges_remaining = skills.get_skill_charges(img)
         if charges_remaining:
             Logger.debug(f"{charges_remaining} teleport charges remain")
             return charges_remaining <= 3
@@ -142,18 +170,24 @@ class IChar:
         return self._remap_skill_hotkey(skill_asset, hotkey, Config().ui_roi["skill_right"], Config().ui_roi["skill_right_expanded"])
 
     def select_tp(self):
-        return skills.select_tp(self._skill_hotkeys["teleport"])
+        return skills.select_tp(Config().char["teleport"])
 
     def pre_move(self):
         # if teleport hotkey is set and if teleport is not already selected
         if self.capabilities.can_teleport_natively:
             self.select_tp()
+            self._set_active_skill("right", "teleport")
 
     def move(self, pos_monitor: tuple[float, float], force_tp: bool = False, force_move: bool = False):
         factor = Config().advanced_options["pathing_delay_factor"]
-        if self._skill_hotkeys["teleport"] and \
-            (force_tp or (skills.is_right_skill_selected(["TELE_ACTIVE"]) and \
-                skills.is_right_skill_active())):
+        if "teleport" in Config().char and Config().char["teleport"] and (
+            force_tp
+            or (
+                skills.is_right_skill_selected(["TELE_ACTIVE"])
+                and skills.is_right_skill_active()
+            )
+        ):
+            self._set_active_skill("right", "teleport")
             mouse.move(pos_monitor[0], pos_monitor[1], randomize=3, delay_factor=[factor*0.1, factor*0.14])
             wait(0.012, 0.02)
             mouse.click(button="right")
@@ -244,8 +278,7 @@ class IChar:
         while time.time() - start < 4:
             keyboard.send(Config().char["weapon_switch"])
             wait(0.3, 0.35)
-            keyboard.send(Config().char["battle_command"])
-            wait(0.1, 0.19)
+            self._select_skill(skill = "battle_command", mouse_click_type="right", delay=(0.1, 0.2))
             if skills.is_right_skill_selected(["BC", "BO"]):
                 switch_sucess = True
                 break
@@ -257,8 +290,7 @@ class IChar:
             # We switched succesfully, let's pre buff
             mouse.click(button="right")
             wait(self._cast_duration + 0.16, self._cast_duration + 0.18)
-            keyboard.send(Config().char["battle_orders"])
-            wait(0.1, 0.19)
+            self._select_skill(skill = "battle_orders", mouse_click_type="right", delay=(0.1, 0.2))
             mouse.click(button="right")
             wait(self._cast_duration + 0.16, self._cast_duration + 0.18)
 
@@ -294,8 +326,7 @@ class IChar:
         if not self._skill_hotkeys[ability]:
             raise ValueError(f"You did not set {ability} hotkey!")
         keyboard.send(Config().char["stand_still"], do_release=False)
-        keyboard.send(self._skill_hotkeys[ability])
-        wait(0.02, 0.08)
+        self._select_skill(skill = ability, mouse_click_type="right", delay=(0.02, 0.08))
 
         target = self.vec_to_monitor(arc_spread(cast_pos_abs, spread_deg=spread_deg))
         mouse.move(*target,delay_factor=[0.95, 1.05])
@@ -363,12 +394,9 @@ if __name__ == "__main__":
     keyboard.wait("f11")
     from utils.misc import cut_roi
     from config import Config
-    import template_finder
-    from ocr import Ocr
     from ui import skills
 
     skill_hotkeys = {}
-    ocr = Ocr()
 
     i_char = IChar({})
 
