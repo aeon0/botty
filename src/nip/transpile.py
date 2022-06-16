@@ -298,7 +298,7 @@ def validate_nip_expression_syntax(nip_expression): # * enforces that {property}
                 raise NipSyntaxError("NIP_0x15", "Invalid maxquantity lookup")
 
     # * Further syntax validation
-
+    print(all_tokens)
     if all_tokens[-1].type == TokenType.SECTIONAND:
         raise NipSyntaxError("NIP_0x16", "unexpected sectionand (#) at end of expression")
     math_tokens = [TokenType.MULTIPLY, TokenType.PLUS, TokenType.MINUS, TokenType.DIVIDE, TokenType.MODULO, TokenType.POW]
@@ -322,7 +322,7 @@ def validate_nip_expression_syntax(nip_expression): # * enforces that {property}
         elif token.type == TokenType.NUMBER or token.type == TokenType.UNKNOWN:
             validate_digits_syntax(left=left, right=right)
         
-        if token.type in logical_tokens or i == len(all_tokens) - 1:
+        if token.type in logical_tokens:
             validate_logical_operators(left=left, right=right)
 
         if token.type == TokenType.LPAREN or token.type == TokenType.RPAREN or i == len(all_tokens) - 1: # * Also check the last token no matter what so if there is an opening parenthesis without a closing parenthesis it will raise an error
