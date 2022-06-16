@@ -42,6 +42,8 @@ Contributions are welcome, and we encourage you to contribute to this project if
 Botty NIP (BNIP) is an extended version of Njaguar's Item Parser (NIP).
 BNIP is compatible with NIP.
 
+There is a default nip file that comes with botty called "default.nip" inside config folder, you can add your own nip files by putting them inside config/nip with a file extension of .nip. Creating your own nip file also turns off the default.nip.
+
 We suggest you read the NIP guide if you are unfamiliar with NIP https://github.com/blizzhackers/pickits/blob/master/NipGuide.md
 
 ### New features in BNIP
