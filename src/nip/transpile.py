@@ -158,7 +158,6 @@ def validate_correct_parenthesis_syntax(current_pos, all_tokens, left_token=None
     """Makes sure that every parenthesis is closed and that there are no unclosed parenthesis."""
     global OPENING_PARENTHESIS_COUNT
     token = all_tokens[current_pos]
-
     if token.type == TokenType.LPAREN:
         OPENING_PARENTHESIS_COUNT += 1
     elif token.type == TokenType.RPAREN:
@@ -323,10 +322,10 @@ def validate_nip_expression_syntax(nip_expression): # * enforces that {property}
         elif token.type == TokenType.NUMBER or token.type == TokenType.UNKNOWN:
             validate_digits_syntax(left=left, right=right)
         
-        if token.type in logical_tokens:
+        if token.type in logical_tokens or i == len(all_tokens) - 1:
             validate_logical_operators(left=left, right=right)
 
-        if token.type == TokenType.LPAREN or token.type == TokenType.RPAREN: # * Also check the last token no matter what so if there is an opening parenthesis without a closing parenthesis it will raise an error
+        if token.type == TokenType.LPAREN or token.type == TokenType.RPAREN or i == len(all_tokens) - 1: # * Also check the last token no matter what so if there is an opening parenthesis without a closing parenthesis it will raise an error
             validate_correct_parenthesis_syntax(i, all_tokens, left_token=left, right_token=right)
     return True
 
