@@ -136,12 +136,12 @@ class FoHdin(Paladin):
         # traverse to nodes and attack
         nodes = [225, 226, 300]
         for i, node in enumerate(nodes):
-            self._pather.traverse_nodes([node], self, timeout=3.2, do_pre_move = False, force_tp=(self.capabilities.can_teleport_natively or i > 0), use_tp_charge=(self.capabilities.can_teleport_natively or i > 0))
+            self._pather.traverse_nodes([node], self, timeout=2.2, do_pre_move = False, force_tp=(self.capabilities.can_teleport_natively or i > 0), use_tp_charge=(self.capabilities.can_teleport_natively or i > 0))
             default_target_abs = self._pather.find_abs_node_pos(node, img := grab()) or self._pather.find_abs_node_pos(906, img) or (-50, -50)
             self._generic_foh_attack_sequence(default_target_abs=default_target_abs, min_duration=atk_len_dur, max_duration=atk_len_dur*3, default_spray=80)
 
         # return to 226 and prepare for pickit
-        self._pather.traverse_nodes([226], self, timeout=3.2, do_pre_move = False, force_tp=True, use_tp_charge=True)
+        self._pather.traverse_nodes([226], self, timeout=2.2, do_pre_move = False, force_tp=True, use_tp_charge=True)
         default_target_abs = self._pather.find_abs_node_pos(226, img := grab()) or self._pather.find_abs_node_pos(906, img) or (-50, -50)
         self._generic_foh_attack_sequence(default_target_abs=default_target_abs, max_duration=atk_len_dur*3, default_spray=80)
 
