@@ -802,7 +802,7 @@
 //---------------------------------------------------------
 
 // <<<<<<<<< [ Ethereal/Non-Ethereal Superior/Non-Superior Socketed/Non-Socketed Necromancer Wands ] >>>>>>>>>
-[Type] == Wand && [Qality] <= Superior # [Skillbonespear] >= 3 && ([Skillbonespirit] >= 3 || [Skillteeth] >= 3 || [Skillpoisonnova] >= 3 || [Skilldecrepify] >= 3) && ([Skilldecrepify] >= 1 || [Skillironmaiden] >= 1 || [Skillteeth] >= 1 || [Skillbonearmor] >= 1 || [Skilllowerresist] >= 1) && ([Sockets] == 0 || [Sockets] == 2)      // White Wand
+[Type] == Wand && [Quality] <= Superior # [Skillbonespear] >= 3 && ([Skillbonespirit] >= 3 || [Skillteeth] >= 3 || [Skillpoisonnova] >= 3 || [Skilldecrepify] >= 3) && ([Skilldecrepify] >= 1 || [Skillironmaiden] >= 1 || [Skillteeth] >= 1 || [Skillbonearmor] >= 1 || [Skilllowerresist] >= 1) && ([Sockets] == 0 || [Sockets] == 2)      // White Wand
 
 //---------------------------------------------------
 //================= Amazon Bow Bases ================

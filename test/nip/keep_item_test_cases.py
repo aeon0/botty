@@ -1019,6 +1019,14 @@ NIP_KEEP_TESTS = {
             "expression": "[Name] == jewel && [quality] == unique # [passivefirepierce]+[passivefiremastery] >= 10",
             "should_keep": True
         },
+        {
+            "expression": "[idname] == rainbowfacet",
+            "should_keep": True
+        },
+        {
+            "expression": "[idname] == harlequincrest",
+            "should_keep": False
+        },
     ],
     # nightwing veil
     "nightwing": [
