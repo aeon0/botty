@@ -49,11 +49,19 @@ def should_keep(item_data) -> tuple[bool, str]:
 def _gold_pickup(item_data: dict, expression: NIPExpression) -> bool | None:
     res = None
     for i, token in enumerate(expression.tokens):
-        if token.type == TokenType.ValueNTIPAliasStat and token.value == str(NTIPAliasStat["gold"]):
-            read_gold = int(item_data["Amount"])
-            operator = expression.tokens[i + 1].value
-            desired_gold = int(expression.tokens[i + 2].value)
-            res = eval(f"{read_gold} {operator} {desired_gold}")
+        if (
+            token.type == TokenType.ValueNTIPAliasStat
+            and token.value == str(NTIPAliasStat["gold"])
+            and "Amount" in item_data
+            and item_data["Amount"] is not None
+        ):
+            try:
+                read_gold = int(item_data["Amount"])
+                operator = expression.tokens[i + 1].value
+                desired_gold = int(expression.tokens[i + 2].value)
+                res = eval(f"{read_gold} {operator} {desired_gold}")
+            except Exception as e:
+                Logger.warning(f"Error evaluating gold pickup condition: {e}")
             break
     return res
 
@@ -95,7 +103,7 @@ def _handle_pick_eth_sockets(item_data: dict, expression: NIPExpression) -> tupl
                 else:
                     soc = -1
                 break
-    
+
 
     # pickup table:
     # * w = white, g = gray
