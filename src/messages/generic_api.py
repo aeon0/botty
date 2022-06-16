@@ -6,7 +6,7 @@ import requests
 
 class GenericApi:
 
-    def send_item(self, item: str, image:  np.ndarray, location: str, ocr_text: str = None, nip_keep_expression: str = None):
+    def send_item(self, item: str, image:  np.ndarray, location: str, ocr_text: str = None, nip_keep_expression: str = None, item_props = {}):
         msg = f"Found {item} at {location}"
         self._send(msg, loot = True)
 
