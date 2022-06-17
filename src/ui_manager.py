@@ -174,6 +174,7 @@ class ScreenObjects:
     Overburdened=ScreenObject(
         ref=["INVENTORY_FULL_MSG_0", "INVENTORY_FULL_MSG_1"],
         roi="chat_line_1",
+        #color_match=Config().colors["gold"],
         threshold=0.9
     )
     Corpse=ScreenObject(
@@ -256,6 +257,11 @@ class ScreenObjects:
         threshold=0.8,
         roi="deposit_btn",
     )
+    InventoryBackground=ScreenObject(
+        ref="INVENTORY_BG_PATTERN",
+        roi="inventory_bg_pattern",
+        threshold=0.8,
+    )
 
 def detect_screen_object(screen_object: ScreenObject, img: np.ndarray = None) -> TemplateMatch:
     roi = Config().ui_roi[screen_object.roi] if screen_object.roi else None
@@ -278,20 +284,23 @@ def select_screen_object_match(match: TemplateMatch, delay_factor: tuple[float, 
 def is_visible(screen_object: ScreenObject, img: np.ndarray = None) -> bool:
     return detect_screen_object(screen_object, img).valid
 
-def wait_until_visible(screen_object: ScreenObject, timeout: float = 30) -> TemplateMatch:
+def wait_until_visible(screen_object: ScreenObject, timeout: float = 30, suppress_debug: bool = False) -> TemplateMatch:
     if not (match := _wait_until(lambda: detect_screen_object(screen_object), lambda match: match.valid, timeout)[0]).valid:
-        Logger.debug(f"{screen_object.ref} not found after {timeout} seconds")
+        if not suppress_debug:
+            Logger.debug(f"{screen_object.ref} not found after {timeout} seconds")
     return match
 
-def wait_until_hidden(screen_object: ScreenObject, timeout: float = 3) -> bool:
+def wait_until_hidden(screen_object: ScreenObject, timeout: float = 3, suppress_debug: bool = False) -> bool:
     if not (hidden := _wait_until(lambda: detect_screen_object(screen_object).valid, lambda res: not res, timeout)[1]):
-        Logger.debug(f"{screen_object.ref} still found after {timeout} seconds")
+        if not suppress_debug:
+            Logger.debug(f"{screen_object.ref} still found after {timeout} seconds")
     return hidden
 
-def wait_for_update(img: np.ndarray, roi: list[int] = None, timeout: float = 3) -> bool:
+def wait_for_update(img: np.ndarray, roi: list[int] = None, timeout: float = 3, suppress_debug: bool = False) -> bool:
     roi = roi if roi is not None else [0, 0, img.shape[0]-1, img.shape[1] -1]
     if not (change := _wait_until(lambda: cut_roi(grab(), roi), lambda res: not image_is_equal(cut_roi(img, roi), res), timeout)[1]):
-        Logger.debug(f"ROI: '{roi}' unchanged after {timeout} seconds")
+        if not suppress_debug:
+            Logger.debug(f"ROI: '{roi}' unchanged after {timeout} seconds")
     return change
 
 def _wait_until(func: Callable[[], T], is_success: Callable[[T], bool], timeout = None) -> T | None:
@@ -320,7 +329,7 @@ def center_mouse(delay_factor: list = None):
     if delay_factor:
         mouse.move(*center_m, randomize=20, delay_factor = delay_factor)
     else:
-        mouse.move(*center_m, randomize=20)
+        mouse.move(*center_m, randomize=20, delay_factor = [0.1, 0.2])
 
 # Testing: Move to whatever ui to test and run
 if __name__ == "__main__":

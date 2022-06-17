@@ -124,8 +124,12 @@ class Pather:
             123: {'ELDRITCH_3': (-99, -252), 'ELDRITCH_2': (403, -279), 'ELDRITCH_2_V2': (403, -279), 'ELDRITCH_4': (-62, -109), 'ELDRITCH_9': (-204, -254), 'ELDRITCH_8': (454, -104),  'ELDRITCH_8_V2': (454, -104)},
             # Shenk
             141: {'SHENK_0': (-129, 44), 'SHENK_1': (464, 107), 'SHENK_2': (-167, -34), 'SHENK_17': (-520, 528), 'SHENK_15': (77, 293), 'SHENK_18': (518, 512)},
-            142: {'SHENK_1': (584, 376), 'SHENK_4': (-443, -103), 'SHENK_2': (-52, 235), 'SHENK_3': (357, -129)},
-            143: {'SHENK_4': (-251, 165), 'SHENK_2': (141, 505), 'SHENK_3': (549, 139), 'SHENK_6': (-339, -69)},
+            142: {'SHENK_1': (584, 376), 'SHENK_4': (-443, -103), 'SHENK_2': (-52, 235), 'SHENK_3': (357, -129),
+                "ELDRITCH_2_V2": (516, 195), 'ELDRITCH_1': (-233, -77), "ELDRITCH_0_V2": (360, -140), "ELDRITCH_3": (20, 219)
+            },
+            143: {'SHENK_4': (-251, 165), 'SHENK_2': (141, 505), 'SHENK_3': (549, 139), 'SHENK_6': (-339, -69),
+                'ELDRITCH_1': (10, 204), 'SHENK_7': (264, -37), 'ELDRITCH_0_V2': (591, 141), 'ELDRITCH_3': (252, 500)
+            },
             144: {'SHENK_6': (-108, 123), 'SHENK_7': (481, 151)},
             145: {'SHENK_7': (803, 372), 'SHENK_12': (97, -133), 'SHENK_6': (209, 347), 'SHENK_8': (-245, 18)},
             146: {'SHENK_12': (272, 111), 'SHENK_9': (-331, -144), 'SHENK_8': (-72, 258), 'SHENK_19': (-120, -221)},
@@ -529,7 +533,7 @@ class Pather:
                 if stuck_count >= 5:
                     return False
         # if type(key) == str and ("_save_dist" in key or "_end" in key):
-        #     cv2.imwrite(f"./info_screenshots/nil_path_{key}_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
+        #     cv2.imwrite(f"./log/screenshots/info/nil_path_{key}_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
         return True
 
     def _adjust_abs_range_to_screen(self, abs_pos: tuple[float, float]) -> tuple[float, float]:
@@ -661,7 +665,7 @@ class Pather:
                         # Don't want to spam the log with errors in this case because it most likely worked out just fine
                         if timeout > 3.1:
                             if Config().general["info_screenshots"]:
-                                cv2.imwrite("./info_screenshots/info_pather_got_stuck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
+                                cv2.imwrite("./log/screenshots/info/info_pather_got_stuck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
                             Logger.error("Got stuck exit pather")
                         return False
 
@@ -682,10 +686,12 @@ class Pather:
                 # Sometimes we get stuck at a Shrine or Stash, after a few seconds check if the screen was different, if force a left click.
                 if (teleport_count + 1) % 30 == 0:
                     if (match := detect_screen_object(ScreenObjects.ShrineArea, img)).valid:
-                        if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_shrine_check_before" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
+                        if Config().general["info_screenshots"]:
+                            cv2.imwrite(f"./log/screenshots/info_shrine_check_before" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
                         Logger.debug(f"Shrine found, activating it")
                         select_screen_object_match(match)
-                        if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_shrine_check_after" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
+                        if Config().general["info_screenshots"]:
+                            cv2.imwrite(f"./log/screenshots/info/info_shrine_check_after" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
                     teleport_count = 0
                     break
                 teleport_count += 1
@@ -746,7 +752,7 @@ if __name__ == "__main__":
                         print(f'"{template_type}": {wrt_origin}')
             # display_img = cv2.resize(display_img, None, fx=0.5, fy=0.5)
             # if round(time.time() - start) % 3 == 0:
-            #     cv2.imwrite("./info_screenshots/pather_" + time.strftime("%Y%m%d_%H%M%S") + ".png", display_img)
+            #     cv2.imwrite("./log/screenshots/info/pather_" + time.strftime("%Y%m%d_%H%M%S") + ".png", display_img)
             cv2.imshow("debug", display_img)
             cv2.waitKey(1)
 
@@ -764,7 +770,7 @@ if __name__ == "__main__":
     #char = Hammerdin(Config().hammerdin, pather, PickIt) #Config().char,
     #char.discover_capabilities()
 
-    display_all_nodes(pather, "TRAV_")
+    display_all_nodes(pather, "SHENK_")
     #pather.traverse_nodes([120, 121, 122, 123, 122, 121, 120], char) #works!
     #pather.traverse_nodes_fixed("dia_trash_c", char)
     #display_all_nodes(pather, "SHENK")

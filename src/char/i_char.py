@@ -1,24 +1,21 @@
+from typing import Callable
 import cv2
 import keyboard
 import math
 import numpy as np
 import random
 import time
-from typing import Callable
 
 from char.capabilities import CharacterCapabilities
 from config import Config
+from item import consumables
 from logger import Logger
-from inventory import consumables
-from ocr import Ocr
 from screen import grab, convert_monitor_to_screen, convert_screen_to_abs, convert_abs_to_monitor, convert_screen_to_monitor, convert_abs_to_screen
-import template_finder
 from ui import skills
-from ui_manager import detect_screen_object, ScreenObjects, wait_for_update
-from ui_manager import is_visible, wait_until_visible
+from ui_manager import detect_screen_object, ScreenObjects, wait_for_update, is_visible, wait_until_visible
 from utils.custom_mouse import mouse
 from utils.misc import wait, cut_roi, is_in_roi, color_filter, arc_spread
-
+import template_finder
 
 class IChar:
     _CrossGameCapabilities: None | CharacterCapabilities = None
@@ -35,13 +32,12 @@ class IChar:
             "left": False,
             "right": False
         }
-        self._ocr = Ocr()
         self._skill_hotkeys = skill_hotkeys
         self._standing_still = False
         self.default_move_skill = ""
         self.capabilities = None
         self.damage_scaling = float(Config().char.get("damage_scaling", 1.0))
-
+        self._use_safer_routines = Config().char["safer_routines"]
 
     @staticmethod
     def _click(mouse_click_type: str = "left", wait_before_release: float = 0.0):
@@ -253,7 +249,7 @@ class IChar:
     def pick_up_item(self, pos: tuple[float, float], item_name: str = None, prev_cast_start: float = 0) -> float:
         mouse.move(pos[0], pos[1])
         self._click_left()
-        wait(0.3, 0.4)
+        wait(0.25, 0.35)
         return prev_cast_start
 
     def select_by_template(
@@ -303,7 +299,7 @@ class IChar:
 
     def is_low_on_teleport_charges(self) -> bool:
         img = grab()
-        charges_remaining = skills.get_skill_charges(self._ocr, img)
+        charges_remaining = skills.get_skill_charges(img)
         if charges_remaining:
             Logger.debug(f"{charges_remaining} teleport charges remain")
             return charges_remaining <= 3
@@ -558,12 +554,9 @@ if __name__ == "__main__":
     keyboard.wait("f11")
     from utils.misc import cut_roi
     from config import Config
-    import template_finder
-    from ocr import Ocr
     from ui import skills
 
     skill_hotkeys = {}
-    ocr = Ocr()
 
     i_char = IChar({})
 

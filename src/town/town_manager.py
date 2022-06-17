@@ -1,3 +1,4 @@
+from item import consumables
 import keyboard
 import template_finder
 from config import Config
@@ -7,7 +8,7 @@ from town import IAct, A1, A2, A3, A4, A5
 from utils.misc import wait
 from screen import grab
 from ui import waypoint, view
-from inventory import consumables, personal, vendor, common
+from inventory import personal, vendor, common
 
 TOWN_MARKERS = [
             "A5_TOWN_0", "A5_TOWN_1",

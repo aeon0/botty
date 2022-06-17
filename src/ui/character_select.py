@@ -6,7 +6,7 @@ from screen import convert_screen_to_monitor, grab
 import template_finder
 from utils.misc import wait
 from logger import Logger
-from ocr import Ocr
+from d2r_image import ocr
 import numpy as np
 from ui_manager import detect_screen_object, ScreenObjects
 
@@ -61,9 +61,9 @@ def save_char_template():
         x, y, w, h = Config().ui_roi["character_name_sub_roi"]
         x, y = x + match.region[0], y + match.region[1]
         char_template = cut_roi(img, [x, y, w, h])
-        ocr_result = Ocr().image_to_text(
+        ocr_result = ocr.image_to_text(
             images = char_template,
-            model = "engd2r_ui",
+            model = "hover-eng_inconsolata_inv_th_fast",
             psm = 6,
             scale = 1.2,
             crop_pad = False,
@@ -73,7 +73,7 @@ def save_char_template():
             digits_only = False,
             fix_regexps = False,
             check_known_errors = False,
-            check_wordlist = False,
+            correct_words = False,
         )[0]
         Logger.debug(f"Saved character template: {ocr_result.text.splitlines()[0]}")
     else:

@@ -11,11 +11,11 @@ class TestGameStats:
         self.game_stats = GameStats()
 
     @pytest.mark.parametrize("item_name, item_should_be_added", [
-        ("some_magic_item", True),
-        ("misc_jewel", True),
-        ("misc_gold", False),
-        ("some_potion", False),
-        ("super_healing_potion", False),
+        ("MAGIC ITEM", True),
+        ("JEWEL", True),
+        ("GREATER HEALING POTION", False),
+        ("CHIPPED SKULL", False),
+        ("FLAWLESS SKULL", False),
     ])
     def test_log_item_keep(self, item_name: str, item_should_be_added: bool):
         self.game_stats.update_location("test_location")
