@@ -6,7 +6,7 @@ import numpy as np
 import random
 import time
 
-from char.capabilities import CharacterCapabilities
+from char.utils.capabilities import CharacterCapabilities
 from config import Config
 from item import consumables
 from logger import Logger

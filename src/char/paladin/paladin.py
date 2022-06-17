@@ -1,4 +1,4 @@
-from char import IChar, CharacterCapabilities
+from char import IChar
 from item.pickit import PickIt #for Diablo
 from pather import Pather
 from pather import Pather
