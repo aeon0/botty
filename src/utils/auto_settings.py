@@ -89,7 +89,9 @@ def set_launch_settings(launch_options):
         print(f"You might need to set the launch options manually. Add launch options to D2R in BNet launcher: {launch_options}")
 
 def copy_mod_files():
-    mod_name = Config().general["name"]
+    mod_name = ''.join(filter( lambda x: x in 'abcdefghijklmnopqrstuvwxyz', Config().general["name"].lower() ))
+    if not mod_name:
+        mod_name = "botty"
     old_path = "assets/mods/botty"
     new_path = os.path.join(Config().general['d2r_path'], f"mods/{mod_name}")
     os.makedirs(new_path, exist_ok=True)
