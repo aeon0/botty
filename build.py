@@ -76,7 +76,7 @@ if __name__ == "__main__":
         if args.use_key:
             key = Fernet.generate_key().decode("utf-8")
             key_cmd = " --key " + key
-        installer_cmd = f"pyinstaller --onefile --distpath {botty_dir}{key_cmd} --exclude-module graphviz --paths .\\src --paths {args.conda_path}\\envs\\botty\\lib\\site-packages src\\{exe}"
+        installer_cmd = f"pyinstaller --onefile --distpath {botty_dir}{key_cmd} --exclude-module graphviz --paths .\\src --paths {args.conda_path}\\envs\\botty\\Lib\\site-packages src\\{exe}"
         os.system(installer_cmd)
 
     os.system(f"cd {botty_dir} && mkdir config && cd ..")
