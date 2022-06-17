@@ -769,7 +769,7 @@ class FoHdin(Paladin):
         match seal_layout:
             case "A1-L":
                 if not self._pather.traverse_nodes_automap([1620], self): return False
-                Logger.debug(seal_layout + ": Attacking Vizier")
+                Logger.debug(seal_layout + ": Attacking Vizier") # we either need two attack positions, if he spawns afar, then one round does not get him - or we need to hop to the center of all spawns to get him either behind or before us
                 self._cs_attack_sequence(min_duration=atk_dur_min, max_duration=atk_dur_max)
                 self._cs_pickit(skip_inspect=True)
                 self._activate_cleanse_redemption()
@@ -792,10 +792,18 @@ class FoHdin(Paladin):
                 rush_path="dia_am_b_deseis"
                 if not self._pather.traverse_nodes_fixed(rush_path, self): return False
                 #if not self._pather.traverse_nodes_automap([1632], self): return False                      #NODES!
-                Logger.debug(seal_layout + ": Attacking DeSeis")
+                Logger.debug(seal_layout + ": Attacking DeSeis at Position 1/2")
                 self._cs_attack_sequence(min_duration=atk_dur_min, max_duration=atk_dur_max)
                 self._cs_pickit(skip_inspect=True)
                 self._activate_cleanse_redemption()
+                rush_path="dia_am_deseis_deseis2"
+                if not self._pather.traverse_nodes_fixed(rush_path, self): return False
+                #if not self._pather.traverse_nodes_automap([1632], self): return False                      #NODES!
+                Logger.debug(seal_layout + ": Attacking DeSeis at Position 2/2")
+                self._cs_attack_sequence(min_duration=atk_dur_min, max_duration=atk_dur_max)
+                self._cs_pickit(skip_inspect=True)
+                self._activate_cleanse_redemption()
+                
             case "B2-U":
                 rush_path="dia_am_b_deseis"
                 if not self._pather.traverse_nodes_fixed(rush_path, self): return False
