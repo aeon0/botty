@@ -11,7 +11,7 @@ dependencies:
   - rapidfuzz
   - pip:
     - pyinstaller
-    - opencv-python
+    - opencv-python==4.5.5.64
     - transitions
     - mss
     - numpy
