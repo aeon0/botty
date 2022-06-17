@@ -1,4 +1,5 @@
 import math
+from functools import cache
 
 BASE_FRAMES = {
     "amazon": 20,
@@ -9,6 +10,7 @@ BASE_FRAMES = {
     "paladin": 16,
     "sorceress": 14,
     "lightning_skills": 19,
+    "default": 20
 }
 
 ANIMATION_SPEED = {
@@ -17,8 +19,9 @@ ANIMATION_SPEED = {
     "werebear": 229,
 }
 
+
 def _get_base_frames(class_base: str, skill_name: str):
-    if "lightning" in skill_name:
+    if "lightning" in skill_name.lower() and class_base == "sorceress":
         class_base = "lightning_skills"
     if class_base not in BASE_FRAMES:
         class_base = "default"
@@ -30,18 +33,12 @@ def _get_animation_speed(class_base: str):
 def _efcr(fcr: int) -> float:
     return math.floor(fcr * 120 / (fcr + 120))
 
-# =(ROUNDUP((256*B12)/ROUNDDOWN((E12*(100+D12)/100), 0), 0))-1
-def _casting_frame_default(class_base: str, skill_name: str, fcr: int):
-    return math.ceil(256 * _get_base_frames(class_base, skill_name) / math.floor(_get_animation_speed(class_base) * (100 + _efcr(fcr)) / 100)) - 1
+@cache
+def get_casting_frames(class_base: str, skill_name: str, fcr: int):
+    if "lightning" in skill_name.lower() and class_base == "sorceress":
+        return math.ceil(256 * _get_base_frames(class_base, skill_name) / math.floor(256 * (100 + _efcr(fcr)) / 100))
+    else:
+        return math.ceil(256 * _get_base_frames(class_base, skill_name) / math.floor(_get_animation_speed(class_base) * (100 + _efcr(fcr)) / 100)) - 1
 
-def _casting_frame_lightning(class_base: str, skill_name: str, fcr: int):
-    return math.ceil(256 * _get_base_frames(class_base, skill_name) / math.floor(256 * (100 + _efcr(fcr)) / 100))
-
-casting_frame_formula = {
-    "default": _casting_frame_default,
-    "lightning": _casting_frame_lightning,
-    "chain_lightning": _casting_frame_lightning,
-}
-
-for i in range(0, 201):
-    print(f"{i} {_casting_frame_lightning('sorceress', 'lightning', i)}")
+def get_cast_wait_time(class_base: str, skill_name: str, fcr: int):
+    return get_casting_frames(class_base, skill_name, fcr) * (1/25)
