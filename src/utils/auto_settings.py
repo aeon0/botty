@@ -93,6 +93,9 @@ def copy_mod_files():
     if not mod_name:
         mod_name = "botty"
     old_path = "assets/mods/botty"
+    if not os.path.exists(Config().general["d2r_path"]):
+        raise ValueError(f"Could not copy mod files because d2r_path {Config().general['d2r_path']} does not exist, please review your params.ini settings and set to your true D2R installation directory")
+
     new_path = os.path.join(Config().general['d2r_path'], f"mods/{mod_name}")
     os.makedirs(new_path, exist_ok=True)
     try:

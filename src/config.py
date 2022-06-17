@@ -145,9 +145,6 @@ class Config:
             "restart_d2r_when_stuck": bool(int(self._select_val("general", "restart_d2r_when_stuck"))),
         }
 
-        if not os.path.exists(self.general["d2r_path"]):
-            raise ValueError(f"d2r_path {self.general['d2r_path']} does not exist, please review your params.ini settings and set to your true D2R installation directory")
-
         self.routes = {}
         order_str = self._select_val("routes", "order")
         self.routes_order = [x.strip() for x in order_str.split(",")]
