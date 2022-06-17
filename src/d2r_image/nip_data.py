@@ -7050,6 +7050,9 @@ NIP_ALIAS_STAT_PATTERNS = {
     ],
     "{:d}% Enhanced Damage": [
         "5007"
+    ],
+    "{:d} to Summoning Skills (Necromancer Only)": [
+        "188,21"
     ]
 }
 
