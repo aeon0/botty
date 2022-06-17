@@ -346,7 +346,7 @@
 //([Name] == Demonhead || [Name] == Bonevisage || [Name] == Spiredhelm || [Name] == Corona) && [Quality] == Magic # [Itemtohitpercentperlevel] >= 1 && ([Fhr] == 10 || [Maxhp] >= 30)
 
 // <<<<<<<<< [ Magic Barbarian Helmets ] >>>>>>>>>
-//[Type] == Primalhelm && [Quality] == Magic && [Flag] != Ethereal # ([Barbarianskills] == 2 || [Warcriesskilltab] >= 2) && [Skillbattleorders]) >= 3        // All B.O Helms
+//[Type] == Primalhelm && [Quality] == Magic && [Flag] != Ethereal # ([Barbarianskills] == 2 || [Warcriesskilltab] >= 2) && [Skillbattleorders] >= 3        // All B.O Helms
 ([Name] == Assaulthelmet || [Name] == Avengerguard || [Name] == Savagehelmet || [Name] == Slayerguard || [Name] == Conquerorcrown || [Name] == Guardiancrown) && [Quality] == Magic # ([Barbarianskills]+[Skillbattleorders] >= 5 || [Warcriesskilltab]+[Skillbattleorders] >= 6)     // 5-6 B.O Arreat Style
 
 // <<<<<<<<< [ Magic Druid Pelts ] >>>>>>>>>
@@ -1373,6 +1373,11 @@
 //[Name] == BoneVisage && [Quality] == Unique && [Flag] != Ethereal # [Plusdefense] >= 250 && [Strength] >= 25 && [Sockets] >= 1       // Giant Skull
 //[Name] == BoneVisage && [Quality] == Unique && [Flag] != Ethereal # [Plusdefense] == 320 && [Strength] == 35 && [Sockets] == 2       // Giant Skull Perfect
 [Name] == BoneVisage && [Quality] == Unique && [Flag] == Ethereal # [Plusdefense] == 320 && [Strength] == 35 && [Sockets] == 2       // Eth Giant Skull Perfect
+[Name] == Diadem && [Quality] == Unique && [Flag] != Ethereal   // Griffon's Eye
+//[Name] == Diadem && [Quality] == Unique && [Flag] != Ethereal # [Passiveltngpierce] >= 20 && [Passiveltngmastery] >= 15    // Griffon's Eye Perfect
+//[Name] == Tiara && [Quality] == Unique && [Flag] != Ethereal # [AllRes] >= 50   // Kira's Guardian
+//[Name] == Tiara && [Quality] == Unique && [Flag] != Ethereal # [AllRes] == 70   // Kira's Guardian Perfect
+//[Name] == Tiara && [Quality] == Unique && [Flag] == Ethereal # [AllRes] == 70   // Eth Kira's Guardian Perfect
 
 //-----------------------------------------------
 //================= Unique Armor ================
