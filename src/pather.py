@@ -261,79 +261,18 @@ class Pather:
 
             #CS ENTRANCE INSIDE
             601: {"DIABLO_CS_ENTRANCE_3": (5, -130), "DIABLO_CS_ENTRANCE_0": (145, 128), "DIABLO_CS_ENTRANCE_2": (-305, -30), }, # entrance to cs -> rebuild with new templates
-            1601: {
-                #'['DIA_AUTOMAP_WP']': (0, 0),
-                'DIA_AUTOMAP_ENTRANCE': (15, 4),
-                'DIA_AUTOMAP_ENTRANCE_B': (-334, 156),
-                #'['DIA_AUTOMAP_PENT']': (0, 0),
-                'DIA_AUTOMAP_CORNER_L': (-113, 100),
-                'DIA_AUTOMAP_CORNER_R': (-164, 46),
-                #'['DIA_AUTOMAP_A2Y']': (0, 0),
-                #'['DIA_AUTOMAP_B2U']': (0, 0),
-                #'['DIA_AUTOMAP_C2G']': (0, 0),
-                #'['DIA_AUTOMAP_ENTRANCE_A']': (0, 0),
-                #'['DIA_AUTOMAP_A1L']': (0, 0),
-                #'['DIA_AUTOMAP_B1S']': (0, 0),
-                #'['DIA_AUTOMAP_C1F']': (0, 0),
-                },
 
             #PENTAGRAM
             602: {"DIA_NEW_PENT_TP": (-275, 193), "DIA_NEW_PENT_5": (-6, -31), "DIA_NEW_PENT_0": (5, -181), "DIA_NEW_PENT_2": (133, 370), "DIA_NEW_PENT_1": (439, 16), "DIA_NEW_PENT_3": (-509, 240), "DIA_NEW_PENT_6": (-534, 205), },
 
             #Trash Entrance OUTSIDE Calibration Node
             603: {"DIA_CS_ENTRANCE_603": (121-111, 100-267),"DIA_CS_ENTRANCE_603_2": (121-111+700, 100-267-103),"DIA_CS_ENTRANCE_1": (121, 100), "DIA_CS_ENTRANCE_3": (42, 321), "DIA_CS_ENTRANCE_0": (-314, -85), "DIA_CS_ENTRANCE_4": (-318, 193), "DIA_CS_ENTRANCE_5": (-372, 73), "DIA_CS_ENTRANCE_7": (-36, 443), "DIA_CS_ENTRANCE_6": (-317, 341), }, # outside cs entrance
-            1603: {
-                #'['DIA_AUTOMAP_WP']': (0, 0),
-                'DIA_AUTOMAP_ENTRANCE': (-24, 40),
-                #'['DIA_AUTOMAP_ENTRANCE_A']': (0, 0),
-                'DIA_AUTOMAP_ENTRANCE_B': (-373, 192),
-                #'['DIA_AUTOMAP_PENT']': (0, 0),
-                'DIA_AUTOMAP_CORNER_L': (-152, 136),
-                'DIA_AUTOMAP_CORNER_R': (-204, 82),
-                #'['DIA_AUTOMAP_A1L']': (0, 0),
-                #'['DIA_AUTOMAP_A2Y']': (0, 0),
-                #'['DIA_AUTOMAP_B1S']': (0, 0),
-                #'['DIA_AUTOMAP_B2U']': (0, 0),
-                #'['DIA_AUTOMAP_C1F']': (0, 0),
-                #'['DIA_AUTOMAP_C2G']': (0, 0),
-                },
 
             #TRASH CS ENTRANCE INSIDE
             604: {"DIA_CS_ENTRANCE_6": (284, -38), "DIA_CS_ENTRANCE_4": (282, -186), "DIA_CS_ENTRANCE_5": (228, -306), "DIA_CS_ENTRANCE_7": (564, 64), "DIA_CS_ENTRANCE_3": (642, -58), "DIA_CS_ENTRANCE_1": (721, -279), }, # inside cs entrance (677)
-            1604: {
-                #'['DIA_AUTOMAP_WP']': (0, 0),
-                'DIA_AUTOMAP_ENTRANCE': (54, -8),
-                'DIA_AUTOMAP_ENTRANCE_B': (-295, 144),
-                #'['DIA_AUTOMAP_PENT']': (0, 0),
-                'DIA_AUTOMAP_CORNER_L': (-458, 328),
-                'DIA_AUTOMAP_CORNER_R': (-126, 34),
-                #'['DIA_AUTOMAP_A2Y']': (0, 0),
-                #'['DIA_AUTOMAP_B2U']': (0, 0),
-                #'['DIA_AUTOMAP_C2G']': (0, 0),
-                #'['DIA_AUTOMAP_ENTRANCE_A']': (0, 0),
-                #'['DIA_AUTOMAP_A1L']': (0, 0),
-                #'['DIA_AUTOMAP_B1S']': (0, 0),
-                #'['DIA_AUTOMAP_C1F']': (0, 0),
-                },
 
             #LC Hall1
             605: {"DIABLO_ENTRANCE_50": (550, -220),"DIABLO_ENTRANCE_51": (-240, -228), "DIABLO_ENTRANCE_52": (70, 15), "DIABLO_ENTRANCE_53": (280, -142), "DIABLO_ENTRANCE_54": (-130, -80), "DIABLO_ENTRANCE_55": (35, -145), "DIABLO_ENTRANCE2_50": (525, -10),"DIABLO_ENTRANCE2_51": (-435, 208),"DIABLO_ENTRANCE2_52": (-540, -250), "DIABLO_ENTRANCE2_53": (342, -12),"DIABLO_ENTRANCE2_54": (185, 10),"DIABLO_ENTRANCE2_55": (522, 229), "DIABLO_ENTRANCE2_56": (370, 230),},
-            1605: {
-                #'['DIA_AUTOMAP_WP']': (0, 0),
-                'DIA_AUTOMAP_ENTRANCE': (348, -166),
-                'DIA_AUTOMAP_ENTRANCE_B': (-1, -14),
-                'DIA_AUTOMAP_PENT': (-330, 164),
-                'DIA_AUTOMAP_CORNER_L': (-164, 170),
-                'DIA_AUTOMAP_CORNER_R': (-312, 68),
-                'DIA_AUTOMAP_A2Y': (37, 286),
-                #'['DIA_AUTOMAP_B2U']': (0, 0),
-                #'['DIA_AUTOMAP_C2G']': (0, 0),
-                #'['DIA_AUTOMAP_ENTRANCE_A']': (0, 0),
-                #'['DIA_AUTOMAP_A1L']': (0, 0),
-                #'['DIA_AUTOMAP_B1S']': (0, 0),
-                #'['DIA_AUTOMAP_C1F']': (0, 0),
-                },
-            
             #Trash Pent - Seal Calibration Nodes (currently not used)
             606: {"DIA_TRASH_A_6": (146, -35), "DIA_TRASH_A_1": (104, 136), "DIA_TRASH_A_2": (-262, -36), "DIA_TRASH_A_0": (294, 48), "DIA_TRASH_A_3": (-368, 70), "DIA_TRASH_A_7": (446, 22), "DIA_TRASH_A_9": (-280, 391), "DIA_TRASH_A_10": (262, -484), }, #Trash Pent A
             607: {'DIA_TRASH_B_6': (325, 7), 'DIA_TRASH_B_9': (325, 13), 'DIA_TRASH_B_15': (-182, 108), 'DIA_TRASH_B_19': (-260, -165), 'DIA_TRASH_B_10': (-189, 107), 'DIA_TRASH_B_18': (653, -254), 'DIA_TRASH_B_5': (323, 13), 'DIA_TRASH_B_11': (582, -55), 'DIA_TRASH_B_21': (676, 313), 'DIA_TRASH_B_2': (326, 11), 'DIA_TRASH_B_7': (320, 11), 'DIA_TRASH_B_20': (796, 243), 'DIA_TRASH_B_13': (-190, 107), 'DIA_TRASH_B_17': (-196, 103), 'DIA_TRASH_B_14': (-190, 108), 'DIA_TRASH_B_22': (-678, -150), 'DIA_TRASH_B_16': (-184, 109), 'DIA_TRASH_B_12': (-184, 110), 'DIA_TRASH_B_3': (333, 19), 'DIA_TRASH_B_1': (327, 18), 'DIA_TRASH_B_8': (329, 17), 'DIA_TRASH_B_4': (326, 15), 'DIA_TRASH_B_24': (343, -220)}, #trash pent b
@@ -341,7 +280,6 @@ class Pather:
             
             # Entrance 1 Hall3
             609: {"DIABLO_ENTRANCE2_HALL3_3": (375+28,-5+50), "DIABLO_ENTRANCE2_HALL3_4": (50+51,-170+10), "DIABLO_ENTRANCE2_HALL3_5": (150+53,-170+16), "DIABLO_ENTRANCE2_HALL3_6": (160+127,264+11),}, #Entrance 2 Hall3
-
 
             #CALIBRATION SPOTS FOR LAYOUT CHECKS
             610620: {"DIA_A2Y4_0": (43, 131), "DIA_A2Y4_16": (44, 152),"DIA_A1L_CAL_7": (-76, -213), "DIA_A1L_CAL_2": (220, -114), "DIA_A1L_CAL_1": (232, 102), "DIA_A1L_CAL_3": (-259, 166), "DIA_A1L_CAL_5": (-357, -174), "DIA_A1L_CAL_10": (-170, 379), "DIA_A1L_CAL_8": (-308, 282), "DIA_A1L_CAL_12": (-395, -218),},
@@ -361,21 +299,6 @@ class Pather:
             620: {"DIA_A2Y4_0": (43, 131), "DIA_A2Y4_16": (44, 152),}, #approach
             621: {"DIA_A2Y4_1": (-13, 92), "DIA_A2Y4_5": (76, 81), "DIA_A2Y4_3": (-5, -255), "DIA_A2Y4_10": (231, 173), "DIA_A2Y4_25": (237, 175), "DIA_A2Y4_0": (319, -5), "DIA_A2Y4_16": (320, 16), }, #approach
             622: {"DIA_A2Y4_12": (23, -165), "DIA_A2Y4_41": (-99, 182), "DIA_A2Y4_36_OPEN": (320, 466), "DIA_A2Y4_15": (-116, 180), "DIA_A2Y4_10": (260, -81), "DIA_A2Y4_25": (267, -79), "DIA_A2Y4_14": (-348, 68), "DIA_A2Y4_13": (-342, 136), "DIA_A2Y4_20": (-269, 269), "DIA_A2Y4_2": (-164, -375), }, #safe-dist
-            1622: {
-                #'['DIA_AUTOMAP_WP']': (0, 0),
-                #'['DIA_AUTOMAP_ENTRANCE']': (0, 0),
-                #'['DIA_AUTOMAP_ENTRANCE_B']': (0, 0),
-                'DIA_AUTOMAP_PENT': (-248, -118),
-                'DIA_AUTOMAP_CORNER_L': (-82, -113),
-                'DIA_AUTOMAP_CORNER_R': (-230, -215),
-                'DIA_AUTOMAP_A2Y': (119, 3),
-                #'['DIA_AUTOMAP_B2U']': (0, 0),
-                #'['DIA_AUTOMAP_C2G']': (0, 0),
-                #'['DIA_AUTOMAP_ENTRANCE_A']': (0, 0),
-                'DIA_AUTOMAP_A1L': (124, 32),
-                #'['DIA_AUTOMAP_B1S']': (0, 0),
-                #'['DIA_AUTOMAP_C1F']': (0, 0),
-                },
             623: {"DIA_A2Y4_43": (486, -350), "DIA_A2Y4_25": (38, -210), "DIA_A2Y4_10": (31, -212), "DIA_A2Y4_20": (-500, 146), "DIA_A2Y4_18": (192, -173), "DIA_A2Y4_26": (190, -178), "DIA_A2Y4_21": (157, 217), "DIA_A2Y4_41": (-329, 52), "DIA_A2Y4_15": (-345, 51), "DIA_A2Y4_11": (248, -253), "DIA_A2Y4_12": (-206, -294), "DIA_A2Y4_16": (121, -369), "DIA_A2Y4_0": (121+1, -369-24),}, #center
             624: {"DIA_A2Y4_29_CLOSED": (440, 135), "DIA_A2Y4_29_OPEN": (440, 135), "DIA_A2Y4_29_MOUSEOVER": (440, 135),"DIA_A2Y4_43": (43, -218), "DIA_A2Y4_24": (23, -115), "DIA_A2Y4_4": (56, -127), "DIA_A2Y4_20": (-934, 274), "DIA_A2Y4_15": (-780, 186), "DIA_A2Y4_13": (-1000, 140), "DIA_A2Y4_27": (-33, 182), "DIA_A2Y4_23": (-32, 187), "DIA_A2Y4_11": (-187, -121), "DIA_A2Y4_22": (73, 226), "DIA_A2Y4_26": (-245, -45), "DIA_A2Y4_30": (253, -56), "DIA_A2Y4_16": (-319, -238),"DIA_A2Y4_0": (-319+1, -238-24),}, #left far fake
             625: {"DIA_A2Y4_29_CLOSED": (150, -28), "DIA_A2Y4_29_OPEN": (150, -28), "DIA_A2Y4_29_MOUSEOVER": (150, -28), "DIA_A2Y4_43": (-245, -380), "DIA_A2Y4_22": (-217, 65), "DIA_A2Y4_23": (-322, 26), "DIA_A2Y4_30": (-37, -218), "DIA_A2Y4_32": (235, -142),"DIA_A2Y4_33": (336, -62), "DIA_A2Y4_16": (-604, -400),"DIA_A2Y4_0": (-604+1, -400-24),}, #left close fake
@@ -481,237 +404,78 @@ class Pather:
             ##################
 
             1602: { #PENTAGRAM
-                #'['DIA_AUTOMAP_WP']': (0, 0),
-                #'['DIA_AUTOMAP_ENTRANCE']': (0, 0),
-                'DIA_AUTOMAP_ENTRANCE_B': (321, -165),
-                #'['DIA_AUTOMAP_PENT']': (0, 0),
-                'DIA_AUTOMAP_PENT1': (0, 0),
-                'DIA_AUTOMAP_CORNER_L': (158, 19),
-                'DIA_AUTOMAP_CORNER_R': (10, -83),
-                'DIA_AUTOMAP_A2Y': (359, 135),
-                'DIA_AUTOMAP_B2U': (-390, 154),
-                'DIA_AUTOMAP_C2G': (-390, -124),
-                #'['DIA_AUTOMAP_ENTRANCE_A']': (0, 0),
-                'DIA_AUTOMAP_A1L': (348, 156),
-                'DIA_AUTOMAP_B1S': (-402, 154),
-                'DIA_AUTOMAP_C1F': (-356, -152),
+                'DIA_AM_CS':     (668, -317),
+                'DIA_AM_E_A':    (412, -170),
+                'DIA_AM_E_B':    (412, -170),
+                'DIA_AM_PENT':   (0, -6),
+                'DIA_AM_PENT1':  (0, -6),
+                'DIA_AM_C1':     (154, 20),
+                'DIA_AM_C2':     (-11, 95),
+                'DIA_AM_C3':     (-176, 24),
+                'DIA_AM_C4':     (-15, -85),
+                'DIA_AM_A1L':    (356, 146),
+                'DIA_AM_A2Y':    (356, 146),
+                'DIA_AM_B1S':    (-404, 156),
+                'DIA_AM_B2U':    (-404, 156),
+                'DIA_AM_C1F':    (-369, -124),
+                'DIA_AM_C2G':    (-369, -124),
                 },
 
 
             16101620: { #LAYOUTCHECK A
-                #'['DIA_AUTOMAP_WP']': (0, 0),
-                #'['DIA_AUTOMAP_ENTRANCE']': (0, 0),
-                #'['DIA_AUTOMAP_ENTRANCE_B']': (0, 0),
-                'DIA_AUTOMAP_PENT': (-354, -140),
-                'DIA_AUTOMAP_CORNER_L': (-188, -134),
-                #'['DIA_AUTOMAP_CORNER_R']': (0, 0),
-                'DIA_AUTOMAP_A2Y': (13, -18),
-                #'['DIA_AUTOMAP_B2U']': (0, 0),
-                #'['DIA_AUTOMAP_C2G']': (0, 0),
-                #'['DIA_AUTOMAP_ENTRANCE_A']': (0, 0),
-                #'['DIA_AUTOMAP_A1L']': (0, 0),
-                #'['DIA_AUTOMAP_B1S']': (0, 0),
-                #'['DIA_AUTOMAP_C1F']': (0, 0),
+                'DIA_AM_PENT': (-354, -140),
                 },
 
             1612: { #A1L Kill Vizier
-                #'['DIA_AUTOMAP_WP']': (0, 0),
-                #'['DIA_AUTOMAP_ENTRANCE']': (0, 0),
-                #'['DIA_AUTOMAP_ENTRANCE_B']': (0, 0),
-                'DIA_AUTOMAP_PENT': (-342, -120),
-                'DIA_AUTOMAP_CORNER_L': (-176, -115),
-                'DIA_AUTOMAP_CORNER_R': (-324, -217),
-                #'['DIA_AUTOMAP_A2Y']': (0, 0),
-                #'['DIA_AUTOMAP_B2U']': (0, 0),
-                #'['DIA_AUTOMAP_C2G']': (0, 0),
-                #'['DIA_AUTOMAP_ENTRANCE_A']': (0, 0),
-                'DIA_AUTOMAP_A1L': (14, 22),
-                #'['DIA_AUTOMAP_B1S']': (0, 0),
-                #'['DIA_AUTOMAP_C1F']': (0, 0),
+                'DIA_AM_PENT': (-342, -120),
                 },
 
             1614: { #A1L FAKE SEAL
-                #'['DIA_AUTOMAP_WP']': (0, 0),
-                #'['DIA_AUTOMAP_ENTRANCE']': (0, 0),
-                #'['DIA_AUTOMAP_ENTRANCE_B']': (0, 0),
-                'DIA_AUTOMAP_PENT': (-304, -182),
-                'DIA_AUTOMAP_CORNER_L': (-137, -176),
-                #'['DIA_AUTOMAP_CORNER_R']': (0, 0),
-                #'['DIA_AUTOMAP_A2Y']': (0, 0),
-                #'['DIA_AUTOMAP_B2U']': (0, 0),
-                #'['DIA_AUTOMAP_C2G']': (0, 0),
-                #'['DIA_AUTOMAP_ENTRANCE_A']': (0, 0),
-                'DIA_AUTOMAP_A1L': (52, -38),
-                #'['DIA_AUTOMAP_B1S']': (0, 0),
-                #'['DIA_AUTOMAP_C1F']': (0, 0),
+                'DIA_AM_PENT': (-304, -182),
                 },
 
             1615: { #A1L BOSS SEAL
-                #'['DIA_AUTOMAP_WP']': (0, 0),
-                #'['DIA_AUTOMAP_ENTRANCE']': (0, 0),
-                #'['DIA_AUTOMAP_ENTRANCE_B']': (0, 0),
-                'DIA_AUTOMAP_PENT': (-368, -138),
-                'DIA_AUTOMAP_CORNER_L': (-202, -133),
-                #'['DIA_AUTOMAP_CORNER_R']': (0, 0),
-                #'['DIA_AUTOMAP_A2Y']': (0, 0),
-                #'['DIA_AUTOMAP_B2U']': (0, 0),
-                #'['DIA_AUTOMAP_C2G']': (0, 0),
-                #'['DIA_AUTOMAP_ENTRANCE_A']': (0, 0),
-                'DIA_AUTOMAP_A1L': (-12, 4),
-                #'['DIA_AUTOMAP_B1S']': (0, 0),
-                #'['DIA_AUTOMAP_C1F']': (0, 0),
+                'DIA_AM_PENT': (-368, -138),
                 },
 
             #1622 #A2Y Vizier 
             
             1625: { #A2Y FAKE SEAL
-                #'['DIA_AUTOMAP_WP']': (0, 0),
-                #'['DIA_AUTOMAP_ENTRANCE']': (0, 0),
-                #'['DIA_AUTOMAP_ENTRANCE_B']': (0, 0),
-                'DIA_AUTOMAP_PENT': (-368, -138),
-                'DIA_AUTOMAP_CORNER_L': (-202, -133),
-                #'['DIA_AUTOMAP_CORNER_R']': (0, 0),
-                'DIA_AUTOMAP_A2Y': (-1, -17),
-                #'['DIA_AUTOMAP_B2U']': (0, 0),
-                #'['DIA_AUTOMAP_C2G']': (0, 0),
-                #'['DIA_AUTOMAP_ENTRANCE_A']': (0, 0),
-                #'['DIA_AUTOMAP_A1L']': (0, 0),
-                #'['DIA_AUTOMAP_B1S']': (0, 0),
-                #'['DIA_AUTOMAP_C1F']': (0, 0),
+                'DIA_AM_PENT': (-368, -138),
                 },
             
             1626: {#A2Y BOSS SEAL
-                #'['DIA_AUTOMAP_WP']': (0, 0),
-                #'['DIA_AUTOMAP_ENTRANCE']': (0, 0),
-                #'['DIA_AUTOMAP_ENTRANCE_B']': (0, 0),
-                'DIA_AUTOMAP_PENT': (-306, -174),
-                'DIA_AUTOMAP_CORNER_L': (-140, -169),
-                #'['DIA_AUTOMAP_CORNER_R']': (0, 0),
-                'DIA_AUTOMAP_A2Y': (61, -53),
-                #'['DIA_AUTOMAP_B2U']': (0, 0),
-                #'['DIA_AUTOMAP_C2G']': (0, 0),
-                #'['DIA_AUTOMAP_ENTRANCE_A']': (0, 0),
-                #'['DIA_AUTOMAP_A1L']': (0, 0),
-                #'['DIA_AUTOMAP_B1S']': (0, 0),
-                #'['DIA_AUTOMAP_C1F']': (0, 0),
+                'DIA_AM_PENT': (-306, -174),
                 },
 
             1647: { #LAYOUTCHECK B
-                #'['DIA_AUTOMAP_WP']': (0, 0),
-                #'['DIA_AUTOMAP_ENTRANCE']': (0, 0),
-                #'['DIA_AUTOMAP_ENTRANCE_B']': (0, 0),
-                'DIA_AUTOMAP_PENT': (372, -134),
-                'DIA_AUTOMAP_CORNER_L': (538, -128),
-                #'['DIA_AUTOMAP_CORNER_R']': (0, 0),
-                #'['DIA_AUTOMAP_A2Y']': (0, 0),
-                'DIA_AUTOMAP_B2U': (-10, 8),
-                #'['DIA_AUTOMAP_C2G']': (0, 0),
-                #'['DIA_AUTOMAP_ENTRANCE_A']': (0, 0),
-                #'['DIA_AUTOMAP_A1L']': (0, 0),
-                #'['DIA_AUTOMAP_B1S']': (0, 0),
-                #'['DIA_AUTOMAP_C1F']': (0, 0),
+                'DIA_AM_PENT': (372, -134),
                 },
 
             1632: { #Kill DeSeis B1-S
-                #'['DIA_AUTOMAP_WP']': (0, 0),
-                #'['DIA_AUTOMAP_ENTRANCE']': (0, 0),
-                #'['DIA_AUTOMAP_ENTRANCE_B']': (0, 0),
-                'DIA_AUTOMAP_PENT': (264, -170),
-                'DIA_AUTOMAP_PENT1': (271, -173),
-                'DIA_AUTOMAP_CORNER_L': (430, -164),
-                #'['DIA_AUTOMAP_CORNER_R']': (0, 0),
-                #'['DIA_AUTOMAP_A2Y']': (0, 0),
-                #'['DIA_AUTOMAP_B2U']': (0, 0),
-                #'['DIA_AUTOMAP_C2G']': (0, 0),
-                #'['DIA_AUTOMAP_ENTRANCE_A']': (0, 0),
-                #'['DIA_AUTOMAP_A1L']': (0, 0),
-                'DIA_AUTOMAP_B1S': (-130, -28),
-                #'['DIA_AUTOMAP_C1F']': (0, 0),
+                'DIA_AM_PENT': (264, -170),
                 },
 
             1634: {#LAYOUTCHECK B CONFIRMATION2
-                #'['DIA_AUTOMAP_WP']': (0, 0),
-                #'['DIA_AUTOMAP_ENTRANCE']': (0, 0),
-                #'['DIA_AUTOMAP_ENTRANCE_B']': (0, 0),
-                'DIA_AUTOMAP_PENT': (340, -142),
-                'DIA_AUTOMAP_CORNER_L': (506, -136),
-                #'['DIA_AUTOMAP_CORNER_R']': (0, 0),
-                #'['DIA_AUTOMAP_A2Y']': (0, 0),
-                #'['DIA_AUTOMAP_B2U']': (0, 0),
-                #'['DIA_AUTOMAP_C2G']': (0, 0),
-                #'['DIA_AUTOMAP_ENTRANCE_A']': (0, 0),
-                #'['DIA_AUTOMAP_A1L']': (0, 0),
-                'DIA_AUTOMAP_B1S': (-54, 0),
-                #'['DIA_AUTOMAP_C1F']': (0, 0),
+                'DIA_AM_PENT': (340, -142),
                 },
 
             #1644
             
             16501660: { #LAYOUTCHECK C
-                #'['DIA_AUTOMAP_WP']': (0, 0),
-                #'['DIA_AUTOMAP_ENTRANCE']': (0, 0),
-                #'['DIA_AUTOMAP_ENTRANCE_B']': (0, 0),
-                'DIA_AUTOMAP_PENT': (380, 158),
-                'DIA_AUTOMAP_CORNER_L': (547, 163),
-                'DIA_AUTOMAP_CORNER_R': (400, 61),
-                #'['DIA_AUTOMAP_A2Y']': (0, 0),
-                'DIA_AUTOMAP_B2U': (-2, 298),
-                'DIA_AUTOMAP_C2G': (0, 20),
-                #'['DIA_AUTOMAP_ENTRANCE_A']': (0, 0),
-                #'['DIA_AUTOMAP_A1L']': (0, 0),
-                #'['DIA_AUTOMAP_B1S']': (0, 0),
-                #'['DIA_AUTOMAP_C1F']': (0, 0),
+                'DIA_AM_PENT': (380, 158),
                 },
 
             1655: { #C1F FAKE SEAL
-                #'['DIA_AUTOMAP_WP']': (0, 0),
-                #'['DIA_AUTOMAP_ENTRANCE']': (0, 0),
-                #'['DIA_AUTOMAP_ENTRANCE_B']': (0, 0),
-                'DIA_AUTOMAP_PENT': (320, 130),
-                'DIA_AUTOMAP_PENT1': (328, 127),
-                'DIA_AUTOMAP_CORNER_L': (487, 136),
-                'DIA_AUTOMAP_CORNER_R': (340, 34),
-                #'['DIA_AUTOMAP_A2Y']': (0, 0),
-                #'['DIA_AUTOMAP_B2U']': (0, 0),
-                #'['DIA_AUTOMAP_C2G']': (0, 0),
-                #'['DIA_AUTOMAP_ENTRANCE_A']': (0, 0),
-                #'['DIA_AUTOMAP_A1L']': (0, 0),
-                'DIA_AUTOMAP_B1S': (-73, 272),
-                'DIA_AUTOMAP_C1F': (-28, -35),
+                'DIA_AM_PENT': (320, 130),
                 },
 
             1652: {#C1F BOSS SEAL
-                #'['DIA_AUTOMAP_WP']': (0, 0),
-                #'['DIA_AUTOMAP_ENTRANCE']': (0, 0),
-                #'['DIA_AUTOMAP_ENTRANCE_B']': (0, 0),
-                'DIA_AUTOMAP_PENT': (208, 148),
-                'DIA_AUTOMAP_PENT1': (215, 145),
-                'DIA_AUTOMAP_CORNER_L': (374, 154),
-                'DIA_AUTOMAP_CORNER_R': (226, 52),
-                #'['DIA_AUTOMAP_A2Y']': (0, 0),
-                #'['DIA_AUTOMAP_B2U']': (0, 0),
-                #'['DIA_AUTOMAP_C2G']': (0, 0),
-                #'['DIA_AUTOMAP_ENTRANCE_A']': (0, 0),
-                #'['DIA_AUTOMAP_A1L']': (0, 0),
-                'DIA_AUTOMAP_B1S': (-186, 290),
-                'DIA_AUTOMAP_C1F': (-140, -17),
+                'DIA_AM_PENT': (208, 148),
                 },
 
             1653: {#C1F KILL INFECTOR
-                #'['DIA_AUTOMAP_WP']': (0, 0),
-                #'['DIA_AUTOMAP_ENTRANCE']': (0, 0),
-                #'['DIA_AUTOMAP_ENTRANCE_B']': (0, 0),
-                'DIA_AUTOMAP_PENT': (252, 138),
-                'DIA_AUTOMAP_PENT1': (259, 134),
-                'DIA_AUTOMAP_CORNER_L': (418, 143),
-                'DIA_AUTOMAP_CORNER_R': (270, 41),
-                #'['DIA_AUTOMAP_A2Y']': (0, 0),
-                #'['DIA_AUTOMAP_B2U']': (0, 0),
-                #'['DIA_AUTOMAP_C2G']': (0, 0),
-                #'['DIA_AUTOMAP_ENTRANCE_A']': (0, 0),
-                #'['DIA_AUTOMAP_A1L']': (0, 0),
-                'DIA_AUTOMAP_B1S': (-142, 278),
-                'DIA_AUTOMAP_C1F': (-96, -28),
+                'DIA_AM_PENT': (252, 138),
                 },
             #1661
 
@@ -1313,8 +1077,8 @@ if __name__ == "__main__":
             show_automap_pos(["DIA_AUTOMAP_WP"])
             show_automap_pos(["DIA_AUTOMAP_ENTRANCE"])
             show_automap_pos(["DIA_AUTOMAP_ENTRANCE_B"])
-            show_automap_pos(["DIA_AUTOMAP_PENT"])
-            show_automap_pos(["DIA_AUTOMAP_PENT1"])
+            show_automap_pos(["DIA_AM_PENT"])
+            show_automap_pos(["DIA_AM_PENT1"])
             show_automap_pos(["DIA_AUTOMAP_CORNER_L"])
             show_automap_pos(["DIA_AUTOMAP_CORNER_R"])
             show_automap_pos(["DIA_AUTOMAP_A2Y"])
