@@ -6,7 +6,7 @@ import os
 from dataclasses import dataclass
 from logger import Logger
 config_lock = threading.Lock()
-from utils.misc import wait
+from utils.misc import wait, only_lowercase_letters
 
 def _default_iff(value, iff, default = None):
     return default if value == iff else value
@@ -303,7 +303,7 @@ class Config:
             "hwnd_window_process": _default_iff(Config()._select_val("advanced_options", "hwnd_window_process"), ''),
             "window_client_area_offset": tuple(map(int, Config()._select_val("advanced_options", "window_client_area_offset").split(","))),
             "ocr_during_pickit": bool(int(self._select_val("advanced_options", "ocr_during_pickit"))),
-            "launch_options": self._select_val("advanced_options", "launch_options").replace("<name>", self.general["name"]),
+            "launch_options": self._select_val("advanced_options", "launch_options").replace("<name>", only_lowercase_letters(self.general["name"].lower())),
             "override_capabilities": _default_iff(Config()._select_optional("advanced_options", "override_capabilities"), ""),
         }
 

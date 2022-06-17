@@ -4,7 +4,7 @@ import shutil
 
 from config import Config
 from mss import mss
-from utils.misc import close_down_bnet_launcher, close_down_d2
+from utils.misc import close_down_bnet_launcher, close_down_d2, only_lowercase_letters
 
 
 def get_d2r_folder() -> str:
@@ -89,7 +89,7 @@ def set_launch_settings(launch_options):
         print(f"You might need to set the launch options manually. Add launch options to D2R in BNet launcher: {launch_options}")
 
 def copy_mod_files():
-    mod_name = ''.join(filter( lambda x: x in 'abcdefghijklmnopqrstuvwxyz', Config().general["name"].lower() ))
+    mod_name = only_lowercase_letters(Config().general["name"].lower())
     if not mod_name:
         mod_name = "botty"
     old_path = "assets/mods/botty"
