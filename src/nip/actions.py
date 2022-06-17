@@ -213,8 +213,8 @@ def _load_nip_expressions(filepath):
                     break
 
 
-default_nip_file_path = os.path.join(os.path.abspath(os.path.join(os.path.join(os.path.dirname(__file__), os.pardir), os.pardir)), 'config/default.nip')
-nip_path = os.path.join(os.path.abspath(os.path.join(os.path.join(os.path.dirname(__file__), os.pardir), os.pardir)), 'config/nip')
+default_nip_file_path = f"{os.getcwd()}/config/default.nip"
+nip_path = f"{os.getcwd()}/config/nip"
 glob_nip_path = os.path.join(nip_path, '**', '*.nip')
 nip_file_paths = glob.glob(glob_nip_path, recursive=True)
 
