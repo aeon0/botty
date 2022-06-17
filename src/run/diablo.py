@@ -45,7 +45,7 @@ class Diablo:
             if Config().general["use_automap_navigation"] == 1 : toggle_automap(False) # just to ensure we switch off Automap, so it does not interfere with sealcheck
             Logger.debug(seal_layout + ": trying to open (try #" + str(i+1)+")")
             self._char.select_by_template(seal_closedtemplates, threshold=0.5, timeout=0.1, telekinesis=True)
-            wait(i*0.5)
+            wait(i*1)
             found = template_finder.search_and_wait(seal_opentemplates, threshold=0.75, timeout=0.1).valid
             if found:
                 Logger.info(seal_layout +": is open - "+'\033[92m'+" open"+'\033[0m')
@@ -91,11 +91,34 @@ class Diablo:
         ##############
         
         if not self._pather.traverse_nodes([600], self._char): return False #not using automap works better here
+        
         Logger.debug("ROF: Calibrated at WAYPOINT")
-        self._pather.traverse_nodes_fixed("diablo_wp_pentagram_1", self._char)
-        self._pather.traverse_nodes_fixed("diablo_wp_pentagram_2", self._char)
+        self._pather.traverse_nodes_fixed("dia_wp_cs-e", self._char)
+
+        if not self._pather.traverse_nodes_automap([1601], self._char): return False
+        Logger.debug("ROF: Calibrated at CS ENTRANCE")
+        
+        """
+        #clear the area
+        self._char.kill_cs_trash("cs_entrance")
+
+        #make leecher TP (make param for it)
+        
+        Logger.debug("CS: OPEN LEECHER TP")
+        if not skills.has_tps():
+            Logger.warning("CS: failed to open TP, you should buy new TPs!")
+            self.used_tps += 20
+        mouse.click(button="right")
+        """
+        
+        #decision if we go walking and clear trash
+        #<kill trash up to pent part>
+
+        #or we go fast and directly tp pentagram
         Logger.debug("ROF: Teleporting directly to PENTAGRAM")
-        if not self._pather.traverse_nodes_automap([1602], self._char): return False
+        self._pather.traverse_nodes_fixed("dia_cs-e_pent", self._char)
+        
+        if not self._pather.traverse_nodes_automap([1600], self._char): return False
         Logger.info("CS: Calibrated at PENTAGRAM")
  
         ##########
@@ -103,19 +126,19 @@ class Diablo:
         ##########
 
         # Settings
-        static_layoutcheck = "dia_a_layout_bold"
+        static_layoutcheck = "dia_am_lc_a"
         sealname = "A"
         boss = "Vizier"
         seal_layout1= "A1-L"
         seal_layout2= "A2-Y"
 
-        calibration_node = [16101620]
+        calibration_node = [1620]
         calibration_threshold = 0.8
         
-        templates_primary= ["DIA_AUTOMAP_A2Y"]
+        templates_primary= ["DIA_AM_A2Y"]
         threshold_primary= 0.8
                 
-        templates_confirmation= ["DIA_AUTOMAP_A1L"]
+        templates_confirmation= ["DIA_AM_A1L"]
         confirmation_node= None 
         confirmation_node2=None
         threshold_confirmation= 0.8
@@ -125,8 +148,10 @@ class Diablo:
         # Layoutcheck #
         ###############
         
-        #if do_pre_buff: self._char.pre_buff()
+        #if do_pre_buff: self._char.pre_buff() #only for cs_kill_trash
+        self._char.kill_cs_trash("pent_before_a")
         self._pather.traverse_nodes_fixed(static_layoutcheck, self._char) # could optionally be a traverse walking, as the node is visible & defined based on corner_L and pentagram
+        self._char.kill_cs_trash("layoutcheck_a")
         Logger.debug(f"{sealname}: Checking Layout for "f"{boss}")
         
         if not calibration_node == None:
@@ -156,10 +181,10 @@ class Diablo:
                 ###################
                 
                 #Settings
-                seal_layout = "A1-L"
+                seal_layout = seal_layout1
                 rush_path="dia_a1-l_seal1"
-                node_seal1_automap=[1614] #Fake
-                node_seal2_automap=[1615] #Boss
+                node_seal1_automap=[1621] #Fake
+                node_seal2_automap=[1621] #Boss
                 seal1_opentemplates=["DIA_A1L2_14_OPEN"]
                 seal1_closedtemplates=["DIA_A1L2_14_CLOSED", "DIA_A1L2_14_CLOSED_DARK", "DIA_A1L2_14_MOUSEOVER"]
                 seal2_opentemplates=["DIA_A1L2_5_OPEN"]
@@ -167,14 +192,16 @@ class Diablo:
                 
                 #SEAL
                 Logger.info(seal_layout +": Starting to pop seals")
-                if not self._pather.traverse_nodes_fixed(rush_path, self._char): return False
+                #if not self._pather.traverse_nodes_fixed(rush_path, self._char): return False
                 if not self._pather.traverse_nodes_automap(node_seal1_automap, self._char): return False
                 if not self._sealdance(seal1_opentemplates, seal1_closedtemplates, seal_layout + ": Seal1", node_seal1_automap): return False
                 if not self._pather.traverse_nodes_automap(node_seal2_automap, self._char): return False
                 if not self._sealdance(seal2_opentemplates, seal2_closedtemplates, seal_layout + ": Seal2", node_seal2_automap): return False
                 Logger.debug(seal_layout + ": Kill Boss A (Vizier)")
                 self._char.kill_vizier_automap(seal_layout)
-                if not self._pather.traverse_nodes_automap([1602], self._char): return False
+                if not self._pather.traverse_nodes_automap([1620], self._char): return False #calibrate before going home
+                if not self._pather.traverse_nodes_fixed("dia_am_a_pent", self._char): return False
+                if not self._pather.traverse_nodes_automap([1600], self._char): return False
                 Logger.info(seal_layout + ": finished seal & calibrated at PENTAGRAM")
                 
         
@@ -194,7 +221,7 @@ class Diablo:
                 ###################
                 
                 #Settings
-                seal_layout = "A2-Y"
+                seal_layout = seal_layout2
                 rush_path="dia_a2-y_seal1"
                 node_seal1_automap=[1625] #Fake
                 node_seal2_automap=[1626] #Boss
@@ -212,7 +239,9 @@ class Diablo:
                 if not self._sealdance(seal2_opentemplates, seal2_closedtemplates, seal_layout + ": Seal2", node_seal2_automap): return False
                 Logger.debug(seal_layout + ": Kill Boss A (Vizier)")
                 self._char.kill_vizier_automap(seal_layout)
-                if not self._pather.traverse_nodes_automap([1602], self._char): return False
+                if not self._pather.traverse_nodes_automap([1620], self._char): return False #calibrate before going home
+                if not self._pather.traverse_nodes_fixed("dia_am_a_pent", self._char): return False
+                if not self._pather.traverse_nodes_automap([1600], self._char): return False
                 Logger.info(seal_layout + ": finished seal & calibrated at PENTAGRAM")
                 
 
@@ -226,7 +255,7 @@ class Diablo:
         ##########
 
         # Settings
-        static_layoutcheck = "dia_b_layout_bold"
+        static_layoutcheck = "dia_am_lc_b"
         sealname = "B"
         boss = "De Seis"
         seal_layout1= "B2-U"
@@ -235,12 +264,12 @@ class Diablo:
         calibration_node = None
         calibration_threshold = 0.78
         
-        templates_primary= ["DIA_AUTOMAP_B1S"]
+        templates_primary= ["DIA_AM_B1S"]
         threshold_primary= 0.8
                 
-        templates_confirmation= ["DIA_AUTOMAP_B2U"]
-        confirmation_node=[1647] 
-        confirmation_node2=[1634]
+        templates_confirmation= ["DIA_AM_B2U"]
+        confirmation_node=[1630] 
+        confirmation_node2=[1630]
         threshold_confirmation= 0.75
         threshold_confirmation2= 0.8
 
@@ -248,8 +277,10 @@ class Diablo:
         # Layoutcheck #
         ###############
         
+        self._char.kill_cs_trash("pent_before_b")
         if do_pre_buff: self._char.pre_buff()
         self._pather.traverse_nodes_fixed(static_layoutcheck, self._char) # could optionally be a traverse walking, as the node is visible & defined based on corner_L and pentagram
+        self._char.kill_cs_trash("layoutcheck_a")
         Logger.debug(f"{sealname}: Checking Layout for "f"{boss}")
         
         if not calibration_node == None:
@@ -278,10 +309,10 @@ class Diablo:
                 ###################
                 
                 #Settings
-                seal_layout = "B2-U"
+                seal_layout = seal_layout2
                 rush_path="dia_b2-u_seal2"
                 node_seal1_automap=None #Fake
-                node_seal2_automap=[1644] #Boss
+                node_seal2_automap=[1630] #Boss
                 seal1_opentemplates=None
                 seal1_closedtemplates=None
                 seal2_opentemplates=["DIA_B2U2_16_OPEN"]
@@ -297,8 +328,10 @@ class Diablo:
                 if not self._sealdance(seal2_opentemplates, seal2_closedtemplates, seal_layout + ": Seal2", node_seal2_automap): return False
                 Logger.debug(seal_layout + ": Kill Boss B (DeSeis)")
                 self._char.kill_deseis_automap(seal_layout)
-                if not self._pather.traverse_nodes_automap([1602], self._char): return False
-                Logger.info(seal_layout + ": finished seal & calibrated at PENTAGRAM")        
+                if not self._pather.traverse_nodes_automap([1630], self._char): return False #calibrate before going home
+                if not self._pather.traverse_nodes_fixed("dia_am_b_pent", self._char): return False
+                if not self._pather.traverse_nodes_automap([1600], self._char): return False
+                Logger.info(seal_layout + ": finished seal & calibrated at PENTAGRAM")   
         
         else:
             Logger.debug(f"{seal_layout2}: Layout_check step 1/2 - templates found for {seal_layout1}")
@@ -312,14 +345,14 @@ class Diablo:
                 Logger.info(f"{seal_layout2}: Layout_check step 2/2 - templates NOT found for "f"{seal_layout1} - "+'\033[96m'+"all fine, proceeding with "f"{seal_layout2}"+'\033[0m')
 
                 ###################
-                # Clear Seal A2-Y #
+                # Clear Seal B1-S #
                 ###################
                 
                 #Settings
-                seal_layout = "B1-S"
-                rush_path="dia_b1-s_seal2"
+                seal_layout = seal_layout1
+                rush_path="dia_am_b_deseis"
                 node_seal1_automap=None #Fake
-                node_seal2_automap=[1634] #Boss
+                node_seal2_automap=[1630] #Boss
                 seal1_opentemplates=None
                 seal1_closedtemplates=None
                 seal2_opentemplates=["DIA_B1S2_23_OPEN"]
@@ -332,10 +365,12 @@ class Diablo:
                     if not self._sealdance(seal1_opentemplates, seal1_closedtemplates, seal_layout + ": Seal1", node_seal1_automap): return False
                 if not self._pather.traverse_nodes_automap(node_seal2_automap, self._char): return False
                 if not self._sealdance(seal2_opentemplates, seal2_closedtemplates, seal_layout + ": Seal2", node_seal2_automap): return False
-                if not self._pather.traverse_nodes_fixed(rush_path, self._char): return False
+                #if not self._pather.traverse_nodes_fixed(rush_path, self._char): return False
                 Logger.debug(seal_layout + ": Kill Boss B (DeSeis)")
                 self._char.kill_deseis_automap(seal_layout)
-                if not self._pather.traverse_nodes_automap([1602], self._char): return False
+                if not self._pather.traverse_nodes_automap([1630], self._char): return False #calibrate before going home
+                if not self._pather.traverse_nodes_fixed("dia_am_b_pent", self._char): return False
+                if not self._pather.traverse_nodes_automap([1600], self._char): return False
                 Logger.info(seal_layout + ": finished seal & calibrated at PENTAGRAM")
 
             else:
@@ -349,19 +384,19 @@ class Diablo:
         ##########
 
         # Settings
-        static_layoutcheck = "dia_c_layout_bold"
+        static_layoutcheck = "dia_am_lc_c"
         sealname = "C"
         boss = "Infector"
         seal_layout1= "C1-F"
         seal_layout2= "C2-G"
 
-        calibration_node = [16501660]
+        calibration_node = [1640]
         calibration_threshold = 0.83
         
-        templates_primary= ["DIA_AUTOMAP_C2G"]
+        templates_primary= ["DIA_AM_C2G"]
         threshold_primary= 0.8
                 
-        templates_confirmation= ["DIA_AUTOMAP_C1F"]
+        templates_confirmation= ["DIA_AM_C1F"]
         confirmation_node= None 
         confirmation_node2=None
         threshold_confirmation= 0.8
@@ -371,8 +406,10 @@ class Diablo:
         # Layoutcheck #
         ###############
         
+        self._char.kill_cs_trash("pent_before_c")
         if do_pre_buff: self._char.pre_buff()
         self._pather.traverse_nodes_fixed(static_layoutcheck, self._char) # could optionally be a traverse walking, as the node is visible & defined based on corner_L and pentagram
+        self._char.kill_cs_trash("layoutcheck_a")
         Logger.debug(f"{sealname}: Checking Layout for "f"{boss}")
         
         if not calibration_node == None:
@@ -401,10 +438,10 @@ class Diablo:
                 ###################
 
                 #Settings
-                seal_layout = "C1-F"
-                rush_path="dia_c1-f_seal1"
-                node_seal1_automap=[1655] #Fake
-                node_seal2_automap=[1652] #Boss
+                seal_layout = seal_layout1
+                rush_path="dia_c1-f_fake_boss"
+                node_seal1_automap=[1640] #Fake
+                node_seal2_automap=[1641] #Boss
                 seal1_opentemplates=["DIA_C1F_OPEN_NEAR"]
                 seal1_closedtemplates=["DIA_C1F_CLOSED_NEAR","DIA_C1F_MOUSEOVER_NEAR"]
                 seal2_opentemplates=["DIA_B2U2_16_OPEN", "DIA_C1F_BOSS_OPEN_RIGHT", "DIA_C1F_BOSS_OPEN_LEFT"]
@@ -412,15 +449,17 @@ class Diablo:
                 
                 #SEAL
                 Logger.info(seal_layout +": Starting to pop seals")
-                if not self._pather.traverse_nodes_fixed(rush_path, self._char): return False
                 if not self._pather.traverse_nodes_automap(node_seal1_automap, self._char): return False
                 if not self._sealdance(seal1_opentemplates, seal1_closedtemplates, seal_layout + ": Seal1", node_seal1_automap): return False
+                if not self._pather.traverse_nodes_fixed(rush_path, self._char): return False #order changed
                 if not self._pather.traverse_nodes_automap(node_seal2_automap, self._char): return False
                 if not self._sealdance(seal2_opentemplates, seal2_closedtemplates, seal_layout + ": Seal2", node_seal2_automap): return False
                 Logger.debug(seal_layout + ": Kill Boss C (Infector)")
                 self._char.kill_infector_automap(seal_layout)
-                if not self._pather.traverse_nodes_automap([1602], self._char): return False
-                Logger.info(seal_layout + ": finished seal & calibrated at PENTAGRAM")        
+                if not self._pather.traverse_nodes_automap([1640], self._char): return False #calibrate before going home
+                if not self._pather.traverse_nodes_fixed("dia_am_c_pent", self._char): return False
+                if not self._pather.traverse_nodes_automap([1600], self._char): return False
+                Logger.info(seal_layout + ": finished seal & calibrated at PENTAGRAM")     
         
         else:
             Logger.debug(f"{seal_layout2}: Layout_check step 1/2 - templates found for {seal_layout1}")
@@ -438,7 +477,7 @@ class Diablo:
                 ###################
                 
                 #Settings
-                seal_layout = "C2-G"
+                seal_layout = seal_layout2
                 rush_path="dia_c2-g_seal1"
                 node_seal1_automap=[1661] #Fake
                 node_seal2_automap=[1665] #Boss
@@ -456,7 +495,9 @@ class Diablo:
                 if not self._sealdance(seal2_opentemplates, seal2_closedtemplates, seal_layout + ": Seal2", node_seal2_automap): return False
                 Logger.debug(seal_layout + ": Kill Boss C (Infector)")
                 self._char.kill_infector_automap(seal_layout)
-                if not self._pather.traverse_nodes_automap([1602], self._char): return False
+                if not self._pather.traverse_nodes_automap([1640], self._char): return False #calibrate before going home
+                if not self._pather.traverse_nodes_fixed("dia_am_c_pent", self._char): return False
+                if not self._pather.traverse_nodes_automap([1600], self._char): return False
                 Logger.info(seal_layout + ": finished seal & calibrated at PENTAGRAM")
 
             else:
@@ -469,7 +510,7 @@ class Diablo:
         ##########
   
         Logger.info("Waiting for Diablo to spawn")
-        if not self._pather.traverse_nodes_automap([1602], self._char): return False
+        if not self._pather.traverse_nodes_automap([1600], self._char): return False
         self._char.kill_diablo()
         self._picked_up_items |= self._pickit.pick_up_items(char=self._char)
         wait(0.5, 0.7)

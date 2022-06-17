@@ -403,84 +403,140 @@ class Pather:
             # Automap Diablo #
             ##################
 
-            1602: { #PENTAGRAM
+            1600: { #PENTAGRAM
                 'DIA_AM_CS':     (668, -317),
-                'DIA_AM_E_A':    (412, -170),
-                'DIA_AM_E_B':    (412, -170),
-                'DIA_AM_PENT':   (0, -6),
-                'DIA_AM_PENT1':  (0, -6),
+                #'DIA_AM_E_A':    (412, -170),
+                #'DIA_AM_E_B':    (412, -170),
+                #'DIA_AM_PENT':   (0, -6),
+                #'DIA_AM_PENT1':  (0, -6),
                 'DIA_AM_C1':     (154, 20),
-                'DIA_AM_C2':     (-11, 95),
-                'DIA_AM_C3':     (-176, 24),
-                'DIA_AM_C4':     (-15, -85),
-                'DIA_AM_A1L':    (356, 146),
-                'DIA_AM_A2Y':    (356, 146),
-                'DIA_AM_B1S':    (-404, 156),
-                'DIA_AM_B2U':    (-404, 156),
-                'DIA_AM_C1F':    (-369, -124),
-                'DIA_AM_C2G':    (-369, -124),
+                #'DIA_AM_C2':     (-11, 95),
+                #'DIA_AM_C3':     (-176, 24),
+                #'DIA_AM_C4':     (-15, -85),
+                #'DIA_AM_A1L':    (356, 146),
+                #'DIA_AM_A2Y':    (356, 146),
+                #'DIA_AM_B1S':    (-404, 156),
+                #'DIA_AM_B2U':    (-404, 156),
+                #'DIA_AM_C1F':    (-369, -124),
+                #'DIA_AM_C2G':    (-369, -124),
                 },
 
+            1601: { #CS Entrance Calibration Node
+            #'['DIA_AM_WP']': (0, 0),
+            'DIA_AM_CS': (96, -35),
+            #'['DIA_AM_E_B']': (0, 0),
+            #'['DIA_AM_PENT']': (0, 0),
+            #'['DIA_AM_PENT1']': (0, 0),
+            #'['DIA_AM_C1']': (0, 0),
+            #'['DIA_AM_C2']': (0, 0),
+            #'['DIA_AM_C3']': (0, 0),
+            #'['DIA_AM_C4']': (0, 0),
+            #'['DIA_AM_A2Y']': (0, 0),
+            #'['DIA_AM_B2U']': (0, 0),
+            #'['DIA_AM_C2G']': (0, 0),
+            #'['DIA_AM_E_A']': (0, 0),
+            #'['DIA_AM_A1L']': (0, 0),
+            #'['DIA_AM_B1S']': (0, 0),
+            #'['DIA_AM_C1F']': (0, 0),
+            },
 
-            16101620: { #LAYOUTCHECK A
-                'DIA_AM_PENT': (-354, -140),
-                },
+            1620: {# Calibration & Departure Node Seal A
+            #'['DIA_AM_WP']': (0, 0),
+            #'['DIA_AM_CS']': (0, 0),
+            #'['DIA_AM_E_B']': (0, 0),
+            'DIA_AM_PENT': (-352, -134),
+            #'DIA_AM_PENT1': (-344, -137),
+            #'DIA_AM_C1': (-186, -128),
+            #'DIA_AM_C2': (-351, -52),
+            #'DIA_AM_C3': (-516, -124),
+            #'DIA_AM_C4': (-355, -233),
+            #'['DIA_AM_A2Y']': (0, 0),
+            #'['DIA_AM_B2U']': (0, 0),
+            #'['DIA_AM_C2G']': (0, 0),
+            #'['DIA_AM_E_A']': (0, 0),
+            #'DIA_AM_A1L': (16, -2),
+            #'['DIA_AM_B1S']': (0, 0),
+            #'['DIA_AM_C1F']': (0, 0),
+            },
 
-            1612: { #A1L Kill Vizier
-                'DIA_AM_PENT': (-342, -120),
-                },
+            1621: {#SEAL A1L SEALDANCE Calibration Node
+            #'['DIA_AM_WP']': (0, 0),
+            #'['DIA_AM_CS']': (0, 0),
+            #'['DIA_AM_E_B']': (0, 0),
+            'DIA_AM_PENT': (-332, -160),
+            #'DIA_AM_PENT1': (-325, -164),
+            #'DIA_AM_C1': (-166, -156),
+            #'DIA_AM_C2': (-332, -79),
+            #'DIA_AM_C3': (-496, -151),
+            #'['DIA_AM_C4']': (0, 0),
+            #'['DIA_AM_A2Y']': (0, 0),
+            #'['DIA_AM_B2U']': (0, 0),
+            #'['DIA_AM_C2G']': (0, 0),
+            #'['DIA_AM_E_A']': (0, 0),
+            #'DIA_AM_A1L': (35, -28),
+            #'['DIA_AM_B1S']': (0, 0),
+            #'['DIA_AM_C1F']': (0, 0),
+            },
 
-            1614: { #A1L FAKE SEAL
-                'DIA_AM_PENT': (-304, -182),
-                },
 
-            1615: { #A1L BOSS SEAL
-                'DIA_AM_PENT': (-368, -138),
-                },
+            1630: { # Calibration & Departure Node Seal B
+            #'['DIA_AM_WP']': (0, 0),
+            #'['DIA_AM_CS']': (0, 0),
+            #'['DIA_AM_E_B']': (0, 0),
+            'DIA_AM_PENT': (330, -154),
+            #'DIA_AM_PENT1': (337, -157),
+            #'DIA_AM_C1': (496, -148),
+            #'DIA_AM_C2': (330, -72),
+            #'DIA_AM_C3': (166, -144),
+            #'['DIA_AM_C4']': (0, 0),
+            #'['DIA_AM_A2Y']': (0, 0),
+            #'['DIA_AM_B2U']': (0, 0),
+            #'['DIA_AM_C2G']': (0, 0),
+            #'['DIA_AM_E_A']': (0, 0),
+            #'['DIA_AM_A1L']': (0, 0),
+            #'DIA_AM_B1S': (-63, -12),
+            #'['DIA_AM_C1F']': (0, 0),
+            },
 
-            #1622 #A2Y Vizier 
-            
-            1625: { #A2Y FAKE SEAL
-                'DIA_AM_PENT': (-368, -138),
-                },
-            
-            1626: {#A2Y BOSS SEAL
-                'DIA_AM_PENT': (-306, -174),
-                },
+        1640: { # Calibration & Departure Node Seal B
+            #'['DIA_AM_WP']': (0, 0),
+            #'['DIA_AM_CS']': (0, 0),
+            #'['DIA_AM_E_B']': (0, 0),
+            'DIA_AM_PENT': (320, 158),
+            #'DIA_AM_PENT1': (328, 155),
+            #'DIA_AM_C1': (486, 164),
+            #'DIA_AM_C2': (321, 240),
+            #'DIA_AM_C3': (156, 168),
+            #'DIA_AM_C4': (317, 59),
+            #'['DIA_AM_A2Y']': (0, 0),
+            #'['DIA_AM_B2U']': (0, 0),
+            #'['DIA_AM_C2G']': (0, 0),
+            #'['DIA_AM_E_A']': (0, 0),
+            #'['DIA_AM_A1L']': (0, 0),
+            #'DIA_AM_B1S': (-72, 300),
+            #'DIA_AM_C1F': (-37, 8),
+            },
 
-            1647: { #LAYOUTCHECK B
-                'DIA_AM_PENT': (372, -134),
-                },
+        1641: { # Fight Infector C1F
+            #'['DIA_AM_WP']': (0, 0),
+            #'['DIA_AM_CS']': (0, 0),
+            #'['DIA_AM_E_B']': (0, 0),
+            'DIA_AM_PENT': (236, 140),
+            #'DIA_AM_PENT1': (244, 137),
+            #'DIA_AM_C1': (402, 146),
+            #'DIA_AM_C2': (237, 222),
+            #'DIA_AM_C3': (72, 150),
+            #'DIA_AM_C4': (233, 41),
+            #'['DIA_AM_A2Y']': (0, 0),
+            #'['DIA_AM_B2U']': (0, 0),
+            #'['DIA_AM_C2G']': (0, 0),
+            #'['DIA_AM_E_A']': (0, 0),
+            #'['DIA_AM_A1L']': (0, 0),
+            #'DIA_AM_B1S': (-156, 282),
+            #'DIA_AM_C1F': (-121, -10),
+            },
 
-            1632: { #Kill DeSeis B1-S
-                'DIA_AM_PENT': (264, -170),
-                },
-
-            1634: {#LAYOUTCHECK B CONFIRMATION2
-                'DIA_AM_PENT': (340, -142),
-                },
-
-            #1644
-            
-            16501660: { #LAYOUTCHECK C
-                'DIA_AM_PENT': (380, 158),
-                },
-
-            1655: { #C1F FAKE SEAL
-                'DIA_AM_PENT': (320, 130),
-                },
-
-            1652: {#C1F BOSS SEAL
-                'DIA_AM_PENT': (208, 148),
-                },
-
-            1653: {#C1F KILL INFECTOR
-                'DIA_AM_PENT': (252, 138),
-                },
-            #1661
-
-            #1665
-            
+           
 
         }
         self._paths_automap = {
@@ -1062,35 +1118,66 @@ if __name__ == "__main__":
     char = Hammerdin(Config().hammerdin, pather, PickIt) #Config().char,
     char.discover_capabilities()
 
-    #display_all_nodes(pather, "DIA_AUTOMAP") #use this function to explore the templates and nodes visibile in the area you are currently located ingame
-    nodes = 602
-    pather.traverse_nodes([nodes], char) #use this function to test nodes
-    #path = "dia_c_layout_bold"
-    #pather.traverse_nodes_fixed(path, char) #se this function to test static paths
+    #display_all_nodes(pather, "DIA_AM") #use this function to explore the templates and nodes visibile in the area you are currently located ingame
     
+    nodes = 600
+    pather.traverse_nodes([nodes], char) #use this function to test nodes
+    pather.traverse_nodes_fixed("dia_wp_cs-e", char) #use this function to test static paths
+    pather.traverse_nodes_automap([1601], char) 
+    pather.traverse_nodes_fixed("dia_cs-e_pent", char) 
+    pather.traverse_nodes_automap([1600], char) 
+    
+    # seal A1L
+    pather.traverse_nodes_fixed("dia_am_lc_a", char) 
+    pather.traverse_nodes_automap([1620], char) #LC
+    pather.traverse_nodes_fixed("dia_a1-l_seal1", char) 
+    pather.traverse_nodes_fixed("dia_a1-l_seal2", char) 
+    pather.traverse_nodes_automap([1620], char) 
+    pather.traverse_nodes_fixed("dia_am_a_pent", char) 
+    pather.traverse_nodes_automap([1600], char) 
+
+    # seal B1S
+    pather.traverse_nodes_fixed("dia_am_lc_b", char) 
+    pather.traverse_nodes_automap([1630], char) 
+    pather.traverse_nodes_fixed("dia_am_b_deseis", char) 
+    pather.traverse_nodes_automap([1630], char) 
+    pather.traverse_nodes_fixed("dia_am_b_pent", char) 
+    pather.traverse_nodes_automap([1600], char) 
+
+    # seal C1F
+    pather.traverse_nodes_fixed("dia_am_lc_c", char) 
+    pather.traverse_nodes_automap([1640], char) 
+    pather.traverse_nodes_fixed("dia_c1-f_fake_boss", char) #hop from fake to boss
+    pather.traverse_nodes_automap([1641], char) 
+    pather.traverse_nodes_automap([1640], char) 
+    pather.traverse_nodes_fixed("dia_am_c_pent", char) 
+    pather.traverse_nodes_automap([1600], char)
+
     
     if Config().general["use_automap_navigation"] == 1 :
         while True:
             Logger.warning("Checking Automap Status")
             toggle_automap(True)
-            print("1" + str(nodes) + ": {")
-            show_automap_pos(["DIA_AUTOMAP_WP"])
-            show_automap_pos(["DIA_AUTOMAP_ENTRANCE"])
-            show_automap_pos(["DIA_AUTOMAP_ENTRANCE_B"])
+            #print("1" + str(nodes) + ": {")
+            show_automap_pos(["DIA_AM_WP"])
+            show_automap_pos(["DIA_AM_CS"])
+            show_automap_pos(["DIA_AM_E_B"])
             show_automap_pos(["DIA_AM_PENT"])
             show_automap_pos(["DIA_AM_PENT1"])
-            show_automap_pos(["DIA_AUTOMAP_CORNER_L"])
-            show_automap_pos(["DIA_AUTOMAP_CORNER_R"])
-            show_automap_pos(["DIA_AUTOMAP_A2Y"])
-            show_automap_pos(["DIA_AUTOMAP_B2U"])
-            show_automap_pos(["DIA_AUTOMAP_C2G"])
-            show_automap_pos(["DIA_AUTOMAP_ENTRANCE_A"])
-            show_automap_pos(["DIA_AUTOMAP_A1L"])
-            show_automap_pos(["DIA_AUTOMAP_B1S"])
-            show_automap_pos(["DIA_AUTOMAP_C1F"])
+            show_automap_pos(["DIA_AM_C1"])
+            show_automap_pos(["DIA_AM_C2"])
+            show_automap_pos(["DIA_AM_C3"])
+            show_automap_pos(["DIA_AM_C4"])
+            show_automap_pos(["DIA_AM_A2Y"])
+            show_automap_pos(["DIA_AM_B2U"])
+            show_automap_pos(["DIA_AM_C2G"])
+            show_automap_pos(["DIA_AM_E_A"])
+            show_automap_pos(["DIA_AM_A1L"])
+            show_automap_pos(["DIA_AM_B1S"])
+            show_automap_pos(["DIA_AM_C1F"])
             print("    },")
             toggle_automap(False)
             Logger.warning("End of List - Press F12 to Stop")
             keyboard.wait("f12")
-
+    
     stop_detecting_window()
