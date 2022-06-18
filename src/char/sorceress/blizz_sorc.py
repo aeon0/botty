@@ -44,7 +44,7 @@ class BlizzSorc(Sorceress):
     def _blizzard(self, cast_pos_abs: tuple[float, float], spray: float = 10):
         if "blizzard" not in self._hotkeys["right"]:
             raise ValueError("You did not set a hotkey for blizzard!")
-        keyboard.send(self._hotkeys["blizzard"])
+        keyboard.send(self._hotkeys["right"]["blizzard"])
         x = cast_pos_abs[0] + (random.random() * 2 * spray - spray)
         y = cast_pos_abs[1] + (random.random() * 2 * spray - spray)
         cast_pos_monitor = convert_abs_to_monitor((x, y))

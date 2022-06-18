@@ -1,4 +1,5 @@
 import keyboard
+from debug import get_selected_skill
 from logger import Logger
 import cv2
 import time
@@ -35,11 +36,13 @@ def has_tps() -> bool:
         return False
 
 def select_tp(tp_hotkey):
-    if tp_hotkey and not is_right_skill_selected(
-        ["TELE_ACTIVE", "TELE_INACTIVE"]):
+    templates = template_finder.get_cached_templates_in_dir('assets\\templates\\ui\\skills')
+    right_skill = get_selected_skill(templates, grab(), Config().ui_roi["skill_right"])
+    if tp_hotkey and right_skill != "teleport":
         keyboard.send(tp_hotkey)
         wait(0.1, 0.2)
-    return is_right_skill_selected(["TELE_ACTIVE", "TELE_INACTIVE"])
+    right_skill = get_selected_skill(templates, grab(), Config().ui_roi["skill_right"])
+    return right_skill == "teleport"
 
 def is_right_skill_active() -> bool:
     """

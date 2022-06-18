@@ -3,6 +3,7 @@ import random
 import time
 import cv2
 import math
+from debug import get_selected_skill
 from item import consumables
 import keyboard
 import numpy as np
@@ -62,7 +63,7 @@ class IChar:
         override = Config().advanced_options["override_capabilities"]
         if override is None:
             if Config().char["teleport"]:
-                if self.select_tp():
+                if self.select_teleport():
                     if self.skill_is_charged():
                         return CharacterCapabilities(can_teleport_natively=False, can_teleport_with_charges=True)
                     else:
@@ -169,24 +170,20 @@ class IChar:
     def remap_right_skill_hotkey(self, skill_asset, hotkey):
         return self._remap_skill_hotkey(skill_asset, hotkey, Config().ui_roi["skill_right"], Config().ui_roi["skill_right_expanded"])
 
-    def select_tp(self):
-        return skills.select_tp(Config().char["teleport"])
+    def select_teleport(self):
+        return skills.select_tp(self._hotkeys["right"]["teleport"])
 
     def pre_move(self):
         # if teleport hotkey is set and if teleport is not already selected
-        if self.capabilities.can_teleport_natively:
-            self.select_tp()
+        if "teleport" in self._hotkeys["right"]:
+            self.select_teleport()
             self._set_active_skill("right", "teleport")
 
     def move(self, pos_monitor: tuple[float, float], force_tp: bool = False, force_move: bool = False):
         factor = Config().advanced_options["pathing_delay_factor"]
-        if "teleport" in Config().char and Config().char["teleport"] and (
-            force_tp
-            or (
-                skills.is_right_skill_selected(["TELE_ACTIVE"])
-                and skills.is_right_skill_active()
-            )
-        ):
+        # templates = template_finder.get_cached_templates_in_dir('assets\\templates\\ui\\skills')
+        # right_skill = get_selected_skill(templates, grab(), Config().ui_roi["skill_right"])
+        if "teleport" in self._hotkeys["right"] and force_tp:
             self._set_active_skill("right", "teleport")
             mouse.move(pos_monitor[0], pos_monitor[1], randomize=3, delay_factor=[factor*0.1, factor*0.14])
             wait(0.012, 0.02)
@@ -278,11 +275,12 @@ class IChar:
         while time.time() - start < 4:
             keyboard.send(Config().char["weapon_switch"])
             wait(0.3, 0.35)
-            self._select_skill(skill = "battle_command", mouse_click_type="right", delay=(0.1, 0.2))
-            if skills.is_right_skill_selected(["BC", "BO"]):
+            if "battle_command" in self._hotkeys["right"]:
+                keyboard.send(self._hotkeys["right"]["battle_command"])
+            # self._select_skill(skill = "battle_command", mouse_click_type="right", delay=(0.1, 0.2))
+            if skills.is_right_skill_selected(["battle_command", "battle_orders"]):
                 switch_sucess = True
                 break
-
         if not switch_sucess:
             Logger.warning("You dont have Battle Command bound, or you do not have CTA. ending CTA buff")
             Config().char["cta_available"] = 0
