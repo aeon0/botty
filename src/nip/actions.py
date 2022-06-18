@@ -207,7 +207,8 @@ def _load_nip_expressions(filepath):
             try:
                 load_nip_expression(line)
             except Exception as e:
-                file = filepath.split('\\config/')[1].replace("/", "\\")
+                filepath = filepath.replace("\\", "/")
+                file = filepath.split('/config/')[1]
                 print(f"{file}:{e}:line {i + 1}") # TODO look at these errors
                 if False and traceback.print_exc(): # * Switch between True and False for debugging
                     break
