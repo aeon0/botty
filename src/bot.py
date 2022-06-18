@@ -8,9 +8,11 @@ import cv2
 import math
 from copy import copy
 from collections import OrderedDict
+from debug import discover_hotkey_mappings
 
 from health_manager import set_pause_state
 from transmute import Transmute
+from utils.key_decoder import D2RKeymap
 from utils.misc import wait, hms
 from utils.restart import safe_exit, restart_game
 from game_stats import GameStats
@@ -125,6 +127,11 @@ class Bot:
         self._ran_no_pickup = False
         self._previous_run_failed = False
         self._timer = time.time()
+        self._hotkeys = {
+            'discovered': False,
+            'left': None,
+            'right': None
+        }
 
         # Create State Machine
         self._states=['initialization','hero_selection', 'town', 'pindle', 'shenk', 'trav', 'nihlathak', 'arcane', 'diablo']
@@ -256,8 +263,38 @@ class Bot:
         self.trigger_or_stop("start_from_town")
 
     def on_start_from_town(self):
+        if not self._hotkeys['discovered']:
+            saved_games_folder = Config().general["saved_games_folder"]
+            key_name = Config().general["key_file"]
+            d2r_keymap = D2RKeymap(saved_games_folder, key_name)
+            keys_to_check = [
+                d2r_keymap.Skill1,
+                d2r_keymap.Skill2,
+                d2r_keymap.Skill3,
+                d2r_keymap.Skill4,
+                d2r_keymap.Skill5,
+                d2r_keymap.Skill6,
+                d2r_keymap.Skill7,
+                d2r_keymap.Skill8,
+                d2r_keymap.Skill9,
+                d2r_keymap.Skill10,
+                d2r_keymap.Skill11,
+                d2r_keymap.Skill12,
+                d2r_keymap.Skill13,
+                d2r_keymap.Skill14,
+                d2r_keymap.Skill15,
+                d2r_keymap.Skill16,
+            ]
+            templates = template_finder.get_cached_templates_in_dir('assets\\templates\\ui\\skills')
+            left_key_template_map, right_key_template_map, left_skill, right_skill = discover_hotkey_mappings(templates, keys_to_check)
+            self._hotkeys['left'] = left_key_template_map
+            self._hotkeys['right'] = right_key_template_map
+            if len(left_key_template_map) == 0:
+                self._default_left_skill = left_skill
+            if len(right_key_template_map) == 0:
+                self._default_right_skill = right_skill
+            self._hotkeys['discovered'] = True
         self._curr_loc = self._town_manager.wait_for_town_spawn()
-
         # Handle picking up corpse in case of death
         if (corpse_present := is_visible(ScreenObjects.Corpse)):
             self._previous_run_failed = True

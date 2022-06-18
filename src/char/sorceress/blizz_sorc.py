@@ -29,8 +29,8 @@ class BlizzSorc(Sorceress):
 
     def _ice_blast(self, cast_pos_abs: tuple[float, float], delay: tuple[float, float] = (0.16, 0.23), spray: float = 10):
         keyboard.send(Config().char["stand_still"], do_release=False)
-        if self._skill_hotkeys["ice_blast"]:
-            keyboard.send(self._skill_hotkeys["ice_blast"])
+        if "ice_blast" in self._hotkeys["left"]:
+            keyboard.send(self._hotkeys["left"]["ice_blast"])
         for _ in range(5):
             x = cast_pos_abs[0] + (random.random() * 2*spray - spray)
             y = cast_pos_abs[1] + (random.random() * 2*spray - spray)
@@ -42,9 +42,9 @@ class BlizzSorc(Sorceress):
         keyboard.send(Config().char["stand_still"], do_press=False)
 
     def _blizzard(self, cast_pos_abs: tuple[float, float], spray: float = 10):
-        if not self._skill_hotkeys["blizzard"]:
+        if "blizzard" not in self._hotkeys["right"]:
             raise ValueError("You did not set a hotkey for blizzard!")
-        keyboard.send(self._skill_hotkeys["blizzard"])
+        keyboard.send(self._hotkeys["blizzard"])
         x = cast_pos_abs[0] + (random.random() * 2 * spray - spray)
         y = cast_pos_abs[1] + (random.random() * 2 * spray - spray)
         cast_pos_monitor = convert_abs_to_monitor((x, y))
