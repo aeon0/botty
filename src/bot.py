@@ -220,7 +220,8 @@ class Bot:
 
     def on_init(self):
         self._game_stats.log_start_game()
-        keyboard.release(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill])
+        if hotkeys.HotkeyName.StandStill in hotkeys.d2r_keymap:
+            keyboard.release(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill])
         transition_to_screens = Bot._rebuild_as_asset_to_trigger({
             "select_character": main_menu.MAIN_MENU_MARKERS,
             "start_from_town": town_manager.TOWN_MARKERS,
