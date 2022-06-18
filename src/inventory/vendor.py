@@ -3,6 +3,7 @@ import keyboard
 import template_finder
 from config import Config
 import numpy as np
+from utils import hotkeys
 from utils.misc import wait
 from screen import grab
 from logger import Logger
@@ -44,7 +45,7 @@ def repair() -> bool:
     select_screen_object_match(repair_btn)
     if wait_until_visible(ScreenObjects.NotEnoughGold, 1).valid:
         Logger.warning("Couldn't repair--out of gold. Continue.")
-        keyboard.send("esc")
+        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.OpenMenu])
         return False
     return True
 
@@ -70,7 +71,7 @@ def gamble():
                 # make sure the "not enough gold" message doesn't exist
                 if is_visible(ScreenObjects.NotEnoughGold, img):
                     Logger.warning(f"Out of gold, stop gambling")
-                    keyboard.send("esc")
+                    keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.OpenMenu])
                     set_gamble_status(False)
                     break
                 new_count = get_gamble_count()+1
@@ -119,7 +120,7 @@ def buy_item(template_name: str, quantity: int = 1, img: np.ndarray = None, shif
             if is_visible(ScreenObjects.NotEnoughGold):
                 Logger.warning(f"Out of gold, could not purchase {template_name}")
                 keyboard.send('shift', do_release=True)
-                keyboard.send("esc")
+                keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.OpenMenu])
                 return False
             keyboard.send('shift', do_release=True)
             personal.set_inventory_gold_full(False)
@@ -131,7 +132,7 @@ def buy_item(template_name: str, quantity: int = 1, img: np.ndarray = None, shif
                 wait(0.9, 1.1)
                 if is_visible(ScreenObjects.NotEnoughGold):
                     Logger.warning(f"Out of gold, could not purchase {template_name}")
-                    keyboard.send("esc")
+                    keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.OpenMenu])
                     return False
             personal.set_inventory_gold_full(False)
             center_mouse()

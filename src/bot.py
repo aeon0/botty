@@ -8,11 +8,10 @@ import cv2
 import math
 from copy import copy
 from collections import OrderedDict
-from debug import discover_hotkey_mappings
 
 from health_manager import set_pause_state
 from transmute import Transmute
-from utils.key_decoder import D2RKeymap
+from utils import hotkeys
 from utils.misc import wait, hms
 from utils.restart import safe_exit, restart_game
 from game_stats import GameStats
@@ -127,11 +126,7 @@ class Bot:
         self._ran_no_pickup = False
         self._previous_run_failed = False
         self._timer = time.time()
-        self._hotkeys = {
-            'discovered': False,
-            'left': None,
-            'right': None
-        }
+        self._hotkeys_discovered = False
 
         # Create State Machine
         self._states=['initialization','hero_selection', 'town', 'pindle', 'shenk', 'trav', 'nihlathak', 'arcane', 'diablo']
@@ -225,7 +220,7 @@ class Bot:
 
     def on_init(self):
         self._game_stats.log_start_game()
-        keyboard.release(Config().char["stand_still"])
+        keyboard.release(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill])
         transition_to_screens = Bot._rebuild_as_asset_to_trigger({
             "select_character": main_menu.MAIN_MENU_MARKERS,
             "start_from_town": town_manager.TOWN_MARKERS,
@@ -270,12 +265,22 @@ class Bot:
             view.pickup_corpse()
             wait_until_hidden(ScreenObjects.Corpse)
             belt.fill_up_belt_from_inventory(Config().char["num_loot_columns"])
+        if not self._hotkeys_discovered:
+            saved_games_folder = Config().general["saved_games_folder"]
+            key_file = Config().general["key_file"]
+            hotkeys.discover_hotkey_mappings(saved_games_folder, key_file)
+            self._hotkeys_discovered = True
         self._char.discover_capabilities()
-        if corpse_present and self._char.capabilities.can_teleport_with_charges and not self._char.select_teleport():
-            keybind = Config().char["teleport"]
+        teleport_selected = skills.select_tp(hotkeys.right_skill_key_map[skills.SkillName.Teleport])
+        if corpse_present and self._char.capabilities.can_teleport_with_charges and not teleport_selected:
+            keybind = hotkeys.right_skill_key_map[skills.SkillName.Teleport]
             Logger.info(f"Teleport keybind is lost upon death. Rebinding teleport to '{keybind}'")
-            self._char.remap_right_skill_hotkey("TELE_ACTIVE", Config().char["teleport"])
-
+            hotkeys.remap_skill_hotkey(
+                skills.SkillName.Teleport.value,
+                keybind,
+                Config().ui_roi["skill_right"],
+                Config().ui_roi["skill_right_expanded"]
+            )
         # Run /nopickup command to avoid picking up stuff on accident
         if Config().char["enable_no_pickup"] and (not self._ran_no_pickup and not self._game_stats._nopickup_active):
             self._ran_no_pickup = True
@@ -292,45 +297,6 @@ class Bot:
     def on_maintenance(self):
         # Pause health manager if not already paused
         set_pause_state(True)
-        if not self._hotkeys['discovered']:
-            saved_games_folder = Config().general["saved_games_folder"]
-            key_name = Config().general["key_file"]
-            d2r_keymap = D2RKeymap(saved_games_folder, key_name)
-            keys_to_check = [
-                d2r_keymap.Skill1,
-                d2r_keymap.Skill2,
-                d2r_keymap.Skill3,
-                d2r_keymap.Skill4,
-                d2r_keymap.Skill5,
-                d2r_keymap.Skill6,
-                d2r_keymap.Skill7,
-                d2r_keymap.Skill8,
-                d2r_keymap.Skill9,
-                d2r_keymap.Skill10,
-                d2r_keymap.Skill11,
-                d2r_keymap.Skill12,
-                d2r_keymap.Skill13,
-                d2r_keymap.Skill14,
-                d2r_keymap.Skill15,
-                d2r_keymap.Skill16,
-            ]
-            templates = template_finder.get_cached_templates_in_dir('assets\\templates\\ui\\skills')
-            left_key_template_map, right_key_template_map, left_skill, right_skill = discover_hotkey_mappings(templates, keys_to_check)
-            self._char._hotkeys = {
-                'left': left_key_template_map,
-                'right': right_key_template_map,
-            }
-            self._pather._hotkeys = {
-                'left': left_key_template_map,
-                'right': right_key_template_map,
-            }
-            if len(left_key_template_map) == 0:
-                self._char._default_left_skill = left_skill
-                # self._default_left_skill = left_skill
-            if len(right_key_template_map) == 0:
-                self._char._default_right_skill = right_skill
-                # self._default_right_skill = right_skill
-            self._hotkeys['discovered'] = True
         # Dismiss skill/quest/help/stats icon if they are on screen
         if not view.dismiss_skills_icon():
             view.return_to_play()
@@ -412,7 +378,8 @@ class Bot:
         # Check if we are out of tps or need repairing
         need_repair = is_visible(ScreenObjects.NeedRepair)
         need_routine_repair = False if not Config().char["runs_per_repair"] else self._game_stats._run_counter % Config().char["runs_per_repair"] == 0
-        need_refill_teleport = self._char.capabilities.can_teleport_with_charges and (not self._char.select_teleport() or self._char.is_low_on_teleport_charges())
+        teleport_selected = skills.select_tp(hotkeys.right_skill_key_map[skills.SkillName.Teleport])
+        need_refill_teleport = self._char.capabilities.can_teleport_with_charges and (not teleport_selected or self._char.is_low_on_teleport_charges())
         if need_repair or need_routine_repair or need_refill_teleport or sell_items:
             if need_repair:
                 Logger.info("Repair needed. Gear is about to break")

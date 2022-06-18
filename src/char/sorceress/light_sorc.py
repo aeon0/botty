@@ -1,5 +1,7 @@
 import keyboard
 from char.sorceress import Sorceress
+from ui.skills import SkillName
+from utils import hotkeys
 from utils.custom_mouse import mouse
 from logger import Logger
 from utils.misc import wait, rotate_vec, unit_vector
@@ -16,9 +18,9 @@ class LightSorc(Sorceress):
         super().__init__(*args, **kwargs)
 
     def _chain_lightning(self, cast_pos_abs: tuple[float, float], delay: tuple[float, float] = (0.2, 0.3), spray: int = 10):
-        keyboard.send(Config().char["stand_still"], do_release=False)
-        if self._skill_hotkeys["chain_lightning"]:
-            keyboard.send(self._skill_hotkeys["chain_lightning"])
+        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_release=False)
+        if SkillName.ChainLightning in hotkeys.right_skill_key_map:
+            keyboard.send(hotkeys.right_skill_map[SkillName.ChainLightning])
         for _ in range(4):
             x = cast_pos_abs[0] + (random.random() * 2 * spray - spray)
             y = cast_pos_abs[1] + (random.random() * 2 * spray - spray)
@@ -27,12 +29,12 @@ class LightSorc(Sorceress):
             mouse.press(button="left")
             wait(delay[0], delay[1])
             mouse.release(button="left")
-        keyboard.send(Config().char["stand_still"], do_press=False)
+        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_release=False)
 
     def _lightning(self, cast_pos_abs: tuple[float, float], delay: tuple[float, float] = (0.2, 0.3), spray: float = 10):
-        if not self._skill_hotkeys["lightning"]:
+        if SkillName.Lightning not in hotkeys.right_skill_key_map:
             raise ValueError("You did not set lightning hotkey!")
-        keyboard.send(self._skill_hotkeys["lightning"])
+        keyboard.send(hotkeys.right_skill_map[SkillName.Lightning])
         for _ in range(3):
             x = cast_pos_abs[0] + (random.random() * 2 * spray - spray)
             y = cast_pos_abs[1] + (random.random() * 2 * spray - spray)
@@ -43,8 +45,8 @@ class LightSorc(Sorceress):
             mouse.release(button="right")
 
     def _frozen_orb(self, cast_pos_abs: tuple[float, float], delay: tuple[float, float] = (0.2, 0.3), spray: float = 10):
-        if self._skill_hotkeys["frozen_orb"]:
-            keyboard.send(self._skill_hotkeys["frozen_orb"])
+        if SkillName.FrozenOrb in hotkeys.right_skill_key_map:
+            keyboard.send(hotkeys.right_skill_map[SkillName.FrozenOrb])
             for _ in range(3):
                 x = cast_pos_abs[0] + (random.random() * 2 * spray - spray)
                 y = cast_pos_abs[1] + (random.random() * 2 * spray - spray)
@@ -75,7 +77,7 @@ class LightSorc(Sorceress):
         wait(self._cast_duration, self._cast_duration + 0.2)
         pos_m = convert_abs_to_monitor((70, -200))
         self.pre_move()
-        self.move(pos_m, force_move=True)        
+        self.move(pos_m, force_move=True)
         self._pather.traverse_nodes(Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END)
         return True
 

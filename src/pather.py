@@ -5,6 +5,8 @@ import os
 import random
 import cv2
 import numpy as np
+from ui.skills import SkillName, select_tp
+from utils import hotkeys
 from utils.custom_mouse import mouse
 from utils.misc import wait # for stash/shrine tele cancel detection in traverse node
 from utils.misc import is_in_roi
@@ -501,7 +503,7 @@ class Pather:
         return (rel_loc[0] + pos_abs[0], rel_loc[1] + pos_abs[1])
 
     def traverse_nodes_fixed(self, key: str | list[tuple[float, float]], char: IChar) -> bool:
-        if "teleport" not in self._hotkeys["right"]:
+        if SkillName.Teleport not in hotkeys.right_skill_key_map:
             error_msg = "Teleport is required for static pathing"
             Logger.error(error_msg)
             raise ValueError(error_msg)
@@ -591,7 +593,7 @@ class Pather:
         else:
             Logger.debug(f"Traverse: {path}")
 
-        if use_tp_charge and char.select_teleport():
+        if use_tp_charge and select_tp(hotkeys.right_skill_key_map[SkillName.Teleport]):
             # this means we want to use tele charge and we were able to select it
             pass
         elif do_pre_move:

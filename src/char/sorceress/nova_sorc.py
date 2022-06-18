@@ -2,6 +2,8 @@ import keyboard
 import time
 import numpy as np
 from char.sorceress import Sorceress
+from ui.skills import SkillName
+from utils import hotkeys
 from utils.custom_mouse import mouse
 from logger import Logger
 from utils.misc import wait
@@ -18,9 +20,9 @@ class NovaSorc(Sorceress):
         self._pather.offset_node(149, (70, 10))
 
     def _nova(self, time_in_s: float):
-        if not self._skill_hotkeys["nova"]:
+        if SkillName.Nova in hotkeys.right_skill_key_map:
             raise ValueError("You did not set nova hotkey!")
-        keyboard.send(self._skill_hotkeys["nova"])
+        keyboard.send(hotkeys.right_skill_map[SkillName.Nova])
         wait(0.05, 0.1)
         start = time.time()
         while (time.time() - start) < time_in_s:

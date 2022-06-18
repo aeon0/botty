@@ -6,7 +6,9 @@ import template_finder
 from inventory import common, personal
 from ui import view
 from ui_manager import is_visible, wait_until_visible, ScreenObjects, wait_until_hidden
+from utils import hotkeys
 from utils.custom_mouse import mouse
+from utils.hotkeys import HotkeyName
 from utils.misc import cut_roi, wait, color_filter
 from config import Config
 from screen import convert_abs_to_monitor, convert_monitor_to_screen, convert_screen_to_monitor, grab
@@ -77,13 +79,14 @@ def drink_potion(potion_type: str, merc: bool = False, stats: list = []) -> bool
     for i in range(4):
         potion_img = _cut_potion_img(img, i, 0)
         if _potion_type(potion_img) == potion_type:
-            key = f"potion{i+1}"
+            key = f"UseBelt{i+1}"
+            hotkey_name = HotkeyName(key)
             if merc:
                 Logger.debug(f"Give {potion_type} potion in slot {i+1} to merc. HP: {(stats[0]*100):.1f}%")
-                keyboard.send(f"left shift + {Config().char[key]}")
+                keyboard.send(f"left shift + {hotkeys.d2r_keymap[hotkey_name]}")
             else:
                 Logger.debug(f"Drink {potion_type} potion in slot {i+1}. HP: {(stats[0]*100):.1f}%, Mana: {(stats[1]*100):.1f}%")
-                keyboard.send(Config().char[key])
+                keyboard.send(hotkeys.d2r_keymap[hotkey_name])
             consumables.increment_need(potion_type, 1)
             return True
     return False
@@ -115,9 +118,10 @@ def update_pot_needs():
             rows_left[potion_type] -= 1
             if rows_left[potion_type] < 0:
                 rows_left[potion_type] += 1
-                key = f"potion{column+1}"
+                key = f"UseBelt{column+1}"
+                key_name = HotkeyName(key)
                 for _ in range(5):
-                    keyboard.send(Config().char[key])
+                    keyboard.send(hotkeys.d2r_keymap[key_name])
                     wait(0.2, 0.3)
     # calc how many potions are needed
     img = grab()

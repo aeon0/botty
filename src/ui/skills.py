@@ -1,15 +1,173 @@
+from enum import Enum
 import keyboard
-from debug import get_selected_skill
 from logger import Logger
 import cv2
 import time
 import numpy as np
+from utils import hotkeys
 from utils.misc import cut_roi, color_filter, wait
 from screen import grab
 from config import Config
 import template_finder
 from ui_manager import wait_until_visible, ScreenObjects
 from d2r_image import ocr
+
+class SkillName(str, Enum):
+    Attack = 'attack',
+    TownPortal = 'town_portal',
+    Unsummon = 'unsummon',
+    Throw = 'throw',
+    # Sorceress
+    ## Cold
+    IceBolt = 'ice_bolt',
+    FrozenArmor = 'frozen_armor',
+    FrostNova = 'frost_nova',
+    IceBlast = 'ice_blast',
+    ShiverArmor = 'shiver_armor',
+    GlacialSpike = 'glacial_spike',
+    Blizzard = 'blizzard',
+    ChillingArmor = 'chilling_armor',
+    FrozenOrb = 'frozen_orb',
+    ## Lightning
+    ChargedBolt = 'charged_bolt',
+    StaticField = 'static_field',
+    Telekinesis = 'telekinesis',
+    Nova = 'nova',
+    Lightning = 'lightning',
+    ChainLightning = 'chain_lightning',
+    Teleport = 'teleport',
+    ThunderStorm = 'thunder_storm',
+    EnergyShield = 'energy_shield',
+    ## Fire
+    FireBolt = 'fire_bolt',
+    Inferno = 'inferno',
+    Blaze = 'blaze',
+    Fireball = 'fireball',
+    FireWall = 'fire_wall',
+    Enchant = 'enchant',
+    Meteor = 'meteor',
+    Hydra = 'hydra'
+    # Paladin
+    ## Defensive
+    Prayer = 'prayer',
+    ResistFire = 'resist_fire',
+    Defiance = 'defiance',
+    ResistCold = 'resist_cold',
+    Cleansing = 'cleansing',
+    ResistLightning = 'resist_lightning',
+    Vigor = 'vigor',
+    Meditation = 'meditation',
+    Redemption = 'redemption',
+    Salvation = 'salvation',
+    ## Offensive
+    Might = 'might',
+    HolyFire = 'holy_fire',
+    Thorns = 'thorns',
+    BlessedAim = 'blessed_aim',
+    Concentration = 'concentration',
+    HolyFreeze = 'holy_freeze',
+    HolyShock = 'holy_shock',
+    Sanctuary = 'sanctuary',
+    Fanaticism = 'fanaticism',
+    Conviction = 'conviction',
+    ## Combat
+    Sacrifice = 'sacrifice',
+    Smite = 'smite',
+    HolyBolt = 'holy_bolt',
+    Zeal = 'zeal',
+    Charge = 'charge',
+    Vengeance = 'vengeance',
+    BlessedHammer = 'blessed_hammer',
+    Conversion = 'conversion',
+    HolyShield = 'holy_shield',
+    FistOfTheHeavens = 'fist_of_the_heavens'
+    # Barbarian
+    ## Warcries
+    Howl = 'howl',
+    FindPotion = 'find_potion',
+    Taunt = 'taunt',
+    Shout = 'shout',
+    FindItem = 'find_item',
+    BattleCry = 'battle_cry',
+    BattleOrders = 'battle_orders',
+    GrimWard = 'grim_ward',
+    WarCry = 'war_cry',
+    BattleCommand = 'battle_command',
+    ## Combat
+    Bash = 'bash',
+    Leap = 'leap',
+    DoubleSwing = 'double_swing',
+    Stun = 'stun',
+    DoubleThrow = 'double_throw',
+    LeapAttack = 'leap_attack',
+    Concentrate = 'concentrate',
+    Frenzy = 'frenzy',
+    Whirlwind = 'whirlwind',
+    Berserk = 'berserk'
+    # Necromancer
+    ## Summoning
+    RaiseSkeleton = 'raise_skeleton',
+    ClayGolem = 'clay_golem',
+    RaiseSkeletalMage = 'raise_skeletal_mage',
+    BloodGolem = 'blood_golem',
+    IronGolem = 'iron_golem',
+    FireGolem = 'fire_golem',
+    Revive = 'revive',
+    ## Poison and Bone
+    Teeth = 'teeth',
+    BoneArmor = 'bone_armor',
+    PoisonDagger = 'poison_dagger',
+    CorpseExplosion = 'corpse_explosion',
+    BoneWall = 'bone_wall',
+    PosionExplosion = 'poison_explosion',
+    BoneSpear = 'bone_spear',
+    BonePrison = 'bone_prison',
+    PoisonNova = 'poison_nova',
+    BoneSpirit = 'bone_spirit',
+    ## Curses
+    AmplifyDamage = 'amplify_damage',
+    DimVision = 'dim_vision',
+    Weaken = 'weaken',
+    IronMaiden = 'iron_maiden',
+    Terror = 'terror',
+    Confuse = 'confuse',
+    LifeTap = 'life_tap',
+    Attract = 'attract',
+    Decrepify = 'decrepify',
+    LowerResist = 'lower_resist'
+    # Assassin
+    ## Martial Arts
+    TigerStrike = 'tiger_strike',
+    DragonTalon = 'dragon_talon',
+    FistsOfFire = 'fists_of_fire',
+    DragonClaw = 'dragon_claw',
+    CobraStrike = 'cobra_strike',
+    ClawsOfThunder = 'claws_of_thunder',
+    DragonTail = 'dragon_tail',
+    BladesOfIce = 'blades_of_ice',
+    DragonFlight = 'dragon_flight',
+    PhoenixStrike = 'phoenix_strike',
+    ## Shadow Disciplines
+    PsychicHammer = 'psychic_hammer',
+    BurstOfSpeed = 'burst_of_speed',
+    CloakOfShadows = 'cloak_of_shadows',
+    Fade = 'fade',
+    ShadowWarrior = 'shadow_warrior',
+    MindBlast = 'mind_blast',
+    Venom = 'venom',
+    ShadowMaster = 'shadow_master',
+    ## Traps
+    FireBlast = 'fire_blast',
+    ShockWeb = 'shock_web',
+    BladeSentinel = 'blade_sentinel',
+    ChargedBoltSentry = 'charged_bolt_sentry',
+    WakeOfFire = 'wake_of_fire',
+    BladeFury = 'blade_fury',
+    LightningSentry = 'lightning_sentry',
+    WakeOfInferno = 'wake_of_inferno',
+    DeathSentry = 'death_sentry',
+    BladeShield = 'blade_shield'
+
 
 def is_left_skill_selected(template_list: list[str]) -> bool:
     """
@@ -25,8 +183,8 @@ def has_tps() -> bool:
     """
     :return: Returns True if botty has town portals available. False otherwise
     """
-    if Config().char["town_portal"]:
-        keyboard.send(Config().char["town_portal"])
+    if SkillName.TownPortal in hotkeys.right_skill_key_map:
+        keyboard.send(hotkeys.right_skill_map[SkillName.TownPortal])
         if not (tps_remain := wait_until_visible(ScreenObjects.TownPortalSkill, timeout=4).valid):
             Logger.warning("You are out of tps")
             if Config().general["info_screenshots"]:
@@ -38,11 +196,11 @@ def has_tps() -> bool:
 def select_tp(tp_hotkey):
     templates = template_finder.get_cached_templates_in_dir('assets\\templates\\ui\\skills')
     right_skill = get_selected_skill(templates, grab(), Config().ui_roi["skill_right"])
-    if tp_hotkey and right_skill != "teleport":
+    if tp_hotkey and right_skill != SkillName.Teleport:
         keyboard.send(tp_hotkey)
         wait(0.1, 0.2)
     right_skill = get_selected_skill(templates, grab(), Config().ui_roi["skill_right"])
-    return right_skill == "teleport"
+    return right_skill == SkillName.Teleport
 
 def is_right_skill_active() -> bool:
     """
@@ -96,3 +254,19 @@ def get_skill_charges(img: np.ndarray = None):
         return int(ocr_result.text)
     except:
         return None
+
+def get_selected_skill(template_list: list[template_finder.Template], img: np.ndarray, roi) -> SkillName:
+    """
+    :return: 
+    """
+    matches = template_finder.search_all_templates(
+            template_list,
+            img,
+            threshold=0.9,
+            roi=roi,
+            use_grayscale=True)
+    if len(matches) > 0:
+        skill = SkillName(matches[0].name.lower())
+        if skill:
+            return skill
+    return None
