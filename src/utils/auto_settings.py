@@ -4,7 +4,7 @@ import shutil
 
 from config import Config
 from mss import mss
-from utils.misc import close_down_bnet_launcher, close_down_d2
+from utils.misc import close_down_bnet_launcher, close_down_d2, only_lowercase_letters
 
 
 def get_d2r_folder() -> str:
@@ -89,8 +89,13 @@ def set_launch_settings(launch_options):
         print(f"You might need to set the launch options manually. Add launch options to D2R in BNet launcher: {launch_options}")
 
 def copy_mod_files():
-    mod_name = Config().general["name"]
+    mod_name = only_lowercase_letters(Config().general["name"].lower())
+    if not mod_name:
+        mod_name = "botty"
     old_path = "assets/mods/botty"
+    if not os.path.exists(Config().general["d2r_path"]):
+        raise ValueError(f"Could not copy mod files because d2r_path {Config().general['d2r_path']} does not exist, please review your params.ini settings and set to your true D2R installation directory")
+
     new_path = os.path.join(Config().general['d2r_path'], f"mods/{mod_name}")
     os.makedirs(new_path, exist_ok=True)
     try:
