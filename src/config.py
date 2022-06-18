@@ -160,6 +160,7 @@ class Config:
             "inventory_screen": self._select_val("char", "inventory_screen"),
             "teleport": self._select_val("char", "teleport"),
             "stand_still": self._select_val("char", "stand_still"),
+            "use_charged_teleport": bool(int(self._select_val("char", "use_charged_teleport"))),
             "force_move": self._select_val("char", "force_move"),
             "num_loot_columns": int(self._select_val("char", "num_loot_columns")),
             "take_health_potion": float(self._select_val("char", "take_health_potion")),
@@ -305,7 +306,6 @@ class Config:
             "window_client_area_offset": tuple(map(int, Config()._select_val("advanced_options", "window_client_area_offset").split(","))),
             "ocr_during_pickit": bool(int(self._select_val("advanced_options", "ocr_during_pickit"))),
             "launch_options": self._select_val("advanced_options", "launch_options").replace("<name>", only_lowercase_letters(self.general["name"].lower())),
-            "override_capabilities": _default_iff(Config()._select_optional("advanced_options", "override_capabilities"), ""),
         }
 
         self.colors = {}

@@ -159,6 +159,12 @@ class ScreenObjects:
         best_match=True,
         threshold=0.79
     )
+    BarTownPortalSkill=ScreenObject(
+        ref=["BAR_TP_ACTIVE", "BAR_TP_INACTIVE"],
+        roi="active_skills_bar",
+        best_match=True,
+        threshold=0.79
+    )
     RepairBtn=ScreenObject(
         ref="REPAIR_BTN",
         roi="repair_btn",

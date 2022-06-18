@@ -7,7 +7,7 @@ from utils.misc import cut_roi, color_filter, wait
 from screen import grab
 from config import Config
 import template_finder
-from ui_manager import wait_until_visible, ScreenObjects
+from ui_manager import is_visible, wait_until_visible, ScreenObjects
 from d2r_image import ocr
 
 RIGHT_SKILL_ROI = [
@@ -32,8 +32,7 @@ def has_tps() -> bool:
     :return: Returns True if botty has town portals available. False otherwise
     """
     if Config().char["town_portal"]:
-        keyboard.send(Config().char["town_portal"])
-        if not (tps_remain := wait_until_visible(ScreenObjects.TownPortalSkill, timeout=4).valid):
+        if not (tps_remain := is_visible(ScreenObjects.BarTownPortalSkill)):
             Logger.warning("You are out of tps")
             if Config().general["info_screenshots"]:
                 cv2.imwrite("./log/screenshots/info/debug_out_of_tps_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())

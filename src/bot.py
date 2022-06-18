@@ -264,7 +264,8 @@ class Bot:
             view.pickup_corpse()
             wait_until_hidden(ScreenObjects.Corpse)
             belt.fill_up_belt_from_inventory(Config().char["num_loot_columns"])
-        self._char.discover_capabilities()
+        if self._char.capabilities is None or not self._char.capabilities.can_teleport_natively:
+            self._char.discover_capabilities()
         if corpse_present and self._char.capabilities.can_teleport_with_charges and not self._char.select_teleport():
             keybind = Config().char["teleport"]
             Logger.info(f"Teleport keybind is lost upon death. Rebinding teleport to '{keybind}'")

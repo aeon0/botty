@@ -20,8 +20,6 @@ from utils.misc import wait, cut_roi, is_in_roi, color_filter, arc_spread
 import template_finder
 
 class IChar:
-    _CrossGameCapabilities: None | CharacterCapabilities = None
-
     def __init__(self, skill_hotkeys: dict):
         self._active_aura = ""
         # Add a bit to be on the save side
@@ -34,7 +32,6 @@ class IChar:
         self._skill_hotkeys = skill_hotkeys
         self._standing_still = False
         self.default_move_skill = ""
-        self.capabilities = None
         self.damage_scaling = float(Config().char.get("damage_scaling", 1.0))
         self._use_safer_routines = Config().char["safer_routines"]
         self._base_class = ""
@@ -100,6 +97,24 @@ class IChar:
         return hotkey
 
     """
+    CAPABILITIES METHODS
+    """
+
+
+
+    def can_teleport(self) -> bool:
+        if Config().char["use_charged_teleport"]:
+            if not self._get_hotkey("teleport"):
+                raise Exception("No hotkey for teleport even though param.ini 'use_charged_teleport' is set to True")
+            else:
+
+
+
+
+
+        return (self.capabilities.can_teleport_natively or self.capabilities.can_teleport_with_charges) and self.select_teleport() and skills.is_right_skill_active()
+
+    """
     SKILL / CASTING METHODS
     """
 
@@ -162,34 +177,57 @@ class IChar:
 
     def _cast_left_with_aura(self, skill_name: str, cast_pos_abs: tuple[float, float] = None, spray: int = 0, duration: float | list | tuple | None = None, aura: str = "") -> bool:
         """
-        Casts a skill with an aura active
+        Casts a skill at given position with an aura active
         """
         #self._log_cast(skill_name, cast_pos_abs, spray, duration, aura)
         if aura:
             self._activate_aura(aura)
         return self._cast_at_position(skill_name=skill_name, cast_pos_abs=cast_pos_abs, spray=spray, mouse_click_type="left", duration=duration)
 
+    def _remap_skill_hotkey(self, skill_asset, hotkey, skill_roi, expanded_skill_roi) -> bool:
+        x, y, w, h = skill_roi
+        x, y = convert_screen_to_monitor((x, y))
+        mouse.move(x + w/2, y + h / 2)
+        self._click_left()
+        wait(0.3)
+        match = template_finder.search(skill_asset, grab(), threshold=0.84, roi=expanded_skill_roi)
+        if match.valid:
+            mouse.move(*match.center_monitor)
+            wait(0.3)
+            keyboard.send(hotkey)
+            wait(0.3)
+            self._click_left()
+            wait(0.3)
+            return True
+        return False
 
-    def select_skill(self, skill: str, mouse_click_type: str = "left", delay: float | list | tuple = None) -> bool:
-        return self._select_skill(skill, mouse_click_type, delay)
+    def remap_right_skill_hotkey(self, skill_asset, hotkey) -> bool:
+        return self._remap_skill_hotkey(skill_asset, hotkey, Config().ui_roi["skill_right"], Config().ui_roi["skill_right_expanded"])
+
+    """
+    GLOBAL SKILLS
+    """
 
     def _cast_teleport(self) -> bool:
-        return self._cast_simple(skill_name="teleport", mouse_click_type="right")
+        return self._cast_simple(skill_name="teleport")
 
     def _cast_battle_orders(self) -> bool:
-        return self._cast_simple(skill_name="battle_orders", mouse_click_type="right")
+        return self._cast_simple(skill_name="battle_orders")
 
     def _cast_battle_command(self) -> bool:
-        return self._cast_simple(skill_name="battle_command", mouse_click_type="right")
+        return self._cast_simple(skill_name="battle_command")
 
     def _cast_town_portal(self) -> bool:
-        if res := self._cast_simple(skill_name="town_portal", mouse_click_type="right"):
+        if res := self._cast_simple(skill_name="town_portal"):
             consumables.increment_need("tp", 1)
         return res
 
-    @staticmethod
-    def _weapon_switch():
-        keyboard.send(Config().char["weapon_switch"])
+    def _weapon_switch(self):
+        return self._keypress(self._get_hotkey("weapon_switch"))
+
+    """
+    CHARACTER ACTIONS AND MOVEMENT METHODS
+    """
 
     def _stand_still(self, enable: bool):
         if enable:
@@ -200,38 +238,6 @@ class IChar:
             if self._standing_still:
                 keyboard.send(Config().char["stand_still"], do_press=False)
                 self._standing_still = False
-
-    def _discover_capabilities(self) -> CharacterCapabilities:
-        override = Config().advanced_options["override_capabilities"]
-        if override is None:
-            if Config().char["teleport"]:
-                if self.select_teleport():
-                    if skills.skill_is_charged():
-                        return CharacterCapabilities(can_teleport_natively=False, can_teleport_with_charges=True)
-                    else:
-                        return CharacterCapabilities(can_teleport_natively=True, can_teleport_with_charges=False)
-                return CharacterCapabilities(can_teleport_natively=False, can_teleport_with_charges=True)
-            else:
-                return CharacterCapabilities(can_teleport_natively=False, can_teleport_with_charges=False)
-        elif override == "walk":
-            Logger.debug(f"override_capabilities is set to {override}")
-            return CharacterCapabilities(can_teleport_natively=False, can_teleport_with_charges=False)
-        else:
-            Logger.debug(f"override_capabilities is set to {override}")
-            return CharacterCapabilities(
-                can_teleport_natively="can_teleport_natively" in override,
-                can_teleport_with_charges="can_teleport_with_charges" in override
-            )
-
-    def discover_capabilities(self, force = False):
-        if IChar._CrossGameCapabilities is None or force:
-            capabilities = self._discover_capabilities()
-            self.capabilities = capabilities
-        Logger.info(f"Capabilities: {self.capabilities}")
-        self.on_capabilities_discovered(self.capabilities)
-
-    def on_capabilities_discovered(self, capabilities: CharacterCapabilities):
-        pass
 
     def pick_up_item(self, pos: tuple[float, float], item_name: str = None, prev_cast_start: float = 0) -> float:
         mouse.move(pos[0], pos[1])
@@ -275,33 +281,11 @@ class IChar:
         Logger.error(f"Wanted to select {template_type}, but could not find it")
         return False
 
-    def _remap_skill_hotkey(self, skill_asset, hotkey, skill_roi, expanded_skill_roi) -> bool:
-        x, y, w, h = skill_roi
-        x, y = convert_screen_to_monitor((x, y))
-        mouse.move(x + w/2, y + h / 2)
-        self._click_left()
-        wait(0.3)
-        match = template_finder.search(skill_asset, grab(), threshold=0.84, roi=expanded_skill_roi)
-        if match.valid:
-            mouse.move(*match.center_monitor)
-            wait(0.3)
-            keyboard.send(hotkey)
-            wait(0.3)
-            self._click_left()
-            wait(0.3)
-            return True
-        return False
-
-    def remap_right_skill_hotkey(self, skill_asset, hotkey) -> bool:
-        return self._remap_skill_hotkey(skill_asset, hotkey, Config().ui_roi["skill_right"], Config().ui_roi["skill_right_expanded"])
-
     def select_teleport(self) -> bool:
         if not self._select_skill("teleport", "right", delay = [0.15, 0.2]):
             return False
         return skills.is_right_skill_selected(["TELE_ACTIVE", "TELE_INACTIVE"])
 
-    def can_teleport(self) -> bool:
-        return (self.capabilities.can_teleport_natively or self.capabilities.can_teleport_with_charges) and self.select_teleport() and skills.is_right_skill_active()
 
     def pre_move(self):
         pass
@@ -311,7 +295,7 @@ class IChar:
         start=time.perf_counter()
         if use_tp and self.can_teleport(): # can_teleport() activates teleport hotkey if True
             mouse.move(pos_monitor[0], pos_monitor[1], randomize=3, delay_factor=[factor*0.1, factor*0.14])
-            self._cast_simple(skill_name="teleport", mouse_click_type="right")
+            self._cast_simple(skill_name="teleport")
             min_wait = get_cast_wait_time(self._base_class, "teleport", Config().char["fcr"])
             wait(self._cast_duration, self._cast_duration + 0.02)
         else:
@@ -400,7 +384,7 @@ class IChar:
         while time.time() - start < 4:
             self._weapon_switch()
             wait(0.3, 0.35)
-            self._select_skill(skill = "battle_command", mouse_click_type="right", delay=(0.1, 0.2))
+            self._select_skill(skill = "battle_command", delay=(0.1, 0.2))
             if skills.is_right_skill_selected(["BC", "BO"]):
                 switch_success = True
                 break
@@ -444,7 +428,7 @@ class IChar:
         if not self._skill_hotkeys[ability]:
             raise ValueError(f"You did not set {ability} hotkey!")
         self._stand_still(True)
-        self._select_skill(skill = ability, mouse_click_type="right", delay=(0.02, 0.08))
+        self._select_skill(skill = ability, delay=(0.02, 0.08))
 
         target = self.vec_to_monitor(arc_spread(cast_pos_abs, spread_deg=spread_deg))
         mouse.move(*target,delay_factor=[0.95, 1.05])
