@@ -1,8 +1,8 @@
 import keyboard
-from ui import skills
+from ui.skills import SkillName, is_left_skill_selected, is_right_skill_active
+from utils import hotkeys
 from utils.custom_mouse import mouse
 from char import IChar, CharacterCapabilities
-import template_finder
 from pather import Pather
 from logger import Logger
 from screen import convert_abs_to_monitor
@@ -24,10 +24,10 @@ class Barbarian(IChar):
         #  keyboard.send(self._skill_hotkeys["concentration"])
         #  wait(0.05, 0.1)
         cry_frequency = min(0.2, self._skill_hotkeys["cry_frequency"])
-        keyboard.send(Config().char["stand_still"], do_release=False)
+        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_release=False)
         wait(0.05, 0.1)
-        if self._skill_hotkeys["war_cry"]:
-            keyboard.send(self._skill_hotkeys["war_cry"])
+        if SkillName.WarCry in hotkeys.right_skill_key_map:
+            keyboard.send(hotkeys.right_skill_map[SkillName.WarCry])
         wait(0.05, 0.1)
         start = time.time()
         while (time.time() - start) < time_in_s:
@@ -36,7 +36,7 @@ class Barbarian(IChar):
             wait(cry_frequency, cry_frequency + 0.2)
             mouse.click(button="right")
         wait(0.01, 0.05)
-        keyboard.send(Config().char["stand_still"], do_press=False)
+        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_release=False)
 
     def on_capabilities_discovered(self, capabilities: CharacterCapabilities):
         if capabilities.can_teleport_natively:
@@ -44,8 +44,8 @@ class Barbarian(IChar):
 
     def _do_hork(self, hork_time: int):
         wait(0.5)
-        if self._skill_hotkeys["find_item"]:
-            keyboard.send(self._skill_hotkeys["find_item"])
+        if SkillName.FindItem in hotkeys.right_skill_key_map:
+            keyboard.send(hotkeys.right_skill_map[SkillName.FindItem])
             wait(0.5, 0.15)
         pos_m = convert_abs_to_monitor((0, -20))
         mouse.move(*pos_m)
@@ -56,15 +56,15 @@ class Barbarian(IChar):
         wait(1)
 
     def pre_buff(self):
-        keyboard.send(Config().char["battle_command"])
+        keyboard.send(hotkeys.right_skill_map[SkillName.BattleCommand])
         wait(0.08, 0.19)
         mouse.click(button="right")
         wait(self._cast_duration + 0.08, self._cast_duration + 0.1)
-        keyboard.send(Config().char["battle_orders"])
+        keyboard.send(hotkeys.right_skill_map[SkillName.BattleOrders])
         wait(0.08, 0.19)
         mouse.click(button="right")
         wait(self._cast_duration + 0.08, self._cast_duration + 0.1)
-        keyboard.send(self._skill_hotkeys["shout"])
+        keyboard.send(hotkeys.right_skill_map[SkillName.Shout])
         wait(0.08, 0.19)
         mouse.click(button="right")
         wait(self._cast_duration + 0.08, self._cast_duration + 0.1)
@@ -73,10 +73,10 @@ class Barbarian(IChar):
         # select teleport if available
         super().pre_move()
         # in case teleport hotkey is not set or teleport can not be used, use leap if set
-        should_cast_leap = self._skill_hotkeys["leap"] and not skills.is_left_skill_selected(["LEAP"])
-        can_teleport = self.capabilities.can_teleport_natively and skills.is_right_skill_active()
+        should_cast_leap = SkillName.Leap in hotkeys.right_skill_key_map and not is_left_skill_selected(SkillName.Leap.value)
+        can_teleport = self.capabilities.can_teleport_natively and is_right_skill_active()
         if  should_cast_leap and not can_teleport:
-            keyboard.send(self._skill_hotkeys["leap"])
+            keyboard.send(hotkeys.right_skill_map[SkillName.Leap])
             wait(0.15, 0.25)
 
     def _move_and_attack(self, abs_move: tuple[int, int], atk_len: float):

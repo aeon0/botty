@@ -4,6 +4,7 @@ import time
 import keyboard
 from ui_manager import ScreenObjects, is_visible
 from ui import view, loading
+from utils import hotkeys
 from utils.misc import set_d2r_always_on_top
 
 class GameRecovery:
@@ -14,9 +15,9 @@ class GameRecovery:
         set_d2r_always_on_top()
         time.sleep(1)
         # clean up key presses that might be pressed in the run_thread
-        keyboard.release(Config().char["stand_still"])
+        keyboard.release(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill])
         time.sleep(0.1)
-        keyboard.release(Config().char["show_items"])
+        keyboard.release(hotkeys.d2r_keymap[hotkeys.HotkeyName.ShowItems])
         start = time.time()
         while (time.time() - start) < 30:
             # make sure we are not on loading screen

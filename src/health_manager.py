@@ -3,6 +3,7 @@ from pather import Location
 import cv2
 import time
 import keyboard
+from utils import hotkeys
 from utils.custom_mouse import mouse
 from utils.misc import wait
 from logger import Logger
@@ -69,8 +70,8 @@ class HealthManager:
             self._callback()
             self._callback = None
         # clean up key presses that might be pressed in the run_thread
-        keyboard.release(Config().char["stand_still"])
-        keyboard.release(Config().char["show_items"])
+        keyboard.release(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill])
+        keyboard.release(hotkeys.d2r_keymap[hotkeys.HotkeyName.ShowItems])
         mouse.release(button="left")
         mouse.release(button="right")
         view.save_and_exit()

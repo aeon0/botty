@@ -1,6 +1,8 @@
 import time
 import keyboard
 from char.sorceress import Sorceress
+from ui.skills import SkillName
+from utils import hotkeys
 from utils.custom_mouse import mouse
 from logger import Logger
 from utils.misc import wait
@@ -13,12 +15,17 @@ class HydraSorc(Sorceress):
     def __init__(self, *args, **kwargs):
         Logger.info("Setting up HydraSorc Sorc")
         super().__init__(*args, **kwargs)
-        self._hydra_time = None        
+        self._hydra_time = None
 
     def _alt_attack(self, cast_pos_abs: tuple[float, float], delay: tuple[float, float] = (0.16, 0.23), spray: float = 10):
-        keyboard.send(Config().char["stand_still"], do_release=False)
-        if self._skill_hotkeys["alt_attack"]:
-            keyboard.send(self._skill_hotkeys["alt_attack"])
+        alt_skill = SkillName.Fireball if SkillName.Fireball in hotkeys.right_skill_key_map else \
+            SkillName.Lightning if SkillName.Lightning in hotkeys.right_skill_key_map else \
+            SkillName.FrozenOrb if SkillName.FrozenOrb in hotkeys.right_skill_key_map else \
+            None
+        if not alt_skill:
+            return
+        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_release=False)
+        keyboard.send(alt_skill)
         for _ in range(5):
             x = cast_pos_abs[0] + (random.random() * 2 * spray - spray)
             y = cast_pos_abs[1] + (random.random() * 2 * spray - spray)
@@ -27,21 +34,21 @@ class HydraSorc(Sorceress):
             mouse.press(button="right")
             wait(delay[0], delay[1])
             mouse.release(button="right")
-        keyboard.send(Config().char["stand_still"], do_press=False)
+        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_release=False)
 
     def _hydra(self, cast_pos_abs: tuple[float, float], spray: float = 10):
         if self._hydra_time is None or time.time() - self._hydra_time > 10:
-            if not self._skill_hotkeys["hydra"]:
+            if SkillName.Hydra not in hotkeys.right_skill_key_map:
                 raise ValueError("You did not set a hotkey for hydra!")
-            keyboard.send(self._skill_hotkeys["hydra"])
-            self._hydra_time = time.time()            
+            keyboard.send(hotkeys.right_skill_map[SkillName.Hydra])
+            self._hydra_time = time.time()
             x = cast_pos_abs[0] + (random.random() * 2 * spray - spray)
             y = cast_pos_abs[1] + (random.random() * 2 * spray - spray)
             cast_pos_monitor = convert_abs_to_monitor((x, y))
             mouse.move(*cast_pos_monitor)
             mouse.press(button="right")
             wait(2,3)
-            mouse.release(button="right")        
+            mouse.release(button="right")
 
     def kill_pindle(self) -> bool:
         pindle_pos_abs = convert_screen_to_abs(Config().path["pindle_end"][0])

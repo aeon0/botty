@@ -6,6 +6,8 @@ import numpy as np
 from health_manager import get_panel_check_paused, set_panel_check_paused
 from inventory.personal import inspect_items
 from screen import convert_abs_to_monitor, convert_screen_to_abs, grab, convert_abs_to_screen
+from ui.skills import SkillName
+from utils import hotkeys
 from utils.custom_mouse import mouse
 from char.paladin import Paladin
 from logger import Logger
@@ -21,17 +23,17 @@ class FoHdin(Paladin):
         self._pather.adapt_path((Location.A3_TRAV_START, Location.A3_TRAV_CENTER_STAIRS), [220, 221, 222, 903, 904, 905, 906])
 
 
-    def _cast_foh(self, cast_pos_abs: tuple[float, float], spray: int = 10, min_duration: float = 0, aura: str = "conviction"):
-        return self._cast_skill_with_aura(skill_name = "foh", cast_pos_abs = cast_pos_abs, spray = spray, min_duration = min_duration, aura = aura)
+    def _cast_foh(self, cast_pos_abs: tuple[float, float], spray: int = 10, min_duration: float = 0, aura: SkillName = SkillName.Conviction):
+        return self._cast_skill_with_aura(skill_name = SkillName.FistOfTheHeavens, cast_pos_abs = cast_pos_abs, spray = spray, min_duration = min_duration, aura = aura)
 
-    def _cast_holy_bolt(self, cast_pos_abs: tuple[float, float], spray: int = 10, min_duration: float = 0, aura: str = "concentration"):
+    def _cast_holy_bolt(self, cast_pos_abs: tuple[float, float], spray: int = 10, min_duration: float = 0, aura: SkillName = SkillName.Concentration):
         #if skill is bound : concentration, use concentration, otherwise move on with conviction. alternatively use redemption whilst holybolting. conviction does not help holy bolt (its magic damage)
-        return self._cast_skill_with_aura(skill_name = "holy_bolt", cast_pos_abs = cast_pos_abs, spray = spray, min_duration = min_duration, aura = aura)
+        return self._cast_skill_with_aura(skill_name = SkillName.HolyBolt, cast_pos_abs = cast_pos_abs, spray = spray, min_duration = min_duration, aura = aura)
 
-    def _cast_hammers(self, min_duration: float = 0, aura: str = "concentration"): #for nihlathak
-        return self._cast_skill_with_aura(skill_name = "blessed_hammer", spray = 0, min_duration = min_duration, aura = aura)
+    def _cast_hammers(self, min_duration: float = 0, aura: SkillName = SkillName.Concentration): #for nihlathak
+        return self._cast_skill_with_aura(skill_name = SkillName.BlessedHammer, spray = 0, min_duration = min_duration, aura = aura)
 
-    def _move_and_attack(self, abs_move: tuple[int, int], atk_len: float, aura: str = "concentration"): #for nihalthak
+    def _move_and_attack(self, abs_move: tuple[int, int], atk_len: float, aura: SkillName = SkillName.Concentration): #for nihalthak
         pos_m = convert_abs_to_monitor(abs_move)
         self.pre_move()
         self.move(pos_m, force_move=True)
@@ -49,8 +51,8 @@ class FoHdin(Paladin):
     ) -> bool:
         start = time.time()
         target_check_count = 1
-        foh_aura = aura if aura else "conviction"
-        holy_bolt_aura = aura if aura else "concentration"
+        foh_aura = aura if aura else SkillName.Conviction
+        holy_bolt_aura = aura if aura else SkillName.Concentration
         while (elapsed := (time.time() - start)) <= max_duration:
             cast_pos_abs = default_target_abs
             spray = default_spray
@@ -108,7 +110,7 @@ class FoHdin(Paladin):
             if not self._pather.traverse_nodes([103], self, timeout=1.0, do_pre_move=False, force_move=True, force_tp=False, use_tp_charge=False):
                 return False
         else:
-            keyboard.send(self._skill_hotkeys["conviction"])
+            keyboard.send(hotkeys.right_skill_map[SkillName.Conviction])
             wait(0.15)
             self._pather.traverse_nodes([103], self, timeout=1.0, do_pre_move=False)
 
@@ -118,7 +120,7 @@ class FoHdin(Paladin):
         if self.capabilities.can_teleport_natively:
             self._pather.traverse_nodes_fixed("pindle_end", self)
         else:
-            keyboard.send(self._skill_hotkeys["redemption"])
+            keyboard.send(hotkeys.right_skill_map[SkillName.Redemption])
             wait(0.15)
             self._pather.traverse_nodes((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, timeout=1.0, do_pre_move=False)
 
@@ -132,7 +134,7 @@ class FoHdin(Paladin):
     def kill_council(self) -> bool:
         atk_len_dur = float(Config().char["atk_len_trav"])
 
-        keyboard.send(self._skill_hotkeys["conviction"])
+        keyboard.send(hotkeys.right_skill_map[SkillName.Conviction])
         wait(.15)
         # traverse to nodes and attack
         nodes = [225, 226, 300]
@@ -173,13 +175,13 @@ class FoHdin(Paladin):
         atk_len_dur = float(Config().char["atk_len_shenk"])
 
         # traverse to shenk
-        keyboard.send(self._skill_hotkeys["conviction"])
+        keyboard.send(hotkeys.right_skill_map[SkillName.Conviction])
         wait(0.15)
         self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, timeout=1.0, do_pre_move=False, force_tp=True, use_tp_charge=True)
         wait(0.05, 0.1)
 
         # bypass mob detect first
-        self._cast_foh((0, 0), spray=11, min_duration = 2, aura = "conviction")
+        self._cast_foh((0, 0), spray=11, min_duration = 2, aura = SkillName.Conviction)
         # then do generic mob detect sequence
         diff = atk_len_dur if atk_len_dur <= 2 else (atk_len_dur - 2)
         self._generic_foh_attack_sequence(min_duration=atk_len_dur - diff, max_duration=atk_len_dur*3 - diff, default_spray=10, target_detect=False)
@@ -192,14 +194,14 @@ class FoHdin(Paladin):
         atk_len_dur = Config().char["atk_len_nihlathak"]
         # Move close to nihlathak
         self._pather.traverse_nodes(end_nodes, self, timeout=0.8, do_pre_move=False)
-        if self._select_skill("blessed_hammer"):
+        if self._select_skill(SkillName.BlessedHammer):
             self._cast_hammers(atk_len_dur/4)
-            self._cast_hammers(2*atk_len_dur/4, "redemption")
-            self._move_and_attack((30, 15), atk_len_dur/4, "redemption")
+            self._cast_hammers(2*atk_len_dur/4, SkillName.Redemption)
+            self._move_and_attack((30, 15), atk_len_dur/4, SkillName.Redemption)
         else:
             Logger.warning("FOHDin without blessed hammer is not very strong vs. Nihlathak!")
-            self._generic_foh_attack_sequence(min_duration=atk_len_dur/2, max_duration=atk_len_dur, default_spray=70, aura="redemption")
-            self._generic_foh_attack_sequence(min_duration=atk_len_dur/2, max_duration=atk_len_dur, default_spray=70, aura="redemption")
+            self._generic_foh_attack_sequence(min_duration=atk_len_dur/2, max_duration=atk_len_dur, default_spray=70, aura=SkillName.Redemption)
+            self._generic_foh_attack_sequence(min_duration=atk_len_dur/2, max_duration=atk_len_dur, default_spray=70, aura=SkillName.Redemption)
         self._generic_foh_attack_sequence(max_duration=atk_len_dur*2, default_spray=70)
         self._activate_cleanse_redemption()
         return True

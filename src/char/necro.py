@@ -1,4 +1,6 @@
 import keyboard
+from ui.skills import SkillName
+from utils import hotkeys
 from utils.custom_mouse import mouse
 from char import IChar
 import template_finder
@@ -152,10 +154,11 @@ class Necro(IChar):
 
     def _revive(self, cast_pos_abs: tuple[float, float], spray: int = 10, cast_count: int=12):
         Logger.info('\033[94m'+"raise revive"+'\033[0m')
-        keyboard.send(Config().char["stand_still"], do_release=False)
+        if SkillName.Revive not in hotkeys.right_skill_key_map:
+            return
+        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_release=False)
         for _ in range(cast_count):
-            if self._skill_hotkeys["raise_revive"]:
-                keyboard.send(self._skill_hotkeys["raise_revive"])
+            keyboard.send(hotkeys.right_skill_map[SkillName.Revive])
                 #Logger.info("revive -> cast")
             x = cast_pos_abs[0] + (random.random() * 2*spray - spray)
             y = cast_pos_abs[1] + (random.random() * 2*spray - spray)
@@ -177,14 +180,15 @@ class Necro(IChar):
             mouse.press(button="right")
             wait(0.075, 0.1)
             mouse.release(button="right")
-        keyboard.send(Config().char["stand_still"], do_press=False)
+        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_release=False)
 
     def _raise_skeleton(self, cast_pos_abs: tuple[float, float], spray: int = 10, cast_count: int=16):
         Logger.info('\033[94m'+"raise skeleton"+'\033[0m')
-        keyboard.send(Config().char["stand_still"], do_release=False)
+        if SkillName.RaiseSkeleton not in hotkeys.right_skill_key_map:
+            return
+        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_release=False)
         for _ in range(cast_count):
-            if self._skill_hotkeys["raise_skeleton"]:
-                keyboard.send(self._skill_hotkeys["raise_skeleton"])
+            keyboard.send(hotkeys.right_skill_map[SkillName.RaiseSkeleton])
                 #Logger.info("raise skeleton -> cast")
             x = cast_pos_abs[0] + (random.random() * 2*spray - spray)
             y = cast_pos_abs[1] + (random.random() * 2*spray - spray)
@@ -206,14 +210,15 @@ class Necro(IChar):
             mouse.press(button="right")
             wait(0.02, 0.05)
             mouse.release(button="right")
-        keyboard.send(Config().char["stand_still"], do_press=False)
+        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_release=False)
 
     def _raise_mage(self, cast_pos_abs: tuple[float, float], spray: int = 10, cast_count: int=16):
         Logger.info('\033[94m'+"raise mage"+'\033[0m')
-        keyboard.send(Config().char["stand_still"], do_release=False)
+        if SkillName.RaiseSkeletalMage not in hotkeys.right_skill_key_map:
+            return
+        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_release=False)
         for _ in range(cast_count):
-            if self._skill_hotkeys["raise_mage"]:
-                keyboard.send(self._skill_hotkeys["raise_mage"])
+            keyboard.send(hotkeys.right_skill_map[SkillName.RaiseSkeletalMage])
                 #Logger.info("raise skeleton -> cast")
             x = cast_pos_abs[0] + (random.random() * 2*spray - spray)
             y = cast_pos_abs[1] + (random.random() * 2*spray - spray)
@@ -235,7 +240,7 @@ class Necro(IChar):
             mouse.press(button="right")
             wait(0.02, 0.05)
             mouse.release(button="right")
-        keyboard.send(Config().char["stand_still"], do_press=False)
+        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_release=False)
 
 
     def pre_buff(self):
@@ -250,34 +255,34 @@ class Necro(IChar):
 
     def _heart_of_wolverine(self):
         Logger.info('\033[94m'+"buff ~> heart_of_wolverine"+'\033[0m')
-        keyboard.send(self._skill_hotkeys["heart_of_wolverine"])
+        keyboard.send(hotkeys.right_skill_map[SkillName.HeartOfTheWolverine])
         wait(0.05, 0.2)
         mouse.click(button="right")
         wait(self._cast_duration)
 
     def _clay_golem(self):
         Logger.info('\033[94m'+"cast ~> clay golem"+'\033[0m')
-        keyboard.send(self._skill_hotkeys["clay_golem"])
+        keyboard.send(hotkeys.right_skill_map[SkillName.ClayGolem])
         wait(0.05, 0.2)
         mouse.click(button="right")
         wait(self._cast_duration)
 
 
     def bone_armor(self):
-        if self._skill_hotkeys["bone_armor"]:
-            keyboard.send(self._skill_hotkeys["bone_armor"])
+        if SkillName.BoneArmor in hotkeys.right_skill_key_map:
+            keyboard.send(hotkeys.right_skill_map[SkillName.BoneArmor])
             wait(0.04, 0.1)
             mouse.click(button="right")
             wait(self._cast_duration)
-        if self._skill_hotkeys["clay_golem"]:
-            keyboard.send(self._skill_hotkeys["clay_golem"])
+        if SkillName.ClayGolem in hotkeys.right_skill_key_map:
+            keyboard.send(hotkeys.right_skill_map[SkillName.ClayGolem])
             wait(0.04, 0.1)
             mouse.click(button="right")
             wait(self._cast_duration)
 
     def _bone_armor(self):
-        if self._skill_hotkeys["bone_armor"]:
-            keyboard.send(self._skill_hotkeys["bone_armor"])
+        if SkillName.BoneArmor in hotkeys.right_skill_key_map:
+            keyboard.send(hotkeys.right_skill_map[SkillName.BoneArmor])
             wait(0.04, 0.1)
             mouse.click(button="right")
             wait(self._cast_duration)
@@ -285,7 +290,7 @@ class Necro(IChar):
 
 
     def _left_attack(self, cast_pos_abs: tuple[float, float], spray: int = 10):
-        keyboard.send(Config().char["stand_still"], do_release=False)
+        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_release=False)
         if self._skill_hotkeys["skill_left"]:
             keyboard.send(self._skill_hotkeys["skill_left"])
         for _ in range(10):
@@ -297,10 +302,10 @@ class Necro(IChar):
             wait(0.25, 0.3)
             mouse.release(button="left")
 
-        keyboard.send(Config().char["stand_still"], do_press=False)
+        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_release=False)
 
     def _left_attack_single(self, cast_pos_abs: tuple[float, float], spray: int = 10, cast_count: int=6):
-        keyboard.send(Config().char["stand_still"], do_release=False)
+        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_release=False)
         if self._skill_hotkeys["skill_left"]:
             keyboard.send(self._skill_hotkeys["skill_left"])
         for _ in range(cast_count):
@@ -312,11 +317,11 @@ class Necro(IChar):
             wait(0.25, 0.3)
             mouse.release(button="left")
 
-        keyboard.send(Config().char["stand_still"], do_press=False)
+        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_release=False)
 
     def _amp_dmg(self, cast_pos_abs: tuple[float, float], spray: float = 10):
-        if self._skill_hotkeys["amp_dmg"]:
-            keyboard.send(self._skill_hotkeys["amp_dmg"])
+        if SkillName.AmplifyDamage in hotkeys.right_skill_key_map:
+            keyboard.send(hotkeys.right_skill_map[SkillName.AmplifyDamage])
 
         x = cast_pos_abs[0] + (random.random() * 2*spray - spray)
         y = cast_pos_abs[1] + (random.random() * 2*spray - spray)
@@ -327,11 +332,11 @@ class Necro(IChar):
         mouse.release(button="right")
 
     def _corpse_explosion(self, cast_pos_abs: tuple[float, float], spray: int = 10,cast_count: int = 8):
-        keyboard.send(Config().char["stand_still"], do_release=False)
+        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_release=False)
         Logger.info('\033[93m'+"corpse explosion~> random cast"+'\033[0m')
         for _ in range(cast_count):
-            if self._skill_hotkeys["corpse_explosion"]:
-                keyboard.send(self._skill_hotkeys["corpse_explosion"])
+            if SkillName.CorpseExplosion in hotkeys.right_skill_key_map:
+                keyboard.send(hotkeys.right_skill_map[SkillName.CorpseExplosion])
                 x = cast_pos_abs[0] + (random.random() * 2*spray - spray)
                 y = cast_pos_abs[1] + (random.random() * 2*spray - spray)
                 cast_pos_monitor = convert_abs_to_monitor((x, y))
@@ -339,12 +344,12 @@ class Necro(IChar):
                 mouse.press(button="right")
                 wait(0.075, 0.1)
                 mouse.release(button="right")
-        keyboard.send(Config().char["stand_still"], do_press=False)
+        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_release=False)
 
-    def _cast_circle(self, cast_dir: tuple[float,float],cast_start_angle: float=0.0, cast_end_angle: float=90.0,cast_div: int = 10,cast_v_div: int=4,cast_spell: str='raise_skeleton',delay: float=1.0,offset: float=1.0):
-        Logger.info('\033[93m'+"circle cast ~>"+cast_spell+'\033[0m')
-        keyboard.send(Config().char["stand_still"], do_release=False)
-        keyboard.send(self._skill_hotkeys[cast_spell])
+    def _cast_circle(self, cast_dir: tuple[float,float],cast_start_angle: float=0.0, cast_end_angle: float=90.0,cast_div: int = 10,cast_v_div: int=4,cast_spell: SkillName=SkillName.RaiseSkeleton,delay: float=1.0,offset: float=1.0):
+        Logger.info('\033[93m'+"circle cast ~>"+cast_spell.value+'\033[0m')
+        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_release=False)
+        keyboard.send(hotkeys.d2r_keymap[cast_spell])
         mouse.press(button="right")
 
         for i in range(cast_div):
@@ -359,7 +364,7 @@ class Necro(IChar):
 
                 #Logger.info("circle move")
         mouse.release(button="right")
-        keyboard.send(Config().char["stand_still"], do_press=False)
+        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_release=False)
 
 
     def kill_pindle(self) -> bool:
@@ -373,9 +378,9 @@ class Necro(IChar):
 
         raise_skel_pos = [0,10]
         rot_deg=0
-        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=32,cast_v_div=2,cast_spell='raise_skeleton',offset=2,delay=1.6)
+        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=32,cast_v_div=2,cast_spell=SkillName.RaiseSkeleton,offset=2,delay=1.6)
         wait(self._cast_duration, self._cast_duration +.2)
-        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=4,cast_v_div=3,cast_spell='amp_dmg',delay=3.0)
+        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=4,cast_v_div=3,cast_spell=SkillName.AmplifyDamage,delay=3.0)
 
         rot_deg=0
 
@@ -387,11 +392,11 @@ class Necro(IChar):
 
         if(pindle_pack_kill):
             Logger.info('\033[93m'+"optional pindle pack"+'\033[0m')
-            self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=12,cast_v_div=2,cast_spell='corpse_explosion',delay=3.0,offset=1.8)
+            self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=12,cast_v_div=2,cast_spell=SkillName.CorpseExplosion,delay=3.0,offset=1.8)
             wait(self._cast_duration, self._cast_duration +.2)
-            self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=12,cast_v_div=2,cast_spell='corpse_explosion',delay=3.0,offset=1.8)
+            self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=12,cast_v_div=2,cast_spell=SkillName.CorpseExplosion,delay=3.0,offset=1.8)
             wait(self._cast_duration, self._cast_duration +.1)
-            self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=12,cast_v_div=2,cast_spell='raise_revive',delay=1.2,offset=1.8)
+            self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=12,cast_v_div=2,cast_spell=SkillName.Revive,delay=1.2,offset=1.8)
 
         #move to pindle combat position
 
@@ -492,7 +497,7 @@ class Necro(IChar):
 
         #get some more summons out for elite packs
 
-        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=12,cast_v_div=4,cast_spell='raise_revive',delay=1.2,offset=.8)
+        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=12,cast_v_div=4,cast_spell=SkillName.Revive,delay=1.2,offset=.8)
         #self._summon_count()
         #self._raise_skeleton([0,-40],80,cast_count=4)
         #self._raise_mage(cast_pos_abs,80,cast_count=10)
@@ -523,7 +528,7 @@ class Necro(IChar):
         Logger.info('\033[93m'+"dealing with posible packs"+'\033[0m')
 
         self.bone_armor()
-        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=4,cast_v_div=3,cast_spell='amp_dmg',delay=3.0)
+        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=4,cast_v_div=3,cast_spell=SkillName.AmplifyDamage,delay=3.0)
         self._corpse_explosion([0,50], 80, cast_count=8)
 
         self._summon_stat()
@@ -536,7 +541,7 @@ class Necro(IChar):
         cast_pos_abs = [shenk_pos_abs[0] * 0.9, shenk_pos_abs[1] * 0.9]
         self.bone_armor()
 
-        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=4,cast_v_div=3,cast_spell='amp_dmg',delay=3.0)
+        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=4,cast_v_div=3,cast_spell=SkillName.AmplifyDamage,delay=3.0)
         corpse_exp_pos = [200,80]
 
         for _ in range(int(Config().char["atk_len_shenk"])):
@@ -749,7 +754,7 @@ class Necro(IChar):
                 #try again
                 result = self._pather.traverse_nodes((902,903,904,905,906,226,228,300), self, force_move=True,timeout = 2.5)
 
-        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=4,cast_v_div=3,cast_spell='amp_dmg',delay=3.0)
+        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=4,cast_v_div=3,cast_spell=SkillName.AmplifyDamage,delay=3.0)
 
         enter = False
         while enter is False:
@@ -757,7 +762,7 @@ class Necro(IChar):
         wait(.25)
         exit = self.to_trav()
 
-        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=4,cast_v_div=3,cast_spell='amp_dmg',delay=3.0)
+        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=4,cast_v_div=3,cast_spell=SkillName.AmplifyDamage,delay=3.0)
 
         #enter = False
         #while enter is False:
