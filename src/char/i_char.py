@@ -7,6 +7,7 @@ import random
 import time
 
 from char.utils.capabilities import CharacterCapabilities
+from char.utils.cast_frames import get_cast_wait_time
 from config import Config
 from item import consumables
 from logger import Logger
@@ -38,6 +39,7 @@ class IChar:
         self.capabilities = None
         self.damage_scaling = float(Config().char.get("damage_scaling", 1.0))
         self._use_safer_routines = Config().char["safer_routines"]
+        self._base_class = ""
 
     @staticmethod
     def _click(mouse_click_type: str = "left", wait_before_release: float = 0.0):
@@ -219,7 +221,7 @@ class IChar:
         if override is None:
             if Config().char["teleport"]:
                 if self.select_teleport():
-                    if self.skill_is_charged():
+                    if skills.skill_is_charged():
                         return CharacterCapabilities(can_teleport_natively=False, can_teleport_with_charges=True)
                     else:
                         return CharacterCapabilities(can_teleport_natively=True, can_teleport_with_charges=False)
@@ -288,27 +290,6 @@ class IChar:
         Logger.error(f"Wanted to select {template_type}, but could not find it")
         return False
 
-    def skill_is_charged(self, img: np.ndarray = None) -> bool:
-        if img is None:
-            img = grab()
-        skill_img = cut_roi(img, Config().ui_roi["skill_right"])
-        charge_mask, _ = color_filter(skill_img, Config().colors["blue"])
-        if np.sum(charge_mask) > 0:
-            return True
-        return False
-
-    def is_low_on_teleport_charges(self) -> bool:
-        img = grab()
-        charges_remaining = skills.get_skill_charges(img)
-        if charges_remaining:
-            Logger.debug(f"{charges_remaining} teleport charges remain")
-            return charges_remaining <= 3
-        else:
-            charges_present = self.skill_is_charged(img)
-            if charges_present:
-                Logger.error("is_low_on_teleport_charges: unable to determine skill charges, assume zero")
-            return True
-
     def _remap_skill_hotkey(self, skill_asset, hotkey, skill_roi, expanded_skill_roi) -> bool:
         x, y, w, h = skill_roi
         x, y = convert_screen_to_monitor((x, y))
@@ -335,30 +316,18 @@ class IChar:
         return skills.is_right_skill_selected(["TELE_ACTIVE", "TELE_INACTIVE"])
 
     def can_teleport(self) -> bool:
-        can_tp = False
-        if res := (self.capabilities.can_teleport_natively or self.capabilities.can_teleport_with_charges):
-            can_tp |= res
-        else:
-            print("can't tp because no capability")
-        if res := self.select_teleport():
-            can_tp &= res
-        else:
-            print("can't tp because can't select skill")
-        if res := skills.is_right_skill_active():
-            can_tp &= res
-        else:
-            print("can't tp because skill is not active")
-        return res
-        #return (self.capabilities.can_teleport_natively or self.capabilities.can_teleport_with_charges) and self.select_teleport() and skills.is_right_skill_active()
+        return (self.capabilities.can_teleport_natively or self.capabilities.can_teleport_with_charges) and self.select_teleport() and skills.is_right_skill_active()
 
     def pre_move(self):
         pass
 
     def move(self, pos_monitor: tuple[float, float], use_tp: bool = False, force_move: bool = False):
         factor = Config().advanced_options["pathing_delay_factor"]
+        start=time.perf_counter()
         if use_tp and self.can_teleport(): # can_teleport() activates teleport hotkey if True
             mouse.move(pos_monitor[0], pos_monitor[1], randomize=3, delay_factor=[factor*0.1, factor*0.14])
             self._cast_simple(skill_name="teleport", mouse_click_type="right")
+            min_wait = get_cast_wait_time(self._base_class, "teleport", Config().char["fcr"])
             wait(self._cast_duration, self._cast_duration + 0.02)
         else:
             # in case we want to walk we actually want to move a bit before the point cause d2r will always "overwalk"

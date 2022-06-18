@@ -96,3 +96,23 @@ def get_skill_charges(img: np.ndarray = None):
         return int(ocr_result.text)
     except:
         return None
+
+def skill_is_charged(img: np.ndarray = None) -> bool:
+    img = grab() if img is None else img
+    skill_img = cut_roi(img, Config().ui_roi["skill_right"])
+    charge_mask, _ = color_filter(skill_img, Config().colors["blue"])
+    if np.sum(charge_mask) > 0:
+        return True
+    return False
+
+def is_low_on_teleport_charges(img: np.ndarray = None) -> bool:
+    img = grab() if img is None else img
+    charges_remaining = get_skill_charges(img)
+    if charges_remaining:
+        Logger.debug(f"{charges_remaining} teleport charges remain")
+        return charges_remaining <= 3
+    else:
+        charges_present = skill_is_charged(img)
+        if charges_present:
+            Logger.error("is_low_on_teleport_charges: unable to determine skill charges, assume zero")
+        return True
