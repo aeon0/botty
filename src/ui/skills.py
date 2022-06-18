@@ -44,7 +44,8 @@ def select_tp(tp_hotkey):
     if tp_hotkey and not is_right_skill_selected(
         ["TELE_ACTIVE", "TELE_INACTIVE"]):
         keyboard.send(tp_hotkey)
-    return is_right_skill_selected(["TELE_ACTIVE", "TELE_INACTIVE"], timeout=2)
+        wait(0.1, 0.2)
+    return is_right_skill_selected(["TELE_ACTIVE", "TELE_INACTIVE"])
 
 def is_right_skill_active() -> bool:
     """
@@ -54,18 +55,14 @@ def is_right_skill_active() -> bool:
     avg = np.average(img)
     return avg > 75.0
 
-def is_right_skill_selected(template_list: list[str], timeout: float = 1) -> bool:
+def is_right_skill_selected(template_list: list[str]) -> bool:
     """
     :return: Bool if skill is currently the selected skill on the right skill slot.
     """
     skill_right_ui_roi = Config().ui_roi["skill_right"]
-    start = time.time()
-    while time.time() - start < timeout:
-        for template in template_list:
-            if template_finder.search(template, grab(), threshold=0.84, roi=skill_right_ui_roi).valid:
-                return True
-        wait(0.1)
-    Logger.debug(f"Skill not selected, {template_list}")
+    for template in template_list:
+        if template_finder.search(template, grab(), threshold=0.84, roi=skill_right_ui_roi).valid:
+            return True
     return False
 
 def get_skill_charges(img: np.ndarray = None):
