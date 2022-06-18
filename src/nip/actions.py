@@ -207,14 +207,15 @@ def _load_nip_expressions(filepath):
             try:
                 load_nip_expression(line)
             except Exception as e:
-                file = filepath.split('\\config/')[1].replace("/", "\\")
+                filepath = filepath.replace("\\", "/")
+                file = filepath.split('/config/')[1]
                 print(f"{file}:{e}:line {i + 1}") # TODO look at these errors
                 if False and traceback.print_exc(): # * Switch between True and False for debugging
                     break
 
 
-default_nip_file_path = os.path.join(os.path.abspath(os.path.join(os.path.join(os.path.dirname(__file__), os.pardir), os.pardir)), 'config/default.nip')
-nip_path = os.path.join(os.path.abspath(os.path.join(os.path.join(os.path.dirname(__file__), os.pardir), os.pardir)), 'config/nip')
+default_nip_file_path = f"{os.getcwd()}/config/default.nip"
+nip_path = f"{os.getcwd()}/config/nip"
 glob_nip_path = os.path.join(nip_path, '**', '*.nip')
 nip_file_paths = glob.glob(glob_nip_path, recursive=True)
 

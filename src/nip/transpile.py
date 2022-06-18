@@ -139,6 +139,9 @@ def validate_correct_math_syntax(left_token=None, right_token=None):
         TokenType.ValueNTIPAliasType,
 
         TokenType.NUMBER,
+
+        TokenType.LPAREN,
+        TokenType.RPAREN,
     ]
     if left_token and left_token.type not in allowed_left_and_right_tokens:
         raise NipSyntaxError("NIP_0x3", "unexpected token on left of math operator")
