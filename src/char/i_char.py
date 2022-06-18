@@ -120,13 +120,13 @@ class IChar:
         self._keypress(self._get_hotkey(skill_name))
         wait(get_cast_wait_time(skill_name))
 
-    def _activate_aura(self, skill_name: str):
+    def _activate_aura(self, skill_name: str, delay: float | list | tuple | None = (0.04, 0.08)):
         if not self._get_hotkey(skill_name):
             return False
-        if self._activate_aura != skill_name:
+        if self._activate_aura != skill_name: # if aura is already active, don't activate it again
             self._keypress(self._get_hotkey(skill_name))
             self._active_aura = skill_name
-            wait(0.04, 0.08)
+            self._handle_delay(delay)
         return True
 
     def _cast_simple(self, skill_name: str, duration: float | list | tuple | None = None) -> bool:
@@ -135,14 +135,13 @@ class IChar:
         """
         if not (hotkey := self._get_hotkey(skill_name)):
             return False
-        if self._key_held[hotkey]: # skill is already active
-            return True
-        if not duration:
-            self._send_skill_and_cooldown(skill_name)
-        else:
-            self._stand_still(True)
-            self._keypress(self._get_hotkey(skill_name), hold_time=duration)
-            self._stand_still(False)
+        if not self._key_held[hotkey]: # if skill is already active, don't activate it again
+            if not duration:
+                self._send_skill_and_cooldown(skill_name)
+            else:
+                self._stand_still(True)
+                self._keypress(self._get_hotkey(skill_name), hold_time=duration)
+                self._stand_still(False)
         return True
 
     def _cast_at_position(self, skill_name: str, cast_pos_abs: tuple[float, float], spray: int, duration: float | list | tuple | None = None) -> bool:
@@ -170,29 +169,6 @@ class IChar:
             self._activate_aura(aura)
         return self._cast_at_position(skill_name=skill_name, cast_pos_abs=cast_pos_abs, spray=spray, mouse_click_type="left", duration=duration)
 
-    def _set_active_aura(self, skill: str =""):
-        if self._active_aura != skill:
-            self._active_aura = skill
-
-    def _select_skill(self, skill: str, mouse_click_type: str = "left", delay: float | list | tuple = None) -> bool:
-        """
-        Sets the active skill on left or right.
-        Will only set skill if not already selected
-        """
-        if not (hotkey := self._get_hotkey(skill)):
-            self._set_active_skill(mouse_click_type, "")
-            return False
-
-        if self._active_skill[mouse_click_type] != skill:
-            # img = grab()
-            keyboard.send(hotkey)
-            self._set_active_skill(mouse_click_type, skill)
-            # if not wait_for_update(img=img, roi= skills.RIGHT_SKILL_ROI, timeout=3):
-            #     Logger.warning(f"_select_skill: Failed to select skill {skill}, no update after hotkey")
-            #     return False
-            if delay:
-                self._handle_delay(delay)
-        return True
 
     def select_skill(self, skill: str, mouse_click_type: str = "left", delay: float | list | tuple = None) -> bool:
         return self._select_skill(skill, mouse_click_type, delay)
