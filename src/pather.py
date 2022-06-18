@@ -185,6 +185,13 @@ class Pather:
             163: {"A4_TOWN_5": (-92, 143), "A4_TOWN_7": (-19, -233), "A4_TOWN_6": (280, -4), "A4_TOWN_4": (156, 288), "A4_TOWN_8": (-598, 5)},
             164: {"A4_TOWN_7": (235, 39), "A4_TOWN_8": (-344, 277), "A4_TOWN_5": (163, 415), "A4_TOWN_6": (534, 268), "A4_TOWN_4": (409, 559), "A4_TOWN_9": (80, -329)},
             165: {"A4_TOWN_8": (80, 200), "A4_TOWN_7": (661, -38)},
+            # A4 Town Automap
+            #160: {'A4_TOWN_AUTOMAP': (130, -4),},
+            #161: {'A4_TOWN_AUTOMAP': (106, -18),},
+            #162: {'A4_TOWN_AUTOMAP': (154, 20),},
+            #163: {'A4_TOWN_AUTOMAP': (160, 42),},
+            #164: {'A4_TOWN_AUTOMAP': (196, 82),},
+            #165: {'A4_TOWN_AUTOMAP': (250, 66),},
             # A3 town
             180: {"A3_TOWN_0": (-144, 170), "A3_TOWN_1": (-417, 59), "A3_TOWN_2": (-716, -161)},
             181: {"A3_TOWN_1": (-113, 155), "A3_TOWN_0": (160, 266), "A3_TOWN_2": (-412, -65), "A3_TOWN_3": (-867, 133)},
@@ -422,7 +429,7 @@ class Pather:
                 },
 
             1601: { #CS Entrance Calibration Node
-            #'['DIA_AM_WP']': (0, 0),
+            'DIA_AM_WP': (824, -440),
             'DIA_AM_CS': (96, -35),
             #'['DIA_AM_E_B']': (0, 0),
             #'['DIA_AM_PENT']': (0, 0),
@@ -1120,8 +1127,9 @@ if __name__ == "__main__":
 
     #display_all_nodes(pather, "DIA_AM") #use this function to explore the templates and nodes visibile in the area you are currently located ingame
     
-    nodes = 600
+    nodes = 165
     pather.traverse_nodes([nodes], char) #use this function to test nodes
+    """
     pather.traverse_nodes_fixed("dia_wp_cs-e", char) #use this function to test static paths
     pather.traverse_nodes_automap([1601], char) 
     pather.traverse_nodes_fixed("dia_cs-e_pent", char) 
@@ -1152,13 +1160,14 @@ if __name__ == "__main__":
     pather.traverse_nodes_automap([1640], char) 
     pather.traverse_nodes_fixed("dia_am_c_pent", char) 
     pather.traverse_nodes_automap([1600], char)
-
+    """
     
     if Config().general["use_automap_navigation"] == 1 :
         while True:
             Logger.warning("Checking Automap Status")
             toggle_automap(True)
-            #print("1" + str(nodes) + ": {")
+            print("1" + str(nodes) + ": {")
+            """
             show_automap_pos(["DIA_AM_WP"])
             show_automap_pos(["DIA_AM_CS"])
             show_automap_pos(["DIA_AM_E_B"])
@@ -1175,9 +1184,13 @@ if __name__ == "__main__":
             show_automap_pos(["DIA_AM_A1L"])
             show_automap_pos(["DIA_AM_B1S"])
             show_automap_pos(["DIA_AM_C1F"])
+            """
+            show_automap_pos(["A4_TOWN_AUTOMAP"])
             print("    },")
             toggle_automap(False)
             Logger.warning("End of List - Press F12 to Stop")
             keyboard.wait("f12")
     
-    stop_detecting_window()
+    stop_detecting_window
+    
+
