@@ -288,7 +288,6 @@ def _find_keymapping(
         img = grab()
         left_skill = get_selected_skill(templates, img, Config().ui_roi["skill_left"])
         right_skill = get_selected_skill(templates, img, Config().ui_roi["skill_right"])
-        print(right_skill, previous_right_skill)
         if left_skill != previous_left_skill:
             previous_left_skill = left_skill
             left_key_template_map[left_skill] = key
