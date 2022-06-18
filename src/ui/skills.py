@@ -167,6 +167,39 @@ class SkillName(str, Enum):
     WakeOfInferno = 'wake_of_inferno',
     DeathSentry = 'death_sentry',
     BladeShield = 'blade_shield'
+    # Druid
+    ## Elemental
+    Firestorm = 'firestorm',
+    MoltenBoulder = 'molten_boulder',
+    ArcticBlast = 'arctic_blast',
+    Fissure = 'fissure',
+    CycloneArmor = 'cyclone_armor',
+    Twister = 'Twister',
+    Volcano = 'volcano',
+    Tornado = 'torando',
+    Armageddon = 'armageddon',
+    Hurricane = 'hurricane',
+    ## Shape Shifting
+    Werewolf = 'werewolf',
+    Werebear = 'werebear',
+    FeralRage = 'feral_rage',
+    Maul = 'maul',
+    Rabies = 'rabies',
+    FireClaws = 'fire_claws',
+    Hunger = 'hunger',
+    ShockWave = 'shock_wave',
+    Fury = 'fury',
+    ## Summoning
+    Raven = 'raven',
+    PoisonCreeper = 'poison_creeper',
+    OakSage = 'oak_sage',
+    SummonSpiritWolf = 'summon_spirit_wolf',
+    CarrionVine = 'carrion_vine',
+    HeartOfWolverine = 'heart_of_wolverine',
+    SummonDireWolf = 'summon_dire_wolf',
+    SolarCreeper = 'solar_creeper',
+    SpiritOfBarbs = 'spirit_of_barbs',
+    SummonGrizzly = 'summon_grizzly'
 
 
 def is_left_skill_selected(template_list: list[str]) -> bool:
