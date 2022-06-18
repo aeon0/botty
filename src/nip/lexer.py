@@ -321,7 +321,7 @@ class Lexer:
                 elif self.tokens[-2].type == TokenType.KeywordNTIPAliasIDName:
                     return Token(TokenType.ValueNTIPAliasIDName, lookup_key)
             else:
-                raise NipSyntaxError("NIP_0x20", f"Too few tokens to lookup {lookup_key}", self._get_text())
+                raise NipSyntaxError("NIP_0x20", f"Bad token sequence: {self._get_text()}", self._get_text())
             return Token(TokenType.UNKNOWN, lookup_key)
         elif self.current_section == NipSections.STAT:
             if lookup_key in NTIPAliasStat:
