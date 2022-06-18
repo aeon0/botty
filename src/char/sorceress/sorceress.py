@@ -39,7 +39,7 @@ class Sorceress(IChar):
         telekinesis: bool = False
     ) -> bool:
         # In case telekinesis is False or hotkey is not set, just call the base implementation
-        if not (telekinesis and self._check_hotkey("telekinesis")):
+        if not (telekinesis and self._get_hotkey("telekinesis")):
             return super().select_by_template(template_type, success_func, timeout, threshold)
         if type(template_type) == list and "A5_STASH" in template_type:
             # sometimes waypoint is opened and stash not found because of that, check for that

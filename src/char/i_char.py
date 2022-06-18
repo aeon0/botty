@@ -1,13 +1,14 @@
-from typing import Callable
+from typing import Callable, TypeVar
 import cv2
 import keyboard
 import math
 import numpy as np
 import random
 import time
+from functools import cached_property
 
 from char.utils.capabilities import CharacterCapabilities
-from char.utils.cast_frames import get_cast_wait_time
+from char.utils.skill_data import get_cast_wait_time
 from config import Config
 from item import consumables
 from logger import Logger
@@ -22,17 +23,14 @@ class IChar:
     _CrossGameCapabilities: None | CharacterCapabilities = None
 
     def __init__(self, skill_hotkeys: dict):
-        self._active_skill = {
-            "left": "",
-            "right": ""
-        }
+        self._active_aura = ""
         # Add a bit to be on the save side
-        self._cast_duration = Config().char["casting_frames"] * 0.04 + 0.01
         self._last_tp = time.time()
         self._mouse_click_held = {
             "left": False,
             "right": False
         }
+        self._key_held = dict.fromkeys([v[0] for v in keyboard._winkeyboard.official_virtual_keys.values()], False)
         self._skill_hotkeys = skill_hotkeys
         self._standing_still = False
         self.default_move_skill = ""
@@ -41,16 +39,38 @@ class IChar:
         self._use_safer_routines = Config().char["safer_routines"]
         self._base_class = ""
 
+    """
+    MOUSE AND KEYBOARD METHODS
+    """
+
     @staticmethod
-    def _click(mouse_click_type: str = "left", wait_before_release: float = 0.0):
-        """
-        Sends a click to the mouse.
-        """
-        if not wait_before_release:
+    def _handle_delay(delay: float | list | tuple | None = None):
+        if delay is None:
+            return
+        if isinstance(delay, (list, tuple)):
+            wait(*delay)
+        else:
+            try:
+                wait(delay)
+            except Exception as e:
+                Logger.warning(f"Failed to delay with delay: {delay}. Exception: {e}")
+
+    def _keypress(self, key: str, hold_time: float | list | tuple | None = None):
+        if not hold_time:
+            keyboard.send(key)
+        else:
+            self._key_held[key] = True
+            keyboard.send(key, do_release=False)
+            self._handle_delay(hold_time)
+            keyboard.send(key, do_press=False)
+            self._key_held[key] = False
+
+    def _click(self, mouse_click_type: str = "left", hold_time: float | list | tuple | None = None):
+        if not hold_time:
             mouse.click(button = mouse_click_type)
         else:
             mouse.press(button = mouse_click_type)
-            wait(wait_before_release)
+            self._handle_delay(hold_time)
             mouse.release(button = mouse_click_type)
 
     def _hold_click(self, mouse_click_type: str = "left", enable: bool = True):
@@ -63,73 +83,25 @@ class IChar:
                 self._mouse_click_held[mouse_click_type] = False
                 mouse.release(button = mouse_click_type)
 
-    def _click_left(self, wait_before_release: float = 0.0):
-        self._click("left", wait_before_release = wait_before_release)
+    def _click_left(self, hold_time: float | list | tuple | None = None):
+        self._click("left", hold_time = hold_time)
 
-    def _click_right(self, wait_before_release: float = 0.0):
-        self._click("right", wait_before_release = wait_before_release)
+    def _click_right(self, hold_time: float | list | tuple | None = None):
+        self._click("right", hold_time = hold_time)
 
-    def _cast_simple(self, skill_name: str, mouse_click_type: str = "left", duration: float = 0) -> bool:
-        """
-        Selects and casts a skill.
-        """
-        if self._active_skill[mouse_click_type] != skill_name:
-            if not self._select_skill(skill_name, mouse_click_type = mouse_click_type):
-                return False
-            wait(0.04)
-        start = time.time()
-        if duration:
-            self._stand_still(True)
-            while (time.time() - start) <= duration:
-                self._click(mouse_click_type)
-                wait(self._cast_duration)
-            self._stand_still(False)
-        else:
-            self._click(mouse_click_type)
-        return True
+    @cached_property
+    def _get_hotkey(self, skill: str) -> str | None:
+        if not (
+            (skill in self._skill_hotkeys and (hotkey := self._skill_hotkeys[skill]))
+            or (skill in Config().char and (hotkey := Config().char[skill]))
+        ):
+            # Logger.warning(f"No hotkey for skill: {skill}")
+            return None
+        return hotkey
 
-    def _cast_at_position(self, skill_name: str, cast_pos_abs: tuple[float, float], spray: int, mouse_click_type: str = "left", duration: float = 0) -> bool:
-        """
-        Casts a skill at a given position.
-        """
-        if self._active_skill[mouse_click_type] != skill_name:
-            if not self._select_skill(skill_name, mouse_click_type = mouse_click_type):
-                return False
-            wait(0.04)
-
-        if cast_pos_abs:
-            x, y = cast_pos_abs
-            if spray:
-                x += (random.random() * 2 * spray - spray)
-                y += (random.random() * 2 * spray - spray)
-            pos_m = convert_abs_to_monitor((x, y))
-            mouse.move(*pos_m, delay_factor=[0.1, 0.2])
-            wait(0.06, 0.08)
-        start = time.time()
-        if duration:
-            self._stand_still(True)
-            while (time.time() - start) <= duration:
-                self._click(mouse_click_type)
-                wait(self._cast_duration)
-            self._stand_still(False)
-        else:
-            self._click(mouse_click_type)
-        return True
-
-    def _cast_left_with_aura(self, skill_name: str, cast_pos_abs: tuple[float, float] = None, spray: int = 0, min_duration: float = 0, aura: str = "") -> bool:
-        """
-        Casts a skill with an aura active
-        :param skill_name: name of skill in params file; i.e., "holy_bolt"
-        :param cast_pos_abs: absolute position to cast toward
-        :param spray: amount of spray to apply
-        :param min_duration: minimum duration to cast the skill
-        :param aura: name of aura to ensure is active during skill cast
-        """
-
-        #self._log_cast(skill_name, cast_pos_abs, spray, min_duration, aura)
-        if aura:
-            self._select_skill(aura, mouse_click_type = "right")
-        return self._cast_at_position(skill_name=skill_name, cast_pos_abs=cast_pos_abs, spray=spray, mouse_click_type="left", duration=min_duration)
+    """
+    SKILL / CASTING METHODS
+    """
 
     @staticmethod
     def _log_cast(skill_name: str, cast_pos_abs: tuple[float, float], spray: int, min_duration: float, aura: str):
@@ -144,27 +116,70 @@ class IChar:
             msg += f" with {aura} active"
         Logger.debug(msg)
 
-    def _set_active_skill(self, mouse_click_type: str = "left", skill: str =""):
-        """
-        Sets the active skill internally, used to keep track of which skill is currently active
-        """
-        self._active_skill[mouse_click_type] = skill
+    def _send_skill_and_cooldown(self, skill_name: str):
+        self._keypress(self._get_hotkey(skill_name))
+        wait(get_cast_wait_time(skill_name))
 
-    def _check_hotkey(self, skill: str) -> str | None:
-        if not (
-            (skill in self._skill_hotkeys and (hotkey := self._skill_hotkeys[skill]))
-            or (skill in Config().char and (hotkey := Config().char[skill]))
-        ):
-            # Logger.warning(f"No hotkey for skill: {skill}")
-            return None
-        return hotkey
+    def _activate_aura(self, skill_name: str):
+        if not self._get_hotkey(skill_name):
+            return False
+        if self._activate_aura != skill_name:
+            self._keypress(self._get_hotkey(skill_name))
+            self._active_aura = skill_name
+            wait(0.04, 0.08)
+        return True
+
+    def _cast_simple(self, skill_name: str, duration: float | list | tuple | None = None) -> bool:
+        """
+        Casts a skill
+        """
+        if not (hotkey := self._get_hotkey(skill_name)):
+            return False
+        if self._key_held[hotkey]: # skill is already active
+            return True
+        if not duration:
+            self._send_skill_and_cooldown(skill_name)
+        else:
+            self._stand_still(True)
+            self._keypress(self._get_hotkey(skill_name), hold_time=duration)
+            self._stand_still(False)
+        return True
+
+    def _cast_at_position(self, skill_name: str, cast_pos_abs: tuple[float, float], spray: int, duration: float | list | tuple | None = None) -> bool:
+        """
+        Casts a skill at a given position.
+        """
+        if not self._get_hotkey(skill_name):
+            return False
+        if cast_pos_abs:
+            x, y = cast_pos_abs
+            if spray:
+                x += (random.random() * 2 * spray - spray)
+                y += (random.random() * 2 * spray - spray)
+            pos_m = convert_abs_to_monitor((x, y))
+            mouse.move(*pos_m, delay_factor=[0.1, 0.2])
+        self._cast_simple(skill_name, duration)
+        return True
+
+    def _cast_left_with_aura(self, skill_name: str, cast_pos_abs: tuple[float, float] = None, spray: int = 0, duration: float | list | tuple | None = None, aura: str = "") -> bool:
+        """
+        Casts a skill with an aura active
+        """
+        #self._log_cast(skill_name, cast_pos_abs, spray, duration, aura)
+        if aura:
+            self._activate_aura(aura)
+        return self._cast_at_position(skill_name=skill_name, cast_pos_abs=cast_pos_abs, spray=spray, mouse_click_type="left", duration=duration)
+
+    def _set_active_aura(self, skill: str =""):
+        if self._active_aura != skill:
+            self._active_aura = skill
 
     def _select_skill(self, skill: str, mouse_click_type: str = "left", delay: float | list | tuple = None) -> bool:
         """
         Sets the active skill on left or right.
         Will only set skill if not already selected
         """
-        if not (hotkey := self._check_hotkey(skill)):
+        if not (hotkey := self._get_hotkey(skill)):
             self._set_active_skill(mouse_click_type, "")
             return False
 
@@ -176,13 +191,7 @@ class IChar:
             #     Logger.warning(f"_select_skill: Failed to select skill {skill}, no update after hotkey")
             #     return False
             if delay:
-                if isinstance(delay, (list, tuple)):
-                    wait(*delay)
-                else:
-                    try:
-                        wait(delay)
-                    except Exception as e:
-                        Logger.warning(f"_select_skill: Failed to delay with delay: {delay}. Exception: {e}")
+                self._handle_delay(delay)
         return True
 
     def select_skill(self, skill: str, mouse_click_type: str = "left", delay: float | list | tuple = None) -> bool:

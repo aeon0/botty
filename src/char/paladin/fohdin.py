@@ -22,15 +22,15 @@ class FoHdin(Paladin):
         self.move(pos_m, force_move=True)
         self._cast_hammers(atk_len)
 
-    def _cast_hammers(self, min_duration: float = 0, aura: str = "concentration"): #for nihlathak
-        return self._cast_left_with_aura(skill_name = "blessed_hammer", spray = 0, min_duration = min_duration, aura = aura)
+    def _cast_hammers(self, duration: float = 0, aura: str = "concentration"): #for nihlathak
+        return self._cast_left_with_aura(skill_name = "blessed_hammer", spray = 0, duration = duration, aura = aura)
 
-    def _cast_foh(self, cast_pos_abs: tuple[float, float], spray: int = 10, min_duration: float = 0, aura: str = "conviction"):
-        return self._cast_left_with_aura(skill_name = "foh", cast_pos_abs = cast_pos_abs, spray = spray, min_duration = min_duration, aura = aura)
+    def _cast_foh(self, cast_pos_abs: tuple[float, float], spray: int = 10, duration: float = 0, aura: str = "conviction"):
+        return self._cast_left_with_aura(skill_name = "foh", cast_pos_abs = cast_pos_abs, spray = spray, duration = duration, aura = aura)
 
-    def _cast_holy_bolt(self, cast_pos_abs: tuple[float, float], spray: int = 10, min_duration: float = 0, aura: str = "concentration"):
+    def _cast_holy_bolt(self, cast_pos_abs: tuple[float, float], spray: int = 10, duration: float = 0, aura: str = "concentration"):
         #if skill is bound : concentration, use concentration, otherwise move on with conviction. alternatively use redemption whilst holybolting. conviction does not help holy bolt (its magic damage)
-        return self._cast_left_with_aura(skill_name = "holy_bolt", cast_pos_abs = cast_pos_abs, spray = spray, min_duration = min_duration, aura = aura)
+        return self._cast_left_with_aura(skill_name = "holy_bolt", cast_pos_abs = cast_pos_abs, spray = spray, duration = duration, aura = aura)
 
     def _generic_foh_attack_sequence(
         self,

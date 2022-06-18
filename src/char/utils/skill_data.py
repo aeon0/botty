@@ -1,5 +1,6 @@
 import math
 from functools import cache
+from config import Config
 
 BASE_FRAMES = {
     "amazon": 20,
@@ -19,6 +20,28 @@ ANIMATION_SPEED = {
     "werebear": 229,
 }
 
+AURAS = {
+    "blessed_aim",
+    "cleansing",
+    "concentration",
+    "conviction"
+    "defiance",
+    "fanaticism",
+    "holy_fire",
+    "holy_freeze",
+    "holy_shock",
+    "meditation",
+    "might",
+    "prayer",
+    "redemption",
+    "resist_cold",
+    "resist_fire",
+    "resist_lightning",
+    "salvation",
+    "sanctuary",
+    "thorns",
+    "vigor"
+}
 
 def _get_base_frames(class_base: str, skill_name: str):
     if "lightning" in skill_name.lower() and class_base == "sorceress":
@@ -41,4 +64,4 @@ def get_casting_frames(class_base: str, skill_name: str, fcr: int):
         return math.ceil(256 * _get_base_frames(class_base, skill_name) / math.floor(_get_animation_speed(class_base) * (100 + _efcr(fcr)) / 100)) - 1
 
 def get_cast_wait_time(class_base: str, skill_name: str, fcr: int):
-    return get_casting_frames(class_base, skill_name, fcr) * (1/25)
+    return (get_casting_frames(class_base, skill_name, fcr) + Config().char["extra_casting_frames"]) * (1/25)

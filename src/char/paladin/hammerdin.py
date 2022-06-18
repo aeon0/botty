@@ -17,8 +17,8 @@ class Hammerdin(Paladin):
         #hammerdin needs to be closer to shenk to reach it with hammers
         self._pather.offset_node(149, (70, 10))
 
-    def _cast_hammers(self, min_duration: float = 0, aura: str = "concentration"): #for nihlathak
-        return self._cast_left_with_aura(skill_name = "blessed_hammer", spray = 0, min_duration = min_duration, aura = aura)
+    def _cast_hammers(self, duration: float = 0, aura: str = "concentration"): #for nihlathak
+        return self._cast_left_with_aura(skill_name = "blessed_hammer", spray = 0, duration = duration, aura = aura)
 
     def _move_and_attack(self, abs_move: tuple[int, int], atk_len: float):
         pos_m = convert_abs_to_monitor(abs_move)

@@ -105,7 +105,7 @@ order=run_pindle, run_eldritch
 | ------------------ | -------------------------------------------------------------------------------------------------|
 | type               | Build type. Currently only "sorceress" or "hammerdin" is supported |
 | belt_rows          | Integer value of how many rows the char's belt has |
-| casting_frames     | Depending on your char and fcr you will have a specific casting frame count. Check it here: https://diablo2.diablowiki.net/Breakpoints and fill in the right number. Determines how much delay there is after each teleport for example. If your system has some delay e.g. on vms, you might have to increase this value above the suggest value in the table! |
+| extra_casting_frames     | Depending on your char and fcr you will have a specific casting frame count. Check it here: https://diablo2.diablowiki.net/Breakpoints and fill in the right number. Determines how much delay there is after each teleport for example. If your system has some delay e.g. on vms, you might have to increase this value above the suggest value in the table! |
 | cta_available      | 0: no cta available, 1: cta is available and should be used during prebuff |
 | safer_routines    | Set to 1 to enable optional defensive maneuvers/etc during combat/runs at the cost of increased runtime (ex. hardcore players)
 | num_loot_columns   | Number of columns in inventory used for loot (from left!). Remaining space can be used for charms |
