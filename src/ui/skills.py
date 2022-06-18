@@ -4,7 +4,6 @@ from logger import Logger
 import cv2
 import time
 import numpy as np
-from utils import hotkeys
 from utils.misc import cut_roi, color_filter, wait
 from screen import grab
 from config import Config
@@ -216,6 +215,7 @@ def has_tps() -> bool:
     """
     :return: Returns True if botty has town portals available. False otherwise
     """
+    from utils import hotkeys
     if SkillName.TownPortal in hotkeys.right_skill_key_map:
         keyboard.send(hotkeys.right_skill_map[SkillName.TownPortal])
         if not (tps_remain := wait_until_visible(ScreenObjects.TownPortalSkill, timeout=4).valid):

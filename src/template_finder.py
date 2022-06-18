@@ -243,7 +243,7 @@ def search_all(
             match = _single_template_match(template, img, roi, color_match, use_grayscale)
             if (ind_found := match.score >= threshold):
                 matches.append(match)
-                # img = mask_by_roi(img, match.region, "inverse")
+                img = mask_by_roi(img, match.region, "inverse")
                 any_found |= ind_found
         if not any_found:
             break
