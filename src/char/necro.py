@@ -255,7 +255,7 @@ class Necro(IChar):
 
     def _heart_of_wolverine(self):
         Logger.info('\033[94m'+"buff ~> heart_of_wolverine"+'\033[0m')
-        keyboard.send(hotkeys.right_skill_map[SkillName.HeartOfTheWolverine])
+        keyboard.send(hotkeys.right_skill_map[SkillName.HeartOfWolverine])
         wait(0.05, 0.2)
         mouse.click(button="right")
         wait(self._cast_duration)
