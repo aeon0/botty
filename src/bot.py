@@ -263,6 +263,35 @@ class Bot:
         self.trigger_or_stop("start_from_town")
 
     def on_start_from_town(self):
+        self._curr_loc = self._town_manager.wait_for_town_spawn()
+        # Handle picking up corpse in case of death
+        if (corpse_present := is_visible(ScreenObjects.Corpse)):
+            self._previous_run_failed = True
+            view.pickup_corpse()
+            wait_until_hidden(ScreenObjects.Corpse)
+            belt.fill_up_belt_from_inventory(Config().char["num_loot_columns"])
+        self._char.discover_capabilities()
+        if corpse_present and self._char.capabilities.can_teleport_with_charges and not self._char.select_teleport():
+            keybind = Config().char["teleport"]
+            Logger.info(f"Teleport keybind is lost upon death. Rebinding teleport to '{keybind}'")
+            self._char.remap_right_skill_hotkey("TELE_ACTIVE", Config().char["teleport"])
+
+        # Run /nopickup command to avoid picking up stuff on accident
+        if Config().char["enable_no_pickup"] and (not self._ran_no_pickup and not self._game_stats._nopickup_active):
+            self._ran_no_pickup = True
+            if view.enable_no_pickup():
+                self._game_stats._nopickup_active = True
+                Logger.info("Activated /nopickup")
+            else:
+                Logger.error("Failed to detect if /nopickup command was applied or not")
+
+        self._game_stats.log_exp()
+
+        self.trigger_or_stop("maintenance")
+
+    def on_maintenance(self):
+        # Pause health manager if not already paused
+        set_pause_state(True)
         if not self._hotkeys['discovered']:
             saved_games_folder = Config().general["saved_games_folder"]
             key_name = Config().general["key_file"]
@@ -287,43 +316,21 @@ class Bot:
             ]
             templates = template_finder.get_cached_templates_in_dir('assets\\templates\\ui\\skills')
             left_key_template_map, right_key_template_map, left_skill, right_skill = discover_hotkey_mappings(templates, keys_to_check)
-            self._hotkeys['left'] = left_key_template_map
-            self._hotkeys['right'] = right_key_template_map
+            self._char._hotkeys = {
+                'left': left_key_template_map,
+                'right': right_key_template_map,
+            }
+            self._pather._hotkeys = {
+                'left': left_key_template_map,
+                'right': right_key_template_map,
+            }
             if len(left_key_template_map) == 0:
-                self._default_left_skill = left_skill
+                self._char._default_left_skill = left_skill
+                # self._default_left_skill = left_skill
             if len(right_key_template_map) == 0:
-                self._default_right_skill = right_skill
+                self._char._default_right_skill = right_skill
+                # self._default_right_skill = right_skill
             self._hotkeys['discovered'] = True
-        self._curr_loc = self._town_manager.wait_for_town_spawn()
-        # Handle picking up corpse in case of death
-        if (corpse_present := is_visible(ScreenObjects.Corpse)):
-            self._previous_run_failed = True
-            view.pickup_corpse()
-            wait_until_hidden(ScreenObjects.Corpse)
-            belt.fill_up_belt_from_inventory(Config().char["num_loot_columns"])
-        self._char.discover_capabilities()
-        if corpse_present and self._char.capabilities.can_teleport_with_charges and not self._char.select_tp():
-            keybind = Config().char["teleport"]
-            Logger.info(f"Teleport keybind is lost upon death. Rebinding teleport to '{keybind}'")
-            self._char.remap_right_skill_hotkey("TELE_ACTIVE", Config().char["teleport"])
-
-        # Run /nopickup command to avoid picking up stuff on accident
-        if Config().char["enable_no_pickup"] and (not self._ran_no_pickup and not self._game_stats._nopickup_active):
-            self._ran_no_pickup = True
-            if view.enable_no_pickup():
-                self._game_stats._nopickup_active = True
-                Logger.info("Activated /nopickup")
-            else:
-                Logger.error("Failed to detect if /nopickup command was applied or not")
-
-        self._game_stats.log_exp()
-
-        self.trigger_or_stop("maintenance")
-
-    def on_maintenance(self):
-        # Pause health manager if not already paused
-        set_pause_state(True)
-
         # Dismiss skill/quest/help/stats icon if they are on screen
         if not view.dismiss_skills_icon():
             view.return_to_play()
@@ -404,7 +411,7 @@ class Bot:
         # Check if we are out of tps or need repairing
         need_repair = is_visible(ScreenObjects.NeedRepair)
         need_routine_repair = False if not Config().char["runs_per_repair"] else self._game_stats._run_counter % Config().char["runs_per_repair"] == 0
-        need_refill_teleport = self._char.capabilities.can_teleport_with_charges and (not self._char.select_tp() or self._char.is_low_on_teleport_charges())
+        need_refill_teleport = self._char.capabilities.can_teleport_with_charges and (not self._char.select_teleport() or self._char.is_low_on_teleport_charges())
         if need_repair or need_routine_repair or need_refill_teleport or sell_items:
             if need_repair:
                 Logger.info("Repair needed. Gear is about to break")

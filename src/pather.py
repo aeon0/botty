@@ -501,7 +501,7 @@ class Pather:
         return (rel_loc[0] + pos_abs[0], rel_loc[1] + pos_abs[1])
 
     def traverse_nodes_fixed(self, key: str | list[tuple[float, float]], char: IChar) -> bool:
-        if not char.capabilities.can_teleport_natively:
+        if "teleport" not in self._hotkeys["right"]:
             error_msg = "Teleport is required for static pathing"
             Logger.error(error_msg)
             raise ValueError(error_msg)
@@ -517,7 +517,7 @@ class Pather:
             x_m += int(random.random() * 6 - 3)
             y_m += int(random.random() * 6 - 3)
             t0 = grab(force_new=True)
-            char.move((x_m, y_m))
+            char.move((x_m, y_m), force_tp=True)
             t1 = grab(force_new=True)
             # check difference between the two frames to determine if tele was good or not
             diff = cv2.absdiff(t0, t1)
@@ -629,7 +629,7 @@ class Pather:
         else:
             Logger.debug(f"Traverse: {path}")
 
-        if use_tp_charge and char.select_tp():
+        if use_tp_charge and char.select_teleport():
             # this means we want to use tele charge and we were able to select it
             pass
         elif do_pre_move:
