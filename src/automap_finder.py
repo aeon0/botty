@@ -41,18 +41,15 @@ def toggle_automap(active: bool = True) -> bool:
     :param active: set to "True" if Automap should be activated, set "False" if Automap should be deactivated, default True
     :returns a TemplateMatch object
     """
-    if template_finder.search_and_wait(["MAP_CHECK1", "MAP_CHECK"], best_match=True, threshold=0.9, timeout=0.1).valid: #check if the Automap is already on
-        if not active:
-            keyboard.send(Config().char["show_automap"])
-            Logger.info("Automap Status: ON - Deactiviating Automap")
-            wait(0.1,0.15)
-        else:
+    if active:
+        if template_finder.search_and_wait(["MAP_CHECK1", "MAP_CHECK"], roi=[1100,10,160,40], best_match=True, threshold=0.5, timeout=0.1).valid: #check if the Automap is already on
             Logger.info("Automap Status: ON")
-    else:
-        if active: 
-            keyboard.send(Config().char["show_automap"])
-            Logger.info("Automap Status: OFF - Activating Automap")
-            wait(0.1,0.15)
         else:
-            Logger.info("Automap Status: OFF")
+            keyboard.send(Config().char["show_automap"])
+            Logger.info("Automap Status: OFF -> ON")
+            wait(0.1,0.15)
+    else:
+        keyboard.send(Config().char["clear_screen"])
+        Logger.info("Automap Status: OFF")
+        wait(0.1,0.15)
     return True
