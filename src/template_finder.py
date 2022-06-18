@@ -60,9 +60,36 @@ def stored_templates() -> dict[Template]:
             )
     return templates
 
+@cache
+def stored_templates_by_dir() -> dict[Template]:
+    templates_by_dir = {}
+    for path in TEMPLATE_PATHS:
+        template_paths = list_files_in_folder(path)
+        for file_path in template_paths:
+            file_name: str = os.path.basename(file_path)
+            file_dir: str = os.path.dirname(file_path)
+            if file_name.lower().endswith('.png'):
+                key = file_name[:-4].upper()
+                template_img = load_template(file_path)
+                if file_dir not in templates_by_dir:
+                    templates_by_dir[file_dir] = []
+                templates_by_dir[file_dir].append(Template(
+                    name = key,
+                    img_bgra = template_img,
+                    img_bgr = cv2.cvtColor(template_img, cv2.COLOR_BGRA2BGR),
+                    img_gray = cv2.cvtColor(template_img, cv2.COLOR_BGRA2GRAY),
+                    alpha_mask = alpha_to_mask(template_img)
+                ))
+    return templates_by_dir
+
+
 def get_template(key):
     with templates_lock:
         return stored_templates()[key].img_bgr
+
+def get_cached_templates_in_dir(dir) -> list[Template]:
+    with templates_lock:
+        return stored_templates_by_dir()[dir]
 
 def _process_template_refs(ref: str | np.ndarray | list[str]) -> list[Template]:
     templates = []
@@ -216,10 +243,31 @@ def search_all(
             match = _single_template_match(template, img, roi, color_match, use_grayscale)
             if (ind_found := match.score >= threshold):
                 matches.append(match)
-                img = mask_by_roi(img, match.region, "inverse")
+                # img = mask_by_roi(img, match.region, "inverse")
                 any_found |= ind_found
         if not any_found:
             break
+    return matches
+
+def search_all_templates(
+    templates: list[Template],
+    inp_img: np.ndarray,
+    threshold: float = 0.68,
+    roi: list[float] = None,
+    use_grayscale: bool = False,
+    color_match: list = False,
+) -> list[TemplateMatch]:
+    """
+    Returns a list of all templates scoring above set threshold on the screen
+    :Other params are the same as for template_finder.search()
+    :return: Returns a list of TemplateMatch objects
+    """
+    matches = []
+    img = inp_img
+    for template in templates:
+        match = _single_template_match(template, img, roi, color_match, use_grayscale)
+        if (match.score >= threshold):
+            matches.append(match)
     return matches
 
 
@@ -248,10 +296,11 @@ if __name__ == "__main__":
 
     # enter the template names you are trying to detect here
 
-    _template_list = ["SHENK_0","SHENK_1","SHENK_10","SHENK_11","SHENK_12","SHENK_13","SHENK_15","SHENK_16","SHENK_17","SHENK_18","SHENK_19","SHENK_2","SHENK_20","SHENK_3","SHENK_4","SHENK_6","SHENK_7","SHENK_8","SHENK_9","SHENK_DEATH_0","SHENK_DEATH_1","SHENK_DEATH_2","SHENK_DEATH_3","SHENK_DEATH_4","SHENK_V2_3","SHENK_V2_4","SHENK_V2_6","SHENK_V2_7","SHENK_V2_8"]
+    # _template_list = ["SHENK_0","SHENK_1","SHENK_10","SHENK_11","SHENK_12","SHENK_13","SHENK_15","SHENK_16","SHENK_17","SHENK_18","SHENK_19","SHENK_2","SHENK_20","SHENK_3","SHENK_4","SHENK_6","SHENK_7","SHENK_8","SHENK_9","SHENK_DEATH_0","SHENK_DEATH_1","SHENK_DEATH_2","SHENK_DEATH_3","SHENK_DEATH_4","SHENK_V2_3","SHENK_V2_4","SHENK_V2_6","SHENK_V2_7","SHENK_V2_8"]
 
-    _template_list += ["ELDRITCH_0","ELDRITCH_0_V2","ELDRITCH_0_V3","ELDRITCH_1","ELDRITCH_1_V2","ELDRITCH_2","ELDRITCH_2_V2","ELDRITCH_3","ELDRITCH_4","ELDRITCH_5","ELDRITCH_6","ELDRITCH_7","ELDRITCH_7_V2","ELDRITCH_8","ELDRITCH_8_V2","ELDRITCH_9","ELDRITCH_START","ELDRITCH_START_V2"]
+    # _template_list += ["ELDRITCH_0","ELDRITCH_0_V2","ELDRITCH_0_V3","ELDRITCH_1","ELDRITCH_1_V2","ELDRITCH_2","ELDRITCH_2_V2","ELDRITCH_3","ELDRITCH_4","ELDRITCH_5","ELDRITCH_6","ELDRITCH_7","ELDRITCH_7_V2","ELDRITCH_8","ELDRITCH_8_V2","ELDRITCH_9","ELDRITCH_START","ELDRITCH_START_V2"]
 
+    _template_list = ["GLACIAL_SPIKE"]
     _current_template_idx = -1
     _last_stored_idx = 0
     _current_threshold = 0.6
