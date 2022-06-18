@@ -307,28 +307,22 @@ class Lexer:
 
         if self.current_section == NipSections.PROP:
             # TODO: The second checks (i.e NTIPAliasClass and self.tokens[-2].type == TokenType.CLASS:) seem a little misplaced, possibly put them inside the validation function that is inside transpiler.py and throw a warning accordingly.
-            if lookup_key in NTIPAliasClass and self.tokens[-2].type == TokenType.KeywordNTIPAliasClass:
-                return Token(TokenType.ValueNTIPAliasClass, lookup_key)
-            elif lookup_key in NTIPAliasQuality and self.tokens[-2].type == TokenType.KeywordNTIPAliasQuality:
-                return Token(TokenType.ValueNTIPAliasQuality, lookup_key)
-            elif lookup_key in NTIPAliasClassID and self.tokens[-2].type == TokenType.KeywordNTIPAliasName:
-                return Token(TokenType.ValueNTIPAliasClassID, lookup_key)
-            elif lookup_key in NTIPAliasFlag and self.tokens[-2].type == TokenType.KeywordNTIPAliasFlag:
-                return Token(TokenType.ValueNTIPAliasFlag, lookup_key)
-            elif lookup_key in NTIPAliasType and self.tokens[-2].type == TokenType.KeywordNTIPAliasType:
-                return Token(TokenType.ValueNTIPAliasType, lookup_key)
-            elif self.tokens[-2].type == TokenType.KeywordNTIPAliasIDName:
-                return Token(TokenType.ValueNTIPAliasIDName, lookup_key)
-                # if self.tokens[-2].type != TokenType.KeywordNTIPAliasIDName: # * Make sure the last token isn't [idname]
-                #     # Add all the NTIPAlias* to a dict
-                #     NTIPAliasAll = NTIPAliasClass | NTIPAliasQuality | NTIPAliasClassID | NTIPAliasFlag | NTIPAliasType
-                #     for key in NTIPAliasAll:
-                #         if levenshtein(lookup_key, key) < 3:
-                #             raise NipSyntaxError( "NIP_0x4", f"Unknown NTIP lookup: {lookup_key} did you mean {key}?", self._get_text())
-                # else:
-                #     return Token(TokenType.ValueNTIPAliasIDName, lookup_key)
-
-                return Token(TokenType.UNKNOWN, lookup_key)
+            if len(self.tokens) >= 2:
+                if lookup_key in NTIPAliasClass and self.tokens[-2].type == TokenType.KeywordNTIPAliasClass:
+                    return Token(TokenType.ValueNTIPAliasClass, lookup_key)
+                elif lookup_key in NTIPAliasQuality and self.tokens[-2].type == TokenType.KeywordNTIPAliasQuality:
+                    return Token(TokenType.ValueNTIPAliasQuality, lookup_key)
+                elif lookup_key in NTIPAliasClassID and self.tokens[-2].type == TokenType.KeywordNTIPAliasName:
+                    return Token(TokenType.ValueNTIPAliasClassID, lookup_key)
+                elif lookup_key in NTIPAliasFlag and self.tokens[-2].type == TokenType.KeywordNTIPAliasFlag:
+                    return Token(TokenType.ValueNTIPAliasFlag, lookup_key)
+                elif lookup_key in NTIPAliasType and self.tokens[-2].type == TokenType.KeywordNTIPAliasType:
+                    return Token(TokenType.ValueNTIPAliasType, lookup_key)
+                elif self.tokens[-2].type == TokenType.KeywordNTIPAliasIDName:
+                    return Token(TokenType.ValueNTIPAliasIDName, lookup_key)
+            else:
+                raise NipSyntaxError("NIP_0x20", f"Too few tokens to lookup {lookup_key}", self._get_text())
+            return Token(TokenType.UNKNOWN, lookup_key)
         elif self.current_section == NipSections.STAT:
             if lookup_key in NTIPAliasStat:
                 return Token(TokenType.ValueNTIPAliasStat, lookup_key)
