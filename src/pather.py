@@ -523,10 +523,10 @@ class Pather:
                 #'['DIA_AM_WP']': (0, 0),
                 #'['DIA_AM_CS']': (0, 0),
                 #'['DIA_AM_E_B']': (0, 0),
+                'DIA_AM_C1': (530, -140), #putting this first, hoping it will speed up the run.
                 'DIA_AM_PENT': (364, -146),
                 #'DIA_AM_PENT1': (371, -149),
                 #'DIA_AM_PENT2': (364, -146),
-                #'DIA_AM_C1': (530, -140),
                 #'DIA_AM_C2': (364, -64),
                 #'DIA_AM_C3': (200, -136),
                 #'['DIA_AM_C4']': (0, 0),

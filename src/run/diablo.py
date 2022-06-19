@@ -142,7 +142,7 @@ class Diablo:
         ###############
         # Layoutcheck #
         ###############
-        """
+        
         #if do_pre_buff: self._char.pre_buff() #only for cs_kill_trash
         self._char.kill_cs_trash("pent_before_a") # Clear Pentagram 
         self._pather.traverse_nodes_automap([1620], self._char) # Go to Layout Check A
@@ -244,7 +244,7 @@ class Diablo:
                 return False
     
         
-        """
+        
         ##########
         # Seal B #
         ##########
