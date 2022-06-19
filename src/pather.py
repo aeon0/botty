@@ -552,7 +552,7 @@ class Pather:
             # Calc the abs node position with the relative coordinates (relative to ref)
             node_pos_rel = self._get_node(node_idx, template_match.name)
             node_pos_abs = self._convert_rel_to_abs(node_pos_rel, ref_pos_abs)
-            node_pos_abs = get_closest_non_hud_pixel(pos = node_pos_abs, target_type="abs")
+            node_pos_abs = get_closest_non_hud_pixel(pos = node_pos_abs, pos_type="abs")
             return node_pos_abs
         return None
 
@@ -630,7 +630,7 @@ class Pather:
                     else:
                         angle = random.random() * math.pi * 2
                         pos_abs = (math.cos(angle) * 150, math.sin(angle) * 150)
-                    pos_abs = get_closest_non_hud_pixel(pos = node_pos_abs, target_type="abs")
+                    pos_abs = get_closest_non_hud_pixel(pos = node_pos_abs, pos_type="abs")
                     Logger.debug(f"Pather: taking a random guess towards " + str(pos_abs))
                     x_m, y_m = convert_abs_to_monitor(pos_abs)
                     char.move((x_m, y_m), force_move=True)
@@ -695,7 +695,7 @@ if __name__ == "__main__":
                         # Calc the abs node position with the relative coordinates (relative to ref)
                         node_pos_rel = pather._get_node(node_idx, template_type)
                         node_pos_abs = pather._convert_rel_to_abs(node_pos_rel, ref_pos_abs)
-                        node_pos_abs = get_closest_non_hud_pixel(pos = node_pos_abs, target_type="abs")
+                        node_pos_abs = get_closest_non_hud_pixel(pos = node_pos_abs, pos_type="abs")
                         x, y = convert_abs_to_screen(node_pos_abs)
                         cv2.circle(display_img, (x, y), 5, (255, 0, 0), 3)
                         cv2.putText(display_img, str(node_idx), (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)

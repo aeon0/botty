@@ -373,7 +373,7 @@ class Poison_Necro(IChar):
             target = unit_vector(rotate_vec(cast_dir, angle))
             #Logger.info("current angle ~> "+str(angle))
             for j in range(cast_v_div):
-                circle_pos_abs = get_closest_non_hud_pixel(pos = ((target*120.0*float(j+1.0))*offset), target_type="abs")
+                circle_pos_abs = get_closest_non_hud_pixel(pos = ((target*120.0*float(j+1.0))*offset), pos_type="abs")
                 circle_pos_monitor = screen.convert_abs_to_monitor(circle_pos_abs)
                 mouse.move(*circle_pos_monitor,delay_factor=[0.3*delay, .6*delay])
 
