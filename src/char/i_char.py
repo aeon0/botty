@@ -172,7 +172,7 @@ class IChar:
 
     def _adjust_position(cast_pos_abs, spray, spread_deg):
         if spread_deg:
-            cast_pos_abs = vec_to_monitor(arc_spread(cast_pos_abs, spread_deg=spread_deg))
+            cast_pos_abs = arc_spread(cast_pos_abs, spread_deg=spread_deg)
         if spray:
             cast_pos_abs = random_point_in_circle(pos = cast_pos_abs, r = spray)
         return get_closest_non_hud_pixel(cast_pos_abs, "abs")
@@ -469,12 +469,11 @@ class IChar:
         Logger.error(f"Wanted to select {template_type}, but could not find it")
         return False
 
-
-    def vec_to_monitor(self, target: tuple[float, float]) -> tuple[float, float]:
+    @staticmethod
+    def vec_to_monitor(target: tuple[float, float]) -> tuple[float, float]:
         return convert_abs_to_monitor(target)
 
-    def _lerp(self, a: float, b: float, f:float) -> float:
-        return a + f * (b - a)
+
 
     """
     KILL ROUTINES
