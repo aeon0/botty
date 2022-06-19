@@ -414,8 +414,9 @@ class Pather:
                 'DIA_AM_CS':     (668, -317),
                 #'DIA_AM_E_A':    (412, -170),
                 #'DIA_AM_E_B':    (412, -170),
-                #'DIA_AM_PENT':   (0, -6),
+                'DIA_AM_PENT':   (0, -6),
                 #'DIA_AM_PENT1':  (0, -6),
+                'DIA_AM_PENT2':  (0, -6), #in case we are directly at the center of Pent, we should still calibrate, as the player marker is on the transparent part of the template
                 'DIA_AM_C1':     (154, 20),
                 #'DIA_AM_C2':     (-11, 95),
                 #'DIA_AM_C3':     (-176, 24),
@@ -429,121 +430,221 @@ class Pather:
                 },
 
             1601: { #CS Entrance Calibration Node
-            'DIA_AM_WP': (824, -440),
-            'DIA_AM_CS': (96, -35),
-            #'['DIA_AM_E_B']': (0, 0),
-            #'['DIA_AM_PENT']': (0, 0),
-            #'['DIA_AM_PENT1']': (0, 0),
-            #'['DIA_AM_C1']': (0, 0),
-            #'['DIA_AM_C2']': (0, 0),
-            #'['DIA_AM_C3']': (0, 0),
-            #'['DIA_AM_C4']': (0, 0),
-            #'['DIA_AM_A2Y']': (0, 0),
-            #'['DIA_AM_B2U']': (0, 0),
-            #'['DIA_AM_C2G']': (0, 0),
-            #'['DIA_AM_E_A']': (0, 0),
-            #'['DIA_AM_A1L']': (0, 0),
-            #'['DIA_AM_B1S']': (0, 0),
-            #'['DIA_AM_C1F']': (0, 0),
-            },
+                'DIA_AM_WP': (824, -440),
+                'DIA_AM_CS': (96, -35),
+                #'['DIA_AM_E_B']': (0, 0),
+                #'['DIA_AM_PENT']': (0, 0),
+                #'['DIA_AM_PENT1']': (0, 0),
+                #'['DIA_AM_C1']': (0, 0),
+                #'['DIA_AM_C2']': (0, 0),
+                #'['DIA_AM_C3']': (0, 0),
+                #'['DIA_AM_C4']': (0, 0),
+                #'['DIA_AM_A2Y']': (0, 0),
+                #'['DIA_AM_B2U']': (0, 0),
+                #'['DIA_AM_C2G']': (0, 0),
+                #'['DIA_AM_E_A']': (0, 0),
+                #'['DIA_AM_A1L']': (0, 0),
+                #'['DIA_AM_B1S']': (0, 0),
+                #'['DIA_AM_C1F']': (0, 0),
+                },
 
-            1620: {# Calibration & Departure Node Seal A
-            #'['DIA_AM_WP']': (0, 0),
-            #'['DIA_AM_CS']': (0, 0),
-            #'['DIA_AM_E_B']': (0, 0),
-            'DIA_AM_PENT': (-352, -134),
-            #'DIA_AM_PENT1': (-344, -137),
-            #'DIA_AM_C1': (-186, -128),
-            #'DIA_AM_C2': (-351, -52),
-            #'DIA_AM_C3': (-516, -124),
-            #'DIA_AM_C4': (-355, -233),
-            #'['DIA_AM_A2Y']': (0, 0),
-            #'['DIA_AM_B2U']': (0, 0),
-            #'['DIA_AM_C2G']': (0, 0),
-            #'['DIA_AM_E_A']': (0, 0),
-            #'DIA_AM_A1L': (16, -2),
-            #'['DIA_AM_B1S']': (0, 0),
-            #'['DIA_AM_C1F']': (0, 0),
-            },
+            ##########
+            # SEAL A #
+            ##########
+            1620: {# Calibration & Departure Node Seal A (Boss Seal A1L, Fake Seal A2Y)
+                #'['DIA_AM_WP']': (0, 0),
+                #'['DIA_AM_CS']': (0, 0),
+                #'['DIA_AM_E_B']': (0, 0),
+                'DIA_AM_PENT': (-352, -134),
+                #'DIA_AM_PENT1': (-344, -137),
+                'DIA_AM_C1': (-186, -128),
+                #'DIA_AM_C2': (-351, -52),
+                #'DIA_AM_C3': (-516, -124),
+                #'DIA_AM_C4': (-355, -233),
+                #'['DIA_AM_A2Y']': (0, 0),
+                #'['DIA_AM_B2U']': (0, 0),
+                #'['DIA_AM_C2G']': (0, 0),
+                #'['DIA_AM_E_A']': (0, 0),
+                #'DIA_AM_A1L': (16, -2),
+                #'['DIA_AM_B1S']': (0, 0),
+                #'['DIA_AM_C1F']': (0, 0),
+                },
 
-            1621: {#SEAL A1L SEALDANCE Calibration Node
-            #'['DIA_AM_WP']': (0, 0),
-            #'['DIA_AM_CS']': (0, 0),
-            #'['DIA_AM_E_B']': (0, 0),
-            'DIA_AM_PENT': (-332, -160),
-            #'DIA_AM_PENT1': (-325, -164),
-            #'DIA_AM_C1': (-166, -156),
-            #'DIA_AM_C2': (-332, -79),
-            #'DIA_AM_C3': (-496, -151),
-            #'['DIA_AM_C4']': (0, 0),
-            #'['DIA_AM_A2Y']': (0, 0),
-            #'['DIA_AM_B2U']': (0, 0),
-            #'['DIA_AM_C2G']': (0, 0),
-            #'['DIA_AM_E_A']': (0, 0),
-            #'DIA_AM_A1L': (35, -28),
-            #'['DIA_AM_B1S']': (0, 0),
-            #'['DIA_AM_C1F']': (0, 0),
-            },
+            1621: {#SEAL A1L SEALDANCE Calibration Node (Fake Seal A1L, Boss Seal A1L, Not existent for A2Y)
+                #'['DIA_AM_WP']': (0, 0),
+                #'['DIA_AM_CS']': (0, 0),
+                #'['DIA_AM_E_B']': (0, 0),
+                'DIA_AM_PENT': (-332, -160),
+                #'DIA_AM_PENT1': (-325, -164),
+                #'DIA_AM_C1': (-166, -156),
+                #'DIA_AM_C2': (-332, -79),
+                #'DIA_AM_C3': (-496, -151),
+                #'['DIA_AM_C4']': (0, 0),
+                #'['DIA_AM_A2Y']': (0, 0),
+                #'['DIA_AM_B2U']': (0, 0),
+                #'['DIA_AM_C2G']': (0, 0),
+                #'['DIA_AM_E_A']': (0, 0),
+                #'DIA_AM_A1L': (35, -28),
+                #'['DIA_AM_B1S']': (0, 0),
+                #'['DIA_AM_C1F']': (0, 0),
+                },
 
+            1625: {#SEAL A2Y BOSS SEAL Calibration Node (Should also work for A1L - gotta test that )
+                #'['DIA_AM_WP']': (0, 0),
+                #'['DIA_AM_CS']': (0, 0),
+                #'['DIA_AM_E_B']': (0, 0),
+                'DIA_AM_PENT': (-312, -178),
+                'DIA_AM_PENT1': (-305, -181),
+                'DIA_AM_C1': (-146, -172),
+                #'['DIA_AM_C2']': (0, 0),
+                #'['DIA_AM_C3']': (0, 0),
+                #'['DIA_AM_C4']': (0, 0),
+                'DIA_AM_A2Y': (55, -46),
+                #'['DIA_AM_B2U']': (0, 0),
+                #'['DIA_AM_C2G']': (0, 0),
+                #'['DIA_AM_E_A']': (0, 0),
+                #'['DIA_AM_A1L']': (0, 0),
+                #'['DIA_AM_B1S']': (0, 0),
+                #'['DIA_AM_C1F']': (0, 0),
+                },
+
+            1627: {#SEAL A2Y KILL VIZIER -  Not existent for A1L)
+                #'['DIA_AM_WP']': (0, 0),
+                #'['DIA_AM_CS']': (0, 0),
+                #'['DIA_AM_E_B']': (0, 0),
+                'DIA_AM_PENT': (-292, -114),
+                #'DIA_AM_PENT1': (-284, -118),
+                #'DIA_AM_PENT2': (-292, -114),
+                #'DIA_AM_C1': (-126, -110),
+                #'DIA_AM_C2': (-291, -33),
+                #'DIA_AM_C3': (-456, -105),
+                #'DIA_AM_C4': (-295, -214),
+                #'DIA_AM_A2Y': (76, 18),
+                #'['DIA_AM_B2U']': (0, 0),
+                #'['DIA_AM_C2G']': (0, 0),
+                #'['DIA_AM_E_A']': (0, 0),
+                #'['DIA_AM_A1L']': (76, 18),
+                #'['DIA_AM_B1S']': (0, 0),
+                #'['DIA_AM_C1F']': (0, 0),
+                },
 
             1630: { # Calibration & Departure Node Seal B
-            #'['DIA_AM_WP']': (0, 0),
-            #'['DIA_AM_CS']': (0, 0),
-            #'['DIA_AM_E_B']': (0, 0),
-            'DIA_AM_PENT': (330, -154),
-            #'DIA_AM_PENT1': (337, -157),
-            #'DIA_AM_C1': (496, -148),
-            #'DIA_AM_C2': (330, -72),
-            #'DIA_AM_C3': (166, -144),
-            #'['DIA_AM_C4']': (0, 0),
-            #'['DIA_AM_A2Y']': (0, 0),
-            #'['DIA_AM_B2U']': (0, 0),
-            #'['DIA_AM_C2G']': (0, 0),
-            #'['DIA_AM_E_A']': (0, 0),
-            #'['DIA_AM_A1L']': (0, 0),
-            #'DIA_AM_B1S': (-63, -12),
-            #'['DIA_AM_C1F']': (0, 0),
-            },
+                #'['DIA_AM_WP']': (0, 0),
+                #'['DIA_AM_CS']': (0, 0),
+                #'['DIA_AM_E_B']': (0, 0),
+                'DIA_AM_PENT': (366, -148),
+                #'DIA_AM_PENT1': (373, -151),
+                #'DIA_AM_PENT2': (366, -148),
+                #'DIA_AM_C1': (532, -142),
+                #'['DIA_AM_C2']': (0, 0),
+                #'DIA_AM_C3': (202, -138),
+                #'['DIA_AM_C4']': (0, 0),
+                #'['DIA_AM_A2Y']': (0, 0),
+                #'['DIA_AM_B2U']': (0, 0),
+                #'['DIA_AM_C2G']': (0, 0),
+                #'['DIA_AM_E_A']': (0, 0),
+                #'['DIA_AM_A1L']': (0, 0),
+                #'DIA_AM_B1S': (-27, -6),
+                #'['DIA_AM_C1F']': (0, 0),
+                },
 
-        1640: { # Calibration & Departure Node Seal B
-            #'['DIA_AM_WP']': (0, 0),
-            #'['DIA_AM_CS']': (0, 0),
-            #'['DIA_AM_E_B']': (0, 0),
-            'DIA_AM_PENT': (320, 158),
-            #'DIA_AM_PENT1': (328, 155),
-            #'DIA_AM_C1': (486, 164),
-            #'DIA_AM_C2': (321, 240),
-            #'DIA_AM_C3': (156, 168),
-            #'DIA_AM_C4': (317, 59),
-            #'['DIA_AM_A2Y']': (0, 0),
-            #'['DIA_AM_B2U']': (0, 0),
-            #'['DIA_AM_C2G']': (0, 0),
-            #'['DIA_AM_E_A']': (0, 0),
-            #'['DIA_AM_A1L']': (0, 0),
-            #'DIA_AM_B1S': (-72, 300),
-            #'DIA_AM_C1F': (-37, 8),
-            },
+        1640: { # Calibration & Departure Node Seal C
+                #'['DIA_AM_WP']': (0, 0),
+                #'['DIA_AM_CS']': (0, 0),
+                #'['DIA_AM_E_B']': (0, 0),
+                'DIA_AM_PENT': (320, 158),
+                #'DIA_AM_PENT1': (328, 155),
+                #'DIA_AM_C1': (486, 164),
+                #'DIA_AM_C2': (321, 240),
+                #'DIA_AM_C3': (156, 168),
+                #'DIA_AM_C4': (317, 59),
+                #'['DIA_AM_A2Y']': (0, 0),
+                #'['DIA_AM_B2U']': (0, 0),
+                #'['DIA_AM_C2G']': (0, 0),
+                #'['DIA_AM_E_A']': (0, 0),
+                #'['DIA_AM_A1L']': (0, 0),
+                #'DIA_AM_B1S': (-72, 300),
+                #'DIA_AM_C1F': (-37, 8),
+                },
 
         1641: { # Fight Infector C1F
-            #'['DIA_AM_WP']': (0, 0),
-            #'['DIA_AM_CS']': (0, 0),
-            #'['DIA_AM_E_B']': (0, 0),
-            'DIA_AM_PENT': (236, 140),
-            #'DIA_AM_PENT1': (244, 137),
-            #'DIA_AM_C1': (402, 146),
-            #'DIA_AM_C2': (237, 222),
-            #'DIA_AM_C3': (72, 150),
-            #'DIA_AM_C4': (233, 41),
-            #'['DIA_AM_A2Y']': (0, 0),
-            #'['DIA_AM_B2U']': (0, 0),
-            #'['DIA_AM_C2G']': (0, 0),
-            #'['DIA_AM_E_A']': (0, 0),
-            #'['DIA_AM_A1L']': (0, 0),
-            #'DIA_AM_B1S': (-156, 282),
-            #'DIA_AM_C1F': (-121, -10),
-            },
+                #'['DIA_AM_WP']': (0, 0),
+                #'['DIA_AM_CS']': (0, 0),
+                #'['DIA_AM_E_B']': (0, 0),
+                'DIA_AM_PENT': (236, 140),
+                #'DIA_AM_PENT1': (244, 137),
+                #'DIA_AM_C1': (402, 146),
+                #'DIA_AM_C2': (237, 222),
+                #'DIA_AM_C3': (72, 150),
+                #'DIA_AM_C4': (233, 41),
+                #'['DIA_AM_A2Y']': (0, 0),
+                #'['DIA_AM_B2U']': (0, 0),
+                #'['DIA_AM_C2G']': (0, 0),
+                #'['DIA_AM_E_A']': (0, 0),
+                #'['DIA_AM_A1L']': (0, 0),
+                #'DIA_AM_B1S': (-156, 282),
+                #'DIA_AM_C1F': (-121, -10),
+                },
 
-           
+        1645: { # C2G FAKE SEAL
+                #'['DIA_AM_WP']': (0, 0),
+                #'['DIA_AM_CS']': (0, 0),
+                #'['DIA_AM_E_B']': (0, 0),
+                'DIA_AM_PENT': (312, 128),
+                'DIA_AM_PENT1': (320, 125),
+                'DIA_AM_PENT2': (312, 128),
+                'DIA_AM_C1': (478, 134),
+                'DIA_AM_C2': (313, 210),
+                'DIA_AM_C3': (148, 138),
+                'DIA_AM_C4': (309, 29),
+                #'['DIA_AM_A2Y']': (0, 0),
+                #'['DIA_AM_B2U']': (0, 0),
+                'DIA_AM_C2G': (-45, -22),
+                #'['DIA_AM_E_A']': (0, 0),
+                #'['DIA_AM_A1L']': (0, 0),
+                'DIA_AM_B1S': (-80, 270),
+                #'['DIA_AM_C1F']': (0, 0),
+                },
+
+        1646: { # C2G BOSS SEAL
+                #'['DIA_AM_WP']': (0, 0),
+                #'['DIA_AM_CS']': (0, 0),
+                #'['DIA_AM_E_B']': (0, 0),
+                'DIA_AM_PENT': (264, 162),
+                'DIA_AM_PENT1': (272, 158),
+                'DIA_AM_PENT2': (264, 162),
+                'DIA_AM_C1': (430, 166),
+                'DIA_AM_C2': (265, 243),
+                'DIA_AM_C3': (100, 171),
+                'DIA_AM_C4': (261, 62),
+                #'['DIA_AM_A2Y']': (0, 0),
+                #'['DIA_AM_B2U']': (0, 0),
+                'DIA_AM_C2G': (-93, 12),
+                #'['DIA_AM_E_A']': (0, 0),
+                #'['DIA_AM_A1L']': (0, 0),
+                'DIA_AM_B1S': (-128, 304),
+                #'['DIA_AM_C1F']': (0, 0),
+                },
+
+        1647: { # C2G Fight Infector
+                #'['DIA_AM_WP']': (0, 0),
+                #'['DIA_AM_CS']': (0, 0),
+                #'['DIA_AM_E_B']': (0, 0),
+                'DIA_AM_PENT': (312, 160),
+                #'['DIA_AM_PENT1']': (0, 0),
+                'DIA_AM_PENT2': (312, 160),
+                'DIA_AM_C1': (478, 166),
+                'DIA_AM_C2': (312, 242),
+                'DIA_AM_C3': (148, 170),
+                'DIA_AM_C4': (308, 61),
+                #'['DIA_AM_A2Y']': (0, 0),
+                #'['DIA_AM_B2U']': (0, 0),
+                'DIA_AM_C2G': (-46, 10),
+                #'['DIA_AM_E_A']': (0, 0),
+                #'['DIA_AM_A1L']': (0, 0),
+                'DIA_AM_B1S': (-81, 302),
+                #'['DIA_AM_C1F']': (0, 0),
+                },
 
         }
         self._paths_automap = {
@@ -1008,6 +1109,7 @@ class Pather:
                                 cv2.imwrite("./log/screenshots/info/info_pather_automap_got_stuck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
                             Logger.error("Got stuck exit pather")
                         if toggle_map:
+                            Logger.debug("Got stuck, switching Automap:"+ '\033[91m' + " OFF" + '\033[0m')
                             toggle_automap(False)
                         return False
 
@@ -1127,8 +1229,9 @@ if __name__ == "__main__":
 
     #display_all_nodes(pather, "DIA_AM") #use this function to explore the templates and nodes visibile in the area you are currently located ingame
     
-    nodes = 165
+    nodes = 665
     pather.traverse_nodes([nodes], char) #use this function to test nodes
+    #pather.traverse_nodes_automap([1630], char, toggle_map=False) 
     """
     pather.traverse_nodes_fixed("dia_wp_cs-e", char) #use this function to test static paths
     pather.traverse_nodes_automap([1601], char) 
@@ -1167,12 +1270,12 @@ if __name__ == "__main__":
             Logger.warning("Checking Automap Status")
             toggle_automap(True)
             print("1" + str(nodes) + ": {")
-            """
             show_automap_pos(["DIA_AM_WP"])
             show_automap_pos(["DIA_AM_CS"])
             show_automap_pos(["DIA_AM_E_B"])
             show_automap_pos(["DIA_AM_PENT"])
             show_automap_pos(["DIA_AM_PENT1"])
+            show_automap_pos(["DIA_AM_PENT2"])
             show_automap_pos(["DIA_AM_C1"])
             show_automap_pos(["DIA_AM_C2"])
             show_automap_pos(["DIA_AM_C3"])
@@ -1184,8 +1287,8 @@ if __name__ == "__main__":
             show_automap_pos(["DIA_AM_A1L"])
             show_automap_pos(["DIA_AM_B1S"])
             show_automap_pos(["DIA_AM_C1F"])
-            """
-            show_automap_pos(["A4_TOWN_AUTOMAP"])
+            
+            #show_automap_pos(["A4_TOWN_AUTOMAP"])
             print("    },")
             toggle_automap(False)
             Logger.warning("End of List - Press F12 to Stop")

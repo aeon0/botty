@@ -769,12 +769,12 @@ class FoHdin(Paladin):
         match seal_layout:
             case "A1-L":
                 if not self._pather.traverse_nodes_automap([1620], self): return False
-                Logger.debug(seal_layout + ": Attacking Vizier") # we either need two attack positions, if he spawns afar, then one round does not get him - or we need to hop to the center of all spawns to get him either behind or before us
+                Logger.debug(seal_layout + ": Attacking Vizier")
                 self._cs_attack_sequence(min_duration=atk_dur_min, max_duration=atk_dur_max)
                 self._cs_pickit(skip_inspect=True)
                 self._activate_cleanse_redemption()
             case "A2-Y":
-                if not self._pather.traverse_nodes_automap([1620], self): return False
+                if not self._pather.traverse_nodes_automap([1627], self): return False
                 Logger.debug(seal_layout + ": Attacking Vizier")
                 self._cs_attack_sequence(min_duration=atk_dur_min, max_duration=atk_dur_max)
                 self._cs_pickit(skip_inspect=True)
@@ -822,13 +822,13 @@ class FoHdin(Paladin):
         atk_dur_max = atk_dur_min * 3
         match seal_layout:
             case "C1-F":
-                if not self._pather.traverse_nodes_automap([1641], self): return False                      #NODES!
+                if not self._pather.traverse_nodes_automap([1641], self): return False
                 Logger.debug(seal_layout + ": Attacking Infector")
                 self._cs_attack_sequence(min_duration=atk_dur_min, max_duration=atk_dur_max)
                 self._cs_pickit(skip_inspect=True)
                 self._activate_cleanse_redemption()
             case "C2-G":
-                if not self._pather.traverse_nodes_automap([1641], self): return False                      #NODES!
+                if not self._pather.traverse_nodes_automap([1647], self): return False
                 Logger.debug(seal_layout + ": Attacking Infector")
                 self._cs_attack_sequence(min_duration=atk_dur_min, max_duration=atk_dur_max)
                 self._cs_pickit(skip_inspect=True)

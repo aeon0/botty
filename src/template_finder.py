@@ -250,7 +250,9 @@ if __name__ == "__main__":
 
     # enter the template names you are trying to detect here
 
-    _template_list = ["A2_TOWN_AUTOMAP","A3_TOWN_AUTOMAP", "A4_TOWN_AUTOMAP", "A5_TOWN_AUTOMAP","A1_TOWN_AUTOMAP_NORTH","A1_TOWN_AUTOMAP_SOUTH"]
+    #_template_list = ["A2_TOWN_AUTOMAP","A3_TOWN_AUTOMAP", "A4_TOWN_AUTOMAP", "A5_TOWN_AUTOMAP","A1_TOWN_AUTOMAP_NORTH","A1_TOWN_AUTOMAP_SOUTH"]
+    _template_list = ["DIA_AM_C1F", "DIA_AM_C2G"]
+    
     """
     _template_list =["DIA_A1L2_14_OPEN","DIA_A1L2_14_CLOSED", "DIA_A1L2_14_CLOSED_DARK", "DIA_A1L2_14_MOUSEOVER","DIA_A1L2_5_OPEN","DIA_A1L2_5_CLOSED","DIA_A1L2_5_MOUSEOVER",]
     _template_list +=["DIA_B2U2_16_OPEN","DIA_B2U2_16_CLOSED", "DIA_B2U2_16_MOUSEOVER"]
@@ -259,8 +261,8 @@ if __name__ == "__main__":
     _template_list +=["DIA_C1F_CLOSED_NEAR","DIA_C1F_MOUSEOVER_NEAR"]
     _template_list +=["DIA_B2U2_16_OPEN", "DIA_C1F_BOSS_OPEN_RIGHT", "DIA_C1F_BOSS_OPEN_LEFT"]
     _template_list +=["DIA_C1F_BOSS_MOUSEOVER_LEFT", "DIA_C1F_BOSS_CLOSED_NEAR_LEFT", "DIA_C1F_BOSS_CLOSED_NEAR_RIGHT"]
-    """           
-
+    _template_list +=["DIA_C2G2_7_OPEN","DIA_C2G2_7_CLOSED", "DIA_C2G2_7_MOUSEOVER", "DIA_C2G2_21_OPEN", "DIA_C2G2_21_CLOSED", "DIA_C2G2_21_MOUSEOVER"]             
+    """
     _current_template_idx = -1
     _last_stored_idx = 0
     _current_threshold = 0.6

@@ -42,14 +42,14 @@ def toggle_automap(active: bool = True) -> bool:
     :returns a TemplateMatch object
     """
     if active:
-        if template_finder.search_and_wait(["MAP_CHECK1", "MAP_CHECK"], roi=[1100,10,160,40], best_match=True, threshold=0.5, timeout=0.1).valid: #check if the Automap is already on
-            Logger.info("Automap Status: ON")
+        if template_finder.search_and_wait(["MAP_CHECK"], roi=[1100,10,160,40], best_match=True, threshold=0.9, timeout=0.1, suppress_debug=True).valid: #check if the Automap is already on
+            Logger.debug("Automap Status: "+ '\033[92m' + "ALREADY ON" + '\033[0m')
         else:
             keyboard.send(Config().char["show_automap"])
-            Logger.info("Automap Status: OFF -> ON")
+            Logger.debug("Automap Status: is OFF -> switching " + '\033[92m' + " ON" + '\033[0m')
             wait(0.1,0.15)
     else:
         keyboard.send(Config().char["clear_screen"])
-        Logger.info("Automap Status: OFF")
+        Logger.debug("Automap Status: switching" + '\033[91m' + " OFF" + '\033[0m')
         wait(0.1,0.15)
     return True
