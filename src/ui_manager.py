@@ -364,6 +364,7 @@ def _find_nearest_nonzero(img: np.ndarray, pos: tuple[int, int]) -> tuple[int, i
     x, y = nonzero[nearest_index, :, :][0]
     return (x, y)
 
+@cache
 def get_closest_non_hud_pixel(pos : tuple[int, int], pos_type: str = "abs") -> tuple[int, int]:
     """
     Finds the closest non-hud pixel to the target pixel.
