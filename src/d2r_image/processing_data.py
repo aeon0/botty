@@ -2,9 +2,6 @@ from enum import Enum
 from d2r_image.data_models import ItemQuality
 import cv2
 
-HUD_MASK = cv2.imread(f"assets/hud_mask.png", cv2.IMREAD_GRAYSCALE)
-HUD_MASK = cv2.threshold(HUD_MASK, 1, 255, cv2.THRESH_BINARY)[1]
-
 ITEM_COLORS = ['white', 'gray', 'blue', 'green', 'yellow', 'gold', 'orange']
 GAUS_FILTER = (21, 1)
 EXPECTED_HEIGHT_RANGE = [round(num) for num in [x / 1.5 for x in [14, 40]]]

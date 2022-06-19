@@ -12,10 +12,11 @@ from d2r_image.ocr import image_to_text
 from d2r_image.processing_data import Runeword
 import d2r_image.d2data_lookup as d2data_lookup
 from d2r_image.d2data_lookup import fuzzy_base_item_match
-from d2r_image.processing_data import EXPECTED_HEIGHT_RANGE, EXPECTED_WIDTH_RANGE, GAUS_FILTER, ITEM_COLORS, QUALITY_COLOR_MAP, Runeword, HUD_MASK, BOX_EXPECTED_HEIGHT_RANGE, BOX_EXPECTED_WIDTH_RANGE
+from d2r_image.processing_data import EXPECTED_HEIGHT_RANGE, EXPECTED_WIDTH_RANGE, GAUS_FILTER, ITEM_COLORS, QUALITY_COLOR_MAP, Runeword, BOX_EXPECTED_HEIGHT_RANGE, BOX_EXPECTED_WIDTH_RANGE
 from d2r_image.strings_store import base_items
 from utils.misc import color_filter, erode_to_black, slugify
 from d2r_image.ocr import image_to_text
+from ui_manager import get_hud_mask
 
 from screen import convert_screen_to_monitor
 from utils.misc import color_filter, cut_roi, roi_center
@@ -163,8 +164,8 @@ def _contains_color(img: np.ndarray, color: str) -> bool:
 
 def clean_img(inp_img: np.ndarray, black_thresh: int = 14) -> np.ndarray:
     img = inp_img[:, :, :]
-    if img.shape[0] == HUD_MASK.shape[0] and img.shape[1] == HUD_MASK.shape[1]:
-        img = cv2.bitwise_and(img, img, mask=HUD_MASK)
+    if img.shape[0] == get_hud_mask().shape[0] and img.shape[1] == get_hud_mask().shape[1]:
+        img = cv2.bitwise_and(img, img, mask=get_hud_mask())
     # In order to not filter out highlighted items, change their color to black
     highlight_mask = color_filter(img, Config().colors["item_highlight"])[0]
     img[highlight_mask > 0] = (0, 0, 0)

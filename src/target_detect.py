@@ -7,6 +7,7 @@ from math import dist
 from utils.misc import color_filter, is_in_roi
 import json
 from dataclasses import dataclass
+from ui_manager import get_hud_mask
 
 FILTER_RANGES=[
     {"erode": 1, "blur": 3, "lh": 38, "ls": 169, "lv": 50, "uh": 70, "us": 255, "uv": 255}, # poison
@@ -120,8 +121,7 @@ def _process_image(img, mask_char:bool=False, mask_hud:bool=True, erode:int=None
     """
     img = img
     if mask_hud:
-        hud_mask = cv2.imread(f"./assets/hud_mask.png", cv2.IMREAD_GRAYSCALE)
-        img = cv2.bitwise_and(img, img, mask=hud_mask)
+        img = cv2.bitwise_and(img, img, mask=get_hud_mask())
     if mask_char: img = cv2.rectangle(img, (600,250), (700,400), (0,0,0), -1) # black out character by drawing a black box above him (e.g. ignore set glow)
     if erode:
         kernel = np.ones((erode, erode), 'uint8')
@@ -180,8 +180,6 @@ class LiveViewer:
     def __init__(self):
         with open("./src/utils/live-view-last-settings.json") as f:
             self.settings = json.loads(f.read())
-        self.hud_mask = cv2.imread(f"./assets/hud_mask.png", cv2.IMREAD_GRAYSCALE)
-        self.hud_mask = cv2.threshold(self.hud_mask, 1, 255, cv2.THRESH_BINARY)[1]
         self.use_existing_image = False
         self.existing_image_path = "test/assets/mobs.png"
         self.setup()
@@ -209,7 +207,7 @@ class LiveViewer:
             self.image = grab()
         else:
             self.image = cv2.imread(self.existing_image_path)
-        self.image = cv2.bitwise_and(self.image, self.image, mask=self.hud_mask)
+        self.image = cv2.bitwise_and(self.image, self.image, mask=get_hud_mask())
         # black out character
         self.image = cv2.rectangle(self.image, (550,250), (700,400), (0,0,0), -1)
         try:

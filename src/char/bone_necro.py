@@ -14,6 +14,7 @@ import numpy as np
 import time
 import os
 from ui_manager import ScreenObjects
+from ui_manager import get_closest_non_hud_pixel
 
 class Bone_Necro(IChar):
     def __init__(self, skill_hotkeys: dict, pather: Pather):
@@ -106,8 +107,8 @@ class Bone_Necro(IChar):
             angle = self._lerp(cast_start_angle,cast_end_angle,float(i)/cast_div)
             target = unit_vector(rotate_vec(cast_dir, angle))
             Logger.debug(f"Circle cast - current angle: {angle}º")
-            circle_pos_screen = self._pather._adjust_abs_range_to_screen(target*radius)
-            circle_pos_monitor = convert_abs_to_monitor(circle_pos_screen)
+            circle_pos_abs = get_closest_non_hud_pixel(pos = target*radius, target_type="abs")
+            circle_pos_monitor = convert_abs_to_monitor(circle_pos_abs)
             start = time.time()
             mouse.move(*circle_pos_monitor,delay_factor=[0.95*delay, 1.05*delay])
             duration = time.time() - start
