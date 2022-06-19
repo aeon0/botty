@@ -101,6 +101,17 @@ class Pather:
             # Automap nodes #
             #################
 
+            # A1 Town Automap
+            701: {'A1_TOWN_AUTOMAP_NORTH': (-20, 56),'A1_TOWN_AUTOMAP_SOUTH': (-20, 56),},
+            701: {'A1_TOWN_AUTOMAP_NORTH': (-36, 48),'A1_TOWN_AUTOMAP_SOUTH': (-36, 48),},
+            702: {'A1_TOWN_AUTOMAP_NORTH': (4, 24),'A1_TOWN_AUTOMAP_SOUTH': (4, 24),},
+            703: {'A1_TOWN_AUTOMAP_NORTH': (-42, 6),'A1_TOWN_AUTOMAP_SOUTH': (-42, 6),},
+            704: {'A1_TOWN_AUTOMAP_NORTH': (-92, -4),'A1_TOWN_AUTOMAP_SOUTH': (-92, -4),},
+            705: {'A1_TOWN_AUTOMAP_NORTH': (28, 68),'A1_TOWN_AUTOMAP_SOUTH': (28, 68),},
+            706: {'A1_TOWN_AUTOMAP_NORTH': (94, 88),'A1_TOWN_AUTOMAP_SOUTH': (94, 88),},
+            707: {'A1_TOWN_AUTOMAP_NORTH': (152, 96),'A1_TOWN_AUTOMAP_SOUTH': (154, 96),},
+            708: {'A1_TOWN_AUTOMAP_NORTH': (178, 88),'A1_TOWN_AUTOMAP_SOUTH': (178, 88),},
+
             # A2 Town Automap
             400: {'A3_TOWN_AUTOMAP': (-518, 56), },
             401: {'A3_TOWN_AUTOMAP': (-462, -1),},
@@ -418,22 +429,23 @@ class Pather:
             # DIABLO END
             ########################
 
+            
             # A1 town
             #kashya_cain
-            700: {"A1_TOWN_3": (174, -40), "A1_TOWN_4": (202, 52), "A1_TOWN_0": (226, 196), "A1_TOWN_1": (385, 293), "A1_TOWN_6": (290, 653), "A1_TOWN_5": (439, 610), },
+            #700: {"A1_TOWN_3": (174, -40), "A1_TOWN_4": (202, 52), "A1_TOWN_0": (226, 196), "A1_TOWN_1": (385, 293), "A1_TOWN_6": (290, 653), "A1_TOWN_5": (439, 610), },
             #stash
-            701: {"A1_TOWN_4": (56, -71), "A1_TOWN_0": (80, 73), "A1_TOWN_3": (28, -163), "A1_TOWN_1": (239, 170), "A1_TOWN_6": (104, 530), "A1_TOWN_5": (293, 487), },
+            #701: {"A1_TOWN_4": (56, -71), "A1_TOWN_0": (80, 73), "A1_TOWN_3": (28, -163), "A1_TOWN_1": (239, 170), "A1_TOWN_6": (104, 530), "A1_TOWN_5": (293, 487), },
             #wp check (north)
-            702: {"A1_TOWN_0": (279, -83), "A1_TOWN_4": (255, -227), "A1_TOWN_3": (227, -319), "A1_TOWN_1": (438, 14), "A1_TOWN_6": (303, 374), "A1_TOWN_5": (492, 331), },
-            703: {"A1_TOWN_6": (-36, 161), "A1_TOWN_5": (153, 118), "A1_TOWN_1": (99, -199), "A1_TOWN_0": (-60, -296), "A1_TOWN_4": (-84, -440), "A1_TOWN_3": (-112, -532), },
+            #702: {"A1_TOWN_0": (279, -83), "A1_TOWN_4": (255, -227), "A1_TOWN_3": (227, -319), "A1_TOWN_1": (438, 14), "A1_TOWN_6": (303, 374), "A1_TOWN_5": (492, 331), },
+            #703: {"A1_TOWN_6": (-36, 161), "A1_TOWN_5": (153, 118), "A1_TOWN_1": (99, -199), "A1_TOWN_0": (-60, -296), "A1_TOWN_4": (-84, -440), "A1_TOWN_3": (-112, -532), },
             #charsi
-            704: {"A1_TOWN_5": (-104, 108), "A1_TOWN_1": (-158, -209), "A1_TOWN_6": (-293, 151), "A1_TOWN_0": (-317, -306), "A1_TOWN_4": (-341, -450), "A1_TOWN_3": (-369, -542), },
+            #704: {"A1_TOWN_5": (-104, 108), "A1_TOWN_1": (-158, -209), "A1_TOWN_6": (-293, 151), "A1_TOWN_0": (-317, -306), "A1_TOWN_4": (-341, -450), "A1_TOWN_3": (-369, -542), },
             #wp check (south)
-            705: {"A1_TOWN_3": (457, -29), "A1_TOWN_4": (485, 63), "A1_TOWN_0": (509, 207), "A1_TOWN_7": (-608, -188), "A1_TOWN_1": (668, 304), },
-            706: {"A1_TOWN_7": (-79, -33), "A1_TOWN_8": (-666, 21), "A1_TOWN_3": (986, 126), "A1_TOWN_4": (1014, 218), },
+            #705: {"A1_TOWN_3": (457, -29), "A1_TOWN_4": (485, 63), "A1_TOWN_0": (509, 207), "A1_TOWN_7": (-608, -188), "A1_TOWN_1": (668, 304), },
+            #706: {"A1_TOWN_7": (-79, -33), "A1_TOWN_8": (-666, 21), "A1_TOWN_3": (986, 126), "A1_TOWN_4": (1014, 218), },
             #akara
-            707: {"A1_TOWN_8": (-230, 93), "A1_TOWN_7": (357, 39), },
-            708: {"A1_TOWN_3": (-32, 200), "A1_TOWN_7": (533, -103), "A1_TOWN_9": (505, -298)},
+            #707: {"A1_TOWN_8": (-230, 93), "A1_TOWN_7": (357, 39), },
+            #708: {"A1_TOWN_3": (-32, 200), "A1_TOWN_7": (533, -103), "A1_TOWN_9": (505, -298)},
 
             #extra necro walking waypoints
             900: {"NECRO_TRAV_1": (-102, 46), },
@@ -1353,7 +1365,7 @@ if __name__ == "__main__":
 
     #display_all_nodes(pather, "A1_TOWN") #use this function to explore the templates and nodes visibile in the area you are currently located ingame
     
-    nodes = 705
+    nodes = 708
     pather.traverse_nodes([nodes], char) #use this function to test nodes
     #pather.traverse_nodes_automap([1630], char, toggle_map=False) 
     """
@@ -1422,39 +1434,3 @@ if __name__ == "__main__":
             keyboard.wait("f12")
     
     stop_detecting_window
-
-    """
-    700: {'A1_TOWN_AUTOMAP_NORTH': (25, 92),
-    #'['A1_TOWN_AUTOMAP_SOUTH']': (0, 0),
-    },
-    
-    701: {'A1_TOWN_AUTOMAP_NORTH': (7, 74),
-    #'['A1_TOWN_AUTOMAP_SOUTH']': (0, 0),
-    },
-    702: {
-    #'['A1_TOWN_AUTOMAP_NORTH']': (0, 0),
-    #'['A1_TOWN_AUTOMAP_SOUTH']': (0, 0),
-    },
-    703: {'A1_TOWN_AUTOMAP_NORTH': (-20, 24),
-    #'['A1_TOWN_AUTOMAP_SOUTH']': (0, 0),
-    },
-    704: {'A1_TOWN_AUTOMAP_NORTH': (-49, 27),
-    #'['A1_TOWN_AUTOMAP_SOUTH']': (0, 0),
-    },
-    705: {
-    #'['A1_TOWN_AUTOMAP_NORTH']': (0, 0),
-    #'['A1_TOWN_AUTOMAP_SOUTH']': (0, 0),
-    },
-    706: {
-    #'['A1_TOWN_AUTOMAP_NORTH']': (0, 0),
-    #'['A1_TOWN_AUTOMAP_SOUTH']': (0, 0),
-    },
-    707: {
-    #'['A1_TOWN_AUTOMAP_NORTH']': (0, 0),
-    #'['A1_TOWN_AUTOMAP_SOUTH']': (0, 0),
-    },
-    708: {
-    #'['A1_TOWN_AUTOMAP_NORTH']': (0, 0),
-    #'['A1_TOWN_AUTOMAP_SOUTH']': (0, 0),
-    },
-    """
