@@ -266,10 +266,10 @@ class Bot:
             belt.fill_up_belt_from_inventory(Config().char["num_loot_columns"])
         if self._char.capabilities is None or not self._char.capabilities.can_teleport_natively:
             self._char.discover_capabilities()
-        if corpse_present and self._char.capabilities.can_teleport_with_charges and not self._char.select_teleport():
+        if corpse_present and self._char.capabilities.can_teleport_with_charges:
             keybind = Config().char["teleport"]
             Logger.info(f"Teleport keybind is lost upon death. Rebinding teleport to '{keybind}'")
-            self._char.remap_right_skill_hotkey("TELE_ACTIVE", keybind)
+            skills.remap_right_skill_hotkey("TELE_ACTIVE", keybind)
 
         # Run /nopickup command to avoid picking up stuff on accident
         if Config().char["enable_no_pickup"] and (not self._ran_no_pickup and not self._game_stats._nopickup_active):

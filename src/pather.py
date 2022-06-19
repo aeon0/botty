@@ -513,12 +513,13 @@ class Pather:
             path = key
         i = 0
         stuck_count = 0
+        last_move_time = time.time()
         while i < len(path):
             x_m, y_m = convert_screen_to_monitor(path[i])
             x_m += int(random.random() * 6 - 3)
             y_m += int(random.random() * 6 - 3)
             t0 = grab(force_new=True)
-            char.move((x_m, y_m), use_tp=True)
+            last_move_time = char.move((x_m, y_m), use_tp=True, last_move_time=last_move_time)
             t1 = grab(force_new=True)
             # check difference between the two frames to determine if tele was good or not
             diff = cv2.absdiff(t0, t1)

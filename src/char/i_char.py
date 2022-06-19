@@ -12,11 +12,11 @@ from char.utils.skill_data import get_cast_wait_time
 from config import Config
 from item import consumables
 from logger import Logger
-from screen import grab, convert_monitor_to_screen, convert_screen_to_abs, convert_abs_to_monitor, convert_screen_to_monitor, convert_abs_to_screen
+from screen import grab, convert_monitor_to_screen, convert_screen_to_abs, convert_abs_to_monitor, convert_screen_to_monitor, convert_abs_to_screen, ensure_coordinates_in_screen
 from ui import skills
 from ui_manager import detect_screen_object, ScreenObjects, wait_for_update, is_visible, wait_until_visible
 from utils.custom_mouse import mouse
-from utils.misc import wait, cut_roi, is_in_roi, color_filter, arc_spread
+from utils.misc import wait, cut_roi, is_in_roi, color_filter, arc_spread, random_point_in_circle
 import template_finder
 
 class IChar:
@@ -36,6 +36,7 @@ class IChar:
         self._use_safer_routines = Config().char["safer_routines"]
         self._base_class = ""
         self.can_teleport = ""
+        self.capabilities = None
 
     """
     MOUSE AND KEYBOARD METHODS
@@ -101,7 +102,7 @@ class IChar:
     CAPABILITIES METHODS
     """
 
-    def can_teleport(self) -> bool:
+    def _get_teleport_type(self) -> str:
         """
         1. player can teleport natively
             a. and has teleport bound and is visible
@@ -116,22 +117,41 @@ class IChar:
         # 3. player can't teleport
         if Config().char["use_charged_teleport"] and not self._get_hotkey("teleport"):
             Logger.error("No hotkey for teleport even though param.ini 'use_charged_teleport' is set to True")
-            return False
+            return "walk"
         if not self._get_hotkey("teleport"):
-            return False
+            return "walk"
         # 2. player can teleport with charges
         if Config().char["use_charged_teleport"]:
             if not skills.is_skill_bound(["BAR_TP_ACTIVE", "BAR_TP_INACTIVE"]):
                 # 2c.
                 Logger.debug("can_teleport: player can teleport with charges, but has no teleport bound. Likely needs repair.")
-                return False
             # 2a.
-            return True
+            return "charges"
         # 1. player can teleport natively
         if not Config().char["use_charged_teleport"] and skills.is_skill_bound(["BAR_TP_ACTIVE", "BAR_TP_INACTIVE"]):
-            return True
+            return "native"
+        return "walk"
 
-        return (self.capabilities.can_teleport_natively or self.capabilities.can_teleport_with_charges) and self.select_teleport() and skills.is_right_skill_active()
+    @staticmethod
+    def _teleport_active():
+        return skills.is_teleport_active()
+
+    def can_teleport(self):
+        return (self.capabilities.can_teleport_natively or self.capabilities.can_teleport_with_charges) and self._teleport_active()
+
+    def _discover_capabilities(self) -> CharacterCapabilities:
+        type = self._get_teleport_type()
+        return CharacterCapabilities(can_teleport_natively=(type == "native"), can_teleport_with_charges=(type == "charges"))
+
+    def discover_capabilities(self):
+        if IChar._CrossGameCapabilities is None:
+            capabilities = self._discover_capabilities()
+            self.capabilities = capabilities
+        Logger.info(f"Capabilities: {self.capabilities}")
+        self.on_capabilities_discovered(self.capabilities)
+
+    def on_capabilities_discovered(self, capabilities: CharacterCapabilities):
+        pass
 
     """
     SKILL / CASTING METHODS
@@ -178,12 +198,21 @@ class IChar:
                 self._stand_still(False)
         return True
 
-    def _cast_at_position(self, skill_name: str, cast_pos_abs: tuple[float, float], spray: int, duration: float | list | tuple | None = None) -> bool:
+    def _cast_at_position(self, skill_name: str, cast_pos_abs: tuple[float, float], spray: float = 0, spread_deg: float = 0, duration: float | list | tuple | None = None) -> bool:
         """
         Casts a skill at a given position.
         """
+        def _adjust_position(cast_pos_abs, spray, spread_deg):
+            if spread_deg:
+                pos = vec_to_monitor(arc_spread(cast_pos_abs, spread_deg=spread_deg))
+            if spray:
+                pos = random_point_in_circle(pos = cast_pos_abs, r = spray)
+            return ensure_coordinates_in_screen(pos, "abs")
+
+
         if not self._get_hotkey(skill_name):
             return False
+
         if cast_pos_abs:
             x, y = cast_pos_abs
             if spray:
@@ -203,25 +232,31 @@ class IChar:
             self._activate_aura(aura)
         return self._cast_at_position(skill_name=skill_name, cast_pos_abs=cast_pos_abs, spray=spray, mouse_click_type="left", duration=duration)
 
-    def _remap_skill_hotkey(self, skill_asset, hotkey, skill_roi, expanded_skill_roi) -> bool:
-        x, y, w, h = skill_roi
-        x, y = convert_screen_to_monitor((x, y))
-        mouse.move(x + w/2, y + h / 2)
-        self._click_left()
-        wait(0.3)
-        match = template_finder.search(skill_asset, grab(), threshold=0.84, roi=expanded_skill_roi)
-        if match.valid:
-            mouse.move(*match.center_monitor)
-            wait(0.3)
-            keyboard.send(hotkey)
-            wait(0.3)
-            self._click_left()
-            wait(0.3)
-            return True
-        return False
+    def _cast_in_arc(self, skill_name: str, cast_pos_abs: tuple[float, float] = [0,-100], time_in_s: float = 3, spread_deg: float = 10, hold=True):
+        #scale cast time by damage_scaling
+        time_in_s *= self.damage_scaling
+        Logger.debug(f'Casting {skill_name} for {time_in_s:.02f}s at {cast_pos_abs} with {spread_deg}°')
+        if not self._skill_hotkeys[skill_name]:
+            raise ValueError(f"You did not set {skill_name} hotkey!")
+        self._stand_still(True)
 
-    def remap_right_skill_hotkey(self, skill_asset, hotkey) -> bool:
-        return self._remap_skill_hotkey(skill_asset, hotkey, Config().ui_roi["skill_right"], Config().ui_roi["skill_speed_bar"])
+        target = self.vec_to_monitor(arc_spread(cast_pos_abs, spread_deg=spread_deg))
+        mouse.move(*target,delay_factor=[0.95, 1.05])
+        if hold:
+            self._hold_click("right", True)
+        start = time.time()
+        while (time.time() - start) < time_in_s:
+            target = self.vec_to_monitor(arc_spread(cast_pos_abs, spread_deg=spread_deg))
+            if hold:
+                mouse.move(*target, delay_factor=[3, 8])
+            if not hold:
+                mouse.move(*target, delay_factor=[.2, .4])
+                self._click_right(0.04)
+                wait(self._cast_duration, self._cast_duration)
+
+        if hold:
+            self._hold_click("right", False)
+        self._stand_still(False)
 
     """
     GLOBAL SKILLS
@@ -247,15 +282,17 @@ class IChar:
     """
     CHARACTER ACTIONS AND MOVEMENT METHODS
     """
+    def _force_move(self):
+        self._keypress(self._get_hotkey("force_move"))
 
     def _stand_still(self, enable: bool):
         if enable:
             if not self._standing_still:
-                keyboard.send(Config().char["stand_still"], do_release=False)
+                keyboard.send(self._get_hotkey("stand_still"), do_release=False)
                 self._standing_still = True
         else:
             if self._standing_still:
-                keyboard.send(Config().char["stand_still"], do_press=False)
+                keyboard.send(self._get_hotkey("stand_still"), do_press=False)
                 self._standing_still = False
 
     def pick_up_item(self, pos: tuple[float, float], item_name: str = None, prev_cast_start: float = 0) -> float:
@@ -264,79 +301,18 @@ class IChar:
         wait(0.25, 0.35)
         return prev_cast_start
 
-    def select_by_template(
-        self,
-        template_type:  str | list[str],
-        success_func: Callable = None,
-        timeout: float = 8,
-        threshold: float = 0.68,
-        telekinesis: bool = False
-    ) -> bool:
-        """
-        Finds any template from the template finder and interacts with it
-        :param template_type: Strings or list of strings of the templates that should be searched for
-        :param success_func: Function that will return True if the interaction is successful e.g. return True when loading screen is reached, defaults to None
-        :param timeout: Timeout for the whole template selection, defaults to None
-        :param threshold: Threshold which determines if a template is found or not. None will use default form .ini files
-        :return: True if success. False otherwise
-        """
-        if type(template_type) == list and "A5_STASH" in template_type:
-            # sometimes waypoint is opened and stash not found because of that, check for that
-            if is_visible(ScreenObjects.WaypointLabel):
-                keyboard.send("esc")
-        start = time.time()
-        while timeout is None or (time.time() - start) < timeout:
-            template_match = template_finder.search(template_type, grab(), threshold=threshold)
-            if template_match.valid:
-                Logger.debug(f"Select {template_match.name} ({template_match.score*100:.1f}% confidence)")
-                mouse.move(*template_match.center_monitor)
-                wait(0.2, 0.3)
-                self._click_left()
-                # check the successfunction for 2 sec, if not found, try again
-                check_success_start = time.time()
-                while time.time() - check_success_start < 2:
-                    if success_func is None or success_func():
-                        return True
-        Logger.error(f"Wanted to select {template_type}, but could not find it")
-        return False
-
-    def select_teleport(self) -> bool:
-        if not self._select_skill("teleport", "right", delay = [0.15, 0.2]):
-            return False
-        return skills.is_right_skill_selected(["TELE_ACTIVE", "TELE_INACTIVE"])
-
-
     def pre_move(self):
         pass
 
-    def move(self, pos_monitor: tuple[float, float], use_tp: bool = False, force_move: bool = False):
+    def _teleport_to_position(self, pos_monitor: tuple[float, float]):
         factor = Config().advanced_options["pathing_delay_factor"]
-        start=time.perf_counter()
-        if use_tp and self.can_teleport(): # can_teleport() activates teleport hotkey if True
-            mouse.move(pos_monitor[0], pos_monitor[1], randomize=3, delay_factor=[factor*0.1, factor*0.14])
-            self._cast_simple(skill_name="teleport")
-            min_wait = get_cast_wait_time(self._base_class, "teleport", Config().char["fcr"])
-            wait(self._cast_duration, self._cast_duration + 0.02)
-        else:
-            # in case we want to walk we actually want to move a bit before the point cause d2r will always "overwalk"
-            pos_screen = convert_monitor_to_screen(pos_monitor)
-            pos_abs = convert_screen_to_abs(pos_screen)
-            dist = math.dist(pos_abs, (0, 0))
-            min_wd = max(10, Config().ui_pos["min_walk_dist"])
-            max_wd = random.randint(int(Config().ui_pos["max_walk_dist"] * 0.65), Config().ui_pos["max_walk_dist"])
-            adjust_factor = max(max_wd, min(min_wd, dist - 50)) / max(min_wd, dist)
-            pos_abs = [int(pos_abs[0] * adjust_factor), int(pos_abs[1] * adjust_factor)]
-            x, y = convert_abs_to_monitor(pos_abs)
-            mouse.move(x, y, randomize=5, delay_factor=[factor*0.1, factor*0.14])
-            wait(0.012, 0.02)
-            if force_move:
-                keyboard.send(Config().char["force_move"])
-            else:
-                self._click_left()
+        mouse.move(pos_monitor[0], pos_monitor[1], randomize=3, delay_factor=[(2+factor)/25, (4+factor)/25])
+        wait(0.012, 0.02)
+        self._keypress(self._get_hotkey("teleport"))
 
-    def walk(self, pos_monitor: tuple[float, float], force_move: bool = False):
+    def _walk_to_position(self, pos_monitor: tuple[float, float], force_move: bool = False):
         factor = Config().advanced_options["pathing_delay_factor"]
-            # in case we want to walk we actually want to move a bit before the point cause d2r will always "overwalk"
+        # in case we want to walk we actually want to move a bit before the point cause d2r will always "overwalk"
         pos_screen = convert_monitor_to_screen(pos_monitor)
         pos_abs = convert_screen_to_abs(pos_screen)
         dist = math.dist(pos_abs, (0, 0))
@@ -345,12 +321,25 @@ class IChar:
         adjust_factor = max(max_wd, min(min_wd, dist - 50)) / max(min_wd, dist)
         pos_abs = [int(pos_abs[0] * adjust_factor), int(pos_abs[1] * adjust_factor)]
         x, y = convert_abs_to_monitor(pos_abs)
-        mouse.move(x, y, randomize=5, delay_factor=[factor*0.1, factor*0.14])
+        mouse.move(x, y, randomize=3, delay_factor=[(2+factor)/25, (4+factor)/25])
         wait(0.012, 0.02)
         if force_move:
-            keyboard.send(Config().char["force_move"])
+            self._force_move()
         else:
             self._click_left()
+
+    def move(self, pos_monitor: tuple[float, float], use_tp: bool = False, force_move: bool = False, last_move_time: float = time.time()) -> float:
+        factor = Config().advanced_options["pathing_delay_factor"]
+        if use_tp and self.can_teleport(): # can_teleport() activates teleport hotkey if True
+            # 7 frames is the fastest that teleport can be casted with 200 fcr on sorc
+            self._teleport_to_position(pos_monitor)
+            min_wait = get_cast_wait_time(self._base_class, "teleport", Config().char["fcr"]) + factor/25
+            # if there's still time remaining in cooldown, wait
+            while time.time() - last_move_time < min_wait:
+                wait(0.02)
+        else:
+            self._walk_to_position(pos_monitor = pos_monitor, force_move=force_move)
+        return time.time()
 
     def tp_town(self) -> bool:
         # will check if tp is available and select the skill
@@ -432,6 +421,50 @@ class IChar:
                 wait(0.5)
         return elapsed
 
+    def pre_buff(self):
+        pass
+
+
+    """
+    OTHER METHODS
+    """
+
+    def select_by_template(
+        self,
+        template_type:  str | list[str],
+        success_func: Callable = None,
+        timeout: float = 8,
+        threshold: float = 0.68,
+        telekinesis: bool = False
+    ) -> bool:
+        """
+        Finds any template from the template finder and interacts with it
+        :param template_type: Strings or list of strings of the templates that should be searched for
+        :param success_func: Function that will return True if the interaction is successful e.g. return True when loading screen is reached, defaults to None
+        :param timeout: Timeout for the whole template selection, defaults to None
+        :param threshold: Threshold which determines if a template is found or not. None will use default form .ini files
+        :return: True if success. False otherwise
+        """
+        if type(template_type) == list and "A5_STASH" in template_type:
+            # sometimes waypoint is opened and stash not found because of that, check for that
+            if is_visible(ScreenObjects.WaypointLabel):
+                keyboard.send("esc")
+        start = time.time()
+        while timeout is None or (time.time() - start) < timeout:
+            template_match = template_finder.search(template_type, grab(), threshold=threshold)
+            if template_match.valid:
+                Logger.debug(f"Select {template_match.name} ({template_match.score*100:.1f}% confidence)")
+                mouse.move(*template_match.center_monitor)
+                wait(0.2, 0.3)
+                self._click_left()
+                # check the successfunction for 2 sec, if not found, try again
+                check_success_start = time.time()
+                while time.time() - check_success_start < 2:
+                    if success_func is None or success_func():
+                        return True
+        Logger.error(f"Wanted to select {template_type}, but could not find it")
+        return False
+
 
     def vec_to_monitor(self, target: tuple[float, float]) -> tuple[float, float]:
         circle_pos_screen = self._pather._adjust_abs_range_to_screen(target)
@@ -440,35 +473,9 @@ class IChar:
     def _lerp(self, a: float, b: float, f:float) -> float:
         return a + f * (b - a)
 
-    def cast_in_arc(self, ability: str, cast_pos_abs: tuple[float, float] = [0,-100], time_in_s: float = 3, spread_deg: float = 10, hold=True):
-        #scale cast time by damage_scaling
-        time_in_s *= self.damage_scaling
-        Logger.debug(f'Casting {ability} for {time_in_s:.02f}s at {cast_pos_abs} with {spread_deg}°')
-        if not self._skill_hotkeys[ability]:
-            raise ValueError(f"You did not set {ability} hotkey!")
-        self._stand_still(True)
-        self._select_skill(skill = ability, delay=(0.02, 0.08))
-
-        target = self.vec_to_monitor(arc_spread(cast_pos_abs, spread_deg=spread_deg))
-        mouse.move(*target,delay_factor=[0.95, 1.05])
-        if hold:
-            self._hold_click("right", True)
-        start = time.time()
-        while (time.time() - start) < time_in_s:
-            target = self.vec_to_monitor(arc_spread(cast_pos_abs, spread_deg=spread_deg))
-            if hold:
-                mouse.move(*target, delay_factor=[3, 8])
-            if not hold:
-                mouse.move(*target, delay_factor=[.2, .4])
-                self._click_right(0.04)
-                wait(self._cast_duration, self._cast_duration)
-
-        if hold:
-            self._hold_click("right", False)
-        self._stand_still(False)
-
-    def pre_buff(self):
-        pass
+    """
+    KILL ROUTINES
+    """
 
     def kill_pindle(self) -> bool:
         raise ValueError("Pindle is not implemented!")

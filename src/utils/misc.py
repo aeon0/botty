@@ -13,7 +13,7 @@ from pyparsing import Regex
 from logger import Logger
 import cv2
 import os
-from math import cos, sin, dist
+from math import cos, sin, dist, pi
 import subprocess
 from win32con import HWND_TOPMOST, SWP_NOMOVE, SWP_NOSIZE, HWND_NOTOPMOST
 from win32gui import GetWindowText, SetWindowPos, EnumWindows, GetClientRect, ClientToScreen
@@ -209,13 +209,7 @@ def list_files_in_folder(path: str):
             r.append(os.path.join(root, name))
     return r
 
-def rotate_vec(vec: np.ndarray, deg: float) -> np.ndarray:
-    theta = np.deg2rad(deg)
-    rot_matrix = np.array([[cos(theta), -sin(theta)], [sin(theta), cos(theta)]])
-    return np.dot(rot_matrix, vec)
 
-def unit_vector(vec: np.ndarray) -> np.ndarray:
-    return vec / dist(vec, (0, 0))
 
 def image_is_equal(img1: np.ndarray, img2: np.ndarray) -> bool:
     shape_equal = img1.shape == img2.shape
@@ -223,17 +217,6 @@ def image_is_equal(img1: np.ndarray, img2: np.ndarray) -> bool:
         Logger.debug("image_is_equal: Image shape is not equal")
         return False
     return not(np.bitwise_xor(img1, img2).any())
-
-def arc_spread(cast_dir: tuple[float,float], spread_deg: float=10, radius_spread: tuple[float, float] = [.95, 1.05]) -> np.ndarray:
-    """
-        Given an x,y vec (target), generate a new target that is the same vector but rotated by +/- spread_deg/2
-    """
-    cast_dir = np.array(cast_dir)
-    length = dist(cast_dir, (0, 0))
-    adj = (radius_spread[1] - radius_spread[0])*random.random() + radius_spread[0]
-    rot = spread_deg*(random.random() - .5)
-    return rotate_vec(unit_vector(cast_dir)*(length+adj), rot)
-
 
 @dataclass
 class BestMatchResult:
@@ -266,3 +249,31 @@ def only_lowercase_letters(value):
     if not (x := ''.join(filter( lambda x: x in 'abcdefghijklmnopqrstuvwxyz', value ))):
         x = "botty"
     return x
+
+"""
+GEOMETRY
+"""
+
+def rotate_vec(vec: np.ndarray, deg: float) -> np.ndarray:
+    theta = np.deg2rad(deg)
+    rot_matrix = np.array([[cos(theta), -sin(theta)], [sin(theta), cos(theta)]])
+    return np.dot(rot_matrix, vec)
+
+def unit_vector(vec: np.ndarray) -> np.ndarray:
+    return vec / dist(vec, (0, 0))
+
+def arc_spread(cast_dir: tuple[float,float], spread_deg: float=10, radius_spread: tuple[float, float] = [.95, 1.05]) -> np.ndarray:
+    """
+        Given an x,y vec (target), generate a new target that is the same vector but rotated by +/- spread_deg/2
+    """
+    cast_dir = np.array(cast_dir)
+    length = dist(cast_dir, (0, 0))
+    adj = (radius_spread[1] - radius_spread[0])*random.random() + radius_spread[0]
+    rot = spread_deg*(random.random() - .5)
+    return rotate_vec(unit_vector(cast_dir)*(length+adj), rot)
+
+# return random point in circle centered at x,y with radius r
+def random_point_in_circle(pos: tuple[float, float], r: float) -> tuple[int, int]:
+    x, y = pos
+    theta = random.random()*2*pi
+    return round(x + r*cos(theta)), round(y + r*sin(theta))

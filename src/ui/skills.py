@@ -2,9 +2,10 @@ import keyboard
 from logger import Logger
 import cv2
 import time
+from utils.custom_mouse import mouse
 import numpy as np
 from utils.misc import cut_roi, color_filter, wait
-from screen import grab
+from screen import grab, convert_screen_to_monitor
 from config import Config
 import template_finder
 from ui_manager import is_visible, wait_until_visible, ScreenObjects
@@ -62,17 +63,16 @@ def is_skill_bound(template_list: list[str] | str, roi: list[int] = Config().ui_
     return _is_skill_bound(template_list, roi)
 
 def is_right_skill_bound(template_list: list[str] | str) -> bool:
-    """
-    :return: Bool if skill is currently the selected skill on the right skill slot.
-    """
     return _is_skill_bound(template_list, RIGHT_SKILL_ROI)
 
 def is_left_skill_bound(template_list: list[str] | str) -> bool:
-    """
-    :return: Bool if skill is currently the selected skill on the left skill slot.
-    """
     return _is_skill_bound(template_list, LEFT_SKILL_ROI)
 
+def is_teleport_active(img: np.ndarray = None) -> bool:
+    img = grab() if img is None else img
+    if (match := template_finder.search(["BAR_TP_ACTIVE", "BAR_TP_INACTIVE"], img, roi=Config().ui_roi["active_skills_bar"], best_match=True)).valid:
+        return not "inactive" in match.name.lower()
+    return False
 
 def has_tps() -> bool:
     if not (tps_remain := is_visible(ScreenObjects.BarTownPortalSkill)):
@@ -80,7 +80,6 @@ def has_tps() -> bool:
         if Config().general["info_screenshots"]:
             cv2.imwrite("./log/screenshots/info/debug_out_of_tps_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
     return tps_remain
-
 
 def get_skill_charges(img: np.ndarray = None):
     if img is None:
@@ -130,3 +129,27 @@ def is_low_on_teleport_charges(img: np.ndarray = None) -> bool:
         if charges_present:
             Logger.error("is_low_on_teleport_charges: unable to determine skill charges, assume zero")
         return True
+
+def _remap_skill_hotkey(skill_assets: list[str] | str, hotkey: str, skill_roi: list[int], expanded_skill_roi: list[int]) -> bool:
+    x, y, w, h = skill_roi
+    x, y = convert_screen_to_monitor((x, y))
+    mouse.move(x + w/2, y + h / 2)
+    mouse.click("left")
+    wait(0.3)
+
+    if isinstance(skill_assets, str):
+        skill_assets = [skill_assets]
+    for skill_asset in skill_assets:
+        match = template_finder.search(skill_asset, grab(), threshold=0.84, roi=expanded_skill_roi)
+        if match.valid:
+            mouse.move(*match.center_monitor)
+            wait(0.3)
+            keyboard.send(hotkey)
+            wait(0.3)
+            mouse.click("left")
+            wait(0.3)
+            return True
+    return False
+
+def remap_right_skill_hotkey(skill_assets: list[str] | str, hotkey: str) -> bool:
+    return _remap_skill_hotkey(skill_assets, hotkey, Config().ui_roi["skill_right"], Config().ui_roi["skill_speed_bar"])
