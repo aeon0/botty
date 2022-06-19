@@ -13,7 +13,7 @@ from logger import Logger
 from screen import convert_screen_to_monitor, convert_abs_to_screen, convert_abs_to_monitor, convert_screen_to_abs, grab, stop_detecting_window
 import template_finder
 from char import IChar
-from ui_manager import detect_screen_object, ScreenObjects, is_visible, select_screen_object_match
+from ui_manager import detect_screen_object, ScreenObjects, is_visible, select_screen_object_match, get_closest_non_hud_pixel
 
 class Location:
     # A5 Town
@@ -535,44 +535,6 @@ class Pather:
         #     cv2.imwrite(f"./log/screenshots/info/nil_path_{key}_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
         return True
 
-    def _adjust_abs_range_to_screen(self, abs_pos: tuple[float, float]) -> tuple[float, float]:
-        """
-        Adjust an absolute coordinate so it will not go out of screen or click on any ui which will not move the char
-        :param abs_pos: Absolute position of the desired position to move to
-        :return: Absolute position of a valid position that can be clicked on
-        """
-        f = 1.0
-        # Check for x-range
-        if abs_pos[0] > self._range_x[1]:
-            f = min(f, abs(self._range_x[1] / float(abs_pos[0])))
-        elif abs_pos[0] < self._range_x[0]:
-            f = min(f, abs(self._range_x[0] / float(abs_pos[0])))
-        # Check y-range
-        if abs_pos[1] > self._range_y[1]:
-            f = min(f, abs(self._range_y[1] / float(abs_pos[1])))
-        if abs_pos[1] < self._range_y[0]:
-            f = min(f, abs(self._range_y[0] / float(abs_pos[1])))
-        # Scale the position by the factor f
-        if f < 1.0:
-            abs_pos = (int(abs_pos[0] * f), int(abs_pos[1] * f))
-        # Check if adjusted position is "inside globe"
-        screen_pos = convert_abs_to_screen(abs_pos)
-        if is_in_roi(Config().ui_roi["mana_globe"], screen_pos) or is_in_roi(Config().ui_roi["health_globe"], screen_pos):
-            # convert any of health or mana roi top coordinate to abs (x-coordinate is just a dummy 0 value)
-            new_range_y_bottom = convert_screen_to_abs((0, Config().ui_roi["mana_globe"][1]))[1]
-            f = abs(new_range_y_bottom / float(abs_pos[1]))
-            abs_pos = (int(abs_pos[0] * f), int(abs_pos[1] * f))
-        # Check if clicking on merc img
-        screen_pos = convert_abs_to_screen(abs_pos)
-        if is_in_roi(Config().ui_roi["merc_icon"], screen_pos):
-            width = Config().ui_roi["merc_icon"][2]
-            height = Config().ui_roi["merc_icon"][3]
-            w_abs, h_abs = convert_screen_to_abs((width, height))
-            fw = abs(w_abs / float(abs_pos[0]))
-            fh = abs(h_abs / float(abs_pos[1]))
-            f = max(fw, fh)
-            abs_pos = (int(abs_pos[0] * f), int(abs_pos[1] * f))
-        return abs_pos
 
     def find_abs_node_pos(self, node_idx: int, img: np.ndarray, threshold: float = 0.68) -> tuple[float, float]:
         node = self._nodes[node_idx]
@@ -590,7 +552,7 @@ class Pather:
             # Calc the abs node position with the relative coordinates (relative to ref)
             node_pos_rel = self._get_node(node_idx, template_match.name)
             node_pos_abs = self._convert_rel_to_abs(node_pos_rel, ref_pos_abs)
-            node_pos_abs = self._adjust_abs_range_to_screen(node_pos_abs)
+            node_pos_abs = get_closest_non_hud_pixel(pos = node_pos_abs, pos_type="abs")
             return node_pos_abs
         return None
 
@@ -668,7 +630,7 @@ class Pather:
                     else:
                         angle = random.random() * math.pi * 2
                         pos_abs = (math.cos(angle) * 150, math.sin(angle) * 150)
-                    pos_abs = self._adjust_abs_range_to_screen(pos_abs)
+                    pos_abs = get_closest_non_hud_pixel(pos = node_pos_abs, pos_type="abs")
                     Logger.debug(f"Pather: taking a random guess towards " + str(pos_abs))
                     x_m, y_m = convert_abs_to_monitor(pos_abs)
                     char.move((x_m, y_m), force_move=True)
@@ -733,7 +695,7 @@ if __name__ == "__main__":
                         # Calc the abs node position with the relative coordinates (relative to ref)
                         node_pos_rel = pather._get_node(node_idx, template_type)
                         node_pos_abs = pather._convert_rel_to_abs(node_pos_rel, ref_pos_abs)
-                        node_pos_abs = pather._adjust_abs_range_to_screen(node_pos_abs)
+                        node_pos_abs = get_closest_non_hud_pixel(pos = node_pos_abs, pos_type="abs")
                         x, y = convert_abs_to_screen(node_pos_abs)
                         cv2.circle(display_img, (x, y), 5, (255, 0, 0), 3)
                         cv2.putText(display_img, str(node_idx), (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)

@@ -15,7 +15,7 @@ from logger import Logger
 from config import Config
 from screen import grab, convert_monitor_to_screen, convert_screen_to_abs, convert_abs_to_monitor, convert_screen_to_monitor
 import template_finder
-from ui_manager import detect_screen_object, ScreenObjects
+from ui_manager import detect_screen_object, ScreenObjects, get_closest_non_hud_pixel
 
 class IChar:
     _CrossGameCapabilities: None | CharacterCapabilities = None
@@ -309,8 +309,8 @@ class IChar:
 
 
     def vec_to_monitor(self, target):
-        circle_pos_screen = self._pather._adjust_abs_range_to_screen(target)
-        return convert_abs_to_monitor(circle_pos_screen)
+        circle_pos_abs = get_closest_non_hud_pixel(pos = target, pos_type="abs")
+        return convert_abs_to_monitor(circle_pos_abs)
 
     def _lerp(self,a: float,b: float, f:float):
         return a + f * (b - a)
