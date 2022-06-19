@@ -3,12 +3,14 @@ import os
 import numpy as np
 import time
 import cv2
+from functools import cache
+
 from typing import TypeVar, Callable
 from utils.custom_mouse import mouse
 from utils.misc import wait, cut_roi, image_is_equal
 from logger import Logger
 from config import Config
-from screen import grab, convert_abs_to_monitor
+from screen import convert_abs_to_screen, convert_monitor_to_screen, convert_screen_to_abs, convert_screen_to_monitor, grab, convert_abs_to_monitor
 import template_finder
 from template_finder import TemplateMatch
 from dataclasses import dataclass
@@ -336,6 +338,65 @@ def center_mouse(delay_factor: list = None):
         mouse.move(*center_m, randomize=20, delay_factor = delay_factor)
     else:
         mouse.move(*center_m, randomize=20, delay_factor = [0.1, 0.2])
+
+@cache
+def get_hud_mask() -> np.ndarray:
+    mask = cv2.imread(f"assets/hud_mask.png", cv2.IMREAD_GRAYSCALE)
+    return cv2.threshold(mask, 1, 255, cv2.THRESH_BINARY)[1]
+
+def _find_nearest_nonzero(img: np.ndarray, pos: tuple[int, int]) -> tuple[int, int]:
+    """
+    Finds the nearest nonzero pixel to the target pixel.
+    :param img: The image to search in.
+    :param pos: The target pixel
+    :return: The nearest nonzero pixel
+    """
+
+    x, y = pos
+    if x < 0:
+        x = 0
+    elif x >= img.shape[1]:
+        x = img.shape[1] - 1
+    if y < 0:
+        y = 0
+    elif y >= img.shape[0]:
+        y = img.shape[0] - 1
+    if img[y,x]:
+        return (x, y)
+
+    nonzero = cv2.findNonZero(img)
+    distances = np.sqrt((nonzero[:,:,0] - x) ** 2 + (nonzero[:,:,1] - y) ** 2)
+    nearest_index = np.argmin(distances)
+    x, y = nonzero[nearest_index, :, :][0]
+    return (x, y)
+
+@cache
+def get_closest_non_hud_pixel(pos : tuple[int, int], pos_type: str = "abs") -> tuple[int, int]:
+    """
+    Finds the closest non-hud pixel to the target pixel.
+    :param pos: The target pixel
+    :return: The closest non-hud pixel
+    """
+    match pos_type:
+        case "abs":
+            pos = convert_abs_to_screen(pos)
+        case "monitor":
+            pos = convert_monitor_to_screen(pos)
+        case "screen":
+            pass
+        case _:
+            Logger.error(f"Unknown pos type: {pos_type}")
+            return pos
+    screen_pos = _find_nearest_nonzero(get_hud_mask(), pos)
+    match pos_type:
+        case "abs":
+            new_pos = convert_screen_to_abs(screen_pos)
+        case "monitor":
+            new_pos = convert_screen_to_monitor(screen_pos)
+        case "screen":
+            new_pos = screen_pos
+    return new_pos
+
 
 # Testing: Move to whatever ui to test and run
 if __name__ == "__main__":

@@ -13,7 +13,7 @@ from pather import Location, Pather
 import numpy as np
 import time
 import os
-from ui_manager import wait_until_visible, ScreenObjects
+from ui_manager import wait_until_visible, ScreenObjects, get_closest_non_hud_pixel
 
 class Necro(IChar):
     def __init__(self, skill_hotkeys: dict, pather: Pather):
@@ -351,10 +351,9 @@ class Necro(IChar):
             target = unit_vector(rotate_vec(cast_dir, angle))
             #Logger.info("current angle ~> "+str(angle))
             for j in range(cast_v_div):
-                circle_pos_screen = self._pather._adjust_abs_range_to_screen((target*120.0*float(j+1.0))*offset)
-                circle_pos_monitor = convert_abs_to_monitor(circle_pos_screen)
+                circle_pos_abs = get_closest_non_hud_pixel(pos = (target*120.0*float(j+1.0))*offset, pos_type="abs")
+                circle_pos_monitor = convert_abs_to_monitor(circle_pos_abs)
                 mouse.move(*circle_pos_monitor,delay_factor=[0.3*delay, .6*delay])
-
 
                 #Logger.info("circle move")
         mouse.release(button="right")

@@ -123,35 +123,3 @@ def convert_abs_to_monitor(abs_coord: tuple[float, float]) -> tuple[float, float
     screen_coord = convert_abs_to_screen(abs_coord)
     monitor_coord = convert_screen_to_monitor(screen_coord)
     return monitor_coord
-
-def ensure_coordinates_in_screen(pos: tuple[float, float], type: str = "abs") -> tuple[float, float]:
-    match type:
-        case "monitor":
-            pos = convert_monitor_to_screen(pos)
-            pos_abs = convert_screen_to_abs(pos)
-        case "screen":
-            pos_abs = convert_screen_to_abs(pos)
-        case "abs":
-            pos_abs = pos
-        case _:
-            Logger.error(f"ensure_coordinates_in_screen: unknown type {type}")
-            return pos
-
-    new = pos_abs
-    max_x = Config().ui_pos["screen_width"] / 2
-    max_y = Config().ui_pos["screen_height"] / 2
-    if pos_abs[0] >= max_x:
-        new[0] = max_x - 1
-    elif pos_abs[0] <= -1 * max_x:
-        new[0] = -1 * max_x + 1
-    if pos_abs[1] >= max_y:
-        new[1] = max_y - 1
-    elif pos_abs[1] <= -1 * max_y:
-        new[1] = -1 * max_y + 1
-
-    match type:
-        case "monitor":
-            return convert_abs_to_monitor(new)
-        case "screen":
-            return convert_abs_to_screen(new)
-    return new

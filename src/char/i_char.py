@@ -12,9 +12,9 @@ from char.utils.skill_data import get_cast_wait_time
 from config import Config
 from item import consumables
 from logger import Logger
-from screen import grab, convert_monitor_to_screen, convert_screen_to_abs, convert_abs_to_monitor, convert_screen_to_monitor, convert_abs_to_screen, ensure_coordinates_in_screen
+from screen import grab, convert_monitor_to_screen, convert_screen_to_abs, convert_abs_to_monitor, convert_screen_to_monitor, convert_abs_to_screen
 from ui import skills
-from ui_manager import detect_screen_object, ScreenObjects, wait_for_update, is_visible, wait_until_visible
+from ui_manager import detect_screen_object, ScreenObjects, get_closest_non_hud_pixel, is_visible, wait_until_visible
 from utils.custom_mouse import mouse
 from utils.misc import wait, cut_roi, is_in_roi, color_filter, arc_spread, random_point_in_circle
 import template_finder
@@ -170,6 +170,13 @@ class IChar:
             msg += f" with {aura} active"
         Logger.debug(msg)
 
+    def _adjust_position(cast_pos_abs, spray, spread_deg):
+        if spread_deg:
+            cast_pos_abs = vec_to_monitor(arc_spread(cast_pos_abs, spread_deg=spread_deg))
+        if spray:
+            cast_pos_abs = random_point_in_circle(pos = cast_pos_abs, r = spray)
+        return get_closest_non_hud_pixel(cast_pos_abs, "abs")
+
     def _send_skill_and_cooldown(self, skill_name: str):
         self._keypress(self._get_hotkey(skill_name))
         wait(get_cast_wait_time(skill_name))
@@ -198,16 +205,13 @@ class IChar:
                 self._stand_still(False)
         return True
 
+
+
     def _cast_at_position(self, skill_name: str, cast_pos_abs: tuple[float, float], spray: float = 0, spread_deg: float = 0, duration: float | list | tuple | None = None) -> bool:
         """
         Casts a skill at a given position.
         """
-        def _adjust_position(cast_pos_abs, spray, spread_deg):
-            if spread_deg:
-                pos = vec_to_monitor(arc_spread(cast_pos_abs, spread_deg=spread_deg))
-            if spray:
-                pos = random_point_in_circle(pos = cast_pos_abs, r = spray)
-            return ensure_coordinates_in_screen(pos, "abs")
+
 
 
         if not self._get_hotkey(skill_name):
@@ -467,8 +471,7 @@ class IChar:
 
 
     def vec_to_monitor(self, target: tuple[float, float]) -> tuple[float, float]:
-        circle_pos_screen = self._pather._adjust_abs_range_to_screen(target)
-        return convert_abs_to_monitor(circle_pos_screen)
+        return convert_abs_to_monitor(target)
 
     def _lerp(self, a: float, b: float, f:float) -> float:
         return a + f * (b - a)
