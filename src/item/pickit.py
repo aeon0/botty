@@ -21,6 +21,7 @@ from screen import grab, convert_abs_to_monitor
 from ui_manager import ScreenObjects, is_visible
 from utils.custom_mouse import mouse
 from utils.misc import wait
+from automap_finder import toggle_automap
 
 
 class PickedUpResult(Enum):
@@ -61,6 +62,8 @@ class PickIt:
         self._fail_pickup_count = 0
         self._picked_up_items = []
         self._picked_up_item = False
+        toggle_automap(False)
+    
 
     @staticmethod
     def _ignore_gold(item: GroundItem):
@@ -132,6 +135,7 @@ class PickIt:
             TODO :return: return a list of the items that were picked up
         """
         self._reset_state()
+        toggle_automap(False)
         keyboard.send(Config().char["show_items"])
         wait(0.15, 0.25)
         pickit_phase_start = time.time()

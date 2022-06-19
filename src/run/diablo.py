@@ -60,6 +60,7 @@ class Diablo:
                     Logger.debug("Sealdance: Kill trash at location: sealdance")
                     self._char.kill_cs_trash("sealdance")
                     wait(i*0.5)
+                    Logger.debug("Sealdance: Recalibrating at seal_node")
                     if not self._pather.traverse_nodes_automap(seal_node, self._char): return False
                 else:
                     direction = 1 if i % 2 == 0 else -1
@@ -317,7 +318,7 @@ class Diablo:
 
                 #SEAL
                 Logger.info(seal_layout +": Starting to pop seals")
-                if not self._pather.traverse_nodes_fixed(rush_path, self._char): return False
+                #if not self._pather.traverse_nodes_fixed(rush_path, self._char): return False
                 if node_seal1_automap is not None:
                     if not self._pather.traverse_nodes_automap(node_seal1_automap, self._char): return False
                     if not self._sealdance(seal1_opentemplates, seal1_closedtemplates, seal_layout + ": Seal1", node_seal1_automap): return False
@@ -453,7 +454,7 @@ class Diablo:
                 Logger.info(seal_layout +": Starting to pop seals")
                 if not self._pather.traverse_nodes_automap(node_seal1_automap, self._char): return False
                 if not self._sealdance(seal1_opentemplates, seal1_closedtemplates, seal_layout + ": Seal1", node_seal1_automap): return False
-                if not self._pather.traverse_nodes_fixed(rush_path, self._char): return False #order changed
+                #if not self._pather.traverse_nodes_fixed(rush_path, self._char): return False #order changed
                 if not self._pather.traverse_nodes_automap(node_seal2_automap, self._char): return False
                 if not self._sealdance(seal2_opentemplates, seal2_closedtemplates, seal_layout + ": Seal2", node_seal2_automap): return False
                 Logger.debug(seal_layout + ": Kill Boss C (Infector)")

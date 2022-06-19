@@ -3,9 +3,9 @@
 ======================================================
 | Event                                            |  #  |  %   |
 |--------------------------------------------------|-----|------|
-| Run Diablo                                       | 20  | 100% |
-| ROF: Calibrated at WAYPOINT                      | 20  | 100% |
-| ROF: Teleporting directly to PENTAGRAM           | 20  | 100% |
+| Run Diablo                                       | 81  | 100% |
+| ROF: Calibrated at WAYPOINT                      | 81  | 100% |
+| ROF: Teleporting directly to PENTAGRAM           | 81  | 100% |
 | ROF: Teleporting to CS ENTRANCE                  |  0  |  0%  |
 | CS Trash: Calibrated at CS ENTRANCE              |  0  |  0%  |
 | CS Trash: Starting to clear Trash                |  0  |  0%  |
@@ -26,7 +26,7 @@
 | CS Trash (B): clearing second hall (3/3)         |  0  |  0%  |
 | CS Trash (B): clearing third hall (1/1)          |  0  |  0%  |
 | CS Trash: looping to PENTAGRAM                   |  0  |  0%  |
-| CS: Calibrated at PENTAGRAM                      | 20  | 100% |
+| CS: Calibrated at PENTAGRAM                      | 81  | 100% |
 | CS: OPEN TP                                      |  0  |  0%  |
 | CS: failed to open TP                            |  0  |  0%  |
 | CS TRASH: A Pent to LC                           |  0  |  0%  |
@@ -38,15 +38,15 @@
 | CS TRASH: C Pent to LC                           |  0  |  0%  |
 | CS TRASH: C looping to PENTAGRAM                 |  0  |  0%  |
 | CS TRASH: C calibrated at PENTAGRAM              |  0  |  0%  |
-| Checking Layout for Vizier                       | 20  | 100% |
-| Checking Layout for De Seis                      | 19  | 95%  |
-| Checking Layout for Infector                     | 15  | 75%  |
-| Waiting for Diablo to spawn                      | 11  | 55%  |
-| End game                                         | 11  | 55%  |
-| End failed game                                  |  9  | 45%  |
+| Checking Layout for Vizier                       | 80  | 99%  |
+| Checking Layout for De Seis                      | 71  | 88%  |
+| Checking Layout for Infector                     | 43  | 53%  |
+| Waiting for Diablo to spawn                      | 43  | 53%  |
+| End game                                         | 43  | 53%  |
+| End failed game                                  | 37  | 46%  |
 | Trying to chicken                                |  0  |  0%  |
 | You have died                                    |  0  |  0%  |
-| Shrine found, activating it                      | 105 | 525% |
+| Shrine found, activating it                      | 119 | 147% |
 | Shrine not found                                 |  0  |  0%  |
 | Got enough pots, no need to go to town right now |  0  |  0%  |
 | Going back to town to visit our friend Jamella   |  0  |  0%  |
@@ -62,7 +62,7 @@
 ===========================================
 | A1-L | A2-Y | B1-S | B2-U | C1-F | C2-G |
 |------|------|------|------|------|------|
-|  0   |  19  |  19  |  0   |  0   |  11  |
+|  0   |  72  |  67  |  0   |  0   |  43  |
 
 
 
@@ -72,7 +72,7 @@
 
 | Event                              | # |  %   |
 |------------------------------------|---|------|
-| A1-L: Layout_check step 1/2        | 1 | 100% |
+| A1-L: Layout_check step 1/2        | 8 | 100% |
 | A1-L: Layout_check step 2/2        | 0 |  0%  |
 | A1-L: Layout_check failure         | 0 |  0%  |
 | A1-L: Starting to clear Seal       | 0 |  0%  |
@@ -86,85 +86,85 @@
 | A1-L: Traversing back to Pentagram | 0 |  0%  |
 | A1-L: finished seal & calibrated   | 0 |  0%  |
 
-| Event                              | #  |  %   |
-|------------------------------------|----|------|
-| A2-Y: Layout_check step 1/2        | 19 | 100% |
-| A2-Y: Layout_check step 2/2        | 19 | 100% |
-| A2-Y: Layout_check failure         | 1  |  5%  |
-| A2-Y: Starting to clear Seal       | 0  |  0%  |
-| A2-Y: Seal1: is closed             | 20 | 105% |
-| A2-Y: Seal1: is open               | 19 | 100% |
-| A2-Y: Seal2: is closed             | 22 | 116% |
-| A2-Y: Seal2: is open               | 19 | 100% |
-| A2-Y: Kill Boss                    | 19 | 100% |
-| A2-Y: Static Pathing to Pentagram  | 0  |  0%  |
-| A2-Y: Looping to Pentagram         | 0  |  0%  |
-| A2-Y: Traversing back to Pentagram | 19 | 100% |
-| A2-Y: finished seal & calibrated   | 19 | 100% |
+| Event                              |  #  |  %   |
+|------------------------------------|-----|------|
+| A2-Y: Layout_check step 1/2        | 72  | 100% |
+| A2-Y: Layout_check step 2/2        | 72  | 100% |
+| A2-Y: Layout_check failure         |  8  | 11%  |
+| A2-Y: Starting to clear Seal       |  0  |  0%  |
+| A2-Y: Seal1: is closed             | 75  | 104% |
+| A2-Y: Seal1: is open               | 72  | 100% |
+| A2-Y: Seal2: is closed             | 111 | 154% |
+| A2-Y: Seal2: is open               | 72  | 100% |
+| A2-Y: Kill Boss                    | 72  | 100% |
+| A2-Y: Static Pathing to Pentagram  |  0  |  0%  |
+| A2-Y: Looping to Pentagram         |  0  |  0%  |
+| A2-Y: Traversing back to Pentagram | 72  | 100% |
+| A2-Y: finished seal & calibrated   | 72  | 100% |
 
-| Event                              | #  |  %   |
-|------------------------------------|----|------|
-| B1-S: Layout_check step 1/2        | 19 | 100% |
-| B1-S: Layout_check step 2/2        | 19 | 100% |
-| B1-S: Layout_check failure         | 0  |  0%  |
-| B1-S: Starting to clear Seal       | 0  |  0%  |
-| B1-S: Seal1: is closed             | 0  |  0%  |
-| B1-S: Seal1: is open               | 0  |  0%  |
-| B1-S: Seal2: is closed             | 37 | 195% |
-| B1-S: Seal2: is open               | 15 | 79%  |
-| B1-S: Kill Boss                    | 15 | 79%  |
-| B1-S: Static Pathing to Pentagram  | 0  |  0%  |
-| B1-S: Looping to Pentagram         | 0  |  0%  |
-| B1-S: Traversing back to Pentagram | 15 | 79%  |
-| B1-S: finished seal & calibrated   | 15 | 79%  |
-
-| Event                              | # |  %   |
-|------------------------------------|---|------|
-| B2-U: Layout_check step 1/2        | 0 | nan% |
-| B2-U: Layout_check step 2/2        | 0 | nan% |
-| B2-U: Layout_check failure         | 0 | nan% |
-| B2-U: Starting to clear Seal       | 0 | nan% |
-| B2-U: Seal1: is closed             | 0 | nan% |
-| B2-U: Seal1: is open               | 0 | nan% |
-| B2-U: Seal2: is closed             | 0 | nan% |
-| B2-U: Seal2: is open               | 0 | nan% |
-| B2-U: Kill Boss                    | 0 | nan% |
-| B2-U: Static Pathing to Pentagram  | 0 | nan% |
-| B2-U: Looping to Pentagram         | 0 | nan% |
-| B2-U: Traversing back to Pentagram | 0 | nan% |
-| B2-U: finished seal & calibrated   | 0 | nan% |
+| Event                              |  #  |  %   |
+|------------------------------------|-----|------|
+| B1-S: Layout_check step 1/2        | 67  | 100% |
+| B1-S: Layout_check step 2/2        | 67  | 100% |
+| B1-S: Layout_check failure         |  4  |  6%  |
+| B1-S: Starting to clear Seal       |  0  |  0%  |
+| B1-S: Seal1: is closed             |  0  |  0%  |
+| B1-S: Seal1: is open               |  0  |  0%  |
+| B1-S: Seal2: is closed             | 154 | 230% |
+| B1-S: Seal2: is open               | 43  | 64%  |
+| B1-S: Kill Boss                    | 43  | 64%  |
+| B1-S: Static Pathing to Pentagram  |  0  |  0%  |
+| B1-S: Looping to Pentagram         |  0  |  0%  |
+| B1-S: Traversing back to Pentagram | 43  | 64%  |
+| B1-S: finished seal & calibrated   | 43  | 64%  |
 
 | Event                              | # |  %   |
 |------------------------------------|---|------|
-| C1-F: Layout_check step 1/2        | 4 | 100% |
-| C1-F: Layout_check step 2/2        | 0 |  0%  |
-| C1-F: Layout_check failure         | 0 |  0%  |
-| C1-F: Starting to clear Seal       | 0 |  0%  |
-| C1-F: Seal1: is closed             | 0 |  0%  |
-| C1-F: Seal1: is open               | 0 |  0%  |
-| C1-F: Seal2: is closed             | 0 |  0%  |
-| C1-F: Seal2: is open               | 0 |  0%  |
-| C1-F: Kill Boss                    | 0 |  0%  |
-| C1-F: Static Pathing to Pentagram  | 0 |  0%  |
-| C1-F: Looping to Pentagram         | 0 |  0%  |
-| C1-F: Traversing back to Pentagram | 0 |  0%  |
-| C1-F: finished seal & calibrated   | 0 |  0%  |
+| B2-U: Layout_check step 1/2        | 4 | 100% |
+| B2-U: Layout_check step 2/2        | 0 |  0%  |
+| B2-U: Layout_check failure         | 0 |  0%  |
+| B2-U: Starting to clear Seal       | 0 |  0%  |
+| B2-U: Seal1: is closed             | 0 |  0%  |
+| B2-U: Seal1: is open               | 0 |  0%  |
+| B2-U: Seal2: is closed             | 0 |  0%  |
+| B2-U: Seal2: is open               | 0 |  0%  |
+| B2-U: Kill Boss                    | 0 |  0%  |
+| B2-U: Static Pathing to Pentagram  | 0 |  0%  |
+| B2-U: Looping to Pentagram         | 0 |  0%  |
+| B2-U: Traversing back to Pentagram | 0 |  0%  |
+| B2-U: finished seal & calibrated   | 0 |  0%  |
+
+| Event                              | # |  %   |
+|------------------------------------|---|------|
+| C1-F: Layout_check step 1/2        | 0 | nan% |
+| C1-F: Layout_check step 2/2        | 0 | nan% |
+| C1-F: Layout_check failure         | 0 | nan% |
+| C1-F: Starting to clear Seal       | 0 | nan% |
+| C1-F: Seal1: is closed             | 0 | nan% |
+| C1-F: Seal1: is open               | 0 | nan% |
+| C1-F: Seal2: is closed             | 0 | nan% |
+| C1-F: Seal2: is open               | 0 | nan% |
+| C1-F: Kill Boss                    | 0 | nan% |
+| C1-F: Static Pathing to Pentagram  | 0 | nan% |
+| C1-F: Looping to Pentagram         | 0 | nan% |
+| C1-F: Traversing back to Pentagram | 0 | nan% |
+| C1-F: finished seal & calibrated   | 0 | nan% |
 
 | Event                              | #  |  %   |
 |------------------------------------|----|------|
-| C2-G: Layout_check step 1/2        | 11 | 100% |
-| C2-G: Layout_check step 2/2        | 11 | 100% |
-| C2-G: Layout_check failure         | 4  | 36%  |
+| C2-G: Layout_check step 1/2        | 43 | 100% |
+| C2-G: Layout_check step 2/2        | 43 | 100% |
+| C2-G: Layout_check failure         | 0  |  0%  |
 | C2-G: Starting to clear Seal       | 0  |  0%  |
-| C2-G: Seal1: is closed             | 15 | 136% |
-| C2-G: Seal1: is open               | 11 | 100% |
-| C2-G: Seal2: is closed             | 11 | 100% |
-| C2-G: Seal2: is open               | 11 | 100% |
-| C2-G: Kill Boss                    | 11 | 100% |
+| C2-G: Seal1: is closed             | 57 | 133% |
+| C2-G: Seal1: is open               | 43 | 100% |
+| C2-G: Seal2: is closed             | 43 | 100% |
+| C2-G: Seal2: is open               | 43 | 100% |
+| C2-G: Kill Boss                    | 43 | 100% |
 | C2-G: Static Pathing to Pentagram  | 0  |  0%  |
 | C2-G: Looping to Pentagram         | 0  |  0%  |
-| C2-G: Traversing back to Pentagram | 11 | 100% |
-| C2-G: finished seal & calibrated   | 11 | 100% |
+| C2-G: Traversing back to Pentagram | 43 | 100% |
+| C2-G: finished seal & calibrated   | 43 | 100% |
 
 
 
@@ -196,15 +196,43 @@
 ========================================================
            LAST TRAVERSE BEFORE FAILED GAME            
 ========================================================
-[0.8.0-dev 2022-06-19 07:25:38,373] DEBUG      Traverse automap: [1640]
-[0.8.0-dev 2022-06-19 07:27:40,918] DEBUG      Traverse automap: [1630]
-[0.8.0-dev 2022-06-19 07:33:18,161] DEBUG      Traverse automap: [1630]
-[0.8.0-dev 2022-06-19 07:41:58,404] DEBUG      Traverse automap: [1630]
-[0.8.0-dev 2022-06-19 07:44:14,385] DEBUG      Traverse automap: [1640]
-[0.8.0-dev 2022-06-19 07:49:35,569] DEBUG      Traverse automap: [1630]
-[0.8.0-dev 2022-06-19 07:55:00,145] DEBUG      Traverse automap: [1640]
-[0.8.0-dev 2022-06-19 08:09:17,189] DEBUG      Traverse automap: [1640]
-[0.8.0-dev 2022-06-19 08:23:19,732] DEBUG      Traverse automap: [1620]
+[0.8.0-dev 2022-06-19 11:46:00,914] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 11:48:36,749] DEBUG      Traverse automap: [1620]
+[0.8.0-dev 2022-06-19 12:00:50,637] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 12:01:38,508] DEBUG      Traverse automap: [1620]
+[0.8.0-dev 2022-06-19 12:09:33,810] DEBUG      Traverse automap: [1620]
+[0.8.0-dev 2022-06-19 12:11:46,383] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 12:13:45,684] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 12:15:45,596] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 12:17:43,950] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 12:21:35,701] DEBUG      Traverse automap: [1620]
+[0.8.0-dev 2022-06-19 12:23:57,128] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 12:29:20,710] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 12:30:07,143] DEBUG      Traverse automap: [1620]
+[0.8.0-dev 2022-06-19 12:32:03,664] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 12:37:07,006] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 12:39:10,654] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 13:01:19,216] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 13:09:21,376] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 13:14:41,835] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 13:16:35,228] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 13:26:51,529] DEBUG      Traverse automap: [1620]
+[0.8.0-dev 2022-06-19 13:37:45,283] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 13:42:33,568] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 13:44:37,476] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 13:46:38,938] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 13:59:02,899] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 14:10:49,345] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 14:14:41,363] DEBUG      Traverse automap: [1620]
+[0.8.0-dev 2022-06-19 14:23:17,567] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 14:31:25,228] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 14:33:36,679] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 14:52:09,667] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 15:04:15,760] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 15:21:25,024] DEBUG      Traverse automap: [1620]
+[0.8.0-dev 2022-06-19 15:23:22,910] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 15:27:58,799] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 15:28:52,613] DEBUG      Traverse automap: [1620]
 
 
 
@@ -213,290 +241,1186 @@
 ==========================================
 
 
-1) ========== [0.8.0-dev 2022-06-19 07:25:38,373] DEBUG      Traverse automap: [1640]
-[0.8.0-dev 2022-06-19 07:24:58,663] INFO       B1-S: Seal2: is open - [92m open[0m
-[0.8.0-dev 2022-06-19 07:24:58,663] DEBUG      B1-S: Kill Boss B (DeSeis)
-[0.8.0-dev 2022-06-19 07:24:59,313] DEBUG      B1-S: Attacking DeSeis at Position 1/2
-[0.8.0-dev 2022-06-19 07:25:08,302] DEBUG      fuzzy_base_item_match: change HEATER MANA POTION -> GREATER MANA POTION (similarity: 88.9%)
-[0.8.0-dev 2022-06-19 07:25:08,305] DEBUG      Read 20 ground items in 0.393 seconds
-[0.8.0-dev 2022-06-19 07:25:10,813] DEBUG      B1-S: Attacking DeSeis at Position 2/2
-[0.8.0-dev 2022-06-19 07:25:17,490] DEBUG      Read 20 ground items in 0.435 seconds
-[0.8.0-dev 2022-06-19 07:25:18,474] DEBUG      B1-S: Traversing back to Pentagram
-[0.8.0-dev 2022-06-19 07:25:18,474] DEBUG      Traverse automap: [1600]
-[0.8.0-dev 2022-06-19 07:25:18,576] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
-[0.8.0-dev 2022-06-19 07:25:26,688] DEBUG      Automap Status: switching[91m OFF[0m
-[0.8.0-dev 2022-06-19 07:25:26,807] INFO       B1-S: finished seal & calibrated at PENTAGRAM
-[0.8.0-dev 2022-06-19 07:25:29,446] DEBUG      Read 3 ground items in 0.259 seconds
-[0.8.0-dev 2022-06-19 07:25:38,370] DEBUG      Read 3 ground items in 0.224 seconds
-[0.8.0-dev 2022-06-19 07:25:38,372] DEBUG      ===============================
-[0.8.0-dev 2022-06-19 07:25:38,372] DEBUG      C: Checking Layout for Infector
-[0.8.0-dev 2022-06-19 07:25:38,373] DEBUG      Traverse automap: [1640]
-[0.8.0-dev 2022-06-19 07:25:38,475] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
-[0.8.0-dev 2022-06-19 07:25:38,946] DEBUG      Automap Status: switching[91m OFF[0m
-[0.8.0-dev 2022-06-19 07:25:39,167] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
-[0.8.0-dev 2022-06-19 07:25:39,286] DEBUG      Waiting for templates: ['DIA_AM_C2G']
-[0.8.0-dev 2022-06-19 07:25:39,501] DEBUG      Could not find desired templates
-[0.8.0-dev 2022-06-19 07:25:39,502] DEBUG      Automap Status: switching[91m OFF[0m
-[0.8.0-dev 2022-06-19 07:25:39,604] DEBUG      C1-F: Layout_check step 1/2 - templates NOT found for C2-G
-[0.8.0-dev 2022-06-19 07:25:39,705] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
-[0.8.0-dev 2022-06-19 07:25:39,842] DEBUG      Waiting for templates: ['DIA_AM_C1F']
-[0.8.0-dev 2022-06-19 07:25:40,070] DEBUG      Could not find desired templates
-[0.8.0-dev 2022-06-19 07:25:40,071] DEBUG      Automap Status: switching[91m OFF[0m
-[0.8.0-dev 2022-06-19 07:25:40,192] WARNING    C2-G: Layout_check failure - could not determine the seal Layout at C (Infector) - [91maborting run[0m
-[0.8.0-dev 2022-06-19 07:25:46,037] INFO       Health Manager is now paused
+1) ========== [0.8.0-dev 2022-06-19 11:46:00,914] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 11:45:41,944] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 11:45:41,945] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
+[0.8.0-dev 2022-06-19 11:45:42,346] DEBUG      B1-S: Seal2: failed 3 times, trying to kill trash now
+[0.8.0-dev 2022-06-19 11:45:42,346] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 11:45:44,931] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 11:45:45,032] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 11:45:46,268] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 11:45:46,382] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 11:45:46,522] DEBUG      B1-S: Seal2: trying to open (try #3)
+[0.8.0-dev 2022-06-19 11:45:46,592] DEBUG      Select DIA_B1S2_23_CLOSED (79.7% confidence)
+[0.8.0-dev 2022-06-19 11:45:48,984] DEBUG      Waiting for templates: ['DIA_B1S2_23_OPEN']
+[0.8.0-dev 2022-06-19 11:45:49,097] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 11:45:49,097] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
+[0.8.0-dev 2022-06-19 11:45:49,486] DEBUG      B1-S: Seal2: failed 4 times, trying to kill trash now
+[0.8.0-dev 2022-06-19 11:45:49,486] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 11:45:52,695] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 11:45:52,807] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 11:45:53,282] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 11:45:53,406] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 11:45:53,547] DEBUG      B1-S: Seal2: trying to open (try #4)
+[0.8.0-dev 2022-06-19 11:45:53,659] ERROR      Wanted to select ['DIA_B1S2_23_CLOSED', 'DIA_B1S2_23_MOUSEOVER'], but could not find it
+[0.8.0-dev 2022-06-19 11:45:56,671] DEBUG      Waiting for templates: ['DIA_B1S2_23_OPEN']
+[0.8.0-dev 2022-06-19 11:45:56,800] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 11:45:56,800] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
+[0.8.0-dev 2022-06-19 11:45:57,192] DEBUG      B1-S: Seal2: failed 5 times, trying to kill trash now
+[0.8.0-dev 2022-06-19 11:45:57,192] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 11:46:00,914] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 11:46:01,015] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 11:46:01,581] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 11:46:02,524] INFO       Health Manager is now paused
 
-2) ========== [0.8.0-dev 2022-06-19 07:27:40,918] DEBUG      Traverse automap: [1630]
-[0.8.0-dev 2022-06-19 07:27:22,766] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
-[0.8.0-dev 2022-06-19 07:27:23,206] DEBUG      B1-S: Seal2: failed 3 times, trying to kill trash now
-[0.8.0-dev 2022-06-19 07:27:23,206] DEBUG      Sealdance: Kill trash at location: sealdance
-[0.8.0-dev 2022-06-19 07:27:25,960] DEBUG      Traverse automap: [1630]
-[0.8.0-dev 2022-06-19 07:27:26,061] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
-[0.8.0-dev 2022-06-19 07:27:26,608] DEBUG      Automap Status: switching[91m OFF[0m
-[0.8.0-dev 2022-06-19 07:27:26,759] DEBUG      Automap Status: switching[91m OFF[0m
-[0.8.0-dev 2022-06-19 07:27:26,886] DEBUG      B1-S: Seal2: trying to open (try #3)
-[0.8.0-dev 2022-06-19 07:27:26,992] ERROR      Wanted to select ['DIA_B1S2_23_CLOSED', 'DIA_B1S2_23_MOUSEOVER'], but could not find it
-[0.8.0-dev 2022-06-19 07:27:28,999] DEBUG      Waiting for templates: ['DIA_B1S2_23_OPEN']
-[0.8.0-dev 2022-06-19 07:27:29,116] DEBUG      Could not find desired templates
-[0.8.0-dev 2022-06-19 07:27:29,116] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
-[0.8.0-dev 2022-06-19 07:27:29,597] DEBUG      B1-S: Seal2: failed 4 times, trying to kill trash now
-[0.8.0-dev 2022-06-19 07:27:29,597] DEBUG      Sealdance: Kill trash at location: sealdance
-[0.8.0-dev 2022-06-19 07:27:32,640] DEBUG      Traverse automap: [1630]
-[0.8.0-dev 2022-06-19 07:27:32,743] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
-[0.8.0-dev 2022-06-19 07:27:33,314] DEBUG      Automap Status: switching[91m OFF[0m
-[0.8.0-dev 2022-06-19 07:27:33,444] DEBUG      Automap Status: switching[91m OFF[0m
-[0.8.0-dev 2022-06-19 07:27:33,583] DEBUG      B1-S: Seal2: trying to open (try #4)
-[0.8.0-dev 2022-06-19 07:27:33,687] ERROR      Wanted to select ['DIA_B1S2_23_CLOSED', 'DIA_B1S2_23_MOUSEOVER'], but could not find it
-[0.8.0-dev 2022-06-19 07:27:36,699] DEBUG      Waiting for templates: ['DIA_B1S2_23_OPEN']
-[0.8.0-dev 2022-06-19 07:27:36,814] DEBUG      Could not find desired templates
-[0.8.0-dev 2022-06-19 07:27:36,815] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
-[0.8.0-dev 2022-06-19 07:27:37,220] DEBUG      B1-S: Seal2: failed 5 times, trying to kill trash now
-[0.8.0-dev 2022-06-19 07:27:37,220] DEBUG      Sealdance: Kill trash at location: sealdance
-[0.8.0-dev 2022-06-19 07:27:40,918] DEBUG      Traverse automap: [1630]
-[0.8.0-dev 2022-06-19 07:27:41,019] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
-[0.8.0-dev 2022-06-19 07:27:41,584] DEBUG      Automap Status: switching[91m OFF[0m
-[0.8.0-dev 2022-06-19 07:27:42,096] WARNING    EXP OCR Error: ['EXPERIENCE:', '3,520,485,254', '/', 'O', '!']. Exception: invalid literal for int() with base 10: 'O'
-[0.8.0-dev 2022-06-19 07:27:42,505] INFO       Health Manager is now paused
+2) ========== [0.8.0-dev 2022-06-19 11:48:36,749] DEBUG      Traverse automap: [1620]
+[0.8.0-dev 2022-06-19 11:48:26,198] INFO       CS: Calibrated at PENTAGRAM
+[0.8.0-dev 2022-06-19 11:48:26,198] DEBUG      No attack choreography available in fohdin.py for this node pent_before_a - skipping to shorten run.
+[0.8.0-dev 2022-06-19 11:48:26,199] DEBUG      Traverse automap: [1620]
+[0.8.0-dev 2022-06-19 11:48:26,302] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 11:48:31,411] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 11:48:34,007] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 11:48:34,116] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 11:48:34,770] DEBUG      Read 8 ground items in 0.311 seconds
+[0.8.0-dev 2022-06-19 11:48:35,311] DEBUG      Pick up expression: [name] == scrollofidentify
+[0.8.0-dev 2022-06-19 11:48:35,312] INFO       Attempt to pick up Scroll of Identify
+[0.8.0-dev 2022-06-19 11:48:36,150] DEBUG      Read 10 ground items in 0.375 seconds
+[0.8.0-dev 2022-06-19 11:48:36,514] INFO       Health Manager is now pausing inventory panel check
+[0.8.0-dev 2022-06-19 11:48:36,747] INFO       Health Manager is now activating inventory panel check
+[0.8.0-dev 2022-06-19 11:48:36,748] DEBUG      ==============================
+[0.8.0-dev 2022-06-19 11:48:36,748] DEBUG      A: Checking Layout for Vizier
+[0.8.0-dev 2022-06-19 11:48:36,749] DEBUG      Traverse automap: [1620]
+[0.8.0-dev 2022-06-19 11:48:36,850] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 11:48:37,582] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 11:48:37,810] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 11:48:37,925] DEBUG      Waiting for templates: ['DIA_AM_A2Y']
+[0.8.0-dev 2022-06-19 11:48:38,157] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 11:48:38,158] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 11:48:38,286] DEBUG      A1-L: Layout_check step 1/2 - templates NOT found for A2-Y
+[0.8.0-dev 2022-06-19 11:48:38,387] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 11:48:38,521] DEBUG      Waiting for templates: ['DIA_AM_A1L']
+[0.8.0-dev 2022-06-19 11:48:38,765] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 11:48:38,767] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 11:48:38,879] WARNING    A2-Y: Layout_check failure - could not determine the seal Layout at A (Vizier) - [91maborting run[0m
+[0.8.0-dev 2022-06-19 11:48:44,249] WARNING    EXP OCR Error: ['EXPERIENCE:', '3,520,485,254', '/', 'O']. Exception: invalid literal for int() with base 10: 'O'
+[0.8.0-dev 2022-06-19 11:48:44,803] INFO       Health Manager is now paused
 
-3) ========== [0.8.0-dev 2022-06-19 07:33:18,161] DEBUG      Traverse automap: [1630]
-[0.8.0-dev 2022-06-19 07:32:59,653] DEBUG      Could not find desired templates
-[0.8.0-dev 2022-06-19 07:32:59,653] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
-[0.8.0-dev 2022-06-19 07:33:00,052] DEBUG      B1-S: Seal2: failed 3 times, trying to kill trash now
-[0.8.0-dev 2022-06-19 07:33:00,052] DEBUG      Sealdance: Kill trash at location: sealdance
-[0.8.0-dev 2022-06-19 07:33:02,802] DEBUG      Traverse automap: [1630]
-[0.8.0-dev 2022-06-19 07:33:02,903] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
-[0.8.0-dev 2022-06-19 07:33:03,355] DEBUG      Automap Status: switching[91m OFF[0m
-[0.8.0-dev 2022-06-19 07:33:03,481] DEBUG      Automap Status: switching[91m OFF[0m
-[0.8.0-dev 2022-06-19 07:33:03,603] DEBUG      B1-S: Seal2: trying to open (try #3)
-[0.8.0-dev 2022-06-19 07:33:03,721] ERROR      Wanted to select ['DIA_B1S2_23_CLOSED', 'DIA_B1S2_23_MOUSEOVER'], but could not find it
-[0.8.0-dev 2022-06-19 07:33:05,733] DEBUG      Waiting for templates: ['DIA_B1S2_23_OPEN']
-[0.8.0-dev 2022-06-19 07:33:05,863] DEBUG      Could not find desired templates
-[0.8.0-dev 2022-06-19 07:33:05,863] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
-[0.8.0-dev 2022-06-19 07:33:06,317] DEBUG      B1-S: Seal2: failed 4 times, trying to kill trash now
-[0.8.0-dev 2022-06-19 07:33:06,317] DEBUG      Sealdance: Kill trash at location: sealdance
-[0.8.0-dev 2022-06-19 07:33:09,539] DEBUG      Traverse automap: [1630]
-[0.8.0-dev 2022-06-19 07:33:09,640] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
-[0.8.0-dev 2022-06-19 07:33:10,182] DEBUG      Automap Status: switching[91m OFF[0m
-[0.8.0-dev 2022-06-19 07:33:10,332] DEBUG      Automap Status: switching[91m OFF[0m
-[0.8.0-dev 2022-06-19 07:33:10,459] DEBUG      B1-S: Seal2: trying to open (try #4)
-[0.8.0-dev 2022-06-19 07:33:10,584] ERROR      Wanted to select ['DIA_B1S2_23_CLOSED', 'DIA_B1S2_23_MOUSEOVER'], but could not find it
-[0.8.0-dev 2022-06-19 07:33:13,587] DEBUG      Waiting for templates: ['DIA_B1S2_23_OPEN']
-[0.8.0-dev 2022-06-19 07:33:13,699] DEBUG      Could not find desired templates
-[0.8.0-dev 2022-06-19 07:33:13,699] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
-[0.8.0-dev 2022-06-19 07:33:14,089] DEBUG      B1-S: Seal2: failed 5 times, trying to kill trash now
-[0.8.0-dev 2022-06-19 07:33:14,089] DEBUG      Sealdance: Kill trash at location: sealdance
-[0.8.0-dev 2022-06-19 07:33:18,161] DEBUG      Traverse automap: [1630]
-[0.8.0-dev 2022-06-19 07:33:18,263] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
-[0.8.0-dev 2022-06-19 07:33:18,781] DEBUG      Automap Status: switching[91m OFF[0m
-[0.8.0-dev 2022-06-19 07:33:19,855] INFO       Health Manager is now paused
+3) ========== [0.8.0-dev 2022-06-19 12:00:50,637] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 12:00:31,640] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 12:00:34,306] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 12:00:34,306] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 12:00:34,408] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 12:00:35,607] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:00:35,745] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:00:35,885] DEBUG      B1-S: Seal2: trying to open (try #3)
+[0.8.0-dev 2022-06-19 12:00:35,951] DEBUG      Select DIA_B1S2_23_CLOSED (73.1% confidence)
+[0.8.0-dev 2022-06-19 12:00:38,399] DEBUG      Waiting for templates: ['DIA_B1S2_23_OPEN']
+[0.8.0-dev 2022-06-19 12:00:38,514] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 12:00:38,515] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
+[0.8.0-dev 2022-06-19 12:00:38,905] DEBUG      B1-S: Seal2: failed 4 times, trying to kill trash now
+[0.8.0-dev 2022-06-19 12:00:38,905] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 12:00:42,349] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 12:00:42,349] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 12:00:42,452] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 12:00:43,014] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:00:43,124] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:00:43,250] DEBUG      B1-S: Seal2: trying to open (try #4)
+[0.8.0-dev 2022-06-19 12:00:43,365] ERROR      Wanted to select ['DIA_B1S2_23_CLOSED', 'DIA_B1S2_23_MOUSEOVER'], but could not find it
+[0.8.0-dev 2022-06-19 12:00:46,371] DEBUG      Waiting for templates: ['DIA_B1S2_23_OPEN']
+[0.8.0-dev 2022-06-19 12:00:46,485] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 12:00:46,486] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
+[0.8.0-dev 2022-06-19 12:00:47,016] DEBUG      B1-S: Seal2: failed 5 times, trying to kill trash now
+[0.8.0-dev 2022-06-19 12:00:47,016] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 12:00:50,636] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 12:00:50,637] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 12:00:50,740] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 12:00:51,333] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:00:52,265] INFO       Health Manager is now paused
 
-4) ========== [0.8.0-dev 2022-06-19 07:41:58,404] DEBUG      Traverse automap: [1630]
-[0.8.0-dev 2022-06-19 07:41:40,678] DEBUG      Could not find desired templates
-[0.8.0-dev 2022-06-19 07:41:40,679] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
-[0.8.0-dev 2022-06-19 07:41:41,057] DEBUG      B1-S: Seal2: failed 3 times, trying to kill trash now
-[0.8.0-dev 2022-06-19 07:41:41,057] DEBUG      Sealdance: Kill trash at location: sealdance
-[0.8.0-dev 2022-06-19 07:41:43,638] DEBUG      Traverse automap: [1630]
-[0.8.0-dev 2022-06-19 07:41:43,740] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
-[0.8.0-dev 2022-06-19 07:41:44,247] DEBUG      Automap Status: switching[91m OFF[0m
-[0.8.0-dev 2022-06-19 07:41:44,391] DEBUG      Automap Status: switching[91m OFF[0m
-[0.8.0-dev 2022-06-19 07:41:44,517] DEBUG      B1-S: Seal2: trying to open (try #3)
-[0.8.0-dev 2022-06-19 07:41:44,622] ERROR      Wanted to select ['DIA_B1S2_23_CLOSED', 'DIA_B1S2_23_MOUSEOVER'], but could not find it
-[0.8.0-dev 2022-06-19 07:41:46,637] DEBUG      Waiting for templates: ['DIA_B1S2_23_OPEN']
-[0.8.0-dev 2022-06-19 07:41:46,754] DEBUG      Could not find desired templates
-[0.8.0-dev 2022-06-19 07:41:46,755] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
-[0.8.0-dev 2022-06-19 07:41:47,157] DEBUG      B1-S: Seal2: failed 4 times, trying to kill trash now
-[0.8.0-dev 2022-06-19 07:41:47,157] DEBUG      Sealdance: Kill trash at location: sealdance
-[0.8.0-dev 2022-06-19 07:41:50,284] DEBUG      Traverse automap: [1630]
-[0.8.0-dev 2022-06-19 07:41:50,385] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
-[0.8.0-dev 2022-06-19 07:41:50,893] DEBUG      Automap Status: switching[91m OFF[0m
-[0.8.0-dev 2022-06-19 07:41:51,023] DEBUG      Automap Status: switching[91m OFF[0m
-[0.8.0-dev 2022-06-19 07:41:51,150] DEBUG      B1-S: Seal2: trying to open (try #4)
-[0.8.0-dev 2022-06-19 07:41:51,263] ERROR      Wanted to select ['DIA_B1S2_23_CLOSED', 'DIA_B1S2_23_MOUSEOVER'], but could not find it
-[0.8.0-dev 2022-06-19 07:41:54,275] DEBUG      Waiting for templates: ['DIA_B1S2_23_OPEN']
-[0.8.0-dev 2022-06-19 07:41:54,385] DEBUG      Could not find desired templates
-[0.8.0-dev 2022-06-19 07:41:54,386] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
-[0.8.0-dev 2022-06-19 07:41:54,780] DEBUG      B1-S: Seal2: failed 5 times, trying to kill trash now
-[0.8.0-dev 2022-06-19 07:41:54,780] DEBUG      Sealdance: Kill trash at location: sealdance
-[0.8.0-dev 2022-06-19 07:41:58,404] DEBUG      Traverse automap: [1630]
-[0.8.0-dev 2022-06-19 07:41:58,505] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
-[0.8.0-dev 2022-06-19 07:41:58,964] DEBUG      Automap Status: switching[91m OFF[0m
-[0.8.0-dev 2022-06-19 07:41:59,892] INFO       Health Manager is now paused
+4) ========== [0.8.0-dev 2022-06-19 12:01:38,508] DEBUG      Traverse automap: [1620]
+[0.8.0-dev 2022-06-19 12:01:21,337] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:01:21,456] DEBUG      ROF: Calibrated at CS ENTRANCE
+[0.8.0-dev 2022-06-19 12:01:21,456] DEBUG      ROF: Teleporting directly to PENTAGRAM
+[0.8.0-dev 2022-06-19 12:01:27,670] DEBUG      Traverse automap: [1600]
+[0.8.0-dev 2022-06-19 12:01:27,770] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 12:01:29,771] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:01:29,914] INFO       CS: Calibrated at PENTAGRAM
+[0.8.0-dev 2022-06-19 12:01:29,914] DEBUG      No attack choreography available in fohdin.py for this node pent_before_a - skipping to shorten run.
+[0.8.0-dev 2022-06-19 12:01:29,915] DEBUG      Traverse automap: [1620]
+[0.8.0-dev 2022-06-19 12:01:30,016] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 12:01:35,158] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:01:37,808] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:01:37,947] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:01:38,504] DEBUG      Read 7 ground items in 0.255 seconds
+[0.8.0-dev 2022-06-19 12:01:38,507] DEBUG      ==============================
+[0.8.0-dev 2022-06-19 12:01:38,507] DEBUG      A: Checking Layout for Vizier
+[0.8.0-dev 2022-06-19 12:01:38,508] DEBUG      Traverse automap: [1620]
+[0.8.0-dev 2022-06-19 12:01:38,608] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 12:01:39,367] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:01:39,580] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 12:01:39,699] DEBUG      Waiting for templates: ['DIA_AM_A2Y']
+[0.8.0-dev 2022-06-19 12:01:39,926] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 12:01:39,927] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:01:40,062] DEBUG      A1-L: Layout_check step 1/2 - templates NOT found for A2-Y
+[0.8.0-dev 2022-06-19 12:01:40,163] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 12:01:40,313] DEBUG      Waiting for templates: ['DIA_AM_A1L']
+[0.8.0-dev 2022-06-19 12:01:40,540] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 12:01:40,541] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:01:40,656] WARNING    A2-Y: Layout_check failure - could not determine the seal Layout at A (Vizier) - [91maborting run[0m
+[0.8.0-dev 2022-06-19 12:01:46,471] INFO       Health Manager is now paused
 
-5) ========== [0.8.0-dev 2022-06-19 07:44:14,385] DEBUG      Traverse automap: [1640]
-[0.8.0-dev 2022-06-19 07:43:46,453] DEBUG      Pick up expression: [type] == boots && [quality] == rare && [flag] != ethereal # [frw] >= 30 && [fhr] >= 10 && [dexterity] >= 8 && [coldresist] >= 20 && [fireresist] >= 20 && [lightresist] >= 20       
-[0.8.0-dev 2022-06-19 07:43:46,454] INFO       Attempt to pick up Heavy Boots
-[0.8.0-dev 2022-06-19 07:43:47,268] DEBUG      Read 16 ground items in 0.359 seconds
-[0.8.0-dev 2022-06-19 07:43:48,669] DEBUG      Read 15 ground items in 0.326 seconds
-[0.8.0-dev 2022-06-19 07:43:50,510] DEBUG      B1-S: Attacking DeSeis at Position 2/2
-[0.8.0-dev 2022-06-19 07:43:57,005] DEBUG      Read 15 ground items in 0.315 seconds
-[0.8.0-dev 2022-06-19 07:43:58,089] DEBUG      B1-S: Traversing back to Pentagram
-[0.8.0-dev 2022-06-19 07:43:58,089] DEBUG      Traverse automap: [1600]
-[0.8.0-dev 2022-06-19 07:43:58,192] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
-[0.8.0-dev 2022-06-19 07:44:05,122] DEBUG      Automap Status: switching[91m OFF[0m
-[0.8.0-dev 2022-06-19 07:44:05,269] INFO       B1-S: finished seal & calibrated at PENTAGRAM
-[0.8.0-dev 2022-06-19 07:44:07,914] DEBUG      fuzzy_base_item_match: change HEATER HEALING POTION -> GREATER HEALING POTION (similarity: 90.5%)
-[0.8.0-dev 2022-06-19 07:44:07,915] DEBUG      Read 2 ground items in 0.213 seconds
-[0.8.0-dev 2022-06-19 07:44:14,383] DEBUG      Read 0 ground items in 0.195 seconds
-[0.8.0-dev 2022-06-19 07:44:14,384] DEBUG      ===============================
-[0.8.0-dev 2022-06-19 07:44:14,384] DEBUG      C: Checking Layout for Infector
-[0.8.0-dev 2022-06-19 07:44:14,385] DEBUG      Traverse automap: [1640]
-[0.8.0-dev 2022-06-19 07:44:14,486] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
-[0.8.0-dev 2022-06-19 07:44:15,669] DEBUG      Automap Status: switching[91m OFF[0m
-[0.8.0-dev 2022-06-19 07:44:15,930] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
-[0.8.0-dev 2022-06-19 07:44:16,067] DEBUG      Waiting for templates: ['DIA_AM_C2G']
-[0.8.0-dev 2022-06-19 07:44:16,287] DEBUG      Could not find desired templates
-[0.8.0-dev 2022-06-19 07:44:16,288] DEBUG      Automap Status: switching[91m OFF[0m
-[0.8.0-dev 2022-06-19 07:44:16,413] DEBUG      C1-F: Layout_check step 1/2 - templates NOT found for C2-G
-[0.8.0-dev 2022-06-19 07:44:16,513] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
-[0.8.0-dev 2022-06-19 07:44:16,649] DEBUG      Waiting for templates: ['DIA_AM_C1F']
-[0.8.0-dev 2022-06-19 07:44:16,860] DEBUG      Could not find desired templates
-[0.8.0-dev 2022-06-19 07:44:16,862] DEBUG      Automap Status: switching[91m OFF[0m
-[0.8.0-dev 2022-06-19 07:44:16,999] WARNING    C2-G: Layout_check failure - could not determine the seal Layout at C (Infector) - [91maborting run[0m
-[0.8.0-dev 2022-06-19 07:44:22,835] INFO       Health Manager is now paused
+5) ========== [0.8.0-dev 2022-06-19 12:09:33,810] DEBUG      Traverse automap: [1620]
+[0.8.0-dev 2022-06-19 12:09:16,675] DEBUG      ROF: Calibrated at CS ENTRANCE
+[0.8.0-dev 2022-06-19 12:09:16,675] DEBUG      ROF: Teleporting directly to PENTAGRAM
+[0.8.0-dev 2022-06-19 12:09:22,821] DEBUG      Traverse automap: [1600]
+[0.8.0-dev 2022-06-19 12:09:22,924] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 12:09:24,916] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:09:25,071] INFO       CS: Calibrated at PENTAGRAM
+[0.8.0-dev 2022-06-19 12:09:25,071] DEBUG      No attack choreography available in fohdin.py for this node pent_before_a - skipping to shorten run.
+[0.8.0-dev 2022-06-19 12:09:25,072] DEBUG      Traverse automap: [1620]
+[0.8.0-dev 2022-06-19 12:09:25,174] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 12:09:30,326] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:09:32,997] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:09:33,109] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:09:33,794] DEBUG      Read 6 ground items in 0.307 seconds
+[0.8.0-dev 2022-06-19 12:09:33,810] DEBUG      ==============================
+[0.8.0-dev 2022-06-19 12:09:33,810] DEBUG      A: Checking Layout for Vizier
+[0.8.0-dev 2022-06-19 12:09:33,810] DEBUG      Traverse automap: [1620]
+[0.8.0-dev 2022-06-19 12:09:33,911] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 12:09:34,623] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:09:34,877] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 12:09:34,999] DEBUG      Waiting for templates: ['DIA_AM_A2Y']
+[0.8.0-dev 2022-06-19 12:09:35,224] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 12:09:35,225] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:09:35,357] DEBUG      A1-L: Layout_check step 1/2 - templates NOT found for A2-Y
+[0.8.0-dev 2022-06-19 12:09:35,460] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 12:09:35,579] DEBUG      Waiting for templates: ['DIA_AM_A1L']
+[0.8.0-dev 2022-06-19 12:09:35,817] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 12:09:35,818] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:09:35,940] WARNING    A2-Y: Layout_check failure - could not determine the seal Layout at A (Vizier) - [91maborting run[0m
+[0.8.0-dev 2022-06-19 12:09:41,365] WARNING    EXP OCR Error: ['EXPERIENCE:', '3,520,485,254', '/', 'O']. Exception: invalid literal for int() with base 10: 'O'
+[0.8.0-dev 2022-06-19 12:09:41,803] INFO       Health Manager is now paused
 
-6) ========== [0.8.0-dev 2022-06-19 07:49:35,569] DEBUG      Traverse automap: [1630]
-[0.8.0-dev 2022-06-19 07:49:16,565] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
-[0.8.0-dev 2022-06-19 07:49:16,957] DEBUG      B1-S: Seal2: failed 3 times, trying to kill trash now
-[0.8.0-dev 2022-06-19 07:49:16,957] DEBUG      Sealdance: Kill trash at location: sealdance
-[0.8.0-dev 2022-06-19 07:49:19,590] DEBUG      Traverse automap: [1630]
-[0.8.0-dev 2022-06-19 07:49:19,692] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
-[0.8.0-dev 2022-06-19 07:49:20,914] DEBUG      Automap Status: switching[91m OFF[0m
-[0.8.0-dev 2022-06-19 07:49:21,062] DEBUG      Automap Status: switching[91m OFF[0m
-[0.8.0-dev 2022-06-19 07:49:21,221] DEBUG      B1-S: Seal2: trying to open (try #3)
-[0.8.0-dev 2022-06-19 07:49:21,278] DEBUG      Select DIA_B1S2_23_CLOSED (76.6% confidence)
-[0.8.0-dev 2022-06-19 07:49:23,705] DEBUG      Waiting for templates: ['DIA_B1S2_23_OPEN']
-[0.8.0-dev 2022-06-19 07:49:23,820] DEBUG      Could not find desired templates
-[0.8.0-dev 2022-06-19 07:49:23,820] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
-[0.8.0-dev 2022-06-19 07:49:24,227] DEBUG      B1-S: Seal2: failed 4 times, trying to kill trash now
-[0.8.0-dev 2022-06-19 07:49:24,227] DEBUG      Sealdance: Kill trash at location: sealdance
-[0.8.0-dev 2022-06-19 07:49:27,379] DEBUG      Traverse automap: [1630]
-[0.8.0-dev 2022-06-19 07:49:27,479] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
-[0.8.0-dev 2022-06-19 07:49:27,932] DEBUG      Automap Status: switching[91m OFF[0m
-[0.8.0-dev 2022-06-19 07:49:28,089] DEBUG      Automap Status: switching[91m OFF[0m
-[0.8.0-dev 2022-06-19 07:49:28,200] DEBUG      B1-S: Seal2: trying to open (try #4)
-[0.8.0-dev 2022-06-19 07:49:28,318] ERROR      Wanted to select ['DIA_B1S2_23_CLOSED', 'DIA_B1S2_23_MOUSEOVER'], but could not find it
-[0.8.0-dev 2022-06-19 07:49:31,326] DEBUG      Waiting for templates: ['DIA_B1S2_23_OPEN']
-[0.8.0-dev 2022-06-19 07:49:31,433] DEBUG      Could not find desired templates
-[0.8.0-dev 2022-06-19 07:49:31,433] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
-[0.8.0-dev 2022-06-19 07:49:31,829] DEBUG      B1-S: Seal2: failed 5 times, trying to kill trash now
-[0.8.0-dev 2022-06-19 07:49:31,829] DEBUG      Sealdance: Kill trash at location: sealdance
-[0.8.0-dev 2022-06-19 07:49:35,569] DEBUG      Traverse automap: [1630]
-[0.8.0-dev 2022-06-19 07:49:35,672] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
-[0.8.0-dev 2022-06-19 07:49:36,180] DEBUG      Automap Status: switching[91m OFF[0m
-[0.8.0-dev 2022-06-19 07:49:36,636] WARNING    EXP OCR Error: ['EXPERIENCE:', '3,520,485,254', '/', 'O0!']. Exception: invalid literal for int() with base 10: 'O0!'
-[0.8.0-dev 2022-06-19 07:49:37,092] INFO       Health Manager is now paused
+6) ========== [0.8.0-dev 2022-06-19 12:11:46,383] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 12:11:26,598] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 12:11:29,495] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 12:11:29,495] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 12:11:29,600] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 12:11:30,873] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:11:31,022] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:11:31,164] DEBUG      B1-S: Seal2: trying to open (try #3)
+[0.8.0-dev 2022-06-19 12:11:31,213] DEBUG      Select DIA_B1S2_23_CLOSED (78.4% confidence)
+[0.8.0-dev 2022-06-19 12:11:33,652] DEBUG      Waiting for templates: ['DIA_B1S2_23_OPEN']
+[0.8.0-dev 2022-06-19 12:11:33,771] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 12:11:33,771] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
+[0.8.0-dev 2022-06-19 12:11:34,171] DEBUG      B1-S: Seal2: failed 4 times, trying to kill trash now
+[0.8.0-dev 2022-06-19 12:11:34,171] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 12:11:37,629] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 12:11:37,629] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 12:11:37,730] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 12:11:38,283] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:11:38,435] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:11:38,561] DEBUG      B1-S: Seal2: trying to open (try #4)
+[0.8.0-dev 2022-06-19 12:11:38,752] ERROR      Wanted to select ['DIA_B1S2_23_CLOSED', 'DIA_B1S2_23_MOUSEOVER'], but could not find it
+[0.8.0-dev 2022-06-19 12:11:41,760] DEBUG      Waiting for templates: ['DIA_B1S2_23_OPEN']
+[0.8.0-dev 2022-06-19 12:11:41,883] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 12:11:41,883] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
+[0.8.0-dev 2022-06-19 12:11:42,279] DEBUG      B1-S: Seal2: failed 5 times, trying to kill trash now
+[0.8.0-dev 2022-06-19 12:11:42,279] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 12:11:46,383] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 12:11:46,383] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 12:11:46,486] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 12:11:47,006] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:11:48,020] INFO       Health Manager is now paused
 
-7) ========== [0.8.0-dev 2022-06-19 07:55:00,145] DEBUG      Traverse automap: [1640]
-[0.8.0-dev 2022-06-19 07:59:56,078] DEBUG      Shrine found, activating it
-[0.8.0-dev 2022-06-19 07:59:59,967] DEBUG      Shrine found, activating it
-[0.8.0-dev 2022-06-19 08:00:03,747] DEBUG      Shrine found, activating it
-[0.8.0-dev 2022-06-19 08:00:07,626] DEBUG      Shrine found, activating it
-[0.8.0-dev 2022-06-19 08:00:11,457] DEBUG      Shrine found, activating it
-[0.8.0-dev 2022-06-19 08:00:15,293] DEBUG      Shrine found, activating it
-[0.8.0-dev 2022-06-19 08:00:19,170] DEBUG      Shrine found, activating it
-[0.8.0-dev 2022-06-19 08:00:23,038] DEBUG      Shrine found, activating it
-[0.8.0-dev 2022-06-19 08:00:26,871] DEBUG      Shrine found, activating it
-[0.8.0-dev 2022-06-19 08:00:30,725] DEBUG      Shrine found, activating it
-[0.8.0-dev 2022-06-19 08:00:34,525] DEBUG      Shrine found, activating it
-[0.8.0-dev 2022-06-19 08:00:38,398] DEBUG      Shrine found, activating it
-[0.8.0-dev 2022-06-19 08:00:42,256] DEBUG      Shrine found, activating it
-[0.8.0-dev 2022-06-19 08:00:46,153] DEBUG      Shrine found, activating it
-[0.8.0-dev 2022-06-19 08:00:49,896] DEBUG      Shrine found, activating it
-[0.8.0-dev 2022-06-19 08:00:53,757] DEBUG      Shrine found, activating it
-[0.8.0-dev 2022-06-19 08:00:57,578] DEBUG      Shrine found, activating it
-[0.8.0-dev 2022-06-19 08:01:01,421] DEBUG      Shrine found, activating it
-[0.8.0-dev 2022-06-19 08:01:02,486] DEBUG      Automap Status: switching[91m OFF[0m
-[0.8.0-dev 2022-06-19 08:01:02,722] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
-[0.8.0-dev 2022-06-19 08:01:02,854] DEBUG      Waiting for templates: ['DIA_AM_C2G']
-[0.8.0-dev 2022-06-19 08:01:03,090] DEBUG      Could not find desired templates
-[0.8.0-dev 2022-06-19 08:01:03,091] DEBUG      Automap Status: switching[91m OFF[0m
-[0.8.0-dev 2022-06-19 08:01:03,233] DEBUG      C1-F: Layout_check step 1/2 - templates NOT found for C2-G
-[0.8.0-dev 2022-06-19 08:01:03,334] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
-[0.8.0-dev 2022-06-19 08:01:03,453] DEBUG      Waiting for templates: ['DIA_AM_C1F']
-[0.8.0-dev 2022-06-19 08:01:03,678] DEBUG      Could not find desired templates
-[0.8.0-dev 2022-06-19 08:01:03,679] DEBUG      Automap Status: switching[91m OFF[0m
-[0.8.0-dev 2022-06-19 08:01:03,798] WARNING    C2-G: Layout_check failure - could not determine the seal Layout at C (Infector) - [91maborting run[0m
-[0.8.0-dev 2022-06-19 08:01:09,726] INFO       Health Manager is now paused
+7) ========== [0.8.0-dev 2022-06-19 12:13:45,684] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 12:13:27,251] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 12:13:30,236] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 12:13:30,236] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 12:13:30,339] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 12:13:30,790] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:13:30,929] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:13:31,054] DEBUG      B1-S: Seal2: trying to open (try #3)
+[0.8.0-dev 2022-06-19 12:13:31,163] ERROR      Wanted to select ['DIA_B1S2_23_CLOSED', 'DIA_B1S2_23_MOUSEOVER'], but could not find it
+[0.8.0-dev 2022-06-19 12:13:33,165] DEBUG      Waiting for templates: ['DIA_B1S2_23_OPEN']
+[0.8.0-dev 2022-06-19 12:13:33,275] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 12:13:33,276] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
+[0.8.0-dev 2022-06-19 12:13:33,763] DEBUG      B1-S: Seal2: failed 4 times, trying to kill trash now
+[0.8.0-dev 2022-06-19 12:13:33,764] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 12:13:37,254] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 12:13:37,254] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 12:13:37,356] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 12:13:37,922] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:13:38,056] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:13:38,213] DEBUG      B1-S: Seal2: trying to open (try #4)
+[0.8.0-dev 2022-06-19 12:13:38,338] ERROR      Wanted to select ['DIA_B1S2_23_CLOSED', 'DIA_B1S2_23_MOUSEOVER'], but could not find it
+[0.8.0-dev 2022-06-19 12:13:41,347] DEBUG      Waiting for templates: ['DIA_B1S2_23_OPEN']
+[0.8.0-dev 2022-06-19 12:13:41,468] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 12:13:41,468] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
+[0.8.0-dev 2022-06-19 12:13:41,917] DEBUG      B1-S: Seal2: failed 5 times, trying to kill trash now
+[0.8.0-dev 2022-06-19 12:13:41,917] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 12:13:45,684] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 12:13:45,684] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 12:13:45,788] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 12:13:46,375] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:13:47,278] INFO       Health Manager is now paused
 
-8) ========== [0.8.0-dev 2022-06-19 08:09:17,189] DEBUG      Traverse automap: [1640]
-[0.8.0-dev 2022-06-19 08:08:45,640] DEBUG      Found match: DIA_B1S2_23_OPEN (77.8% confidence)
-[0.8.0-dev 2022-06-19 08:08:45,641] INFO       B1-S: Seal2: is open - [92m open[0m
-[0.8.0-dev 2022-06-19 08:08:45,641] DEBUG      B1-S: Kill Boss B (DeSeis)
-[0.8.0-dev 2022-06-19 08:08:46,306] DEBUG      B1-S: Attacking DeSeis at Position 1/2
-[0.8.0-dev 2022-06-19 08:08:52,902] DEBUG      Read 9 ground items in 0.37 seconds
-[0.8.0-dev 2022-06-19 08:08:54,807] DEBUG      B1-S: Attacking DeSeis at Position 2/2
-[0.8.0-dev 2022-06-19 08:09:01,320] DEBUG      Read 8 ground items in 0.306 seconds
-[0.8.0-dev 2022-06-19 08:09:02,343] DEBUG      B1-S: Traversing back to Pentagram
-[0.8.0-dev 2022-06-19 08:09:02,343] DEBUG      Traverse automap: [1600]
-[0.8.0-dev 2022-06-19 08:09:02,446] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
-[0.8.0-dev 2022-06-19 08:09:08,230] DEBUG      Automap Status: switching[91m OFF[0m
-[0.8.0-dev 2022-06-19 08:09:08,364] INFO       B1-S: finished seal & calibrated at PENTAGRAM
-[0.8.0-dev 2022-06-19 08:09:11,095] DEBUG      Read 9 ground items in 0.325 seconds
-[0.8.0-dev 2022-06-19 08:09:17,187] DEBUG      Read 1 ground items in 0.24 seconds
-[0.8.0-dev 2022-06-19 08:09:17,188] DEBUG      ===============================
-[0.8.0-dev 2022-06-19 08:09:17,189] DEBUG      C: Checking Layout for Infector
-[0.8.0-dev 2022-06-19 08:09:17,189] DEBUG      Traverse automap: [1640]
-[0.8.0-dev 2022-06-19 08:09:17,290] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
-[0.8.0-dev 2022-06-19 08:09:18,506] DEBUG      Automap Status: switching[91m OFF[0m
-[0.8.0-dev 2022-06-19 08:09:18,757] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
-[0.8.0-dev 2022-06-19 08:09:18,877] DEBUG      Waiting for templates: ['DIA_AM_C2G']
-[0.8.0-dev 2022-06-19 08:09:19,112] DEBUG      Could not find desired templates
-[0.8.0-dev 2022-06-19 08:09:19,113] DEBUG      Automap Status: switching[91m OFF[0m
-[0.8.0-dev 2022-06-19 08:09:19,228] DEBUG      C1-F: Layout_check step 1/2 - templates NOT found for C2-G
-[0.8.0-dev 2022-06-19 08:09:19,328] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
-[0.8.0-dev 2022-06-19 08:09:19,449] DEBUG      Waiting for templates: ['DIA_AM_C1F']
-[0.8.0-dev 2022-06-19 08:09:19,679] DEBUG      Could not find desired templates
-[0.8.0-dev 2022-06-19 08:09:19,681] DEBUG      Automap Status: switching[91m OFF[0m
-[0.8.0-dev 2022-06-19 08:09:19,805] WARNING    C2-G: Layout_check failure - could not determine the seal Layout at C (Infector) - [91maborting run[0m
-[0.8.0-dev 2022-06-19 08:09:25,596] INFO       Health Manager is now paused
+8) ========== [0.8.0-dev 2022-06-19 12:15:45,596] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 12:15:30,633] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 12:15:30,633] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 12:15:30,737] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 12:15:31,234] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:15:31,345] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:15:31,456] DEBUG      B1-S: Seal2: trying to open (try #3)
+[0.8.0-dev 2022-06-19 12:15:31,655] ERROR      Wanted to select ['DIA_B1S2_23_CLOSED', 'DIA_B1S2_23_MOUSEOVER'], but could not find it
+[0.8.0-dev 2022-06-19 12:15:33,661] DEBUG      Waiting for templates: ['DIA_B1S2_23_OPEN']
+[0.8.0-dev 2022-06-19 12:15:33,796] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 12:15:33,797] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
+[0.8.0-dev 2022-06-19 12:15:34,322] DEBUG      B1-S: Seal2: failed 4 times, trying to kill trash now
+[0.8.0-dev 2022-06-19 12:15:34,322] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 12:15:37,406] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 12:15:37,406] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 12:15:37,511] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 12:15:38,033] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:15:38,193] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:15:38,318] DEBUG      B1-S: Seal2: trying to open (try #4)
+[0.8.0-dev 2022-06-19 12:15:38,427] ERROR      Wanted to select ['DIA_B1S2_23_CLOSED', 'DIA_B1S2_23_MOUSEOVER'], but could not find it
+[0.8.0-dev 2022-06-19 12:15:41,428] DEBUG      Waiting for templates: ['DIA_B1S2_23_OPEN']
+[0.8.0-dev 2022-06-19 12:15:41,547] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 12:15:41,547] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
+[0.8.0-dev 2022-06-19 12:15:41,947] DEBUG      B1-S: Seal2: failed 5 times, trying to kill trash now
+[0.8.0-dev 2022-06-19 12:15:41,947] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 12:15:45,596] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 12:15:45,596] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 12:15:45,698] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 12:15:46,210] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:15:46,698] WARNING    EXP OCR Error: [':']. Exception: 'EXPERIENCE:' is not in list
+[0.8.0-dev 2022-06-19 12:15:47,125] INFO       Health Manager is now paused
 
-9) ========== [0.8.0-dev 2022-06-19 08:23:19,732] DEBUG      Traverse automap: [1620]
-[0.8.0-dev 2022-06-19 08:22:59,845] DEBUG      ROF: Teleporting directly to PENTAGRAM
-[0.8.0-dev 2022-06-19 08:23:05,987] DEBUG      Traverse automap: [1600]
-[0.8.0-dev 2022-06-19 08:23:06,097] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
-[0.8.0-dev 2022-06-19 08:23:08,103] DEBUG      Automap Status: switching[91m OFF[0m
-[0.8.0-dev 2022-06-19 08:23:08,250] INFO       CS: Calibrated at PENTAGRAM
-[0.8.0-dev 2022-06-19 08:23:08,250] DEBUG      No attack choreography available in fohdin.py for this node pent_before_a - skipping to shorten run.
-[0.8.0-dev 2022-06-19 08:23:08,251] DEBUG      Traverse automap: [1620]
-[0.8.0-dev 2022-06-19 08:23:08,353] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
-[0.8.0-dev 2022-06-19 08:23:13,486] DEBUG      Automap Status: switching[91m OFF[0m
-[0.8.0-dev 2022-06-19 08:23:16,322] DEBUG      Read 8 ground items in 0.281 seconds
-[0.8.0-dev 2022-06-19 08:23:17,830] DEBUG      Read 8 ground items in 0.329 seconds
-[0.8.0-dev 2022-06-19 08:23:19,499] DEBUG      Read 7 ground items in 0.241 seconds
-[0.8.0-dev 2022-06-19 08:23:19,500] INFO       Health Manager is now pausing inventory panel check
-[0.8.0-dev 2022-06-19 08:23:19,730] INFO       Health Manager is now activating inventory panel check
-[0.8.0-dev 2022-06-19 08:23:19,731] DEBUG      ==============================
-[0.8.0-dev 2022-06-19 08:23:19,731] DEBUG      A: Checking Layout for Vizier
-[0.8.0-dev 2022-06-19 08:23:19,732] DEBUG      Traverse automap: [1620]
-[0.8.0-dev 2022-06-19 08:23:19,847] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
-[0.8.0-dev 2022-06-19 08:23:21,237] DEBUG      Automap Status: switching[91m OFF[0m
-[0.8.0-dev 2022-06-19 08:23:21,483] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
-[0.8.0-dev 2022-06-19 08:23:21,617] DEBUG      Waiting for templates: ['DIA_AM_A2Y']
-[0.8.0-dev 2022-06-19 08:23:21,839] DEBUG      Could not find desired templates
-[0.8.0-dev 2022-06-19 08:23:21,840] DEBUG      Automap Status: switching[91m OFF[0m
-[0.8.0-dev 2022-06-19 08:23:21,953] DEBUG      A1-L: Layout_check step 1/2 - templates NOT found for A2-Y
-[0.8.0-dev 2022-06-19 08:23:22,053] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
-[0.8.0-dev 2022-06-19 08:23:22,191] DEBUG      Waiting for templates: ['DIA_AM_A1L']
-[0.8.0-dev 2022-06-19 08:23:22,421] DEBUG      Could not find desired templates
-[0.8.0-dev 2022-06-19 08:23:22,422] DEBUG      Automap Status: switching[91m OFF[0m
-[0.8.0-dev 2022-06-19 08:23:22,538] WARNING    A2-Y: Layout_check failure - could not determine the seal Layout at A (Vizier) - [91maborting run[0m
-[0.8.0-dev 2022-06-19 08:23:28,344] INFO       Health Manager is now paused
+9) ========== [0.8.0-dev 2022-06-19 12:17:43,950] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 12:17:26,303] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 12:17:28,959] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 12:17:28,959] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 12:17:29,062] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 12:17:29,595] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:17:29,713] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:17:29,871] DEBUG      B1-S: Seal2: trying to open (try #3)
+[0.8.0-dev 2022-06-19 12:17:29,981] ERROR      Wanted to select ['DIA_B1S2_23_CLOSED', 'DIA_B1S2_23_MOUSEOVER'], but could not find it
+[0.8.0-dev 2022-06-19 12:17:31,992] DEBUG      Waiting for templates: ['DIA_B1S2_23_OPEN']
+[0.8.0-dev 2022-06-19 12:17:32,101] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 12:17:32,101] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
+[0.8.0-dev 2022-06-19 12:17:32,495] DEBUG      B1-S: Seal2: failed 4 times, trying to kill trash now
+[0.8.0-dev 2022-06-19 12:17:32,495] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 12:17:35,703] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 12:17:35,703] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 12:17:35,805] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 12:17:36,349] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:17:36,493] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:17:36,618] DEBUG      B1-S: Seal2: trying to open (try #4)
+[0.8.0-dev 2022-06-19 12:17:36,725] ERROR      Wanted to select ['DIA_B1S2_23_CLOSED', 'DIA_B1S2_23_MOUSEOVER'], but could not find it
+[0.8.0-dev 2022-06-19 12:17:39,738] DEBUG      Waiting for templates: ['DIA_B1S2_23_OPEN']
+[0.8.0-dev 2022-06-19 12:17:39,873] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 12:17:39,874] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
+[0.8.0-dev 2022-06-19 12:17:40,263] DEBUG      B1-S: Seal2: failed 5 times, trying to kill trash now
+[0.8.0-dev 2022-06-19 12:17:40,263] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 12:17:43,950] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 12:17:43,950] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 12:17:44,060] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 12:17:44,565] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:17:45,575] INFO       Health Manager is now paused
+
+10) ========== [0.8.0-dev 2022-06-19 12:21:35,701] DEBUG      Traverse automap: [1620]
+[0.8.0-dev 2022-06-19 12:21:24,890] DEBUG      Traverse automap: [1600]
+[0.8.0-dev 2022-06-19 12:21:24,992] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 12:21:26,967] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:21:27,101] INFO       CS: Calibrated at PENTAGRAM
+[0.8.0-dev 2022-06-19 12:21:27,101] DEBUG      No attack choreography available in fohdin.py for this node pent_before_a - skipping to shorten run.
+[0.8.0-dev 2022-06-19 12:21:27,102] DEBUG      Traverse automap: [1620]
+[0.8.0-dev 2022-06-19 12:21:27,203] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 12:21:32,296] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:21:34,855] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:21:34,966] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:21:35,696] DEBUG      fuzzy_base_item_match: change GREATER HEALING P -> GREATER HEALING POTION (similarity: 70.6%)
+[0.8.0-dev 2022-06-19 12:21:35,696] WARNING    Could not find base item for , True
+[0.8.0-dev 2022-06-19 12:21:35,698] DEBUG      Read 9 ground items in 0.362 seconds
+[0.8.0-dev 2022-06-19 12:21:35,700] DEBUG      ==============================
+[0.8.0-dev 2022-06-19 12:21:35,700] DEBUG      A: Checking Layout for Vizier
+[0.8.0-dev 2022-06-19 12:21:35,701] DEBUG      Traverse automap: [1620]
+[0.8.0-dev 2022-06-19 12:21:35,801] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 12:21:36,516] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:21:36,747] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 12:21:36,898] DEBUG      Waiting for templates: ['DIA_AM_A2Y']
+[0.8.0-dev 2022-06-19 12:21:37,130] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 12:21:37,131] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:21:37,280] DEBUG      A1-L: Layout_check step 1/2 - templates NOT found for A2-Y
+[0.8.0-dev 2022-06-19 12:21:37,380] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 12:21:37,500] DEBUG      Waiting for templates: ['DIA_AM_A1L']
+[0.8.0-dev 2022-06-19 12:21:37,739] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 12:21:37,740] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:21:37,848] WARNING    A2-Y: Layout_check failure - could not determine the seal Layout at A (Vizier) - [91maborting run[0m
+[0.8.0-dev 2022-06-19 12:21:43,235] WARNING    EXP OCR Error: ['EXPERIENCE:', '3,520,485,254', '/', 'O']. Exception: invalid literal for int() with base 10: 'O'
+[0.8.0-dev 2022-06-19 12:21:43,661] INFO       Health Manager is now paused
+
+11) ========== [0.8.0-dev 2022-06-19 12:23:57,128] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 12:23:38,177] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 12:23:40,840] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 12:23:40,840] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 12:23:40,943] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 12:23:42,175] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:23:42,290] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:23:42,415] DEBUG      B1-S: Seal2: trying to open (try #3)
+[0.8.0-dev 2022-06-19 12:23:42,475] DEBUG      Select DIA_B1S2_23_CLOSED (71.7% confidence)
+[0.8.0-dev 2022-06-19 12:23:44,891] DEBUG      Waiting for templates: ['DIA_B1S2_23_OPEN']
+[0.8.0-dev 2022-06-19 12:23:45,004] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 12:23:45,005] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
+[0.8.0-dev 2022-06-19 12:23:45,409] DEBUG      B1-S: Seal2: failed 4 times, trying to kill trash now
+[0.8.0-dev 2022-06-19 12:23:45,409] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 12:23:48,476] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 12:23:48,476] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 12:23:48,579] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 12:23:49,093] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:23:49,245] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:23:49,371] DEBUG      B1-S: Seal2: trying to open (try #4)
+[0.8.0-dev 2022-06-19 12:23:49,563] ERROR      Wanted to select ['DIA_B1S2_23_CLOSED', 'DIA_B1S2_23_MOUSEOVER'], but could not find it
+[0.8.0-dev 2022-06-19 12:23:52,573] DEBUG      Waiting for templates: ['DIA_B1S2_23_OPEN']
+[0.8.0-dev 2022-06-19 12:23:52,695] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 12:23:52,695] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
+[0.8.0-dev 2022-06-19 12:23:53,091] DEBUG      B1-S: Seal2: failed 5 times, trying to kill trash now
+[0.8.0-dev 2022-06-19 12:23:53,091] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 12:23:57,128] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 12:23:57,128] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 12:23:57,230] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 12:23:57,764] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:23:58,865] INFO       Health Manager is now paused
+
+12) ========== [0.8.0-dev 2022-06-19 12:29:20,710] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 12:29:02,585] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 12:29:05,326] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 12:29:05,326] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 12:29:05,427] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 12:29:05,958] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:29:06,072] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:29:06,199] DEBUG      B1-S: Seal2: trying to open (try #3)
+[0.8.0-dev 2022-06-19 12:29:06,410] ERROR      Wanted to select ['DIA_B1S2_23_CLOSED', 'DIA_B1S2_23_MOUSEOVER'], but could not find it
+[0.8.0-dev 2022-06-19 12:29:08,414] DEBUG      Waiting for templates: ['DIA_B1S2_23_OPEN']
+[0.8.0-dev 2022-06-19 12:29:08,525] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 12:29:08,525] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
+[0.8.0-dev 2022-06-19 12:29:08,903] DEBUG      B1-S: Seal2: failed 4 times, trying to kill trash now
+[0.8.0-dev 2022-06-19 12:29:08,903] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 12:29:12,073] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 12:29:12,073] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 12:29:12,175] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 12:29:12,696] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:29:12,835] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:29:12,994] DEBUG      B1-S: Seal2: trying to open (try #4)
+[0.8.0-dev 2022-06-19 12:29:13,182] ERROR      Wanted to select ['DIA_B1S2_23_CLOSED', 'DIA_B1S2_23_MOUSEOVER'], but could not find it
+[0.8.0-dev 2022-06-19 12:29:16,193] DEBUG      Waiting for templates: ['DIA_B1S2_23_OPEN']
+[0.8.0-dev 2022-06-19 12:29:16,312] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 12:29:16,313] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
+[0.8.0-dev 2022-06-19 12:29:16,711] DEBUG      B1-S: Seal2: failed 5 times, trying to kill trash now
+[0.8.0-dev 2022-06-19 12:29:16,711] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 12:29:20,710] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 12:29:20,710] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 12:29:20,810] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 12:29:21,282] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:29:22,374] INFO       Health Manager is now paused
+
+13) ========== [0.8.0-dev 2022-06-19 12:30:07,143] DEBUG      Traverse automap: [1620]
+[0.8.0-dev 2022-06-19 12:29:49,393] DEBUG      ROF: Teleporting directly to PENTAGRAM
+[0.8.0-dev 2022-06-19 12:29:55,482] DEBUG      Traverse automap: [1600]
+[0.8.0-dev 2022-06-19 12:29:55,585] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 12:29:58,821] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:29:58,955] INFO       CS: Calibrated at PENTAGRAM
+[0.8.0-dev 2022-06-19 12:29:58,955] DEBUG      No attack choreography available in fohdin.py for this node pent_before_a - skipping to shorten run.
+[0.8.0-dev 2022-06-19 12:29:58,956] DEBUG      Traverse automap: [1620]
+[0.8.0-dev 2022-06-19 12:29:59,056] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 12:30:01,869] DEBUG      Give health potion in slot 1 to merc. HP: 50.0%
+[0.8.0-dev 2022-06-19 12:30:04,171] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:30:06,398] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:30:06,510] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:30:07,141] DEBUG      Read 3 ground items in 0.269 seconds
+[0.8.0-dev 2022-06-19 12:30:07,142] DEBUG      ==============================
+[0.8.0-dev 2022-06-19 12:30:07,143] DEBUG      A: Checking Layout for Vizier
+[0.8.0-dev 2022-06-19 12:30:07,143] DEBUG      Traverse automap: [1620]
+[0.8.0-dev 2022-06-19 12:30:07,245] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 12:30:07,921] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:30:08,172] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 12:30:08,322] DEBUG      Waiting for templates: ['DIA_AM_A2Y']
+[0.8.0-dev 2022-06-19 12:30:08,550] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 12:30:08,551] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:30:08,702] DEBUG      A1-L: Layout_check step 1/2 - templates NOT found for A2-Y
+[0.8.0-dev 2022-06-19 12:30:08,803] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 12:30:08,920] DEBUG      Waiting for templates: ['DIA_AM_A1L']
+[0.8.0-dev 2022-06-19 12:30:09,160] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 12:30:09,161] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:30:09,267] WARNING    A2-Y: Layout_check failure - could not determine the seal Layout at A (Vizier) - [91maborting run[0m
+[0.8.0-dev 2022-06-19 12:30:14,615] WARNING    EXP OCR Error: ['.']. Exception: 'EXPERIENCE:' is not in list
+[0.8.0-dev 2022-06-19 12:30:15,200] INFO       Health Manager is now paused
+
+14) ========== [0.8.0-dev 2022-06-19 12:32:03,664] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 12:31:45,326] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 12:31:48,352] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 12:31:48,352] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 12:31:48,455] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 12:31:48,965] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:31:49,122] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:31:49,279] DEBUG      B1-S: Seal2: trying to open (try #3)
+[0.8.0-dev 2022-06-19 12:31:49,397] ERROR      Wanted to select ['DIA_B1S2_23_CLOSED', 'DIA_B1S2_23_MOUSEOVER'], but could not find it
+[0.8.0-dev 2022-06-19 12:31:51,407] DEBUG      Waiting for templates: ['DIA_B1S2_23_OPEN']
+[0.8.0-dev 2022-06-19 12:31:51,534] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 12:31:51,534] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
+[0.8.0-dev 2022-06-19 12:31:52,052] DEBUG      B1-S: Seal2: failed 4 times, trying to kill trash now
+[0.8.0-dev 2022-06-19 12:31:52,052] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 12:31:55,357] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 12:31:55,357] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 12:31:55,459] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 12:31:55,996] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:31:56,131] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:31:56,240] DEBUG      B1-S: Seal2: trying to open (try #4)
+[0.8.0-dev 2022-06-19 12:31:56,345] ERROR      Wanted to select ['DIA_B1S2_23_CLOSED', 'DIA_B1S2_23_MOUSEOVER'], but could not find it
+[0.8.0-dev 2022-06-19 12:31:59,360] DEBUG      Waiting for templates: ['DIA_B1S2_23_OPEN']
+[0.8.0-dev 2022-06-19 12:31:59,475] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 12:31:59,476] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
+[0.8.0-dev 2022-06-19 12:31:59,875] DEBUG      B1-S: Seal2: failed 5 times, trying to kill trash now
+[0.8.0-dev 2022-06-19 12:31:59,875] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 12:32:03,664] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 12:32:03,664] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 12:32:03,766] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 12:32:04,229] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:32:05,248] INFO       Health Manager is now paused
+
+15) ========== [0.8.0-dev 2022-06-19 12:37:07,006] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 12:36:47,961] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 12:36:50,905] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 12:36:50,905] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 12:36:51,008] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 12:36:52,247] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:36:52,375] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:36:52,517] DEBUG      B1-S: Seal2: trying to open (try #3)
+[0.8.0-dev 2022-06-19 12:36:52,567] DEBUG      Select DIA_B1S2_23_CLOSED (80.8% confidence)
+[0.8.0-dev 2022-06-19 12:36:54,956] DEBUG      Waiting for templates: ['DIA_B1S2_23_OPEN']
+[0.8.0-dev 2022-06-19 12:36:55,062] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 12:36:55,063] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
+[0.8.0-dev 2022-06-19 12:36:55,443] DEBUG      B1-S: Seal2: failed 4 times, trying to kill trash now
+[0.8.0-dev 2022-06-19 12:36:55,443] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 12:36:58,835] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 12:36:58,835] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 12:36:58,938] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 12:36:59,412] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:36:59,532] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:36:59,644] DEBUG      B1-S: Seal2: trying to open (try #4)
+[0.8.0-dev 2022-06-19 12:36:59,753] ERROR      Wanted to select ['DIA_B1S2_23_CLOSED', 'DIA_B1S2_23_MOUSEOVER'], but could not find it
+[0.8.0-dev 2022-06-19 12:37:02,761] DEBUG      Waiting for templates: ['DIA_B1S2_23_OPEN']
+[0.8.0-dev 2022-06-19 12:37:02,878] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 12:37:02,878] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
+[0.8.0-dev 2022-06-19 12:37:03,280] DEBUG      B1-S: Seal2: failed 5 times, trying to kill trash now
+[0.8.0-dev 2022-06-19 12:37:03,280] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 12:37:07,006] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 12:37:07,006] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 12:37:07,109] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 12:37:07,591] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:37:08,649] INFO       Health Manager is now paused
+
+16) ========== [0.8.0-dev 2022-06-19 12:39:10,654] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 12:38:52,997] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 12:38:55,726] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 12:38:55,726] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 12:38:55,829] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 12:38:56,304] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:38:56,438] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:38:56,595] DEBUG      B1-S: Seal2: trying to open (try #3)
+[0.8.0-dev 2022-06-19 12:38:56,793] ERROR      Wanted to select ['DIA_B1S2_23_CLOSED', 'DIA_B1S2_23_MOUSEOVER'], but could not find it
+[0.8.0-dev 2022-06-19 12:38:58,806] DEBUG      Waiting for templates: ['DIA_B1S2_23_OPEN']
+[0.8.0-dev 2022-06-19 12:38:58,932] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 12:38:58,933] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
+[0.8.0-dev 2022-06-19 12:38:59,325] DEBUG      B1-S: Seal2: failed 4 times, trying to kill trash now
+[0.8.0-dev 2022-06-19 12:38:59,325] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 12:39:02,462] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 12:39:02,462] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 12:39:02,563] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 12:39:03,091] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:39:03,204] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:39:03,330] DEBUG      B1-S: Seal2: trying to open (try #4)
+[0.8.0-dev 2022-06-19 12:39:03,518] ERROR      Wanted to select ['DIA_B1S2_23_CLOSED', 'DIA_B1S2_23_MOUSEOVER'], but could not find it
+[0.8.0-dev 2022-06-19 12:39:06,526] DEBUG      Waiting for templates: ['DIA_B1S2_23_OPEN']
+[0.8.0-dev 2022-06-19 12:39:06,646] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 12:39:06,646] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
+[0.8.0-dev 2022-06-19 12:39:07,121] DEBUG      B1-S: Seal2: failed 5 times, trying to kill trash now
+[0.8.0-dev 2022-06-19 12:39:07,121] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 12:39:10,654] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 12:39:10,654] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 12:39:10,758] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 12:39:11,226] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 12:39:12,121] INFO       Health Manager is now paused
+
+17) ========== [0.8.0-dev 2022-06-19 13:01:19,216] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 13:01:03,620] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 13:01:03,620] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 13:01:03,723] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 13:01:04,225] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 13:01:04,344] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 13:01:04,502] DEBUG      B1-S: Seal2: trying to open (try #3)
+[0.8.0-dev 2022-06-19 13:01:04,606] ERROR      Wanted to select ['DIA_B1S2_23_CLOSED', 'DIA_B1S2_23_MOUSEOVER'], but could not find it
+[0.8.0-dev 2022-06-19 13:01:06,613] DEBUG      Waiting for templates: ['DIA_B1S2_23_OPEN']
+[0.8.0-dev 2022-06-19 13:01:06,747] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 13:01:06,748] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
+[0.8.0-dev 2022-06-19 13:01:07,228] DEBUG      B1-S: Seal2: failed 4 times, trying to kill trash now
+[0.8.0-dev 2022-06-19 13:01:07,228] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 13:01:10,769] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 13:01:10,769] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 13:01:10,872] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 13:01:11,428] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 13:01:11,571] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 13:01:11,714] DEBUG      B1-S: Seal2: trying to open (try #4)
+[0.8.0-dev 2022-06-19 13:01:11,826] ERROR      Wanted to select ['DIA_B1S2_23_CLOSED', 'DIA_B1S2_23_MOUSEOVER'], but could not find it
+[0.8.0-dev 2022-06-19 13:01:14,836] DEBUG      Waiting for templates: ['DIA_B1S2_23_OPEN']
+[0.8.0-dev 2022-06-19 13:01:14,958] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 13:01:14,958] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
+[0.8.0-dev 2022-06-19 13:01:15,356] DEBUG      B1-S: Seal2: failed 5 times, trying to kill trash now
+[0.8.0-dev 2022-06-19 13:01:15,356] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 13:01:19,216] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 13:01:19,216] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 13:01:19,318] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 13:01:19,874] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 13:01:20,368] WARNING    EXP OCR Error: ['!']. Exception: 'EXPERIENCE:' is not in list
+[0.8.0-dev 2022-06-19 13:01:20,870] INFO       Health Manager is now paused
+
+18) ========== [0.8.0-dev 2022-06-19 13:09:21,376] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 13:09:03,642] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 13:09:06,241] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 13:09:06,241] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 13:09:06,354] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 13:09:06,896] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 13:09:07,045] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 13:09:07,170] DEBUG      B1-S: Seal2: trying to open (try #3)
+[0.8.0-dev 2022-06-19 13:09:07,276] ERROR      Wanted to select ['DIA_B1S2_23_CLOSED', 'DIA_B1S2_23_MOUSEOVER'], but could not find it
+[0.8.0-dev 2022-06-19 13:09:09,286] DEBUG      Waiting for templates: ['DIA_B1S2_23_OPEN']
+[0.8.0-dev 2022-06-19 13:09:09,408] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 13:09:09,409] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
+[0.8.0-dev 2022-06-19 13:09:09,977] DEBUG      B1-S: Seal2: failed 4 times, trying to kill trash now
+[0.8.0-dev 2022-06-19 13:09:09,977] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 13:09:13,099] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 13:09:13,099] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 13:09:13,200] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 13:09:13,690] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 13:09:13,819] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 13:09:13,960] DEBUG      B1-S: Seal2: trying to open (try #4)
+[0.8.0-dev 2022-06-19 13:09:14,157] ERROR      Wanted to select ['DIA_B1S2_23_CLOSED', 'DIA_B1S2_23_MOUSEOVER'], but could not find it
+[0.8.0-dev 2022-06-19 13:09:17,159] DEBUG      Waiting for templates: ['DIA_B1S2_23_OPEN']
+[0.8.0-dev 2022-06-19 13:09:17,277] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 13:09:17,277] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
+[0.8.0-dev 2022-06-19 13:09:17,675] DEBUG      B1-S: Seal2: failed 5 times, trying to kill trash now
+[0.8.0-dev 2022-06-19 13:09:17,675] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 13:09:21,376] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 13:09:21,376] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 13:09:21,479] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 13:09:22,005] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 13:09:22,962] INFO       Health Manager is now paused
+
+19) ========== [0.8.0-dev 2022-06-19 13:14:41,835] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 13:14:27,068] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 13:14:27,068] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 13:14:27,170] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 13:14:27,719] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 13:14:27,829] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 13:14:27,955] DEBUG      B1-S: Seal2: trying to open (try #3)
+[0.8.0-dev 2022-06-19 13:14:28,062] ERROR      Wanted to select ['DIA_B1S2_23_CLOSED', 'DIA_B1S2_23_MOUSEOVER'], but could not find it
+[0.8.0-dev 2022-06-19 13:14:30,063] DEBUG      Waiting for templates: ['DIA_B1S2_23_OPEN']
+[0.8.0-dev 2022-06-19 13:14:30,183] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 13:14:30,184] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
+[0.8.0-dev 2022-06-19 13:14:30,584] DEBUG      B1-S: Seal2: failed 4 times, trying to kill trash now
+[0.8.0-dev 2022-06-19 13:14:30,584] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 13:14:33,639] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 13:14:33,639] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 13:14:33,748] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 13:14:34,232] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 13:14:34,349] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 13:14:34,491] DEBUG      B1-S: Seal2: trying to open (try #4)
+[0.8.0-dev 2022-06-19 13:14:34,605] ERROR      Wanted to select ['DIA_B1S2_23_CLOSED', 'DIA_B1S2_23_MOUSEOVER'], but could not find it
+[0.8.0-dev 2022-06-19 13:14:37,617] DEBUG      Waiting for templates: ['DIA_B1S2_23_OPEN']
+[0.8.0-dev 2022-06-19 13:14:37,746] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 13:14:37,747] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
+[0.8.0-dev 2022-06-19 13:14:38,138] DEBUG      B1-S: Seal2: failed 5 times, trying to kill trash now
+[0.8.0-dev 2022-06-19 13:14:38,138] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 13:14:41,835] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 13:14:41,835] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 13:14:41,936] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 13:14:42,489] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 13:14:43,067] WARNING    EXP OCR Error: ['.', '\\.']. Exception: 'EXPERIENCE:' is not in list
+[0.8.0-dev 2022-06-19 13:14:43,554] INFO       Health Manager is now paused
+
+20) ========== [0.8.0-dev 2022-06-19 13:16:35,228] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 13:16:16,606] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 13:16:19,178] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 13:16:19,178] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 13:16:19,282] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 13:16:20,546] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 13:16:20,678] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 13:16:20,806] DEBUG      B1-S: Seal2: trying to open (try #3)
+[0.8.0-dev 2022-06-19 13:16:20,866] DEBUG      Select DIA_B1S2_23_CLOSED (76.8% confidence)
+[0.8.0-dev 2022-06-19 13:16:23,300] DEBUG      Waiting for templates: ['DIA_B1S2_23_OPEN']
+[0.8.0-dev 2022-06-19 13:16:23,426] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 13:16:23,427] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
+[0.8.0-dev 2022-06-19 13:16:23,822] DEBUG      B1-S: Seal2: failed 4 times, trying to kill trash now
+[0.8.0-dev 2022-06-19 13:16:23,822] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 13:16:26,935] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 13:16:26,935] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 13:16:27,037] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 13:16:27,554] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 13:16:27,692] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 13:16:27,835] DEBUG      B1-S: Seal2: trying to open (try #4)
+[0.8.0-dev 2022-06-19 13:16:27,939] ERROR      Wanted to select ['DIA_B1S2_23_CLOSED', 'DIA_B1S2_23_MOUSEOVER'], but could not find it
+[0.8.0-dev 2022-06-19 13:16:30,955] DEBUG      Waiting for templates: ['DIA_B1S2_23_OPEN']
+[0.8.0-dev 2022-06-19 13:16:31,083] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 13:16:31,084] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
+[0.8.0-dev 2022-06-19 13:16:31,475] DEBUG      B1-S: Seal2: failed 5 times, trying to kill trash now
+[0.8.0-dev 2022-06-19 13:16:31,475] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 13:16:35,228] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 13:16:35,228] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 13:16:35,331] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 13:16:35,801] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 13:16:36,793] INFO       Health Manager is now paused
+
+21) ========== [0.8.0-dev 2022-06-19 13:26:51,529] DEBUG      Traverse automap: [1620]
+[0.8.0-dev 2022-06-19 13:34:03,664] DEBUG      Shrine found, activating it
+[0.8.0-dev 2022-06-19 13:34:08,461] DEBUG      Shrine found, activating it
+[0.8.0-dev 2022-06-19 13:34:13,246] DEBUG      Shrine found, activating it
+[0.8.0-dev 2022-06-19 13:34:18,035] DEBUG      Shrine found, activating it
+[0.8.0-dev 2022-06-19 13:34:22,761] DEBUG      Shrine found, activating it
+[0.8.0-dev 2022-06-19 13:34:27,596] DEBUG      Shrine found, activating it
+[0.8.0-dev 2022-06-19 13:34:32,223] DEBUG      Shrine found, activating it
+[0.8.0-dev 2022-06-19 13:34:36,935] DEBUG      Shrine found, activating it
+[0.8.0-dev 2022-06-19 13:34:41,594] DEBUG      Shrine found, activating it
+[0.8.0-dev 2022-06-19 13:34:46,305] DEBUG      Shrine found, activating it
+[0.8.0-dev 2022-06-19 13:34:51,002] DEBUG      Shrine found, activating it
+[0.8.0-dev 2022-06-19 13:34:55,713] DEBUG      Shrine found, activating it
+[0.8.0-dev 2022-06-19 13:35:00,407] DEBUG      Shrine found, activating it
+[0.8.0-dev 2022-06-19 13:35:05,136] DEBUG      Shrine found, activating it
+[0.8.0-dev 2022-06-19 13:35:09,804] DEBUG      Shrine found, activating it
+[0.8.0-dev 2022-06-19 13:35:14,514] DEBUG      Shrine found, activating it
+[0.8.0-dev 2022-06-19 13:35:19,229] DEBUG      Shrine found, activating it
+[0.8.0-dev 2022-06-19 13:35:23,921] DEBUG      Shrine found, activating it
+[0.8.0-dev 2022-06-19 13:35:28,647] DEBUG      Shrine found, activating it
+[0.8.0-dev 2022-06-19 13:35:33,464] DEBUG      Shrine found, activating it
+[0.8.0-dev 2022-06-19 13:35:38,192] DEBUG      Shrine found, activating it
+[0.8.0-dev 2022-06-19 13:35:42,853] DEBUG      Shrine found, activating it
+[0.8.0-dev 2022-06-19 13:35:47,614] DEBUG      Shrine found, activating it
+[0.8.0-dev 2022-06-19 13:35:52,377] DEBUG      Shrine found, activating it
+[0.8.0-dev 2022-06-19 13:35:57,072] DEBUG      Shrine found, activating it
+[0.8.0-dev 2022-06-19 13:36:01,832] DEBUG      Shrine found, activating it
+[0.8.0-dev 2022-06-19 13:36:06,542] DEBUG      Shrine found, activating it
+[0.8.0-dev 2022-06-19 13:36:11,238] DEBUG      Shrine found, activating it
+[0.8.0-dev 2022-06-19 13:36:14,089] INFO       Max game length reached. Attempting to restart B!
+[0.8.0-dev 2022-06-19 13:36:20,251] INFO       Health Manager is now paused
+
+22) ========== [0.8.0-dev 2022-06-19 13:37:45,283] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 13:37:27,142] DEBUG      Traverse automap: [1600]
+[0.8.0-dev 2022-06-19 13:37:27,245] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 13:37:31,806] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 13:37:31,927] INFO       A2-Y: finished seal & calibrated at PENTAGRAM
+[0.8.0-dev 2022-06-19 13:37:34,468] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 13:37:34,594] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 13:37:35,185] DEBUG      Read 2 ground items in 0.242 seconds
+[0.8.0-dev 2022-06-19 13:37:43,257] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 13:37:43,385] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 13:37:43,960] DEBUG      fuzzy_base_item_match: change GREATER MANA POX -> GREATER MANA POTION (similarity: 75.0%)
+[0.8.0-dev 2022-06-19 13:37:43,961] DEBUG      Read 3 ground items in 0.262 seconds
+[0.8.0-dev 2022-06-19 13:37:43,963] DEBUG      ==============================
+[0.8.0-dev 2022-06-19 13:37:43,963] DEBUG      B: Checking Layout for De Seis
+[0.8.0-dev 2022-06-19 13:37:43,963] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 13:37:44,071] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 13:37:44,568] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 13:37:44,814] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 13:37:44,936] DEBUG      Waiting for templates: ['DIA_AM_B1S']
+[0.8.0-dev 2022-06-19 13:37:45,155] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 13:37:45,156] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 13:37:45,283] DEBUG      B2-U: Layout_check step 1/2 - templates NOT found for B1-S
+[0.8.0-dev 2022-06-19 13:37:45,283] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 13:37:45,386] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 13:37:45,736] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 13:37:45,950] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 13:37:46,071] DEBUG      Waiting for templates: ['DIA_AM_B2U']
+[0.8.0-dev 2022-06-19 13:37:46,286] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 13:37:46,287] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 13:37:46,422] WARNING    B1-S: Layout_check failure - could not determine the seal Layout at B (De Seis) - [91maborting run[0m
+[0.8.0-dev 2022-06-19 13:37:52,358] INFO       Health Manager is now paused
+
+23) ========== [0.8.0-dev 2022-06-19 13:42:33,568] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 13:42:14,177] DEBUG      Traverse automap: [1600]
+[0.8.0-dev 2022-06-19 13:42:14,279] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 13:42:19,923] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 13:42:20,085] INFO       A2-Y: finished seal & calibrated at PENTAGRAM
+[0.8.0-dev 2022-06-19 13:42:22,445] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 13:42:22,570] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 13:42:23,170] DEBUG      Read 3 ground items in 0.26 seconds
+[0.8.0-dev 2022-06-19 13:42:31,489] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 13:42:31,645] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 13:42:32,145] DEBUG      Read 2 ground items in 0.217 seconds
+[0.8.0-dev 2022-06-19 13:42:32,277] DEBUG      ==============================
+[0.8.0-dev 2022-06-19 13:42:32,278] DEBUG      B: Checking Layout for De Seis
+[0.8.0-dev 2022-06-19 13:42:32,278] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 13:42:32,379] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 13:42:32,842] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 13:42:33,085] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 13:42:33,236] DEBUG      Waiting for templates: ['DIA_AM_B1S']
+[0.8.0-dev 2022-06-19 13:42:33,446] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 13:42:33,447] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 13:42:33,568] DEBUG      B2-U: Layout_check step 1/2 - templates NOT found for B1-S
+[0.8.0-dev 2022-06-19 13:42:33,568] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 13:42:33,670] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 13:42:33,994] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 13:42:34,229] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 13:42:34,366] DEBUG      Waiting for templates: ['DIA_AM_B2U']
+[0.8.0-dev 2022-06-19 13:42:34,580] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 13:42:34,581] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 13:42:34,698] WARNING    B1-S: Layout_check failure - could not determine the seal Layout at B (De Seis) - [91maborting run[0m
+[0.8.0-dev 2022-06-19 13:42:40,066] WARNING    EXP OCR Error: ['EXPERIENCE:', '3,520,485,254', '/', 'O']. Exception: invalid literal for int() with base 10: 'O'
+[0.8.0-dev 2022-06-19 13:42:40,478] INFO       Health Manager is now paused
+
+24) ========== [0.8.0-dev 2022-06-19 13:44:37,476] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 13:44:22,399] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 13:44:22,399] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 13:44:22,500] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 13:44:23,031] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 13:44:23,166] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 13:44:23,292] DEBUG      B1-S: Seal2: trying to open (try #3)
+[0.8.0-dev 2022-06-19 13:44:23,409] ERROR      Wanted to select ['DIA_B1S2_23_CLOSED', 'DIA_B1S2_23_MOUSEOVER'], but could not find it
+[0.8.0-dev 2022-06-19 13:44:25,414] DEBUG      Waiting for templates: ['DIA_B1S2_23_OPEN']
+[0.8.0-dev 2022-06-19 13:44:25,524] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 13:44:25,525] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
+[0.8.0-dev 2022-06-19 13:44:25,917] DEBUG      B1-S: Seal2: failed 4 times, trying to kill trash now
+[0.8.0-dev 2022-06-19 13:44:25,917] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 13:44:29,175] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 13:44:29,175] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 13:44:29,278] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 13:44:29,813] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 13:44:29,967] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 13:44:30,122] DEBUG      B1-S: Seal2: trying to open (try #4)
+[0.8.0-dev 2022-06-19 13:44:30,229] ERROR      Wanted to select ['DIA_B1S2_23_CLOSED', 'DIA_B1S2_23_MOUSEOVER'], but could not find it
+[0.8.0-dev 2022-06-19 13:44:33,236] DEBUG      Waiting for templates: ['DIA_B1S2_23_OPEN']
+[0.8.0-dev 2022-06-19 13:44:33,360] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 13:44:33,360] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
+[0.8.0-dev 2022-06-19 13:44:33,756] DEBUG      B1-S: Seal2: failed 5 times, trying to kill trash now
+[0.8.0-dev 2022-06-19 13:44:33,756] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 13:44:37,476] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 13:44:37,476] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 13:44:37,577] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 13:44:38,081] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 13:44:38,543] WARNING    EXP OCR Error: ['!', '!']. Exception: 'EXPERIENCE:' is not in list
+[0.8.0-dev 2022-06-19 13:44:38,986] INFO       Health Manager is now paused
+
+25) ========== [0.8.0-dev 2022-06-19 13:46:38,938] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 13:46:19,562] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 13:46:22,227] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 13:46:22,227] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 13:46:22,330] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 13:46:23,644] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 13:46:23,761] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 13:46:23,901] DEBUG      B1-S: Seal2: trying to open (try #3)
+[0.8.0-dev 2022-06-19 13:46:23,959] DEBUG      Select DIA_B1S2_23_CLOSED (71.2% confidence)
+[0.8.0-dev 2022-06-19 13:46:26,398] DEBUG      Waiting for templates: ['DIA_B1S2_23_OPEN']
+[0.8.0-dev 2022-06-19 13:46:26,522] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 13:46:26,523] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
+[0.8.0-dev 2022-06-19 13:46:26,918] DEBUG      B1-S: Seal2: failed 4 times, trying to kill trash now
+[0.8.0-dev 2022-06-19 13:46:26,918] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 13:46:30,535] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 13:46:30,535] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 13:46:30,636] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 13:46:31,080] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 13:46:31,209] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 13:46:31,351] DEBUG      B1-S: Seal2: trying to open (try #4)
+[0.8.0-dev 2022-06-19 13:46:31,536] ERROR      Wanted to select ['DIA_B1S2_23_CLOSED', 'DIA_B1S2_23_MOUSEOVER'], but could not find it
+[0.8.0-dev 2022-06-19 13:46:34,552] DEBUG      Waiting for templates: ['DIA_B1S2_23_OPEN']
+[0.8.0-dev 2022-06-19 13:46:34,664] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 13:46:34,664] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
+[0.8.0-dev 2022-06-19 13:46:35,180] DEBUG      B1-S: Seal2: failed 5 times, trying to kill trash now
+[0.8.0-dev 2022-06-19 13:46:35,180] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 13:46:38,938] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 13:46:38,938] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 13:46:39,039] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 13:46:39,540] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 13:46:40,606] INFO       Health Manager is now paused
+
+26) ========== [0.8.0-dev 2022-06-19 13:59:02,899] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 13:58:46,703] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 13:58:46,703] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 13:58:46,804] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 13:58:48,116] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 13:58:48,242] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 13:58:48,385] DEBUG      B1-S: Seal2: trying to open (try #3)
+[0.8.0-dev 2022-06-19 13:58:48,437] DEBUG      Select DIA_B1S2_23_CLOSED (77.9% confidence)
+[0.8.0-dev 2022-06-19 13:58:50,807] DEBUG      Waiting for templates: ['DIA_B1S2_23_OPEN']
+[0.8.0-dev 2022-06-19 13:58:50,932] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 13:58:50,932] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
+[0.8.0-dev 2022-06-19 13:58:51,328] DEBUG      B1-S: Seal2: failed 4 times, trying to kill trash now
+[0.8.0-dev 2022-06-19 13:58:51,328] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 13:58:54,806] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 13:58:54,806] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 13:58:54,909] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 13:58:55,401] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 13:58:55,553] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 13:58:55,679] DEBUG      B1-S: Seal2: trying to open (try #4)
+[0.8.0-dev 2022-06-19 13:58:55,785] ERROR      Wanted to select ['DIA_B1S2_23_CLOSED', 'DIA_B1S2_23_MOUSEOVER'], but could not find it
+[0.8.0-dev 2022-06-19 13:58:58,802] DEBUG      Waiting for templates: ['DIA_B1S2_23_OPEN']
+[0.8.0-dev 2022-06-19 13:58:58,926] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 13:58:58,927] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
+[0.8.0-dev 2022-06-19 13:58:59,318] DEBUG      B1-S: Seal2: failed 5 times, trying to kill trash now
+[0.8.0-dev 2022-06-19 13:58:59,319] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 13:59:02,899] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 13:59:02,899] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 13:59:03,001] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 13:59:03,466] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 13:59:03,948] WARNING    EXP OCR Error: ['EXPERIENCE:', '3,520,485,254', '/', 'O0!']. Exception: invalid literal for int() with base 10: 'O0!'
+[0.8.0-dev 2022-06-19 13:59:04,391] INFO       Health Manager is now paused
+
+27) ========== [0.8.0-dev 2022-06-19 14:10:49,345] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 14:10:30,674] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 14:10:33,372] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 14:10:33,372] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 14:10:33,473] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 14:10:34,708] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 14:10:34,852] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 14:10:34,962] DEBUG      B1-S: Seal2: trying to open (try #3)
+[0.8.0-dev 2022-06-19 14:10:35,020] DEBUG      Select DIA_B1S2_23_CLOSED (81.8% confidence)
+[0.8.0-dev 2022-06-19 14:10:37,419] DEBUG      Waiting for templates: ['DIA_B1S2_23_OPEN']
+[0.8.0-dev 2022-06-19 14:10:37,532] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 14:10:37,533] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
+[0.8.0-dev 2022-06-19 14:10:37,911] DEBUG      B1-S: Seal2: failed 4 times, trying to kill trash now
+[0.8.0-dev 2022-06-19 14:10:37,911] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 14:10:41,030] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 14:10:41,030] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 14:10:41,132] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 14:10:41,638] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 14:10:41,753] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 14:10:41,911] DEBUG      B1-S: Seal2: trying to open (try #4)
+[0.8.0-dev 2022-06-19 14:10:42,016] ERROR      Wanted to select ['DIA_B1S2_23_CLOSED', 'DIA_B1S2_23_MOUSEOVER'], but could not find it
+[0.8.0-dev 2022-06-19 14:10:45,019] DEBUG      Waiting for templates: ['DIA_B1S2_23_OPEN']
+[0.8.0-dev 2022-06-19 14:10:45,137] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 14:10:45,138] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
+[0.8.0-dev 2022-06-19 14:10:45,538] DEBUG      B1-S: Seal2: failed 5 times, trying to kill trash now
+[0.8.0-dev 2022-06-19 14:10:45,538] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 14:10:49,345] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 14:10:49,345] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 14:10:49,453] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 14:10:49,971] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 14:10:50,957] INFO       Health Manager is now paused
+
+28) ========== [0.8.0-dev 2022-06-19 14:14:41,363] DEBUG      Traverse automap: [1620]
+[0.8.0-dev 2022-06-19 14:14:21,872] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 14:14:22,004] DEBUG      ROF: Calibrated at CS ENTRANCE
+[0.8.0-dev 2022-06-19 14:14:22,004] DEBUG      ROF: Teleporting directly to PENTAGRAM
+[0.8.0-dev 2022-06-19 14:14:28,182] DEBUG      Traverse automap: [1600]
+[0.8.0-dev 2022-06-19 14:14:28,284] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 14:14:32,648] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 14:14:32,778] INFO       CS: Calibrated at PENTAGRAM
+[0.8.0-dev 2022-06-19 14:14:32,779] DEBUG      No attack choreography available in fohdin.py for this node pent_before_a - skipping to shorten run.
+[0.8.0-dev 2022-06-19 14:14:32,779] DEBUG      Traverse automap: [1620]
+[0.8.0-dev 2022-06-19 14:14:32,881] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 14:14:38,010] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 14:14:40,520] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 14:14:40,646] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 14:14:41,245] DEBUG      Read 2 ground items in 0.207 seconds
+[0.8.0-dev 2022-06-19 14:14:41,362] DEBUG      ==============================
+[0.8.0-dev 2022-06-19 14:14:41,363] DEBUG      A: Checking Layout for Vizier
+[0.8.0-dev 2022-06-19 14:14:41,363] DEBUG      Traverse automap: [1620]
+[0.8.0-dev 2022-06-19 14:14:41,466] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 14:14:42,121] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 14:14:42,357] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 14:14:42,495] DEBUG      Waiting for templates: ['DIA_AM_A2Y']
+[0.8.0-dev 2022-06-19 14:14:42,715] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 14:14:42,716] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 14:14:42,845] DEBUG      A1-L: Layout_check step 1/2 - templates NOT found for A2-Y
+[0.8.0-dev 2022-06-19 14:14:42,946] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 14:14:43,081] DEBUG      Waiting for templates: ['DIA_AM_A1L']
+[0.8.0-dev 2022-06-19 14:14:43,307] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 14:14:43,308] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 14:14:43,413] WARNING    A2-Y: Layout_check failure - could not determine the seal Layout at A (Vizier) - [91maborting run[0m
+[0.8.0-dev 2022-06-19 14:14:49,246] INFO       Health Manager is now paused
+
+29) ========== [0.8.0-dev 2022-06-19 14:23:17,567] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 14:22:59,104] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 14:23:01,783] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 14:23:01,783] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 14:23:01,886] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 14:23:03,057] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 14:23:03,217] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 14:23:03,345] DEBUG      B1-S: Seal2: trying to open (try #3)
+[0.8.0-dev 2022-06-19 14:23:03,395] DEBUG      Select DIA_B1S2_23_CLOSED (81.4% confidence)
+[0.8.0-dev 2022-06-19 14:23:05,751] DEBUG      Waiting for templates: ['DIA_B1S2_23_OPEN']
+[0.8.0-dev 2022-06-19 14:23:05,866] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 14:23:05,867] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
+[0.8.0-dev 2022-06-19 14:23:06,260] DEBUG      B1-S: Seal2: failed 4 times, trying to kill trash now
+[0.8.0-dev 2022-06-19 14:23:06,260] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 14:23:09,351] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 14:23:09,351] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 14:23:09,451] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 14:23:09,998] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 14:23:10,153] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 14:23:10,281] DEBUG      B1-S: Seal2: trying to open (try #4)
+[0.8.0-dev 2022-06-19 14:23:10,383] ERROR      Wanted to select ['DIA_B1S2_23_CLOSED', 'DIA_B1S2_23_MOUSEOVER'], but could not find it
+[0.8.0-dev 2022-06-19 14:23:13,399] DEBUG      Waiting for templates: ['DIA_B1S2_23_OPEN']
+[0.8.0-dev 2022-06-19 14:23:13,519] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 14:23:13,520] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
+[0.8.0-dev 2022-06-19 14:23:13,914] DEBUG      B1-S: Seal2: failed 5 times, trying to kill trash now
+[0.8.0-dev 2022-06-19 14:23:13,914] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 14:23:17,567] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 14:23:17,567] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 14:23:17,670] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 14:23:18,198] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 14:23:19,146] INFO       Health Manager is now paused
+
+30) ========== [0.8.0-dev 2022-06-19 14:31:25,228] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 14:31:03,009] DEBUG      A2-Y: Traversing back to Pentagram
+[0.8.0-dev 2022-06-19 14:31:03,009] DEBUG      Traverse automap: [1600]
+[0.8.0-dev 2022-06-19 14:31:03,112] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 14:31:11,262] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 14:31:11,408] INFO       A2-Y: finished seal & calibrated at PENTAGRAM
+[0.8.0-dev 2022-06-19 14:31:13,499] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 14:31:13,641] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 14:31:14,171] DEBUG      Read 1 ground items in 0.243 seconds
+[0.8.0-dev 2022-06-19 14:31:22,507] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 14:31:22,635] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 14:31:23,200] DEBUG      Read 0 ground items in 0.225 seconds
+[0.8.0-dev 2022-06-19 14:31:23,201] DEBUG      ==============================
+[0.8.0-dev 2022-06-19 14:31:23,201] DEBUG      B: Checking Layout for De Seis
+[0.8.0-dev 2022-06-19 14:31:23,201] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 14:31:23,304] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 14:31:24,541] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 14:31:24,744] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 14:31:24,880] DEBUG      Waiting for templates: ['DIA_AM_B1S']
+[0.8.0-dev 2022-06-19 14:31:25,084] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 14:31:25,085] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 14:31:25,228] DEBUG      B2-U: Layout_check step 1/2 - templates NOT found for B1-S
+[0.8.0-dev 2022-06-19 14:31:25,228] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 14:31:25,335] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 14:31:25,684] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 14:31:25,938] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 14:31:26,057] DEBUG      Waiting for templates: ['DIA_AM_B2U']
+[0.8.0-dev 2022-06-19 14:31:26,263] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 14:31:26,264] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 14:31:26,377] WARNING    B1-S: Layout_check failure - could not determine the seal Layout at B (De Seis) - [91maborting run[0m
+[0.8.0-dev 2022-06-19 14:31:32,202] INFO       Health Manager is now paused
+
+31) ========== [0.8.0-dev 2022-06-19 14:33:36,679] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 14:33:18,096] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 14:33:20,941] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 14:33:20,941] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 14:33:21,044] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 14:33:21,539] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 14:33:21,652] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 14:33:21,793] DEBUG      B1-S: Seal2: trying to open (try #3)
+[0.8.0-dev 2022-06-19 14:33:21,900] ERROR      Wanted to select ['DIA_B1S2_23_CLOSED', 'DIA_B1S2_23_MOUSEOVER'], but could not find it
+[0.8.0-dev 2022-06-19 14:33:23,914] DEBUG      Waiting for templates: ['DIA_B1S2_23_OPEN']
+[0.8.0-dev 2022-06-19 14:33:24,035] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 14:33:24,035] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
+[0.8.0-dev 2022-06-19 14:33:24,522] DEBUG      B1-S: Seal2: failed 4 times, trying to kill trash now
+[0.8.0-dev 2022-06-19 14:33:24,522] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 14:33:27,999] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 14:33:27,999] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 14:33:28,101] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 14:33:28,606] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 14:33:28,723] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 14:33:28,865] DEBUG      B1-S: Seal2: trying to open (try #4)
+[0.8.0-dev 2022-06-19 14:33:29,064] ERROR      Wanted to select ['DIA_B1S2_23_CLOSED', 'DIA_B1S2_23_MOUSEOVER'], but could not find it
+[0.8.0-dev 2022-06-19 14:33:32,078] DEBUG      Waiting for templates: ['DIA_B1S2_23_OPEN']
+[0.8.0-dev 2022-06-19 14:33:32,193] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 14:33:32,193] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
+[0.8.0-dev 2022-06-19 14:33:32,695] DEBUG      B1-S: Seal2: failed 5 times, trying to kill trash now
+[0.8.0-dev 2022-06-19 14:33:32,695] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 14:33:36,679] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 14:33:36,679] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 14:33:36,782] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 14:33:37,241] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 14:33:38,304] INFO       Health Manager is now paused
+
+32) ========== [0.8.0-dev 2022-06-19 14:52:09,667] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 14:51:54,881] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 14:51:54,881] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 14:51:54,983] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 14:51:55,541] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 14:51:55,652] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 14:51:55,780] DEBUG      B1-S: Seal2: trying to open (try #3)
+[0.8.0-dev 2022-06-19 14:51:55,890] ERROR      Wanted to select ['DIA_B1S2_23_CLOSED', 'DIA_B1S2_23_MOUSEOVER'], but could not find it
+[0.8.0-dev 2022-06-19 14:51:57,904] DEBUG      Waiting for templates: ['DIA_B1S2_23_OPEN']
+[0.8.0-dev 2022-06-19 14:51:58,026] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 14:51:58,027] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
+[0.8.0-dev 2022-06-19 14:51:58,422] DEBUG      B1-S: Seal2: failed 4 times, trying to kill trash now
+[0.8.0-dev 2022-06-19 14:51:58,422] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 14:52:01,548] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 14:52:01,549] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 14:52:01,652] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 14:52:02,124] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 14:52:02,241] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 14:52:02,398] DEBUG      B1-S: Seal2: trying to open (try #4)
+[0.8.0-dev 2022-06-19 14:52:02,510] ERROR      Wanted to select ['DIA_B1S2_23_CLOSED', 'DIA_B1S2_23_MOUSEOVER'], but could not find it
+[0.8.0-dev 2022-06-19 14:52:05,521] DEBUG      Waiting for templates: ['DIA_B1S2_23_OPEN']
+[0.8.0-dev 2022-06-19 14:52:05,635] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 14:52:05,636] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
+[0.8.0-dev 2022-06-19 14:52:06,023] DEBUG      B1-S: Seal2: failed 5 times, trying to kill trash now
+[0.8.0-dev 2022-06-19 14:52:06,023] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 14:52:09,667] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 14:52:09,667] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 14:52:09,770] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 14:52:10,291] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 14:52:10,796] WARNING    EXP OCR Error: ['\\.']. Exception: 'EXPERIENCE:' is not in list
+[0.8.0-dev 2022-06-19 14:52:11,323] INFO       Health Manager is now paused
+
+33) ========== [0.8.0-dev 2022-06-19 15:04:15,760] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 15:03:56,666] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 15:03:59,660] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 15:03:59,660] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 15:03:59,763] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 15:04:01,018] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 15:04:01,129] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 15:04:01,270] DEBUG      B1-S: Seal2: trying to open (try #3)
+[0.8.0-dev 2022-06-19 15:04:01,338] DEBUG      Select DIA_B1S2_23_CLOSED (84.4% confidence)
+[0.8.0-dev 2022-06-19 15:04:03,761] DEBUG      Waiting for templates: ['DIA_B1S2_23_OPEN']
+[0.8.0-dev 2022-06-19 15:04:03,894] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 15:04:03,894] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
+[0.8.0-dev 2022-06-19 15:04:04,292] DEBUG      B1-S: Seal2: failed 4 times, trying to kill trash now
+[0.8.0-dev 2022-06-19 15:04:04,292] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 15:04:07,528] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 15:04:07,528] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 15:04:07,633] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 15:04:08,147] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 15:04:08,288] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 15:04:08,400] DEBUG      B1-S: Seal2: trying to open (try #4)
+[0.8.0-dev 2022-06-19 15:04:08,505] ERROR      Wanted to select ['DIA_B1S2_23_CLOSED', 'DIA_B1S2_23_MOUSEOVER'], but could not find it
+[0.8.0-dev 2022-06-19 15:04:11,516] DEBUG      Waiting for templates: ['DIA_B1S2_23_OPEN']
+[0.8.0-dev 2022-06-19 15:04:11,632] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 15:04:11,633] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
+[0.8.0-dev 2022-06-19 15:04:12,019] DEBUG      B1-S: Seal2: failed 5 times, trying to kill trash now
+[0.8.0-dev 2022-06-19 15:04:12,019] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 15:04:15,760] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 15:04:15,760] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 15:04:15,863] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 15:04:16,343] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 15:04:17,364] INFO       Health Manager is now paused
+
+34) ========== [0.8.0-dev 2022-06-19 15:21:25,024] DEBUG      Traverse automap: [1620]
+[0.8.0-dev 2022-06-19 15:21:08,226] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 15:21:08,377] DEBUG      ROF: Calibrated at CS ENTRANCE
+[0.8.0-dev 2022-06-19 15:21:08,377] DEBUG      ROF: Teleporting directly to PENTAGRAM
+[0.8.0-dev 2022-06-19 15:21:14,404] DEBUG      Traverse automap: [1600]
+[0.8.0-dev 2022-06-19 15:21:14,507] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 15:21:16,463] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 15:21:16,625] INFO       CS: Calibrated at PENTAGRAM
+[0.8.0-dev 2022-06-19 15:21:16,625] DEBUG      No attack choreography available in fohdin.py for this node pent_before_a - skipping to shorten run.
+[0.8.0-dev 2022-06-19 15:21:16,626] DEBUG      Traverse automap: [1620]
+[0.8.0-dev 2022-06-19 15:21:16,729] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 15:21:21,749] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 15:21:24,323] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 15:21:24,449] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 15:21:25,022] DEBUG      Read 4 ground items in 0.212 seconds
+[0.8.0-dev 2022-06-19 15:21:25,023] DEBUG      ==============================
+[0.8.0-dev 2022-06-19 15:21:25,023] DEBUG      A: Checking Layout for Vizier
+[0.8.0-dev 2022-06-19 15:21:25,024] DEBUG      Traverse automap: [1620]
+[0.8.0-dev 2022-06-19 15:21:25,133] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 15:21:25,820] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 15:21:26,063] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 15:21:26,183] DEBUG      Waiting for templates: ['DIA_AM_A2Y']
+[0.8.0-dev 2022-06-19 15:21:26,418] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 15:21:26,419] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 15:21:26,545] DEBUG      A1-L: Layout_check step 1/2 - templates NOT found for A2-Y
+[0.8.0-dev 2022-06-19 15:21:26,649] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 15:21:26,765] DEBUG      Waiting for templates: ['DIA_AM_A1L']
+[0.8.0-dev 2022-06-19 15:21:26,995] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 15:21:26,996] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 15:21:27,117] WARNING    A2-Y: Layout_check failure - could not determine the seal Layout at A (Vizier) - [91maborting run[0m
+[0.8.0-dev 2022-06-19 15:21:32,982] INFO       Health Manager is now paused
+
+35) ========== [0.8.0-dev 2022-06-19 15:23:22,910] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 15:23:04,479] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 15:23:07,487] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 15:23:07,487] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 15:23:07,590] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 15:23:08,106] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 15:23:08,259] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 15:23:08,387] DEBUG      B1-S: Seal2: trying to open (try #3)
+[0.8.0-dev 2022-06-19 15:23:08,592] ERROR      Wanted to select ['DIA_B1S2_23_CLOSED', 'DIA_B1S2_23_MOUSEOVER'], but could not find it
+[0.8.0-dev 2022-06-19 15:23:10,597] DEBUG      Waiting for templates: ['DIA_B1S2_23_OPEN']
+[0.8.0-dev 2022-06-19 15:23:10,714] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 15:23:10,715] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
+[0.8.0-dev 2022-06-19 15:23:11,234] DEBUG      B1-S: Seal2: failed 4 times, trying to kill trash now
+[0.8.0-dev 2022-06-19 15:23:11,234] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 15:23:14,777] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 15:23:14,777] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 15:23:14,880] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 15:23:15,444] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 15:23:15,567] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 15:23:15,693] DEBUG      B1-S: Seal2: trying to open (try #4)
+[0.8.0-dev 2022-06-19 15:23:15,796] ERROR      Wanted to select ['DIA_B1S2_23_CLOSED', 'DIA_B1S2_23_MOUSEOVER'], but could not find it
+[0.8.0-dev 2022-06-19 15:23:18,798] DEBUG      Waiting for templates: ['DIA_B1S2_23_OPEN']
+[0.8.0-dev 2022-06-19 15:23:18,922] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 15:23:18,922] DEBUG      B1-S: Seal2: is closed - [91m closed[0m
+[0.8.0-dev 2022-06-19 15:23:19,314] DEBUG      B1-S: Seal2: failed 5 times, trying to kill trash now
+[0.8.0-dev 2022-06-19 15:23:19,315] DEBUG      Sealdance: Kill trash at location: sealdance
+[0.8.0-dev 2022-06-19 15:23:22,910] DEBUG      Sealdance: Recalibrating at seal_node
+[0.8.0-dev 2022-06-19 15:23:22,910] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 15:23:23,012] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 15:23:23,558] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 15:23:24,490] INFO       Health Manager is now paused
+
+36) ========== [0.8.0-dev 2022-06-19 15:27:58,799] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 15:27:38,427] DEBUG      A2-Y: Traversing back to Pentagram
+[0.8.0-dev 2022-06-19 15:27:38,427] DEBUG      Traverse automap: [1600]
+[0.8.0-dev 2022-06-19 15:27:38,529] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 15:27:45,380] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 15:27:45,519] INFO       A2-Y: finished seal & calibrated at PENTAGRAM
+[0.8.0-dev 2022-06-19 15:27:47,896] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 15:27:48,037] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 15:27:48,554] DEBUG      Read 0 ground items in 0.189 seconds
+[0.8.0-dev 2022-06-19 15:27:56,818] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 15:27:56,972] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 15:27:57,500] DEBUG      Read 0 ground items in 0.181 seconds
+[0.8.0-dev 2022-06-19 15:27:57,501] DEBUG      ==============================
+[0.8.0-dev 2022-06-19 15:27:57,501] DEBUG      B: Checking Layout for De Seis
+[0.8.0-dev 2022-06-19 15:27:57,502] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 15:27:57,603] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 15:27:58,116] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 15:27:58,334] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 15:27:58,450] DEBUG      Waiting for templates: ['DIA_AM_B1S']
+[0.8.0-dev 2022-06-19 15:27:58,652] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 15:27:58,653] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 15:27:58,799] DEBUG      B2-U: Layout_check step 1/2 - templates NOT found for B1-S
+[0.8.0-dev 2022-06-19 15:27:58,799] DEBUG      Traverse automap: [1630]
+[0.8.0-dev 2022-06-19 15:27:58,901] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 15:27:59,233] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 15:27:59,466] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 15:27:59,572] DEBUG      Waiting for templates: ['DIA_AM_B2U']
+[0.8.0-dev 2022-06-19 15:27:59,972] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 15:27:59,973] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 15:28:00,093] WARNING    B1-S: Layout_check failure - could not determine the seal Layout at B (De Seis) - [91maborting run[0m
+[0.8.0-dev 2022-06-19 15:28:06,021] INFO       Health Manager is now paused
+
+37) ========== [0.8.0-dev 2022-06-19 15:28:52,613] DEBUG      Traverse automap: [1620]
+[0.8.0-dev 2022-06-19 15:28:35,211] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 15:28:35,362] DEBUG      ROF: Calibrated at CS ENTRANCE
+[0.8.0-dev 2022-06-19 15:28:35,362] DEBUG      ROF: Teleporting directly to PENTAGRAM
+[0.8.0-dev 2022-06-19 15:28:41,509] DEBUG      Traverse automap: [1600]
+[0.8.0-dev 2022-06-19 15:28:41,612] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 15:28:43,543] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 15:28:43,654] INFO       CS: Calibrated at PENTAGRAM
+[0.8.0-dev 2022-06-19 15:28:43,654] DEBUG      No attack choreography available in fohdin.py for this node pent_before_a - skipping to shorten run.
+[0.8.0-dev 2022-06-19 15:28:43,655] DEBUG      Traverse automap: [1620]
+[0.8.0-dev 2022-06-19 15:28:43,756] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 15:28:48,910] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 15:28:51,566] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 15:28:51,690] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 15:28:52,375] DEBUG      Read 10 ground items in 0.34 seconds
+[0.8.0-dev 2022-06-19 15:28:52,612] DEBUG      ==============================
+[0.8.0-dev 2022-06-19 15:28:52,613] DEBUG      A: Checking Layout for Vizier
+[0.8.0-dev 2022-06-19 15:28:52,613] DEBUG      Traverse automap: [1620]
+[0.8.0-dev 2022-06-19 15:28:52,715] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 15:28:53,423] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 15:28:53,664] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 15:28:53,816] DEBUG      Waiting for templates: ['DIA_AM_A2Y']
+[0.8.0-dev 2022-06-19 15:28:54,037] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 15:28:54,038] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 15:28:54,181] DEBUG      A1-L: Layout_check step 1/2 - templates NOT found for A2-Y
+[0.8.0-dev 2022-06-19 15:28:54,282] DEBUG      Automap Status: is OFF -> switching [92m ON[0m
+[0.8.0-dev 2022-06-19 15:28:54,417] DEBUG      Waiting for templates: ['DIA_AM_A1L']
+[0.8.0-dev 2022-06-19 15:28:54,644] DEBUG      Could not find desired templates
+[0.8.0-dev 2022-06-19 15:28:54,645] DEBUG      Automap Status: switching[91m OFF[0m
+[0.8.0-dev 2022-06-19 15:28:54,780] WARNING    A2-Y: Layout_check failure - could not determine the seal Layout at A (Vizier) - [91maborting run[0m
+[0.8.0-dev 2022-06-19 15:29:00,566] INFO       Health Manager is now paused
