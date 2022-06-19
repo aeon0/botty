@@ -271,28 +271,26 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
                 item_can_be_traded = not any(substring in item_name for substring in nontradable_items)
                 sell = Config().char["sell_junk"] and item_can_be_traded and not ignore_sell
                 is_unidentified = is_visible(ScreenObjects.Unidentified, item_box.img)
-                need_id = None
-                keep = None
 
                 box = BoxInfo(
                     img = item_box.img,
                     pos = (x_m, y_m),
                     column = slot[2],
                     row = slot[1],
-                    need_id = need_id,
                     sell = sell,
-                    keep = keep
+                    need_id = False,
+                    keep = False
                 )
 
                 tome_state = None
                 try:
                     if (is_unidentified and should_id(item_properties.as_dict())):
-                        need_id = True
+                        box.need_id = True
                         center_mouse()
                         tome_state, tome_pos = common.tome_state(grab(True), tome_type = "id", roi = Config().ui_roi["restricted_inventory_area"])
                     if is_unidentified and tome_state is not None and tome_state == "ok":
                         common.id_item_with_tome([x_m, y_m], tome_pos)
-                        need_id = False
+                        box.need_id = False
                         is_unidentified = True
                         # recapture box after ID
                         mouse.move(x_m, y_m, randomize = 4, delay_factor = delay)
@@ -303,34 +301,33 @@ def inspect_items(inp_img: np.ndarray = None, close_window: bool = True, game_st
                     if item_box is not None:
                         log_item(item_box, item_properties)
                         # decide whether to keep item
-                        keep, expression = should_keep(item_properties.as_dict())
+                        box.keep, expression = should_keep(item_properties.as_dict())
 
                         # make sure it's not a consumable
                         # TODO: logic for trying to add potion to belt if there are needs
-                        keep &= not bool(consumables.is_consumable(item_properties))
+                        box.keep &= not bool(consumables.is_consumable(item_properties))
 
-                        box.keep = keep
-                        if keep:
+                        if box.keep:
                             Logger.info(f"Keep {item_name}. Expression: {expression}")
                             sell = False
-                        elif need_id:
+                        elif box.need_id:
                             Logger.debug(f"Need to ID {item_name}.")
                         else:
                             #Logger.debug(f"Discarding {json.dumps(item_properties.as_dict(), indent = 4)}")
                             Logger.debug(f"Discarding {item_name}.")
 
                         # sell if not keeping item, vendor is open, and item type can be traded
-                        if vendor_open and item_can_be_traded and not (keep or need_id):
+                        if vendor_open and item_can_be_traded and not (box.keep or box.need_id):
                             box.sell = True
                             transfer_items([box], action = "sell")
                             continue
 
                         # if item is to be kept and is already ID'd or doesn't need ID, log and stash
-                        if (keep and not need_id):
+                        if (box.keep and not box.need_id):
                             if game_stats is not None:
                                 game_stats.log_item_keep(item_name, True, item_box.img, item_box.ocr_result.text, expression, item_properties.as_dict())
                         # if item is to be kept or still needs to be sold or identified, append to list
-                        if keep or sell or need_id:
+                        if box.keep or sell or box.need_id:
                             # save item info
                             boxes.append(box)
                         else:
