@@ -35,6 +35,7 @@ class IChar:
         self.damage_scaling = float(Config().char.get("damage_scaling", 1.0))
         self._use_safer_routines = Config().char["safer_routines"]
         self._base_class = ""
+        self.can_teleport = ""
 
     """
     MOUSE AND KEYBOARD METHODS
@@ -100,17 +101,35 @@ class IChar:
     CAPABILITIES METHODS
     """
 
-
-
     def can_teleport(self) -> bool:
+        """
+        1. player can teleport natively
+            a. and has teleport bound and is visible
+            b. and does not have teleport hotkey bound
+        2. player can teleport with charges
+            a. and has teleport bound and is visible
+            b. and does not have teleport hotkey bound
+            c. and has run out of teleport charges
+        3. player can't teleport
+        """
+
+        # 3. player can't teleport
+        if Config().char["use_charged_teleport"] and not self._get_hotkey("teleport"):
+            Logger.error("No hotkey for teleport even though param.ini 'use_charged_teleport' is set to True")
+            return False
+        if not self._get_hotkey("teleport"):
+            return False
+        # 2. player can teleport with charges
         if Config().char["use_charged_teleport"]:
-            if not self._get_hotkey("teleport"):
-                raise Exception("No hotkey for teleport even though param.ini 'use_charged_teleport' is set to True")
-            else:
-
-
-
-
+            if not skills.is_skill_bound(["BAR_TP_ACTIVE", "BAR_TP_INACTIVE"]):
+                # 2c.
+                Logger.debug("can_teleport: player can teleport with charges, but has no teleport bound. Likely needs repair.")
+                return False
+            # 2a.
+            return True
+        # 1. player can teleport natively
+        if not Config().char["use_charged_teleport"] and skills.is_skill_bound(["BAR_TP_ACTIVE", "BAR_TP_INACTIVE"]):
+            return True
 
         return (self.capabilities.can_teleport_natively or self.capabilities.can_teleport_with_charges) and self.select_teleport() and skills.is_right_skill_active()
 
@@ -202,7 +221,7 @@ class IChar:
         return False
 
     def remap_right_skill_hotkey(self, skill_asset, hotkey) -> bool:
-        return self._remap_skill_hotkey(skill_asset, hotkey, Config().ui_roi["skill_right"], Config().ui_roi["skill_right_expanded"])
+        return self._remap_skill_hotkey(skill_asset, hotkey, Config().ui_roi["skill_right"], Config().ui_roi["skill_speed_bar"])
 
     """
     GLOBAL SKILLS

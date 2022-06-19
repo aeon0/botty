@@ -10,6 +10,14 @@ import template_finder
 from ui_manager import is_visible, wait_until_visible, ScreenObjects
 from d2r_image import ocr
 
+LEFT_SKILL_ROI = [
+        Config().ui_pos["skill_left_x"] - (Config().ui_pos["skill_width"] // 2),
+        Config().ui_pos["skill_y"] - (Config().ui_pos["skill_height"] // 2),
+        Config().ui_pos["skill_width"],
+        Config().ui_pos["skill_height"]
+]
+
+
 RIGHT_SKILL_ROI = [
         Config().ui_pos["skill_right_x"] - (Config().ui_pos["skill_width"] // 2),
         Config().ui_pos["skill_y"] - (Config().ui_pos["skill_height"] // 2),
@@ -17,52 +25,62 @@ RIGHT_SKILL_ROI = [
         Config().ui_pos["skill_height"]
 ]
 
-def is_left_skill_selected(template_list: list[str]) -> bool:
-    """
-    :return: Bool if skill is currently the selected skill on the left skill slot.
-    """
-    skill_left_ui_roi = Config().ui_roi["skill_left"]
-    for template in template_list:
-        if template_finder.search(template, grab(), threshold=0.84, roi=skill_left_ui_roi).valid:
-            return True
-    return False
 
-def has_tps() -> bool:
+def _is_skill_active(roi: list[int]) -> bool:
     """
-    :return: Returns True if botty has town portals available. False otherwise
+    :return: Bool if skill is currently active in the desired ROI
     """
-    if Config().char["town_portal"]:
-        if not (tps_remain := is_visible(ScreenObjects.BarTownPortalSkill)):
-            Logger.warning("You are out of tps")
-            if Config().general["info_screenshots"]:
-                cv2.imwrite("./log/screenshots/info/debug_out_of_tps_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
-        return tps_remain
-    return False
-
-def select_tp(tp_hotkey):
-    if tp_hotkey and not is_right_skill_selected(
-        ["TELE_ACTIVE", "TELE_INACTIVE"]):
-        keyboard.send(tp_hotkey)
-        wait(0.1, 0.2)
-    return is_right_skill_selected(["TELE_ACTIVE", "TELE_INACTIVE"])
-
-def is_right_skill_active() -> bool:
-    """
-    :return: Bool if skill is red/available or not. Skill must be selected on right skill slot when calling the function.
-    """
-    img = cut_roi(grab(), RIGHT_SKILL_ROI)
+    img = cut_roi(grab(), roi)
     avg = np.average(img)
     return avg > 75.0
 
-def is_right_skill_selected(template_list: list[str]) -> bool:
+def is_skill_active(roi: list[int]) -> bool:
+    return _is_skill_active(roi)
+
+def is_right_skill_active() -> bool:
+    return _is_skill_active(roi = RIGHT_SKILL_ROI)
+
+def is_left_skill_active() -> bool:
+    return _is_skill_active(roi = LEFT_SKILL_ROI)
+
+
+def _is_skill_bound(template_list: list[str] | str, roi: list[int]) -> bool:
     """
     :return: Bool if skill is currently the selected skill on the right skill slot.
     """
-    skill_right_ui_roi = Config().ui_roi["skill_right"]
+    if isinstance(template_list, str):
+        template_list = [template_list]
     for template in template_list:
-        if template_finder.search(template, grab(), threshold=0.84, roi=skill_right_ui_roi).valid:
+        if template_finder.search(template, grab(), threshold=0.84, roi=roi).valid:
             return True
     return False
+
+def is_skill_bound(template_list: list[str] | str, roi: list[int] = Config().ui_roi["active_skills_bar"]) -> bool:
+    """
+    :return: Bool if skill is visible in ROI, defaults to active skills bar.
+    """
+    return _is_skill_bound(template_list, roi)
+
+def is_right_skill_bound(template_list: list[str] | str) -> bool:
+    """
+    :return: Bool if skill is currently the selected skill on the right skill slot.
+    """
+    return _is_skill_bound(template_list, RIGHT_SKILL_ROI)
+
+def is_left_skill_bound(template_list: list[str] | str) -> bool:
+    """
+    :return: Bool if skill is currently the selected skill on the left skill slot.
+    """
+    return _is_skill_bound(template_list, LEFT_SKILL_ROI)
+
+
+def has_tps() -> bool:
+    if not (tps_remain := is_visible(ScreenObjects.BarTownPortalSkill)):
+        Logger.warning("You are out of tps")
+        if Config().general["info_screenshots"]:
+            cv2.imwrite("./log/screenshots/info/debug_out_of_tps_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
+    return tps_remain
+
 
 def get_skill_charges(img: np.ndarray = None):
     if img is None:
