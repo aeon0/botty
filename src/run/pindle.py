@@ -6,6 +6,7 @@ import template_finder
 from town.town_manager import TownManager
 from utils.misc import wait
 from ui import loading
+from automap_finder import toggle_automap
 
 class Pindle:
 
@@ -31,16 +32,18 @@ class Pindle:
         loc = self._town_manager.go_to_act(5, start_loc)
         if not loc:
             return False
-        if not self._pather.traverse_nodes((loc, Location.A5_NIHLATHAK_PORTAL), self._char):
+        if not self._pather.traverse_nodes_automap((loc, Location.A5_NIHLATHAK_PORTAL), self._char):
             return False
         wait(0.5, 0.6)
         found_loading_screen_func = lambda: loading.wait_for_loading_screen(2.0)
+        toggle_automap(False)
         if not self._char.select_by_template("A5_RED_PORTAL", found_loading_screen_func, telekinesis=False):
             return False
         return Location.A5_PINDLE_START
 
     def battle(self, do_pre_buff: bool) -> bool | tuple[Location, bool]:
         # Kill Pindle
+        toggle_automap(False)
         if not template_finder.search_and_wait(["PINDLE_0", "PINDLE_1"], threshold=0.65, timeout=20).valid:
             return False
         if do_pre_buff:
@@ -49,7 +52,7 @@ class Pindle:
         if self._char.capabilities.can_teleport_natively:
             self._pather.traverse_nodes_fixed("pindle_safe_dist", self._char)
         else:
-            if not self._pather.traverse_nodes((Location.A5_PINDLE_START, Location.A5_PINDLE_SAFE_DIST), self._char):
+            if not self._pather.traverse_nodes_automap((Location.A5_PINDLE_START, Location.A5_PINDLE_SAFE_DIST), self._char):
                 return False
         self._char.kill_pindle()
         wait(0.2, 0.3)

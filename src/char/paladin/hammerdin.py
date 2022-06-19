@@ -14,6 +14,7 @@ from target_detect import get_visible_targets
 from ui import skills
 from utils.custom_mouse import mouse
 from utils.misc import wait
+from automap_finder import toggle_automap
 
 class Hammerdin(Paladin):
     def __init__(self, *args, **kwargs):
@@ -68,7 +69,8 @@ class Hammerdin(Paladin):
     def kill_pindle(self) -> bool:
         wait(0.1, 0.15)
         if self.capabilities.can_teleport_with_charges:
-            if not self._pather.traverse_nodes([104], self, timeout=1.0, force_tp=True, use_tp_charge=True):
+            toggle_automap(False) #just to be sure
+            if not self._pather.traverse_nodes_automap([104], self, timeout=1.0, force_tp=True, use_tp_charge=True):
                 return False
         elif self.capabilities.can_teleport_natively:
             if not self._pather.traverse_nodes_fixed("pindle_end", self):
@@ -76,7 +78,8 @@ class Hammerdin(Paladin):
         else:
             keyboard.send(self._skill_hotkeys["concentration"])
             wait(0.15)
-            self._pather.traverse_nodes((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, timeout=1.0, do_pre_move=False, force_tp=True, use_tp_charge=True)
+            toggle_automap(False) #just to be sure
+            self._pather.traverse_nodes_automap((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, timeout=1.0, do_pre_move=False, force_tp=True, use_tp_charge=True)
         self._cast_hammers(Config().char["atk_len_pindle"])
         wait(0.1, 0.15)
         self._cast_hammers(1.6, "redemption")

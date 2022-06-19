@@ -168,6 +168,13 @@ class Pather:
             1018: {'A5_TOWN_AUTOMAP': (-330, 88)},
             1019: {'A5_TOWN_AUTOMAP': (-288, 102)},
             
+            # Pindle Automap
+            100: {'PINDLE_AM_1': (4, -4),},#'PINDLE_AM_2': (-100, 78),'PINDLE_AM_3': (-190, 116),
+            101: {'PINDLE_AM_1': (52, -39)},#'PINDLE_AM_2': (-52, 42),,'PINDLE_AM_3': (-142, 80),
+            102: {'PINDLE_AM_1': (98, -58)},#,'PINDLE_AM_3': (-96, 62),'PINDLE_AM_2': (-6, 24)
+            103: {'PINDLE_AM_1': (118, -81)},#,'PINDLE_AM_1': (118, -81),'PINDLE_AM_3': (-76, 38),PINDLE_AM_2': (310, -276)
+            104: {'PINDLE_AM_1': (172, -100),},#'PINDLE_AM_2': (68, -18),'PINDLE_AM_3': (-22, 20),
+
             # Shenk Automap
             1146: {'SHENK_WP_AUTOMAP': (66, 28), 'SHENK_ROCK_AUTOMAP': (124, 38)},
             1147: {'SHENK_WP_AUTOMAP': (137, 108), 'SHENK_ROCK_AUTOMAP': (195, 118)},
@@ -186,14 +193,7 @@ class Pather:
             1228: {'TRAV_AUTOMAP': (430, 10)},
             1229: {'TRAV_AUTOMAP': (442, -8)},
             1230: {'TRAV_AUTOMAP': (406, -25)},
-          
-            # Pindle
-            100: {'PINDLE_7': (384, -92), 'PINDLE_0': (-97, -40), 'PINDLE_1': (-13, 223), 'PINDLE_2': (-366, 85)},
-            101: {'PINDLE_1': (371, -45), 'PINDLE_2': (18, -184), 'PINDLE_3': (-123, 261)},
-            102: {'PINDLE_3': (223, 88), 'PINDLE_4': (95, 215)},
-            103: {'PINDLE_3': (395, -75), 'PINDLE_4': (267, 52)},
-            104: {'PINDLE_4': (717, -117), 'PINDLE_3': (843, -244), 'PINDLE_5': (-187, 237), 'PINDLE_6': (-467, 89)},
-                        
+                                 
             # Arcane
             450: {"ARC_START": (49, 62)},
             453: {"ARC_START": (-259, 62)},
@@ -912,10 +912,14 @@ class Pather:
             (Location.A5_LARZUK, Location.A5_MALAH): [1014, 1007, 1003, 1000, 1001],
             (Location.A5_NIHLATHAK_PORTAL, Location.A5_STASH): [1009, 1008, 1006, 1005],
             (Location.A5_NIHLATHAK_PORTAL, Location.A5_WP): [1009, 1008, 1006],
+            # Pindle
+            (Location.A5_PINDLE_START, Location.A5_PINDLE_SAFE_DIST): [100, 101, 102, 103],
+            (Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END): [104],
             # Eldritch and Shenk
             (Location.A5_SHENK_START, Location.A5_SHENK_SAFE_DIST): [1146, 1147, 1148],
             # MISSING TRAV NODES
         }
+
         self._paths = {
 	        # Pindle
             (Location.A5_PINDLE_START, Location.A5_PINDLE_SAFE_DIST): [100, 101, 102, 103],
@@ -1160,7 +1164,8 @@ class Pather:
         force_move: bool = False,
         threshold: float = 0.75, #down from 0.78 to allow proper traverse in A1 town
         toggle_map: bool = True,
-        force_tp: bool = False
+        force_tp: bool = False,
+        use_tp_charge: bool = False
     ) -> bool:
         if len(path) == 0:
             Logger.error("Path must be a list of integers or a tuple with start and end location!")
@@ -1184,6 +1189,9 @@ class Pather:
             time.sleep(0.04)
         if force_tp:
             char.select_tp()
+        if use_tp_charge and char.select_tp():
+            # this means we want to use tele charge and we were able to select it
+            pass
         elif do_pre_move:
             # we either want to tele charge but have no charges or don't wanna use the charge falling back to default pre_move handling
             char.pre_move()
@@ -1331,7 +1339,7 @@ if __name__ == "__main__":
     char = Hammerdin(Config().hammerdin, pather, PickIt) #Config().char,
     char.discover_capabilities()
 
-    #display_all_nodes(pather, "A1_TOWN") #use this function to explore the templates and nodes visibile in the area you are currently located ingame
+    #display_all_nodes(pather, "PINDLE_") #use this function to explore the templates and nodes visibile in the area you are currently located ingame
     
    
     """
@@ -1380,10 +1388,17 @@ if __name__ == "__main__":
     pather.traverse_nodes_automap([1646], char) #BOSS
     pather.traverse_nodes_automap([1647], char) #INFECTOR
     pather.traverse_nodes_automap([1600], char) #PENT
+
+    # PINDLE
+    pather.traverse_nodes_automap([1640], char) #LC
+    pather.traverse_nodes_automap([1645], char) #FAKE
+    pather.traverse_nodes_automap([1646], char) #BOSS
+    pather.traverse_nodes_automap([1647], char) #INFECTOR
+    pather.traverse_nodes_automap([1600], char) #PENT
     """
     
-    #nodes = 665
-    #pather.traverse_nodes([nodes], char) #use this function to test nodes
+    nodes = 2100
+    pather.traverse_nodes([nodes], char) #use this function to test nodes
     #pather.traverse_nodes_automap([1647], char, toggle_map=True) 
     
     if Config().general["use_automap_navigation"] == 1 :
@@ -1391,7 +1406,8 @@ if __name__ == "__main__":
             Logger.warning("Checking Automap Status")
             toggle_automap(True)
             #print("1" + str(nodes) + ": {")
-            #print(str(nodes) + ": {")
+            print(str(nodes) + ": {")
+            """
             show_automap_pos(["DIA_AM_WP"])
             show_automap_pos(["DIA_AM_CS"])
             show_automap_pos(["DIA_AM_E_B"])
@@ -1409,11 +1425,16 @@ if __name__ == "__main__":
             show_automap_pos(["DIA_AM_A1L"])
             show_automap_pos(["DIA_AM_B1S"])
             show_automap_pos(["DIA_AM_C1F"])
+            """
             #show_automap_pos(["A1_TOWN_AUTOMAP_NORTH"])
             #show_automap_pos(["A1_TOWN_AUTOMAP_SOUTH"])
+            show_automap_pos(["PINDLE_AM_1"])
+            show_automap_pos(["PINDLE_AM_2"])
+            show_automap_pos(["PINDLE_AM_3"])
             print("    },")
             toggle_automap(False)
             Logger.warning("End of List - Press F12 to Stop")
             keyboard.wait("f12")
     
     stop_detecting_window
+
