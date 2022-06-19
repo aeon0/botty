@@ -66,7 +66,7 @@ def _gold_pickup(item_data: dict, expression: NIPExpression) -> bool | None:
     return res
 
 
-def _handle_pick_eth_sockets(item_data: dict, expression: NIPExpression) -> tuple[bool, str]:
+def _handle_pick_eth_sockets(item_data: dict, expression: NIPExpression) -> tuple[int, str]:
     """Handles the pick condition for eth and sockets.
         Args:
             item_data (dict): The item data.

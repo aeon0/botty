@@ -8,16 +8,17 @@ from nip.NTIPAliasType import NTIPAliasType
 # ! The above imports are necessary, they are used within the eval statements. Your text editor probably is not showing them as not in use.
 
 from dataclasses import dataclass
-from nip.lexer import Lexer, NipSyntaxError, NipSections
+from nip.lexer import Lexer, NipSections
 from nip.tokens import Token, TokenType
+from nip.NipExpections import NipTranspileError, NipSyntaxError # * NipSyntaxError gets detoured later down in the code, so it is possible that your editor does not like this.
 from nip.utils import find_unique_or_set_base
 
 @dataclass
 class NIPExpression:
     raw: str
-    should_id_transpiled: str | None
+    should_id_transpiled: str
     transpiled: str
-    should_pickup: str | None
+    should_pickup: str
     tokens: list[Token]
 
 
@@ -407,7 +408,7 @@ def prepare_nip_expression(expression: str) -> str:
     return ''
 
 
-def transpile_nip_expression(expression: str | list[Token], isPickUpPhase=False):
+def transpile_nip_expression(expression: str | list[Token], isPickUpPhase=False) -> str:
     if isinstance(expression, str):
         expression = prepare_nip_expression(expression)
         if expression:
@@ -419,10 +420,11 @@ def transpile_nip_expression(expression: str | list[Token], isPickUpPhase=False)
         transpiled_expression = transpile(expression, isPickUpPhase=isPickUpPhase)
         if transpiled_expression:
             return transpiled_expression
+    raise NipTranspileError("NIP_0x21", "Unable to transpile NIP expression", str(expression))
+    
 
-def generate_expression_object(nip_expression: str) -> NIPExpression | None:
+def generate_expression_object(nip_expression: str) -> NIPExpression:
     nip_expression = prepare_nip_expression(nip_expression)
-
     if nip_expression:
         tokens = Lexer().create_tokens(nip_expression)
         if transpiled_expression := transpile_nip_expression(tokens):
@@ -435,8 +437,7 @@ def generate_expression_object(nip_expression: str) -> NIPExpression | None:
                     should_pickup=transpile_nip_expression(split_tokens[NipSections.PROP], isPickUpPhase=True) # * Some stuff gets transpiled differently in the pickup phase
                 )
             return expression_obj
-    return None
-
+    raise NipTranspileError("NIP_0x22", "Unable to transpile NIP expression", nip_expression)
 
 def load_nip_expression(nip_expression: str):
     if (expression_obj := generate_expression_object(nip_expression)) is not None:

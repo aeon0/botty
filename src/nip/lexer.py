@@ -11,14 +11,12 @@ from nip.NTIPAliasFlag import NTIPAliasFlag
 from nip.NTIPAliasStat import NTIPAliasStat
 from nip.NTIPAliasType import NTIPAliasType
 from nip.tokens import Token, TokenType
+from nip.NipExpections import NipSyntaxError
 
 from enum import Enum
 import re
-from colorama import init, Fore
 from rapidfuzz.string_metric import levenshtein
 
-
-init()
 
 WHITESPACE = " \t\n\r\v\f"
 DIGITS = "0123456789.-" # ! Put % back in here when ready to use percentages.
@@ -26,22 +24,10 @@ SYMBOLS = [">", "=> ", "<", "<=", "=", "!", "", "", ",", "&", "|", "#", "/"]
 MATH_SYMBOLS = ["(", ")", "^", "*", "/", "\\", "+", "-"]
 CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_'"
 
-
 class NipSections(Enum):
     PROP = 1
     STAT = 2
     MAXQUANTITY = 3
-
-
-class NipSyntaxError(Exception):
-    def __init__(self, ecode: str|int = 0, message: str = '', expression: str = ''):
-        self.message = message
-        self.type = type
-        self.ecode = ecode
-        self.expression = expression
-
-    def __str__(self):
-        return f"{Fore.RED}{self.ecode}:{Fore.CYAN}{self.message}:{Fore.YELLOW}{self.expression.strip()}{Fore.WHITE}"
 
 
 class Lexer:
