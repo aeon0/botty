@@ -20,7 +20,8 @@ class Hammerdin(Paladin):
         Logger.info("Setting up Hammerdin")
         super().__init__(*args, **kwargs)
         #hammerdin needs to be closer to shenk to reach it with hammers
-        self._pather.offset_node(149, (70, 10))
+        #self._pather.offset_node(149, (70, 10)) # THIS NODE NODE LONGER EXISTS FOR AUTMAP CHARS
+        self._pather.offset_node(1149, (70, 10)) # not sure this node has to be offset for automap, keeping it to be safe
 
     def _cast_hammers(self, time_in_s: float, aura: str = "concentration"):
         if aura in self._skill_hotkeys and self._skill_hotkeys[aura]:

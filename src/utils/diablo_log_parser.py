@@ -79,7 +79,7 @@ simple_string = [
     "CS after Town: failed to open TP"
     ]
 prefix_string = ["A1-L", "A2-Y", "B1-S", "B2-U", "C1-F", "C2-G"]
-complex_string = ["Layout_check step 1/2", "Layout_check step 2/2", "Layout_check failure", "Starting to clear Seal",  "Seal1: is closed", "Seal1: is open", "Seal2: is closed", "Seal2: is open", "Kill Boss", "Static Pathing to Pentagram", "Looping to Pentagram", "Traversing back to Pentagram", "finished seal & calibrated"]
+complex_string = ["Layout_check step 1/2", "Layout_check step 2/2", "Layout_check failure", "Starting to clear Seal", "Starting to pop seals"  "Seal1: is closed", "Seal1: is open", "Seal2: is closed", "Seal2: is open", "Kill Boss", "Static Pathing to Pentagram", "Looping to Pentagram", "Traversing back to Pentagram", "finished seal & calibrated"]
 trash_prefix= [""]
 trash_event=[""]
 lc_prefix=["Found Match:"]

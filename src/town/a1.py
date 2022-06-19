@@ -33,7 +33,9 @@ class A1(IAct):
         if not self._pather.traverse_nodes_automap((curr_loc, Location.A1_WP_SOUTH), self._char, force_move=True): return False
         toggle_automap(False)
         wait(0.5, 0.7)
+        toggle_automap(True)
         if not template_finder.search("A1_TOWN_AUTOMAP_SOUTH", grab()).valid:
+            toggle_automap(False)
             curr_loc = Location.A1_WP_SOUTH
             if not self._pather.traverse_nodes_automap((curr_loc, Location.A1_WP_NORTH), self._char, force_move=True): return False
             toggle_automap(False)

@@ -186,111 +186,14 @@ class Pather:
             1228: {'TRAV_AUTOMAP': (430, 10)},
             1229: {'TRAV_AUTOMAP': (442, -8)},
             1230: {'TRAV_AUTOMAP': (406, -25)},
-
-            #####################
-            # CLASSIC TEMPLATES #
-            #####################
-
-            # A5 town
-            0: {'A5_TOWN_0': (27, 249), 'A5_TOWN_1': (-92, -137), 'A5_TOWN_11': (-313, -177)},
-            1: {'A5_TOWN_0': (-311, 191), 'A5_TOWN_1': (-429, -194), 'A5_TOWN_0.5': (478, 233), 'A5_TOWN_11': (-651, -231)},
-            2: {'A5_TOWN_0': (-368, -39), 'A5_TOWN_0.5': (423, 7)},
-            3: {'A5_TOWN_1': (-276, 94), 'A5_TOWN_2': (485, -60), 'A5_TOWN_11': (-500, 56)},
-            4: {'A5_TOWN_1': (-467, 267), 'A5_TOWN_2': (293, 113), 'A5_TOWN_3': (-267, -139), 'A5_TOWN_4': (162, -163)},
-            5: {'A5_TOWN_2': (303+60, 219+40), 'A5_TOWN_3': (-257+60, -33+40), 'A5_TOWN_4': (172+60, -57+40)},
-            6: {'A5_TOWN_3': (-583+80, 175+60), 'A5_TOWN_4': (-155+80, 151+60), 'A5_TOWN_5': (-13+80, -240+60), 'A5_TOWN_6': (307+80, 61+60)},
-            8: {'A5_TOWN_6': (127, 293), 'A5_TOWN_5': (-195, -5), 'A5_RED_PORTAL': (598, -87)},
-            9: {'A5_TOWN_5': (-407, 167), 'A5_RED_PORTAL': (386, 85)},
-            10: {'A5_TOWN_4': (-472, 58), 'A5_TOWN_6': (-11, -32), 'A5_TOWN_8': (321, 131)},
-            11: {'A5_TOWN_6': (-299, -215), 'A5_TOWN_8': (33, -52), 'A5_TOWN_9': (7, 231)},
-            12: {'A5_TOWN_8': (-139, -196), 'A5_TOWN_9': (-165, 87)},
-            13: {'A5_TOWN_3': (120, 120), 'A5_TOWN_10': (-533, 221), 'A5_TOWN_4': (548, 97)},
-            14: {'A5_TOWN_3': (447, 173), 'A5_TOWN_10': (-200, 280)},
-            15: {'A5_TOWN_9': (310, -38), 'A5_TOWN_2': (-327, -118), 'A5_TOWN_12': (-267, 204)},
-            16: {'A5_TOWN_0.5': (65, 155), 'A5_TOWN_12': (-25, -107)},
-            
+          
             # Pindle
             100: {'PINDLE_7': (384, -92), 'PINDLE_0': (-97, -40), 'PINDLE_1': (-13, 223), 'PINDLE_2': (-366, 85)},
             101: {'PINDLE_1': (371, -45), 'PINDLE_2': (18, -184), 'PINDLE_3': (-123, 261)},
             102: {'PINDLE_3': (223, 88), 'PINDLE_4': (95, 215)},
             103: {'PINDLE_3': (395, -75), 'PINDLE_4': (267, 52)},
             104: {'PINDLE_4': (717, -117), 'PINDLE_3': (843, -244), 'PINDLE_5': (-187, 237), 'PINDLE_6': (-467, 89)},
-            
-            # Eldritch
-            120: {'ELDRITCH_0': (293, 24), 'ELDRITCH_0_V2': (293, 24), 'ELDRITCH_0_V3': (293, 24), 'ELDRITCH_1': (-307, 76), 'ELDRITCH_1_V2': (-307, 76), 'ELDRITCH_5': (27, -164), 'ELDRITCH_6': (400, -50)},
-            121: {'ELDRITCH_6': (360, -244), 'ELDRITCH_1': (-329, -103), 'ELDRITCH_1_V2': (-329, -103), 'ELDRITCH_2': (411, 171), 'ELDRITCH_2_V2': (411, 171), 'ELDRITCH_3': (-91, 198), 'ELDRITCH_7': (409, 180), 'ELDRITCH_7_V2': (409, 180), 'ELDRITCH_8': (465, 345), 'ELDRITCH_8_V2': (465, 345)},
-            122: {'ELDRITCH_2': (353, -145), 'ELDRITCH_2_V2': (353, -145), 'ELDRITCH_3': (-149, -119), 'ELDRITCH_9': (-253, -118), 'ELDRITCH_7': (352, -134), 'ELDRITCH_7_V2': (352, -134), 'ELDRITCH_8': (404, 29), 'ELDRITCH_8_V2': (404, 29)},
-            123: {'ELDRITCH_3': (-99, -252), 'ELDRITCH_2': (403, -279), 'ELDRITCH_2_V2': (403, -279), 'ELDRITCH_4': (-62, -109), 'ELDRITCH_9': (-204, -254), 'ELDRITCH_8': (454, -104),  'ELDRITCH_8_V2': (454, -104)},
-            
-            # Shenk
-            141: {'SHENK_0': (-129, 44), 'SHENK_1': (464, 107), 'SHENK_2': (-167, -34), 'SHENK_17': (-520, 528), 'SHENK_15': (77, 293), 'SHENK_18': (518, 512)},
-            142: {'SHENK_1': (584, 376), 'SHENK_4': (-443, -103), 'SHENK_2': (-52, 235), 'SHENK_3': (357, -129),"ELDRITCH_2_V2": (516, 195), 'ELDRITCH_1': (-233, -77), "ELDRITCH_0_V2": (360, -140), "ELDRITCH_3": (20, 219)},
-            143: {'SHENK_4': (-251, 165), 'SHENK_2': (141, 505), 'SHENK_3': (549, 139), 'SHENK_6': (-339, -69),'ELDRITCH_1': (10, 204), 'SHENK_7': (264, -37), 'ELDRITCH_0_V2': (591, 141), 'ELDRITCH_3': (252, 500)},
-            144: {'SHENK_6': (-108, 123), 'SHENK_7': (481, 151)},
-            145: {'SHENK_7': (803, 372), 'SHENK_12': (97, -133), 'SHENK_6': (209, 347), 'SHENK_8': (-245, 18)},
-            146: {'SHENK_12': (272, 111), 'SHENK_9': (-331, -144), 'SHENK_8': (-72, 258), 'SHENK_19': (-120, -221)},
-            147: {'SHENK_16': (317, -18), 'SHENK_9': (-67, 139), 'SHENK_10': (-431, 67), 'SHENK_19': (468, 144), 'SHENK_20': (-61, -278)},
-            148: {'SHENK_16': (682, 103), 'SHENK_9': (301, 263), 'SHENK_10': (-65, 188), 'SHENK_11': (-306, 139), 'SHENK_19': (108, 25), 'SHENK_20': (308, -154)},
-            149: {'SHENK_11': (261, 395), 'SHENK_10': (495, 421), 'SHENK_13': (393, -9)},
-            150: {"SHENK_V2_6": (-80, -6), "SHENK_V2_3": (-89, 5), "SHENK_V2_4": (-16, -138), "SHENK_V2_7": (-15, -144), "SHENK_V2_8": (-193, -160), 'SHENK_20': (461, 9)},
-            151: {"SHENK_V2_8": (109, 88), "SHENK_V2_7": (287, 104), "SHENK_V2_4": (286, 110), "SHENK_V2_6": (222, 242), "SHENK_V2_3": (213, 253)},
-            
-            # A4 town
-            #160: {"A4_TOWN_4": (-100, -83), "A4_TOWN_3": (-117, 288), "A4_TOWN_0": (-364, 201), "A4_TOWN_6": (24, -375), "A4_TOWN_5": (-347, -227)},
-            #161: {"A4_TOWN_3": (-289, 156), "A4_TOWN_4": (-272, -215), "A4_TOWN_2": (385, -92), "A4_TOWN_6": (-148, -507), "A4_TOWN_0": (-536, 69)},
-            #162: {"A4_TOWN_4": (74, 66), "A4_TOWN_5": (-173, -78), "A4_TOWN_6": (198, -226), "A4_TOWN_0": (-190, 350), "A4_TOWN_7": (-101, -455)},
-            #163: {"A4_TOWN_5": (-92, 143), "A4_TOWN_7": (-19, -233), "A4_TOWN_6": (280, -4), "A4_TOWN_4": (156, 288), "A4_TOWN_8": (-598, 5)},
-            #164: {"A4_TOWN_7": (235, 39), "A4_TOWN_8": (-344, 277), "A4_TOWN_5": (163, 415), "A4_TOWN_6": (534, 268), "A4_TOWN_4": (409, 559), "A4_TOWN_9": (80, -329)},
-            #165: {"A4_TOWN_8": (80, 200), "A4_TOWN_7": (661, -38)},
-            
-            # A3 town
-            #180: {"A3_TOWN_0": (-144, 170), "A3_TOWN_1": (-417, 59), "A3_TOWN_2": (-716, -161)},
-            #181: {"A3_TOWN_1": (-113, 155), "A3_TOWN_0": (160, 266), "A3_TOWN_2": (-412, -65), "A3_TOWN_3": (-867, 133)},
-            #182: {"A3_TOWN_2": (-101, -135), "A3_TOWN_1": (198, 85), "A3_TOWN_0": (471, 196), "A3_TOWN_3": (-556, 63), "A3_TOWN_12": (-500, 717)},
-            #183: {"A3_TOWN_3": (-287, -80), "A3_TOWN_2": (168, -279), "A3_TOWN_1": (467, -58), "A3_TOWN_4": (-587, 86), "A3_TOWN_12": (-231, 574)},
-            #184: {"A3_TOWN_4": (-109, -146), "A3_TOWN_5": (-81, 206), "A3_TOWN_3": (191, -311), "A3_TOWN_12": (247, 342), "A3_TOWN_13": (-323, 530)},
-            #185: {"A3_TOWN_5": (223, 40), "A3_TOWN_13": (-19, 364), "A3_TOWN_4": (195, -312), "A3_TOWN_12": (551, 176), "A3_TOWN_20": (-549, 184)},
-            #186: {"A3_TOWN_7": (-195, -118), "A3_TOWN_20": (-130, 237), "A3_TOWN_8": (-269, 308), "A3_TOWN_13": (400, 417), "A3_TOWN_5": (642, 93)},
-            #187: {"A3_TOWN_8": (161, 107), "A3_TOWN_9": (-108, 165), "A3_TOWN_7": (236, -319), "A3_TOWN_20": (300, 36), "A3_TOWN_11": (-618, 50)},
-            #188: {"A3_TOWN_9": (173, 57), "A3_TOWN_11": (-337, -58), "A3_TOWN_8": (442, -1), "A3_TOWN_20": (581, -72), "A3_TOWN_7": (517, -227)},
-            #189: {"A3_TOWN_5": (10, -182), "A3_TOWN_13": (-232, 142), "A3_TOWN_14": (-7, 337), "A3_TOWN_12": (338, -46), "A3_TOWN_15": (722, 143)},
-            #190: {"A3_TOWN_12": (27, -198), "A3_TOWN_16": (831, 258), "A3_TOWN_14": (-318, 185), "A3_TOWN_15": (411, -9), "A3_TOWN_5": (-301, -334), "A3_TOWN_13": (-543, -10), "A3_TOWN_17": (707, 541)},
-            #191: {"A3_TOWN_15": (-79, -256), "A3_TOWN_16": (341, 11), "A3_TOWN_17": (217, 294), "A3_TOWN_18": (542, 408), "A3_TOWN_19": (779, 171)},
-            #192: {"A3_TOWN_17": (-187, 78), "A3_TOWN_16": (-63, -205), "A3_TOWN_18": (138, 192), "A3_TOWN_19": (375, -45)},
-            
-            # Trav
-            220: {"TRAV_0": (445, 384), "TRAV_20": (-259, 267), "TRAV_1": (-248, -139), "TRAV_2": (-682, 21), "TRAV_21": (25, 180)},
-            221: {"TRAV_2": (-153, -101), "TRAV_3": (-125, 201), "TRAV_20": (270, 145), "TRAV_1": (281, -261), "TRAV_4": (-459, 122)},
-            222: {"TRAV_5": (-218, 106), "TRAV_4": (120, 230), "TRAV_2": (426, 7), "TRAV_7": (-719, -166), "TRAV_7_V2": (-719, -166), "TRAV_1": (862, -153)},
-            223: {"TRAV_5": (344, 123), 'TRAV_4': (682, 247), "TRAV_8": (-353, -31), "TRAV_7": (-157, -149), "TRAV_7_V2": (-157, -149), "TRAV_22": (-368, -222), "TRAV_22_V2": (-368, -222), "TRAV_23": (-579, 116)},
-            224: {'TRAV_7': (411, -129), 'TRAV_7_V2': (411, -129), 'TRAV_27': (-363, 163), "TRAV_8": (214, -11), "TRAV_23": (-11, 136), "TRAV_10": (-130, -187), "TRAV_10_V2": (-130, -187), "TRAV_24": (-274, 15), "TRAV_22": (200, -202), "TRAV_22_V2": (200, -202)},
-            225: {'TRAV_27': (96, 359), 'TRAV_8': (670, 187), 'TRAV_7': (867, 69), 'TRAV_7_V2': (867, 69), "TRAV_11": (10, 214), "TRAV_19": (-298, 539), "TRAV_24": (181, 213), "TRAV_12": (-408, -73), "TRAV_25": (-538, 132), 'TRAV_225_V3_0': (549, -147), 'TRAV_225_V3_1': (555, 125), 'TRAV_225_V3_3': (-149, -229), 'TRAV_225_V3_7': (-242, 13), 'TRAV_V2_2': (-27, 103), 'TRAV_225_V3_2': (31, 135)},
-            226: {"TRAV_12": (-75, -172), "TRAV_25": (-205, 33), "TRAV_13": (-252, 195), "TRAV_11": (343, 115), "TRAV_18": (-514, 373), "TRAV_19": (35, 440), "TRAV_17": (-231, 242), "TRAV_27": (428, 263), "TRAV_29": (-929, 334), "TRAV_28": (-614, 338)},
-            227: {"TRAV_11": (65, -42), "TRAV_24": (236, -43), "TRAV_19": (-243, 283), 'TRAV_18': (-792, 216), "TRAV_12": (-356, -330), "TRAV_25": (-483, -124), 'TRAV_27': (154, 104)},
-            228: {"TRAV_13": (8, 9), "TRAV_17": (29, 56), "TRAV_25": (58, -152), "TRAV_16": (-198, -110), "TRAV_18": (-251, 188)},
-            229: {"TRAV_18": (-250, 58), "TRAV_25": (59, -282), "TRAV_17": (30, -74), "TRAV_13": (9, -121), "TRAV_16": (-138, -241)},
-            230: {"TRAV_19": (157, 39), "TRAV_18": (-392, -28), "TRAV_17": (-112, -160), "TRAV_13": (-133, -207), "TRAV_25": (-83, -368)},
-            300: {"TRAV_V3_4": (-101, 134), "TRAV_V3_5": (72, 220), "TRAV_V3_1": (237, -24), "TRAV_V3_3": (-318, 224), "TRAV_V3_11": (472, 39),
-                "TRAV_16": (129, -86), "TRAV_V2_0": (472, 65), "TRAV_17": (357, 84), "TRAV_12": (512, -333),
-            },
-            301: {"TRAV_V3_7": (178, -33), "TRAV_V3_6": (170, 157), "TRAV_V3_0": (88, -235), "TRAV_V3_5": (-335, -95), "TRAV_V3_8": (444, -108)},
-            302: {"TRAV_V3_0": (-18, 6), "TRAV_V3_7": (73, 208), "TRAV_V3_8": (339, 133), "TRAV_V3_6": (65, 398), "TRAV_V3_5": (-440, 146)},
-            304: {"TRAV_V2_4": (125, -148), "TRAV_V2_3": (-187, 55), "TRAV_V2_1": (-207, 59), "TRAV_V2_2": (267, 183), "TRAV_V2_0": (-159, 403)},
-            
-            # A2 town
-            #400: {"A2_TOWN_2": (-169, 160), "A2_TOWN_0": (290, -114), "A2_TOWN_3": (-348, 225), "A2_TOWN_1": (-345, -374)},
-            #401: {"A2_TOWN_3": (45, -202), "A2_TOWN_7": (-40, 266), "A2_TOWN_2": (224, -267), "A2_TOWN_6": (-505, 26), "A2_TOWN_5": (116, 203)},
-            #402: {"A2_TOWN_8": (182, 121), "A2_TOWN_6": (103, -348), "A2_TOWN_11": (128, 357), "A2_TOWN_9": (-324, 223), "A2_TOWN_12": (-213, 500)},
-            #403: {"A2_TOWN_11": (161, -18), "A2_TOWN_12": (-180, 125), "A2_TOWN_9": (-291, -152), "A2_TOWN_8": (215, -254), "A2_TOWN_13": (149, 392)},
-            #404: {"A2_TOWN_14": (79, 190), "A2_TOWN_15": (244, -12), "A2_TOWN_13": (-270, 123), "A2_TOWN_11": (-258, -287), "A2_TOWN_12": (-599, -143)},
-            #405: {"A2_TOWN_10": (65, -175), "A2_TOWN_17": (-108, 164), "A2_TOWN_16": (-304, -11), "A2_TOWN_9": (319, -68), "A2_TOWN_18": (-415, -284)},
-            #406: {"A2_TOWN_18": (108, -143), "A2_TOWN_16": (219, 129), "A2_TOWN_19": (-293, 21), "A2_TOWN_17": (415, 304), "A2_TOWN_10": (588, -34)},
-            
-            #408: {"A2_TOWN_20": (-26, -109), "A2_TOWN_25": (-82, 278), "A2_TOWN_19": (344, 38), "A2_TOWN_18": (745, -125), "A2_TOWN_26": (-831, -73)},
-            #409: {"A2_TOWN_14": (477, 294), "A2_TOWN_13": (128, 226), "A2_TOWN_11": (140, -182), "A2_TOWN_12": (-201, -40)},
-            #410: {"A2_TOWN_13": (416, 82), "A2_TOWN_12": (87, -184), "A2_TOWN_21": (-211, 10), "A2_TOWN_22": (-178, 269)},
-            #411: {"A2_TOWN_22": (298, 0), "A2_TOWN_23": (0, 190), "A2_TOWN_21": (265, -260), "A2_TOWN_24": (-150, -185)},
-            
+                        
             # Arcane
             450: {"ARC_START": (49, 62)},
             453: {"ARC_START": (-259, 62)},
@@ -429,24 +332,6 @@ class Pather:
             # DIABLO END
             ########################
 
-            
-            # A1 town
-            #kashya_cain
-            #700: {"A1_TOWN_3": (174, -40), "A1_TOWN_4": (202, 52), "A1_TOWN_0": (226, 196), "A1_TOWN_1": (385, 293), "A1_TOWN_6": (290, 653), "A1_TOWN_5": (439, 610), },
-            #stash
-            #701: {"A1_TOWN_4": (56, -71), "A1_TOWN_0": (80, 73), "A1_TOWN_3": (28, -163), "A1_TOWN_1": (239, 170), "A1_TOWN_6": (104, 530), "A1_TOWN_5": (293, 487), },
-            #wp check (north)
-            #702: {"A1_TOWN_0": (279, -83), "A1_TOWN_4": (255, -227), "A1_TOWN_3": (227, -319), "A1_TOWN_1": (438, 14), "A1_TOWN_6": (303, 374), "A1_TOWN_5": (492, 331), },
-            #703: {"A1_TOWN_6": (-36, 161), "A1_TOWN_5": (153, 118), "A1_TOWN_1": (99, -199), "A1_TOWN_0": (-60, -296), "A1_TOWN_4": (-84, -440), "A1_TOWN_3": (-112, -532), },
-            #charsi
-            #704: {"A1_TOWN_5": (-104, 108), "A1_TOWN_1": (-158, -209), "A1_TOWN_6": (-293, 151), "A1_TOWN_0": (-317, -306), "A1_TOWN_4": (-341, -450), "A1_TOWN_3": (-369, -542), },
-            #wp check (south)
-            #705: {"A1_TOWN_3": (457, -29), "A1_TOWN_4": (485, 63), "A1_TOWN_0": (509, 207), "A1_TOWN_7": (-608, -188), "A1_TOWN_1": (668, 304), },
-            #706: {"A1_TOWN_7": (-79, -33), "A1_TOWN_8": (-666, 21), "A1_TOWN_3": (986, 126), "A1_TOWN_4": (1014, 218), },
-            #akara
-            #707: {"A1_TOWN_8": (-230, 93), "A1_TOWN_7": (357, 39), },
-            #708: {"A1_TOWN_3": (-32, 200), "A1_TOWN_7": (533, -103), "A1_TOWN_9": (505, -298)},
-
             #extra necro walking waypoints
             900: {"NECRO_TRAV_1": (-102, 46), },
             901: {"NECRO_TRAV_4": (-37, -69), "NECRO_TRAV_0": (354, 28), "NECRO_TRAV_6": (-339, 117), "NECRO_TRAV_5": (426, 140), "NECRO_TRAV_3": (433, -269), "NECRO_TRAV_2": (775, -176), },
@@ -506,6 +391,8 @@ class Pather:
             ##########
             # SEAL A #
             ##########
+
+            #A
             1620: {# Calibration & Departure Node Seal A (Boss Seal A1L, Fake Seal A2Y)
                 #'['DIA_AM_WP']': (0, 0),
                 #'['DIA_AM_CS']': (0, 0),
@@ -516,7 +403,7 @@ class Pather:
                 #'DIA_AM_C2': (-351, -52),
                 #'DIA_AM_C3': (-516, -124),
                 #'DIA_AM_C4': (-355, -233),
-                #'['DIA_AM_A2Y']': (0, 0),
+                #'DIA_AM_A2Y': (16, -2),
                 #'['DIA_AM_B2U']': (0, 0),
                 #'['DIA_AM_C2G']': (0, 0),
                 #'['DIA_AM_E_A']': (0, 0),
@@ -525,25 +412,68 @@ class Pather:
                 #'['DIA_AM_C1F']': (0, 0),
                 },
 
-            1621: {#SEAL A1L SEALDANCE Calibration Node (Fake Seal A1L, Boss Seal A1L, Not existent for A2Y)
+            #A1L
+            1621: { #A1L FAKE SEAL for SEALDANCE
                 #'['DIA_AM_WP']': (0, 0),
                 #'['DIA_AM_CS']': (0, 0),
                 #'['DIA_AM_E_B']': (0, 0),
-                'DIA_AM_PENT': (-332, -160),
-                #'DIA_AM_PENT1': (-325, -164),
-                #'DIA_AM_C1': (-166, -156),
-                #'DIA_AM_C2': (-332, -79),
-                #'DIA_AM_C3': (-496, -151),
+                'DIA_AM_PENT': (-304, -182),
+                #'DIA_AM_PENT1': (-296, -185),
+                #'DIA_AM_PENT2': (-304, -182),
+                #'DIA_AM_C1': (-138, -176),
+                #'DIA_AM_C2': (-303, -100),
+                #'DIA_AM_C3': (-468, -172),
                 #'['DIA_AM_C4']': (0, 0),
                 #'['DIA_AM_A2Y']': (0, 0),
                 #'['DIA_AM_B2U']': (0, 0),
                 #'['DIA_AM_C2G']': (0, 0),
                 #'['DIA_AM_E_A']': (0, 0),
-                #'DIA_AM_A1L': (35, -28),
+                #'DIA_AM_A1L': (64, -50),
+                #'['DIA_AM_B1S']': (0, 0),
+                #'['DIA_AM_C1F']': (0, 0),
+                },
+                
+            1622: { #A1L BOSS SEAL for SEALDANCE
+                #'['DIA_AM_WP']': (0, 0),
+                #'['DIA_AM_CS']': (0, 0),
+                #'['DIA_AM_E_B']': (0, 0),
+                'DIA_AM_PENT': (-372, -136),
+                #'DIA_AM_PENT1': (-364, -140),
+                #'DIA_AM_PENT2': (-372, -136),
+                #'DIA_AM_C1': (-206, -132),
+                #'DIA_AM_C2': (-371, -55),
+                #'DIA_AM_C3': (-536, -127),
+                #'['DIA_AM_C4']': (0, 0),
+                #'['DIA_AM_A2Y']': (0, 0),
+                #'['DIA_AM_B2U']': (0, 0),
+                #'['DIA_AM_C2G']': (0, 0),
+                #'['DIA_AM_E_A']': (0, 0),
+                'DIA_AM_A1L': (-4, -4),
                 #'['DIA_AM_B1S']': (0, 0),
                 #'['DIA_AM_C1F']': (0, 0),
                 },
 
+            1623: { #A1L KILL VIZIER
+                #'['DIA_AM_WP']': (0, 0),
+                #'['DIA_AM_CS']': (0, 0),
+                #'['DIA_AM_E_B']': (0, 0),
+                'DIA_AM_PENT': (-306, -124),
+                #'DIA_AM_PENT1': (-299, -127),
+                #'DIA_AM_PENT2': (-306, -124),
+                #'DIA_AM_C1': (-140, -118),
+                #'DIA_AM_C2': (-306, -42),
+                #'DIA_AM_C3': (-470, -114),
+                #'DIA_AM_C4': (-310, -223),
+                #'['DIA_AM_A2Y']': (0, 0),
+                #'['DIA_AM_B2U']': (0, 0),
+                #'['DIA_AM_C2G']': (0, 0),
+                #'['DIA_AM_E_A']': (0, 0),
+                #'DIA_AM_A1L': (61, 8),
+                #'['DIA_AM_B1S']': (0, 0),
+                #'['DIA_AM_C1F']': (0, 0),
+                },
+
+            #A2Y
             1625: {#SEAL A2Y BOSS SEAL Calibration Node (Should also work for A1L - gotta test that )
                 #'['DIA_AM_WP']': (0, 0),
                 #'['DIA_AM_CS']': (0, 0),
@@ -583,27 +513,121 @@ class Pather:
                 #'['DIA_AM_C1F']': (0, 0),
                 },
 
+
+            ##########
+            # SEAL B #
+            ##########
+
+            #B
             1630: { # Calibration & Departure Node Seal B
                 #'['DIA_AM_WP']': (0, 0),
                 #'['DIA_AM_CS']': (0, 0),
                 #'['DIA_AM_E_B']': (0, 0),
-                'DIA_AM_PENT': (366, -148),
-                #'DIA_AM_PENT1': (373, -151),
-                #'DIA_AM_PENT2': (366, -148),
-                #'DIA_AM_C1': (532, -142),
-                #'['DIA_AM_C2']': (0, 0),
-                #'DIA_AM_C3': (202, -138),
+                'DIA_AM_PENT': (364, -146),
+                #'DIA_AM_PENT1': (371, -149),
+                #'DIA_AM_PENT2': (364, -146),
+                #'DIA_AM_C1': (530, -140),
+                #'DIA_AM_C2': (364, -64),
+                #'DIA_AM_C3': (200, -136),
+                #'['DIA_AM_C4']': (0, 0),
+                #'['DIA_AM_A2Y']': (0, 0),
+                #'DIA_AM_B2U': (-29, -4),
+                #'['DIA_AM_C2G']': (0, 0),
+                #'['DIA_AM_E_A']': (0, 0),
+                #'['DIA_AM_A1L']': (0, 0),
+                #'DIA_AM_B1S': (-29, -4),
+                #'['DIA_AM_C1F']': (0, 0),
+                },
+
+            #B1S
+            1631: { # B1S BOSS SEAL Calibration Node
+                #'['DIA_AM_WP']': (0, 0),
+                #'['DIA_AM_CS']': (0, 0),
+                #'['DIA_AM_E_B']': (0, 0),
+                'DIA_AM_PENT': (340, -142),
+                #'DIA_AM_PENT1': (347, -145),
+                #'DIA_AM_PENT2': (340, -142),
+                #'DIA_AM_C1': (506, -136),
+                #'DIA_AM_C2': (340, -60),
+                #'DIA_AM_C3': (176, -132),
+                #'DIA_AM_C4': (336, -241),
+                #'['DIA_AM_A2Y']': (0, 0),
+                #'['DIA_AM_B2U']': (0, 0),
+                #'['DIA_AM_C2G']': (0, 0),
+                #'['DIA_AM_E_A']': (0, 0),
+                #'['DIA_AM_A1L']': (0, 0),
+                #'DIA_AM_B1S': (-53, 0),
+                #'['DIA_AM_C1F']': (0, 0),
+                },
+
+            #B1S
+            1632: { # B1S KILL VIZIER 
+                #'['DIA_AM_WP']': (0, 0),
+                #'['DIA_AM_CS']': (0, 0),
+                #'['DIA_AM_E_B']': (0, 0),
+                'DIA_AM_PENT': (252, -130),
+                #'DIA_AM_PENT1': (259, -134),
+                #'DIA_AM_PENT2': (252, -130),
+                #'['DIA_AM_C1']': (0, 0),
+                #'DIA_AM_C2': (252, -49),
+                #'['DIA_AM_C3']': (0, 0),
                 #'['DIA_AM_C4']': (0, 0),
                 #'['DIA_AM_A2Y']': (0, 0),
                 #'['DIA_AM_B2U']': (0, 0),
                 #'['DIA_AM_C2G']': (0, 0),
                 #'['DIA_AM_E_A']': (0, 0),
                 #'['DIA_AM_A1L']': (0, 0),
-                #'DIA_AM_B1S': (-27, -6),
+                #'DIA_AM_B1S': (-141, 12),
                 #'['DIA_AM_C1F']': (0, 0),
                 },
 
-        1640: { # Calibration & Departure Node Seal C
+            #B2U
+            1635: { # B2U BOSS SEAL Calibration Node
+                #'['DIA_AM_WP']': (0, 0),
+                #'['DIA_AM_CS']': (0, 0),
+                #'['DIA_AM_E_B']': (0, 0),
+                'DIA_AM_PENT': (252, -184),
+                #'DIA_AM_PENT1': (259, -187),
+                #'DIA_AM_PENT2': (252, -184),
+                #'DIA_AM_C1': (418, -178),
+                #'DIA_AM_C2': (252, -102),
+                #'DIA_AM_C3': (88, -174),
+                #'['DIA_AM_C4']': (0, 0),
+                #'['DIA_AM_A2Y']': (0, 0),
+                #'DIA_AM_B2U': (-141, -42),
+                #'['DIA_AM_C2G']': (0, 0),
+                #'['DIA_AM_E_A']': (0, 0),
+                #'['DIA_AM_A1L']': (0, 0),
+                #'['DIA_AM_B1S']': (0, 0),
+                #'['DIA_AM_C1F']': (0, 0),
+                },
+
+            1636: { # B2U DESEIS
+                #'['DIA_AM_WP']': (0, 0),
+                #'['DIA_AM_CS']': (0, 0),
+                #'['DIA_AM_E_B']': (0, 0),
+                'DIA_AM_PENT': (144, -88),
+                #'DIA_AM_PENT1': (151, -92),
+                #'DIA_AM_PENT2': (144, -88),
+                #'DIA_AM_C1': (310, -84),
+                #'DIA_AM_C2': (144, -7),
+                #'DIA_AM_C3': (-20, -79),
+                #'DIA_AM_C4': (140, -188),
+                #'DIA_AM_A2Y': (511, 44),
+                #'DIA_AM_B2U': (-249, 52),
+                #'['DIA_AM_C2G']': (0, 0),
+                #'['DIA_AM_E_A']': (0, 0),
+                #'['DIA_AM_A1L']': (0, 0),
+                #'['DIA_AM_B1S']': (0, 0),
+                #'DIA_AM_C1F': (-214, -238),
+                },
+
+            ##########
+            # SEAL C #
+            ##########
+            
+            # C
+            1640: { # Calibration & Departure Node Seal C
                 #'['DIA_AM_WP']': (0, 0),
                 #'['DIA_AM_CS']': (0, 0),
                 #'['DIA_AM_E_B']': (0, 0),
@@ -622,84 +646,147 @@ class Pather:
                 #'DIA_AM_C1F': (-37, 8),
                 },
 
-        1641: { # Fight Infector C1F
+            #C1F
+            1641: { # C1F FAKE SEAL
                 #'['DIA_AM_WP']': (0, 0),
                 #'['DIA_AM_CS']': (0, 0),
                 #'['DIA_AM_E_B']': (0, 0),
-                'DIA_AM_PENT': (236, 140),
-                #'DIA_AM_PENT1': (244, 137),
-                #'DIA_AM_C1': (402, 146),
-                #'DIA_AM_C2': (237, 222),
-                #'DIA_AM_C3': (72, 150),
-                #'DIA_AM_C4': (233, 41),
+                'DIA_AM_PENT': (320, 130),
+                #'DIA_AM_PENT1': (328, 127),
+                #'DIA_AM_PENT2': (320, 130),
+                #'DIA_AM_C1': (486, 136),
+                #'DIA_AM_C2': (321, 212),
+                #'DIA_AM_C3': (156, 140),
+                #'DIA_AM_C4': (317, 31),
                 #'['DIA_AM_A2Y']': (0, 0),
-                #'['DIA_AM_B2U']': (0, 0),
+                #'DIA_AM_B2U': (-72, 272),
                 #'['DIA_AM_C2G']': (0, 0),
                 #'['DIA_AM_E_A']': (0, 0),
                 #'['DIA_AM_A1L']': (0, 0),
-                #'DIA_AM_B1S': (-156, 282),
-                #'DIA_AM_C1F': (-121, -10),
+                #'['DIA_AM_B1S']': (0, 0),
+                #'DIA_AM_C1F': (-37, -20),
                 },
 
-        1645: { # C2G FAKE SEAL
+            1642: { # C1F BOSS SEAL
+                #'['DIA_AM_WP']': (0, 0),
+                #'['DIA_AM_CS']': (0, 0),
+                #'['DIA_AM_E_B']': (0, 0),
+                'DIA_AM_PENT': (208, 148),
+                #'DIA_AM_PENT1': (215, 145),
+                #'DIA_AM_PENT2': (208, 148),
+                #'DIA_AM_C1': (374, 154),
+                #'DIA_AM_C2': (208, 230),
+                #'DIA_AM_C3': (44, 158),
+                #'DIA_AM_C4': (204, 49),
+                #'['DIA_AM_A2Y']': (0, 0),
+                #'DIA_AM_B2U': (-185, 290),
+                #'['DIA_AM_C2G']': (0, 0),
+                #'['DIA_AM_E_A']': (0, 0),
+                #'['DIA_AM_A1L']': (0, 0),
+                #'['DIA_AM_B1S']': (0, 0),
+                #'DIA_AM_C1F': (-150, -2),
+                },
+
+            1643: { # Fight Infector C1F
+                #'['DIA_AM_WP']': (0, 0),
+                #'['DIA_AM_CS']': (0, 0),
+                #'['DIA_AM_E_B']': (0, 0),
+                'DIA_AM_PENT': (252, 154),
+                #'DIA_AM_PENT1': (259, 151),
+                #'DIA_AM_PENT2': (252, 154),
+                #'DIA_AM_C1': (418, 160),
+                #'DIA_AM_C2': (252, 236),
+                #'DIA_AM_C3': (88, 164),
+                #'DIA_AM_C4': (248, 55),
+                #'['DIA_AM_A2Y']': (0, 0),
+                #'DIA_AM_B2U': (-141, 296),
+                #'['DIA_AM_C2G']': (0, 0),
+                #'['DIA_AM_E_A']': (0, 0),
+                #'['DIA_AM_A1L']': (0, 0),
+                #'['DIA_AM_B1S']': (0, 0),
+                #'DIA_AM_C1F': (-106, 4),
+                },
+
+            #C2G
+            1645: { # C2G FAKE SEAL
                 #'['DIA_AM_WP']': (0, 0),
                 #'['DIA_AM_CS']': (0, 0),
                 #'['DIA_AM_E_B']': (0, 0),
                 'DIA_AM_PENT': (312, 128),
-                'DIA_AM_PENT1': (320, 125),
-                'DIA_AM_PENT2': (312, 128),
-                'DIA_AM_C1': (478, 134),
-                'DIA_AM_C2': (313, 210),
-                'DIA_AM_C3': (148, 138),
-                'DIA_AM_C4': (309, 29),
+                #'DIA_AM_PENT1': (320, 125),
+                #'DIA_AM_PENT2': (312, 128),
+                #'DIA_AM_C1': (478, 134),
+                #'DIA_AM_C2': (313, 210),
+                #'DIA_AM_C3': (148, 138),
+                #'DIA_AM_C4': (309, 29),
                 #'['DIA_AM_A2Y']': (0, 0),
                 #'['DIA_AM_B2U']': (0, 0),
-                'DIA_AM_C2G': (-45, -22),
+                #'DIA_AM_C2G': (-45, -22),
                 #'['DIA_AM_E_A']': (0, 0),
                 #'['DIA_AM_A1L']': (0, 0),
-                'DIA_AM_B1S': (-80, 270),
+                #'DIA_AM_B1S': (-80, 270),
                 #'['DIA_AM_C1F']': (0, 0),
                 },
 
-        1646: { # C2G BOSS SEAL
+            1646: { # C2G BOSS SEAL
                 #'['DIA_AM_WP']': (0, 0),
                 #'['DIA_AM_CS']': (0, 0),
                 #'['DIA_AM_E_B']': (0, 0),
-                'DIA_AM_PENT': (264, 162),
-                'DIA_AM_PENT1': (272, 158),
-                'DIA_AM_PENT2': (264, 162),
-                'DIA_AM_C1': (430, 166),
-                'DIA_AM_C2': (265, 243),
-                'DIA_AM_C3': (100, 171),
-                'DIA_AM_C4': (261, 62),
+                'DIA_AM_PENT': (312, 128),
+                #'DIA_AM_PENT1': (320, 125),
+                #'DIA_AM_PENT2': (312, 128),
+                #'DIA_AM_C1': (478, 134),
+                #'DIA_AM_C2': (313, 210),
+                #'DIA_AM_C3': (148, 138),
+                #'DIA_AM_C4': (309, 29),
                 #'['DIA_AM_A2Y']': (0, 0),
                 #'['DIA_AM_B2U']': (0, 0),
-                'DIA_AM_C2G': (-93, 12),
+                #'DIA_AM_C2G': (-45, -22),
                 #'['DIA_AM_E_A']': (0, 0),
                 #'['DIA_AM_A1L']': (0, 0),
-                'DIA_AM_B1S': (-128, 304),
+                #'DIA_AM_B1S': (-80, 270),
+                #'['DIA_AM_C1F']': (0, 0),
+                },
+            
+            1647: { # C2G Fight Infector
+                #'['DIA_AM_WP']': (0, 0),
+                #'['DIA_AM_CS']': (0, 0),
+                #'['DIA_AM_E_B']': (0, 0),
+                'DIA_AM_PENT': (296, 168),
+                'DIA_AM_PENT1': (304, 164),
+                'DIA_AM_PENT2': (296, 168),
+                'DIA_AM_C1': (462, 172),
+                'DIA_AM_C2': (297, 249),
+                'DIA_AM_C3': (132, 177),
+                'DIA_AM_C4': (293, 68),
+                #'['DIA_AM_A2Y']': (0, 0),
+                #'['DIA_AM_B2U']': (0, 0),
+                'DIA_AM_C2G': (-61, 18),
+                #'['DIA_AM_E_A']': (0, 0),
+                #'['DIA_AM_A1L']': (0, 0),
+                'DIA_AM_B1S': (-96, 310),
                 #'['DIA_AM_C1F']': (0, 0),
                 },
 
-        1647: { # C2G Fight Infector
+            #1647: { # C2G Fight Infector - a bit more in center
                 #'['DIA_AM_WP']': (0, 0),
                 #'['DIA_AM_CS']': (0, 0),
                 #'['DIA_AM_E_B']': (0, 0),
-                'DIA_AM_PENT': (312, 160),
+                #'DIA_AM_PENT': (312, 160),
                 #'['DIA_AM_PENT1']': (0, 0),
-                'DIA_AM_PENT2': (312, 160),
-                'DIA_AM_C1': (478, 166),
-                'DIA_AM_C2': (312, 242),
-                'DIA_AM_C3': (148, 170),
-                'DIA_AM_C4': (308, 61),
+                #'DIA_AM_PENT2': (312, 160),
+                #'DIA_AM_C1': (478, 166),
+                #'DIA_AM_C2': (312, 242),
+                #'DIA_AM_C3': (148, 170),
+                #'DIA_AM_C4': (308, 61),
                 #'['DIA_AM_A2Y']': (0, 0),
                 #'['DIA_AM_B2U']': (0, 0),
-                'DIA_AM_C2G': (-46, 10),
+                #'DIA_AM_C2G': (-46, 10),
                 #'['DIA_AM_E_A']': (0, 0),
                 #'['DIA_AM_A1L']': (0, 0),
-                'DIA_AM_B1S': (-81, 302),
+                #'DIA_AM_B1S': (-81, 302),
                 #'['DIA_AM_C1F']': (0, 0),
-                },
+                #},
 
         }
         self._paths_automap = {
@@ -827,131 +914,12 @@ class Pather:
             (Location.A5_NIHLATHAK_PORTAL, Location.A5_WP): [1009, 1008, 1006],
             # Eldritch and Shenk
             (Location.A5_SHENK_START, Location.A5_SHENK_SAFE_DIST): [1146, 1147, 1148],
+            # MISSING TRAV NODES
         }
         self._paths = {
-	        # A5 Town
-            (Location.A5_TOWN_START, Location.A5_NIHLATHAK_PORTAL): [3, 4, 5, 6, 8, 9],
-            (Location.A5_TOWN_START, Location.A5_STASH): [3, 4, 5],
-            (Location.A5_TOWN_START, Location.A5_WP): [3, 4],
-            (Location.A5_TOWN_START, Location.A5_QUAL_KEHK): [3, 4, 5, 6, 10, 11, 12],
-            (Location.A5_TOWN_START, Location.A5_MALAH): [1, 2],
-            (Location.A5_TOWN_START, Location.A5_LARZUK): [3, 4, 5, 13, 14],
-            (Location.A5_MALAH, Location.A5_TOWN_START): [1, 0],
-            (Location.A5_MALAH, Location.A5_QUAL_KEHK): [16, 15, 12],
-            (Location.A5_MALAH, Location.A5_STASH): [1, 0, 3, 4, 5],
-            (Location.A5_MALAH, Location.A5_LARZUK): [1, 0, 3, 4, 5, 13, 14],
-            (Location.A5_MALAH, Location.A5_WP): [1, 0, 3, 4],
-            (Location.A5_MALAH, Location.A5_NIHLATHAK_PORTAL): [16, 15, 12, 11, 10, 6, 8, 9],
-            (Location.A5_STASH, Location.A5_NIHLATHAK_PORTAL): [6, 8, 9],
-            (Location.A5_STASH, Location.A5_QUAL_KEHK): [5, 6, 10, 11, 12],
-            (Location.A5_STASH, Location.A5_LARZUK): [13, 14],
-            (Location.A5_STASH, Location.A5_WP): [],
-            (Location.A5_STASH, Location.A5_MALAH): [4, 3, 0, 1, 2],
-            (Location.A5_WP, Location.A5_STASH): [],
-            (Location.A5_WP, Location.A5_LARZUK): [13, 14],
-            (Location.A5_WP, Location.A5_NIHLATHAK_PORTAL): [6, 8, 9],
-            (Location.A5_WP, Location.A5_QUAL_KEHK): [6, 10, 11, 12],
-            (Location.A5_WP, Location.A5_MALAH): [4, 3, 0, 1, 2],
-            (Location.A5_QUAL_KEHK, Location.A5_NIHLATHAK_PORTAL): [12, 11, 10, 6, 8, 9],
-            (Location.A5_QUAL_KEHK, Location.A5_WP): [12, 11, 10, 6],
-            (Location.A5_QUAL_KEHK, Location.A5_STASH): [12, 11, 10, 6, 5],
-            (Location.A5_QUAL_KEHK, Location.A5_LARZUK): [12, 11, 10, 6, 5, 13, 14],
-            (Location.A5_QUAL_KEHK, Location.A5_MALAH): [15, 16, 2],
-            (Location.A5_LARZUK, Location.A5_QUAL_KEHK): [13, 14, 5, 6, 10, 11, 12],
-            (Location.A5_LARZUK, Location.A5_NIHLATHAK_PORTAL): [14, 13, 5, 6, 8, 9],
-            (Location.A5_LARZUK, Location.A5_WP): [14, 13, 5],
-            (Location.A5_LARZUK, Location.A5_STASH): [14, 13, 5],
-            (Location.A5_LARZUK, Location.A5_MALAH): [14, 13, 5, 4, 3, 1, 2],
-            # Pindle
+	        # Pindle
             (Location.A5_PINDLE_START, Location.A5_PINDLE_SAFE_DIST): [100, 101, 102, 103],
             (Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END): [104],
-            # Eldritch
-            (Location.A5_ELDRITCH_START, Location.A5_ELDRITCH_SAFE_DIST): [120, 121, 122],
-            (Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END): [123],
-            # Shenk
-            (Location.A5_SHENK_START, Location.A5_SHENK_SAFE_DIST): [141, 142, 143, 144, 145, 146, 147, 148],
-            (Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END): [149],
-            # A4 Town
-            (Location.A4_TOWN_START, Location.A4_WP): [162],
-            (Location.A4_TOWN_START, Location.A4_TYRAEL_STASH): [160, 161],
-            (Location.A4_TOWN_START, Location.A4_JAMELLA): [163, 164],
-            (Location.A4_TOWN_START, Location.A4_HALBU): [163, 164, 165],
-            (Location.A4_WP, Location.A4_TYRAEL_STASH): [160, 161],
-            (Location.A4_WP, Location.A4_JAMELLA): [162, 163, 164],
-            (Location.A4_WP, Location.A4_HALBU): [162, 163, 164, 165],
-            (Location.A4_TYRAEL_STASH, Location.A4_WP): [161, 160],
-            (Location.A4_TYRAEL_STASH, Location.A4_JAMELLA): [161, 160, 162, 163, 164],
-            (Location.A4_TYRAEL_STASH, Location.A4_HALBU): [161, 160, 162, 163, 164, 165],
-            (Location.A4_JAMELLA, Location.A4_WP): [164, 163, 162],
-            (Location.A4_JAMELLA, Location.A4_TYRAEL_STASH): [164, 163, 162, 160, 161],
-            (Location.A4_JAMELLA, Location.A4_HALBU): [165],
-            (Location.A4_HALBU, Location.A4_WP): [164, 163, 162],
-            (Location.A4_HALBU, Location.A4_TYRAEL_STASH): [164, 163, 162, 160, 161],
-            (Location.A4_HALBU, Location.A4_JAMELLA): [164],
-            # A3 Town
-            (Location.A3_TOWN_START, Location.A3_STASH_WP): [180, 181, 182, 183, 184, 185, 186, 187, 188],
-            (Location.A3_TOWN_START, Location.A3_ORMUS): [180, 181, 182, 183, 184, 185],
-            (Location.A3_ORMUS, Location.A3_STASH_WP): [186, 187, 188],
-            (Location.A3_ORMUS, Location.A3_ASHEARA): [189, 190, 191, 192],
-            (Location.A3_ASHEARA, Location.A3_STASH_WP): [191, 190, 189, 185, 186, 187, 188],
-            (Location.A3_STASH_WP, Location.A3_STASH_WP): [188],
-            (Location.A3_STASH_WP, Location.A3_ORMUS): [187, 186, 185],
-            # A2 Town
-            (Location.A2_TOWN_START, Location.A2_WP): [400, 401, 402, 403, 404],
-            (Location.A2_TOWN_START, Location.A2_FARA_STASH): [400, 401, 402, 405],
-            (Location.A2_TOWN_START, Location.A2_LYSANDER): [400, 401, 402],
-            (Location.A2_TOWN_START, Location.A2_DROGNAN): [400, 401, 402, 403, 409, 410, 411],
-            (Location.A2_FARA_STASH, Location.A2_WP): [403, 404],
-            (Location.A2_FARA_STASH, Location.A2_LYSANDER): [403, 402],
-            (Location.A2_FARA_STASH, Location.A2_DROGNAN): [403, 409, 410, 411],
-            (Location.A2_TP, Location.A2_FARA_STASH): [408, 406, 405],
-            (Location.A2_TP, Location.A2_DROGNAN): [408, 406, 405, 403, 409, 410, 411],
-            (Location.A2_TP, Location.A2_LYSANDER): [408, 406, 405, 402],
-            (Location.A2_WP, Location.A2_FARA_STASH): [404, 403, 405],
-            (Location.A2_WP, Location.A2_DROGNAN): [404, 409, 410, 411],
-            (Location.A2_WP, Location.A2_LYSANDER): [404, 403, 402],
-            (Location.A2_LYSANDER, Location.A2_FARA_STASH): [402, 405],
-            (Location.A2_LYSANDER, Location.A2_TP): [402, 405, 406, 408],
-            (Location.A2_LYSANDER, Location.A2_WP): [403, 404],
-            (Location.A2_LYSANDER, Location.A2_DROGNAN): [403, 409, 410, 411],
-            (Location.A2_DROGNAN, Location.A2_LYSANDER): [411, 410, 409, 403, 402],
-            (Location.A2_DROGNAN, Location.A2_WP): [411, 410, 409, 404],
-            (Location.A2_DROGNAN, Location.A2_FARA_STASH): [411, 410, 409, 403, 405],
-            # A1 Town
-            #spawned in where do we go?
-            (Location.A1_TOWN_START, Location.A1_STASH): [],
-            (Location.A1_TOWN_START, Location.A1_KASHYA_CAIN): [],
-            (Location.A1_TOWN_START, Location.A1_CHARSI): [702, 703, 704],
-            (Location.A1_TOWN_START, Location.A1_AKARA): [705, 706, 707],
-            (Location.A1_TOWN_START, Location.A1_WP_NORTH): [702],
-            (Location.A1_TOWN_START, Location.A1_WP_SOUTH): [705],
-            #from the stash to where?
-            (Location.A1_STASH, Location.A1_KASHYA_CAIN): [700],
-            (Location.A1_STASH, Location.A1_CHARSI): [701, 702, 703, 704],
-            (Location.A1_STASH, Location.A1_AKARA): [701, 705, 706, 707],
-            (Location.A1_STASH, Location.A1_WP_NORTH): [701, 702],
-            (Location.A1_STASH, Location.A1_WP_SOUTH): [701, 705],
-            #from the Kashya/Cain to where?
-            (Location.A1_KASHYA_CAIN, Location.A1_STASH): [700],
-            (Location.A1_KASHYA_CAIN, Location.A1_CHARSI): [700, 702, 703, 704],
-            (Location.A1_KASHYA_CAIN, Location.A1_AKARA): [700, 705, 706, 707],
-            (Location.A1_KASHYA_CAIN, Location.A1_WP_NORTH): [700, 702],
-            (Location.A1_KASHYA_CAIN, Location.A1_WP_SOUTH): [700, 705],
-            #from the Charsi to where?
-            (Location.A1_CHARSI, Location.A1_STASH): [704, 703, 702, 700],
-            (Location.A1_CHARSI, Location.A1_KASHYA_CAIN): [704, 703, 702, 700],
-            (Location.A1_CHARSI, Location.A1_AKARA): [704, 703, 702, 705, 706, 707],
-            (Location.A1_CHARSI, Location.A1_WP_NORTH): [704, 703, 702],
-            (Location.A1_CHARSI, Location.A1_WP_SOUTH): [704, 703, 702, 705],
-            #from the Akara to where?
-            (Location.A1_AKARA, Location.A1_STASH): [707, 706, 705, 700],
-            (Location.A1_AKARA, Location.A1_KASHYA_CAIN): [707, 706, 705, 700],
-            (Location.A1_AKARA, Location.A1_CHARSI): [707, 706, 705, 702, 703, 704],
-            (Location.A1_AKARA, Location.A1_WP_NORTH): [707, 706, 705, 702],
-            (Location.A1_AKARA, Location.A1_WP_SOUTH): [707, 706, 706],
-            (Location.A1_WP_SOUTH, Location.A1_WP_NORTH): [702],
-            #from town portal
-            (Location.A1_TOWN_TP, Location.A1_KASHYA_CAIN): [708, 700],
             # Trav
             (Location.A3_TRAV_START, Location.A3_TRAV_CENTER_STAIRS): [220, 221, 222, 223, 224, 225, 226],
         }
@@ -1190,7 +1158,7 @@ class Pather:
         timeout: float = 5,
         do_pre_move: bool = True,
         force_move: bool = False,
-        threshold: float = 0.78,
+        threshold: float = 0.75, #down from 0.78 to allow proper traverse in A1 town
         toggle_map: bool = True,
         force_tp: bool = False
     ) -> bool:
@@ -1365,49 +1333,65 @@ if __name__ == "__main__":
 
     #display_all_nodes(pather, "A1_TOWN") #use this function to explore the templates and nodes visibile in the area you are currently located ingame
     
-    nodes = 708
-    pather.traverse_nodes([nodes], char) #use this function to test nodes
-    #pather.traverse_nodes_automap([1630], char, toggle_map=False) 
+   
     """
+    # River to Pent- done
     pather.traverse_nodes_fixed("dia_wp_cs-e", char) #use this function to test static paths
     pather.traverse_nodes_automap([1601], char) 
     pather.traverse_nodes_fixed("dia_cs-e_pent", char) 
     pather.traverse_nodes_automap([1600], char) 
     
-    # seal A1L
-    pather.traverse_nodes_fixed("dia_am_lc_a", char) 
+    # seal A1L - done
     pather.traverse_nodes_automap([1620], char) #LC
-    pather.traverse_nodes_fixed("dia_a1-l_seal1", char) 
-    pather.traverse_nodes_fixed("dia_a1-l_seal2", char) 
-    pather.traverse_nodes_automap([1620], char) 
-    pather.traverse_nodes_fixed("dia_am_a_pent", char) 
-    pather.traverse_nodes_automap([1600], char) 
+    pather.traverse_nodes_automap([1621], char) #FAKE
+    pather.traverse_nodes_automap([1622], char) #BOSS
+    pather.traverse_nodes_automap([1623], char) #VIZIER
+    pather.traverse_nodes_automap([1600], char) #PENT
 
-    # seal B1S
-    pather.traverse_nodes_fixed("dia_am_lc_b", char) 
-    pather.traverse_nodes_automap([1630], char) 
-    pather.traverse_nodes_fixed("dia_am_b_deseis", char) 
-    pather.traverse_nodes_automap([1630], char) 
-    pather.traverse_nodes_fixed("dia_am_b_pent", char) 
-    pather.traverse_nodes_automap([1600], char) 
+    # seal A2Y - done
+    pather.traverse_nodes_automap([1620], char) #LC
+    pather.traverse_nodes_automap([1620], char) #FAKE
+    pather.traverse_nodes_automap([1625], char) #BOSS
+    pather.traverse_nodes_automap([1627], char) #VIZIER
+    pather.traverse_nodes_automap([1600], char) #PENT
+
+    # seal B1S - done
+    pather.traverse_nodes_automap([1630], char) #LC
+    pather.traverse_nodes_automap([1631], char) #BOSS
+    pather.traverse_nodes_automap([1632], char) #DESEIS
+    pather.traverse_nodes_automap([1600], char) #PENT
+
+    # seal B2U
+    pather.traverse_nodes_automap([1630], char) #LC
+    pather.traverse_nodes_automap([1631], char) #BOSS
+    pather.traverse_nodes_automap([1632], char) #DESEIS
+    pather.traverse_nodes_automap([1600], char) #PENT
 
     # seal C1F
-    pather.traverse_nodes_fixed("dia_am_lc_c", char) 
-    pather.traverse_nodes_automap([1640], char) 
-    pather.traverse_nodes_fixed("dia_c1-f_fake_boss", char) #hop from fake to boss
-    pather.traverse_nodes_automap([1641], char) 
-    pather.traverse_nodes_automap([1640], char) 
-    pather.traverse_nodes_fixed("dia_am_c_pent", char) 
-    pather.traverse_nodes_automap([1600], char)
+    pather.traverse_nodes_automap([1640], char) #LC
+    pather.traverse_nodes_automap([1641], char) #FAKE
+    pather.traverse_nodes_automap([1642], char) #BOSS
+    pather.traverse_nodes_automap([1643], char) #INFECTOR
+    pather.traverse_nodes_automap([1600], char) #PENT
+
+    # seal C2G
+    pather.traverse_nodes_automap([1640], char) #LC
+    pather.traverse_nodes_automap([1645], char) #FAKE
+    pather.traverse_nodes_automap([1646], char) #BOSS
+    pather.traverse_nodes_automap([1647], char) #INFECTOR
+    pather.traverse_nodes_automap([1600], char) #PENT
     """
+    
+    #nodes = 665
+    #pather.traverse_nodes([nodes], char) #use this function to test nodes
+    #pather.traverse_nodes_automap([1647], char, toggle_map=True) 
     
     if Config().general["use_automap_navigation"] == 1 :
         while True:
             Logger.warning("Checking Automap Status")
             toggle_automap(True)
-            #x  print("1" + str(nodes) + ": {")
-            print(str(nodes) + ": {")
-            """
+            #print("1" + str(nodes) + ": {")
+            #print(str(nodes) + ": {")
             show_automap_pos(["DIA_AM_WP"])
             show_automap_pos(["DIA_AM_CS"])
             show_automap_pos(["DIA_AM_E_B"])
@@ -1425,9 +1409,8 @@ if __name__ == "__main__":
             show_automap_pos(["DIA_AM_A1L"])
             show_automap_pos(["DIA_AM_B1S"])
             show_automap_pos(["DIA_AM_C1F"])
-            """
-            show_automap_pos(["A1_TOWN_AUTOMAP_NORTH"])
-            show_automap_pos(["A1_TOWN_AUTOMAP_SOUTH"])
+            #show_automap_pos(["A1_TOWN_AUTOMAP_NORTH"])
+            #show_automap_pos(["A1_TOWN_AUTOMAP_SOUTH"])
             print("    },")
             toggle_automap(False)
             Logger.warning("End of List - Press F12 to Stop")
