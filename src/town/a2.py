@@ -6,6 +6,7 @@ from pather import Pather, Location
 import template_finder
 from utils.misc import wait
 from ui_manager import ScreenObjects, is_visible
+from automap_finder import toggle_automap
 
 class A2(IAct):
     def __init__(self, pather: Pather, char: IChar):
@@ -20,14 +21,15 @@ class A2(IAct):
     def can_trade_and_repair(self) -> bool: return True
 
     def heal(self, curr_loc: Location) -> Location | bool:
-        if not self._pather.traverse_nodes((curr_loc, Location.A2_FARA_STASH), self._char, force_move=True): return False
+        if not self._pather.traverse_nodes_automap((curr_loc, Location.A2_FARA_STASH), self._char, force_move=True): return False
+        toggle_automap(False)
         if open_npc_menu(Npc.FARA):
             return Location.A2_FARA_STASH
         return False
 
     def open_stash(self, curr_loc: Location) -> Location | bool:
-        if not self._pather.traverse_nodes((curr_loc, Location.A2_FARA_STASH), self._char, force_move=True):
-            return False
+        if not self._pather.traverse_nodes_automap((curr_loc, Location.A2_FARA_STASH), self._char, force_move=True): return False
+        toggle_automap(False)
         wait(0.3)
         def stash_is_open_func():
             img = grab()
@@ -39,35 +41,42 @@ class A2(IAct):
         return Location.A2_FARA_STASH
 
     def identify(self, curr_loc: Location) -> Location | bool:
-        if not self._pather.traverse_nodes((curr_loc, Location.A2_FARA_STASH), self._char, force_move=True): return False
+        if not self._pather.traverse_nodes_automap((curr_loc, Location.A2_FARA_STASH), self._char, force_move=True): return False
+        toggle_automap(False)
         if open_npc_menu(Npc.CAIN):
             press_npc_btn(Npc.CAIN, "identify")
             return Location.A2_FARA_STASH
         return False
 
     def open_trade_menu(self, curr_loc: Location) -> Location | bool:
-        if not self._pather.traverse_nodes((curr_loc, Location.A2_DROGNAN), self._char, force_move=True): return False
+        if not self._pather.traverse_nodes_automap((curr_loc, Location.A2_DROGNAN), self._char, force_move=True): return False
+        toggle_automap(False)
         if open_npc_menu(Npc.DROGNAN):
             press_npc_btn(Npc.DROGNAN, "trade")
             return Location.A2_DROGNAN
         return False
 
     def open_trade_and_repair_menu(self, curr_loc: Location) -> Location | bool:
-        if not self._pather.traverse_nodes((curr_loc, Location.A2_FARA_STASH), self._char, force_move=True): return
+        if not self._pather.traverse_nodes_automap((curr_loc, Location.A2_FARA_STASH), self._char, force_move=True): return
+        toggle_automap(False)
         if open_npc_menu(Npc.FARA):
             press_npc_btn(Npc.FARA, "trade_repair")
             return Location.A2_FARA_STASH
         return False
 
     def open_wp(self, curr_loc: Location) -> bool:
-        if not self._pather.traverse_nodes((curr_loc, Location.A2_WP), self._char, force_move=True): return False
+        if not self._pather.traverse_nodes_automap((curr_loc, Location.A2_WP), self._char, force_move=True): return False
+        toggle_automap(False)
         wait(0.5, 0.7)
         found_wp_func = lambda: is_visible(ScreenObjects.WaypointLabel)
         return self._char.select_by_template(["A2_WP_LIGHT", "A2_WP_DARK"], found_wp_func, telekinesis=True)
 
     def wait_for_tp(self) -> Location | bool:
-        template_match = template_finder.search_and_wait(["A2_TOWN_21", "A2_TOWN_22", "A2_TOWN_20", "A2_TOWN_19", "A2_TOWN_26"], timeout=20)
+        toggle_automap(True)
+        template_match = template_finder.search_and_wait(["A2_TOWN_AUTOMAP"], timeout=20)
+        toggle_automap(False)
         if template_match.valid:
-            self._pather.traverse_nodes((Location.A2_TP, Location.A2_FARA_STASH), self._char, force_move=True)
+            self._pather.traverse_nodes_automap((Location.A2_TP, Location.A2_FARA_STASH), self._char, force_move=True)
+            toggle_automap(False)
             return Location.A2_FARA_STASH
         return False

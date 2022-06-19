@@ -97,8 +97,48 @@ class Pather:
         self._range_x = [-Config().ui_pos["center_x"] + 7, Config().ui_pos["center_x"] - 7]
         self._range_y = [-Config().ui_pos["center_y"] + 7, Config().ui_pos["center_y"] - Config().ui_pos["skill_bar_height"] - 33]
         self._nodes = {
-            # Automap nodes
-            # A5 town
+            #################
+            # Automap nodes #
+            #################
+
+            # A2 Town Automap
+            400: {'A3_TOWN_AUTOMAP': (-518, 56), },
+            401: {'A3_TOWN_AUTOMAP': (-462, -1),},
+            402: {'A3_TOWN_AUTOMAP': (-392, -45),},
+            403: {'A3_TOWN_AUTOMAP': (-390, -93),},
+            404: {'A3_TOWN_AUTOMAP': (-448, -126),},
+            405: {'A3_TOWN_AUTOMAP': (-324, -75),},
+            406: {'A3_TOWN_AUTOMAP': (-240, -60),},
+
+            408: {'A3_TOWN_AUTOMAP': (-158, -57),},
+            409: {'A3_TOWN_AUTOMAP': (-384, -108),},
+            410: {'A3_TOWN_AUTOMAP': (-348, -135),},
+            411: {'A3_TOWN_AUTOMAP': (-290, -166),},
+
+            # A3 Town Automap
+            180: {'A3_TOWN_AUTOMAP': (38, 34),},
+            181: {'A3_TOWN_AUTOMAP': (72, 43),},
+            182: {'A3_TOWN_AUTOMAP': (116, 29),},
+            183: {'A3_TOWN_AUTOMAP': (146, 13),},
+            184: {'A3_TOWN_AUTOMAP': (206, -17),},
+            185: {'A3_TOWN_AUTOMAP': (246, -37),},
+            186: {'A3_TOWN_AUTOMAP': (296, -23),},
+            187: {'A3_TOWN_AUTOMAP': (346, -53),},
+            188: {'A3_TOWN_AUTOMAP': (386, -70),},
+            189: {'A3_TOWN_AUTOMAP': (206, -65),},
+            190: {'A3_TOWN_AUTOMAP': (164, -85),},
+            191: {'A3_TOWN_AUTOMAP': (108, -113),},
+            192: {'A3_TOWN_AUTOMAP': (56, -140),},
+            
+            # A4 Town Automap
+            160: {'A4_TOWN_AUTOMAP': (130, -4),},
+            161: {'A4_TOWN_AUTOMAP': (106, -18),},
+            162: {'A4_TOWN_AUTOMAP': (154, 20),},
+            163: {'A4_TOWN_AUTOMAP': (160, 42),},
+            164: {'A4_TOWN_AUTOMAP': (196, 82),},
+            165: {'A4_TOWN_AUTOMAP': (250, 66),},
+
+            # A5 Town Automap
             1000: {'A5_TOWN_AUTOMAP': (-118, -38)},
             1001: {'A5_TOWN_AUTOMAP': (-178, -52)},
             1003: {'A5_TOWN_AUTOMAP': (-140, -12)},
@@ -116,7 +156,14 @@ class Pather:
             1017: {'A5_TOWN_AUTOMAP': (-360, 66)},
             1018: {'A5_TOWN_AUTOMAP': (-330, 88)},
             1019: {'A5_TOWN_AUTOMAP': (-288, 102)},
-            # Trav
+            
+            # Shenk Automap
+            1146: {'SHENK_WP_AUTOMAP': (66, 28), 'SHENK_ROCK_AUTOMAP': (124, 38)},
+            1147: {'SHENK_WP_AUTOMAP': (137, 108), 'SHENK_ROCK_AUTOMAP': (195, 118)},
+            1148: {'SHENK_WP_AUTOMAP': (213, 138), 'SHENK_ROCK_AUTOMAP': (271, 148)}, # A5_SHENK_SAFE_DIST
+            1149: {'SHENK_WP_AUTOMAP': (269, 168), 'SHENK_ROCK_AUTOMAP': (327, 178)},
+            
+            # Trav Automap
             1220: {'TRAV_AUTOMAP': (32, 26)},
             1221: {'TRAV_AUTOMAP': (86, 5)},
             1222: {'TRAV_AUTOMAP': (166, 20)},
@@ -128,11 +175,10 @@ class Pather:
             1228: {'TRAV_AUTOMAP': (430, 10)},
             1229: {'TRAV_AUTOMAP': (442, -8)},
             1230: {'TRAV_AUTOMAP': (406, -25)},
-            # Shenk
-            1146: {'SHENK_WP_AUTOMAP': (66, 28), 'SHENK_ROCK_AUTOMAP': (124, 38)},
-            1147: {'SHENK_WP_AUTOMAP': (137, 108), 'SHENK_ROCK_AUTOMAP': (195, 118)},
-            1148: {'SHENK_WP_AUTOMAP': (213, 138), 'SHENK_ROCK_AUTOMAP': (271, 148)}, # A5_SHENK_SAFE_DIST
-            1149: {'SHENK_WP_AUTOMAP': (269, 168), 'SHENK_ROCK_AUTOMAP': (327, 178)},
+
+            #####################
+            # CLASSIC TEMPLATES #
+            #####################
 
             # A5 town
             0: {'A5_TOWN_0': (27, 249), 'A5_TOWN_1': (-92, -137), 'A5_TOWN_11': (-313, -177)},
@@ -151,25 +197,24 @@ class Pather:
             14: {'A5_TOWN_3': (447, 173), 'A5_TOWN_10': (-200, 280)},
             15: {'A5_TOWN_9': (310, -38), 'A5_TOWN_2': (-327, -118), 'A5_TOWN_12': (-267, 204)},
             16: {'A5_TOWN_0.5': (65, 155), 'A5_TOWN_12': (-25, -107)},
+            
             # Pindle
             100: {'PINDLE_7': (384, -92), 'PINDLE_0': (-97, -40), 'PINDLE_1': (-13, 223), 'PINDLE_2': (-366, 85)},
             101: {'PINDLE_1': (371, -45), 'PINDLE_2': (18, -184), 'PINDLE_3': (-123, 261)},
             102: {'PINDLE_3': (223, 88), 'PINDLE_4': (95, 215)},
             103: {'PINDLE_3': (395, -75), 'PINDLE_4': (267, 52)},
             104: {'PINDLE_4': (717, -117), 'PINDLE_3': (843, -244), 'PINDLE_5': (-187, 237), 'PINDLE_6': (-467, 89)},
+            
             # Eldritch
             120: {'ELDRITCH_0': (293, 24), 'ELDRITCH_0_V2': (293, 24), 'ELDRITCH_0_V3': (293, 24), 'ELDRITCH_1': (-307, 76), 'ELDRITCH_1_V2': (-307, 76), 'ELDRITCH_5': (27, -164), 'ELDRITCH_6': (400, -50)},
             121: {'ELDRITCH_6': (360, -244), 'ELDRITCH_1': (-329, -103), 'ELDRITCH_1_V2': (-329, -103), 'ELDRITCH_2': (411, 171), 'ELDRITCH_2_V2': (411, 171), 'ELDRITCH_3': (-91, 198), 'ELDRITCH_7': (409, 180), 'ELDRITCH_7_V2': (409, 180), 'ELDRITCH_8': (465, 345), 'ELDRITCH_8_V2': (465, 345)},
             122: {'ELDRITCH_2': (353, -145), 'ELDRITCH_2_V2': (353, -145), 'ELDRITCH_3': (-149, -119), 'ELDRITCH_9': (-253, -118), 'ELDRITCH_7': (352, -134), 'ELDRITCH_7_V2': (352, -134), 'ELDRITCH_8': (404, 29), 'ELDRITCH_8_V2': (404, 29)},
             123: {'ELDRITCH_3': (-99, -252), 'ELDRITCH_2': (403, -279), 'ELDRITCH_2_V2': (403, -279), 'ELDRITCH_4': (-62, -109), 'ELDRITCH_9': (-204, -254), 'ELDRITCH_8': (454, -104),  'ELDRITCH_8_V2': (454, -104)},
+            
             # Shenk
             141: {'SHENK_0': (-129, 44), 'SHENK_1': (464, 107), 'SHENK_2': (-167, -34), 'SHENK_17': (-520, 528), 'SHENK_15': (77, 293), 'SHENK_18': (518, 512)},
-            142: {'SHENK_1': (584, 376), 'SHENK_4': (-443, -103), 'SHENK_2': (-52, 235), 'SHENK_3': (357, -129),
-                "ELDRITCH_2_V2": (516, 195), 'ELDRITCH_1': (-233, -77), "ELDRITCH_0_V2": (360, -140), "ELDRITCH_3": (20, 219)
-            },
-            143: {'SHENK_4': (-251, 165), 'SHENK_2': (141, 505), 'SHENK_3': (549, 139), 'SHENK_6': (-339, -69),
-                'ELDRITCH_1': (10, 204), 'SHENK_7': (264, -37), 'ELDRITCH_0_V2': (591, 141), 'ELDRITCH_3': (252, 500)
-            },
+            142: {'SHENK_1': (584, 376), 'SHENK_4': (-443, -103), 'SHENK_2': (-52, 235), 'SHENK_3': (357, -129),"ELDRITCH_2_V2": (516, 195), 'ELDRITCH_1': (-233, -77), "ELDRITCH_0_V2": (360, -140), "ELDRITCH_3": (20, 219)},
+            143: {'SHENK_4': (-251, 165), 'SHENK_2': (141, 505), 'SHENK_3': (549, 139), 'SHENK_6': (-339, -69),'ELDRITCH_1': (10, 204), 'SHENK_7': (264, -37), 'ELDRITCH_0_V2': (591, 141), 'ELDRITCH_3': (252, 500)},
             144: {'SHENK_6': (-108, 123), 'SHENK_7': (481, 151)},
             145: {'SHENK_7': (803, 372), 'SHENK_12': (97, -133), 'SHENK_6': (209, 347), 'SHENK_8': (-245, 18)},
             146: {'SHENK_12': (272, 111), 'SHENK_9': (-331, -144), 'SHENK_8': (-72, 258), 'SHENK_19': (-120, -221)},
@@ -178,36 +223,30 @@ class Pather:
             149: {'SHENK_11': (261, 395), 'SHENK_10': (495, 421), 'SHENK_13': (393, -9)},
             150: {"SHENK_V2_6": (-80, -6), "SHENK_V2_3": (-89, 5), "SHENK_V2_4": (-16, -138), "SHENK_V2_7": (-15, -144), "SHENK_V2_8": (-193, -160), 'SHENK_20': (461, 9)},
             151: {"SHENK_V2_8": (109, 88), "SHENK_V2_7": (287, 104), "SHENK_V2_4": (286, 110), "SHENK_V2_6": (222, 242), "SHENK_V2_3": (213, 253)},
+            
             # A4 town
-            160: {"A4_TOWN_4": (-100, -83), "A4_TOWN_3": (-117, 288), "A4_TOWN_0": (-364, 201), "A4_TOWN_6": (24, -375), "A4_TOWN_5": (-347, -227)},
-            161: {"A4_TOWN_3": (-289, 156), "A4_TOWN_4": (-272, -215), "A4_TOWN_2": (385, -92), "A4_TOWN_6": (-148, -507), "A4_TOWN_0": (-536, 69)},
-            162: {"A4_TOWN_4": (74, 66), "A4_TOWN_5": (-173, -78), "A4_TOWN_6": (198, -226), "A4_TOWN_0": (-190, 350), "A4_TOWN_7": (-101, -455)},
-            163: {"A4_TOWN_5": (-92, 143), "A4_TOWN_7": (-19, -233), "A4_TOWN_6": (280, -4), "A4_TOWN_4": (156, 288), "A4_TOWN_8": (-598, 5)},
-            164: {"A4_TOWN_7": (235, 39), "A4_TOWN_8": (-344, 277), "A4_TOWN_5": (163, 415), "A4_TOWN_6": (534, 268), "A4_TOWN_4": (409, 559), "A4_TOWN_9": (80, -329)},
-            165: {"A4_TOWN_8": (80, 200), "A4_TOWN_7": (661, -38)},
-            # A4 Town Automap
-            #160: {'A4_TOWN_AUTOMAP': (130, -4),},
-            #161: {'A4_TOWN_AUTOMAP': (106, -18),},
-            #162: {'A4_TOWN_AUTOMAP': (154, 20),},
-            #163: {'A4_TOWN_AUTOMAP': (160, 42),},
-            #164: {'A4_TOWN_AUTOMAP': (196, 82),},
-            #165: {'A4_TOWN_AUTOMAP': (250, 66),},
+            #160: {"A4_TOWN_4": (-100, -83), "A4_TOWN_3": (-117, 288), "A4_TOWN_0": (-364, 201), "A4_TOWN_6": (24, -375), "A4_TOWN_5": (-347, -227)},
+            #161: {"A4_TOWN_3": (-289, 156), "A4_TOWN_4": (-272, -215), "A4_TOWN_2": (385, -92), "A4_TOWN_6": (-148, -507), "A4_TOWN_0": (-536, 69)},
+            #162: {"A4_TOWN_4": (74, 66), "A4_TOWN_5": (-173, -78), "A4_TOWN_6": (198, -226), "A4_TOWN_0": (-190, 350), "A4_TOWN_7": (-101, -455)},
+            #163: {"A4_TOWN_5": (-92, 143), "A4_TOWN_7": (-19, -233), "A4_TOWN_6": (280, -4), "A4_TOWN_4": (156, 288), "A4_TOWN_8": (-598, 5)},
+            #164: {"A4_TOWN_7": (235, 39), "A4_TOWN_8": (-344, 277), "A4_TOWN_5": (163, 415), "A4_TOWN_6": (534, 268), "A4_TOWN_4": (409, 559), "A4_TOWN_9": (80, -329)},
+            #165: {"A4_TOWN_8": (80, 200), "A4_TOWN_7": (661, -38)},
+            
             # A3 town
-            180: {"A3_TOWN_0": (-144, 170), "A3_TOWN_1": (-417, 59), "A3_TOWN_2": (-716, -161)},
-            181: {"A3_TOWN_1": (-113, 155), "A3_TOWN_0": (160, 266), "A3_TOWN_2": (-412, -65), "A3_TOWN_3": (-867, 133)},
-            182: {"A3_TOWN_2": (-101, -135), "A3_TOWN_1": (198, 85), "A3_TOWN_0": (471, 196), "A3_TOWN_3": (-556, 63), "A3_TOWN_12": (-500, 717)},
-            183: {"A3_TOWN_3": (-287, -80), "A3_TOWN_2": (168, -279), "A3_TOWN_1": (467, -58), "A3_TOWN_4": (-587, 86), "A3_TOWN_12": (-231, 574)},
-            184: {"A3_TOWN_4": (-109, -146), "A3_TOWN_5": (-81, 206), "A3_TOWN_3": (191, -311), "A3_TOWN_12": (247, 342), "A3_TOWN_13": (-323, 530)},
-            185: {"A3_TOWN_5": (223, 40), "A3_TOWN_13": (-19, 364), "A3_TOWN_4": (195, -312), "A3_TOWN_12": (551, 176), "A3_TOWN_20": (-549, 184)},
-            186: {"A3_TOWN_7": (-195, -118), "A3_TOWN_20": (-130, 237), "A3_TOWN_8": (-269, 308), "A3_TOWN_13": (400, 417), "A3_TOWN_5": (642, 93)},
-            187: {"A3_TOWN_8": (161, 107), "A3_TOWN_9": (-108, 165), "A3_TOWN_7": (236, -319), "A3_TOWN_20": (300, 36), "A3_TOWN_11": (-618, 50)},
-            188: {"A3_TOWN_9": (173, 57), "A3_TOWN_11": (-337, -58), "A3_TOWN_8": (442, -1), "A3_TOWN_20": (581, -72), "A3_TOWN_7": (517, -227)},
-            #187: {"A3_TOWN_8": (161, 207), "A3_TOWN_9": (-108, 265), "A3_TOWN_7": (236, -219), "A3_TOWN_20": (300, 136), "A3_TOWN_11": (-618, 150)},
-            #188: {"A3_TOWN_9": (173, 157), "A3_TOWN_11": (-337, 42), "A3_TOWN_8": (442, 99), "A3_TOWN_20": (581, 28), "A3_TOWN_7": (517, -327)},
-            189: {"A3_TOWN_5": (10, -182), "A3_TOWN_13": (-232, 142), "A3_TOWN_14": (-7, 337), "A3_TOWN_12": (338, -46), "A3_TOWN_15": (722, 143)},
-            190: {"A3_TOWN_12": (27, -198), "A3_TOWN_16": (831, 258), "A3_TOWN_14": (-318, 185), "A3_TOWN_15": (411, -9), "A3_TOWN_5": (-301, -334), "A3_TOWN_13": (-543, -10), "A3_TOWN_17": (707, 541)},
-            191: {"A3_TOWN_15": (-79, -256), "A3_TOWN_16": (341, 11), "A3_TOWN_17": (217, 294), "A3_TOWN_18": (542, 408), "A3_TOWN_19": (779, 171)},
-            192: {"A3_TOWN_17": (-187, 78), "A3_TOWN_16": (-63, -205), "A3_TOWN_18": (138, 192), "A3_TOWN_19": (375, -45)},
+            #180: {"A3_TOWN_0": (-144, 170), "A3_TOWN_1": (-417, 59), "A3_TOWN_2": (-716, -161)},
+            #181: {"A3_TOWN_1": (-113, 155), "A3_TOWN_0": (160, 266), "A3_TOWN_2": (-412, -65), "A3_TOWN_3": (-867, 133)},
+            #182: {"A3_TOWN_2": (-101, -135), "A3_TOWN_1": (198, 85), "A3_TOWN_0": (471, 196), "A3_TOWN_3": (-556, 63), "A3_TOWN_12": (-500, 717)},
+            #183: {"A3_TOWN_3": (-287, -80), "A3_TOWN_2": (168, -279), "A3_TOWN_1": (467, -58), "A3_TOWN_4": (-587, 86), "A3_TOWN_12": (-231, 574)},
+            #184: {"A3_TOWN_4": (-109, -146), "A3_TOWN_5": (-81, 206), "A3_TOWN_3": (191, -311), "A3_TOWN_12": (247, 342), "A3_TOWN_13": (-323, 530)},
+            #185: {"A3_TOWN_5": (223, 40), "A3_TOWN_13": (-19, 364), "A3_TOWN_4": (195, -312), "A3_TOWN_12": (551, 176), "A3_TOWN_20": (-549, 184)},
+            #186: {"A3_TOWN_7": (-195, -118), "A3_TOWN_20": (-130, 237), "A3_TOWN_8": (-269, 308), "A3_TOWN_13": (400, 417), "A3_TOWN_5": (642, 93)},
+            #187: {"A3_TOWN_8": (161, 107), "A3_TOWN_9": (-108, 165), "A3_TOWN_7": (236, -319), "A3_TOWN_20": (300, 36), "A3_TOWN_11": (-618, 50)},
+            #188: {"A3_TOWN_9": (173, 57), "A3_TOWN_11": (-337, -58), "A3_TOWN_8": (442, -1), "A3_TOWN_20": (581, -72), "A3_TOWN_7": (517, -227)},
+            #189: {"A3_TOWN_5": (10, -182), "A3_TOWN_13": (-232, 142), "A3_TOWN_14": (-7, 337), "A3_TOWN_12": (338, -46), "A3_TOWN_15": (722, 143)},
+            #190: {"A3_TOWN_12": (27, -198), "A3_TOWN_16": (831, 258), "A3_TOWN_14": (-318, 185), "A3_TOWN_15": (411, -9), "A3_TOWN_5": (-301, -334), "A3_TOWN_13": (-543, -10), "A3_TOWN_17": (707, 541)},
+            #191: {"A3_TOWN_15": (-79, -256), "A3_TOWN_16": (341, 11), "A3_TOWN_17": (217, 294), "A3_TOWN_18": (542, 408), "A3_TOWN_19": (779, 171)},
+            #192: {"A3_TOWN_17": (-187, 78), "A3_TOWN_16": (-63, -205), "A3_TOWN_18": (138, 192), "A3_TOWN_19": (375, -45)},
+            
             # Trav
             220: {"TRAV_0": (445, 384), "TRAV_20": (-259, 267), "TRAV_1": (-248, -139), "TRAV_2": (-682, 21), "TRAV_21": (25, 180)},
             221: {"TRAV_2": (-153, -101), "TRAV_3": (-125, 201), "TRAV_20": (270, 145), "TRAV_1": (281, -261), "TRAV_4": (-459, 122)},
@@ -226,18 +265,21 @@ class Pather:
             301: {"TRAV_V3_7": (178, -33), "TRAV_V3_6": (170, 157), "TRAV_V3_0": (88, -235), "TRAV_V3_5": (-335, -95), "TRAV_V3_8": (444, -108)},
             302: {"TRAV_V3_0": (-18, 6), "TRAV_V3_7": (73, 208), "TRAV_V3_8": (339, 133), "TRAV_V3_6": (65, 398), "TRAV_V3_5": (-440, 146)},
             304: {"TRAV_V2_4": (125, -148), "TRAV_V2_3": (-187, 55), "TRAV_V2_1": (-207, 59), "TRAV_V2_2": (267, 183), "TRAV_V2_0": (-159, 403)},
+            
             # A2 town
-            400: {"A2_TOWN_2": (-169, 160), "A2_TOWN_0": (290, -114), "A2_TOWN_3": (-348, 225), "A2_TOWN_1": (-345, -374)},
-            401: {"A2_TOWN_3": (45, -202), "A2_TOWN_7": (-40, 266), "A2_TOWN_2": (224, -267), "A2_TOWN_6": (-505, 26), "A2_TOWN_5": (116, 203)},
-            402: {"A2_TOWN_8": (182, 121), "A2_TOWN_6": (103, -348), "A2_TOWN_11": (128, 357), "A2_TOWN_9": (-324, 223), "A2_TOWN_12": (-213, 500)},
-            403: {"A2_TOWN_11": (161, -18), "A2_TOWN_12": (-180, 125), "A2_TOWN_9": (-291, -152), "A2_TOWN_8": (215, -254), "A2_TOWN_13": (149, 392)},
-            404: {"A2_TOWN_14": (79, 190), "A2_TOWN_15": (244, -12), "A2_TOWN_13": (-270, 123), "A2_TOWN_11": (-258, -287), "A2_TOWN_12": (-599, -143)},
-            405: {"A2_TOWN_10": (65, -175), "A2_TOWN_17": (-108, 164), "A2_TOWN_16": (-304, -11), "A2_TOWN_9": (319, -68), "A2_TOWN_18": (-415, -284)},
-            406: {"A2_TOWN_18": (108, -143), "A2_TOWN_16": (219, 129), "A2_TOWN_19": (-293, 21), "A2_TOWN_17": (415, 304), "A2_TOWN_10": (588, -34)},
-            408: {"A2_TOWN_20": (-26, -109), "A2_TOWN_25": (-82, 278), "A2_TOWN_19": (344, 38), "A2_TOWN_18": (745, -125), "A2_TOWN_26": (-831, -73)},
-            409: {"A2_TOWN_14": (477, 294), "A2_TOWN_13": (128, 226), "A2_TOWN_11": (140, -182), "A2_TOWN_12": (-201, -40)},
-            410: {"A2_TOWN_13": (416, 82), "A2_TOWN_12": (87, -184), "A2_TOWN_21": (-211, 10), "A2_TOWN_22": (-178, 269)},
-            411: {"A2_TOWN_22": (298, 0), "A2_TOWN_23": (0, 190), "A2_TOWN_21": (265, -260), "A2_TOWN_24": (-150, -185)},
+            #400: {"A2_TOWN_2": (-169, 160), "A2_TOWN_0": (290, -114), "A2_TOWN_3": (-348, 225), "A2_TOWN_1": (-345, -374)},
+            #401: {"A2_TOWN_3": (45, -202), "A2_TOWN_7": (-40, 266), "A2_TOWN_2": (224, -267), "A2_TOWN_6": (-505, 26), "A2_TOWN_5": (116, 203)},
+            #402: {"A2_TOWN_8": (182, 121), "A2_TOWN_6": (103, -348), "A2_TOWN_11": (128, 357), "A2_TOWN_9": (-324, 223), "A2_TOWN_12": (-213, 500)},
+            #403: {"A2_TOWN_11": (161, -18), "A2_TOWN_12": (-180, 125), "A2_TOWN_9": (-291, -152), "A2_TOWN_8": (215, -254), "A2_TOWN_13": (149, 392)},
+            #404: {"A2_TOWN_14": (79, 190), "A2_TOWN_15": (244, -12), "A2_TOWN_13": (-270, 123), "A2_TOWN_11": (-258, -287), "A2_TOWN_12": (-599, -143)},
+            #405: {"A2_TOWN_10": (65, -175), "A2_TOWN_17": (-108, 164), "A2_TOWN_16": (-304, -11), "A2_TOWN_9": (319, -68), "A2_TOWN_18": (-415, -284)},
+            #406: {"A2_TOWN_18": (108, -143), "A2_TOWN_16": (219, 129), "A2_TOWN_19": (-293, 21), "A2_TOWN_17": (415, 304), "A2_TOWN_10": (588, -34)},
+            
+            #408: {"A2_TOWN_20": (-26, -109), "A2_TOWN_25": (-82, 278), "A2_TOWN_19": (344, 38), "A2_TOWN_18": (745, -125), "A2_TOWN_26": (-831, -73)},
+            #409: {"A2_TOWN_14": (477, 294), "A2_TOWN_13": (128, 226), "A2_TOWN_11": (140, -182), "A2_TOWN_12": (-201, -40)},
+            #410: {"A2_TOWN_13": (416, 82), "A2_TOWN_12": (87, -184), "A2_TOWN_21": (-211, 10), "A2_TOWN_22": (-178, 269)},
+            #411: {"A2_TOWN_22": (298, 0), "A2_TOWN_23": (0, 190), "A2_TOWN_21": (265, -260), "A2_TOWN_24": (-150, -185)},
+            
             # Arcane
             450: {"ARC_START": (49, 62)},
             453: {"ARC_START": (-259, 62)},
@@ -245,6 +287,7 @@ class Pather:
             459: {"ARC_START": (-356, 258)},
             461: {"ARC_ALTAR": (60, 120), "ARC_ALTAR3": (-272, 200), "ARC_CENTER_2": (67, 41), "ARC_END_STAIRS": (76, -344), "ARC_END_STAIRS_2": (60, -160)},
             462: {"ARC_PLATFORM_1": (0, -100), "ARC_PLATFORM_2": (50, -100), "ARC_PLATFORM_3": (70, 0)},
+            
             # Nil - End of Arm A
             500: {"NIL2A_0": (-200, 1), "NIL2A_2": (-181, -102), "NIL2A_1": (329, 146), "NIL2A_4": (835, 24), "NIL2A_5": (-384, -20), "NIL2A_6": (-600, 410)},
             501: {"NIL2A_4": (270+20, 259-50), "NIL2A_1": (-236+20, 381-50), "NIL2A_2": (-746+20, 133-50), "NIL2A_0": (-765+20, 236-50)},
@@ -648,6 +691,87 @@ class Pather:
 
         }
         self._paths_automap = {
+            # A1 Town
+            #spawned in where do we go?
+            (Location.A1_TOWN_START, Location.A1_STASH): [],
+            (Location.A1_TOWN_START, Location.A1_KASHYA_CAIN): [],
+            (Location.A1_TOWN_START, Location.A1_CHARSI): [702, 703, 704],
+            (Location.A1_TOWN_START, Location.A1_AKARA): [705, 706, 707],
+            (Location.A1_TOWN_START, Location.A1_WP_NORTH): [702],
+            (Location.A1_TOWN_START, Location.A1_WP_SOUTH): [705],
+            #from the stash to where?
+            (Location.A1_STASH, Location.A1_KASHYA_CAIN): [700],
+            (Location.A1_STASH, Location.A1_CHARSI): [701, 702, 703, 704],
+            (Location.A1_STASH, Location.A1_AKARA): [701, 705, 706, 707],
+            (Location.A1_STASH, Location.A1_WP_NORTH): [701, 702],
+            (Location.A1_STASH, Location.A1_WP_SOUTH): [701, 705],
+            #from the Kashya/Cain to where?
+            (Location.A1_KASHYA_CAIN, Location.A1_STASH): [700],
+            (Location.A1_KASHYA_CAIN, Location.A1_CHARSI): [700, 702, 703, 704],
+            (Location.A1_KASHYA_CAIN, Location.A1_AKARA): [700, 705, 706, 707],
+            (Location.A1_KASHYA_CAIN, Location.A1_WP_NORTH): [700, 702],
+            (Location.A1_KASHYA_CAIN, Location.A1_WP_SOUTH): [700, 705],
+            #from the Charsi to where?
+            (Location.A1_CHARSI, Location.A1_STASH): [704, 703, 702, 700],
+            (Location.A1_CHARSI, Location.A1_KASHYA_CAIN): [704, 703, 702, 700],
+            (Location.A1_CHARSI, Location.A1_AKARA): [704, 703, 702, 705, 706, 707],
+            (Location.A1_CHARSI, Location.A1_WP_NORTH): [704, 703, 702],
+            (Location.A1_CHARSI, Location.A1_WP_SOUTH): [704, 703, 702, 705],
+            #from the Akara to where?
+            (Location.A1_AKARA, Location.A1_STASH): [707, 706, 705, 700],
+            (Location.A1_AKARA, Location.A1_KASHYA_CAIN): [707, 706, 705, 700],
+            (Location.A1_AKARA, Location.A1_CHARSI): [707, 706, 705, 702, 703, 704],
+            (Location.A1_AKARA, Location.A1_WP_NORTH): [707, 706, 705, 702],
+            (Location.A1_AKARA, Location.A1_WP_SOUTH): [707, 706, 706],
+            (Location.A1_WP_SOUTH, Location.A1_WP_NORTH): [702],
+            #from town portal
+            (Location.A1_TOWN_TP, Location.A1_KASHYA_CAIN): [708, 700],
+            # A2 Town
+            (Location.A2_TOWN_START, Location.A2_WP): [400, 401, 402, 403, 404],
+            (Location.A2_TOWN_START, Location.A2_FARA_STASH): [400, 401, 402, 405],
+            (Location.A2_TOWN_START, Location.A2_LYSANDER): [400, 401, 402],
+            (Location.A2_TOWN_START, Location.A2_DROGNAN): [400, 401, 402, 403, 409, 410, 411],
+            (Location.A2_FARA_STASH, Location.A2_WP): [403, 404],
+            (Location.A2_FARA_STASH, Location.A2_LYSANDER): [403, 402],
+            (Location.A2_FARA_STASH, Location.A2_DROGNAN): [403, 409, 410, 411],
+            (Location.A2_TP, Location.A2_FARA_STASH): [408, 406, 405],
+            (Location.A2_TP, Location.A2_DROGNAN): [408, 406, 405, 403, 409, 410, 411],
+            (Location.A2_TP, Location.A2_LYSANDER): [408, 406, 405, 402],
+            (Location.A2_WP, Location.A2_FARA_STASH): [404, 403, 405],
+            (Location.A2_WP, Location.A2_DROGNAN): [404, 409, 410, 411],
+            (Location.A2_WP, Location.A2_LYSANDER): [404, 403, 402],
+            (Location.A2_LYSANDER, Location.A2_FARA_STASH): [402, 405],
+            (Location.A2_LYSANDER, Location.A2_TP): [402, 405, 406, 408],
+            (Location.A2_LYSANDER, Location.A2_WP): [403, 404],
+            (Location.A2_LYSANDER, Location.A2_DROGNAN): [403, 409, 410, 411],
+            (Location.A2_DROGNAN, Location.A2_LYSANDER): [411, 410, 409, 403, 402],
+            (Location.A2_DROGNAN, Location.A2_WP): [411, 410, 409, 404],
+            (Location.A2_DROGNAN, Location.A2_FARA_STASH): [411, 410, 409, 403, 405],
+            # A3 Town
+            (Location.A3_TOWN_START, Location.A3_STASH_WP): [180, 181, 182, 183, 184, 185, 186, 187, 188],
+            (Location.A3_TOWN_START, Location.A3_ORMUS): [180, 181, 182, 183, 184, 185],
+            (Location.A3_ORMUS, Location.A3_STASH_WP): [186, 187, 188],
+            (Location.A3_ORMUS, Location.A3_ASHEARA): [189, 190, 191, 192],
+            (Location.A3_ASHEARA, Location.A3_STASH_WP): [191, 190, 189, 185, 186, 187, 188],
+            (Location.A3_STASH_WP, Location.A3_STASH_WP): [188],
+            (Location.A3_STASH_WP, Location.A3_ORMUS): [187, 186, 185],
+            # A4 Town
+            (Location.A4_TOWN_START, Location.A4_WP): [162],
+            (Location.A4_TOWN_START, Location.A4_TYRAEL_STASH): [160, 161],
+            (Location.A4_TOWN_START, Location.A4_JAMELLA): [163, 164],
+            (Location.A4_TOWN_START, Location.A4_HALBU): [163, 164, 165],
+            (Location.A4_WP, Location.A4_TYRAEL_STASH): [160, 161],
+            (Location.A4_WP, Location.A4_JAMELLA): [162, 163, 164],
+            (Location.A4_WP, Location.A4_HALBU): [162, 163, 164, 165],
+            (Location.A4_TYRAEL_STASH, Location.A4_WP): [161, 160],
+            (Location.A4_TYRAEL_STASH, Location.A4_JAMELLA): [161, 160, 162, 163, 164],
+            (Location.A4_TYRAEL_STASH, Location.A4_HALBU): [161, 160, 162, 163, 164, 165],
+            (Location.A4_JAMELLA, Location.A4_WP): [164, 163, 162],
+            (Location.A4_JAMELLA, Location.A4_TYRAEL_STASH): [164, 163, 162, 160, 161],
+            (Location.A4_JAMELLA, Location.A4_HALBU): [165],
+            (Location.A4_HALBU, Location.A4_WP): [164, 163, 162],
+            (Location.A4_HALBU, Location.A4_TYRAEL_STASH): [164, 163, 162, 160, 161],
+            (Location.A4_HALBU, Location.A4_JAMELLA): [164],
             # A5 Town
             (Location.A5_TOWN_START, Location.A5_NIHLATHAK_PORTAL): [1003, 1006, 1008, 1009],
             (Location.A5_TOWN_START, Location.A5_ANYA): [1003, 1006, 1008, 1009, 1019],
@@ -1227,9 +1351,9 @@ if __name__ == "__main__":
     char = Hammerdin(Config().hammerdin, pather, PickIt) #Config().char,
     char.discover_capabilities()
 
-    #display_all_nodes(pather, "DIA_AM") #use this function to explore the templates and nodes visibile in the area you are currently located ingame
+    #display_all_nodes(pather, "A1_TOWN") #use this function to explore the templates and nodes visibile in the area you are currently located ingame
     
-    nodes = 665
+    nodes = 705
     pather.traverse_nodes([nodes], char) #use this function to test nodes
     #pather.traverse_nodes_automap([1630], char, toggle_map=False) 
     """
@@ -1269,7 +1393,9 @@ if __name__ == "__main__":
         while True:
             Logger.warning("Checking Automap Status")
             toggle_automap(True)
-            print("1" + str(nodes) + ": {")
+            #x  print("1" + str(nodes) + ": {")
+            print(str(nodes) + ": {")
+            """
             show_automap_pos(["DIA_AM_WP"])
             show_automap_pos(["DIA_AM_CS"])
             show_automap_pos(["DIA_AM_E_B"])
@@ -1287,13 +1413,48 @@ if __name__ == "__main__":
             show_automap_pos(["DIA_AM_A1L"])
             show_automap_pos(["DIA_AM_B1S"])
             show_automap_pos(["DIA_AM_C1F"])
-            
-            #show_automap_pos(["A4_TOWN_AUTOMAP"])
+            """
+            show_automap_pos(["A1_TOWN_AUTOMAP_NORTH"])
+            show_automap_pos(["A1_TOWN_AUTOMAP_SOUTH"])
             print("    },")
             toggle_automap(False)
             Logger.warning("End of List - Press F12 to Stop")
             keyboard.wait("f12")
     
     stop_detecting_window
-    
 
+    """
+    700: {'A1_TOWN_AUTOMAP_NORTH': (25, 92),
+    #'['A1_TOWN_AUTOMAP_SOUTH']': (0, 0),
+    },
+    
+    701: {'A1_TOWN_AUTOMAP_NORTH': (7, 74),
+    #'['A1_TOWN_AUTOMAP_SOUTH']': (0, 0),
+    },
+    702: {
+    #'['A1_TOWN_AUTOMAP_NORTH']': (0, 0),
+    #'['A1_TOWN_AUTOMAP_SOUTH']': (0, 0),
+    },
+    703: {'A1_TOWN_AUTOMAP_NORTH': (-20, 24),
+    #'['A1_TOWN_AUTOMAP_SOUTH']': (0, 0),
+    },
+    704: {'A1_TOWN_AUTOMAP_NORTH': (-49, 27),
+    #'['A1_TOWN_AUTOMAP_SOUTH']': (0, 0),
+    },
+    705: {
+    #'['A1_TOWN_AUTOMAP_NORTH']': (0, 0),
+    #'['A1_TOWN_AUTOMAP_SOUTH']': (0, 0),
+    },
+    706: {
+    #'['A1_TOWN_AUTOMAP_NORTH']': (0, 0),
+    #'['A1_TOWN_AUTOMAP_SOUTH']': (0, 0),
+    },
+    707: {
+    #'['A1_TOWN_AUTOMAP_NORTH']': (0, 0),
+    #'['A1_TOWN_AUTOMAP_SOUTH']': (0, 0),
+    },
+    708: {
+    #'['A1_TOWN_AUTOMAP_NORTH']': (0, 0),
+    #'['A1_TOWN_AUTOMAP_SOUTH']': (0, 0),
+    },
+    """

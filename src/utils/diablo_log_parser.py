@@ -79,20 +79,27 @@ simple_string = [
     "CS after Town: failed to open TP"
     ]
 prefix_string = ["A1-L", "A2-Y", "B1-S", "B2-U", "C1-F", "C2-G"]
-complex_string = ["Layout_check step 1/2", "Layout_check step 2/2", "Layout_check failure", "Starting to clear Seal",  "Seal1: is closed", "Seal1: is open", "Seal2: is closed", "Seal2: is open", "Kill Boss", "Static Pathing to Pentagram", "Looping to Pentagram", "finished seal & calibrated"]
+complex_string = ["Layout_check step 1/2", "Layout_check step 2/2", "Layout_check failure", "Starting to clear Seal",  "Seal1: is closed", "Seal1: is open", "Seal2: is closed", "Seal2: is open", "Kill Boss", "Static Pathing to Pentagram", "Looping to Pentagram", "Traversing back to Pentagram", "finished seal & calibrated"]
 trash_prefix= [""]
 trash_event=[""]
 lc_prefix=["Found Match:"]
-lc_event=[
-        'DIA_NEW_PENT_0', 'DIA_NEW_PENT_1', 'DIA_NEW_PENT_TP', 'DIA_NEW_PENT_2',
-        "DIA_A2Y_LAYOUTCHECK0", "DIA_A2Y_LAYOUTCHECK1", "DIA_A2Y_LAYOUTCHECK2", "DIA_A2Y_LAYOUTCHECK4", "DIA_A2Y_LAYOUTCHECK5", "DIA_A2Y_LAYOUTCHECK6",
-        "DIA_A1L_LAYOUTCHECK0", "DIA_A1L_LAYOUTCHECK4", "DIA_A1L_LAYOUTCHECK4LEFT", "DIA_A1L_LAYOUTCHECK1", "DIA_A1L_LAYOUTCHECK2", "DIA_A1L_LAYOUTCHECK3","DIA_A1L_LAYOUTCHECK4RIGHT","DIA_A1L_LAYOUTCHECK5",
-        "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK1", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK2", "DIA_B1S_BOSS_CLOSED_LAYOUTCHECK3",
-        "DIA_B2U_LAYOUTCHECK2", "DIA_B2U_LAYOUTCHECK1", "DIA_B2U_LAYOUTCHECK2SMALL","DIA_B2U_LAYOUTCHECK3", "DIA_B2U_LAYOUTCHECK4", "DIA_B2U_LAYOUTCHECK5","DIA_B2U_LAYOUTCHECK6","DIA_B2U_LAYOUTCHECK7","DIA_B2U_LAYOUTCHECK8","DIA_B2U_LAYOUTCHECK9",
-        "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK1", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK4", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK5", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK2", "DIA_C2G_BOSS_CLOSED_LAYOUTCHECK3",
-        "DIA_C1F_LAYOUTCHECK1", "DIA_C1F_LAYOUTCHECK2", "DIA_C1F_LAYOUTCHECK3",
-        "DIABLO_ENTRANCE_12", "DIABLO_ENTRANCE_13", "DIABLO_ENTRANCE_15", "DIABLO_ENTRANCE_16", "DIABLO_ENTRANCE_19", "DIABLO_ENTRANCE_18","DIABLO_ENTRANCE_50", "DIABLO_ENTRANCE_51", "DIABLO_ENTRANCE_52", "DIABLO_ENTRANCE_53", "DIABLO_ENTRANCE_54", "DIABLO_ENTRANCE_55",
-        "DIABLO_ENTRANCE2_15", "DIABLO_ENTRANCE2_23", "DIABLO_ENTRANCE2_19", "DIABLO_ENTRANCE2_17", "DIABLO_ENTRANCE2_50", "DIABLO_ENTRANCE2_51", "DIABLO_ENTRANCE2_52","DIABLO_ENTRANCE2_53","DIABLO_ENTRANCE2_54","DIABLO_ENTRANCE2_55","DIABLO_ENTRANCE2_56"
+lc_event=[      'DIA_AM_WP', 
+                'DIA_AM_CS',
+                'DIA_AM_E_B',
+                'DIA_AM_PENT',
+                'DIA_AM_PENT1',
+                'DIA_AM_PENT2',
+                'DIA_AM_C1',
+                'DIA_AM_C2',
+                'DIA_AM_C3',
+                'DIA_AM_C4',
+                'DIA_AM_A2Y',
+                'DIA_AM_B2U',
+                'DIA_AM_C2G',
+                'DIA_AM_E_A',
+                'DIA_AM_A1L',
+                'DIA_AM_B1S',
+                'DIA_AM_C1F',
         ]
 error_string = ["End failed game"]
 error_array = []
@@ -121,7 +128,7 @@ traverse_line = 0
 
 line_counter = 0
 for line in log_lines:
-    if "Traverse: " in line:
+    if "Traverse" in line:
         traverse_line = line_counter
     #some temp values for looping
     simple_item_counter = 0
@@ -172,7 +179,7 @@ for string in simple_string:
     table1.rows.append ([string, f"{round((simple_counter [simple_item_counter]))}", f"{simple_counter [simple_item_counter] / simple_counter [reference_simple]:.0%}"])
     simple_item_counter += 1
 
-result_file = open (wkdir + "/info_log_parsed.txt", 'w')
+result_file = open (wkdir + "/diablo_log_parsed.txt", 'w')
 
 result_file.write ("======================================================\n")
 result_file.write ("                      RUN OVERVIEW                   \n")
@@ -264,7 +271,7 @@ for error in error_array:
     for line in error:
         result_file.write (line)
 
-Logger.info ("=================================================================================================")
-Logger.info ("Parsed log/log.txt - results & details for failed runs stored in " + str(result_file) + " in botty root folder")
-Logger.info ("=================================================================================================")
+Logger.info ("==================================================================================")
+Logger.info ("Parsed log/log.txt - results & details for failed runs stored in botty root folder")
+Logger.info ("==================================================================================")
 #Logger.info ("\n" + str(table1))

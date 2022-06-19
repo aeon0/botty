@@ -250,8 +250,8 @@ if __name__ == "__main__":
 
     # enter the template names you are trying to detect here
 
-    #_template_list = ["A2_TOWN_AUTOMAP","A3_TOWN_AUTOMAP", "A4_TOWN_AUTOMAP", "A5_TOWN_AUTOMAP","A1_TOWN_AUTOMAP_NORTH","A1_TOWN_AUTOMAP_SOUTH"]
-    _template_list = ["DIA_AM_C1F", "DIA_AM_C2G"]
+    _template_list = ["A2_TOWN_AUTOMAP","A3_TOWN_AUTOMAP", "A4_TOWN_AUTOMAP", "A5_TOWN_AUTOMAP","A1_TOWN_AUTOMAP_NORTH","A1_TOWN_AUTOMAP_SOUTH"]
+    #_template_list = ["DIA_AM_C1F", "DIA_AM_C2G"]
     
     """
     _template_list =["DIA_A1L2_14_OPEN","DIA_A1L2_14_CLOSED", "DIA_A1L2_14_CLOSED_DARK", "DIA_A1L2_14_MOUSEOVER","DIA_A1L2_5_OPEN","DIA_A1L2_5_CLOSED","DIA_A1L2_5_MOUSEOVER",]
