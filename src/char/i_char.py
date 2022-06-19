@@ -309,8 +309,8 @@ class IChar:
 
 
     def vec_to_monitor(self, target):
-        circle_pos_screen = get_closest_non_hud_pixel(pos = target, target_type="abs")
-        return convert_abs_to_monitor(circle_pos_screen)
+        circle_pos_abs = get_closest_non_hud_pixel(pos = target, target_type="abs")
+        return convert_abs_to_monitor(circle_pos_abs)
 
     def _lerp(self,a: float,b: float, f:float):
         return a + f * (b - a)
