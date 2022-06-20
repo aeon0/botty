@@ -287,6 +287,8 @@ def _determine_hotkey_from_block(byte_block):
     }
     if key in key_correction_map:
         key = key_correction_map[key]
+    else:
+        key = key.lower()
     modifier_map = {
         16: 'shift',
         32: 'ctrl',
