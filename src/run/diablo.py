@@ -115,7 +115,7 @@ class Diablo:
         self._pather.traverse_nodes_fixed("dia_cs-e_pent", self._char) #Skip killing CS Trash & directly go to PENT, thereby revelaing key templates
         if not self._pather.traverse_nodes_automap([1600], self._char): return False # calibrate at Pentagram
         Logger.info("CS: Calibrated at PENTAGRAM")
- 
+        """
         ##########
         # Seal A #
         ##########
@@ -154,6 +154,8 @@ class Diablo:
             if not self._pather.traverse_nodes_automap(calibration_node, self._char, threshold=calibration_threshold,): return False
         
         toggle_automap(True)
+        pos_m = convert_monitor_to_screen((0, 0)) # move mouse away during LC to not hover items obscuring the minimap
+        mouse.move(*pos_m, delay_factor=[0.1, 0.2]) # move mouse away during LC to not hover items obscuring the minimap
         if not template_finder.search_and_wait(templates_primary, threshold =threshold_primary, timeout=0.2).valid: # check1 using primary templates
             toggle_automap(False)
             Logger.debug(f"{seal_layout1}: Layout_check step 1/2 - templates NOT found for "f"{seal_layout2}")
@@ -162,11 +164,14 @@ class Diablo:
                 if not self._pather.traverse_nodes_automap(confirmation_node, self._char, threshold=calibration_threshold, toggle_map=True): return False
         
             toggle_automap(True)
+            pos_m = convert_monitor_to_screen((0, 0)) # move mouse away during LC to not hover items obscuring the minimap
+            mouse.move(*pos_m, delay_factor=[0.1, 0.2]) # move mouse away during LC to not hover items obscuring the minimap
             if not template_finder.search_and_wait(templates_confirmation, threshold=threshold_confirmation, timeout=0.2).valid:
                 toggle_automap(False)
                 Logger.warning(f"{seal_layout2}: Layout_check failure - could not determine the seal Layout at " f"{sealname} ("f"{boss}) - "+'\033[91m'+"aborting run"+'\033[0m')
-                wait(5)
                 if Config().general["info_screenshots"]: cv2.imwrite(f"./log/screenshots/info/info_" + seal_layout1 + "_LC_fail" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
+                toggle_automap(True)
+                if Config().general["info_screenshots"]: cv2.imwrite(f"./log/screenshots/info/info_" + seal_layout1 + "_LC_fail" + time.strftime("%Y%m%d_%H%M%S") + "automap.png", grab())
                 return False
         
             else:
@@ -206,6 +211,8 @@ class Diablo:
                 if not self._pather.traverse_nodes_automap(confirmation_node2, self._char, threshold=calibration_threshold,): return False
             
             toggle_automap(True)
+            pos_m = convert_monitor_to_screen((0, 0)) # move mouse away during LC to not hover items obscuring the minimap
+            mouse.move(*pos_m, delay_factor=[0.1, 0.2]) # move mouse away during LC to not hover items obscuring the minimap
             if not template_finder.search_and_wait(templates_confirmation, threshold=threshold_confirmation2, timeout=0.2).valid:
                 toggle_automap(False)
                 Logger.info(f"{seal_layout2}: Layout_check step 2/2 - templates NOT found for "f"{seal_layout1} - "+'\033[96m'+"all fine, proceeding with "f"{seal_layout2}"+'\033[0m')
@@ -241,10 +248,13 @@ class Diablo:
                 Logger.warning(f"{seal_layout2}: Layout_check failure - could not determine the seal Layout at " f"{sealname} ("f"{boss}) - "+'\033[91m'+"aborting run"+'\033[0m')
                 wait(5)
                 if Config().general["info_screenshots"]: cv2.imwrite(f"./log/screenshots/info/info_" + seal_layout2 + "_LC_fail_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
+                toggle_automap(True)
+                if Config().general["info_screenshots"]: cv2.imwrite(f"./log/screenshots/info/info_" + seal_layout2 + "_LC_fail" + time.strftime("%Y%m%d_%H%M%S") + "automap.png", grab())
                 return False
     
         
-        
+        """
+        """
         ##########
         # Seal B #
         ##########
@@ -259,8 +269,8 @@ class Diablo:
         calibration_node = [1630]
         calibration_threshold = 0.78
         
-        templates_primary= ["DIA_AM_B1S"]
-        threshold_primary= 0.75
+        templates_primary= ["DIA_AM_B1S", "DIA_AM_B1S_1"]
+        threshold_primary= 0.72
                 
         templates_confirmation= ["DIA_AM_B2U"]
         confirmation_node=[1630] 
@@ -283,6 +293,8 @@ class Diablo:
             if not self._pather.traverse_nodes_automap(calibration_node, self._char, threshold=calibration_threshold, toggle_map=True): return False
         
         toggle_automap(True)
+        pos_m = convert_monitor_to_screen((0, 0)) # move mouse away during LC to not hover items obscuring the minimap
+        mouse.move(*pos_m, delay_factor=[0.1, 0.2]) # move mouse away during LC to not hover items obscuring the minimap
         if not template_finder.search_and_wait(templates_primary, threshold =threshold_primary, timeout=0.2).valid: #check1 using primary templates
             toggle_automap(False)
             Logger.debug(f"{seal_layout1}: Layout_check step 1/2 - templates NOT found for "f"{seal_layout2}")
@@ -291,11 +303,15 @@ class Diablo:
                 if not self._pather.traverse_nodes_automap(confirmation_node, self._char, threshold=calibration_threshold, toggle_map=True): return False
 
             toggle_automap(True)
+            pos_m = convert_monitor_to_screen((0, 0)) # move mouse away during LC to not hover items obscuring the minimap
+            mouse.move(*pos_m, delay_factor=[0.1, 0.2]) # move mouse away during LC to not hover items obscuring the minimap
             if not template_finder.search_and_wait(templates_confirmation, threshold=threshold_confirmation, timeout=0.2).valid:
                 toggle_automap(False)
                 Logger.warning(f"{seal_layout2}: Layout_check failure - could not determine the seal Layout at " f"{sealname} ("f"{boss}) - "+'\033[91m'+"aborting run"+'\033[0m')
                 wait(5)
                 if Config().general["info_screenshots"]: cv2.imwrite(f"./log/screenshots/info/info_" + seal_layout1 + "_LC_fail" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
+                toggle_automap(True)
+                if Config().general["info_screenshots"]: cv2.imwrite(f"./log/screenshots/info/info_" + seal_layout1 + "_LC_fail" + time.strftime("%Y%m%d_%H%M%S") + "automap.png", grab())
                 return False
         
             else:
@@ -335,6 +351,8 @@ class Diablo:
                 if not self._pather.traverse_nodes_automap(confirmation_node2, self._char, threshold=calibration_threshold, toggle_map=True): return False
             
             toggle_automap(True)
+            pos_m = convert_monitor_to_screen((0, 0)) # move mouse away during LC to not hover items obscuring the minimap
+            mouse.move(*pos_m, delay_factor=[0.1, 0.2]) # move mouse away during LC to not hover items obscuring the minimap
             if not template_finder.search_and_wait(templates_confirmation, threshold=threshold_confirmation2, timeout=0.2).valid:
                 toggle_automap(False)
                 Logger.info(f"{seal_layout2}: Layout_check step 2/2 - templates NOT found for "f"{seal_layout1} - "+'\033[96m'+"all fine, proceeding with "f"{seal_layout2}"+'\033[0m')
@@ -370,9 +388,11 @@ class Diablo:
                 Logger.warning(f"{seal_layout2}: Layout_check failure - could not determine the seal Layout at " f"{sealname} ("f"{boss}) - "+'\033[91m'+"aborting run"+'\033[0m')
                 wait(5)
                 if Config().general["info_screenshots"]: cv2.imwrite(f"./log/screenshots/info/info_" + seal_layout2 + "_LC_fail_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
+                toggle_automap(True)
+                if Config().general["info_screenshots"]: cv2.imwrite(f"./log/screenshots/info/info_" + seal_layout2 + "_LC_fail" + time.strftime("%Y%m%d_%H%M%S") + "automap.png", grab())
                 return False
   
-
+        """
         ##########
         # Seal C #
         ##########
@@ -411,6 +431,8 @@ class Diablo:
             if not self._pather.traverse_nodes_automap(calibration_node, self._char, threshold=calibration_threshold,): return False
         
         toggle_automap(True)
+        pos_m = convert_monitor_to_screen((0, 0)) # move mouse away during LC to not hover items obscuring the minimap
+        mouse.move(*pos_m, delay_factor=[0.1, 0.2]) # move mouse away during LC to not hover items obscuring the minimap
         if not template_finder.search_and_wait(templates_primary, threshold =threshold_primary, timeout=0.2).valid: #check1 using primary templates
             toggle_automap(False)
             Logger.debug(f"{seal_layout1}: Layout_check step 1/2 - templates NOT found for "f"{seal_layout2}")
@@ -419,11 +441,15 @@ class Diablo:
                 if not self._pather.traverse_nodes_automap(confirmation_node, self._char, threshold=calibration_threshold, toggle_map=True): return False
         
             toggle_automap(True)
+            pos_m = convert_monitor_to_screen((0, 0)) # move mouse away during LC to not hover items obscuring the minimap
+            mouse.move(*pos_m, delay_factor=[0.1, 0.2]) # move mouse away during LC to not hover items obscuring the minimap
             if not template_finder.search_and_wait(templates_confirmation, threshold=threshold_confirmation, timeout=0.2).valid:
                 toggle_automap(False)
                 Logger.warning(f"{seal_layout2}: Layout_check failure - could not determine the seal Layout at " f"{sealname} ("f"{boss}) - "+'\033[91m'+"aborting run"+'\033[0m')
                 wait(5)
                 if Config().general["info_screenshots"]: cv2.imwrite(f"./log/screenshots/info/info_" + seal_layout1 + "_LC_fail" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
+                toggle_automap(True)
+                if Config().general["info_screenshots"]: cv2.imwrite(f"./log/screenshots/info/info_" + seal_layout1 + "_LC_fail" + time.strftime("%Y%m%d_%H%M%S") + "automap.png", grab())
                 return False
         
             else:
@@ -462,6 +488,8 @@ class Diablo:
                 if not self._pather.traverse_nodes_automap(confirmation_node2, self._char, threshold=calibration_threshold,): return False
             
             toggle_automap(True)
+            pos_m = convert_monitor_to_screen((0, 0)) # move mouse away during LC to not hover items obscuring the minimap
+            mouse.move(*pos_m, delay_factor=[0.1, 0.2]) # move mouse away during LC to not hover items obscuring the minimap
             if not template_finder.search_and_wait(templates_confirmation, threshold=threshold_confirmation2, timeout=0.2).valid:
                 toggle_automap(False)
                 Logger.info(f"{seal_layout2}: Layout_check step 2/2 - templates NOT found for "f"{seal_layout1} - "+'\033[96m'+"all fine, proceeding with "f"{seal_layout2}"+'\033[0m')
@@ -496,15 +524,18 @@ class Diablo:
                 Logger.warning(f"{seal_layout2}: Layout_check failure - could not determine the seal Layout at " f"{sealname} ("f"{boss}) - "+'\033[91m'+"aborting run"+'\033[0m')
                 wait(5)
                 if Config().general["info_screenshots"]: cv2.imwrite(f"./log/screenshots/info/info_" + seal_layout2 + "_LC_fail_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
+                toggle_automap(True)
+                if Config().general["info_screenshots"]: cv2.imwrite(f"./log/screenshots/info/info_" + seal_layout2 + "_LC_fail" + time.strftime("%Y%m%d_%H%M%S") + "automap.png", grab())
                 return False
- 
+        
         ##########
         # Diablo #
         ##########
-  
+        """
         Logger.info("Waiting for Diablo to spawn")
         if not self._pather.traverse_nodes_automap([1600], self._char): return False
         self._char.kill_diablo()
+        """
         self._picked_up_items |= self._pickit.pick_up_items(char=self._char)
         wait(0.5, 0.7)
         return (Location.A4_DIABLO_END, self._picked_up_items)
@@ -515,5 +546,9 @@ class Diablo:
         
         # complete the remaing templates for each node in pather.py -> slows down automap
         # add walkadin pathing (Seal B is teleporting a lot right now)
-        # rework automap shrine detection -> switched templates
+        # infector C1F is causing too many chicken right now
+        # automap shrine detection is broken -> switched templates didnt fix it
         # recalibrate after looting bosses, you get carried away in one direction whilst pickit, losing the second direction if there were mobs
+        # implement safe_runs param for seal bosses
+        # implement river trasverse fixed using charges (or make a chain of "move" commands) - check if maybe we can loop that from WP until CS entrance template is found to avoid fixed path.
+        # move mouse away during layout checks to avoid hovering an item that obscures the minimap (implemented, but still occasionally causes a missed seal)

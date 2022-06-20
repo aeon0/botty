@@ -1217,12 +1217,14 @@ class Pather:
                         # because of all the spells and monsters it often can not determine the final template
                         # Don't want to spam the log with errors in this case because it most likely worked out just fine
                         if timeout > 3.1:
-                            if Config().general["info_screenshots"]:
-                                cv2.imwrite("./log/screenshots/info/info_pather_automap_got_stuck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
+                            if Config().general["info_screenshots"]: cv2.imwrite("./log/screenshots/info/info_pather_automap_got_stuck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
+                            toggle_automap(True)
+                            if Config().general["info_screenshots"]: cv2.imwrite("./log/screenshots/info/info_pather_automap_got_stuck_" + time.strftime("%Y%m%d_%H%M%S") + "_automap.png", img)
                             Logger.error("Got stuck exit pather")
                         if toggle_map:
                             Logger.debug("Got stuck, switching Automap:"+ '\033[91m' + " OFF" + '\033[0m')
                             toggle_automap(False)
+                            if Config().general["info_screenshots"]: cv2.imwrite("./log/screenshots/info/info_pather_automap_got_stuck_AM_off" + time.strftime("%Y%m%d_%H%M%S") + "_automap.png", img)
                         return False
 
                 # Sometimes we get stuck at rocks and stuff, after a few seconds force a move into the last known direction
