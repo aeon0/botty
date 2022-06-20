@@ -20,6 +20,8 @@ import template_finder
 from target_detect import get_visible_targets
 
 class IChar:
+    _CrossGameCapabilities: None | CharacterCapabilities = None
+
     def __init__(self, skill_hotkeys: dict):
         self._active_aura = ""
         self._mouse_click_held = {
@@ -94,7 +96,6 @@ class IChar:
     def _click_right(self, hold_time: float | list | tuple | None = None):
         self._click("right", hold_time = hold_time)
 
-    @cached_property
     def _get_hotkey(self, skill: str) -> str | None:
         if not (
             (skill in self._skill_hotkeys and (hotkey := self._skill_hotkeys[skill]))
@@ -183,19 +184,20 @@ class IChar:
             pos_abs = calculations.spray(pos_abs = pos_abs, r = spray)
         return get_closest_non_hud_pixel(pos_abs, "abs")
 
-    def _send_skill_and_cooldown(self, skill_name: str):
+    def _send_skill(self, skill_name: str, cooldown = True):
         self._key_press(self._get_hotkey(skill_name))
-        wait(get_cast_wait_time(skill_name))
+        if cooldown:
+            wait(get_cast_wait_time(skill_name))
 
     def _activate_aura(self, skill_name: str, delay: float | list | tuple | None = (0.04, 0.08)):
         if not self._get_hotkey(skill_name):
             return False
-        if self._activate_aura != skill_name: # if aura is already active, don't activate it again
+        if self._active_aura != skill_name: # if aura is already active, don't activate it again
             self._active_aura = skill_name
-            self._key_press(self._get_hotkey(skill_name), hold_time= delay)
+            self._key_press(self._get_hotkey(skill_name), hold_time = delay)
         return True
 
-    def _cast_simple(self, skill_name: str, duration: float | list | tuple | None = None) -> bool:
+    def _cast_simple(self, skill_name: str, duration: float | list | tuple | None = None, cooldown = True) -> bool:
         """
         Casts a skill
         """
@@ -203,7 +205,7 @@ class IChar:
             return False
         if not self._key_held[hotkey]: # if skill is already active, don't activate it again
             if not duration:
-                self._send_skill_and_cooldown(skill_name)
+                self._send_skill(skill_name, cooldown = cooldown)
             else:
                 self._stand_still(True)
                 self._key_press(self._get_hotkey(skill_name), hold_time = duration)
@@ -213,28 +215,33 @@ class IChar:
     def _cast_at_position(
         self,
         skill_name: str,
-        cast_pos_abs: tuple[float, float],
+        cast_pos_abs: tuple[float, float] = (0, 0),
         spray: float = 0,
         spread_deg: float = 0,
         min_duration: float = 0,
         max_duration: float = 0,
         teleport_frequency: float = 0,
         use_target_detect = False,
+        aura: str = None,
     ) -> bool:
         """
         Casts a skill toward a given target.
         :param skill_name: name of skill to cast
-        :param cast_pos_abs: default absolute position to cast at
+        :param cast_pos_abs: default absolute position to cast at. Defaults to origin (0, 0)
         :param spray: apply randomization within circle of radius 'spray' centered at cast_pos_abs
         :param spread_deg: apply randomization of cast position distributed along arc between theta of spread_deg
         :param min_duration: hold down skill key for minimum 'duration' seconds
         :param max_duration: hold down skill key for maximum 'duration' seconds
         :param teleport_frequency: teleport to origin every 'teleport_frequency' seconds
         :param use_target_detect: override cast_pos_abs with closest target position
+        :param aura: name of aura to attempt to keep active while casting
         :return: True if function finished, False otherwise
         """
         if not self._get_hotkey(skill_name):
             return False
+
+        if aura:
+            self._activate_aura(aura)
 
         mouse_move_delay = [0.4, 0.6]
         if min_duration > max_duration:
@@ -277,15 +284,6 @@ class IChar:
 
         return True
 
-    def _cast_left_with_aura(self, skill_name: str, cast_pos_abs: tuple[float, float] = None, spray: float = 0, spread_deg: float = 0, duration: float | list | tuple | None = None, aura: str = "") -> bool:
-        """
-        Casts a skill at given position with an aura active
-        """
-        #self._log_cast(skill_name, cast_pos_abs, spray, duration, aura)
-        if aura:
-            self._activate_aura(aura)
-        return self._cast_at_position(skill_name=skill_name, cast_pos_abs=cast_pos_abs, spray=spray, spread_deg = spread_deg, mouse_click_type="left", duration=duration)
-
     """
     TODO: Update this fn
 
@@ -320,8 +318,8 @@ class IChar:
     GLOBAL SKILLS
     """
 
-    def _cast_teleport(self) -> bool:
-        return self._cast_simple(skill_name="teleport")
+    def _cast_teleport(self, cooldown: bool = True) -> bool:
+        return self._cast_simple(skill_name="teleport", cooldown=cooldown)
 
     def _cast_battle_orders(self) -> bool:
         return self._cast_simple(skill_name="battle_orders")
@@ -337,15 +335,6 @@ class IChar:
     """
     CHARACTER ACTIONS AND MOVEMENT METHODS
     """
-
-    def _teleport_to_origin(self):
-        """
-        Teleports to the origin
-        """
-        random_abs = self._randomize_position(pos_abs = (0,0), spray = 5)
-        pos_m = convert_abs_to_monitor(random_abs)
-        mouse.move(*pos_m, [0.12, 0.2])
-        self._cast_teleport()
 
     def _weapon_switch(self):
         if self.main_weapon_equipped is not None:
@@ -380,11 +369,19 @@ class IChar:
     def pre_move(self):
         pass
 
-    def _teleport_to_position(self, pos_monitor: tuple[float, float]):
+    def _teleport_to_position(self, pos_monitor: tuple[float, float], cooldown: bool = True):
         factor = Config().advanced_options["pathing_delay_factor"]
-        mouse.move(pos_monitor[0], pos_monitor[1], randomize=3, delay_factor=[(2+factor)/25, (4+factor)/25])
+        mouse.move(*pos_monitor, randomize=3, delay_factor=[(2+factor)/25, (4+factor)/25])
         wait(0.012, 0.02)
-        self._key_press(self._get_hotkey("teleport"))
+        self._cast_teleport(cooldown = cooldown)
+
+    def _teleport_to_origin(self):
+        """
+        Teleports to the origin
+        """
+        random_abs = self._randomize_position(pos_abs = (0,0), spray = 5)
+        pos_m = convert_abs_to_monitor(random_abs)
+        self._teleport_to_position(pos_monitor = pos_m, cooldown = True)
 
     def _walk_to_position(self, pos_monitor: tuple[float, float], force_move: bool = False):
         factor = Config().advanced_options["pathing_delay_factor"]
@@ -422,7 +419,7 @@ class IChar:
         factor = Config().advanced_options["pathing_delay_factor"]
         if use_tp and self.can_teleport(): # can_teleport() activates teleport hotkey if True
             # 7 frames is the fastest that teleport can be casted with 200 fcr on sorc
-            self._teleport_to_position(pos_monitor)
+            self._teleport_to_position(pos_monitor, cooldown = False)
             min_wait = get_cast_wait_time(self._base_class, "teleport", Config().char["fcr"]) + factor/25
             # if there's still time remaining in cooldown, wait
             while time.time() - last_move_time < min_wait:
@@ -483,7 +480,6 @@ class IChar:
     def pre_buff(self):
         pass
 
-
     """
     OTHER METHODS
     """
@@ -523,7 +519,6 @@ class IChar:
                         return True
         Logger.error(f"Wanted to select {template_type}, but could not find it")
         return False
-
 
     """
     KILL ROUTINES

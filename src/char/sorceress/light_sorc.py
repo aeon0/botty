@@ -16,10 +16,10 @@ class LightSorc(Sorceress):
         super().__init__(*args, **kwargs)
 
     def _cast_chain_lightning(self, cast_pos_abs: tuple[float, float], spray: float = 20, duration: float = 0) -> bool:
-        return self._cast_left_with_aura(skill_name="chain_lightning", spray = spray, cast_pos_abs = cast_pos_abs, duration = duration)
+        return self._cast_at_position(skill_name="chain_lightning", spray = spray, cast_pos_abs = cast_pos_abs, duration = duration)
 
     def _cast_lightning(self, cast_pos_abs: tuple[float, float], spray: float = 20, duration: float = 0) -> bool:
-        return self._cast_left_with_aura(skill_name="lightning", spray = spray, cast_pos_abs = cast_pos_abs, duration = duration)
+        return self._cast_at_position(skill_name="lightning", spray = spray, cast_pos_abs = cast_pos_abs, duration = duration)
 
     def _cast_frozen_orb(self, cast_pos_abs: tuple[float, float], spray: float = 10, duration: float = 0) -> bool:
         return self._cast_at_position("frozen_orb", cast_pos_abs, spray = spray, duration = duration)

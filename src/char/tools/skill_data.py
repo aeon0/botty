@@ -43,6 +43,32 @@ AURAS = {
     "vigor"
 }
 
+CHANNELED_SKILLS = {
+    "armageddon": 0, # 2.4: removed
+    "blade_sentinel": 2,
+    "blizzard": 1.8,
+    "dragon_flight": 1,
+    "fire_wall": 1.4,
+    "firestorm": 0.6,
+    "fissure": 2,
+    "fist_of_the_heavens": 1, # 2.4: 1 -> 0.4
+    "frozen_orb": 1,
+    "hurricane": 0, # 2.4: removed
+    "hydra": 0, # 2.4: removed
+    "immolation_arrow": 1,
+    "meteor": 1.2,
+    "molten_boulder": 1, # 2.4: 2 -> 1
+    "plague_javelin": 1, # 2.4: 4 -> 1
+    "poison_javelin": 0.6,
+    "shadow_master": 0.6, # 2.4: 6 -> 0.6
+    "shadow_warrior": 0.6, # 2.4: 6 -> 0.6
+    "shock_web": 0.6,
+    "valkyrie": 0.6, # 2.4: 6 -> 0.6
+    "volcano": 4,
+    "werebear": 1,
+    "werewolf": 1,
+}
+
 def _get_base_frames(class_base: str, skill_name: str):
     if "lightning" in skill_name.lower() and class_base == "sorceress":
         class_base = "lightning_skills"

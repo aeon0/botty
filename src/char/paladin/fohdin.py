@@ -24,29 +24,29 @@ class FoHdin(Paladin):
 
     def _cast_hammers(
         self,
-        duration: float = 0,
+        max_duration: float = 0,
         aura: str = "concentration"
     ): #for nihlathak
-        return self._cast_left_with_aura(skill_name = "blessed_hammer", spray = 0, spread_deg=0, duration = duration, aura = aura)
+        return self._cast_at_position(skill_name = "blessed_hammer", spray = 0, spread_deg=0, max_duration = max_duration, aura = aura)
 
     def _cast_foh(
         self,
         cast_pos_abs: tuple[float, float],
         spray: float = 10,
-        duration: float = 0,
+        max_duration: float = 0,
         aura: str = "conviction",
     ):
-        return self._cast_left_with_aura(skill_name = "foh", cast_pos_abs = cast_pos_abs, spray = spray, duration = duration, aura = aura)
+        return self._cast_at_position(skill_name = "foh", cast_pos_abs = cast_pos_abs, spray = spray, max_duration = max_duration, aura = aura)
 
     def _cast_holy_bolt(
         self,
         cast_pos_abs: tuple[float, float],
         spray: float = 10,
         spread_deg: float = 10,
-        duration: float = 0,
+        max_duration: float = 0,
         aura: str = "concentration",
     ):
-        return self._cast_left_with_aura(skill_name = "holy_bolt", cast_pos_abs = cast_pos_abs, spray = spray, spread_deg = spread_deg, duration = duration, aura = aura)
+        return self._cast_at_position(skill_name = "holy_bolt", cast_pos_abs = cast_pos_abs, spray = spray, spread_deg = spread_deg, max_duration = max_duration, aura = aura)
 
     def _generic_foh_attack_sequence(
         self,
@@ -58,32 +58,9 @@ class FoHdin(Paladin):
         default_spray: float = 50,
         aura: str = ""
     ) -> bool:
-        start = time.time()
-        target_check_count = 1
-        foh_aura = aura if aura else "conviction"
-        holy_bolt_aura = aura if aura else "concentration"
-        while (elapsed := (time.time() - start)) <= max_duration:
-            cast_pos_abs = default_target_abs
-            spray = default_spray
-            # if targets are detected, switch to targeting with reduced spread rather than present default cast position and default spread
-            if target_detect and (targets := get_visible_targets()):
-                # log_targets(targets)
-                spray = 5
-                cast_pos_abs = targets[0].center_abs
 
-            # if time > minimum and either targets aren't set or targets don't exist, exit loop
-            if elapsed > min_duration and (not target_detect or not targets):
-                break
-            else:
+        self._cast_at_position(skill_name = "foh", cast_pos_abs = default_target_abs, spray = default_spray, min_duration = min_duration, max_duration = max_duration, aura = aura)
 
-                # TODO: add delay between FOH casts--doesn't properly cast each FOH in sequence
-                # cast foh to holy bolt with preset ratio (e.g. 3 foh followed by 1 holy bolt if foh_to_holy_bolt_ratio = 3)
-                if foh_to_holy_bolt_ratio > 0 and not target_check_count % (foh_to_holy_bolt_ratio + 1):
-                    self._cast_holy_bolt(cast_pos_abs, spray=spray, aura=holy_bolt_aura)
-                else:
-                    self._cast_foh(cast_pos_abs, spray=spray, aura=foh_aura)
-
-            target_check_count += 1
         return True
 
     #FOHdin Attack Sequence Optimized for trash
@@ -764,3 +741,36 @@ class FoHdin(Paladin):
         ### LOOT ###
         #self._cs_pickit()
         return True
+
+if __name__ == "__main__":
+    import os
+    from config import Config
+    from char.paladin import FoHdin
+    from pather import Pather
+    from item.pickit import PickIt
+    import keyboard
+    from logger import Logger
+    from screen import start_detecting_window, stop_detecting_window
+
+    keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or stop_detecting_window() or os._exit(1))
+    start_detecting_window()
+    print("Move to d2r window and press f11")
+    print("Press F9 to test attack sequence")
+    keyboard.wait("f11")
+
+    pather = Pather()
+    pickit = PickIt()
+    char = FoHdin(Config().fohdin, pather, pickit)
+
+    char.discover_capabilities()
+
+    def routine():
+        char._key_press(char._get_hotkey("foh"), hold_time=(0.04))
+        time.sleep(0.15)
+        char._key_press(char._get_hotkey("holy_bolt"), hold_time=(0.4))
+        time.sleep(0.04)
+        char._key_press(char._get_hotkey("foh"), hold_time=(3))
+
+    keyboard.add_hotkey('f9', lambda: routine())
+    while True:
+        wait(0.01)
