@@ -43,7 +43,8 @@ class IChar:
         if skill not in hotkeys.right_skill_key_map:
             Logger.warning(f"No hotkey for skill: {skill.value}")
             return False
-        keyboard.send(hotkeys.right_skill_key_map[skill])
+        if self._active_skill[mouse_click_type] != skill.value:
+            keyboard.send(hotkeys.right_skill_key_map[skill])
         self._set_active_skill(mouse_click_type, skill.value)
         if delay:
             try:
