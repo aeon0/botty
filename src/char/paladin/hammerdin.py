@@ -40,7 +40,7 @@ class Hammerdin(Paladin):
                 wait(0.1, 0.2)
                 mouse.release(button="left")
             wait(0.01, 0.05)
-            keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_release=False)
+            keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_press=False)
 
     def pre_buff(self):
         if Config().char["cta_available"]:

@@ -36,7 +36,7 @@ class Barbarian(IChar):
             wait(cry_frequency, cry_frequency + 0.2)
             mouse.click(button="right")
         wait(0.01, 0.05)
-        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_release=False)
+        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_press=False)
 
     def on_capabilities_discovered(self, capabilities: CharacterCapabilities):
         if capabilities.can_teleport_natively:
