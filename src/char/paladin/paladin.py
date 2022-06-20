@@ -89,7 +89,7 @@ class Paladin(IChar):
             self._click_cast(cast_pos_abs, spray)
 
         # release stand still key
-        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_release=False)
+        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_press=False)
 
     def _activate_redemption_aura(self, delay = [0.6, 0.8]):
         self._select_skill(SkillName.Redemption, delay=delay)

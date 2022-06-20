@@ -41,7 +41,7 @@ class Basic(IChar):
                 wait(0.05, 0.1)
                 mouse.click(button="left")
         wait(0.01, 0.05)
-        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_release=False)
+        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_press=False)
 
     def pre_buff(self):
         if Config().char["cta_available"]:

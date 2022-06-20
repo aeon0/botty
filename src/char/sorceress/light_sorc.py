@@ -29,7 +29,7 @@ class LightSorc(Sorceress):
             mouse.press(button="left")
             wait(delay[0], delay[1])
             mouse.release(button="left")
-        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_release=False)
+        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_press=False)
 
     def _lightning(self, cast_pos_abs: tuple[float, float], delay: tuple[float, float] = (0.2, 0.3), spray: float = 10):
         if SkillName.Lightning not in hotkeys.right_skill_key_map:

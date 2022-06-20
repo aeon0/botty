@@ -50,7 +50,7 @@ class Trapsin(IChar):
             mouse.press(button="left")
             wait(0.2, 0.3)
             mouse.release(button="left")
-        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_release=False)
+        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_press=False)
 
 
     def _right_attack(self, cast_pos_abs: tuple[float, float], spray: float = 10):

@@ -44,7 +44,7 @@ class Bone_Necro(IChar):
         mouse.press(button="right")
         wait(self._cast_duration+.04, self._cast_duration+.08)
         mouse.release(button="right")
-        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_release=False)
+        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_press=False)
 
     def pre_buff(self):
         self.bone_armor()
@@ -92,7 +92,7 @@ class Bone_Necro(IChar):
                 mouse.press(button="right")
                 wait(0.075, 0.1)
                 mouse.release(button="right")
-        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_release=False)
+        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_press=False)
 
     def _cast_circle(self, cast_dir: tuple[float,float],cast_start_angle: float=0.0, cast_end_angle: float=90.0,cast_div: int = 10,cast_spell: SkillName=SkillName.RaiseSkeleton,delay: float=1.0, radius=120, hold_duration: float = 3, hold=True):
         if hold:
@@ -126,7 +126,7 @@ class Bone_Necro(IChar):
                 delay = delay*(expected/duration)
         if hold:
             mouse.release(button="right")
-        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_release=False)
+        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_press=False)
 
 
     def kill_pindle(self) -> bool:

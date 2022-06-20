@@ -188,7 +188,7 @@ class Poison_Necro(IChar):
             mouse.press(button="right")
             wait(0.075, 0.1)
             mouse.release(button="right")
-        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_release=False)
+        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_press=False)
 
     def _raise_skeleton(self, cast_pos_abs: tuple[float, float], spray: int = 10, cast_count: int=16):
         Logger.info('\033[94m'+"raise skeleton"+'\033[0m')
@@ -218,7 +218,7 @@ class Poison_Necro(IChar):
             mouse.press(button="right")
             wait(0.02, 0.05)
             mouse.release(button="right")
-        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_release=False)
+        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_press=False)
 
     def _raise_mage(self, cast_pos_abs: tuple[float, float], spray: int = 10, cast_count: int=16):
         Logger.info('\033[94m'+"raise mage"+'\033[0m')
@@ -248,7 +248,7 @@ class Poison_Necro(IChar):
             mouse.press(button="right")
             wait(0.02, 0.05)
             mouse.release(button="right")
-        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_release=False)
+        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_press=False)
 
 
     def pre_buff(self):
@@ -310,7 +310,7 @@ class Poison_Necro(IChar):
             wait(0.25, 0.3)
             mouse.release(button="left")
 
-        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_release=False)
+        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_press=False)
 
     def _left_attack_single(self, cast_pos_abs: tuple[float, float], spray: int = 10, cast_count: int=6):
         keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_release=False)
@@ -325,7 +325,7 @@ class Poison_Necro(IChar):
             wait(0.25, 0.3)
             mouse.release(button="left")
 
-        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_release=False)
+        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_press=False)
 
     def _amp_dmg(self, cast_pos_abs: tuple[float, float], spray: float = 10):
         if SkillName.AmplifyDamage not in hotkeys.right_skill_key_map:
@@ -367,7 +367,7 @@ class Poison_Necro(IChar):
             mouse.press(button="right")
             wait(0.075, 0.1)
             mouse.release(button="right")
-        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_release=False)
+        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_press=False)
 
 
     def _cast_circle(self, cast_dir: tuple[float,float],cast_start_angle: float=0.0, cast_end_angle: float=90.0,cast_div: int = 10,cast_v_div: int=4,cast_spell: SkillName=SkillName.RaiseSkeleton,delay: float=1.0,offset: float=1.0):
@@ -389,7 +389,7 @@ class Poison_Necro(IChar):
 
                 #Logger.info("circle move")
         mouse.release(button="right")
-        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_release=False)
+        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_press=False)
 
 
     def kill_pindle(self) -> bool:
