@@ -7,13 +7,17 @@ import template_finder
 import keyboard
 from utils.custom_mouse import mouse
 from utils.misc import wait
+from logger import Logger
 
 d2r_keymap = {}
-left_key_template_map = {}
-right_skill_key_map = {}
 left_skill = None
 right_skill = None
-
+_default_right_skill_key_map = {}
+_swap_right_skill_key_map = {}
+_default_left_skill_key_map = {}
+_swap_left_skill_key_map = {}
+left_skill_key_map = {}
+right_skill_key_map = {}
 class HotkeyName(str, Enum):
     CharacterScreen = 'CharacterScreen',
     InventoryScreen = 'InventoryScreen',
@@ -77,7 +81,10 @@ class HotkeyName(str, Enum):
     OpenMenu = 'OpenMenu(Esc)',
 
 def discover_hotkey_mappings(saved_games_folder, key_name):
-    global d2r_keymap, left_key_template_map, right_skill_key_map, left_skill, right_skill
+    global d2r_keymap
+    global _default_left_skill_key_map, _swap_left_skill_key_map, left_skill_key_map, left_skill
+    global _default_right_skill_key_map, _swap_right_skill_key_map, right_skill_key_map, right_skill
+    Logger.debug(f"Detecting hotkeys for {key_name}")
     templates = template_finder.get_cached_templates_in_dir('assets\\templates\\ui\\skills')
     d2r_keymap = _parse_key_file(saved_games_folder, key_name)
     key_list = []
@@ -95,8 +102,8 @@ def discover_hotkey_mappings(saved_games_folder, key_name):
         starting_left_skill,
         starting_right_skill,
         found_keys,
-        left_key_template_map,
-        right_skill_key_map)
+        _default_left_skill_key_map,
+        _default_right_skill_key_map)
     for key in found_keys:
         if key in key_list:
             key_list.remove(key)
@@ -106,27 +113,46 @@ def discover_hotkey_mappings(saved_games_folder, key_name):
         starting_left_skill,
         starting_right_skill,
         found_keys,
-        left_key_template_map,
-        right_skill_key_map)
+        _default_left_skill_key_map,
+        _default_right_skill_key_map)
     for key in found_keys:
         if key in key_list:
             key_list.remove(key)
     if Config().char['cta_available'] and HotkeyName.SwapWeapons in d2r_keymap:
         keyboard.press_and_release(d2r_keymap[HotkeyName.SwapWeapons])
+        wait(0.3)
+        img = grab()
+        starting_left_skill = get_selected_skill(templates, img, Config().ui_roi["skill_left"])
+        starting_right_skill = get_selected_skill(templates, img, Config().ui_roi["skill_right"])
         _find_keymapping(
             templates,
             key_list,
             starting_left_skill,
             starting_right_skill,
             found_keys,
-            left_key_template_map,
-            right_skill_key_map)
-        wait(0.4)
+            _swap_left_skill_key_map,
+            _swap_right_skill_key_map)
+        for key in found_keys:
+            if key in key_list:
+                key_list.remove(key)
+        _find_keymapping(
+            templates,
+            key_list,
+            starting_left_skill,
+            starting_right_skill,
+            found_keys,
+            _swap_left_skill_key_map,
+            _swap_right_skill_key_map)
         keyboard.press_and_release(d2r_keymap[HotkeyName.SwapWeapons])
+        wait(0.3)
+    img = grab()
     ending_left_skill = get_selected_skill(templates, img, Config().ui_roi["skill_left"])
     ending_right_skill = get_selected_skill(templates, img, Config().ui_roi["skill_right"])
     left_skill = ending_left_skill
     right_skill = ending_right_skill
+    left_skill_key_map = {**_default_left_skill_key_map, **_swap_left_skill_key_map}
+    right_skill_key_map = {**_default_right_skill_key_map, **_swap_right_skill_key_map}
+    log_hotkeys()
 
 def _parse_key_file(saved_games_folder, key_name):
     file = open(os.path.join(saved_games_folder, key_name), 'rb')
@@ -282,17 +308,16 @@ def _find_keymapping(
     previous_right_skill = starting_right_skill
     for i in range(0, len(key_list)):
         key = key_list[i]
-        print(f'pressing {key}')
-        keyboard.press_and_release(key)
+        keyboard.send(key)
         wait(0.1)
         img = grab()
         left_skill = get_selected_skill(templates, img, Config().ui_roi["skill_left"])
         right_skill = get_selected_skill(templates, img, Config().ui_roi["skill_right"])
-        if left_skill != previous_left_skill:
+        if left_skill != previous_left_skill and left_skill not in left_key_template_map:
             previous_left_skill = left_skill
             left_key_template_map[left_skill] = key
             found_keys.append(key)
-        elif right_skill != previous_right_skill:
+        elif right_skill != previous_right_skill and right_skill not in right_key_template_map:
             previous_right_skill = right_skill
             right_key_template_map[right_skill] = key
             found_keys.append(key)
@@ -311,3 +336,18 @@ def remap_skill_hotkey(skill_asset, hotkey, skill_roi, expanded_skill_roi):
         wait(0.3)
         mouse.click("left")
         wait(0.3)
+
+def log_hotkeys():
+    left_skill_keys = []
+    for skill, key in left_skill_key_map.items():
+        left_skill_keys.append(f'{skill.value}: {key}')
+    left_skills = '\n\t'.join(left_skill_keys)
+    right_skill_keys = []
+    for skill, key in right_skill_key_map.items():
+        right_skill_keys.append(f'{skill.value}: {key}')
+    right_skills = '\n\t'.join(right_skill_keys)
+    Logger.debug(f"====== Hotkeys detected ======\n"+
+        f"active_left_skill: {left_skill}\n"+
+        f"active_right_skill: {right_skill}\n"+
+        f"left_skill_key_map:\n\t{left_skills}\n"+
+        f"right_skill_key_map:\n\t{right_skills}")
