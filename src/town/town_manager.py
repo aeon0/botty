@@ -5,6 +5,7 @@ from config import Config
 from pather import Location
 from logger import Logger
 from town import IAct, A1, A2, A3, A4, A5
+from utils import hotkeys
 from utils.misc import wait
 from screen import grab
 from ui import waypoint, view
@@ -166,7 +167,7 @@ class TownManager:
             if success:
                 wait(0.2)
                 # close cain dialog so inventory key is not blocked
-                keyboard.send("esc")
+                keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.OpenMenu])
             else:
                 view.return_to_play()
             return success
@@ -176,7 +177,7 @@ class TownManager:
         if success:
             wait(0.2)
             # close cain dialog so inventory key is not blocked
-            keyboard.send("esc")
+            keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.OpenMenu])
         else:
             view.return_to_play()
         return success

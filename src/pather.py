@@ -613,7 +613,7 @@ class Pather:
                     if is_visible(ScreenObjects.WaypointLabel, img):
                         # sometimes bot opens waypoint menu, close it to find templates again
                         Logger.debug("Opened wp, closing it again")
-                        keyboard.send("esc")
+                        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.OpenMenu])
                         last_move = time.time()
                     else:
                         # This is a bit hacky, but for moving into a boss location we set timeout usually quite low

@@ -2,6 +2,7 @@ import itertools
 from random import randint
 from config import Config
 from ui_manager import detect_screen_object, select_screen_object_match, wait_until_visible, ScreenObjects
+from utils import hotkeys
 from .inventory_collection import InventoryCollection
 from .stash import Stash
 from .gem_picking import SimpleGemPicking
@@ -110,7 +111,7 @@ class Transmute:
 
     def close_cube(self):
         self._wait()
-        keyboard.send("esc")
+        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.OpenMenu])
 
     def stash_all_items(self):
         personal.stash_all_items()

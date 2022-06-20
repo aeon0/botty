@@ -108,7 +108,7 @@ class IChar:
         if type(template_type) == list and "A5_STASH" in template_type:
             # sometimes waypoint is opened and stash not found because of that, check for that
             if is_visible(ScreenObjects.WaypointLabel):
-                keyboard.send("esc")
+                keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.OpenMenu])
         start = time.time()
         while timeout is None or (time.time() - start) < timeout:
             template_match = template_finder.search(template_type, grab(), threshold=threshold)
