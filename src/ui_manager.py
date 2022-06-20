@@ -371,6 +371,9 @@ def get_closest_non_hud_pixel(pos : tuple[int, int], pos_type: str = "abs") -> t
     :param pos: The target pixel
     :return: The closest non-hud pixel
     """
+    if pos is None:
+        Logger.error(f"get_closest_non_hud_pixel: Received empty position!")
+        return (0,0)
     match pos_type:
         case "abs":
             pos = convert_abs_to_screen(pos)
