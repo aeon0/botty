@@ -40,7 +40,7 @@ class HydraSorc(Sorceress):
         if self._hydra_time is None or time.time() - self._hydra_time > 10:
             if SkillName.Hydra not in hotkeys.right_skill_key_map:
                 raise ValueError("You did not set a hotkey for hydra!")
-            keyboard.send(hotkeys.right_skill_map[SkillName.Hydra])
+            keyboard.send(hotkeys.right_skill_key_map[SkillName.Hydra])
             self._hydra_time = time.time()
             x = cast_pos_abs[0] + (random.random() * 2 * spray - spray)
             y = cast_pos_abs[1] + (random.random() * 2 * spray - spray)

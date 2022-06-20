@@ -27,7 +27,7 @@ class Barbarian(IChar):
         keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_release=False)
         wait(0.05, 0.1)
         if SkillName.WarCry in hotkeys.right_skill_key_map:
-            keyboard.send(hotkeys.right_skill_map[SkillName.WarCry])
+            keyboard.send(hotkeys.right_skill_key_map[SkillName.WarCry])
         wait(0.05, 0.1)
         start = time.time()
         while (time.time() - start) < time_in_s:
@@ -45,7 +45,7 @@ class Barbarian(IChar):
     def _do_hork(self, hork_time: int):
         wait(0.5)
         if SkillName.FindItem in hotkeys.right_skill_key_map:
-            keyboard.send(hotkeys.right_skill_map[SkillName.FindItem])
+            keyboard.send(hotkeys.right_skill_key_map[SkillName.FindItem])
             wait(0.5, 0.15)
         pos_m = convert_abs_to_monitor((0, -20))
         mouse.move(*pos_m)
@@ -56,15 +56,15 @@ class Barbarian(IChar):
         wait(1)
 
     def pre_buff(self):
-        keyboard.send(hotkeys.right_skill_map[SkillName.BattleCommand])
+        keyboard.send(hotkeys.right_skill_key_map[SkillName.BattleCommand])
         wait(0.08, 0.19)
         mouse.click(button="right")
         wait(self._cast_duration + 0.08, self._cast_duration + 0.1)
-        keyboard.send(hotkeys.right_skill_map[SkillName.BattleOrders])
+        keyboard.send(hotkeys.right_skill_key_map[SkillName.BattleOrders])
         wait(0.08, 0.19)
         mouse.click(button="right")
         wait(self._cast_duration + 0.08, self._cast_duration + 0.1)
-        keyboard.send(hotkeys.right_skill_map[SkillName.Shout])
+        keyboard.send(hotkeys.right_skill_key_map[SkillName.Shout])
         wait(0.08, 0.19)
         mouse.click(button="right")
         wait(self._cast_duration + 0.08, self._cast_duration + 0.1)
@@ -76,7 +76,7 @@ class Barbarian(IChar):
         should_cast_leap = SkillName.Leap in hotkeys.right_skill_key_map and not is_left_skill_selected(SkillName.Leap.value)
         can_teleport = self.capabilities.can_teleport_natively and is_right_skill_active()
         if  should_cast_leap and not can_teleport:
-            keyboard.send(hotkeys.right_skill_map[SkillName.Leap])
+            keyboard.send(hotkeys.right_skill_key_map[SkillName.Leap])
             wait(0.15, 0.25)
 
     def _move_and_attack(self, abs_move: tuple[int, int], atk_len: float):

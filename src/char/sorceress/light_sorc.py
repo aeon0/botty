@@ -20,7 +20,7 @@ class LightSorc(Sorceress):
     def _chain_lightning(self, cast_pos_abs: tuple[float, float], delay: tuple[float, float] = (0.2, 0.3), spray: int = 10):
         keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_release=False)
         if SkillName.ChainLightning in hotkeys.right_skill_key_map:
-            keyboard.send(hotkeys.right_skill_map[SkillName.ChainLightning])
+            keyboard.send(hotkeys.right_skill_key_map[SkillName.ChainLightning])
         for _ in range(4):
             x = cast_pos_abs[0] + (random.random() * 2 * spray - spray)
             y = cast_pos_abs[1] + (random.random() * 2 * spray - spray)
@@ -34,7 +34,7 @@ class LightSorc(Sorceress):
     def _lightning(self, cast_pos_abs: tuple[float, float], delay: tuple[float, float] = (0.2, 0.3), spray: float = 10):
         if SkillName.Lightning not in hotkeys.right_skill_key_map:
             raise ValueError("You did not set lightning hotkey!")
-        keyboard.send(hotkeys.right_skill_map[SkillName.Lightning])
+        keyboard.send(hotkeys.right_skill_key_map[SkillName.Lightning])
         for _ in range(3):
             x = cast_pos_abs[0] + (random.random() * 2 * spray - spray)
             y = cast_pos_abs[1] + (random.random() * 2 * spray - spray)
@@ -46,7 +46,7 @@ class LightSorc(Sorceress):
 
     def _frozen_orb(self, cast_pos_abs: tuple[float, float], delay: tuple[float, float] = (0.2, 0.3), spray: float = 10):
         if SkillName.FrozenOrb in hotkeys.right_skill_key_map:
-            keyboard.send(hotkeys.right_skill_map[SkillName.FrozenOrb])
+            keyboard.send(hotkeys.right_skill_key_map[SkillName.FrozenOrb])
             for _ in range(3):
                 x = cast_pos_abs[0] + (random.random() * 2 * spray - spray)
                 y = cast_pos_abs[1] + (random.random() * 2 * spray - spray)

@@ -9,7 +9,9 @@ import numpy as np
 from char.capabilities import CharacterCapabilities
 from ui_manager import is_visible, wait_until_visible
 from ui import skills
+from ui.skills import SkillName
 from utils import hotkeys
+from utils.hotkeys import HotkeyName
 from utils.custom_mouse import mouse
 from utils.misc import wait, cut_roi, is_in_roi, color_filter, arc_spread
 from logger import Logger
@@ -37,11 +39,11 @@ class IChar:
     def _set_active_skill(self, mouse_click_type: str = "left", skill: str =""):
         self._active_skill[mouse_click_type] = skill
 
-    def _select_skill(self, skill: skills.SkillName, mouse_click_type: str = "left", delay: float | list | tuple = None):
+    def _select_skill(self, skill: SkillName, mouse_click_type: str = "left", delay: float | list | tuple = None):
         if skill not in hotkeys.right_skill_key_map:
             Logger.warning(f"No hotkey for skill: {skill.value}")
             return False
-        keyboard.send(hotkeys.d2r_keymap[skill])
+        keyboard.send(hotkeys.right_skill_key_map[skill])
         self._set_active_skill(mouse_click_type, skill.value)
         if delay:
             try:
@@ -56,8 +58,8 @@ class IChar:
     def _discover_capabilities(self) -> CharacterCapabilities:
         override = Config().advanced_options["override_capabilities"]
         if override is None:
-            if skills.SkillName.Teleport in hotkeys.right_skill_key_map:
-                if skills.select_tp(hotkeys.right_skill_key_map[skills.SkillName.Teleport]):
+            if SkillName.Teleport in hotkeys.right_skill_key_map:
+                if skills.select_tp(hotkeys.right_skill_key_map[SkillName.Teleport]):
                     if self.skill_is_charged():
                         return CharacterCapabilities(can_teleport_natively=False, can_teleport_with_charges=True)
                     else:
@@ -146,36 +148,18 @@ class IChar:
                 Logger.error("is_low_on_teleport_charges: unable to determine skill charges, assume zero")
             return True
 
-    def _remap_skill_hotkey(self, skill_asset, hotkey, skill_roi, expanded_skill_roi):
-        x, y, w, h = skill_roi
-        x, y = convert_screen_to_monitor((x, y))
-        mouse.move(x + w/2, y + h / 2)
-        mouse.click("left")
-        wait(0.3)
-        match = template_finder.search(skill_asset, grab(), threshold=0.84, roi=expanded_skill_roi)
-        if match.valid:
-            mouse.move(*match.center_monitor)
-            wait(0.3)
-            keyboard.send(hotkey)
-            wait(0.3)
-            mouse.click("left")
-            wait(0.3)
-
-    def remap_right_skill_hotkey(self, skill_asset, hotkey):
-        return self._remap_skill_hotkey(skill_asset, hotkey, Config().ui_roi["skill_right"], Config().ui_roi["skill_right_expanded"])
-
     def select_teleport(self):
         return skills.select_tp(hotkeys.right_skill_key_map[SkillName.Teleport])
 
     def pre_move(self):
         # if teleport hotkey is set and if teleport is not already selected
-        if skills.SkillName.Teleport in hotkeys.right_skill_key_map:
-            skills.select_tp(hotkeys.right_skill_key_map[skills.SkillName.Teleport])
+        if SkillName.Teleport in hotkeys.right_skill_key_map:
+            skills.select_tp(hotkeys.right_skill_key_map[SkillName.Teleport])
             self._set_active_skill("right", "teleport")
 
     def move(self, pos_monitor: tuple[float, float], force_tp: bool = False, force_move: bool = False):
         factor = Config().advanced_options["pathing_delay_factor"]
-        if skills.SkillName.Teleport in hotkeys.right_skill_key_map and force_tp:
+        if SkillName.Teleport in hotkeys.right_skill_key_map and force_tp:
             self._set_active_skill("right", "teleport")
             mouse.move(pos_monitor[0], pos_monitor[1], randomize=3, delay_factor=[factor*0.1, factor*0.14])
             wait(0.012, 0.02)
@@ -264,14 +248,14 @@ class IChar:
         # Try to switch weapons and select bo until we find the skill on the right skill slot
         start = time.time()
         switch_sucess = False
-        if skills.SkillName.BattleCommand not in hotkeys.right_skill_key_map:
+        if SkillName.BattleCommand not in hotkeys.right_skill_key_map:
             return
         while time.time() - start < 4:
             keyboard.send(hotkeys.d2r_keymap[HotkeyName.SwapWeapons])
             wait(0.3, 0.35)
-            keyboard.send(hotkeys.right_skill_key_map[skills.SkillName.BattleCommand])
+            keyboard.send(hotkeys.right_skill_key_map[SkillName.BattleCommand])
             wait(0.15)
-            if skills.is_right_skill_selected([skills.SkillName.BattleCommand.value, skills.SkillName.BattleOrders.value]):
+            if skills.is_right_skill_selected([SkillName.BattleCommand.value, SkillName.BattleOrders.value]):
                 switch_sucess = True
                 break
         if not switch_sucess:
@@ -281,7 +265,7 @@ class IChar:
             # We switched succesfully, let's pre buff
             mouse.click(button="right")
             wait(self._cast_duration + 0.16, self._cast_duration + 0.18)
-            self._select_skill(skill = skills.SkillName.BattleOrders, mouse_click_type="right", delay=(0.1, 0.2))
+            self._select_skill(skill = SkillName.BattleOrders, mouse_click_type="right", delay=(0.1, 0.2))
             mouse.click(button="right")
             wait(self._cast_duration + 0.16, self._cast_duration + 0.18)
 
@@ -306,7 +290,7 @@ class IChar:
     def _lerp(self,a: float,b: float, f:float):
         return a + f * (b - a)
 
-    def cast_in_arc(self, skill_name: skills.SkillName, cast_pos_abs: tuple[float, float] = [0,-100], time_in_s: float = 3, spread_deg: float = 10, hold=True):
+    def cast_in_arc(self, skill_name: SkillName, cast_pos_abs: tuple[float, float] = [0,-100], time_in_s: float = 3, spread_deg: float = 10, hold=True):
         #scale cast time by damage_scaling
         time_in_s *= self.damage_scaling
         Logger.debug(f'Casting {skill_name.value} for {time_in_s:.02f}s at {cast_pos_abs} with {spread_deg}°')

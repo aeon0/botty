@@ -30,7 +30,7 @@ class Hammerdin(Paladin):
             wait(0.05, 0.1)
             keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_release=False)
             wait(0.05, 0.1)
-            keyboard.send(hotkeys.right_skill_map[SkillName.BlessedHammer])
+            keyboard.send(hotkeys.right_skill_key_map[SkillName.BlessedHammer])
             wait(0.05, 0.1)
             start = time.time()
             while (time.time() - start) < time_in_s:
@@ -44,7 +44,7 @@ class Hammerdin(Paladin):
     def pre_buff(self):
         if Config().char["cta_available"]:
             self._pre_buff_cta()
-        keyboard.send(hotkeys.right_skill_map[SkillName.HolyShield])
+        keyboard.send(hotkeys.right_skill_key_map[SkillName.HolyShield])
         wait(0.04, 0.1)
         mouse.click(button="right")
         wait(self._cast_duration, self._cast_duration + 0.06)
@@ -53,10 +53,10 @@ class Hammerdin(Paladin):
         # select teleport if available
         super().pre_move()
         # in case teleport hotkey is not set or teleport can not be used, use vigor if set
-        should_cast_vigor = SkillName.Vigor in hotkeys.right_skill_key_map and not is_right_skill_selected(SkillName.Vigor)
+        should_cast_vigor = SkillName.Vigor in hotkeys.right_skill_key_map and not is_right_skill_selected([SkillName.Vigor])
         can_teleport = self.capabilities.can_teleport_natively and is_right_skill_active()
         if should_cast_vigor and not can_teleport:
-            keyboard.send(hotkeys.right_skill_map[SkillName.Vigor])
+            keyboard.send(hotkeys.right_skill_key_map[SkillName.Vigor])
             wait(0.15, 0.25)
 
     def _move_and_attack(self, abs_move: tuple[int, int], atk_len: float):
@@ -74,7 +74,7 @@ class Hammerdin(Paladin):
             if not self._pather.traverse_nodes_fixed("pindle_end", self):
                 return False
         else:
-            keyboard.send(hotkeys.right_skill_map[SkillName.Concentration])
+            keyboard.send(hotkeys.right_skill_key_map[SkillName.Concentration])
             wait(0.15)
             self._pather.traverse_nodes((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, timeout=1.0, do_pre_move=False, force_tp=True, use_tp_charge=True)
         self._cast_hammers(Config().char["atk_len_pindle"])
@@ -87,7 +87,7 @@ class Hammerdin(Paladin):
             # Custom eld position for teleport that brings us closer to eld
             self._pather.traverse_nodes_fixed([(675, 30)], self)
         else:
-            keyboard.send(hotkeys.right_skill_map[SkillName.Concentration])
+            keyboard.send(hotkeys.right_skill_key_map[SkillName.Concentration])
             wait(0.15)
             # Traverse without pre_move, because we don't want to activate vigor when walking!
             self._pather.traverse_nodes((Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END), self, timeout=1.0, do_pre_move=False, force_tp=True, use_tp_charge=True)
@@ -98,7 +98,7 @@ class Hammerdin(Paladin):
         return True
 
     def kill_shenk(self):
-        keyboard.send(hotkeys.right_skill_map[SkillName.Concentration])
+        keyboard.send(hotkeys.right_skill_key_map[SkillName.Concentration])
         wait(0.15)
         self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, timeout=1.0, do_pre_move=False, force_tp=True, use_tp_charge=True)
         wait(0.05, 0.1)
@@ -108,7 +108,7 @@ class Hammerdin(Paladin):
         return True
 
     def kill_council(self) -> bool:
-        keyboard.send(hotkeys.right_skill_map[SkillName.Concentration])
+        keyboard.send(hotkeys.right_skill_key_map[SkillName.Concentration])
         wait(.15)
         # Check out the node screenshot in assets/templates/trav/nodes to see where each node is at
         atk_len = Config().char["atk_len_trav"]
@@ -179,10 +179,10 @@ class Hammerdin(Paladin):
                     self._cast_hammers(0.75, SkillName.Redemption)
                     self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
                     if SkillName.Cleansing in hotkeys.right_skill_key_map:
-                        keyboard.send(hotkeys.right_skill_map[SkillName.Cleansing])
+                        keyboard.send(hotkeys.right_skill_key_map[SkillName.Cleansing])
                         wait(0.1, 0.2)
                     if SkillName.Redemption in hotkeys.right_skill_key_map:
-                        keyboard.send(hotkeys.right_skill_map[SkillName.Redemption])
+                        keyboard.send(hotkeys.right_skill_key_map[SkillName.Redemption])
                         wait(0.5, 1.0) #clear seal from corpses
                     ### LOOT ###
                     self._picked_up_items |= self._pickit.pick_up_items(self)
@@ -206,10 +206,10 @@ class Hammerdin(Paladin):
                     self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"])
                     ### LOOT ###
                     if SkillName.Cleansing in hotkeys.right_skill_key_map:
-                        keyboard.send(hotkeys.right_skill_map[SkillName.Cleansing])
+                        keyboard.send(hotkeys.right_skill_key_map[SkillName.Cleansing])
                         wait(0.1, 0.2)
                     if SkillName.Redemption in hotkeys.right_skill_key_map:
-                        keyboard.send(hotkeys.right_skill_map[SkillName.Redemption])
+                        keyboard.send(hotkeys.right_skill_key_map[SkillName.Redemption])
                         wait(0.3, 0.6)
                     ### LOOT ###
                     self._picked_up_items |= self._pickit.pick_up_items(self)
@@ -228,10 +228,10 @@ class Hammerdin(Paladin):
                     self._cast_hammers(0.75, SkillName.Redemption)
                     self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"])
                     if SkillName.Cleansing in hotkeys.right_skill_key_map:
-                        keyboard.send(hotkeys.right_skill_map[SkillName.Cleansing])
+                        keyboard.send(hotkeys.right_skill_key_map[SkillName.Cleansing])
                         wait(0.1, 0.2)
                     if SkillName.Redemption in hotkeys.right_skill_key_map:
-                        keyboard.send(hotkeys.right_skill_map[SkillName.Redemption])
+                        keyboard.send(hotkeys.right_skill_key_map[SkillName.Redemption])
                         wait(0.3, 0.6)
                     ### LOOT ###
                     self._picked_up_items |= self._pickit.pick_up_items(self)
@@ -248,10 +248,10 @@ class Hammerdin(Paladin):
                     self._cast_hammers(0.75, SkillName.Redemption)
                     self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"])
                     if SkillName.Cleansing in hotkeys.right_skill_key_map:
-                        keyboard.send(hotkeys.right_skill_map[SkillName.Cleansing])
+                        keyboard.send(hotkeys.right_skill_key_map[SkillName.Cleansing])
                         wait(0.1, 0.2)
                     if SkillName.Redemption in hotkeys.right_skill_key_map:
-                        keyboard.send(hotkeys.right_skill_map[SkillName.Redemption])
+                        keyboard.send(hotkeys.right_skill_key_map[SkillName.Redemption])
                         wait(0.3, 0.6)
                     ### LOOT ###
                     self._picked_up_items |= self._pickit.pick_up_items(self)
@@ -269,10 +269,10 @@ class Hammerdin(Paladin):
                     self._cast_hammers(0.75, SkillName.Redemption)
                     self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"])
                     if SkillName.Cleansing in hotkeys.right_skill_key_map:
-                        keyboard.send(hotkeys.right_skill_map[SkillName.Cleansing])
+                        keyboard.send(hotkeys.right_skill_key_map[SkillName.Cleansing])
                         wait(0.1, 0.2)
                     if SkillName.Redemption in hotkeys.right_skill_key_map:
-                        keyboard.send(hotkeys.right_skill_map[SkillName.Redemption])
+                        keyboard.send(hotkeys.right_skill_key_map[SkillName.Redemption])
                         wait(0.3, 0.6)
                     ### LOOT ###
                     self._picked_up_items |= self._pickit.pick_up_items(self)
@@ -294,10 +294,10 @@ class Hammerdin(Paladin):
                     self._cast_hammers(0.75, SkillName.Redemption)
                     self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"])
                     if SkillName.Cleansing in hotkeys.right_skill_key_map:
-                        keyboard.send(hotkeys.right_skill_map[SkillName.Cleansing])
+                        keyboard.send(hotkeys.right_skill_key_map[SkillName.Cleansing])
                         wait(0.1, 0.2)
                     if SkillName.Redemption in hotkeys.right_skill_key_map:
-                        keyboard.send(hotkeys.right_skill_map[SkillName.Redemption])
+                        keyboard.send(hotkeys.right_skill_key_map[SkillName.Redemption])
                         wait(0.3, 0.6)
                     ### LOOT ###
                     self._picked_up_items |= self._pickit.pick_up_items(self)
@@ -313,10 +313,10 @@ class Hammerdin(Paladin):
                     self._cast_hammers(0.75, SkillName.Redemption)
                     self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"])
                     if SkillName.Cleansing in hotkeys.right_skill_key_map:
-                        keyboard.send(hotkeys.right_skill_map[SkillName.Cleansing])
+                        keyboard.send(hotkeys.right_skill_key_map[SkillName.Cleansing])
                         wait(0.1, 0.2)
                     if SkillName.Redemption in hotkeys.right_skill_key_map:
-                        keyboard.send(hotkeys.right_skill_map[SkillName.Redemption])
+                        keyboard.send(hotkeys.right_skill_key_map[SkillName.Redemption])
                         wait(0.3, 0.6)
                     ### LOOT ###
                     self._picked_up_items |= self._pickit.pick_up_items(self)
@@ -333,10 +333,10 @@ class Hammerdin(Paladin):
                     self._cast_hammers(0.75, SkillName.Redemption)
                     self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"])
                     if SkillName.Cleansing in hotkeys.right_skill_key_map:
-                        keyboard.send(hotkeys.right_skill_map[SkillName.Cleansing])
+                        keyboard.send(hotkeys.right_skill_key_map[SkillName.Cleansing])
                         wait(0.1, 0.2)
                     if SkillName.Redemption in hotkeys.right_skill_key_map:
-                        keyboard.send(hotkeys.right_skill_map[SkillName.Redemption])
+                        keyboard.send(hotkeys.right_skill_key_map[SkillName.Redemption])
                         wait(0.3, 0.6)
                     ### LOOT ###
                     self._picked_up_items |= self._pickit.pick_up_items(self)
@@ -356,10 +356,10 @@ class Hammerdin(Paladin):
                     self._move_and_attack((-50, -150), Config().char["atk_len_cs_trashmobs"])
                     self._move_and_attack((50, 150), Config().char["atk_len_cs_trashmobs"] * 0.5)
                     if SkillName.Cleansing in hotkeys.right_skill_key_map:
-                        keyboard.send(hotkeys.right_skill_map[SkillName.Cleansing])
+                        keyboard.send(hotkeys.right_skill_key_map[SkillName.Cleansing])
                         wait(0.1, 0.2)
                     if SkillName.Redemption in hotkeys.right_skill_key_map:
-                        keyboard.send(hotkeys.right_skill_map[SkillName.Redemption])
+                        keyboard.send(hotkeys.right_skill_key_map[SkillName.Redemption])
                         wait(0.3, 0.6)
                     ### LOOT ###
                     self._picked_up_items |= self._pickit.pick_up_items(self)
@@ -376,10 +376,10 @@ class Hammerdin(Paladin):
                     self._cast_hammers(0.75, SkillName.Redemption)
                     self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"])
                     if SkillName.Cleansing in hotkeys.right_skill_key_map:
-                        keyboard.send(hotkeys.right_skill_map[SkillName.Cleansing])
+                        keyboard.send(hotkeys.right_skill_key_map[SkillName.Cleansing])
                         wait(0.1, 0.2)
                     if SkillName.Redemption in hotkeys.right_skill_key_map:
-                        keyboard.send(hotkeys.right_skill_map[SkillName.Redemption])
+                        keyboard.send(hotkeys.right_skill_key_map[SkillName.Redemption])
                         wait(0.3, 0.6)
                     ### LOOT ###
                     self._picked_up_items |= self._pickit.pick_up_items(self)
@@ -398,10 +398,10 @@ class Hammerdin(Paladin):
                     self._cast_hammers(0.75, SkillName.Redemption)
                     self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"])
                     if SkillName.Cleansing in hotkeys.right_skill_key_map:
-                        keyboard.send(hotkeys.right_skill_map[SkillName.Cleansing])
+                        keyboard.send(hotkeys.right_skill_key_map[SkillName.Cleansing])
                         wait(0.1, 0.2)
                     if SkillName.Redemption in hotkeys.right_skill_key_map:
-                        keyboard.send(hotkeys.right_skill_map[SkillName.Redemption])
+                        keyboard.send(hotkeys.right_skill_key_map[SkillName.Redemption])
                         wait(0.3, 0.6)
                     ### LOOT ###
                     self._picked_up_items |= self._pickit.pick_up_items(self)
@@ -423,10 +423,10 @@ class Hammerdin(Paladin):
                     self._cast_hammers(0.75, SkillName.Redemption)
                     self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"])
                     if SkillName.Cleansing in hotkeys.right_skill_key_map:
-                        keyboard.send(hotkeys.right_skill_map[SkillName.Cleansing])
+                        keyboard.send(hotkeys.right_skill_key_map[SkillName.Cleansing])
                         wait(0.1, 0.2)
                     if SkillName.Redemption in hotkeys.right_skill_key_map:
-                        keyboard.send(hotkeys.right_skill_map[SkillName.Redemption])
+                        keyboard.send(hotkeys.right_skill_key_map[SkillName.Redemption])
                         wait(0.3, 0.6)
                     ### LOOT ###
                     self._picked_up_items |= self._pickit.pick_up_items(self)
@@ -452,10 +452,10 @@ class Hammerdin(Paladin):
                     self._move_and_attack((250, -150), Config().char["atk_len_cs_trashmobs"] * 0.5)
                     self._move_and_attack((-250, -150), Config().char["atk_len_cs_trashmobs"] * 0.2)
                     if SkillName.Cleansing in hotkeys.right_skill_key_map:
-                        keyboard.send(hotkeys.right_skill_map[SkillName.Cleansing])
+                        keyboard.send(hotkeys.right_skill_key_map[SkillName.Cleansing])
                         wait(0.1, 0.2)
                     if SkillName.Redemption in hotkeys.right_skill_key_map:
-                        keyboard.send(hotkeys.right_skill_map[SkillName.Redemption])
+                        keyboard.send(hotkeys.right_skill_key_map[SkillName.Redemption])
                         wait(0.3, 0.6)
                     ### LOOT ###
                     self._picked_up_items |= self._pickit.pick_up_items(self)
@@ -479,10 +479,10 @@ class Hammerdin(Paladin):
                     self._move_and_attack((-30, -100), Config().char["atk_len_cs_trashmobs"])
                     self._move_and_attack((30, 100), Config().char["atk_len_cs_trashmobs"] * 0.5)
                     if SkillName.Cleansing in hotkeys.right_skill_key_map:
-                        keyboard.send(hotkeys.right_skill_map[SkillName.Cleansing])
+                        keyboard.send(hotkeys.right_skill_key_map[SkillName.Cleansing])
                         wait(0.1, 0.2)
                     if SkillName.Redemption in hotkeys.right_skill_key_map:
-                        keyboard.send(hotkeys.right_skill_map[SkillName.Redemption])
+                        keyboard.send(hotkeys.right_skill_key_map[SkillName.Redemption])
                         wait(0.3, 0.6)
                     ### LOOT ###
                     self._picked_up_items |= self._pickit.pick_up_items(self)
@@ -498,10 +498,10 @@ class Hammerdin(Paladin):
                     self._move_and_attack((-30, -100), Config().char["atk_len_cs_trashmobs"])
                     self._move_and_attack((30, 100), Config().char["atk_len_cs_trashmobs"] * 0.5)
                     if SkillName.Cleansing in hotkeys.right_skill_key_map:
-                        keyboard.send(hotkeys.right_skill_map[SkillName.Cleansing])
+                        keyboard.send(hotkeys.right_skill_key_map[SkillName.Cleansing])
                         wait(0.1, 0.2)
                     if SkillName.Redemption in hotkeys.right_skill_key_map:
-                        keyboard.send(hotkeys.right_skill_map[SkillName.Redemption])
+                        keyboard.send(hotkeys.right_skill_key_map[SkillName.Redemption])
                         wait(0.3, 0.6)
                     ### LOOT ###
                     self._picked_up_items |= self._pickit.pick_up_items(self)
@@ -517,10 +517,10 @@ class Hammerdin(Paladin):
                     self._move_and_attack((-30, -100), Config().char["atk_len_cs_trashmobs"])
                     self._move_and_attack((30, 100), Config().char["atk_len_cs_trashmobs"])
                     if SkillName.Cleansing in hotkeys.right_skill_key_map:
-                        keyboard.send(hotkeys.right_skill_map[SkillName.Cleansing])
+                        keyboard.send(hotkeys.right_skill_key_map[SkillName.Cleansing])
                         wait(0.1, 0.2)
                     if SkillName.Redemption in hotkeys.right_skill_key_map:
-                        keyboard.send(hotkeys.right_skill_map[SkillName.Redemption])
+                        keyboard.send(hotkeys.right_skill_key_map[SkillName.Redemption])
                         wait(0.3, 0.6)
                     ### LOOT ###
                     self._picked_up_items |= self._pickit.pick_up_items(self)
@@ -539,10 +539,10 @@ class Hammerdin(Paladin):
                     self._cast_hammers(0.75, SkillName.Redemption)
                     self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
                     if SkillName.Cleansing in hotkeys.right_skill_key_map:
-                        keyboard.send(hotkeys.right_skill_map[SkillName.Cleansing])
+                        keyboard.send(hotkeys.right_skill_key_map[SkillName.Cleansing])
                         wait(0.1, 0.2)
                     if SkillName.Redemption in hotkeys.right_skill_key_map:
-                        keyboard.send(hotkeys.right_skill_map[SkillName.Redemption])
+                        keyboard.send(hotkeys.right_skill_key_map[SkillName.Redemption])
                         wait(0.3, 0.6)
                     ### LOOT ###
                     self._picked_up_items |= self._pickit.pick_up_items(self)
@@ -558,10 +558,10 @@ class Hammerdin(Paladin):
                     self._cast_hammers(0.75, SkillName.Redemption)
                     self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
                     if SkillName.Cleansing in hotkeys.right_skill_key_map:
-                        keyboard.send(hotkeys.right_skill_map[SkillName.Cleansing])
+                        keyboard.send(hotkeys.right_skill_key_map[SkillName.Cleansing])
                         wait(0.1, 0.2)
                     if SkillName.Redemption in hotkeys.right_skill_key_map:
-                        keyboard.send(hotkeys.right_skill_map[SkillName.Redemption])
+                        keyboard.send(hotkeys.right_skill_key_map[SkillName.Redemption])
                         wait(0.3, 0.6)
                     ### LOOT ###
                     self._picked_up_items |= self._pickit.pick_up_items(self)
@@ -576,10 +576,10 @@ class Hammerdin(Paladin):
                     self._cast_hammers(0.75, SkillName.Redemption)
                     self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
                     if SkillName.Cleansing in hotkeys.right_skill_key_map:
-                        keyboard.send(hotkeys.right_skill_map[SkillName.Cleansing])
+                        keyboard.send(hotkeys.right_skill_key_map[SkillName.Cleansing])
                         wait(0.1, 0.2)
                     if SkillName.Redemption in hotkeys.right_skill_key_map:
-                        keyboard.send(hotkeys.right_skill_map[SkillName.Redemption])
+                        keyboard.send(hotkeys.right_skill_key_map[SkillName.Redemption])
                         wait(0.3, 0.6)
                     ### LOOT ###
                     self._picked_up_items |= self._pickit.pick_up_items(self)
@@ -604,10 +604,10 @@ class Hammerdin(Paladin):
                     self._cast_hammers(0.75, SkillName.Redemption)
                     self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
                     if SkillName.Cleansing in hotkeys.right_skill_key_map:
-                        keyboard.send(hotkeys.right_skill_map[SkillName.Cleansing])
+                        keyboard.send(hotkeys.right_skill_key_map[SkillName.Cleansing])
                         wait(0.1, 0.2)
                     if SkillName.Redemption in hotkeys.right_skill_key_map:
-                        keyboard.send(hotkeys.right_skill_map[SkillName.Redemption])
+                        keyboard.send(hotkeys.right_skill_key_map[SkillName.Redemption])
                         wait(0.3, 0.6)
                     ### LOOT ###
                     self._picked_up_items |= self._pickit.pick_up_items(self)
@@ -622,10 +622,10 @@ class Hammerdin(Paladin):
                     self._cast_hammers(0.75, SkillName.Redemption)
                     self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
                     if SkillName.Cleansing in hotkeys.right_skill_key_map:
-                        keyboard.send(hotkeys.right_skill_map[SkillName.Cleansing])
+                        keyboard.send(hotkeys.right_skill_key_map[SkillName.Cleansing])
                         wait(0.1, 0.2)
                     if SkillName.Redemption in hotkeys.right_skill_key_map:
-                        keyboard.send(hotkeys.right_skill_map[SkillName.Redemption])
+                        keyboard.send(hotkeys.right_skill_key_map[SkillName.Redemption])
                         wait(0.3, 0.6)
                     ### LOOT ###
                     self._picked_up_items |= self._pickit.pick_up_items(self)
@@ -646,10 +646,10 @@ class Hammerdin(Paladin):
                     self._cast_hammers(0.75, SkillName.Redemption)
                     self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
                     if SkillName.Cleansing in hotkeys.right_skill_key_map:
-                        keyboard.send(hotkeys.right_skill_map[SkillName.Cleansing])
+                        keyboard.send(hotkeys.right_skill_key_map[SkillName.Cleansing])
                         wait(0.1, 0.2)
                     if SkillName.Redemption in hotkeys.right_skill_key_map:
-                        keyboard.send(hotkeys.right_skill_map[SkillName.Redemption])
+                        keyboard.send(hotkeys.right_skill_key_map[SkillName.Redemption])
                         wait(0.3, 0.6)
                 ### LOOT ###
                 # we loot at boss
@@ -660,7 +660,7 @@ class Hammerdin(Paladin):
                 ### ATTACK ###
                 if not Config().char['cs_mob_detect'] or get_visible_targets():
                     if SkillName.Redemption in hotkeys.right_skill_key_map:
-                        keyboard.send(hotkeys.right_skill_map[SkillName.Redemption])
+                        keyboard.send(hotkeys.right_skill_key_map[SkillName.Redemption])
                         wait(0.3, 0.6)
                     pos_m = convert_abs_to_monitor((0, 0))
                     mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
@@ -670,10 +670,10 @@ class Hammerdin(Paladin):
                     self._cast_hammers(0.75, SkillName.Redemption)
                     self._cast_hammers(0.5, SkillName.Cleansing)
                     if SkillName.Cleansing in hotkeys.right_skill_key_map:
-                        keyboard.send(hotkeys.right_skill_map[SkillName.Cleansing])
+                        keyboard.send(hotkeys.right_skill_key_map[SkillName.Cleansing])
                         wait(0.1, 0.2)
                     if SkillName.Redemption in hotkeys.right_skill_key_map:
-                        keyboard.send(hotkeys.right_skill_map[SkillName.Redemption])
+                        keyboard.send(hotkeys.right_skill_key_map[SkillName.Redemption])
                         wait(0.3, 0.6)
                 ### LOOT ###
                 # we loot at boss
@@ -693,10 +693,10 @@ class Hammerdin(Paladin):
                     ### LOOT ###
                     self._picked_up_items |= self._pickit.pick_up_items(self)
                     if SkillName.Cleansing in hotkeys.right_skill_key_map:
-                        keyboard.send(hotkeys.right_skill_map[SkillName.Cleansing])
+                        keyboard.send(hotkeys.right_skill_key_map[SkillName.Cleansing])
                         wait(0.1, 0.2)
                     if SkillName.Redemption in hotkeys.right_skill_key_map:
-                        keyboard.send(hotkeys.right_skill_map[SkillName.Redemption])
+                        keyboard.send(hotkeys.right_skill_key_map[SkillName.Redemption])
                         wait(0.3, 0.6)
 
             case "A1-L_seal1":  #node 613 seal layout A1-L: fake_seal
@@ -705,7 +705,7 @@ class Hammerdin(Paladin):
                 if not self._pather.traverse_nodes([614], self): return False
                 ### ATTACK ###
                 if SkillName.Redemption in hotkeys.right_skill_key_map:
-                    keyboard.send(hotkeys.right_skill_map[SkillName.Redemption])
+                    keyboard.send(hotkeys.right_skill_key_map[SkillName.Redemption])
                     wait(0.3, 0.6)
                 ### LOOT ###
                 # we loot at boss
@@ -715,7 +715,7 @@ class Hammerdin(Paladin):
                 if not self._pather.traverse_nodes([613, 615], self): return False # , timeout=3):
                 ### ATTACK ###
                 if SkillName.Redemption in hotkeys.right_skill_key_map:
-                    keyboard.send(hotkeys.right_skill_map[SkillName.Redemption])
+                    keyboard.send(hotkeys.right_skill_key_map[SkillName.Redemption])
                     wait(0.3, 0.6)
                 ### LOOT ###
                 # we loot at boss
@@ -733,7 +733,7 @@ class Hammerdin(Paladin):
                 wait(1)#give merc the chance to activate holy freeze
                 if not Config().char['cs_mob_detect'] or get_visible_targets():
                     if SkillName.Redemption in hotkeys.right_skill_key_map:
-                        keyboard.send(hotkeys.right_skill_map[SkillName.Redemption])
+                        keyboard.send(hotkeys.right_skill_key_map[SkillName.Redemption])
                         wait(0.3, 0.6)
                     ### ATTACK ###
                     pos_m = convert_abs_to_monitor((0, 0))
@@ -742,10 +742,10 @@ class Hammerdin(Paladin):
                     self._cast_hammers(0.75, SkillName.Redemption)
                     self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
                     if SkillName.Cleansing in hotkeys.right_skill_key_map:
-                        keyboard.send(hotkeys.right_skill_map[SkillName.Cleansing])
+                        keyboard.send(hotkeys.right_skill_key_map[SkillName.Cleansing])
                         wait(0.1, 0.2)
                     if SkillName.Redemption in hotkeys.right_skill_key_map:
-                        keyboard.send(hotkeys.right_skill_map[SkillName.Redemption])
+                        keyboard.send(hotkeys.right_skill_key_map[SkillName.Redemption])
                         wait(0.3, 0.6)
                 ### LOOT ###
                 # we loot at boss
@@ -761,10 +761,10 @@ class Hammerdin(Paladin):
                     self._cast_hammers(0.75, SkillName.Redemption)
                     self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
                     if SkillName.Cleansing in hotkeys.right_skill_key_map:
-                        keyboard.send(hotkeys.right_skill_map[SkillName.Cleansing])
+                        keyboard.send(hotkeys.right_skill_key_map[SkillName.Cleansing])
                         wait(0.1, 0.2)
                     if SkillName.Redemption in hotkeys.right_skill_key_map:
-                        keyboard.send(hotkeys.right_skill_map[SkillName.Redemption])
+                        keyboard.send(hotkeys.right_skill_key_map[SkillName.Redemption])
                         wait(0.3, 0.6)
                 ### LOOT ###
                 # we loot at boss
@@ -783,7 +783,7 @@ class Hammerdin(Paladin):
                 # we loot at boss
                 if not self._pather.traverse_nodes([625], self): return False # , timeout=3):
                 if SkillName.Redemption in hotkeys.right_skill_key_map:
-                    keyboard.send(hotkeys.right_skill_map[SkillName.Redemption])
+                    keyboard.send(hotkeys.right_skill_key_map[SkillName.Redemption])
                     wait(0.3, 0.6)
 
             case "A2-Y_seal2":
@@ -793,7 +793,7 @@ class Hammerdin(Paladin):
                 # we loot at boss
                 self._pather.traverse_nodes_fixed("dia_a2y_sealfake_sealboss", self) #instead of traversing node 626 which causes issues
                 if SkillName.Redemption in hotkeys.right_skill_key_map:
-                    keyboard.send(hotkeys.right_skill_map[SkillName.Redemption])
+                    keyboard.send(hotkeys.right_skill_key_map[SkillName.Redemption])
                     wait(0.3, 0.6)
 
             ###########
@@ -826,7 +826,7 @@ class Hammerdin(Paladin):
                 if not self._pather.traverse_nodes([634], self): return False # , timeout=3):
                 ### ATTACK ###
                 if SkillName.Redemption in hotkeys.right_skill_key_map:
-                    keyboard.send(hotkeys.right_skill_map[SkillName.Redemption])
+                    keyboard.send(hotkeys.right_skill_key_map[SkillName.Redemption])
                     wait(0.3, 0.6)
                 ### LOOT ###
 
@@ -864,7 +864,7 @@ class Hammerdin(Paladin):
                 ### LOOT ###
                 # we loot at boss
                 if SkillName.Redemption in hotkeys.right_skill_key_map:
-                    keyboard.send(hotkeys.right_skill_map[SkillName.Redemption])
+                    keyboard.send(hotkeys.right_skill_key_map[SkillName.Redemption])
                     wait(0.3, 0.6)
 
 
@@ -907,16 +907,16 @@ class Hammerdin(Paladin):
                     self._cast_hammers(0.75, SkillName.Redemption)
                     self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
                     if SkillName.Cleansing in hotkeys.right_skill_key_map:
-                        keyboard.send(hotkeys.right_skill_map[SkillName.Cleansing])
+                        keyboard.send(hotkeys.right_skill_key_map[SkillName.Cleansing])
                         wait(0.1, 0.2)
                     if SkillName.Redemption in hotkeys.right_skill_key_map:
-                        keyboard.send(hotkeys.right_skill_map[SkillName.Redemption])
+                        keyboard.send(hotkeys.right_skill_key_map[SkillName.Redemption])
                         wait(0.3, 0.6)
                     ### LOOT ###
                     self._picked_up_items |= self._pickit.pick_up_items(self)
                     if not self._pather.traverse_nodes([655], self): return False # , timeout=3):
                     if SkillName.Redemption in hotkeys.right_skill_key_map:
-                        keyboard.send(hotkeys.right_skill_map[SkillName.Redemption])
+                        keyboard.send(hotkeys.right_skill_key_map[SkillName.Redemption])
                         wait(0.3, 0.6)
 
             case "C1-F_seal2":
@@ -931,16 +931,16 @@ class Hammerdin(Paladin):
                     self._cast_hammers(0.75, SkillName.Redemption)
                     self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
                     if SkillName.Cleansing in hotkeys.right_skill_key_map:
-                        keyboard.send(hotkeys.right_skill_map[SkillName.Cleansing])
+                        keyboard.send(hotkeys.right_skill_key_map[SkillName.Cleansing])
                         wait(0.1, 0.2)
                     if SkillName.Redemption in hotkeys.right_skill_key_map:
-                        keyboard.send(hotkeys.right_skill_map[SkillName.Redemption])
+                        keyboard.send(hotkeys.right_skill_key_map[SkillName.Redemption])
                         wait(0.3, 0.6)
                     ### LOOT ###
                     self._picked_up_items |= self._pickit.pick_up_items(self)
                     if not self._pather.traverse_nodes([652], self): return False # , timeout=3):
                     if SkillName.Redemption in hotkeys.right_skill_key_map:
-                        keyboard.send(hotkeys.right_skill_map[SkillName.Redemption])
+                        keyboard.send(hotkeys.right_skill_key_map[SkillName.Redemption])
                         wait(0.3, 0.6)
 
             ###########

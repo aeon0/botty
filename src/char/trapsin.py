@@ -23,17 +23,17 @@ class Trapsin(IChar):
         if Config().char["cta_available"]:
             self._pre_buff_cta()
         if SkillName.Fade in hotkeys.right_skill_key_map:
-            keyboard.send(hotkeys.right_skill_map[SkillName.Fade])
+            keyboard.send(hotkeys.right_skill_key_map[SkillName.Fade])
             wait(0.1, 0.13)
             mouse.click(button="right")
             wait(self._cast_duration)
         if SkillName.ShadowWarrior in hotkeys.right_skill_key_map:
-            keyboard.send(hotkeys.right_skill_map[SkillName.ShadowWarrior])
+            keyboard.send(hotkeys.right_skill_key_map[SkillName.ShadowWarrior])
             wait(0.1, 0.13)
             mouse.click(button="right")
             wait(self._cast_duration)
         if SkillName.BurstOfSpeed in hotkeys.right_skill_key_map:
-            keyboard.send(hotkeys.right_skill_map[SkillName.BurstOfSpeed])
+            keyboard.send(hotkeys.right_skill_key_map[SkillName.BurstOfSpeed])
             wait(0.1, 0.13)
             mouse.click(button="right")
             wait(self._cast_duration)
@@ -54,7 +54,7 @@ class Trapsin(IChar):
 
 
     def _right_attack(self, cast_pos_abs: tuple[float, float], spray: float = 10):
-        keyboard.send(hotkeys.right_skill_map[SkillName.LightningSentry])
+        keyboard.send(hotkeys.right_skill_key_map[SkillName.LightningSentry])
         x = cast_pos_abs[0] + (random.random() * 2 * spray - spray)
         y = cast_pos_abs[1] + (random.random() * 2 * spray - spray)
         cast_pos_monitor = convert_abs_to_monitor((x, y))
@@ -66,7 +66,7 @@ class Trapsin(IChar):
                 mouse.release(button="right")
                 wait(0.15)
         atk(4)
-        keyboard.send(hotkeys.right_skill_map[SkillName.DeathSentry])
+        keyboard.send(hotkeys.right_skill_key_map[SkillName.DeathSentry])
         atk(1)
 
     def kill_pindle(self) -> bool:

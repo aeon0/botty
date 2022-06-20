@@ -217,7 +217,7 @@ def has_tps() -> bool:
     """
     from utils import hotkeys
     if SkillName.TownPortal in hotkeys.right_skill_key_map:
-        keyboard.send(hotkeys.right_skill_map[SkillName.TownPortal])
+        keyboard.send(hotkeys.right_skill_key_map[SkillName.TownPortal])
         if not (tps_remain := wait_until_visible(ScreenObjects.TownPortalSkill, timeout=4).valid):
             Logger.warning("You are out of tps")
             if Config().general["info_screenshots"]:

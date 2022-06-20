@@ -20,7 +20,7 @@ class Sorceress(IChar):
 
     def pick_up_item(self, pos: tuple[float, float], item_name: str = None, prev_cast_start: float = 0):
         if SkillName.Telekinesis in hotkeys.right_skill_key_map and any(x in item_name for x in ['potion', 'misc_gold', 'tp_scroll']):
-            keyboard.send(hotkeys.right_skill_map[SkillName.Telekinesis])
+            keyboard.send(hotkeys.right_skill_key_map[SkillName.Telekinesis])
             wait(0.1, 0.2)
             mouse.move(pos[0], pos[1])
             wait(0.1, 0.2)
@@ -54,7 +54,7 @@ class Sorceress(IChar):
         while timeout is None or (time.time() - start) < timeout:
             template_match = template_finder.search(template_type, grab(), threshold=threshold)
             if template_match.valid:
-                keyboard.send(hotkeys.right_skill_map[SkillName.Telekinesis])
+                keyboard.send(hotkeys.right_skill_key_map[SkillName.Telekinesis])
                 wait(0.1, 0.2)
                 mouse.move(*template_match.center_monitor)
                 wait(0.2, 0.3)
@@ -71,24 +71,24 @@ class Sorceress(IChar):
         if Config().char["cta_available"]:
             self._pre_buff_cta()
         if SkillName.EnergyShield in hotkeys.right_skill_key_map:
-            keyboard.send(hotkeys.right_skill_map[SkillName.EnergyShield])
+            keyboard.send(hotkeys.right_skill_key_map[SkillName.EnergyShield])
             wait(0.1, 0.13)
             mouse.click(button="right")
             wait(self._cast_duration)
         if SkillName.ThunderStorm in hotkeys.right_skill_key_map:
-            keyboard.send(hotkeys.right_skill_map[SkillName.ThunderStorm])
+            keyboard.send(hotkeys.right_skill_key_map[SkillName.ThunderStorm])
             wait(0.1, 0.13)
             mouse.click(button="right")
             wait(self._cast_duration)
         if SkillName.FrozenArmor in hotkeys.right_skill_key_map:
-            keyboard.send(hotkeys.right_skill_map[SkillName.FrozenArmor])
+            keyboard.send(hotkeys.right_skill_key_map[SkillName.FrozenArmor])
             wait(0.1, 0.13)
             mouse.click(button="right")
             wait(self._cast_duration)
 
     def _cast_static(self, duration: float = 1.4):
         if SkillName.StaticField in hotkeys.right_skill_key_map:
-            keyboard.send(hotkeys.right_skill_map[SkillName.StaticField])
+            keyboard.send(hotkeys.right_skill_key_map[SkillName.StaticField])
             wait(0.1, 0.13)
             start = time.time()
             while time.time() - start < duration:

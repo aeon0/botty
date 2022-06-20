@@ -35,6 +35,7 @@ from char.basic import Basic
 from char.basic_ranged import Basic_Ranged
 from ui_manager import wait_until_hidden, wait_until_visible, ScreenObjects, is_visible, detect_screen_object
 from ui import meters, skills, view, character_select, main_menu
+from ui.skills import SkillName
 from inventory import personal, vendor, belt, common
 
 from run import Pindle, ShenkEld, Trav, Nihlathak, Arcane, Diablo
@@ -272,12 +273,12 @@ class Bot:
             hotkeys.discover_hotkey_mappings(saved_games_folder, key_file)
             self._hotkeys_discovered = True
         self._char.discover_capabilities()
-        teleport_selected = skills.select_tp(hotkeys.right_skill_key_map[skills.SkillName.Teleport])
+        teleport_selected = skills.select_tp(hotkeys.right_skill_key_map[SkillName.Teleport])
         if corpse_present and self._char.capabilities.can_teleport_with_charges and not teleport_selected:
-            keybind = hotkeys.right_skill_key_map[skills.SkillName.Teleport]
+            keybind = hotkeys.right_skill_key_map[SkillName.Teleport]
             Logger.info(f"Teleport keybind is lost upon death. Rebinding teleport to '{keybind}'")
             hotkeys.remap_skill_hotkey(
-                skills.SkillName.Teleport.value,
+                SkillName.Teleport.value,
                 keybind,
                 Config().ui_roi["skill_right"],
                 Config().ui_roi["skill_right_expanded"]
@@ -379,7 +380,7 @@ class Bot:
         # Check if we are out of tps or need repairing
         need_repair = is_visible(ScreenObjects.NeedRepair)
         need_routine_repair = False if not Config().char["runs_per_repair"] else self._game_stats._run_counter % Config().char["runs_per_repair"] == 0
-        teleport_selected = skills.select_tp(hotkeys.right_skill_key_map[skills.SkillName.Teleport])
+        teleport_selected = skills.select_tp(hotkeys.right_skill_key_map[SkillName.Teleport])
         need_refill_teleport = self._char.capabilities.can_teleport_with_charges and (not teleport_selected or self._char.is_low_on_teleport_charges())
         if need_repair or need_routine_repair or need_refill_teleport or sell_items:
             if need_repair:

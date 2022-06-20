@@ -22,7 +22,7 @@ class NovaSorc(Sorceress):
     def _nova(self, time_in_s: float):
         if SkillName.Nova in hotkeys.right_skill_key_map:
             raise ValueError("You did not set nova hotkey!")
-        keyboard.send(hotkeys.right_skill_map[SkillName.Nova])
+        keyboard.send(hotkeys.right_skill_key_map[SkillName.Nova])
         wait(0.05, 0.1)
         start = time.time()
         while (time.time() - start) < time_in_s:

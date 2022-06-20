@@ -158,7 +158,7 @@ class Necro(IChar):
             return
         keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_release=False)
         for _ in range(cast_count):
-            keyboard.send(hotkeys.right_skill_map[SkillName.Revive])
+            keyboard.send(hotkeys.right_skill_key_map[SkillName.Revive])
                 #Logger.info("revive -> cast")
             x = cast_pos_abs[0] + (random.random() * 2*spray - spray)
             y = cast_pos_abs[1] + (random.random() * 2*spray - spray)
@@ -188,7 +188,7 @@ class Necro(IChar):
             return
         keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_release=False)
         for _ in range(cast_count):
-            keyboard.send(hotkeys.right_skill_map[SkillName.RaiseSkeleton])
+            keyboard.send(hotkeys.right_skill_key_map[SkillName.RaiseSkeleton])
                 #Logger.info("raise skeleton -> cast")
             x = cast_pos_abs[0] + (random.random() * 2*spray - spray)
             y = cast_pos_abs[1] + (random.random() * 2*spray - spray)
@@ -218,7 +218,7 @@ class Necro(IChar):
             return
         keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_release=False)
         for _ in range(cast_count):
-            keyboard.send(hotkeys.right_skill_map[SkillName.RaiseSkeletalMage])
+            keyboard.send(hotkeys.right_skill_key_map[SkillName.RaiseSkeletalMage])
                 #Logger.info("raise skeleton -> cast")
             x = cast_pos_abs[0] + (random.random() * 2*spray - spray)
             y = cast_pos_abs[1] + (random.random() * 2*spray - spray)
@@ -255,14 +255,14 @@ class Necro(IChar):
 
     def _heart_of_wolverine(self):
         Logger.info('\033[94m'+"buff ~> heart_of_wolverine"+'\033[0m')
-        keyboard.send(hotkeys.right_skill_map[SkillName.HeartOfWolverine])
+        keyboard.send(hotkeys.right_skill_key_map[SkillName.HeartOfWolverine])
         wait(0.05, 0.2)
         mouse.click(button="right")
         wait(self._cast_duration)
 
     def _clay_golem(self):
         Logger.info('\033[94m'+"cast ~> clay golem"+'\033[0m')
-        keyboard.send(hotkeys.right_skill_map[SkillName.ClayGolem])
+        keyboard.send(hotkeys.right_skill_key_map[SkillName.ClayGolem])
         wait(0.05, 0.2)
         mouse.click(button="right")
         wait(self._cast_duration)
@@ -270,19 +270,19 @@ class Necro(IChar):
 
     def bone_armor(self):
         if SkillName.BoneArmor in hotkeys.right_skill_key_map:
-            keyboard.send(hotkeys.right_skill_map[SkillName.BoneArmor])
+            keyboard.send(hotkeys.right_skill_key_map[SkillName.BoneArmor])
             wait(0.04, 0.1)
             mouse.click(button="right")
             wait(self._cast_duration)
         if SkillName.ClayGolem in hotkeys.right_skill_key_map:
-            keyboard.send(hotkeys.right_skill_map[SkillName.ClayGolem])
+            keyboard.send(hotkeys.right_skill_key_map[SkillName.ClayGolem])
             wait(0.04, 0.1)
             mouse.click(button="right")
             wait(self._cast_duration)
 
     def _bone_armor(self):
         if SkillName.BoneArmor in hotkeys.right_skill_key_map:
-            keyboard.send(hotkeys.right_skill_map[SkillName.BoneArmor])
+            keyboard.send(hotkeys.right_skill_key_map[SkillName.BoneArmor])
             wait(0.04, 0.1)
             mouse.click(button="right")
             wait(self._cast_duration)
@@ -321,7 +321,7 @@ class Necro(IChar):
 
     def _amp_dmg(self, cast_pos_abs: tuple[float, float], spray: float = 10):
         if SkillName.AmplifyDamage in hotkeys.right_skill_key_map:
-            keyboard.send(hotkeys.right_skill_map[SkillName.AmplifyDamage])
+            keyboard.send(hotkeys.right_skill_key_map[SkillName.AmplifyDamage])
 
         x = cast_pos_abs[0] + (random.random() * 2*spray - spray)
         y = cast_pos_abs[1] + (random.random() * 2*spray - spray)
@@ -336,7 +336,7 @@ class Necro(IChar):
         Logger.info('\033[93m'+"corpse explosion~> random cast"+'\033[0m')
         for _ in range(cast_count):
             if SkillName.CorpseExplosion in hotkeys.right_skill_key_map:
-                keyboard.send(hotkeys.right_skill_map[SkillName.CorpseExplosion])
+                keyboard.send(hotkeys.right_skill_key_map[SkillName.CorpseExplosion])
                 x = cast_pos_abs[0] + (random.random() * 2*spray - spray)
                 y = cast_pos_abs[1] + (random.random() * 2*spray - spray)
                 cast_pos_monitor = convert_abs_to_monitor((x, y))

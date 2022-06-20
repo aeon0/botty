@@ -32,7 +32,7 @@ class BlizzSorc(Sorceress):
     def _ice_blast(self, cast_pos_abs: tuple[float, float], delay: tuple[float, float] = (0.16, 0.23), spray: float = 10):
         keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_release=False)
         if SkillName.IceBlast in hotkeys.right_skill_key_map:
-            keyboard.send(hotkeys.right_skill_map[SkillName.IceBlast])
+            keyboard.send(hotkeys.right_skill_key_map[SkillName.IceBlast])
         for _ in range(5):
             x = cast_pos_abs[0] + (random.random() * 2*spray - spray)
             y = cast_pos_abs[1] + (random.random() * 2*spray - spray)

@@ -35,7 +35,7 @@ class Bone_Necro(IChar):
         if SkillName.BoneWall not in hotkeys.right_skill_key_map:
             raise ValueError("You did not set bone_wall hotkey!")
         keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_release=False)
-        keyboard.send(hotkeys.right_skill_map[SkillName.BoneWall])
+        keyboard.send(hotkeys.right_skill_key_map[SkillName.BoneWall])
         wait(0.02, 0.08)
         x = cast_pos_abs[0] + (random.random() * 2*spray - spray)
         y = cast_pos_abs[1] + (random.random() * 2*spray - spray)
@@ -84,7 +84,7 @@ class Bone_Necro(IChar):
         Logger.debug(f'casting corpse explosion {cast_count} times with spray = {spray}')
         for _ in range(cast_count):
             if SkillName.CorpseExplosion in hotkeys.right_skill_key_map:
-                keyboard.send(hotkeys.right_skill_map[SkillName.CorpseExplosion])
+                keyboard.send(hotkeys.right_skill_key_map[SkillName.CorpseExplosion])
                 x = cast_pos_abs[0] + (random.random() * 2*spray - spray)
                 y = cast_pos_abs[1] + (random.random() * 2*spray - spray)
                 cast_pos_monitor = convert_abs_to_monitor((x, y))

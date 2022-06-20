@@ -25,7 +25,7 @@ class Paladin(IChar):
     def pre_buff(self):
         if Config().char["cta_available"]:
             self._pre_buff_cta()
-        keyboard.send(hotkeys.right_skill_map[SkillName.HolyShield])
+        keyboard.send(hotkeys.right_skill_key_map[SkillName.HolyShield])
         wait(0.04, 0.1)
         mouse.click(button="right")
         wait(self._cast_duration, self._cast_duration + 0.06)
@@ -34,10 +34,10 @@ class Paladin(IChar):
         # select teleport if available
         super().pre_move()
         # in case teleport hotkey is not set or teleport can not be used, use vigor if set
-        should_cast_vigor = SkillName.Vigor in hotkeys.right_skill_key_map and not is_right_skill_selected(SkillName.Vigor.value)
+        should_cast_vigor = SkillName.Vigor in hotkeys.right_skill_key_map and not is_right_skill_selected([SkillName.Vigor.value])
         can_teleport = self.capabilities.can_teleport_natively and is_right_skill_active()
         if should_cast_vigor and not can_teleport:
-            keyboard.send(hotkeys.right_skill_map[SkillName.Vigor])
+            keyboard.send(hotkeys.right_skill_key_map[SkillName.Vigor])
             wait(0.15, 0.25)
 
     def _log_cast(self, skill_name: str, cast_pos_abs: tuple[float, float], spray: int, min_duration: float, aura: str):

@@ -110,7 +110,7 @@ class FoHdin(Paladin):
             if not self._pather.traverse_nodes([103], self, timeout=1.0, do_pre_move=False, force_move=True, force_tp=False, use_tp_charge=False):
                 return False
         else:
-            keyboard.send(hotkeys.right_skill_map[SkillName.Conviction])
+            keyboard.send(hotkeys.right_skill_key_map[SkillName.Conviction])
             wait(0.15)
             self._pather.traverse_nodes([103], self, timeout=1.0, do_pre_move=False)
 
@@ -120,7 +120,7 @@ class FoHdin(Paladin):
         if self.capabilities.can_teleport_natively:
             self._pather.traverse_nodes_fixed("pindle_end", self)
         else:
-            keyboard.send(hotkeys.right_skill_map[SkillName.Redemption])
+            keyboard.send(hotkeys.right_skill_key_map[SkillName.Redemption])
             wait(0.15)
             self._pather.traverse_nodes((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, timeout=1.0, do_pre_move=False)
 
@@ -134,7 +134,7 @@ class FoHdin(Paladin):
     def kill_council(self) -> bool:
         atk_len_dur = float(Config().char["atk_len_trav"])
 
-        keyboard.send(hotkeys.right_skill_map[SkillName.Conviction])
+        keyboard.send(hotkeys.right_skill_key_map[SkillName.Conviction])
         wait(.15)
         # traverse to nodes and attack
         nodes = [225, 226, 300]
@@ -175,7 +175,7 @@ class FoHdin(Paladin):
         atk_len_dur = float(Config().char["atk_len_shenk"])
 
         # traverse to shenk
-        keyboard.send(hotkeys.right_skill_map[SkillName.Conviction])
+        keyboard.send(hotkeys.right_skill_key_map[SkillName.Conviction])
         wait(0.15)
         self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, timeout=1.0, do_pre_move=False, force_tp=True, use_tp_charge=True)
         wait(0.05, 0.1)
