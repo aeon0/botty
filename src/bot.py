@@ -251,7 +251,7 @@ class Bot:
         # Start a game from hero selection
         if (m := wait_until_visible(ScreenObjects.MainMenu)).valid:
             if "DARK" in m.name:
-                keyboard.send("esc")
+                keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.OpenMenu])
             main_menu.start_game()
             view.move_to_corpse()
         else:

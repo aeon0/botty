@@ -18,7 +18,7 @@ import os
 def open(img: np.ndarray = None) -> np.ndarray:
     img = grab() if img is None else img
     if is_visible(ScreenObjects.BeltExpandable, img) and Config().char["belt_rows"] > 1:
-        keyboard.send(Config().char["show_belt"])
+        keyboard.send(hotkeys.d2r_keymap[HotkeyName.ShowBelt])
         if not wait_until_hidden(ScreenObjects.BeltExpandable, 1):
             return None
         img = grab()
@@ -27,7 +27,7 @@ def open(img: np.ndarray = None) -> np.ndarray:
 def close(img: np.ndarray = None) -> np.ndarray:
     img = grab() if img is None else img
     if not is_visible(ScreenObjects.BeltExpandable, img):
-        keyboard.send("esc")
+        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.OpenMenu])
         if not wait_until_visible(ScreenObjects.BeltExpandable, 2).valid:
             success = view.return_to_play()
             if not success:

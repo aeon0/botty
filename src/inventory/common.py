@@ -4,6 +4,7 @@ import numpy as np
 import keyboard
 import time
 import itertools
+from utils import hotkeys
 from utils.custom_mouse import mouse
 from ui_manager import detect_screen_object, ScreenObjects, is_visible, wait_until_hidden, center_mouse
 import template_finder
@@ -61,7 +62,7 @@ def close(img: np.ndarray = None) -> np.ndarray | None:
     img = grab() if img is None else img
     if inventory_is_open(img):
         # close open inventory
-        keyboard.send("esc")
+        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.OpenMenu])
         # check to ensure it closed
         wait(0.04, 0.08)
         timer = True

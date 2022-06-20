@@ -13,6 +13,7 @@ from config import Config
 from logger import Logger
 from npc_manager import Npc, open_npc_menu, press_npc_btn
 import template_finder
+from utils import hotkeys
 from utils.custom_mouse import mouse
 from utils.misc import wait
 
@@ -114,7 +115,7 @@ class DrognanShopper:
 
                     self.items_evaluated += 1
 
-            keyboard.send("esc")
+            keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.OpenMenu])
 
             # Done with this shopping round
             self.reset_shop()

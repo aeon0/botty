@@ -39,7 +39,7 @@ class GameRecovery:
                 continue
             # maybe we are in-game in stash/inventory, press escape
             elif is_visible(ScreenObjects.InGame):
-                keyboard.send("esc")
+                keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.OpenMenu])
             time.sleep(1)
         return False
 

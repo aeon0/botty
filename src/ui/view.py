@@ -2,6 +2,7 @@ import time
 from screen import grab
 from config import Config
 import keyboard
+from utils import hotkeys
 from utils.custom_mouse import mouse
 from logger import Logger
 from utils.misc import wait
@@ -41,7 +42,7 @@ def save_and_exit() -> bool:
     success = False
     while attempts <= 2 and not success:
         if not (exit_button := detect_screen_object(ScreenObjects.SaveAndExit)).valid:
-            keyboard.send("esc")
+            keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.OpenMenu])
             # wait for exit button to appear
             exit_button = wait_until_visible(ScreenObjects.SaveAndExit, 3)
         # if exit button is found, double click it to be sure
@@ -91,7 +92,7 @@ def return_to_play() -> bool:
                 if (need_escape := any(substring in string for string in list_visible_objects(img))):
                     break
         if need_escape:
-            keyboard.send("esc")
+            keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.OpenMenu])
             wait(1)
             img=grab()
         else:

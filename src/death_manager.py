@@ -56,7 +56,7 @@ class DeathManager:
             if is_visible(ScreenObjects.MainMenu):
                 # in this case chicken executed and left the game, but we were still dead.
                 return True
-            keyboard.send("esc")
+            keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.OpenMenu])
             self._died = True
             return True
         return False
