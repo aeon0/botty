@@ -630,7 +630,7 @@ class Pather:
                     else:
                         angle = random.random() * math.pi * 2
                         pos_abs = (math.cos(angle) * 150, math.sin(angle) * 150)
-                    pos_abs = get_closest_non_hud_pixel(pos = node_pos_abs, pos_type="abs")
+                    pos_abs = get_closest_non_hud_pixel(pos = pos_abs, pos_type="abs")
                     Logger.debug(f"Pather: taking a random guess towards " + str(pos_abs))
                     x_m, y_m = convert_abs_to_monitor(pos_abs)
                     char.move((x_m, y_m), force_move=True)
