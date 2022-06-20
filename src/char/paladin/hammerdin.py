@@ -166,7 +166,7 @@ class Hammerdin(Paladin):
      # Chaos Sanctuary, Trash, Seal Bosses (a = Vizier, b = De Seis, c = Infector) & Diablo #
      ########################################################################################
 
-    def kill_cs_trash(self, location:str) -> bool:
+    def dia_kill_trash(self, location:str) -> bool:
 
         ###########
         # SEALDANCE
@@ -175,7 +175,7 @@ class Hammerdin(Paladin):
             case "sealdance": #if seal opening fails & trash needs to be cleared -> used at ANY seal
                 ### APPROACH
                 ### ATTACK ###
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
+                if not Config().char['mob_detection'] or get_visible_targets():
                     pos_m = convert_abs_to_monitor((0, 0))
                     mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
                     self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
@@ -201,7 +201,7 @@ class Hammerdin(Paladin):
                 ### ATTACK ###
                 wait(1)#give merc the chance to activate holy freeze
                 #print("mercwait")
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
+                if not Config().char['mob_detection'] or get_visible_targets():
 
                     mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
                     self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
@@ -224,7 +224,7 @@ class Hammerdin(Paladin):
                 if not self._pather.traverse_nodes([604], self, timeout=3): return False  #threshold=0.8 (ex 601)
                 ### ATTACK ###
                 wait(1)#give merc the chance to activate holy freeze
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
+                if not Config().char['mob_detection'] or get_visible_targets():
                     pos_m = convert_abs_to_monitor((0, 0))
                     mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
                     self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
@@ -244,7 +244,7 @@ class Hammerdin(Paladin):
                 self._pather.traverse_nodes_fixed("diablo_entrance_hall_1", self) # 604 -> 671 Hall1
                 ### ATTACK ###
                 wait(1)#give merc the chance to activate holy freeze
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
+                if not Config().char['mob_detection'] or get_visible_targets():
                     pos_m = convert_abs_to_monitor((0, 0))
                     mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
                     self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
@@ -265,7 +265,7 @@ class Hammerdin(Paladin):
                 self._pather.traverse_nodes_fixed("diablo_entrance_1_670_672", self) # 604 -> 671 Hall1
                 if not self._pather.traverse_nodes([670], self): return False # pull top mobs 672 to bottom 670
                 ### ATTACK ###
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
+                if not Config().char['mob_detection'] or get_visible_targets():
                     pos_m = convert_abs_to_monitor((0, 0))
                     mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
                     self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
@@ -290,7 +290,7 @@ class Hammerdin(Paladin):
             case "entrance1_01": #static_path "diablo_entrance_hall_2", Hall1 (before layout check)
                 ### APPROACH ###
                 ### ATTACK ###
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
+                if not Config().char['mob_detection'] or get_visible_targets():
                     pos_m = convert_abs_to_monitor((0, 0))
                     mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
                     self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
@@ -309,7 +309,7 @@ class Hammerdin(Paladin):
             case "entrance1_02": #node 673
                 ### APPROACH ###
                 ### ATTACK ###
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
+                if not Config().char['mob_detection'] or get_visible_targets():
                     pos_m = convert_abs_to_monitor((0, 0))
                     mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
                     self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
@@ -329,7 +329,7 @@ class Hammerdin(Paladin):
             case "entrance1_03": #node 674
                 ### APPROACH ###
                 ### ATTACK ###
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
+                if not Config().char['mob_detection'] or get_visible_targets():
                     pos_m = convert_abs_to_monitor((0, 0))
                     mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
                     self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
@@ -351,7 +351,7 @@ class Hammerdin(Paladin):
             case "entrance1_04": #node 676- Hall3
                 ### APPROACH ###
                 ### ATTACK ###
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
+                if not Config().char['mob_detection'] or get_visible_targets():
                     pos_m = convert_abs_to_monitor((0, 0))
                     mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
                     self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
@@ -372,7 +372,7 @@ class Hammerdin(Paladin):
             case "entrance2_01": #static_path "diablo_entrance_hall_2"
                 ### APPROACH ###
                 ### ATTACK ###
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
+                if not Config().char['mob_detection'] or get_visible_targets():
                     pos_m = convert_abs_to_monitor((0, 0))
                     mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
                     self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
@@ -394,7 +394,7 @@ class Hammerdin(Paladin):
                 wait (0.2, 0.5)
                 if not self._pather.traverse_nodes([605], self): return False#, timeout=3)
                 ### ATTACK ###
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
+                if not Config().char['mob_detection'] or get_visible_targets():
                     pos_m = convert_abs_to_monitor((0, 0))
                     mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
                     self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
@@ -419,7 +419,7 @@ class Hammerdin(Paladin):
                 self._pather.traverse_nodes_fixed("diablo_trash_b_hall2_605_top2", self) #pull mobs from top
                 if not self._pather.traverse_nodes([605], self): return False#, timeout=3)
                 ### ATTACK ###
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
+                if not Config().char['mob_detection'] or get_visible_targets():
                     pos_m = convert_abs_to_monitor((0, 0))
                     mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
                     self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
@@ -445,7 +445,7 @@ class Hammerdin(Paladin):
                 self._pather.traverse_nodes_fixed("diablo_trash_b_hall3_pull_609", self)
                 if not self._pather.traverse_nodes([609], self): return False#, timeout=3)
                 ### ATTACK ###
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
+                if not Config().char['mob_detection'] or get_visible_targets():
                     pos_m = convert_abs_to_monitor((0, 0))
                     mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
                     self._move_and_attack((0, 0), Config().char["atk_len_cs_trashmobs"])
@@ -474,7 +474,7 @@ class Hammerdin(Paladin):
             case "dia_trash_a": #trash before between Pentagramm and Seal A Layoutcheck
                 ### APPROACH ###
                 ### ATTACK ###
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
+                if not Config().char['mob_detection'] or get_visible_targets():
                     pos_m = convert_abs_to_monitor((0, 0))
                     mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
                     self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
@@ -493,7 +493,7 @@ class Hammerdin(Paladin):
             case "dia_trash_b": #trash before between Pentagramm and Seal B Layoutcheck
                 ### APPROACH ###
                 ### ATTACK ###
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
+                if not Config().char['mob_detection'] or get_visible_targets():
                     pos_m = convert_abs_to_monitor((0, 0))
                     mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
                     self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
@@ -512,7 +512,7 @@ class Hammerdin(Paladin):
             case "dia_trash_c": ##trash before between Pentagramm and Seal C Layoutcheck
                 ### APPROACH ###
                 ### ATTACK ###
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
+                if not Config().char['mob_detection'] or get_visible_targets():
                     pos_m = convert_abs_to_monitor((0, 0))
                     mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
                     self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
@@ -535,7 +535,7 @@ class Hammerdin(Paladin):
             case "layoutcheck_a": #layout check seal A, node 619 A1-L, node 620 A2-Y
                 ### APPROACH ###
                 ### ATTACK ###
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
+                if not Config().char['mob_detection'] or get_visible_targets():
                     pos_m = convert_abs_to_monitor((0, 0))
                     mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
                     self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
@@ -554,7 +554,7 @@ class Hammerdin(Paladin):
             case "layoutcheck_b": #layout check seal B, node 634 B1-S, node 649 B2-U
                 ### APPROACH ###
                 ### ATTACK ###
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
+                if not Config().char['mob_detection'] or get_visible_targets():
                     pos_m = convert_abs_to_monitor((0, 0))
                     mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
                     self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
@@ -572,7 +572,7 @@ class Hammerdin(Paladin):
             case "layoutcheck_c": #layout check seal C, node 656 C1-F, node 664 C2-G
                 ### APPROACH ###
                 ### ATTACK ###
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
+                if not Config().char['mob_detection'] or get_visible_targets():
                     pos_m = convert_abs_to_monitor((0, 0))
                     mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
                     self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
@@ -600,7 +600,7 @@ class Hammerdin(Paladin):
             case "pent_before_b": #node 602, pentagram, before CTA buff & depature to layout check
                 ### APPROACH ###
                 ### ATTACK ###
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
+                if not Config().char['mob_detection'] or get_visible_targets():
                     pos_m = convert_abs_to_monitor((0, 0))
                     mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
                     self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
@@ -618,7 +618,7 @@ class Hammerdin(Paladin):
             case "pent_before_c": #node 602, pentagram, before CTA buff & depature to layout check
                 ### APPROACH ###
                 ### ATTACK ###
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
+                if not Config().char['mob_detection'] or get_visible_targets():
                     pos_m = convert_abs_to_monitor((0, 0))
                     mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
                     self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
@@ -642,7 +642,7 @@ class Hammerdin(Paladin):
                 if not self._pather.traverse_nodes([611], self): return False # , timeout=3):
                 ### ATTACK ###
                 wait(1)#give merc the chance to activate holy freeze
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
+                if not Config().char['mob_detection'] or get_visible_targets():
                     pos_m = convert_abs_to_monitor((0, 0))
                     mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
                     self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
@@ -661,7 +661,7 @@ class Hammerdin(Paladin):
                 ### APPROACH ###
                 if not self._pather.traverse_nodes([612], self): return False # , timeout=3):
                 ### ATTACK ###
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
+                if not Config().char['mob_detection'] or get_visible_targets():
                     if self._skill_hotkeys["redemption"]:
                         keyboard.send(self._skill_hotkeys["redemption"])
                         wait(0.3, 0.6)
@@ -685,7 +685,7 @@ class Hammerdin(Paladin):
                 ### APPROACH ###
                 if not self._pather.traverse_nodes([613], self): return False # , timeout=3):
                 ### ATTACK ###
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
+                if not Config().char['mob_detection'] or get_visible_targets():
                     pos_m = convert_abs_to_monitor((0, 0))
                     mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
                     self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
@@ -734,7 +734,7 @@ class Hammerdin(Paladin):
                 #if not self._pather.traverse_nodes([622], self): return False # , timeout=3):
                 if not self._pather.traverse_nodes([622], self): return False
                 wait(1)#give merc the chance to activate holy freeze
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
+                if not Config().char['mob_detection'] or get_visible_targets():
                     if self._skill_hotkeys["redemption"]:
                         keyboard.send(self._skill_hotkeys["redemption"])
                         wait(0.3, 0.6)
@@ -757,7 +757,7 @@ class Hammerdin(Paladin):
                 ### APPROACH ###
                 # if not self._pather.traverse_nodes([623,624], self): return False #
                 ### ATTACK ###
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
+                if not Config().char['mob_detection'] or get_visible_targets():
                     pos_m = convert_abs_to_monitor((0, 0))
                     mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
                     self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
@@ -905,7 +905,7 @@ class Hammerdin(Paladin):
                 wait(0.1,0.3)
                 if not self._pather.traverse_nodes([655], self): return False # , timeout=3):
                 ### ATTACK ###
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
+                if not Config().char['mob_detection'] or get_visible_targets():
                     pos_m = convert_abs_to_monitor((0, 0))
                     mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
                     self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
@@ -929,7 +929,7 @@ class Hammerdin(Paladin):
                 self._pather.traverse_nodes_fixed("dia_c1f_654_651", self)
                 if not self._pather.traverse_nodes([652], self): return False # , timeout=3):
                 ### ATTACK ###
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
+                if not Config().char['mob_detection'] or get_visible_targets():
                     pos_m = convert_abs_to_monitor((0, 0))
                     mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
                     self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
@@ -1006,7 +1006,7 @@ class Hammerdin(Paladin):
                 seal_layout="C2-G"
                 self._pather.traverse_nodes_fixed("dia_c2g_663", self)
                 ### ATTACK ###
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
+                if not Config().char['mob_detection'] or get_visible_targets():
                     pos_m = convert_abs_to_monitor((0, 0))
                     mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
                     Logger.debug(seal_layout + ": Attacking Infector at position 1/1")
@@ -1026,9 +1026,9 @@ class Hammerdin(Paladin):
 
             case _:
                 ### APPROACH ###
-                Logger.warning("I have no location argument given for kill_cs_trash(" + location + "), should not happen. Throwing some random hammers")
+                Logger.warning("I have no location argument given for dia_kill_trash(" + location + "), should not happen. Throwing some random hammers")
                 ### ATTACK ###
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
+                if not Config().char['mob_detection'] or get_visible_targets():
                     pos_m = convert_abs_to_monitor((0, 0))
                     mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
                     self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
@@ -1053,7 +1053,7 @@ class Hammerdin(Paladin):
                 if not self._pather.traverse_nodes([612], self): return False # , timeout=3):
                 ### ATTACK ###
                 Logger.debug(seal_layout + ": Attacking Vizier")
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
+                if not Config().char['mob_detection'] or get_visible_targets():
                     pos_m = convert_abs_to_monitor((0, 0))
                     mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
                     self._move_and_attack((30, 15), Config().char["atk_len_diablo_vizier"] * 0.5)
@@ -1080,7 +1080,7 @@ class Hammerdin(Paladin):
                 if not self._pather.traverse_nodes([612], self): return False # , timeout=3):
                 ### ATTACK ###
                 Logger.debug(seal_layout + ": Attacking Vizier at position 1/2")
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
+                if not Config().char['mob_detection'] or get_visible_targets():
                     pos_m = convert_abs_to_monitor((0, 0))
                     mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
                     self._move_and_attack((30, 15), Config().char["atk_len_diablo_vizier"] * 0.5)
@@ -1088,7 +1088,7 @@ class Hammerdin(Paladin):
                     self._cast_hammers(1, "redemption")
                 Logger.debug(seal_layout + ": Attacking Vizier at position 2/2")
                 self._pather.traverse_nodes([611], self, timeout=3)
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
+                if not Config().char['mob_detection'] or get_visible_targets():
                     self._move_and_attack((30, 15), Config().char["atk_len_diablo_vizier"] * 0.5)
                     self._move_and_attack((-30, -15), Config().char["atk_len_diablo_vizier"]) # no factor, so merc is not reset by teleport and he his some time to move & kill stray bosses
                     self._cast_hammers(1, "redemption")
@@ -1114,7 +1114,7 @@ class Hammerdin(Paladin):
                 if not self._pather.traverse_nodes([627, 622], self): return False # , timeout=3):
                 ### ATTACK ###
                 Logger.debug(seal_layout + ": Attacking Vizier")
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
+                if not Config().char['mob_detection'] or get_visible_targets():
                     pos_m = convert_abs_to_monitor((0, 0))
                     mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
                     self._move_and_attack((30, 15), Config().char["atk_len_diablo_vizier"] * 0.5)
@@ -1129,7 +1129,7 @@ class Hammerdin(Paladin):
                 if not self._pather.traverse_nodes([627, 622], self): return False # , timeout=3):
                 ### ATTACK ###
                 Logger.debug(seal_layout + ": Attacking Vizier at position 1/2")
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
+                if not Config().char['mob_detection'] or get_visible_targets():
                     pos_m = convert_abs_to_monitor((0, 0))
                     mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
                     self._move_and_attack((30, 15), Config().char["atk_len_diablo_vizier"] * 0.5)
@@ -1137,13 +1137,13 @@ class Hammerdin(Paladin):
                     self._cast_hammers(1, "redemption")
                 Logger.debug(seal_layout + ": Attacking Vizier at position 2/2")
                 self._pather.traverse_nodes([623], self, timeout=3)
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
+                if not Config().char['mob_detection'] or get_visible_targets():
                     self._move_and_attack((30, 15), Config().char["atk_len_diablo_vizier"] * 0.5)
                     self._move_and_attack((-30, -15), Config().char["atk_len_diablo_vizier"] * 0.5)
                     self._cast_hammers(1, "redemption")
                 Logger.debug(seal_layout + ": Attacking Vizier at position 3/3")
                 if not self._pather.traverse_nodes([624], self): return False
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
+                if not Config().char['mob_detection'] or get_visible_targets():
                     self._move_and_attack((30, 15), Config().char["atk_len_diablo_vizier"] * 0.5)
                     self._move_and_attack((-30, -15), Config().char["atk_len_diablo_vizier"])
                     wait(0.1, 0.15)
@@ -1183,7 +1183,7 @@ class Hammerdin(Paladin):
             nodes3 = [632]
             ### ATTACK ###
             Logger.debug(seal_layout + ": Attacking De Seis at position 1/4")
-            if not Config().char['cs_mob_detect'] or get_visible_targets():
+            if not Config().char['mob_detection'] or get_visible_targets():
                 pos_m = convert_abs_to_monitor((0, 0))
                 mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
                 self._move_and_attack((30, 15), Config().char["atk_len_diablo_deseis"] * 0.2)
@@ -1191,18 +1191,18 @@ class Hammerdin(Paladin):
                 self._cast_hammers(1, "redemption")
             Logger.debug(seal_layout + ": Attacking De Seis at position 2/4")
             self._pather.traverse_nodes(nodes1, self, timeout=3)
-            if not Config().char['cs_mob_detect'] or get_visible_targets():
+            if not Config().char['mob_detection'] or get_visible_targets():
                 self._move_and_attack((30, 15), Config().char["atk_len_diablo_deseis"] * 0.2)
                 self._move_and_attack((-30, -15), Config().char["atk_len_diablo_deseis"] * 0.2)
                 self._cast_hammers(1, "redemption")
             Logger.debug(seal_layout + ": Attacking De Seis at position 3/4")
             self._pather.traverse_nodes(nodes2, self, timeout=3)
-            if not Config().char['cs_mob_detect'] or get_visible_targets():
+            if not Config().char['mob_detection'] or get_visible_targets():
                 self._move_and_attack((0, 0), Config().char["atk_len_diablo_deseis"] * 0.5)
                 self._cast_hammers(1, "redemption")
             Logger.debug(seal_layout + ": Attacking De Seis at position 4/4")
             self._pather.traverse_nodes(nodes3, self, timeout=3)
-            if not Config().char['cs_mob_detect'] or get_visible_targets():
+            if not Config().char['mob_detection'] or get_visible_targets():
                 self._move_and_attack((0, 0), Config().char["atk_len_diablo_deseis"])  # no factor, so merc is not reset by teleport and he his some time to move & kill stray bosses
                 wait(0.1, 0.2)
                 self._cast_hammers(2, "redemption")
@@ -1224,7 +1224,7 @@ class Hammerdin(Paladin):
             nodes3 = [641]
             ### ATTACK ###
             Logger.debug(seal_layout + ": Attacking De Seis at position 1/4")
-            if not Config().char['cs_mob_detect'] or get_visible_targets():
+            if not Config().char['mob_detection'] or get_visible_targets():
                 pos_m = convert_abs_to_monitor((0, 0))
                 mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
                 self._move_and_attack((30, 15), Config().char["atk_len_diablo_deseis"] * 0.2)
@@ -1232,18 +1232,18 @@ class Hammerdin(Paladin):
                 self._cast_hammers(1, "redemption")
             Logger.debug(seal_layout + ": Attacking De Seis at position 2/4")
             self._pather.traverse_nodes(nodes1, self, timeout=3)
-            if not Config().char['cs_mob_detect'] or get_visible_targets():
+            if not Config().char['mob_detection'] or get_visible_targets():
                 self._move_and_attack((30, 15), Config().char["atk_len_diablo_deseis"] * 0.2)
                 self._move_and_attack((-30, -15), Config().char["atk_len_diablo_deseis"] * 0.2)
                 self._cast_hammers(1, "redemption")
             Logger.debug(seal_layout + ": Attacking De Seis at position 3/4")
             self._pather.traverse_nodes(nodes2, self, timeout=3)
-            if not Config().char['cs_mob_detect'] or get_visible_targets():
+            if not Config().char['mob_detection'] or get_visible_targets():
                 self._move_and_attack((0, 0), Config().char["atk_len_diablo_deseis"] * 0.5)
                 self._cast_hammers(1, "redemption")
             Logger.debug(seal_layout + ": Attacking De Seis at position 4/4")
             self._pather.traverse_nodes(nodes3, self, timeout=3)
-            if not Config().char['cs_mob_detect'] or get_visible_targets():
+            if not Config().char['mob_detection'] or get_visible_targets():
                 self._move_and_attack((0, 0), Config().char["atk_len_diablo_deseis"])  # no factor, so merc is not reset by teleport and he his some time to move & kill stray bosses
                 wait(0.1, 0.2)
                 self._cast_hammers(2, "redemption")

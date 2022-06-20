@@ -106,6 +106,10 @@ lc_event=[      'DIA_AM_WP',
                 'DIA_AM_B1S',
                 'DIA_AM_B1S_1',
                 'DIA_AM_C1F',
+                'DIA_AM_CHAT',
+                'DIA_AM_CHAT',
+                'DIA_AM_SPAWN',
+                'DIA_AM_NOSPAWN',
         ]
 error_string = ["End failed game"]
 error_array = []

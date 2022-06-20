@@ -379,7 +379,7 @@ class IChar:
     def kill_vizier(self, seal_layout:str) -> bool:
         raise ValueError("Diablo Vizier is not implemented for this character!")
 
-    def kill_cs_trash(self, location:str) -> bool:
+    def dia_kill_trash(self, location:str) -> bool:
         raise ValueError("Diablo CS Trash is not implemented for this character!")
 
     def kill_deseis_automap(self, seal_layout:str) -> bool:

@@ -39,7 +39,7 @@ class Diablo:
 
         Logger.info("Run Diablo")
         Logger.debug("settings for trash =" + str(Config().char["kill_cs_trash"]))
-        Logger.debug("settings for mob_detection =" + str(Config().char["cs_mob_detect"]))
+        Logger.debug("settings for mob_detection =" + str(Config().char["mob_detection"]))
         if not self._char.capabilities.can_teleport_natively:
             raise ValueError("Diablo requires teleport")
         if not self._town_manager.open_wp(start_loc):

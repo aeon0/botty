@@ -216,7 +216,7 @@ class FoHdin(Paladin):
      # Chaos Sanctuary, Trash, Seal Bosses (a = Vizier, b = De Seis, c = Infector) & Diablo #
      ########################################################################################
 
-    def kill_cs_trash(self, location:str) -> bool:
+    def dia_kill_trash(self, location:str) -> bool:
 
         ###########
         # SEALDANCE
@@ -610,7 +610,7 @@ class FoHdin(Paladin):
 
             case _:
                 ### APPROACH ###
-                Logger.error("No location argument given for kill_cs_trash(" + location + "), should not happen")
+                Logger.error("No location argument given for dia_kill_trash(" + location + "), should not happen")
                 ### ATTACK ###
                 self._cs_trash_mobs_attack_sequence()
                 ### LOOT ###

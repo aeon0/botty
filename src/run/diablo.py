@@ -58,7 +58,7 @@ class Diablo:
                 if i >= 1:
                     Logger.debug(seal_layout + ": failed " + str(i+2) + " times, trying to kill trash now")
                     Logger.debug("Sealdance: Kill trash at location: sealdance")
-                    self._char.kill_cs_trash("sealdance")
+                    self._char.dia_kill_trash("sealdance")
                     wait(i*0.5)
                     Logger.debug("Sealdance: Recalibrating at seal_node")
                     if not self._pather.traverse_nodes_automap(seal_node, self._char): return False
@@ -70,6 +70,11 @@ class Diablo:
         if Config().general["info_screenshots"] and not found: cv2.imwrite(f"./log/screenshots/info/info_failed_seal_" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
         return found
 
+
+# BUY POTS & STASH WHEN AT PENTAGRAM
+    def _cs_town_visit(self, location:str) -> bool:
+        Logger.debug("CS Town_visits is currently not implemented")
+        return True
 
     def approach(self, start_loc: Location) -> bool | Location:
         Logger.info("Run Diablo")
@@ -86,7 +91,7 @@ class Diablo:
         self._picked_up_items = False
         self.used_tps = 0
         if do_pre_buff: self._char.pre_buff()
-        
+
         ##############
         # WP to PENT #
         ##############
@@ -94,27 +99,40 @@ class Diablo:
         if not self._pather.traverse_nodes([600], self._char): return False #not using automap works better here
         Logger.debug("ROF: Calibrated at WAYPOINT")
                 
-        self._pather.traverse_nodes_fixed("dia_wp_cs-e", self._char) #Traverse River of Flame (no chance to traverse w/o fixed, there is no reference point between WP & CS Entrance)
+        self._pather.traverse_nodes_fixed("dia_wp_cs-e", self._char) #Traverse River of Flame (no chance to traverse w/o fixed, there is no reference point between WP & CS Entrance) - minimum 3 teleports are needed, if we only cross the gaps (maybe loop template matching the gap, otherwise walking), otherwise its 9
         toggle_automap(False) # just to be safe
         if not self._pather.traverse_nodes_automap([1601], self._char): return False # Calibrate at CS Entrance
         Logger.debug("ROF: Calibrated at CS ENTRANCE")
         
-        #make leecher TP (make param for it): DIA_CS_LEECHER_TP=1
-        #Logger.debug("CS: OPEN LEECHER TP AT ENTRANCE")
-        #self._char.kill_cs_trash("cs_entrance") #clear the area aound TP #DIA_CLEAR_TRASH=1 , DIA_CS_LEECHER_TP=1
-        #if not skills.has_tps():
-        #    Logger.warning("CS: failed to open TP, you should buy new TPs!")
-        #    self.used_tps += 20
-        #mouse.click(button="right")
+        #make leecher TP
+        if Config().char["dia_leecher_tp_cs"]:
+            Logger.debug("CS: OPEN LEECHER TP AT ENTRANCE")
+            self._char.dia_kill_trash("dia_leecher_tp_cs") #clear the area aound TP #DIA_CLEAR_TRASH=1 , DIA_CS_LEECHER_TP=1
+            if not skills.has_tps(): Logger.warning("CS: failed to open TP, you should buy new TPs!")
+            mouse.click(button="right")
                 
-        #decision if we go walking and clear trash
-        #<kill trash up to pent part>
+        #############################
+        # KILL TRASH IN CS ENTRANCE #
+        #############################
 
-        #or we go fast and directly tp pentagram
-        Logger.debug("ROF: Teleporting directly to PENTAGRAM")
-        self._pather.traverse_nodes_fixed("dia_cs-e_pent", self._char) #Skip killing CS Trash & directly go to PENT, thereby revelaing key templates
+        if Config().char["dia_kill_trash"]:
+            Logger.debug("Kill Trash CS -> Pent not implemented yet")
+            #all attack sequences that brings us from CS to Pentagram (thereby revealing the key templates: DIA_AM_CR1, DIA_AM_CR2 & DIA_AM_PENT)
+        
+        else:
+            #we kill no trash
+            Logger.debug("ROF: Teleporting directly to PENTAGRAM")
+            self._pather.traverse_nodes_fixed("dia_cs-e_pent", self._char) #Skip killing CS Trash & directly go to PENT, thereby revelaing key templates
+        
         if not self._pather.traverse_nodes_automap([1600], self._char): return False # calibrate at Pentagram
         Logger.info("CS: Calibrated at PENTAGRAM")
+
+        #make leecher TP
+        if Config().char["dia_leecher_tp_cs"]:
+            Logger.debug("CS: OPEN LEECHER TP AT ENTRANCE")
+            self._char.dia_kill_trash("dia_leecher_tp_pent")
+            if not skills.has_tps(): Logger.warning("CS: failed to open TP, you should buy new TPs!")
+            mouse.click(button="right")
 
         ##########
         # Seal A #
@@ -140,13 +158,27 @@ class Diablo:
         threshold_confirmation2= 0.8
   
         ###############
-        # Layoutcheck #
+        # PREPARATION #
         ###############
         
-        #if do_pre_buff: self._char.pre_buff() #only for cs_kill_trash
-        self._char.kill_cs_trash("pent_before_a") # Clear Pentagram 
-        self._pather.traverse_nodes_automap([1620], self._char) # Go to Layout Check A
-        self._char.kill_cs_trash("layoutcheck_a") # Clear Trash & Loot at Layout Check
+        #if Config().char["dia_town_visits"]: self._cs_town_visit("A")
+        if do_pre_buff and Config().char["dia_kill_trash"]: self._char.pre_buff() #only for dia_kill_trash
+        self._char.dia_kill_trash("pent_before_a") # Clear Pentagram
+
+        #############################
+        # KILL TRASH TOWARDS SEAL A #
+        #############################
+
+        if Config().char["dia_kill_trash"]:
+            Logger.debug("Kill Trash Pent -> A not implemented yet")
+            #all attack sequences that brings us from Pentagram to Layoutcheck A
+        
+        ###############
+        # LAYOUTCHECK #
+        ###############
+
+        if not self._pather.traverse_nodes_automap(calibration_node, self._char, threshold=calibration_threshold, toggle_map=True): return False
+        self._char.dia_kill_trash("layoutcheck_a") # Clear Trash & Loot at Layout Check
         Logger.debug("==============================")
         Logger.debug(f"{sealname}: Checking Layout for "f"{boss}")
         
@@ -190,6 +222,17 @@ class Diablo:
                 seal2_opentemplates=["DIA_A1L2_5_OPEN"] # Boss
                 seal2_closedtemplates=["DIA_A1L2_5_CLOSED","DIA_A1L2_5_MOUSEOVER"] # Boss
                 
+                #CLEAR TRASH
+                if Config().char["dia_kill_trash"]:
+                    Logger.info(seal_layout +": Starting to clear seal")
+                    Logger.debug("Kill Trash at SEAL A not implemented yet")
+                    Logger.debug(seal_layout + "_01: Kill trash")
+                    self._char.dia_kill_trash(seal_layout + "_01")
+                    Logger.debug(seal_layout + "_02: Kill trash")
+                    self._char.dia_kill_trash(seal_layout + "_02")
+                    Logger.debug(seal_layout + "_03: Kill trash")
+                    self._char.dia_kill_trash(seal_layout + "_03")
+
                 #SEAL
                 toggle_automap(False) # just to be safe
                 Logger.info(seal_layout +": Starting to pop seals")
@@ -229,7 +272,18 @@ class Diablo:
                 seal1_closedtemplates=["DIA_A2Y4_29_CLOSED", "DIA_A2Y4_29_MOUSEOVER"] # Fake
                 seal2_opentemplates=["DIA_A2Y4_36_OPEN"] # Boss
                 seal2_closedtemplates=["DIA_A2Y4_36_CLOSED", "DIA_A2Y4_36_MOUSEOVER"] # Boss
-                
+
+                #CLEAR TRASH
+                if Config().char["dia_kill_trash"]:
+                    Logger.info(seal_layout +": Starting to clear seal")
+                    Logger.debug("Kill Trash at SEAL A not implemented yet")
+                    Logger.debug(seal_layout + "_01: Kill trash")
+                    self._char.dia_kill_trash(seal_layout + "_01")
+                    Logger.debug(seal_layout + "_02: Kill trash")
+                    self._char.dia_kill_trash(seal_layout + "_02")
+                    Logger.debug(seal_layout + "_03: Kill trash")
+                    self._char.dia_kill_trash(seal_layout + "_03")
+
                 #SEAL
                 toggle_automap(False) # just to be safe
                 Logger.info(seal_layout +": Starting to pop seals")
@@ -276,14 +330,29 @@ class Diablo:
         threshold_confirmation= 0.75
         threshold_confirmation2= 0.75
 
-        #################
-        # Layoutcheck B #
-        #################
+        ###############
+        # PREPARATION #
+        ###############
         
-        self._char.kill_cs_trash("pent_before_b")
-        if do_pre_buff: self._char.pre_buff()
+        #if Config().char["dia_town_visits"]: self._cs_town_visit("B")
+        
+        if do_pre_buff and Config().char["dia_kill_trash"]: self._char.pre_buff() #only for dia_kill_trash
+        self._char.dia_kill_trash("pent_before_b") # Clear Pentagram
+
+        #############################
+        # KILL TRASH TOWARDS SEAL B #
+        #############################
+
+        if Config().char["dia_kill_trash"]:
+            Logger.debug("Kill Trash Pent -> B not implemented yet")
+            #all attack sequences that brings us from Pentagram to Layoutcheck B
+        
+        ###############
+        # LAYOUTCHECK #
+        ###############
+
         if not self._pather.traverse_nodes_automap(calibration_node, self._char, threshold=calibration_threshold, toggle_map=True): return False
-        self._char.kill_cs_trash("layoutcheck_b")
+        self._char.dia_kill_trash("layoutcheck_b")
         Logger.debug("==============================")
         Logger.debug(f"{sealname}: Checking Layout for "f"{boss}")
         
@@ -328,6 +397,17 @@ class Diablo:
                 seal2_opentemplates=["DIA_B2U2_16_OPEN"]
                 seal2_closedtemplates=["DIA_B2U2_16_CLOSED", "DIA_B2U2_16_MOUSEOVER"]
 
+                #CLEAR TRASH
+                if Config().char["dia_kill_trash"]:
+                    Logger.info(seal_layout +": Starting to clear seal")
+                    Logger.debug("Kill Trash at SEAL B not implemented yet")
+                    Logger.debug(seal_layout + "_01: Kill trash")
+                    self._char.dia_kill_trash(seal_layout + "_01")
+                    Logger.debug(seal_layout + "_02: Kill trash")
+                    self._char.dia_kill_trash(seal_layout + "_02")
+                    Logger.debug(seal_layout + "_03: Kill trash")
+                    self._char.dia_kill_trash(seal_layout + "_03")
+
                 #SEAL
                 toggle_automap(False) # just to be safe
                 Logger.info(seal_layout +": Starting to pop seals")
@@ -368,6 +448,17 @@ class Diablo:
                 seal2_opentemplates=["DIA_B1S2_23_OPEN"]
                 seal2_closedtemplates=["DIA_B1S2_23_CLOSED","DIA_B1S2_23_MOUSEOVER"]
                 
+                #CLEAR TRASH
+                if Config().char["dia_kill_trash"]:
+                    Logger.info(seal_layout +": Starting to clear seal")
+                    Logger.debug("Kill Trash at SEAL B not implemented yet")
+                    Logger.debug(seal_layout + "_01: Kill trash")
+                    self._char.dia_kill_trash(seal_layout + "_01")
+                    Logger.debug(seal_layout + "_02: Kill trash")
+                    self._char.dia_kill_trash(seal_layout + "_02")
+                    Logger.debug(seal_layout + "_03: Kill trash")
+                    self._char.dia_kill_trash(seal_layout + "_03")
+
                 #SEAL
                 toggle_automap(False) # just to be safe
                 Logger.info(seal_layout +": Starting to pop seals")
@@ -413,15 +504,28 @@ class Diablo:
         threshold_confirmation= 0.75
         threshold_confirmation2= 0.75
 
-        ##################
-        # Layoutcheck  C #
-        ##################
+        ###############
+        # PREPARATION #
+        ###############
         
-        self._char.kill_cs_trash("pent_before_c")
-        if do_pre_buff: self._char.pre_buff()
-        self._pather.traverse_nodes_fixed(static_layoutcheck, self._char) # could optionally be a traverse walking, as the node is visible & defined based on corner_L and pentagram
-        self._char.kill_cs_trash("layoutcheck_a")
-        Logger.debug("===============================")
+        #if Config().char["dia_town_visits"]: self._cs_town_visit("A")
+        if do_pre_buff and Config().char["dia_kill_trash"]: self._char.pre_buff() #only for dia_kill_trash
+        self._char.dia_kill_trash("pent_before_c") # Clear Pentagram
+
+        #############################
+        # KILL TRASH TOWARDS SEAL C #
+        #############################
+
+        if Config().char["dia_kill_trash"]:
+            Logger.debug("Kill Trash Pent -> C not implemented yet")
+        
+        ###############
+        # LAYOUTCHECK #
+        ###############
+
+        if not self._pather.traverse_nodes_automap(calibration_node, self._char, threshold=calibration_threshold, toggle_map=True): return False
+        self._char.dia_kill_trash("layoutcheck_c") # Clear Trash & Loot at Layout Check
+        Logger.debug("==============================")
         Logger.debug(f"{sealname}: Checking Layout for "f"{boss}")
         
         if not calibration_node == None:
@@ -464,7 +568,22 @@ class Diablo:
                 seal1_closedtemplates=["DIA_C1F_CLOSED_NEAR","DIA_C1F_MOUSEOVER_NEAR"]
                 seal2_opentemplates=["DIA_B2U2_16_OPEN", "DIA_C1F_BOSS_OPEN_RIGHT", "DIA_C1F_BOSS_OPEN_LEFT"]
                 seal2_closedtemplates=["DIA_C1F_BOSS_MOUSEOVER_LEFT", "DIA_C1F_BOSS_CLOSED_NEAR_LEFT", "DIA_C1F_BOSS_CLOSED_NEAR_RIGHT"]
-                
+
+                #############################
+                # KILL TRASH TOWARDS SEAL C #
+                #############################
+
+                #CLEAR TRASH
+                if Config().char["dia_kill_trash"]:
+                    Logger.info(seal_layout +": Starting to clear seal")
+                    Logger.debug("Kill Trash at SEAL C not implemented yet")
+                    Logger.debug(seal_layout + "_01: Kill trash")
+                    self._char.dia_kill_trash(seal_layout + "_01")
+                    Logger.debug(seal_layout + "_02: Kill trash")
+                    self._char.dia_kill_trash(seal_layout + "_02")
+                    Logger.debug(seal_layout + "_03: Kill trash")
+                    self._char.dia_kill_trash(seal_layout + "_03")
+
                 #SEAL
                 toggle_automap(False) # just to be safe
                 Logger.info(seal_layout +": Starting to pop seals")
@@ -504,6 +623,20 @@ class Diablo:
                 seal1_opentemplates=["DIA_C2G2_21_OPEN"]
                 seal1_closedtemplates=["DIA_C2G2_21_CLOSED", "DIA_C2G2_21_MOUSEOVER"]  
                 
+                #############################
+                # KILL TRASH TOWARDS SEAL C #
+                #############################
+
+                #CLEAR TRASH
+                if Config().char["dia_kill_trash"]:
+                    Logger.info(seal_layout +": Starting to clear seal")
+                    Logger.debug("Kill Trash at SEAL C not implemented yet")
+                    Logger.debug(seal_layout + "_01: Kill trash")
+                    self._char.dia_kill_trash(seal_layout + "_01")
+                    Logger.debug(seal_layout + "_02: Kill trash")
+                    self._char.dia_kill_trash(seal_layout + "_02")
+                    Logger.debug(seal_layout + "_03: Kill trash")
+                    self._char.dia_kill_trash(seal_layout + "_03")
 
                 #SEAL
                 toggle_automap(False) # just to be safe
@@ -537,7 +670,7 @@ class Diablo:
         toggle_automap(False)
         pos_m = convert_abs_to_monitor((640, 360)) # move mouse away during LC to not hover items obscuring the minimap
         mouse.move(*pos_m, delay_factor=[0.1, 0.2]) # move mouse away during LC to not hover items obscuring the minimap
-        if template_finder.search_and_wait(["DIA_AM_SPAWN"], threshold=0.85, timeout=0.2).valid:
+        if template_finder.search_and_wait(["DIA_AM_SPAWN", "DIA_AM_CHAT"], threshold=0.85, timeout=0.2).valid:
             Logger.info("Diablo spawn indicator: positive"  + '\033[92m' + " :)" + '\033[0m')
             if Config().general["info_screenshots"]: cv2.imwrite(f"./log/screenshots/info/info_dia_spawnindicator_positive" + time.strftime("%Y%m%d_%H%M%S") + "automap.png", grab())
             diablo_spawned = True
