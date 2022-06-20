@@ -3,17 +3,25 @@ import numpy as np
 from math import cos, sin, dist, pi, radians, degrees
 
 # return location of a point on a circle
-def point_on_circle(radius: float, theta_deg: float, center: np.ndarray = (0, 0)) -> np.ndarray:
+def point_on_circle(radius: float, theta_deg: float, center: np.ndarray = (0, 0)) -> tuple[int, int]:
     theta = radians(theta_deg)
-    return center + radius * np.array([cos(theta), sin(theta)])
+    res = center + radius * np.array([cos(theta), sin(theta)])
+    return tuple([round(i) for i in res]) 
 
 # return location of a point equidistant from origin randomly distributed between theta of spread_deg
-def spread(point: tuple[float, float], spread_deg: float):
+def spread(pos_abs: tuple[float, float], spread_deg: float) -> tuple[int, int]:
     # random theta between -spread_deg and +spread_deg
-    x1, y1 = point
+    x1, y1 = pos_abs
     start_deg = degrees(np.arctan2(y1, x1))
     random_theta_deg = random.uniform(start_deg-spread_deg/2, start_deg+spread_deg/2)
-    return point_on_circle(dist(point, (0, 0)), random_theta_deg)
+    return point_on_circle(radius = dist(pos_abs, (0, 0)), theta_deg = random_theta_deg)
+
+# return random point within circle centered at x1, y1 with radius r
+def spray(pos_abs: tuple[float, float], r: float) -> tuple[int, int]:
+    x1, y1 = pos_abs
+    x2 = random.uniform(x1-r, x1+r)
+    y2 = random.uniform(y1-r, y1+r)
+    return tuple([round(i) for i in (x2, y2)])
 
 # rotate a vector by angle degrees
 def rotate_vec(vec: np.ndarray, deg: float) -> np.ndarray:

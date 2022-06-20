@@ -9,6 +9,7 @@ from functools import cached_property
 
 from char.utils.capabilities import CharacterCapabilities
 from char.utils.skill_data import get_cast_wait_time
+from char.utils import calculations
 from config import Config
 from item import consumables
 from logger import Logger
@@ -16,14 +17,12 @@ from screen import grab, convert_monitor_to_screen, convert_screen_to_abs, conve
 from ui import skills
 from ui_manager import detect_screen_object, ScreenObjects, get_closest_non_hud_pixel, is_visible, wait_until_visible
 from utils.custom_mouse import mouse
-from utils.misc import wait, cut_roi, is_in_roi, color_filter, arc_spread, random_point_in_circle
+from utils.misc import wait, cut_roi, is_in_roi, color_filter
 import template_finder
 
 class IChar:
     def __init__(self, skill_hotkeys: dict):
         self._active_aura = ""
-        # Add a bit to be on the save side
-        self._last_tp = time.time()
         self._mouse_click_held = {
             "left": False,
             "right": False
@@ -35,8 +34,8 @@ class IChar:
         self.damage_scaling = float(Config().char.get("damage_scaling", 1.0))
         self._use_safer_routines = Config().char["safer_routines"]
         self._base_class = ""
-        self.can_teleport = ""
         self.capabilities = None
+        self._current_weapon = 0 # 0 for main, 1 for offhand
 
     """
     MOUSE AND KEYBOARD METHODS
@@ -54,7 +53,7 @@ class IChar:
             except Exception as e:
                 Logger.warning(f"Failed to delay with delay: {delay}. Exception: {e}")
 
-    def _keypress(self, key: str, hold_time: float | list | tuple | None = None):
+    def _key_press(self, key: str, hold_time: float | list | tuple | None = None):
         if not hold_time:
             keyboard.send(key)
         else:
@@ -64,6 +63,14 @@ class IChar:
             keyboard.send(key, do_press=False)
             self._key_held[key] = False
 
+    def _key_hold(self, key: str, enable: bool = True):
+        if enable and not self._key_held[key]:
+            self._key_held[key] = True
+            keyboard.send(key, do_release=False)
+        elif not enable:
+            self._key_held[key] = False
+            keyboard.send(key, do_press=False)
+
     def _click(self, mouse_click_type: str = "left", hold_time: float | list | tuple | None = None):
         if not hold_time:
             mouse.click(button = mouse_click_type)
@@ -72,7 +79,7 @@ class IChar:
             self._handle_delay(hold_time)
             mouse.release(button = mouse_click_type)
 
-    def _hold_click(self, mouse_click_type: str = "left", enable: bool = True):
+    def _click_hold(self, mouse_click_type: str = "left", enable: bool = True):
         if enable:
             if not self._mouse_click_held[mouse_click_type]:
                 self._mouse_click_held[mouse_click_type] = True
@@ -170,27 +177,27 @@ class IChar:
             msg += f" with {aura} active"
         Logger.debug(msg)
 
-    def _adjust_position(cast_pos_abs, spray, spread_deg):
+    def _randomize_position(pos_abs: tuple[float, float], spray: float = 0, spread_deg: float = 0):
         if spread_deg:
-            cast_pos_abs = arc_spread(cast_pos_abs, spread_deg=spread_deg)
+            pos_abs = calculations.spread(pos_abs = pos_abs, spread_deg = spread_deg)
         if spray:
-            cast_pos_abs = random_point_in_circle(pos = cast_pos_abs, r = spray)
-        return get_closest_non_hud_pixel(cast_pos_abs, "abs")
+            pos_abs = calculations.spray(pos_abs = pos_abs, r = spray)
+        return get_closest_non_hud_pixel(pos_abs, "abs")
 
     def _send_skill_and_cooldown(self, skill_name: str):
-        self._keypress(self._get_hotkey(skill_name))
+        self._key_press(self._get_hotkey(skill_name))
         wait(get_cast_wait_time(skill_name))
 
     def _activate_aura(self, skill_name: str, delay: float | list | tuple | None = (0.04, 0.08)):
         if not self._get_hotkey(skill_name):
             return False
         if self._activate_aura != skill_name: # if aura is already active, don't activate it again
-            self._keypress(self._get_hotkey(skill_name))
+            self._key_press(self._get_hotkey(skill_name))
             self._active_aura = skill_name
             self._handle_delay(delay)
         return True
 
-    def _cast_simple(self, skill_name: str, duration: float | list | tuple | None = None) -> bool:
+    def _cast_simple(self, skill_name: str, duration: float | list | tuple | None = None, tp_frequency: float = 0) -> bool:
         """
         Casts a skill
         """
@@ -201,40 +208,77 @@ class IChar:
                 self._send_skill_and_cooldown(skill_name)
             else:
                 self._stand_still(True)
-                self._keypress(self._get_hotkey(skill_name), hold_time=duration)
+                self._key_press(self._get_hotkey(skill_name), hold_time=duration)
                 self._stand_still(False)
         return True
 
-
-
-    def _cast_at_position(self, skill_name: str, cast_pos_abs: tuple[float, float], spray: float = 0, spread_deg: float = 0, duration: float | list | tuple | None = None) -> bool:
+    def _teleport_to_origin(self):
         """
-        Casts a skill at a given position.
+        Teleports to the origin
         """
+        random_abs = self._randomize_position(pos_abs = (0,0), spray = 5)
+        pos_m = convert_abs_to_monitor(random_abs)
+        mouse.move(*pos_m, [0.12, 0.2])
+        self._cast_teleport()
 
-
-
+    def _cast_at_target(
+        self,
+        skill_name: str,                   
+        cast_pos_abs: tuple[float, float], 
+        spray: float = 0,                  
+        spread_deg: float = 0,             
+        duration: float = 0,               
+        teleport_frequency: float = 0,     
+    ) -> bool:        
+        """ 
+        Casts a skill toward a given target.
+        :param skill_name: name of skill to cast
+        :param cast_pos_abs: absolute position of target
+        :param spray: apply randomization within circle of radius 'spray' centered at target
+        :param spread_deg: apply randomization of target distributed along arc between theta of spread_deg
+        :param duration: hold down skill key for 'duration' seconds
+        :param teleport_frequency: teleport to origin every 'teleport_frequency' seconds
+        :return: True if function finished, False otherwise
+        """
         if not self._get_hotkey(skill_name):
             return False
 
-        if cast_pos_abs:
-            x, y = cast_pos_abs
-            if spray:
-                x += (random.random() * 2 * spray - spray)
-                y += (random.random() * 2 * spray - spray)
-            pos_m = convert_abs_to_monitor((x, y))
-            mouse.move(*pos_m, delay_factor=[0.1, 0.2])
-        self._cast_simple(skill_name, duration)
+        mouse_move_delay = [0.3, 0.5]
+
+        if duration:
+            self._stand_still(True)
+            start = time_of_last_tp = time.perf_counter()
+            while (elapsed_time := time.perf_counter() - start) < duration:
+                random_abs = self._randomize_position(pos_abs = cast_pos_abs, spray = spray, spread_deg = spread_deg)
+                pos_m = convert_abs_to_monitor(random_abs)
+                mouse.move(*pos_m, delay_factor=mouse_move_delay)
+                self._key_hold(self._get_hotkey(skill_name), True)
+                if teleport_frequency and (elapsed_time - time_of_last_tp) >= teleport_frequency:
+                    self._key_hold(self._get_hotkey(skill_name), False)
+                    wait(0.04, 0.08)
+                    self._teleport_to_origin()
+                    time_of_last_tp = elapsed_time
+            self._key_hold(self._get_hotkey(skill_name), False)
+            self._stand_still(False)
+        else:
+            random_abs = self._randomize_position(pos_abs = cast_pos_abs, spray = spray, spread_deg = spread_deg)
+            pos_m = convert_abs_to_monitor(random_abs)
+            mouse.move(*pos_m, delay_factor = [x/2 for x in mouse_move_delay])                
+            self._cast_simple(skill_name)
+
         return True
 
-    def _cast_left_with_aura(self, skill_name: str, cast_pos_abs: tuple[float, float] = None, spray: int = 0, duration: float | list | tuple | None = None, aura: str = "") -> bool:
+    def _cast_left_with_aura(self, skill_name: str, cast_pos_abs: tuple[float, float] = None, spray: float = 0, spread_deg: float = 0, duration: float | list | tuple | None = None, aura: str = "") -> bool:
         """
         Casts a skill at given position with an aura active
         """
         #self._log_cast(skill_name, cast_pos_abs, spray, duration, aura)
         if aura:
             self._activate_aura(aura)
-        return self._cast_at_position(skill_name=skill_name, cast_pos_abs=cast_pos_abs, spray=spray, mouse_click_type="left", duration=duration)
+        return self._cast_at_target(skill_name=skill_name, cast_pos_abs=cast_pos_abs, spray=spray, spread_deg = spread_deg, mouse_click_type="left", duration=duration)
+
+    """
+    TODO: Update this fn
 
     def _cast_in_arc(self, skill_name: str, cast_pos_abs: tuple[float, float] = [0,-100], time_in_s: float = 3, spread_deg: float = 10, hold=True):
         #scale cast time by damage_scaling
@@ -244,13 +288,13 @@ class IChar:
             raise ValueError(f"You did not set {skill_name} hotkey!")
         self._stand_still(True)
 
-        target = self.vec_to_monitor(arc_spread(cast_pos_abs, spread_deg=spread_deg))
+        target = convert_abs_to_monitor(calculations.arc_spread(cast_pos_abs, spread_deg=spread_deg))
         mouse.move(*target,delay_factor=[0.95, 1.05])
         if hold:
             self._hold_click("right", True)
         start = time.time()
         while (time.time() - start) < time_in_s:
-            target = self.vec_to_monitor(arc_spread(cast_pos_abs, spread_deg=spread_deg))
+            target = convert_abs_to_monitor(calculations.arc_spread(cast_pos_abs, spread_deg=spread_deg))
             if hold:
                 mouse.move(*target, delay_factor=[3, 8])
             if not hold:
@@ -261,6 +305,7 @@ class IChar:
         if hold:
             self._hold_click("right", False)
         self._stand_still(False)
+    """
 
     """
     GLOBAL SKILLS
@@ -281,13 +326,14 @@ class IChar:
         return res
 
     def _weapon_switch(self):
-        return self._keypress(self._get_hotkey("weapon_switch"))
+        self._current_weapon = not self._current_weapon
+        return self._key_press(self._get_hotkey("weapon_switch"))
 
     """
     CHARACTER ACTIONS AND MOVEMENT METHODS
     """
     def _force_move(self):
-        self._keypress(self._get_hotkey("force_move"))
+        self._key_press(self._get_hotkey("force_move"))
 
     def _stand_still(self, enable: bool):
         if enable:
@@ -312,7 +358,7 @@ class IChar:
         factor = Config().advanced_options["pathing_delay_factor"]
         mouse.move(pos_monitor[0], pos_monitor[1], randomize=3, delay_factor=[(2+factor)/25, (4+factor)/25])
         wait(0.012, 0.02)
-        self._keypress(self._get_hotkey("teleport"))
+        self._key_press(self._get_hotkey("teleport"))
 
     def _walk_to_position(self, pos_monitor: tuple[float, float], force_move: bool = False):
         factor = Config().advanced_options["pathing_delay_factor"]
@@ -468,11 +514,6 @@ class IChar:
                         return True
         Logger.error(f"Wanted to select {template_type}, but could not find it")
         return False
-
-    @staticmethod
-    def vec_to_monitor(target: tuple[float, float]) -> tuple[float, float]:
-        return convert_abs_to_monitor(target)
-
 
 
     """

@@ -22,7 +22,7 @@ class LightSorc(Sorceress):
         return self._cast_left_with_aura(skill_name="lightning", spray = spray, cast_pos_abs = cast_pos_abs, duration = duration)
 
     def _cast_frozen_orb(self, cast_pos_abs: tuple[float, float], spray: float = 10, duration: float = 0) -> bool:
-        return self._cast_at_position("frozen_orb", cast_pos_abs, spray = spray, duration = duration)
+        return self._cast_at_target("frozen_orb", cast_pos_abs, spray = spray, duration = duration)
 
     def _generic_light_sorc_attack_sequence(self, cast_pos_abs: tuple[float, float], chain_spray: float = 20, duration: float = 0):
         self._cast_lightning(cast_pos_abs, spray=5)
