@@ -115,7 +115,7 @@ class Diablo:
         self._pather.traverse_nodes_fixed("dia_cs-e_pent", self._char) #Skip killing CS Trash & directly go to PENT, thereby revelaing key templates
         if not self._pather.traverse_nodes_automap([1600], self._char): return False # calibrate at Pentagram
         Logger.info("CS: Calibrated at PENTAGRAM")
-        """
+
         ##########
         # Seal A #
         ##########
@@ -253,8 +253,6 @@ class Diablo:
                 return False
     
         
-        """
-        """
         ##########
         # Seal B #
         ##########
@@ -392,7 +390,6 @@ class Diablo:
                 if Config().general["info_screenshots"]: cv2.imwrite(f"./log/screenshots/info/info_" + seal_layout2 + "_LC_fail" + time.strftime("%Y%m%d_%H%M%S") + "automap.png", grab())
                 return False
   
-        """
         ##########
         # Seal C #
         ##########
@@ -407,7 +404,7 @@ class Diablo:
         calibration_node = [1640]
         calibration_threshold = 0.83
         
-        templates_primary= ["DIA_AM_C2G"]
+        templates_primary= ["DIA_AM_C2G", "DIA_AM_C2G_1", "DIA_AM_C2G_2"]
         threshold_primary= 0.75
                 
         templates_confirmation= ["DIA_AM_C1F"]
@@ -532,14 +529,35 @@ class Diablo:
         ##########
         # Diablo #
         ##########
-        """
-        Logger.info("Waiting for Diablo to spawn")
+        
         if not self._pather.traverse_nodes_automap([1600], self._char): return False
-        self._char.kill_diablo()
-        """
-        self._picked_up_items |= self._pickit.pick_up_items(char=self._char)
-        wait(0.5, 0.7)
-        return (Location.A4_DIABLO_END, self._picked_up_items)
+        
+        Logger.info("Waiting for Diablo to spawn")
+        
+        toggle_automap(False)
+        pos_m = convert_monitor_to_screen((0, 0)) # move mouse away during LC to not hover items obscuring the minimap
+        mouse.move(*pos_m, delay_factor=[0.1, 0.2]) # move mouse away during LC to not hover items obscuring the minimap
+        if template_finder.search_and_wait(["DIA_AM_SPAWN"], threshold=0.85, timeout=0.2).valid:
+            Logger.info("FYI: Diablo Spawn indicator: positive")
+            if Config().general["info_screenshots"]: cv2.imwrite(f"./log/screenshots/info/info_dia_spawnindicator_positive" + time.strftime("%Y%m%d_%H%M%S") + "automap.png", grab())
+            diablo_spawned = True
+        else:
+            if template_finder.search_and_wait(["DIA_AM_NOSPAWN"], threshold=0.85, timeout=0.2).valid:
+                Logger.info("FYI: Diablo Spawn indicator: negative")
+                if Config().general["info_screenshots"]: cv2.imwrite(f"./log/screenshots/info/info_dia_spawnindicator_negative" + time.strftime("%Y%m%d_%H%M%S") + "automap.png", grab())
+                diablo_spawned = False
+            else:        
+                Logger.info("FYI: Diablo Spawn indicator: not found - trying to kill anways")
+                if Config().general["info_screenshots"]: cv2.imwrite(f"./log/screenshots/info/info_dia_spawnindicator_notfound" + time.strftime("%Y%m%d_%H%M%S") + "automap.png", grab())
+                diablo_spawned = True
+
+        if diablo_spawned:
+            self._char.kill_diablo()
+            self._picked_up_items |= self._pickit.pick_up_items(char=self._char)
+            wait(0.5, 0.7)
+            return (Location.A4_DIABLO_END, self._picked_up_items)
+        else: 
+            return False
 
         #############
         # TODO LIST #
