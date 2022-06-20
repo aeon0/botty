@@ -1,8 +1,6 @@
-from typing import Callable, TypeVar
-import cv2
+from typing import Callable
 import keyboard
 import math
-import numpy as np
 import random
 import time
 from functools import cached_property
@@ -13,11 +11,11 @@ from char.tools import calculations
 from config import Config
 from item import consumables
 from logger import Logger
-from screen import grab, convert_monitor_to_screen, convert_screen_to_abs, convert_abs_to_monitor, convert_screen_to_monitor, convert_abs_to_screen
+from screen import grab, convert_monitor_to_screen, convert_screen_to_abs, convert_abs_to_monitor, convert_abs_to_screen
 from ui import skills
-from ui_manager import detect_screen_object, ScreenObjects, get_closest_non_hud_pixel, is_visible, wait_until_visible
+from ui_manager import ScreenObjects, get_closest_non_hud_pixel, is_visible, wait_until_visible
 from utils.custom_mouse import mouse
-from utils.misc import wait, cut_roi, is_in_roi, color_filter
+from utils.misc import wait, is_in_roi
 import template_finder
 
 class IChar:
