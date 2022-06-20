@@ -101,7 +101,7 @@ class Bone_Necro(IChar):
             Logger.info(f'Circle cast {cast_spell.value} from {cast_start_angle}º to {cast_end_angle}º over {cast_div} casts')
 
         keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_release=False)
-        keyboard.send(hotkeys.d2r_keymap[cast_spell])
+        keyboard.send(hotkeys.right_skill_key_map[cast_spell])
         if hold:
             mouse.press(button="right")
 

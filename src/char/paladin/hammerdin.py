@@ -25,12 +25,13 @@ class Hammerdin(Paladin):
         self._pather.offset_node(149, (70, 10))
 
     def _cast_hammers(self, time_in_s: float, aura: SkillName = SkillName.Concentration):
-        if aura in hotkeys.right_skill_key_map and SkillName.BlessedHammer in hotkeys.right_skill_key_map:
-            keyboard.send(hotkeys.d2r_keymap[aura])
+        if aura in hotkeys.right_skill_key_map:
+            keyboard.send(hotkeys.right_skill_key_map[aura])
             wait(0.05, 0.1)
             keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_release=False)
             wait(0.05, 0.1)
-            keyboard.send(hotkeys.right_skill_key_map[SkillName.BlessedHammer])
+            if SkillName.BlessedHammer in hotkeys.right_skill_key_map:
+                keyboard.send(hotkeys.right_skill_key_map[SkillName.BlessedHammer])
             wait(0.05, 0.1)
             start = time.time()
             while (time.time() - start) < time_in_s:

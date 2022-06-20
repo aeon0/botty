@@ -349,7 +349,7 @@ class Necro(IChar):
     def _cast_circle(self, cast_dir: tuple[float,float],cast_start_angle: float=0.0, cast_end_angle: float=90.0,cast_div: int = 10,cast_v_div: int=4,cast_spell: SkillName=SkillName.RaiseSkeleton,delay: float=1.0,offset: float=1.0):
         Logger.info('\033[93m'+"circle cast ~>"+cast_spell.value+'\033[0m')
         keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_release=False)
-        keyboard.send(hotkeys.d2r_keymap[cast_spell])
+        keyboard.send(hotkeys.right_skill_key_map[cast_spell])
         mouse.press(button="right")
 
         for i in range(cast_div):

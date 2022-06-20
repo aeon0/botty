@@ -374,7 +374,7 @@ class Poison_Necro(IChar):
         Logger.info('\033[93m'+"circle cast ~>"+cast_spell+'\033[0m')
         keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_release=False)
         keyboard.send(self._skill_hotkeys[cast_spell])
-        keyboard.send(hotkeys.d2r_keymap[cast_spell])
+        keyboard.send(hotkeys.right_skill_key_map[cast_spell])
         mouse.press(button="right")
 
         for i in range(cast_div):
