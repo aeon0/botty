@@ -732,39 +732,39 @@ class Pather:
                 #'['DIA_AM_WP']': (0, 0),
                 #'['DIA_AM_CS']': (0, 0),
                 #'['DIA_AM_E_B']': (0, 0),
-                'DIA_AM_PENT': (312, 128),
-                #'DIA_AM_PENT1': (320, 125),
-                #'DIA_AM_PENT2': (312, 128),
-                #'DIA_AM_C1': (478, 134),
-                #'DIA_AM_C2': (313, 210),
-                #'DIA_AM_C3': (148, 138),
-                #'DIA_AM_C4': (309, 29),
+                'DIA_AM_PENT': (258, 168),
+                #'DIA_AM_PENT1': (265, 164),
+                #'DIA_AM_PENT2': (258, 168),
+                #'DIA_AM_C1': (424, 172),
+                #'DIA_AM_C2': (258, 249),
+                #'DIA_AM_C3': (94, 177),
+                #'DIA_AM_C4': (254, 68),
                 #'['DIA_AM_A2Y']': (0, 0),
                 #'['DIA_AM_B2U']': (0, 0),
-                #'DIA_AM_C2G': (-45, -22),
+                #'DIA_AM_C2G': (-100, 18),
                 #'['DIA_AM_E_A']': (0, 0),
                 #'['DIA_AM_A1L']': (0, 0),
-                #'DIA_AM_B1S': (-80, 270),
+                #'DIA_AM_B1S': (-135, 310),
                 #'['DIA_AM_C1F']': (0, 0),
                 },
             
-            1647: { # C2G Fight Infector
+            1647: { # C2G Fight Infector - hiding at the pillar
                 #'['DIA_AM_WP']': (0, 0),
                 #'['DIA_AM_CS']': (0, 0),
                 #'['DIA_AM_E_B']': (0, 0),
                 'DIA_AM_PENT': (296, 168),
-                'DIA_AM_PENT1': (304, 164),
-                'DIA_AM_PENT2': (296, 168),
-                'DIA_AM_C1': (462, 172),
-                'DIA_AM_C2': (297, 249),
-                'DIA_AM_C3': (132, 177),
-                'DIA_AM_C4': (293, 68),
+                #'DIA_AM_PENT1': (304, 164),
+                #'DIA_AM_PENT2': (296, 168),
+                #'DIA_AM_C1': (462, 172),
+                #'DIA_AM_C2': (297, 249),
+                #'DIA_AM_C3': (132, 177),
+                #'DIA_AM_C4': (293, 68),
                 #'['DIA_AM_A2Y']': (0, 0),
                 #'['DIA_AM_B2U']': (0, 0),
-                'DIA_AM_C2G': (-61, 18),
+                #'DIA_AM_C2G': (-61, 18),
                 #'['DIA_AM_E_A']': (0, 0),
                 #'['DIA_AM_A1L']': (0, 0),
-                'DIA_AM_B1S': (-96, 310),
+                #'DIA_AM_B1S': (-96, 310),
                 #'['DIA_AM_C1F']': (0, 0),
                 },
 
@@ -1341,7 +1341,7 @@ if __name__ == "__main__":
     char = Hammerdin(Config().hammerdin, pather, PickIt) #Config().char,
     char.discover_capabilities()
 
-    #display_all_nodes(pather, "PINDLE_") #use this function to explore the templates and nodes visibile in the area you are currently located ingame
+    #display_all_nodes(pather, "DIA_AM") #use this function to explore the templates and nodes visibile in the area you are currently located ingame
     
    
     """
@@ -1399,17 +1399,16 @@ if __name__ == "__main__":
     pather.traverse_nodes_automap([1600], char) #PENT
     """
     
-    nodes = 2100
+    nodes = 661
     pather.traverse_nodes([nodes], char) #use this function to test nodes
-    #pather.traverse_nodes_automap([1647], char, toggle_map=True) 
+    #pather.traverse_nodes_automap([1646], char, toggle_map=True) 
     
     if Config().general["use_automap_navigation"] == 1 :
         while True:
-            Logger.warning("Checking Automap Status")
+            #Logger.warning("Checking Automap Status")
             toggle_automap(True)
             #print("1" + str(nodes) + ": {")
-            print(str(nodes) + ": {")
-            """
+            print("xxx: {")
             show_automap_pos(["DIA_AM_WP"])
             show_automap_pos(["DIA_AM_CS"])
             show_automap_pos(["DIA_AM_E_B"])
@@ -1427,12 +1426,8 @@ if __name__ == "__main__":
             show_automap_pos(["DIA_AM_A1L"])
             show_automap_pos(["DIA_AM_B1S"])
             show_automap_pos(["DIA_AM_C1F"])
-            """
             #show_automap_pos(["A1_TOWN_AUTOMAP_NORTH"])
             #show_automap_pos(["A1_TOWN_AUTOMAP_SOUTH"])
-            show_automap_pos(["PINDLE_AM_1"])
-            show_automap_pos(["PINDLE_AM_2"])
-            show_automap_pos(["PINDLE_AM_3"])
             print("    },")
             toggle_automap(False)
             Logger.warning("End of List - Press F12 to Stop")

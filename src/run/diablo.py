@@ -502,10 +502,10 @@ class Diablo:
                 seal_layout = seal_layout2
                 node_seal1_automap=[1645] #Fake
                 node_seal2_automap=[1646] #Boss
-                seal1_opentemplates=["DIA_C2G2_7_OPEN"]
-                seal1_closedtemplates=["DIA_C2G2_7_CLOSED", "DIA_C2G2_7_MOUSEOVER"]
-                seal2_opentemplates=["DIA_C2G2_21_OPEN"]
-                seal2_closedtemplates=["DIA_C2G2_21_CLOSED", "DIA_C2G2_21_MOUSEOVER"]  
+                seal2_opentemplates=["DIA_C2G2_7_OPEN"]
+                seal2_closedtemplates=["DIA_C2G2_7_CLOSED", "DIA_C2G2_7_MOUSEOVER"]
+                seal1_opentemplates=["DIA_C2G2_21_OPEN"]
+                seal1_closedtemplates=["DIA_C2G2_21_CLOSED", "DIA_C2G2_21_MOUSEOVER"]  
                 
 
                 #SEAL
