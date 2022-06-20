@@ -150,7 +150,7 @@ class Necro(IChar):
         ''' print counts for summons '''
         Logger.info('\33[31m'+"Summon status | "+str(self._skeletons_count)+"skele | "+str(self._revive_count)+" rev | "+self._golem_count+" |"+'\033[0m')
 
-    def _revive(self, cast_pos_abs: tuple[float, float], spray: int = 10, cast_count: int=12):
+    def _revive(self, cast_pos_abs: tuple[float, float], spray: float = 10, cast_count: int=12):
         Logger.info('\033[94m'+"raise revive"+'\033[0m')
         keyboard.send(Config().char["stand_still"], do_release=False)
         for _ in range(cast_count):
@@ -179,7 +179,7 @@ class Necro(IChar):
             mouse.release(button="right")
         keyboard.send(Config().char["stand_still"], do_press=False)
 
-    def _raise_skeleton(self, cast_pos_abs: tuple[float, float], spray: int = 10, cast_count: int=16):
+    def _raise_skeleton(self, cast_pos_abs: tuple[float, float], spray: float = 10, cast_count: int=16):
         Logger.info('\033[94m'+"raise skeleton"+'\033[0m')
         keyboard.send(Config().char["stand_still"], do_release=False)
         for _ in range(cast_count):
@@ -208,7 +208,7 @@ class Necro(IChar):
             mouse.release(button="right")
         keyboard.send(Config().char["stand_still"], do_press=False)
 
-    def _raise_mage(self, cast_pos_abs: tuple[float, float], spray: int = 10, cast_count: int=16):
+    def _raise_mage(self, cast_pos_abs: tuple[float, float], spray: float = 10, cast_count: int=16):
         Logger.info('\033[94m'+"raise mage"+'\033[0m')
         keyboard.send(Config().char["stand_still"], do_release=False)
         for _ in range(cast_count):
@@ -283,7 +283,7 @@ class Necro(IChar):
 
 
 
-    def _left_attack(self, cast_pos_abs: tuple[float, float], spray: int = 10):
+    def _left_attack(self, cast_pos_abs: tuple[float, float], spray: float = 10):
         keyboard.send(Config().char["stand_still"], do_release=False)
         if self._skill_hotkeys["skill_left"]:
             keyboard.send(self._skill_hotkeys["skill_left"])
@@ -298,7 +298,7 @@ class Necro(IChar):
 
         keyboard.send(Config().char["stand_still"], do_press=False)
 
-    def _left_attack_single(self, cast_pos_abs: tuple[float, float], spray: int = 10, cast_count: int=6):
+    def _left_attack_single(self, cast_pos_abs: tuple[float, float], spray: float = 10, cast_count: int=6):
         keyboard.send(Config().char["stand_still"], do_release=False)
         if self._skill_hotkeys["skill_left"]:
             keyboard.send(self._skill_hotkeys["skill_left"])
@@ -325,7 +325,7 @@ class Necro(IChar):
         wait(0.25, 0.35)
         mouse.release(button="right")
 
-    def _corpse_explosion(self, cast_pos_abs: tuple[float, float], spray: int = 10,cast_count: int = 8):
+    def _corpse_explosion(self, cast_pos_abs: tuple[float, float], spray: float = 10,cast_count: int = 8):
         keyboard.send(Config().char["stand_still"], do_release=False)
         Logger.info('\033[93m'+"corpse explosion~> random cast"+'\033[0m')
         for _ in range(cast_count):

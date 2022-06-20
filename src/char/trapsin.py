@@ -35,7 +35,7 @@ class Trapsin(IChar):
             mouse.click(button="right")
             wait(self._cast_duration)
 
-    def _left_attack(self, cast_pos_abs: tuple[float, float], spray: int = 10):
+    def _left_attack(self, cast_pos_abs: tuple[float, float], spray: float = 10):
         keyboard.send(Config().char["stand_still"], do_release=False)
         if self._skill_hotkeys["skill_left"]:
             keyboard.send(self._skill_hotkeys["skill_left"])

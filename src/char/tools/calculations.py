@@ -6,11 +6,10 @@ from math import cos, sin, dist, pi, radians, degrees
 def point_on_circle(radius: float, theta_deg: float, center: np.ndarray = (0, 0)) -> tuple[int, int]:
     theta = radians(theta_deg)
     res = center + radius * np.array([cos(theta), sin(theta)])
-    return tuple([round(i) for i in res]) 
+    return tuple([round(i) for i in res])
 
 # return location of a point equidistant from origin randomly distributed between theta of spread_deg
 def spread(pos_abs: tuple[float, float], spread_deg: float) -> tuple[int, int]:
-    # random theta between -spread_deg and +spread_deg
     x1, y1 = pos_abs
     start_deg = degrees(np.arctan2(y1, x1))
     random_theta_deg = random.uniform(start_deg-spread_deg/2, start_deg+spread_deg/2)

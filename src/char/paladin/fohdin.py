@@ -7,7 +7,7 @@ from inventory.personal import inspect_items
 from logger import Logger
 from pather import Location
 from screen import convert_abs_to_monitor, convert_screen_to_abs, grab
-from target_detect import get_visible_targets, log_targets
+from target_detect import get_visible_targets
 from utils.misc import wait
 
 class FoHdin(Paladin):
@@ -22,15 +22,31 @@ class FoHdin(Paladin):
         self.move(pos_m, force_move=True)
         self._cast_hammers(atk_len)
 
-    def _cast_hammers(self, duration: float = 0, aura: str = "concentration"): #for nihlathak
-        return self._cast_left_with_aura(skill_name = "blessed_hammer", spray = 0, duration = duration, aura = aura)
+    def _cast_hammers(
+        self,
+        duration: float = 0,
+        aura: str = "concentration"
+    ): #for nihlathak
+        return self._cast_left_with_aura(skill_name = "blessed_hammer", spray = 0, spread_deg=0, duration = duration, aura = aura)
 
-    def _cast_foh(self, cast_pos_abs: tuple[float, float], spray: int = 10, duration: float = 0, aura: str = "conviction"):
+    def _cast_foh(
+        self,
+        cast_pos_abs: tuple[float, float],
+        spray: float = 10,
+        duration: float = 0,
+        aura: str = "conviction",
+    ):
         return self._cast_left_with_aura(skill_name = "foh", cast_pos_abs = cast_pos_abs, spray = spray, duration = duration, aura = aura)
 
-    def _cast_holy_bolt(self, cast_pos_abs: tuple[float, float], spray: int = 10, duration: float = 0, aura: str = "concentration"):
-        #if skill is bound : concentration, use concentration, otherwise move on with conviction. alternatively use redemption whilst holybolting. conviction does not help holy bolt (its magic damage)
-        return self._cast_left_with_aura(skill_name = "holy_bolt", cast_pos_abs = cast_pos_abs, spray = spray, duration = duration, aura = aura)
+    def _cast_holy_bolt(
+        self,
+        cast_pos_abs: tuple[float, float],
+        spray: float = 10,
+        spread_deg: float = 10,
+        duration: float = 0,
+        aura: str = "concentration",
+    ):
+        return self._cast_left_with_aura(skill_name = "holy_bolt", cast_pos_abs = cast_pos_abs, spray = spray, spread_deg = spread_deg, duration = duration, aura = aura)
 
     def _generic_foh_attack_sequence(
         self,
@@ -39,7 +55,7 @@ class FoHdin(Paladin):
         max_duration: float = 15,
         foh_to_holy_bolt_ratio: int = 3,
         target_detect: bool = True,
-        default_spray: int = 50,
+        default_spray: float = 50,
         aura: str = ""
     ) -> bool:
         start = time.time()

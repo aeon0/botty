@@ -20,7 +20,7 @@ class Basic_Ranged(IChar):
         super().__init__(skill_hotkeys)
         self._pather = pather
 
-    def _left_attack(self, cast_pos_abs: tuple[float, float], delay: tuple[float, float] = (0.2, 0.3), spray: int = 10):
+    def _left_attack(self, cast_pos_abs: tuple[float, float], delay: tuple[float, float] = (0.2, 0.3), spray: float = 10):
         if self._skill_hotkeys["left_attack"]:
             keyboard.send(self._skill_hotkeys["left_attack"])
         for _ in range(4):

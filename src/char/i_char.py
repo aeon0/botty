@@ -17,6 +17,7 @@ from ui_manager import ScreenObjects, get_closest_non_hud_pixel, is_visible, wai
 from utils.custom_mouse import mouse
 from utils.misc import wait, is_in_roi
 import template_finder
+from target_detect import get_visible_targets
 
 class IChar:
     def __init__(self, skill_hotkeys: dict):
@@ -163,7 +164,7 @@ class IChar:
     """
 
     @staticmethod
-    def _log_cast(skill_name: str, cast_pos_abs: tuple[float, float], spray: int, min_duration: float, aura: str):
+    def _log_cast(skill_name: str, cast_pos_abs: tuple[float, float], spray: float, min_duration: float, aura: str):
         msg = f"Casting skill {skill_name}"
         if cast_pos_abs:
             msg += f" at screen coordinate {convert_abs_to_screen(cast_pos_abs)}"
@@ -190,12 +191,11 @@ class IChar:
         if not self._get_hotkey(skill_name):
             return False
         if self._activate_aura != skill_name: # if aura is already active, don't activate it again
-            self._key_press(self._get_hotkey(skill_name))
             self._active_aura = skill_name
-            self._handle_delay(delay)
+            self._key_press(self._get_hotkey(skill_name), hold_time= delay)
         return True
 
-    def _cast_simple(self, skill_name: str, duration: float | list | tuple | None = None, tp_frequency: float = 0) -> bool:
+    def _cast_simple(self, skill_name: str, duration: float | list | tuple | None = None) -> bool:
         """
         Casts a skill
         """
@@ -206,18 +206,9 @@ class IChar:
                 self._send_skill_and_cooldown(skill_name)
             else:
                 self._stand_still(True)
-                self._key_press(self._get_hotkey(skill_name), hold_time=duration)
+                self._key_press(self._get_hotkey(skill_name), hold_time = duration)
                 self._stand_still(False)
         return True
-
-    def _teleport_to_origin(self):
-        """
-        Teleports to the origin
-        """
-        random_abs = self._randomize_position(pos_abs = (0,0), spray = 5)
-        pos_m = convert_abs_to_monitor(random_abs)
-        mouse.move(*pos_m, [0.12, 0.2])
-        self._cast_teleport()
 
     def _cast_at_position(
         self,
@@ -225,8 +216,10 @@ class IChar:
         cast_pos_abs: tuple[float, float],
         spray: float = 0,
         spread_deg: float = 0,
-        duration: float = 0,
+        min_duration: float = 0,
+        max_duration: float = 0,
         teleport_frequency: float = 0,
+        use_target_detect = False,
     ) -> bool:
         """
         Casts a skill toward a given target.
@@ -234,8 +227,10 @@ class IChar:
         :param cast_pos_abs: absolute position of target
         :param spray: apply randomization within circle of radius 'spray' centered at target
         :param spread_deg: apply randomization of target distributed along arc between theta of spread_deg
-        :param duration: hold down skill key for 'duration' seconds
+        :param min_duration: hold down skill key for minimum 'duration' seconds
+        :param max_duration: hold down skill key for maximum 'duration' seconds (used only if use_target_detect is True)
         :param teleport_frequency: teleport to origin every 'teleport_frequency' seconds
+        :param use_target_detect: override cast_pos_abs with target detection
         :return: True if function finished, False otherwise
         """
         if not self._get_hotkey(skill_name):
@@ -243,19 +238,33 @@ class IChar:
 
         mouse_move_delay = [0.4, 0.6]
 
-        if duration:
+        if max_duration:
             self._stand_still(True)
             start = time_of_last_tp = time.perf_counter()
-            while (elapsed_time := time.perf_counter() - start) < duration:
-                random_abs = self._randomize_position(pos_abs = cast_pos_abs, spray = spray, spread_deg = spread_deg)
-                pos_m = convert_abs_to_monitor(random_abs)
+            # cast while time is less than max duration
+            while (elapsed_time := time.perf_counter() - start) < max_duration:
+                targets = None
+                # if target detection is enabled, use it to get target position
+                if use_target_detect:
+                    targets = get_visible_targets()
+                    pos_abs = targets[0].center_abs
+                    pos_abs = self._randomize_position(pos_abs = pos_abs, spray = 5, spread_deg = 0)
+                # otherwise, use the given position with randomization parameters
+                else:
+                    pos_abs = self._randomize_position(pos_abs = cast_pos_abs, spray = spray, spread_deg = spread_deg)
+                pos_m = convert_abs_to_monitor(pos_abs)
                 mouse.move(*pos_m, delay_factor=mouse_move_delay)
+                # start keyhold, if not already started
                 self._key_hold(self._get_hotkey(skill_name), True)
+                # if teleport frequency is set, teleport every teleport_frequency seconds
                 if teleport_frequency and (elapsed_time - time_of_last_tp) >= teleport_frequency:
                     self._key_hold(self._get_hotkey(skill_name), False)
                     wait(0.04, 0.08)
                     self._teleport_to_origin()
                     time_of_last_tp = elapsed_time
+                # if target detection is enabled and minimum time has elapsed and no targets remain, end casting
+                if use_target_detect and (elapsed_time > min_duration) and not targets:
+                    break
             self._key_hold(self._get_hotkey(skill_name), False)
             self._stand_still(False)
         else:
@@ -326,6 +335,15 @@ class IChar:
     """
     CHARACTER ACTIONS AND MOVEMENT METHODS
     """
+
+    def _teleport_to_origin(self):
+        """
+        Teleports to the origin
+        """
+        random_abs = self._randomize_position(pos_abs = (0,0), spray = 5)
+        pos_m = convert_abs_to_monitor(random_abs)
+        mouse.move(*pos_m, [0.12, 0.2])
+        self._cast_teleport()
 
     def _weapon_switch(self):
         if self.main_weapon_equipped is not None:

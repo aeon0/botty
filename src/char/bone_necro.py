@@ -29,7 +29,7 @@ class Bone_Necro(IChar):
         self.pre_move()
         self.move(pos_m, force_move=True)
 
-    def bone_wall(self, cast_pos_abs: tuple[float, float], spray: int):
+    def bone_wall(self, cast_pos_abs: tuple[float, float], spray: float):
         if not self._skill_hotkeys["bone_wall"]:
             raise ValueError("You did not set bone_wall hotkey!")
         keyboard.send(Config().char["stand_still"], do_release=False)
@@ -76,7 +76,7 @@ class Bone_Necro(IChar):
             mouse.click(button="right")
             wait(self._cast_duration)
 
-    def _corpse_explosion(self, cast_pos_abs: tuple[float, float], spray: int = 10,cast_count: int = 8):
+    def _corpse_explosion(self, cast_pos_abs: tuple[float, float], spray: float = 10,cast_count: int = 8):
         keyboard.send(Config().char["stand_still"], do_release=False)
         Logger.debug(f'casting corpse explosion {cast_count} times with spray = {spray}')
         for _ in range(cast_count):
