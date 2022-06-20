@@ -224,19 +224,21 @@ class IChar:
         """
         Casts a skill toward a given target.
         :param skill_name: name of skill to cast
-        :param cast_pos_abs: absolute position of target
-        :param spray: apply randomization within circle of radius 'spray' centered at target
-        :param spread_deg: apply randomization of target distributed along arc between theta of spread_deg
+        :param cast_pos_abs: default absolute position to cast at
+        :param spray: apply randomization within circle of radius 'spray' centered at cast_pos_abs
+        :param spread_deg: apply randomization of cast position distributed along arc between theta of spread_deg
         :param min_duration: hold down skill key for minimum 'duration' seconds
-        :param max_duration: hold down skill key for maximum 'duration' seconds (used only if use_target_detect is True)
+        :param max_duration: hold down skill key for maximum 'duration' seconds
         :param teleport_frequency: teleport to origin every 'teleport_frequency' seconds
-        :param use_target_detect: override cast_pos_abs with target detection
+        :param use_target_detect: override cast_pos_abs with closest target position
         :return: True if function finished, False otherwise
         """
         if not self._get_hotkey(skill_name):
             return False
 
         mouse_move_delay = [0.4, 0.6]
+        if min_duration > max_duration:
+            max_duration = min_duration
 
         if max_duration:
             self._stand_still(True)
