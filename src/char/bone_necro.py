@@ -32,7 +32,7 @@ class Bone_Necro(IChar):
         self.move(pos_m, force_move=True)
 
     def bone_wall(self, cast_pos_abs: tuple[float, float], spray: int):
-        if not self._skill_hotkeys["bone_wall"]:
+        if SkillName.BoneWall not in hotkeys.right_skill_key_map:
             raise ValueError("You did not set bone_wall hotkey!")
         keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_release=False)
         keyboard.send(hotkeys.right_skill_map[SkillName.BoneWall])
@@ -55,26 +55,26 @@ class Bone_Necro(IChar):
 
     def _clay_golem(self):
         Logger.debug('Casting clay golem')
-        keyboard.send(self._skill_hotkeys["clay_golem"])
+        keyboard.send(hotkeys.right_skill_key_map[SkillName.ClayGolem])
         wait(0.05, 0.2)
         mouse.click(button="right")
         wait(self._cast_duration)
 
     def bone_armor(self):
-        if self._skill_hotkeys["bone_armor"]:
-            keyboard.send(self._skill_hotkeys["bone_armor"])
+        if SkillName.BoneArmor in hotkeys.right_skill_key_map:
+            keyboard.send(hotkeys.right_skill_key_map[SkillName.BoneArmor])
             wait(0.04, 0.1)
             mouse.click(button="right")
             wait(self._cast_duration)
-        if self._skill_hotkeys["clay_golem"]:
-            keyboard.send(self._skill_hotkeys["clay_golem"])
+        if SkillName.ClayGolem in hotkeys.right_skill_key_map:
+            keyboard.send(hotkeys.right_skill_key_map[SkillName.ClayGolem])
             wait(0.04, 0.1)
             mouse.click(button="right")
             wait(self._cast_duration)
 
     def _bone_armor(self):
-        if self._skill_hotkeys["bone_armor"]:
-            keyboard.send(self._skill_hotkeys["bone_armor"])
+        if SkillName.BoneArmor in hotkeys.right_skill_key_map:
+            keyboard.send(hotkeys.right_skill_key_map[SkillName.BoneArmor])
             wait(0.04, 0.1)
             mouse.click(button="right")
             wait(self._cast_duration)

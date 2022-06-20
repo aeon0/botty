@@ -1158,8 +1158,8 @@ class Hammerdin(Paladin):
                 wait(0.1, 0.2)
                 self._cast_hammers(2, SkillName.Redemption)
                 self._cast_hammers(1, SkillName.Cleansing)
-            if self._skill_hotkeys[SkillName.Redemption]:
-                keyboard.send(self._skill_hotkeys[SkillName.Redemption])
+            if SkillName.Redemption in hotkeys.right_skill_key_map:
+                keyboard.send(hotkeys.right_skill_key_map[SkillName.Redemption])
                 wait(2.5, 3.5) # to keep redemption on for a couple of seconds before the next teleport to have more corpses cleared & increase chance to find next template
                 Logger.debug(seal_layout + ": Waiting with Redemption active to clear more corpses.")
             #if Config().general["info_screenshots"]: cv2.imwrite(f"./log/screenshots/info/info_check_deseis_dead" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
@@ -1199,8 +1199,8 @@ class Hammerdin(Paladin):
                 wait(0.1, 0.2)
                 self._cast_hammers(2, SkillName.Redemption)
                 self._cast_hammers(1, SkillName.Cleansing)
-                if self._skill_hotkeys[SkillName.Redemption]:
-                    keyboard.send(self._skill_hotkeys[SkillName.Redemption])
+                if SkillName.Redemption in hotkeys.right_skill_key_map:
+                    keyboard.send(hotkeys.right_skill_key_map[SkillName.Redemption])
                     wait(0.3, 0.6)
             #if Config().general["info_screenshots"]: cv2.imwrite(f"./log/screenshots/info/info_check_deseis_dead" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
             ### LOOT ###
