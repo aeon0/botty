@@ -748,31 +748,11 @@ class Pather:
                 #'['DIA_AM_C1F']': (0, 0),
                 },
             
-            1647: { # C2G Fight Infector - hiding at the pillar
+            1647: { # C2G Fight Infector - a bit more in center
                 #'['DIA_AM_WP']': (0, 0),
                 #'['DIA_AM_CS']': (0, 0),
                 #'['DIA_AM_E_B']': (0, 0),
-                'DIA_AM_PENT': (296, 168),
-                #'DIA_AM_PENT1': (304, 164),
-                #'DIA_AM_PENT2': (296, 168),
-                #'DIA_AM_C1': (462, 172),
-                #'DIA_AM_C2': (297, 249),
-                #'DIA_AM_C3': (132, 177),
-                #'DIA_AM_C4': (293, 68),
-                #'['DIA_AM_A2Y']': (0, 0),
-                #'['DIA_AM_B2U']': (0, 0),
-                #'DIA_AM_C2G': (-61, 18),
-                #'['DIA_AM_E_A']': (0, 0),
-                #'['DIA_AM_A1L']': (0, 0),
-                #'DIA_AM_B1S': (-96, 310),
-                #'['DIA_AM_C1F']': (0, 0),
-                },
-
-            #1647: { # C2G Fight Infector - a bit more in center
-                #'['DIA_AM_WP']': (0, 0),
-                #'['DIA_AM_CS']': (0, 0),
-                #'['DIA_AM_E_B']': (0, 0),
-                #'DIA_AM_PENT': (312, 160),
+                'DIA_AM_PENT': (312, 160),
                 #'['DIA_AM_PENT1']': (0, 0),
                 #'DIA_AM_PENT2': (312, 160),
                 #'DIA_AM_C1': (478, 166),
@@ -786,7 +766,7 @@ class Pather:
                 #'['DIA_AM_A1L']': (0, 0),
                 #'DIA_AM_B1S': (-81, 302),
                 #'['DIA_AM_C1F']': (0, 0),
-                #},
+                },
 
         }
         self._paths_automap = {

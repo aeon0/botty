@@ -546,10 +546,14 @@ class Diablo:
         #############
         
         # complete the remaing templates for each node in pather.py -> slows down automap
-        # add walkadin pathing (Seal B is teleporting a lot right now)
         # infector C1F is causing too many chicken right now
+        # B1S occasionally misses de seis if he spawns far upwards and walks to top (out of vision) - might need to add a second attack pattern here
+        # B2U if de seis spawns at new spawn, we miss him.
         # automap shrine detection is broken -> switched templates didnt fix it
         # recalibrate after looting bosses, you get carried away in one direction whilst pickit, losing the second direction if there were mobs
-        # implement safe_runs param for seal bosses
+        # implement safe_runs param for seal bosses to walk along the seal (and maybe clear it whilst doing so?)
         # implement river trasverse fixed using charges (or make a chain of "move" commands) - check if maybe we can loop that from WP until CS entrance template is found to avoid fixed path.
         # move mouse away during layout checks to avoid hovering an item that obscures the minimap (implemented, but still occasionally causes a missed seal)
+        # add a color check for the surrounding of the pentagram to see if diablo was spawned correctly.
+        # consider a name-tag & name-lock for seal bosses & diablo
+        # add walkadin pathing (Seal B is teleporting a lot right now)
