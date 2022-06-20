@@ -154,7 +154,7 @@ class Diablo:
             if not self._pather.traverse_nodes_automap(calibration_node, self._char, threshold=calibration_threshold,): return False
         
         toggle_automap(True)
-        pos_m = convert_monitor_to_screen((0, 0)) # move mouse away during LC to not hover items obscuring the minimap
+        pos_m = convert_abs_to_monitor((640, 360)) # move mouse away during LC to not hover items obscuring the minimap
         mouse.move(*pos_m, delay_factor=[0.1, 0.2]) # move mouse away during LC to not hover items obscuring the minimap
         if not template_finder.search_and_wait(templates_primary, threshold =threshold_primary, timeout=0.2).valid: # check1 using primary templates
             toggle_automap(False)
@@ -164,7 +164,7 @@ class Diablo:
                 if not self._pather.traverse_nodes_automap(confirmation_node, self._char, threshold=calibration_threshold, toggle_map=True): return False
         
             toggle_automap(True)
-            pos_m = convert_monitor_to_screen((0, 0)) # move mouse away during LC to not hover items obscuring the minimap
+            pos_m = convert_abs_to_monitor((640, 360)) # move mouse away during LC to not hover items obscuring the minimap
             mouse.move(*pos_m, delay_factor=[0.1, 0.2]) # move mouse away during LC to not hover items obscuring the minimap
             if not template_finder.search_and_wait(templates_confirmation, threshold=threshold_confirmation, timeout=0.2).valid:
                 toggle_automap(False)
@@ -211,7 +211,7 @@ class Diablo:
                 if not self._pather.traverse_nodes_automap(confirmation_node2, self._char, threshold=calibration_threshold,): return False
             
             toggle_automap(True)
-            pos_m = convert_monitor_to_screen((0, 0)) # move mouse away during LC to not hover items obscuring the minimap
+            pos_m = convert_abs_to_monitor((640, 360)) # move mouse away during LC to not hover items obscuring the minimap
             mouse.move(*pos_m, delay_factor=[0.1, 0.2]) # move mouse away during LC to not hover items obscuring the minimap
             if not template_finder.search_and_wait(templates_confirmation, threshold=threshold_confirmation2, timeout=0.2).valid:
                 toggle_automap(False)
@@ -291,7 +291,7 @@ class Diablo:
             if not self._pather.traverse_nodes_automap(calibration_node, self._char, threshold=calibration_threshold, toggle_map=True): return False
         
         toggle_automap(True)
-        pos_m = convert_monitor_to_screen((0, 0)) # move mouse away during LC to not hover items obscuring the minimap
+        pos_m = convert_abs_to_monitor((640, 360)) # move mouse away during LC to not hover items obscuring the minimap
         mouse.move(*pos_m, delay_factor=[0.1, 0.2]) # move mouse away during LC to not hover items obscuring the minimap
         if not template_finder.search_and_wait(templates_primary, threshold =threshold_primary, timeout=0.2).valid: #check1 using primary templates
             toggle_automap(False)
@@ -301,7 +301,7 @@ class Diablo:
                 if not self._pather.traverse_nodes_automap(confirmation_node, self._char, threshold=calibration_threshold, toggle_map=True): return False
 
             toggle_automap(True)
-            pos_m = convert_monitor_to_screen((0, 0)) # move mouse away during LC to not hover items obscuring the minimap
+            pos_m = convert_abs_to_monitor((640, 360)) # move mouse away during LC to not hover items obscuring the minimap
             mouse.move(*pos_m, delay_factor=[0.1, 0.2]) # move mouse away during LC to not hover items obscuring the minimap
             if not template_finder.search_and_wait(templates_confirmation, threshold=threshold_confirmation, timeout=0.2).valid:
                 toggle_automap(False)
@@ -349,7 +349,7 @@ class Diablo:
                 if not self._pather.traverse_nodes_automap(confirmation_node2, self._char, threshold=calibration_threshold, toggle_map=True): return False
             
             toggle_automap(True)
-            pos_m = convert_monitor_to_screen((0, 0)) # move mouse away during LC to not hover items obscuring the minimap
+            pos_m = convert_abs_to_monitor((640, 360)) # move mouse away during LC to not hover items obscuring the minimap
             mouse.move(*pos_m, delay_factor=[0.1, 0.2]) # move mouse away during LC to not hover items obscuring the minimap
             if not template_finder.search_and_wait(templates_confirmation, threshold=threshold_confirmation2, timeout=0.2).valid:
                 toggle_automap(False)
@@ -428,7 +428,7 @@ class Diablo:
             if not self._pather.traverse_nodes_automap(calibration_node, self._char, threshold=calibration_threshold,): return False
         
         toggle_automap(True)
-        pos_m = convert_monitor_to_screen((0, 0)) # move mouse away during LC to not hover items obscuring the minimap
+        pos_m = convert_abs_to_monitor((640, 360)) # move mouse away during LC to not hover items obscuring the minimap
         mouse.move(*pos_m, delay_factor=[0.1, 0.2]) # move mouse away during LC to not hover items obscuring the minimap
         if not template_finder.search_and_wait(templates_primary, threshold =threshold_primary, timeout=0.2).valid: #check1 using primary templates
             toggle_automap(False)
@@ -438,7 +438,7 @@ class Diablo:
                 if not self._pather.traverse_nodes_automap(confirmation_node, self._char, threshold=calibration_threshold, toggle_map=True): return False
         
             toggle_automap(True)
-            pos_m = convert_monitor_to_screen((0, 0)) # move mouse away during LC to not hover items obscuring the minimap
+            pos_m = convert_abs_to_monitor((640, 360)) # move mouse away during LC to not hover items obscuring the minimap
             mouse.move(*pos_m, delay_factor=[0.1, 0.2]) # move mouse away during LC to not hover items obscuring the minimap
             if not template_finder.search_and_wait(templates_confirmation, threshold=threshold_confirmation, timeout=0.2).valid:
                 toggle_automap(False)
@@ -485,7 +485,7 @@ class Diablo:
                 if not self._pather.traverse_nodes_automap(confirmation_node2, self._char, threshold=calibration_threshold,): return False
             
             toggle_automap(True)
-            pos_m = convert_monitor_to_screen((0, 0)) # move mouse away during LC to not hover items obscuring the minimap
+            pos_m = convert_abs_to_monitor((640, 360)) # move mouse away during LC to not hover items obscuring the minimap
             mouse.move(*pos_m, delay_factor=[0.1, 0.2]) # move mouse away during LC to not hover items obscuring the minimap
             if not template_finder.search_and_wait(templates_confirmation, threshold=threshold_confirmation2, timeout=0.2).valid:
                 toggle_automap(False)
@@ -535,7 +535,7 @@ class Diablo:
         Logger.info("Waiting for Diablo to spawn")
         
         toggle_automap(False)
-        pos_m = convert_monitor_to_screen((0, 0)) # move mouse away during LC to not hover items obscuring the minimap
+        pos_m = convert_abs_to_monitor((640, 360)) # move mouse away during LC to not hover items obscuring the minimap
         mouse.move(*pos_m, delay_factor=[0.1, 0.2]) # move mouse away during LC to not hover items obscuring the minimap
         if template_finder.search_and_wait(["DIA_AM_SPAWN"], threshold=0.85, timeout=0.2).valid:
             Logger.info("Diablo spawn indicator: positive"  + '\033[92m' + " :)" + '\033[0m')
