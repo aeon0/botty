@@ -62,6 +62,9 @@ simple_string = [
     "Checking Layout for Infector",
 
     "Waiting for Diablo to spawn",
+    "Diablo spawn indicator: positive",
+    "Diablo spawn indicator: negative",
+    "Diablo spawn indicator: not found",
 
     "End game",
     "End failed game",

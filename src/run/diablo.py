@@ -538,16 +538,16 @@ class Diablo:
         pos_m = convert_monitor_to_screen((0, 0)) # move mouse away during LC to not hover items obscuring the minimap
         mouse.move(*pos_m, delay_factor=[0.1, 0.2]) # move mouse away during LC to not hover items obscuring the minimap
         if template_finder.search_and_wait(["DIA_AM_SPAWN"], threshold=0.85, timeout=0.2).valid:
-            Logger.info("FYI: Diablo Spawn indicator: positive")
+            Logger.info("Diablo spawn indicator: positive"  + '\033[92m' + " :)" + '\033[0m')
             if Config().general["info_screenshots"]: cv2.imwrite(f"./log/screenshots/info/info_dia_spawnindicator_positive" + time.strftime("%Y%m%d_%H%M%S") + "automap.png", grab())
             diablo_spawned = True
         else:
             if template_finder.search_and_wait(["DIA_AM_NOSPAWN"], threshold=0.85, timeout=0.2).valid:
-                Logger.info("FYI: Diablo Spawn indicator: negative")
+                Logger.info("FYI: Diablo spawn indicator: negative" + '\033[91m' + " :(" + '\033[0m')
                 if Config().general["info_screenshots"]: cv2.imwrite(f"./log/screenshots/info/info_dia_spawnindicator_negative" + time.strftime("%Y%m%d_%H%M%S") + "automap.png", grab())
                 diablo_spawned = False
             else:        
-                Logger.info("FYI: Diablo Spawn indicator: not found - trying to kill anways")
+                Logger.info("FYI: Diablo spawn indicator: not found - trying to kill anways"  + '\033[43m' + " ???" + '\033[0m')
                 if Config().general["info_screenshots"]: cv2.imwrite(f"./log/screenshots/info/info_dia_spawnindicator_notfound" + time.strftime("%Y%m%d_%H%M%S") + "automap.png", grab())
                 diablo_spawned = True
 
