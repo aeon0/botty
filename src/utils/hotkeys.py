@@ -346,8 +346,7 @@ def log_hotkeys():
     for skill, key in right_skill_key_map.items():
         right_skill_keys.append(f'{skill.value}: {key}')
     right_skills = '\n\t'.join(right_skill_keys)
-    Logger.debug(f"====== Hotkeys detected ======\n"+
-        f"active_left_skill: {left_skill}\n"+
-        f"active_right_skill: {right_skill}\n"+
+    Logger.info(f"====== Hotkeys detected ======\n"+
+        f"active_left_skill: {left_skill}\tactive_right_skill: {right_skill}\n"+
         f"left_skill_key_map:\n\t{left_skills}\n"+
         f"right_skill_key_map:\n\t{right_skills}")
