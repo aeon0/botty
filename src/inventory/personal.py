@@ -70,6 +70,13 @@ def inventory_has_items(img: np.ndarray = None, close_window = False) -> bool:
         return True
     return False
 
+def is_main_weapon_active(img: np.ndarray = None) -> bool | None:
+    # inventory must be open
+    img = grab() if img is None else img
+    if (res := detect_screen_object(ScreenObjects.ActiveWeaponBound)).valid:
+        return "main" in res.name.lower()
+    Logger.warning("is_main_weapon_active(): Failed to detect active weapon, is inventory not open?")
+    return None
 
 def stash_all_items(items: list = None):
     """

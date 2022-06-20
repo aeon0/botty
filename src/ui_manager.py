@@ -270,6 +270,13 @@ class ScreenObjects:
         roi="inventory_bg_pattern",
         threshold=0.8,
     )
+    ActiveWeaponBound=ScreenObject(
+        ref=["ACTIVE_WEAPON_MAIN", "ACTIVE_WEAPON_OFFHAND"],
+        roi="active_weapon_tabs",
+        threshold=0.8,
+        use_grayscale=True,
+        best_match=True,
+    )
 
 def detect_screen_object(screen_object: ScreenObject, img: np.ndarray = None) -> TemplateMatch:
     roi = Config().ui_roi[screen_object.roi] if screen_object.roi else None

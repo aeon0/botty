@@ -7,9 +7,9 @@ import random
 import time
 from functools import cached_property
 
-from char.utils.capabilities import CharacterCapabilities
-from char.utils.skill_data import get_cast_wait_time
-from char.utils import calculations
+from char.tools.capabilities import CharacterCapabilities
+from char.tools.skill_data import get_cast_wait_time
+from char.tools import calculations
 from config import Config
 from item import consumables
 from logger import Logger
@@ -35,7 +35,7 @@ class IChar:
         self._use_safer_routines = Config().char["safer_routines"]
         self._base_class = ""
         self.capabilities = None
-        self._current_weapon = 0 # 0 for main, 1 for offhand
+        self.main_weapon_equipped = None
 
     """
     MOUSE AND KEYBOARD METHODS
@@ -221,16 +221,16 @@ class IChar:
         mouse.move(*pos_m, [0.12, 0.2])
         self._cast_teleport()
 
-    def _cast_at_target(
+    def _cast_at_position(
         self,
-        skill_name: str,                   
-        cast_pos_abs: tuple[float, float], 
-        spray: float = 0,                  
-        spread_deg: float = 0,             
-        duration: float = 0,               
-        teleport_frequency: float = 0,     
-    ) -> bool:        
-        """ 
+        skill_name: str,
+        cast_pos_abs: tuple[float, float],
+        spray: float = 0,
+        spread_deg: float = 0,
+        duration: float = 0,
+        teleport_frequency: float = 0,
+    ) -> bool:
+        """
         Casts a skill toward a given target.
         :param skill_name: name of skill to cast
         :param cast_pos_abs: absolute position of target
@@ -243,7 +243,7 @@ class IChar:
         if not self._get_hotkey(skill_name):
             return False
 
-        mouse_move_delay = [0.3, 0.5]
+        mouse_move_delay = [0.4, 0.6]
 
         if duration:
             self._stand_still(True)
@@ -263,7 +263,7 @@ class IChar:
         else:
             random_abs = self._randomize_position(pos_abs = cast_pos_abs, spray = spray, spread_deg = spread_deg)
             pos_m = convert_abs_to_monitor(random_abs)
-            mouse.move(*pos_m, delay_factor = [x/2 for x in mouse_move_delay])                
+            mouse.move(*pos_m, delay_factor = [x/2 for x in mouse_move_delay])
             self._cast_simple(skill_name)
 
         return True
@@ -275,7 +275,7 @@ class IChar:
         #self._log_cast(skill_name, cast_pos_abs, spray, duration, aura)
         if aura:
             self._activate_aura(aura)
-        return self._cast_at_target(skill_name=skill_name, cast_pos_abs=cast_pos_abs, spray=spray, spread_deg = spread_deg, mouse_click_type="left", duration=duration)
+        return self._cast_at_position(skill_name=skill_name, cast_pos_abs=cast_pos_abs, spray=spray, spread_deg = spread_deg, mouse_click_type="left", duration=duration)
 
     """
     TODO: Update this fn
@@ -325,28 +325,36 @@ class IChar:
             consumables.increment_need("tp", 1)
         return res
 
-    def _weapon_switch(self):
-        self._current_weapon = not self._current_weapon
-        return self._key_press(self._get_hotkey("weapon_switch"))
-
     """
     CHARACTER ACTIONS AND MOVEMENT METHODS
     """
+
+    def _weapon_switch(self):
+        if self.main_weapon_equipped is not None:
+            self.main_weapon_equipped = not self.main_weapon_equipped
+        return self._key_press(self._get_hotkey("weapon_switch"))
+
+    def _switch_to_main_weapon(self):
+        if self.main_weapon_equipped == False:
+            self._weapon_switch()
+
+    def _switch_to_offhand_weapon(self):
+        if self.main_weapon_equipped:
+            self._weapon_switch()
+
     def _force_move(self):
         self._key_press(self._get_hotkey("force_move"))
 
     def _stand_still(self, enable: bool):
-        if enable:
-            if not self._standing_still:
-                keyboard.send(self._get_hotkey("stand_still"), do_release=False)
-                self._standing_still = True
-        else:
-            if self._standing_still:
-                keyboard.send(self._get_hotkey("stand_still"), do_press=False)
-                self._standing_still = False
+        if enable and not self._standing_still:
+            keyboard.send(self._get_hotkey("stand_still"), do_release=False)
+            self._standing_still = True
+        elif not enable and self._standing_still:
+            keyboard.send(self._get_hotkey("stand_still"), do_press=False)
+            self._standing_still = False
 
     def pick_up_item(self, pos: tuple[float, float], item_name: str = None, prev_cast_start: float = 0) -> float:
-        mouse.move(pos[0], pos[1])
+        mouse.move(*pos)
         self._click_left()
         wait(0.25, 0.35)
         return prev_cast_start
@@ -378,7 +386,21 @@ class IChar:
         else:
             self._click_left()
 
-    def move(self, pos_monitor: tuple[float, float], use_tp: bool = False, force_move: bool = False, last_move_time: float = time.time()) -> float:
+    def move(
+        self,
+        pos_monitor: tuple[float, float],
+        use_tp: bool = False,
+        force_move: bool = False,
+        last_move_time: float = time.time(),
+    ) -> float:
+        """
+        Moves character to position.
+        :param pos_monitor: Position to move to (screen coordinates)
+        :param use_tp: Use teleport if able to
+        :param force_move: Use force_move hotkey to move if not teleporting
+        :param last_move_time: Time of last move.
+        :return: Time of move completed.
+        """
         factor = Config().advanced_options["pathing_delay_factor"]
         if use_tp and self.can_teleport(): # can_teleport() activates teleport hotkey if True
             # 7 frames is the fastest that teleport can be casted with 200 fcr on sorc
@@ -398,12 +420,11 @@ class IChar:
         self._cast_town_portal()
 
         roi_mouse_move = [
-            int(Config().ui_pos["screen_width"] * 0.3),
+            round(Config().ui_pos["screen_width"] * 0.3),
             0,
-            int(Config().ui_pos["screen_width"] * 0.4),
-            int(Config().ui_pos["screen_height"] * 0.7)
+            round(Config().ui_pos["screen_width"] * 0.4),
+            round(Config().ui_pos["screen_height"] * 0.7)
         ]
-        pos_away = convert_abs_to_monitor((-167, -30))
         start = time.time()
         retry_count = 0
         while (time.time() - start) < 8:
@@ -428,48 +449,18 @@ class IChar:
             # move mouse away to not overlay with the town portal if mouse is in center
             pos_screen = convert_monitor_to_screen(mouse.get_position())
             if is_in_roi(roi_mouse_move, pos_screen):
+                pos_away = convert_abs_to_monitor((-167, -30))
                 mouse.move(*pos_away, randomize=40, delay_factor=[0.8, 1.4])
         return False
 
     def _pre_buff_cta(self) -> bool:
-        if not Config().char["cta_available"]:
+        if not self._get_hotkey("cta_available"):
             return False
-        # Save current skill img
-        skill_before = cut_roi(grab(), Config().ui_roi["skill_right"])
-        # Try to switch weapons and select bo until we find the skill on the right skill slot
-        start = time.time()
-        switch_success = False
-        while time.time() - start < 4:
-            self._weapon_switch()
-            wait(0.3, 0.35)
-            self._select_skill(skill = "battle_command", delay=(0.1, 0.2))
-            if skills.is_right_skill_selected(["BC", "BO"]):
-                switch_success = True
-                break
-
-        if not switch_success:
-            Logger.warning("You dont have Battle Command bound, or you do not have CTA. ending CTA buff")
-            Config().char["cta_available"] = 0
-        else:
-            # We switched succesfully, let's pre buff
-            self._cast_battle_command()
-            wait(self._cast_duration + 0.16, self._cast_duration + 0.18)
-            self._cast_battle_orders()
-            wait(self._cast_duration + 0.16, self._cast_duration + 0.18)
-
-        # Make sure the switch back to the original weapon is good
-        start = time.time()
-        while (elapsed := time.time() - start < 4):
-            self._weapon_switch()
-            wait(0.3, 0.35)
-            skill_after = cut_roi(grab(), Config().ui_roi["skill_right"])
-            _, max_val, _, _ = cv2.minMaxLoc(cv2.matchTemplate(skill_after, skill_before, cv2.TM_CCOEFF_NORMED))
-            if max_val > 0.9:
-                break
-            else:
-                Logger.warning("Failed to switch weapon, try again")
-                wait(0.5)
-        return elapsed
+        if self.main_weapon_equipped():
+            self._switch_to_offhand_weapon()
+        self._cast_battle_command()
+        self._cast_battle_orders()
+        self._switch_to_main_weapon()
 
     def pre_buff(self):
         pass

@@ -73,7 +73,7 @@ class Sorceress(IChar):
         return self._cast_simple(skill_name="static_field", mouse_click_type = "right", duration=duration)
 
     def _cast_telekinesis(self, cast_pos_abs: tuple[float, float]) -> bool:
-        return self._cast_at_target(skill_name="telekinesis", cast_pos_abs = cast_pos_abs, spray = 0, mouse_click_type = "right")
+        return self._cast_at_position(skill_name="telekinesis", cast_pos_abs = cast_pos_abs, spray = 0, mouse_click_type = "right")
 
     def _cast_thunder_storm(self) -> bool:
         return self._cast_simple(skill_name="thunder_storm", mouse_click_type="right")

@@ -302,6 +302,9 @@ class Bot:
             need_inspect |= (self._game_stats._run_counter - 1) % Config().char["runs_per_stash"] == 0
         if need_inspect:
             img = personal.open()
+            # Check which weapon is bound (main vs offhand)
+            if self._char.main_weapon_equipped is None:
+                self._char.main_weapon_equipped = personal.is_main_weapon_active(img)
             # Update TP, ID, key needs
             if self._game_stats._game_counter == 1:
                 self._use_id_tome = common.tome_state(img, 'id')[0] is not None
