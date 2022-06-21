@@ -3,7 +3,7 @@ import zipfile
 import os
 import shutil
 
-url = "https://github.com/mgleed/botty-test-assets/archive/refs/heads/main.zip"
+url = "https://github.com/bottytools/botty-test-assets/archive/refs/heads/main.zip"
 extract_dir = "tmp"
 asset_dir = "test/assets"
 
