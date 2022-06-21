@@ -26,6 +26,9 @@ _default_left_skill_key_map = {}
 _swap_left_skill_key_map = {}
 
 class HotkeyName(str, Enum):
+    """
+    Convenience Enums for D2 Controls with their corresponding expected parsed key(o) as the value
+    """
     CharacterScreen = 'CharacterScreen',
     InventoryScreen = 'InventoryScreen',
     PartyScreen = 'PartyScreen',
