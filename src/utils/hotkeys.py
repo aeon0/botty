@@ -104,11 +104,11 @@ def discover_hotkey_mappings(saved_games_folder, key_name):
         if hotkey_name in d2r_keymap:
             key_list.append(d2r_keymap[hotkey_name])
     found_keys = []
-    _deduce_hotkey(templates, key_list, found_keys)
+    _deduce_hotkeys(templates, key_list, found_keys)
     if Config().char['cta_available'] and HotkeyName.SwapWeapons in d2r_keymap:
         keyboard.press_and_release(d2r_keymap[HotkeyName.SwapWeapons])
         wait(0.3)
-        _deduce_hotkey(templates, key_list, found_keys)
+        _deduce_hotkeys(templates, key_list, found_keys)
         keyboard.press_and_release(d2r_keymap[HotkeyName.SwapWeapons])
         wait(0.3)
     img = grab()
@@ -264,7 +264,7 @@ def _determine_hotkey_from_block(byte_block):
         return f'{modifier_map[modifier_value]}+{key}'
     return key
 
-def _deduce_hotkey(templates, key_list, found_keys):
+def _deduce_hotkeys(templates, key_list, found_keys):
     img = grab()
     starting_left_skill = get_selected_skill(templates, img, Config().ui_roi["skill_left"])
     starting_right_skill = get_selected_skill(templates, img, Config().ui_roi["skill_right"])
