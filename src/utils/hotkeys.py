@@ -18,6 +18,7 @@ _default_left_skill_key_map = {}
 _swap_left_skill_key_map = {}
 left_skill_key_map = {}
 right_skill_key_map = {}
+
 class HotkeyName(str, Enum):
     CharacterScreen = 'CharacterScreen',
     InventoryScreen = 'InventoryScreen',
@@ -81,6 +82,10 @@ class HotkeyName(str, Enum):
     OpenMenu = 'OpenMenu(Esc)',
 
 def discover_hotkey_mappings(saved_games_folder, key_name):
+    """
+    Main entry point for discovering hotkey mapping for a character. This fn will use the provided saved_games_folder and key_name to load and parse the key file.
+    Using the parsed key file, it will grab Skill1-Skill16 and the representative hotkey associated with it and try to deduce the hotkeys.
+    """
     global d2r_keymap
     global _default_left_skill_key_map, _swap_left_skill_key_map, left_skill_key_map, left_skill
     global _default_right_skill_key_map, _swap_right_skill_key_map, right_skill_key_map, right_skill
@@ -93,56 +98,11 @@ def discover_hotkey_mappings(saved_games_folder, key_name):
         if hotkey_name in d2r_keymap:
             key_list.append(d2r_keymap[hotkey_name])
     found_keys = []
-    img = grab()
-    starting_left_skill = get_selected_skill(templates, img, Config().ui_roi["skill_left"])
-    starting_right_skill = get_selected_skill(templates, img, Config().ui_roi["skill_right"])
-    _find_keymapping(
-        templates,
-        key_list,
-        starting_left_skill,
-        starting_right_skill,
-        found_keys,
-        _default_left_skill_key_map,
-        _default_right_skill_key_map)
-    for key in found_keys:
-        if key in key_list:
-            key_list.remove(key)
-    _find_keymapping(
-        templates,
-        key_list,
-        starting_left_skill,
-        starting_right_skill,
-        found_keys,
-        _default_left_skill_key_map,
-        _default_right_skill_key_map)
-    for key in found_keys:
-        if key in key_list:
-            key_list.remove(key)
+    _deduce_hotkey(templates, key_list, found_keys)
     if Config().char['cta_available'] and HotkeyName.SwapWeapons in d2r_keymap:
         keyboard.press_and_release(d2r_keymap[HotkeyName.SwapWeapons])
         wait(0.3)
-        img = grab()
-        starting_left_skill = get_selected_skill(templates, img, Config().ui_roi["skill_left"])
-        starting_right_skill = get_selected_skill(templates, img, Config().ui_roi["skill_right"])
-        _find_keymapping(
-            templates,
-            key_list,
-            starting_left_skill,
-            starting_right_skill,
-            found_keys,
-            _swap_left_skill_key_map,
-            _swap_right_skill_key_map)
-        for key in found_keys:
-            if key in key_list:
-                key_list.remove(key)
-        _find_keymapping(
-            templates,
-            key_list,
-            starting_left_skill,
-            starting_right_skill,
-            found_keys,
-            _swap_left_skill_key_map,
-            _swap_right_skill_key_map)
+        _deduce_hotkey(templates, key_list, found_keys)
         keyboard.press_and_release(d2r_keymap[HotkeyName.SwapWeapons])
         wait(0.3)
     img = grab()
@@ -297,6 +257,24 @@ def _determine_hotkey_from_block(byte_block):
     if modifier_value in modifier_map:
         return f'{modifier_map[modifier_value]}+{key}'
     return key
+
+def _deduce_hotkey(templates, key_list, found_keys):
+    img = grab()
+    starting_left_skill = get_selected_skill(templates, img, Config().ui_roi["skill_left"])
+    starting_right_skill = get_selected_skill(templates, img, Config().ui_roi["skill_right"])
+    # We loop twice in order to try to confidently deduce that the key that was pressed changed the left or right skill
+    for _ in range(0, 2):
+        _find_keymapping(
+            templates,
+            key_list,
+            starting_left_skill,
+            starting_right_skill,
+            found_keys,
+            _default_left_skill_key_map,
+            _default_right_skill_key_map)
+        for key in found_keys:
+            if key in key_list:
+                key_list.remove(key)
 
 def _find_keymapping(
     templates,
