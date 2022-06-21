@@ -87,10 +87,10 @@ class HealthManager:
         start = time.time()
 
         while self._do_monitor:
-            fn_start = time.perf_counter()
             if self._did_chicken or get_pause_state():
                 wait(1)
                 continue
+            fn_start = time.perf_counter()
             img = grab()
             if is_visible(ScreenObjects.InGame, img):
                 health_percentage = meters.get_health(img)
