@@ -295,12 +295,13 @@ def get_selected_skill(template_list: list[template_finder.Template], img: np.nd
     """
     :return: first SkillName if found
     """
-    matches = template_finder.search_all_templates(
+    matches = template_finder.search_all(
             template_list,
             img,
             threshold=0.9,
             roi=roi,
-            use_grayscale=True)
+            use_grayscale=True,
+            first_match=True)
     if len(matches) > 0:
         skill = SkillName(matches[0].name.lower())
         if skill:

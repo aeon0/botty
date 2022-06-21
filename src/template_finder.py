@@ -211,54 +211,34 @@ def search_and_wait(
 
 
 def search_all(
-    ref: str | np.ndarray | list[str],
+    ref: str | np.ndarray | list[str] | list[Template],
     inp_img: np.ndarray,
     threshold: float = 0.68,
     roi: list[float] = None,
     use_grayscale: bool = False,
     color_match: list = False,
+    first_match: list = False
 ) -> list[TemplateMatch]:
     """
     Returns a list of all templates scoring above set threshold on the screen
     :Other params are the same as for template_finder.search()
     :return: Returns a list of TemplateMatch objects
     """
-    templates = _process_template_refs(ref)
+    templates = ref if first_match else _process_template_refs(ref)
     matches = []
     img = inp_img.copy()
     while True:
         any_found = False
         for template in templates:
             match = _single_template_match(template, img, roi, color_match, use_grayscale)
-            if (ind_found := match.score >= threshold):
+            if match.score >= threshold:
                 matches.append(match)
-                img = mask_by_roi(img, match.region, "inverse")
-                any_found |= ind_found
-        if not any_found:
+                if not first_match and (ind_found := match.score >= threshold):
+                    img = mask_by_roi(img, match.region, "inverse")
+                    any_found |= ind_found
+        if not any_found or (first_match and len(matches) > 0):
             break
     return matches
-
-def search_all_templates(
-    templates: list[Template],
-    inp_img: np.ndarray,
-    threshold: float = 0.68,
-    roi: list[float] = None,
-    use_grayscale: bool = False,
-    color_match: list = False,
-) -> list[TemplateMatch]:
-    """
-    Returns a list of all templates scoring above set threshold on the screen
-    :Other params are the same as for template_finder.search()
-    :return: Returns a list of TemplateMatch objects
-    """
-    matches = []
-    img = inp_img
-    for template in templates:
-        match = _single_template_match(template, img, roi, color_match, use_grayscale)
-        if (match.score >= threshold):
-            matches.append(match)
-    return matches
-
 
 # Testing: Have whatever you want to find on the screen
 if __name__ == "__main__":
