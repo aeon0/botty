@@ -12,6 +12,9 @@ from ui_manager import wait_until_visible, ScreenObjects
 from d2r_image import ocr
 
 class SkillName(str, Enum):
+    """
+    Convenience Enums for D2 skills with their corresponding template\ui\skills template name as the value
+    """
     Attack = 'attack',
     TownPortal = 'town_portal',
     Unsummon = 'unsummon',
