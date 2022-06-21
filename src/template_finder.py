@@ -1,3 +1,4 @@
+import re
 import cv2
 import threading
 from screen import convert_screen_to_monitor, grab
@@ -48,6 +49,8 @@ def stored_templates() -> dict[Template]:
         paths += list_files_in_folder(path)
     for file_path in paths:
         file_name: str = os.path.basename(file_path)
+        file_abs_path = os.path.abspath(os.path.join(file_path, os.pardir))
+        parent_path_key = re.sub(r'.*\\assets', 'assets', file_abs_path)
         if file_name.lower().endswith('.png'):
             key = file_name[:-4].upper()
             template_img = load_template(file_path)
@@ -58,38 +61,24 @@ def stored_templates() -> dict[Template]:
                 img_gray = cv2.cvtColor(template_img, cv2.COLOR_BGRA2GRAY),
                 alpha_mask = alpha_to_mask(template_img)
             )
+            if parent_path_key not in templates:
+                templates[parent_path_key] = []
+            templates[parent_path_key].append(key)
     return templates
 
-@cache
-def stored_templates_by_dir() -> dict[Template]:
-    templates_by_dir = {}
-    for path in TEMPLATE_PATHS:
-        template_paths = list_files_in_folder(path)
-        for file_path in template_paths:
-            file_name: str = os.path.basename(file_path)
-            file_dir: str = os.path.dirname(file_path)
-            if file_name.lower().endswith('.png'):
-                key = file_name[:-4].upper()
-                template_img = load_template(file_path)
-                if file_dir not in templates_by_dir:
-                    templates_by_dir[file_dir] = []
-                templates_by_dir[file_dir].append(Template(
-                    name = key,
-                    img_bgra = template_img,
-                    img_bgr = cv2.cvtColor(template_img, cv2.COLOR_BGRA2BGR),
-                    img_gray = cv2.cvtColor(template_img, cv2.COLOR_BGRA2GRAY),
-                    alpha_mask = alpha_to_mask(template_img)
-                ))
-    return templates_by_dir
-
-
 def get_template(key):
-    with templates_lock:
-        return stored_templates()[key].img_bgr
+    return get_template_value_by_key(key).img_bgr
 
-def get_cached_templates_in_dir(dir) -> list[Template]:
+def get_templates(template_names):
     with templates_lock:
-        return stored_templates_by_dir()[dir]
+        templates = []
+        for template_name in template_names:
+            templates.append(stored_templates()[template_name])
+        return templates
+
+def get_template_value_by_key(key):
+    with templates_lock:
+        return stored_templates()[key]
 
 def _process_template_refs(ref: str | np.ndarray | list[str]) -> list[Template]:
     templates = []

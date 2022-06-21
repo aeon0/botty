@@ -13,7 +13,7 @@ from d2r_image import ocr
 
 class SkillName(str, Enum):
     """
-    Convenience Enums for D2 skills with their corresponding template\ui\skills template name as the value
+    Convenience Enums for D2 skills with their corresponding template\\ui\\skills template name as the value
     """
     Attack = 'attack',
     TownPortal = 'town_portal',
@@ -293,7 +293,7 @@ def get_skill_charges(img: np.ndarray = None):
 
 def get_selected_skill(template_list: list[template_finder.Template], img: np.ndarray, roi) -> SkillName:
     """
-    :return: 
+    :return: first SkillName if found
     """
     matches = template_finder.search_all_templates(
             template_list,
