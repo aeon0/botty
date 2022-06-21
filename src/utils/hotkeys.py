@@ -9,15 +9,21 @@ from utils.custom_mouse import mouse
 from utils.misc import wait
 from logger import Logger
 
+# "Public" Variables
+## d2r_keymap represents a kvp of key: HotkeyName value: key
 d2r_keymap = {}
+## left_skill and right_skill represent the (last) template names found during discover_hotkey_mappings
 left_skill = None
 right_skill = None
+## skill_key_map represents a kvp of key: SkillName value: key
+left_skill_key_map = {}
+right_skill_key_map = {}
+# Internal variables for better tracking of where the hotkeys were found
+# e.g., if the skill was found in the weapon_swap left_skill slot then it would be added to _swap_left_skill_key_map
 _default_right_skill_key_map = {}
 _swap_right_skill_key_map = {}
 _default_left_skill_key_map = {}
 _swap_left_skill_key_map = {}
-left_skill_key_map = {}
-right_skill_key_map = {}
 
 class HotkeyName(str, Enum):
     CharacterScreen = 'CharacterScreen',
