@@ -98,7 +98,7 @@ def discover_hotkey_mappings(saved_games_folder, key_name):
     global d2r_keymap
     global _default_left_skill_key_map, _swap_left_skill_key_map, left_skill_key_map, left_skill
     global _default_right_skill_key_map, _swap_right_skill_key_map, right_skill_key_map, right_skill
-    Logger.debug(f"Detecting hotkeys for {key_name}")
+    Logger.debug("Detecting hotkeys")
     template_names = template_finder.get_template_value_by_key('assets\\templates\\ui\\skills')
     templates = template_finder.get_templates(template_names)
     d2r_keymap = _parse_key_file(saved_games_folder, key_name)

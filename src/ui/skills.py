@@ -230,7 +230,8 @@ def has_tps() -> bool:
         return False
 
 def select_tp(tp_hotkey):
-    templates = template_finder.get_cached_templates_in_dir('assets\\templates\\ui\\skills')
+    template_names = template_finder.get_template_value_by_key('assets\\templates\\ui\\skills')
+    templates = template_finder.get_templates(template_names)
     right_skill = get_selected_skill(templates, grab(), Config().ui_roi["skill_right"])
     if tp_hotkey and right_skill != SkillName.Teleport:
         keyboard.send(tp_hotkey)
