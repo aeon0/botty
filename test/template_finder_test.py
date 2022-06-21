@@ -3,6 +3,7 @@ import pytest
 import template_finder
 from utils.misc import is_in_roi
 import screen
+import utils.download_test_assets # downloads assets if they don't already exist, doesn't need to be called
 
 @pytest.mark.parametrize("template1_path, template2_path, template3_path, screen_path, expected_roi", [(
     "test/assets/stash_slot_empty.png", # empty stash slot

@@ -7,7 +7,7 @@ from utils.misc import wait
 from screen import grab
 from logger import Logger
 from utils.custom_mouse import mouse
-from ui_manager import is_visible, select_screen_object_match, wait_until_visible, ScreenObjects
+from ui_manager import center_mouse, is_visible, select_screen_object_match, wait_until_visible, ScreenObjects
 from inventory import personal, common, stash
 
 gamble_count = 0
@@ -123,6 +123,7 @@ def buy_item(template_name: str, quantity: int = 1, img: np.ndarray = None, shif
                 return False
             keyboard.send('shift', do_release=True)
             personal.set_inventory_gold_full(False)
+            center_mouse()
             return True
         if quantity:
             for _ in range(quantity):
@@ -133,10 +134,10 @@ def buy_item(template_name: str, quantity: int = 1, img: np.ndarray = None, shif
                     keyboard.send("esc")
                     return False
             personal.set_inventory_gold_full(False)
+            center_mouse()
             return True
         else:
             Logger.error("buy_item: Quantity not specified")
             return False
-
     Logger.error(f"buy_item: Desired item {template_name} not found")
     return False

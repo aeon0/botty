@@ -13,7 +13,7 @@ from logger import Logger
 from screen import convert_screen_to_monitor, convert_abs_to_screen, convert_abs_to_monitor, convert_screen_to_abs, grab, stop_detecting_window
 import template_finder
 from char import IChar
-from ui_manager import detect_screen_object, ScreenObjects, is_visible, select_screen_object_match
+from ui_manager import detect_screen_object, ScreenObjects, is_visible, select_screen_object_match, get_closest_non_hud_pixel
 
 class Location:
     # A5 Town
@@ -124,8 +124,12 @@ class Pather:
             123: {'ELDRITCH_3': (-99, -252), 'ELDRITCH_2': (403, -279), 'ELDRITCH_2_V2': (403, -279), 'ELDRITCH_4': (-62, -109), 'ELDRITCH_9': (-204, -254), 'ELDRITCH_8': (454, -104),  'ELDRITCH_8_V2': (454, -104)},
             # Shenk
             141: {'SHENK_0': (-129, 44), 'SHENK_1': (464, 107), 'SHENK_2': (-167, -34), 'SHENK_17': (-520, 528), 'SHENK_15': (77, 293), 'SHENK_18': (518, 512)},
-            142: {'SHENK_1': (584, 376), 'SHENK_4': (-443, -103), 'SHENK_2': (-52, 235), 'SHENK_3': (357, -129)},
-            143: {'SHENK_4': (-251, 165), 'SHENK_2': (141, 505), 'SHENK_3': (549, 139), 'SHENK_6': (-339, -69)},
+            142: {'SHENK_1': (584, 376), 'SHENK_4': (-443, -103), 'SHENK_2': (-52, 235), 'SHENK_3': (357, -129),
+                "ELDRITCH_2_V2": (516, 195), 'ELDRITCH_1': (-233, -77), "ELDRITCH_0_V2": (360, -140), "ELDRITCH_3": (20, 219)
+            },
+            143: {'SHENK_4': (-251, 165), 'SHENK_2': (141, 505), 'SHENK_3': (549, 139), 'SHENK_6': (-339, -69),
+                'ELDRITCH_1': (10, 204), 'SHENK_7': (264, -37), 'ELDRITCH_0_V2': (591, 141), 'ELDRITCH_3': (252, 500)
+            },
             144: {'SHENK_6': (-108, 123), 'SHENK_7': (481, 151)},
             145: {'SHENK_7': (803, 372), 'SHENK_12': (97, -133), 'SHENK_6': (209, 347), 'SHENK_8': (-245, 18)},
             146: {'SHENK_12': (272, 111), 'SHENK_9': (-331, -144), 'SHENK_8': (-72, 258), 'SHENK_19': (-120, -221)},
@@ -169,7 +173,9 @@ class Pather:
             228: {"TRAV_13": (8, 9), "TRAV_17": (29, 56), "TRAV_25": (58, -152), "TRAV_16": (-198, -110), "TRAV_18": (-251, 188)},
             229: {"TRAV_18": (-250, 58), "TRAV_25": (59, -282), "TRAV_17": (30, -74), "TRAV_13": (9, -121), "TRAV_16": (-138, -241)},
             230: {"TRAV_19": (157, 39), "TRAV_18": (-392, -28), "TRAV_17": (-112, -160), "TRAV_13": (-133, -207), "TRAV_25": (-83, -368)},
-            300: {"TRAV_V3_4": (-101, 134), "TRAV_V3_5": (72, 220), "TRAV_V3_1": (237, -24), "TRAV_V3_3": (-318, 224), "TRAV_V3_11": (472, 39)},
+            300: {"TRAV_V3_4": (-101, 134), "TRAV_V3_5": (72, 220), "TRAV_V3_1": (237, -24), "TRAV_V3_3": (-318, 224), "TRAV_V3_11": (472, 39),
+                "TRAV_16": (129, -86), "TRAV_V2_0": (472, 65), "TRAV_17": (357, 84), "TRAV_12": (512, -333),
+            },
             301: {"TRAV_V3_7": (178, -33), "TRAV_V3_6": (170, 157), "TRAV_V3_0": (88, -235), "TRAV_V3_5": (-335, -95), "TRAV_V3_8": (444, -108)},
             302: {"TRAV_V3_0": (-18, 6), "TRAV_V3_7": (73, 208), "TRAV_V3_8": (339, 133), "TRAV_V3_6": (65, 398), "TRAV_V3_5": (-440, 146)},
             304: {"TRAV_V2_4": (125, -148), "TRAV_V2_3": (-187, 55), "TRAV_V2_1": (-207, 59), "TRAV_V2_2": (267, 183), "TRAV_V2_0": (-159, 403)},
@@ -526,47 +532,9 @@ class Pather:
                 if stuck_count >= 5:
                     return False
         # if type(key) == str and ("_save_dist" in key or "_end" in key):
-        #     cv2.imwrite(f"./info_screenshots/nil_path_{key}_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
+        #     cv2.imwrite(f"./log/screenshots/info/nil_path_{key}_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
         return True
 
-    def _adjust_abs_range_to_screen(self, abs_pos: tuple[float, float]) -> tuple[float, float]:
-        """
-        Adjust an absolute coordinate so it will not go out of screen or click on any ui which will not move the char
-        :param abs_pos: Absolute position of the desired position to move to
-        :return: Absolute position of a valid position that can be clicked on
-        """
-        f = 1.0
-        # Check for x-range
-        if abs_pos[0] > self._range_x[1]:
-            f = min(f, abs(self._range_x[1] / float(abs_pos[0])))
-        elif abs_pos[0] < self._range_x[0]:
-            f = min(f, abs(self._range_x[0] / float(abs_pos[0])))
-        # Check y-range
-        if abs_pos[1] > self._range_y[1]:
-            f = min(f, abs(self._range_y[1] / float(abs_pos[1])))
-        if abs_pos[1] < self._range_y[0]:
-            f = min(f, abs(self._range_y[0] / float(abs_pos[1])))
-        # Scale the position by the factor f
-        if f < 1.0:
-            abs_pos = (int(abs_pos[0] * f), int(abs_pos[1] * f))
-        # Check if adjusted position is "inside globe"
-        screen_pos = convert_abs_to_screen(abs_pos)
-        if is_in_roi(Config().ui_roi["mana_globe"], screen_pos) or is_in_roi(Config().ui_roi["health_globe"], screen_pos):
-            # convert any of health or mana roi top coordinate to abs (x-coordinate is just a dummy 0 value)
-            new_range_y_bottom = convert_screen_to_abs((0, Config().ui_roi["mana_globe"][1]))[1]
-            f = abs(new_range_y_bottom / float(abs_pos[1]))
-            abs_pos = (int(abs_pos[0] * f), int(abs_pos[1] * f))
-        # Check if clicking on merc img
-        screen_pos = convert_abs_to_screen(abs_pos)
-        if is_in_roi(Config().ui_roi["merc_icon"], screen_pos):
-            width = Config().ui_roi["merc_icon"][2]
-            height = Config().ui_roi["merc_icon"][3]
-            w_abs, h_abs = convert_screen_to_abs((width, height))
-            fw = abs(w_abs / float(abs_pos[0]))
-            fh = abs(h_abs / float(abs_pos[1]))
-            f = max(fw, fh)
-            abs_pos = (int(abs_pos[0] * f), int(abs_pos[1] * f))
-        return abs_pos
 
     def find_abs_node_pos(self, node_idx: int, img: np.ndarray, threshold: float = 0.68) -> tuple[float, float]:
         node = self._nodes[node_idx]
@@ -584,7 +552,7 @@ class Pather:
             # Calc the abs node position with the relative coordinates (relative to ref)
             node_pos_rel = self._get_node(node_idx, template_match.name)
             node_pos_abs = self._convert_rel_to_abs(node_pos_rel, ref_pos_abs)
-            node_pos_abs = self._adjust_abs_range_to_screen(node_pos_abs)
+            node_pos_abs = get_closest_non_hud_pixel(pos = node_pos_abs, pos_type="abs")
             return node_pos_abs
         return None
 
@@ -651,7 +619,7 @@ class Pather:
                         # Don't want to spam the log with errors in this case because it most likely worked out just fine
                         if timeout > 3.1:
                             if Config().general["info_screenshots"]:
-                                cv2.imwrite("./info_screenshots/info_pather_got_stuck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
+                                cv2.imwrite("./log/screenshots/info/info_pather_got_stuck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
                             Logger.error("Got stuck exit pather")
                         return False
 
@@ -661,8 +629,8 @@ class Pather:
                         pos_abs = last_direction
                     else:
                         angle = random.random() * math.pi * 2
-                        pos_abs = (math.cos(angle) * 150, math.sin(angle) * 150)
-                    pos_abs = self._adjust_abs_range_to_screen(pos_abs)
+                        pos_abs = (round(math.cos(angle) * 150), round(math.sin(angle) * 150))
+                    pos_abs = get_closest_non_hud_pixel(pos = pos_abs, pos_type="abs")
                     Logger.debug(f"Pather: taking a random guess towards " + str(pos_abs))
                     x_m, y_m = convert_abs_to_monitor(pos_abs)
                     char.move((x_m, y_m), force_move=True)
@@ -672,10 +640,12 @@ class Pather:
                 # Sometimes we get stuck at a Shrine or Stash, after a few seconds check if the screen was different, if force a left click.
                 if (teleport_count + 1) % 30 == 0:
                     if (match := detect_screen_object(ScreenObjects.ShrineArea, img)).valid:
-                        if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_shrine_check_before" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
+                        if Config().general["info_screenshots"]:
+                            cv2.imwrite(f"./log/screenshots/info_shrine_check_before" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
                         Logger.debug(f"Shrine found, activating it")
                         select_screen_object_match(match)
-                        if Config().general["info_screenshots"]: cv2.imwrite(f"./info_screenshots/info_shrine_check_after" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
+                        if Config().general["info_screenshots"]:
+                            cv2.imwrite(f"./log/screenshots/info/info_shrine_check_after" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
                     teleport_count = 0
                     break
                 teleport_count += 1
@@ -725,7 +695,7 @@ if __name__ == "__main__":
                         # Calc the abs node position with the relative coordinates (relative to ref)
                         node_pos_rel = pather._get_node(node_idx, template_type)
                         node_pos_abs = pather._convert_rel_to_abs(node_pos_rel, ref_pos_abs)
-                        node_pos_abs = pather._adjust_abs_range_to_screen(node_pos_abs)
+                        node_pos_abs = get_closest_non_hud_pixel(pos = node_pos_abs, pos_type="abs")
                         x, y = convert_abs_to_screen(node_pos_abs)
                         cv2.circle(display_img, (x, y), 5, (255, 0, 0), 3)
                         cv2.putText(display_img, str(node_idx), (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
@@ -736,7 +706,7 @@ if __name__ == "__main__":
                         print(f'"{template_type}": {wrt_origin}')
             # display_img = cv2.resize(display_img, None, fx=0.5, fy=0.5)
             # if round(time.time() - start) % 3 == 0:
-            #     cv2.imwrite("./info_screenshots/pather_" + time.strftime("%Y%m%d_%H%M%S") + ".png", display_img)
+            #     cv2.imwrite("./log/screenshots/info/pather_" + time.strftime("%Y%m%d_%H%M%S") + ".png", display_img)
             cv2.imshow("debug", display_img)
             cv2.waitKey(1)
 
@@ -747,14 +717,14 @@ if __name__ == "__main__":
     start_detecting_window()
     from config import Config
     from char.sorceress import LightSorc
-    from char.hammerdin import Hammerdin
+    from char.paladin.hammerdin import Hammerdin
     from item.pickit import PickIt
     pather = Pather()
 
     #char = Hammerdin(Config().hammerdin, pather, PickIt) #Config().char,
     #char.discover_capabilities()
 
-    display_all_nodes(pather, "TRAV_")
+    display_all_nodes(pather, "SHENK_")
     #pather.traverse_nodes([120, 121, 122, 123, 122, 121, 120], char) #works!
     #pather.traverse_nodes_fixed("dia_trash_c", char)
     #display_all_nodes(pather, "SHENK")

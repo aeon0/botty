@@ -75,6 +75,6 @@ There are different coordinate systems used and I tried my best to add these to 
 If you installed your miniconda in another location you will of course have ot change it for that one.
 ```bash
 # Adapt new version with x.x.x, build .exe and bundeling all needed resource into one folder
-python release.py x.x.x
+python build.py x.x.x
 ```
 For changelog run: `git log <PREVIOUS_TAG>..HEAD --oneline --decorate`

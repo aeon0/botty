@@ -76,7 +76,7 @@ if __name__ == "__main__":
         if args.use_key:
             key = Fernet.generate_key().decode("utf-8")
             key_cmd = " --key " + key
-        installer_cmd = f"pyinstaller --onefile --distpath {botty_dir}{key_cmd} --exclude-module graphviz --paths .\\src --paths {args.conda_path}\\envs\\botty\\lib\\site-packages src\\{exe}"
+        installer_cmd = f"pyinstaller --onefile --distpath {botty_dir}{key_cmd} --exclude-module graphviz --paths .\\src --paths {args.conda_path}\\envs\\botty\\Lib\\site-packages src\\{exe}"
         os.system(installer_cmd)
 
     os.system(f"cd {botty_dir} && mkdir config && cd ..")
@@ -85,8 +85,9 @@ if __name__ == "__main__":
         f.write("; Add parameters you want to overwrite from param.ini here")
     shutil.copy("config/game.ini", f"{botty_dir}/config/")
     shutil.copy("config/params.ini", f"{botty_dir}/config/")
-    shutil.copy("config/pickit.ini", f"{botty_dir}/config/")
     shutil.copy("config/shop.ini", f"{botty_dir}/config/")
+    shutil.copy("config/default.nip", f"{botty_dir}/config/")
+    os.makedirs(f"{botty_dir}/config/nip", exist_ok=True)
     shutil.copy("README.md", f"{botty_dir}/")
     shutil.copytree("assets", f"{botty_dir}/assets")
     clean_up()

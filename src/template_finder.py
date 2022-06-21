@@ -105,7 +105,7 @@ def _single_template_match(template: Template, inp_img: np.ndarray = None, roi: 
         template_img = template.img_bgr
 
     if not (img.shape[0] > template_img.shape[0] and img.shape[1] > template_img.shape[1]):
-        Logger.error(f"Image shape and template shape are incompatible: {template.name}. Image: {img.shape}, Template: {template_img.shape}")
+        Logger.error(f"Image shape and template shape are incompatible: {template.name}. Image: {img.shape}, Template: {template_img.shape}, roi: {roi}")
     else:
         res = cv2.matchTemplate(img, template_img, cv2.TM_CCOEFF_NORMED, mask = template.alpha_mask)
         np.nan_to_num(res, copy=False, nan=0.0, posinf=0.0, neginf=0.0)
@@ -187,7 +187,7 @@ def search_and_wait(
     """
     Helper function that will loop and keep searching for a template
     :param timeout: After this amount of time the search will stop and it will return [False, None]
-    :Other params are the same as for TemplateFinder.search()
+    :Other params are the same as for template_finder.search()
     :returns a TemplateMatch object
     """
     if not suppress_debug:
@@ -218,7 +218,7 @@ def search_all(
 ) -> list[TemplateMatch]:
     """
     Returns a list of all templates scoring above set threshold on the screen
-    :Other params are the same as for TemplateFinder.search()
+    :Other params are the same as for template_finder.search()
     :return: Returns a list of TemplateMatch objects
     """
     templates = _process_template_refs(ref)
@@ -264,14 +264,15 @@ if __name__ == "__main__":
 
     _template_list = ["SHENK_0","SHENK_1","SHENK_10","SHENK_11","SHENK_12","SHENK_13","SHENK_15","SHENK_16","SHENK_17","SHENK_18","SHENK_19","SHENK_2","SHENK_20","SHENK_3","SHENK_4","SHENK_6","SHENK_7","SHENK_8","SHENK_9","SHENK_DEATH_0","SHENK_DEATH_1","SHENK_DEATH_2","SHENK_DEATH_3","SHENK_DEATH_4","SHENK_V2_3","SHENK_V2_4","SHENK_V2_6","SHENK_V2_7","SHENK_V2_8"]
 
+    _template_list += ["ELDRITCH_0","ELDRITCH_0_V2","ELDRITCH_0_V3","ELDRITCH_1","ELDRITCH_1_V2","ELDRITCH_2","ELDRITCH_2_V2","ELDRITCH_3","ELDRITCH_4","ELDRITCH_5","ELDRITCH_6","ELDRITCH_7","ELDRITCH_7_V2","ELDRITCH_8","ELDRITCH_8_V2","ELDRITCH_9","ELDRITCH_START","ELDRITCH_START_V2"]
+
     _current_template_idx = -1
     _last_stored_idx = 0
-    _current_threshold = 0.5
+    _current_threshold = 0.6
     _visible_templates = []
 
     def _save_visible_templates():
-        if not os.path.exists("info_screenshots"):
-            os.system("mkdir info_screenshots")
+        os.makedirs("log/screenshots/info", exist_ok=True)
         for match in _visible_templates:
             cv2.imwrite(match['filename'], match['img'])
             Logger.info(f"{match['filename']} saved")
@@ -327,7 +328,7 @@ if __name__ == "__main__":
                 cv2.rectangle(display_img, template_match.region[:2], (template_match.region[0] + template_match.region[2], template_match.region[1] + template_match.region[3]), (0, 0, 255), 1)
                 print(f"Name: {template_match.name} Pos: {template_match.center}, Dist: {625-x, 360-y}, Score: {template_match.score}")
                 match = {
-                    'filename': f"./info_screenshots/{key.lower()}.png",
+                    'filename': f"./log/screenshots/info/{key.lower()}.png",
                     'img': cut_roi(img, template_match.region)
                 }
                 _visible_templates.append(match)

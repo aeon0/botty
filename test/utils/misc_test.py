@@ -1,7 +1,7 @@
 import pytest
 from logger import Logger
 from utils.misc import load_template
-
+import utils.download_test_assets # downloads assets if they don't already exist, doesn't need to be called
 
 class TestUtilsMisc:
     def setup_method(self):

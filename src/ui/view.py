@@ -10,19 +10,19 @@ from inventory import common
 from screen import convert_screen_to_monitor
 
 def enable_no_pickup() -> bool:
-    """
-    Checks the best match between enabled and disabled an retrys if already set.
-    :return: Returns True if we succesfully set the nopickup option
-    """
+    # """
+    # Checks the best match between enabled and disabled an retrys if already set.
+    # :return: Returns True if we succesfully set the nopickup option
+    # """
     keyboard.send('enter')
     wait(0.1, 0.25)
     keyboard.write('/nopickup',delay=.20)
     keyboard.send('enter')
     wait(0.1, 0.25)
     if not (item_pickup_text := wait_until_visible(ScreenObjects.ItemPickupText, timeout=1.3)).valid:
-        return False
+         return False
     if item_pickup_text.name == "ITEM_PICKUP_DISABLED":
-        return True
+         return True
     keyboard.send('enter')
     wait(0.1, 0.25)
     keyboard.send('up')
