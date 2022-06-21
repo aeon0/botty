@@ -165,14 +165,24 @@ class IChar:
     """
 
     @staticmethod
-    def _log_cast(skill_name: str, cast_pos_abs: tuple[float, float], spray: float, min_duration: float, aura: str):
+    def _log_cast(skill_name: str, cast_pos_abs: tuple[float, float], spray: float, spread_deg: float, min_duration: float, max_duration: float, aura: str):
         msg = f"Casting skill {skill_name}"
         if cast_pos_abs:
             msg += f" at screen coordinate {convert_abs_to_screen(cast_pos_abs)}"
         if spray:
             msg += f" with spray of {spray}"
+        if spread_deg:
+            msg += f" with spread of {spread_deg}"
+        if min_duration or max_duration:
+            msg += f" for "
         if min_duration:
-            msg += f" for {round(min_duration, 1)}s"
+            msg += f"{round(min_duration, 1)}"
+        if min_duration and max_duration:
+            msg += f" to "
+        if max_duration:
+            msg += f"{round(min_duration, 1)}"
+        if min_duration or max_duration:
+            msg += f" sec"
         if aura:
             msg += f" with {aura} active"
         Logger.debug(msg)
@@ -239,7 +249,7 @@ class IChar:
         """
         if not self._get_hotkey(skill_name):
             return False
-
+        self._log_cast(skill_name, cast_pos_abs, spray, spread_deg, min_duration, max_duration, aura)
         if aura:
             self._activate_aura(aura)
 

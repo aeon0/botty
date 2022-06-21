@@ -55,7 +55,7 @@ class FoHdin(Paladin):
         cast_pos_abs: tuple[int, int] = (0, 0),
         min_duration: float = 0,
         max_duration: float = 15,
-        spray: float = 50,
+        spray: float = 20,
         spread_deg: float = 10,
         aura: str = "conviction"
     ) -> bool:
@@ -98,7 +98,7 @@ class FoHdin(Paladin):
 
     #FOHdin Attack Sequence Optimized for trash
     def _cs_attack_sequence(self, min_duration: float, max_duration: float):
-        self._generic_foh_attack_sequence(cast_pos_abs=(0, 0), min_duration = min_duration, max_duration = max_duration, spread=100)
+        self._generic_foh_attack_sequence(cast_pos_abs=(0, 0), min_duration = min_duration, max_duration = max_duration, spread_deg=100)
         self._activate_redemption_aura()
 
     def _cs_trash_mobs_attack_sequence(self):
@@ -133,7 +133,7 @@ class FoHdin(Paladin):
             self._pather.traverse_nodes([103], self, timeout=1.0, active_skill="conviction")
 
         cast_pos_abs = (pindle_pos_abs[0] * 0.9, pindle_pos_abs[1] * 0.9)
-        self._generic_foh_attack_sequence(cast_pos_abs=cast_pos_abs, min_duration=atk_len_dur, max_duration=atk_len_dur*3, spray=11)
+        self._generic_foh_attack_sequence(cast_pos_abs=cast_pos_abs, min_duration=atk_len_dur, max_duration=atk_len_dur*3, spread_deg=11)
 
         if self.capabilities.can_teleport_natively:
             self._pather.traverse_nodes_fixed("pindle_end", self)
