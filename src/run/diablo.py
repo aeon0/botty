@@ -1,4 +1,3 @@
-from distutils.command.build import build
 import cv2
 import time
 import keyboard
@@ -78,7 +77,7 @@ class Diablo:
 
     def approach(self, start_loc: Location) -> bool | Location:
         Logger.info("Run Diablo")
-        if not self._char.capabilities.can_teleport_natively or self._char.capabilities.can_teleport_with_charges:
+        if not (self._char.capabilities.can_teleport_natively or self._char.capabilities.can_teleport_with_charges):
             raise ValueError("Diablo requires teleport")
         if not self._town_manager.open_wp(start_loc):
             return False
@@ -98,10 +97,65 @@ class Diablo:
         
         if not self._pather.traverse_nodes([600], self._char): return False #not using automap works better here
         Logger.debug("ROF: Calibrated at WAYPOINT")
-                
-        self._pather.traverse_nodes_fixed("dia_wp_cs-e", self._char) #Traverse River of Flame (no chance to traverse w/o fixed, there is no reference point between WP & CS Entrance) - minimum 3 teleports are needed, if we only cross the gaps (maybe loop template matching the gap, otherwise walking), otherwise its 9
-        toggle_automap(False) # just to be safe
-        if not self._pather.traverse_nodes_automap([1601], self._char): return False # Calibrate at CS Entrance
+
+        #Traverse ROF with minimal teleport charges
+        if self._char.capabilities.can_teleport_with_charges:
+            Logger.debug("ROF: Let's run to the ROF diving board! - LEEEEEEROOOOOOOYYYYYY!")
+            if not self._pather.traverse_nodes_automap([1594], self._char): return False # Dodge Tyrael so we dont get stuck in a chat with that guy.
+            if not self._pather.traverse_nodes_automap([1595], self._char): return False # go to the first jumping spot at ROF
+            toggle_automap(False) #just in case
+
+            """ # too hacky, does not work well
+            Logger.debug("ROF: Crossing Gap 1/3 using teleport")
+            pos_m = convert_abs_to_monitor((700, -350))
+            mouse.move(*pos_m, randomize=0, delay_factor=[0.5, 0.7])
+            skills.select_tp(Config().char["teleport"])
+            mouse.click(button="right")
+            wait(0.3,0.4)
+            current_time = None
+            start_time = time.time()
+            while start_time - current_time <= 3:
+                pos_m = convert_abs_to_monitor((700, -350))
+                self._char.move(*pos_m, force_move=True)
+                current_time = time.time()
+                if not self._pather.traverse_nodes_automap([1596], self._char, timeout=1):
+                   Logger.debug("ROF: Crossing Gap 2/3 using teleport")
+                   pos_m = convert_abs_to_monitor((700, -350))
+                   mouse.move(*pos_m, randomize=0, delay_factor=[0.5, 0.7])
+                   skills.select_tp(Config().char["teleport"])
+                   mouse.click(button="right")
+                   wait(0.3,0.4) 
+
+            Logger.debug("ROF: Crossing Gap 2/3 using teleport")
+            pos_m = convert_abs_to_monitor((700, -350))
+            mouse.move(*pos_m, randomize=0, delay_factor=[0.5, 0.7])
+            skills.select_tp(Config().char["teleport"])
+            mouse.click(button="right")
+            wait(0.3,0.4)
+
+            Logger.debug("ROF: Crossing Gap 3/3 using teleport")
+            pos_m = convert_abs_to_monitor((700, -350))
+            mouse.move(*pos_m, randomize=0, delay_factor=[0.5, 0.7])
+            skills.select_tp(Config().char["teleport"])
+            mouse.click(button="right")
+            wait(0.3,0.4)
+            """
+            
+            skills.select_tp(Config().char["teleport"]) #strangely, this is needed to avoid trying to walkt the fixed traverse
+            self._pather.traverse_nodes_fixed("dia_tyrael_cs-e", self._char) #never teleports, always walks...
+            Logger.debug("ROF: Walking the rest to CS Entrance (direction Top Right) to make sure we reveal the CS Entrance Template")
+            pos_m = convert_abs_to_monitor((700, -350))
+            self._char.move(*pos_m, force_move=True)
+
+        #Teleport directly
+        elif self._char.capabilities.can_teleport_with_charges:
+            self._pather.traverse_nodes_fixed("dia_wp_cs-e", self._char) #Traverse River of Flame (no chance to traverse w/o fixed, there is no reference point between WP & CS Entrance) - minimum 3 teleports are needed, if we only cross the gaps (maybe loop template matching the gap, otherwise walking), otherwise its 9
+
+        else: 
+            raise ValueError("Diablo requires teleport")
+
+        #So we finally arrived at CS Entrance
+        if not self._pather.traverse_nodes_automap([1605], self._char): return False # Calibrate at CS Entrance
         Logger.debug("ROF: Calibrated at CS ENTRANCE")
         
         #make leecher TP
@@ -117,6 +171,12 @@ class Diablo:
 
         if Config().char["dia_kill_trash"]:
             Logger.debug("Kill Trash CS -> Pent not implemented yet")
+            #Trash to Pent Walking = [1500, 1501, 1502, 1503, 1504, 1505, 1506, 1507, 1508, 1509, 1510, 1511, 1512, 1513, 1514, 1515, 1516, 1517, 1516, 1514, 1518, 1519, 1520, 1521, 1522, 1523, 1524, 1610]
+            #Trash Pent to A LC = [1525, 1526, 1527, 1528, 1529, 1627, 1620]
+            #Trash Pent to B LC = [1530, 1531, 1532, 1633,1638, 1632, 1635, 1630]
+            #Trash B Back to Pent = [1635, 1632, 1638, 1633, 1533, 1610]
+            #Trash Pent to C LC = [1534, 1535, 1536, 1648, 1645, 1640]
+            #Trash C back to Pent = [1645, 1648, 1536, 1537]
             #all attack sequences that brings us from CS to Pentagram (thereby revealing the key templates: DIA_AM_CR1, DIA_AM_CR2 & DIA_AM_PENT)
         
         else:
@@ -124,11 +184,11 @@ class Diablo:
             Logger.debug("ROF: Teleporting directly to PENTAGRAM")
             self._pather.traverse_nodes_fixed("dia_cs-e_pent", self._char) #Skip killing CS Trash & directly go to PENT, thereby revelaing key templates
         
-        if not self._pather.traverse_nodes_automap([1600], self._char): return False # calibrate at Pentagram
+        if not self._pather.traverse_nodes_automap([1610], self._char): return False # calibrate at Pentagram
         Logger.info("CS: Calibrated at PENTAGRAM")
 
         #make leecher TP
-        if Config().char["dia_leecher_tp_cs"]:
+        if Config().char["dia_leecher_tp_pent"]:
             Logger.debug("CS: OPEN LEECHER TP AT ENTRANCE")
             self._char.dia_kill_trash("dia_leecher_tp_pent")
             if not skills.has_tps(): Logger.warning("CS: failed to open TP, you should buy new TPs!")
@@ -243,7 +303,7 @@ class Diablo:
                 Logger.debug(seal_layout + ": Kill Boss A (Vizier)") 
                 self._char.kill_vizier_automap(seal_layout) # Kill Boss
                 Logger.debug(seal_layout + ": Traversing back to Pentagram")
-                if not self._pather.traverse_nodes_automap([1600], self._char): return False # go to Pentagram
+                if not self._pather.traverse_nodes_automap([1610], self._char): return False # go to Pentagram
                 Logger.info(seal_layout + ": finished seal & calibrated at PENTAGRAM")
                 
         
@@ -294,7 +354,7 @@ class Diablo:
                 Logger.debug(seal_layout + ": Kill Boss A (Vizier)")
                 self._char.kill_vizier_automap(seal_layout)
                 Logger.debug(seal_layout + ": Traversing back to Pentagram")
-                if not self._pather.traverse_nodes_automap([1600], self._char): return False
+                if not self._pather.traverse_nodes_automap([1610], self._char): return False
                 Logger.info(seal_layout + ": finished seal & calibrated at PENTAGRAM")
                 
 
@@ -419,7 +479,7 @@ class Diablo:
                 Logger.debug(seal_layout + ": Kill Boss B (DeSeis)")
                 self._char.kill_deseis_automap(seal_layout)
                 Logger.debug(seal_layout + ": Traversing back to Pentagram")
-                if not self._pather.traverse_nodes_automap([1600], self._char): return False
+                if not self._pather.traverse_nodes_automap([1610], self._char): return False
                 Logger.info(seal_layout + ": finished seal & calibrated at PENTAGRAM")   
         
         else:
@@ -470,7 +530,7 @@ class Diablo:
                 Logger.debug(seal_layout + ": Kill Boss B (DeSeis)")
                 self._char.kill_deseis_automap(seal_layout)
                 Logger.debug(seal_layout + ": Traversing back to Pentagram")
-                if not self._pather.traverse_nodes_automap([1600], self._char): return False
+                if not self._pather.traverse_nodes_automap([1610], self._char): return False
                 Logger.info(seal_layout + ": finished seal & calibrated at PENTAGRAM")
 
             else:
@@ -594,7 +654,7 @@ class Diablo:
                 Logger.debug(seal_layout + ": Kill Boss C (Infector)")
                 self._char.kill_infector_automap(seal_layout)
                 Logger.debug(seal_layout + ": Traversing back to Pentagram")
-                if not self._pather.traverse_nodes_automap([1600], self._char): return False
+                if not self._pather.traverse_nodes_automap([1610], self._char): return False
                 Logger.info(seal_layout + ": finished seal & calibrated at PENTAGRAM")     
         
         else:
@@ -648,7 +708,7 @@ class Diablo:
                 Logger.debug(seal_layout + ": Kill Boss C (Infector)")
                 self._char.kill_infector_automap(seal_layout)
                 Logger.debug(seal_layout + ": Traversing back to Pentagram")
-                if not self._pather.traverse_nodes_automap([1600], self._char): return False
+                if not self._pather.traverse_nodes_automap([1610], self._char): return False
                 Logger.info(seal_layout + ": finished seal & calibrated at PENTAGRAM")
 
             else:
@@ -663,7 +723,7 @@ class Diablo:
         # Diablo #
         ##########
         
-        if not self._pather.traverse_nodes_automap([1600], self._char): return False
+        if not self._pather.traverse_nodes_automap([1610], self._char): return False
         
         Logger.info("Waiting for Diablo to spawn")
         
@@ -708,3 +768,53 @@ class Diablo:
         # add a color check for the surrounding of the pentagram to see if diablo was spawned correctly.
         # consider a name-tag & name-lock for seal bosses & diablo
         # add walkadin pathing (Seal B is teleporting a lot right now)
+
+"""
+case "rof_01": #node 603 - outside CS in ROF
+case "rof_02": #node 604 - inside ROF
+
+case "entrance_hall_01": ##static_path "diablo_entrance_hall_1", node 677, CS Entrance Hall1
+case "entrance_hall_02":  #node 670,671, CS Entrance Hall1, CS Entrance Hall1
+
+case "entrance1_01": #static_path "diablo_entrance_hall_2", Hall1 (before layout check)
+case "entrance1_02": #node 673
+case "entrance1_03": #node 674
+case "entrance1_04": #node 676- Hall3
+
+case "entrance2_01": #static_path "diablo_entrance_hall_2"
+case "entrance2_02": #node 682
+case "entrance2_03": #node 683
+case "entrance2_04": #node 686 - Hall3
+
+case "dia_trash_a" | "dia_trash_b" | "dia_trash_c": #trash before between Pentagramm and Seal A Layoutcheck
+
+case "layoutcheck_a" | "layoutcheck_b" | "layoutcheck_c": #layout check seal A, node 619 A1-L, node 620 A2-Y
+
+case "pent_before_a" | "pent_before_b" | "pent_before_c": #node 602, pentagram, before CTA buff & depature to layout check
+
+case "A1-L_01":  #node 611 seal layout A1-L: safe_dist
+case "A1-L_02":  #node 612 seal layout A1-L: center
+case "A1-L_03":  #node 613 seal layout A1-L: fake_seal
+case "A1-L_seal1":  #node 613 seal layout A1-L: fake_seal
+case "A1-L_seal2":  #node 614 seal layout A1-L: boss_seal
+
+case "A2-Y_01":  #node 622 seal layou A2-Y: safe_dist
+case "A2-Y_02":  #node 623 seal layout A2-Y: center
+case "A2-Y_03": #skipped
+case "A2-Y_seal1":  #node 625 seal layout A2-Y: fake seal
+case "A2-Y_seal2":
+
+case "B1-S_01" | "B1-S_02" | "B1-S_03":
+case "B1-S_seal2": #B only has 1 seal, which is the boss seal = seal2
+
+case "B2-U_01" | "B2-U_02" | "B2-U_03":
+case "B2-U_seal2": #B only has 1 seal, which is the boss seal = seal2
+
+case "C1-F_01" | "C1-F_02" | "C1-F_03":
+case "C1-F_seal1":
+case "C1-F_seal2"
+
+case "C2-G_01" | "C2-G_02" | "C2-G_03":
+case "C2-G_seal1":
+case "C2-G_seal2":
+"""
