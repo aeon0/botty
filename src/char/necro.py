@@ -7,7 +7,8 @@ from pather import Pather
 from logger import Logger
 from screen import grab, convert_abs_to_monitor, convert_screen_to_abs
 from config import Config
-from utils.misc import wait, rotate_vec, unit_vector
+from utils.misc import wait
+from char.tools import calculations
 import random
 from pather import Location, Pather
 import numpy as np
@@ -347,8 +348,8 @@ class Necro(IChar):
         mouse.press(button="right")
 
         for i in range(cast_div):
-            angle = self._lerp(cast_start_angle,cast_end_angle,float(i)/cast_div)
-            target = unit_vector(rotate_vec(cast_dir, angle))
+            angle = calculations.lerp(cast_start_angle,cast_end_angle,float(i)/cast_div)
+            target = calculations.unit_vector(calculations.rotate_vec(cast_dir, angle))
             #Logger.info("current angle ~> "+str(angle))
             for j in range(cast_v_div):
                 circle_pos_abs = get_closest_non_hud_pixel(pos = (target*120.0*float(j+1.0))*offset, pos_type="abs")
@@ -424,12 +425,12 @@ class Necro(IChar):
 
 
             for _ in range(2):
-                corpse_pos = unit_vector(rotate_vec(cast_pos_abs, rot_deg)) * 200
+                corpse_pos = calculations.unit_vector(calculations.rotate_vec(cast_pos_abs, rot_deg)) * 200
                 self._corpse_explosion(pc,40,cast_count=2)
                 rot_deg-=7
             rot_deg=0
             for _ in range(2):
-                corpse_pos = unit_vector(rotate_vec(cast_pos_abs, rot_deg)) * 200
+                corpse_pos = calculations.unit_vector(calculations.rotate_vec(cast_pos_abs, rot_deg)) * 200
                 self._corpse_explosion(pc,40,cast_count=2)
                 rot_deg+=7
 

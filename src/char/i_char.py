@@ -177,7 +177,7 @@ class IChar:
             msg += f" with {aura} active"
         Logger.debug(msg)
 
-    def _randomize_position(pos_abs: tuple[float, float], spray: float = 0, spread_deg: float = 0):
+    def _randomize_position(self, pos_abs: tuple[float, float], spray: float = 0, spread_deg: float = 0) -> tuple[int, int]:
         if spread_deg:
             pos_abs = calculations.spread(pos_abs = pos_abs, spread_deg = spread_deg)
         if spray:
@@ -187,7 +187,7 @@ class IChar:
     def _send_skill(self, skill_name: str, cooldown = True):
         self._key_press(self._get_hotkey(skill_name))
         if cooldown:
-            wait(get_cast_wait_time(skill_name))
+            wait(get_cast_wait_time(class_base = self._base_class, skill_name = skill_name))
 
     def _activate_aura(self, skill_name: str, delay: float | list | tuple | None = (0.04, 0.08)):
         if not self._get_hotkey(skill_name):
@@ -205,7 +205,7 @@ class IChar:
             return False
         if not self._key_held[hotkey]: # if skill is already active, don't activate it again
             if not duration:
-                self._send_skill(skill_name, cooldown = cooldown)
+                self._send_skill(skill_name = skill_name, cooldown = cooldown)
             else:
                 self._stand_still(True)
                 self._key_press(self._get_hotkey(skill_name), hold_time = duration)
@@ -420,7 +420,7 @@ class IChar:
         if use_tp and self.can_teleport(): # can_teleport() activates teleport hotkey if True
             # 7 frames is the fastest that teleport can be casted with 200 fcr on sorc
             self._teleport_to_position(pos_monitor, cooldown = False)
-            min_wait = get_cast_wait_time(self._base_class, "teleport", Config().char["fcr"]) + factor/25
+            min_wait = get_cast_wait_time(class_base = self._base_class, skill_name = "teleport") + factor/25
             # if there's still time remaining in cooldown, wait
             while time.time() - last_move_time < min_wait:
                 wait(0.02)
@@ -471,7 +471,7 @@ class IChar:
     def _pre_buff_cta(self) -> bool:
         if not self._get_hotkey("cta_available"):
             return False
-        if self.main_weapon_equipped():
+        if self.main_weapon_equipped:
             self._switch_to_offhand_weapon()
         self._cast_battle_command()
         self._cast_battle_orders()

@@ -1,5 +1,6 @@
 import time
 
+from utils.custom_mouse import mouse
 from char.paladin import Paladin
 from config import Config
 from health_manager import set_panel_check_paused
@@ -33,10 +34,11 @@ class FoHdin(Paladin):
         self,
         cast_pos_abs: tuple[float, float],
         spray: float = 10,
+        spread_deg: float = 10,
         max_duration: float = 0,
         aura: str = "conviction",
     ):
-        return self._cast_at_position(skill_name = "foh", cast_pos_abs = cast_pos_abs, spray = spray, max_duration = max_duration, aura = aura)
+        return self._cast_at_position(skill_name = "foh", cast_pos_abs = cast_pos_abs, spray = spray, spread_deg = spread_deg, max_duration = max_duration, aura = aura)
 
     def _cast_holy_bolt(
         self,
@@ -50,31 +52,63 @@ class FoHdin(Paladin):
 
     def _generic_foh_attack_sequence(
         self,
-        default_target_abs: tuple[int, int] = (0, 0),
+        cast_pos_abs: tuple[int, int] = (0, 0),
         min_duration: float = 0,
         max_duration: float = 15,
-        foh_to_holy_bolt_ratio: int = 3,
-        target_detect: bool = True,
-        default_spray: float = 50,
-        aura: str = ""
+        spray: float = 50,
+        spread_deg: float = 10,
+        aura: str = "conviction"
     ) -> bool:
-
-        self._cast_at_position(skill_name = "foh", cast_pos_abs = default_target_abs, spray = default_spray, min_duration = min_duration, max_duration = max_duration, aura = aura)
-
+        # custom FOH alternating with holy bolt routine
+        if Config().char["faster_cast_rate"] >= 75:
+            self._activate_conviction_aura()
+            self._stand_still(True)
+            start = time_of_last_tp = time.perf_counter()
+            # cast while time is less than max duration
+            while (elapsed_time := time.perf_counter() - start) < max_duration:
+                targets = get_visible_targets()
+                if targets:
+                    pos_abs = targets[0].center_abs
+                    pos_abs = self._randomize_position(pos_abs = pos_abs, spray = 5, spread_deg = 0)
+                # otherwise, use the given position with randomization parameters
+                else:
+                    pos_abs = self._randomize_position(cast_pos_abs, spray = spray, spread_deg = spread_deg)
+                pos_m = convert_abs_to_monitor(pos_abs)
+                mouse.move(*pos_m, delay_factor= [0.4, 0.6])
+                # at frame 0, press key
+                # frame 1-6 startup of FOH
+                # frame 6 can cast HB
+                # frame 15 FOH able to be cast again
+                # frame 16 FOH startup
+                self._key_press(self._get_hotkey("foh"), hold_time=3/25)
+                time.sleep(2/25) #total of 5 frame startup
+                self._key_press(self._get_hotkey("holy_bolt"), hold_time=(8/25)) # now at frame 6
+                time.sleep(2/25) # now at frame 15
+                # if teleport frequency is set, teleport every teleport_frequency seconds
+                if (elapsed_time - time_of_last_tp) >= 3.5:
+                    self._teleport_to_origin()
+                    time_of_last_tp = elapsed_time
+                # if target detection is enabled and minimum time has elapsed and no targets remain, end casting
+                if (elapsed_time > min_duration) and not targets:
+                    break
+            self._stand_still(False)
+        else:
+            self._cast_at_position(skill_name = "foh", cast_pos_abs = cast_pos_abs, spray = spray, spread_deg = spread_deg, min_duration = min_duration, max_duration = max_duration, teleport_frequency = 3.5, use_target_detect = True, aura = aura)
         return True
 
     #FOHdin Attack Sequence Optimized for trash
-    def _cs_attack_sequence(self, min_duration: float = Config().char["atk_len_cs_trashmobs"], max_duration: float = Config().char["atk_len_cs_trashmobs"] * 3):
-        self._generic_foh_attack_sequence(default_target_abs=(20,20), min_duration = min_duration, max_duration = max_duration, default_spray=100, foh_to_holy_bolt_ratio=6)
+    def _cs_attack_sequence(self, min_duration: float, max_duration: float):
+        self._generic_foh_attack_sequence(cast_pos_abs=(0, 0), min_duration = min_duration, max_duration = max_duration, spread=100)
         self._activate_redemption_aura()
 
-    def _cs_trash_mobs_attack_sequence(self, min_duration: float = 1.2, max_duration: float = Config().char["atk_len_cs_trashmobs"]):
-        self._cs_attack_sequence(min_duration = min_duration, max_duration = max_duration)
+    def _cs_trash_mobs_attack_sequence(self):
+        self._cs_attack_sequence(min_duration = Config().char["atk_len_cs_trashmobs"], max_duration = Config().char["atk_len_cs_trashmobs"]*3)
 
     def _cs_pickit(self, skip_inspect: bool = False):
         new_items = self._pickit.pick_up_items(self)
         self._picked_up_items |= new_items
         if not skip_inspect and new_items:
+            wait(1)
             set_panel_check_paused(True)
             inspect_items(grab(), ignore_sell=True)
             set_panel_check_paused(False)
@@ -98,8 +132,8 @@ class FoHdin(Paladin):
         else:
             self._pather.traverse_nodes([103], self, timeout=1.0, active_skill="conviction")
 
-        cast_pos_abs = [pindle_pos_abs[0] * 0.9, pindle_pos_abs[1] * 0.9]
-        self._generic_foh_attack_sequence(default_target_abs=cast_pos_abs, min_duration=atk_len_dur, max_duration=atk_len_dur*3, default_spray=11)
+        cast_pos_abs = (pindle_pos_abs[0] * 0.9, pindle_pos_abs[1] * 0.9)
+        self._generic_foh_attack_sequence(cast_pos_abs=cast_pos_abs, min_duration=atk_len_dur, max_duration=atk_len_dur*3, spray=11)
 
         if self.capabilities.can_teleport_natively:
             self._pather.traverse_nodes_fixed("pindle_end", self)
@@ -108,7 +142,7 @@ class FoHdin(Paladin):
             self._pather.traverse_nodes((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, timeout=1.0)
 
         # Use target-based attack sequence one more time before pickit
-        self._generic_foh_attack_sequence(default_target_abs=cast_pos_abs, max_duration=atk_len_dur, default_spray=11)
+        self._generic_foh_attack_sequence(cast_pos_abs=cast_pos_abs, max_duration=atk_len_dur, spray=11)
         self._activate_cleanse_redemption()
 
         return True
@@ -121,13 +155,13 @@ class FoHdin(Paladin):
         nodes = [225, 226, 300]
         for i, node in enumerate(nodes):
             self._pather.traverse_nodes([node], self, timeout=2.2, do_pre_move = False, force_tp=(self.capabilities.can_teleport_natively or i > 0), use_tp_charge=(self.capabilities.can_teleport_natively or i > 0))
-            default_target_abs = self._pather.find_abs_node_pos(node, img := grab()) or self._pather.find_abs_node_pos(906, img) or (-50, -50)
-            self._generic_foh_attack_sequence(default_target_abs=default_target_abs, min_duration=atk_len_dur, max_duration=atk_len_dur*3, default_spray=80)
+            cast_pos_abs = self._pather.find_abs_node_pos(node, img := grab()) or self._pather.find_abs_node_pos(906, img) or (-50, -50)
+            self._generic_foh_attack_sequence(cast_pos_abs=cast_pos_abs, min_duration=atk_len_dur, max_duration=atk_len_dur*3, spray=80)
 
         # return to 226 and prepare for pickit
         self._pather.traverse_nodes([226], self, timeout=2.2, do_pre_move = False, force_tp=True, use_tp_charge=True)
-        default_target_abs = self._pather.find_abs_node_pos(226, img := grab()) or self._pather.find_abs_node_pos(906, img) or (-50, -50)
-        self._generic_foh_attack_sequence(default_target_abs=default_target_abs, max_duration=atk_len_dur*3, default_spray=80)
+        cast_pos_abs = self._pather.find_abs_node_pos(226, img := grab()) or self._pather.find_abs_node_pos(906, img) or (-50, -50)
+        self._generic_foh_attack_sequence(cast_pos_abs=cast_pos_abs, max_duration=atk_len_dur*3, spray=80)
 
         self._activate_cleanse_redemption()
 
@@ -137,7 +171,7 @@ class FoHdin(Paladin):
         eld_pos_abs = convert_screen_to_abs(Config().path["eldritch_end"][0])
         atk_len_dur = float(Config().char["atk_len_eldritch"])
 
-        self._generic_foh_attack_sequence(default_target_abs=eld_pos_abs, min_duration=atk_len_dur, max_duration=atk_len_dur*3, default_spray=70)
+        self._generic_foh_attack_sequence(cast_pos_abs=eld_pos_abs, min_duration=atk_len_dur, max_duration=atk_len_dur*3, spray=70)
 
         # move to end node
         pos_m = convert_abs_to_monitor((70, -200))
@@ -146,7 +180,7 @@ class FoHdin(Paladin):
         self._pather.traverse_nodes((Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END), self, timeout=0.1)
 
         # check mobs one more time before pickit
-        self._generic_foh_attack_sequence(default_target_abs=eld_pos_abs, max_duration=atk_len_dur, default_spray=70)
+        self._generic_foh_attack_sequence(cast_pos_abs=eld_pos_abs, max_duration=atk_len_dur, spray=70)
         self._activate_cleanse_redemption()
 
         return True
@@ -163,7 +197,7 @@ class FoHdin(Paladin):
         self._cast_foh((0, 0), spray=11, min_duration = 2, aura = "conviction")
         # then do generic mob detect sequence
         diff = atk_len_dur if atk_len_dur <= 2 else (atk_len_dur - 2)
-        self._generic_foh_attack_sequence(min_duration=atk_len_dur - diff, max_duration=atk_len_dur*3 - diff, default_spray=10, target_detect=False)
+        self._generic_foh_attack_sequence(min_duration=atk_len_dur - diff, max_duration=atk_len_dur*3 - diff, spray=10, target_detect=False)
         self._activate_cleanse_redemption()
 
         return True
@@ -173,22 +207,22 @@ class FoHdin(Paladin):
         atk_len_dur = Config().char["atk_len_nihlathak"]
         # Move close to nihlathak
         self._pather.traverse_nodes(end_nodes, self, timeout=0.8)
-        if self._select_skill("blessed_hammer"):
+        if self._get_hotkey("blessed_hammer"):
             self._cast_hammers(atk_len_dur/4)
             self._cast_hammers(2*atk_len_dur/4, "redemption")
             self._move_and_attack((30, 15), atk_len_dur/4, "redemption")
         else:
             Logger.warning("FOHDin without blessed hammer is not very strong vs. Nihlathak!")
-            self._generic_foh_attack_sequence(min_duration=atk_len_dur/2, max_duration=atk_len_dur, default_spray=70, aura="redemption")
-            self._generic_foh_attack_sequence(min_duration=atk_len_dur/2, max_duration=atk_len_dur, default_spray=70, aura="redemption")
-        self._generic_foh_attack_sequence(max_duration=atk_len_dur*2, default_spray=70)
+            self._generic_foh_attack_sequence(min_duration=atk_len_dur/2, max_duration=atk_len_dur, spray=70, aura="redemption")
+            self._generic_foh_attack_sequence(min_duration=atk_len_dur/2, max_duration=atk_len_dur, spray=70, aura="redemption")
+        self._generic_foh_attack_sequence(max_duration=atk_len_dur*2, spray=70)
         self._activate_cleanse_redemption()
         return True
 
     def kill_summoner(self) -> bool:
         # Attack
         atk_len_dur = Config().char["atk_len_arc"]
-        self._generic_foh_attack_sequence(min_duration=atk_len_dur, max_duration=atk_len_dur*2, default_spray=80)
+        self._generic_foh_attack_sequence(min_duration=atk_len_dur, max_duration=atk_len_dur*2, spray=80)
         self._activate_cleanse_redemption()
         return True
 
@@ -736,7 +770,7 @@ class FoHdin(Paladin):
         atk_len_dur = float(Config().char["atk_len_diablo"])
         Logger.debug("Attacking Diablo at position 1/1")
         diablo_abs = [100,-100] #hardcoded dia pos.
-        self._generic_foh_attack_sequence(default_target_abs=diablo_abs, min_duration=atk_len_dur, max_duration=atk_len_dur*3, aura="concentration", foh_to_holy_bolt_ratio=2)
+        self._generic_foh_attack_sequence(cast_pos_abs=diablo_abs, min_duration=atk_len_dur, max_duration=atk_len_dur*3, aura="concentration", foh_to_holy_bolt_ratio=2)
         self._activate_cleanse_redemption()
         ### LOOT ###
         #self._cs_pickit()
@@ -765,11 +799,13 @@ if __name__ == "__main__":
     char.discover_capabilities()
 
     def routine():
-        char._key_press(char._get_hotkey("foh"), hold_time=(0.04))
-        time.sleep(0.15)
-        char._key_press(char._get_hotkey("holy_bolt"), hold_time=(0.4))
-        time.sleep(0.04)
+        char._key_press(char._get_hotkey("foh"), hold_time=4/25)
+        time.sleep(1/25) #total of 5 frame startup
+        char._key_press(char._get_hotkey("holy_bolt"), hold_time=(1/25))
         char._key_press(char._get_hotkey("foh"), hold_time=(3))
+        # for _ in range(0, 10):
+        #     char._key_press(char._get_hotkey("foh"), hold_time=(0.1))
+        #     time.sleep(0.3)
 
     keyboard.add_hotkey('f9', lambda: routine())
     while True:

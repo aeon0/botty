@@ -604,7 +604,7 @@ class Pather:
             if active_skill == "":
                 active_skill = char.default_move_skill
             if active_skill is not None:
-                char.select_skill(active_skill, mouse_click_type = "right")
+                char._activate_aura(active_skill)
 
         last_direction = None
         for i, node_idx in enumerate(path):

@@ -73,9 +73,15 @@ def inventory_has_items(img: np.ndarray = None, close_window = False) -> bool:
 def is_main_weapon_active(img: np.ndarray = None) -> bool | None:
     # inventory must be open
     img = grab() if img is None else img
-    if (res := detect_screen_object(ScreenObjects.ActiveWeaponBound)).valid:
-        return "main" in res.name.lower()
-    Logger.warning("is_main_weapon_active(): Failed to detect active weapon, is inventory not open?")
+    if (res := detect_screen_object(ScreenObjects.ActiveWeaponBound, img)).valid:
+        state = "main" in res.name.lower()
+        equipped = "Main" if state else "Offhand"
+        Logger.debug(f"{equipped} weapon is active")
+        return state
+    if not is_visible(ScreenObjects.InventoryBackground):
+        Logger.warning("is_main_weapon_active(): Failed to detect active weapon, is inventory not open?")
+    else:
+        Logger.warning('fail')
     return None
 
 def stash_all_items(items: list = None):

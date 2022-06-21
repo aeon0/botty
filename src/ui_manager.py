@@ -272,7 +272,7 @@ class ScreenObjects:
     )
     ActiveWeaponBound=ScreenObject(
         ref=["ACTIVE_WEAPON_MAIN", "ACTIVE_WEAPON_OFFHAND"],
-        roi="active_weapon_tabs",
+        #roi="active_weapon_tabs",
         threshold=0.8,
         use_grayscale=True,
         best_match=True,

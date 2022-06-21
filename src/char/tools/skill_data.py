@@ -89,5 +89,5 @@ def get_casting_frames(class_base: str, skill_name: str, fcr: int):
     else:
         return math.ceil(256 * _get_base_frames(class_base, skill_name) / math.floor(_get_animation_speed(class_base) * (100 + _efcr(fcr)) / 100)) - 1
 
-def get_cast_wait_time(class_base: str, skill_name: str, fcr: int):
+def get_cast_wait_time(class_base: str, skill_name: str, fcr: int = Config().char["faster_cast_rate"]):
     return (get_casting_frames(class_base, skill_name, fcr) + Config().char["extra_casting_frames"]) * (1/25)
