@@ -22,7 +22,7 @@ init()
 
 WHITESPACE = " \t\n\r\v\f"
 DIGITS = "0123456789.-" # ! Put % back in here when ready to use percentages.
-SYMBOLS = [">", "=> ", "<", "<=", "=", "!", "", "", ",", "&", "|", "#", "/"]
+SYMBOLS = [">", "=> ", "<", "<=", "=", "!", "", "", ",", "&", "|", "#"]
 MATH_SYMBOLS = ["(", ")", "^", "*", "/", "\\", "+", "-"]
 CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_'"
 
