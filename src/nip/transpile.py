@@ -72,8 +72,10 @@ def transpile(tokens: list[Token], isPickUpPhase: bool = False, transpiled_expre
                 if tokens[i + 1].type != TokenType.ValueNTIPAliasFlag:
                     expression += token_value
             case TokenType.EQ:
-                if tokens[i + 1].type == TokenType.ValueNTIPAliasFlag: continue
-                if isPickUpPhase and tokens[i + 1].type == TokenType.ValueNTIPAliasIDName: continue
+                if tokens[i + 1].type == TokenType.ValueNTIPAliasFlag: 
+                    continue
+                if isPickUpPhase and tokens[i + 1].type == TokenType.ValueNTIPAliasIDName: 
+                    continue
                 expression += "=="
             case TokenType.OR | TokenType.AND | TokenType.LPAREN | TokenType.RPAREN | TokenType.PLUS | TokenType.MINUS | TokenType.MULTIPLY | TokenType.DIVIDE:
                 expression += token_value
@@ -86,7 +88,7 @@ def transpile(tokens: list[Token], isPickUpPhase: bool = False, transpiled_expre
                 section_open_paranthesis_count -= 1
                 expression += "and"
                 section_start = True
-            case TokenType.ValueNTIPAliasStat:
+            case TokenType.KeywordNTIPAliasStat:
                 expression += "(int(item_data.get('NTIPAliasStat', {})" + f".get('{token_value}', 0)))"
             case TokenType.KeywordNTIPAliasIDName:
                 if not isPickUpPhase:
@@ -130,6 +132,7 @@ def validate_correct_math_syntax(left_token=None, right_token=None):
         TokenType.KeywordNTIPAliasName,
         TokenType.KeywordNTIPAliasQuality,
         TokenType.KeywordNTIPAliasType,
+        TokenType.KeywordNTIPAliasStat,
 
         TokenType.ValueNTIPAliasClass,
         TokenType.ValueNTIPAliasClassID,
@@ -262,6 +265,7 @@ def validate_logical_operators(left=None, right=None):
         TokenType.KeywordNTIPAliasName,
         TokenType.KeywordNTIPAliasIDName,
         TokenType.KeywordNTIPAliasMaxQuantity,
+        TokenType.KeywordNTIPAliasStat
     ]
 
     if left:

@@ -95,14 +95,23 @@ class Lexer:
         while self.current_token != None:
 
             if self.current_token == "-": # * Since - is a math symbol and a negative sign for numbers, we need to handle it differently.
-                if self.tokens[-1].type == TokenType.NUMBER:
+                NTIPAliasKeywords = [
+                    TokenType.KeywordNTIPAliasClass,
+                    TokenType.KeywordNTIPAliasFlag,
+                    TokenType.KeywordNTIPAliasIDName,
+                    TokenType.KeywordNTIPAliasMaxQuantity,
+                    TokenType.KeywordNTIPAliasName,
+                    TokenType.KeywordNTIPAliasQuality,
+                    TokenType.KeywordNTIPAliasType
+                ]
+                if self.tokens[-1].type in NTIPAliasKeywords + [TokenType.NUMBER]:
                     self.tokens.append(self._create_math_operator())
                     self._advance()
                 else:
                     self.tokens.append(self._create_digits())
                 continue
 
-
+                    
             if self.current_token in DIGITS:
                 self.tokens.append(self._create_digits())
             elif self.current_token in WHITESPACE:
@@ -167,7 +176,6 @@ class Lexer:
             TokenType.KeywordNTIPAliasQuality: '[quality]',
             TokenType.KeywordNTIPAliasType: '[type]',
 
-            TokenType.ValueNTIPAlias: '{}',
             TokenType.ValueNTIPAliasClass: '{}',
             TokenType.ValueNTIPAliasClassID: '{}',
             TokenType.ValueNTIPAliasFlag: '{}',
@@ -291,7 +299,7 @@ class Lexer:
                     return Token(TokenType.UNKNOWN, lookup_key)
             elif self.current_section == NipSections.STAT:
                 if lookup_key in NTIPAliasStat:
-                    return Token(TokenType.ValueNTIPAliasStat, NTIPAliasStat[lookup_key])
+                    return Token(TokenType.KeywordNTIPAliasStat, NTIPAliasStat[lookup_key])
                 else:
                     # spell_check = ""
                     # for key in NTIPAliasStat:
