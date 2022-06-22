@@ -26,7 +26,6 @@ coverage.xml
 utils/live-view/
 config/bnip/*
 !config/bnip/.gitkeep
-test2321
 stats/
 info_screenshots/
 item_error_screenshots/
