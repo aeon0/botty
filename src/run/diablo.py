@@ -506,7 +506,7 @@ class Diablo:
         calibration_node = [1630]
         calibration_threshold = 0.78
         
-        templates_primary= ["DIA_AM_B1S", "DIA_AM_B1S_1"]
+        templates_primary= ["DIA_AM_B1S", "DIA_AM_B1S_1", "DIA_AM_B1S_2"]
         threshold_primary= 0.72
                 
         templates_confirmation= ["DIA_AM_B2U"]
@@ -955,35 +955,4 @@ class Diablo:
         # move mouse away during layout checks to avoid hovering an item that obscures the minimap (implemented, but still occasionally causes a missed seal)
         # consider a name-tag & name-lock for seal bosses & diablo
         # add walkadin pathing (Seal B is teleporting a lot right now)
-
-"""
-case "dia_trash_a" | "dia_trash_b" | "dia_trash_c": #trash before between Pentagramm and Seal A Layoutcheck
-case "layoutcheck_a" | "layoutcheck_b" | "layoutcheck_c": #layout check seal A, node 619 A1-L, node 620 A2-Y
-case "pent_before_a" | "pent_before_b" | "pent_before_c": #node 602, pentagram, before CTA buff & depature to layout check
-
-case "A1-L_01":  #node 611 seal layout A1-L: safe_dist
-case "A1-L_02":  #node 612 seal layout A1-L: center
-case "A1-L_03":  #node 613 seal layout A1-L: fake_seal
-case "A1-L_seal1":  #node 613 seal layout A1-L: fake_seal
-case "A1-L_seal2":  #node 614 seal layout A1-L: boss_seal
-
-case "A2-Y_01":  #node 622 seal layou A2-Y: safe_dist
-case "A2-Y_02":  #node 623 seal layout A2-Y: center
-case "A2-Y_03": #skipped
-case "A2-Y_seal1":  #node 625 seal layout A2-Y: fake seal
-case "A2-Y_seal2":
-
-case "B1-S_01" | "B1-S_02" | "B1-S_03":
-case "B1-S_seal2": #B only has 1 seal, which is the boss seal = seal2
-
-case "B2-U_01" | "B2-U_02" | "B2-U_03":
-case "B2-U_seal2": #B only has 1 seal, which is the boss seal = seal2
-
-case "C1-F_01" | "C1-F_02" | "C1-F_03":
-case "C1-F_seal1":
-case "C1-F_seal2"
-
-case "C2-G_01" | "C2-G_02" | "C2-G_03":
-case "C2-G_seal1":
-case "C2-G_seal2":
-"""
+        # revert back to classical template checks in case the initial check with minimap was bad (merc running around) - or just repeat it by recalibration at LC (hoping the merc goes somewhere else) - or mapcheck through map diff, isolate minimap by waiting a bit between checks, to isolate movement (E.g. merc)
