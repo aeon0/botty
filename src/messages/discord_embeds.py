@@ -28,7 +28,7 @@ class DiscordEmbeds(GenericApi):
                 Logger.error(f"Error initializing webhook {hook_url}: {e}")
         return hook
 
-    def send_item(self, item: str, image:  np.ndarray, location: str, ocr_text: str = '', nip_keep_expression: str = '', item_props: dict = {}):
+    def send_item(self, item: str, image:  np.ndarray, location: str, ocr_text: str = '', bnip_keep_expression: str = '', item_props: dict = {}):
         imgName = item.replace('_', '-')
 
         _, w, _ = image.shape
@@ -42,7 +42,7 @@ class DiscordEmbeds(GenericApi):
         e.set_thumbnail(url=f"{self._psnURL}41L6bd712.png")
         e.set_image(url=f"attachment://{imgName}.png")
         e.add_field(name="OCR Text", value=f"{ocr_text}", inline=False)
-        e.add_field(name="NIP", value=f"`{nip_keep_expression}`", inline=False)
+        e.add_field(name="BNIP", value=f"`{bnip_keep_expression}`", inline=False)
         # Escape the quotes
 
         new_dict = {

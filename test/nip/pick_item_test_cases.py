@@ -1,4 +1,4 @@
-NIP_PICK_TESTS = {
+BNIP_PICK_TESTS = {
     # monarch
     "001": [
         {

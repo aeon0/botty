@@ -118,6 +118,7 @@ class FoHdin(Paladin):
         if self.capabilities.can_teleport_natively:
             self._pather.traverse_nodes_fixed("pindle_end", self)
         else:
+            
             keyboard.send(self._skill_hotkeys["redemption"])
             wait(0.15)
             self._pather.traverse_nodes((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, timeout=1.0, do_pre_move=False)

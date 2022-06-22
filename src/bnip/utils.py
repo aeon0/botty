@@ -1,4 +1,4 @@
-from nip.UniqueAndSetData import UniqueAndSetData
+from bnip.UniqueAndSetData import UniqueAndSetData
 
 
 def find_unique_or_set_base(unique_or_set_name) -> tuple[str, str]:

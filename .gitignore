@@ -24,9 +24,9 @@ test/assets/
 htmlcov/
 coverage.xml
 utils/live-view/
-config/nip/*
-!config/nip/.gitkeep
-
+config/bnip/*
+!config/bnip/.gitkeep
+test2321
 stats/
 info_screenshots/
 item_error_screenshots/

@@ -1,18 +1,18 @@
 """
-    Lexer for NIP expressions.
+    Lexer for BNIP expressions.
 """
 
 from dataclasses import dataclass
 from logger import Logger
-from nip.NTIPAliasQuality import NTIPAliasQuality
-from nip.NTIPAliasClass import NTIPAliasClass
-from nip.NTIPAliasClassID import NTIPAliasClassID
-from nip.NTIPAliasFlag import NTIPAliasFlag
-from nip.NTIPAliasStat import NTIPAliasStat
-from nip.NTIPAliasType import NTIPAliasType
-from nip.tokens import Token, TokenType
+from bnip.NTIPAliasQuality import NTIPAliasQuality
+from bnip.NTIPAliasClass import NTIPAliasClass
+from bnip.NTIPAliasClassID import NTIPAliasClassID
+from bnip.NTIPAliasFlag import NTIPAliasFlag
+from bnip.NTIPAliasStat import NTIPAliasStat
+from bnip.NTIPAliasType import NTIPAliasType
+from bnip.tokens import Token, TokenType
 
-from nip.BNipExceptions import BNipSyntaxError
+from bnip.BNipExceptions import BNipSyntaxError
 
 from enum import Enum
 import re
@@ -24,24 +24,24 @@ SYMBOLS = [">", "=> ", "<", "<=", "=", "!", "", "", ",", "&", "|", "#"]
 MATH_SYMBOLS = ["(", ")", "^", "*", "/", "\\", "+", "-"]
 CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_'"
 
-class NipSections(Enum):
+class BNipSections(Enum):
     PROP = 1
     STAT = 2
     MAXQUANTITY = 3
 
 class Lexer:
     def __init__(self):
-        self.current_section: NipSections = NipSections.PROP
+        self.current_section: BNipSections = BNipSections.PROP
         self.current_token: str | None = ""
         self.text_i: int = -1
         self.tokens: list[Token] = []
 
 
     def _increment_section(self):
-        if self.current_section == NipSections.PROP:
-            self.current_section = NipSections.STAT
-        elif self.current_section == NipSections.STAT:
-            self.current_section = NipSections.MAXQUANTITY
+        if self.current_section == BNipSections.PROP:
+            self.current_section = BNipSections.STAT
+        elif self.current_section == BNipSections.STAT:
+            self.current_section = BNipSections.MAXQUANTITY
 
 
     def _get_text(self):
@@ -62,19 +62,19 @@ class Lexer:
             self.current_token = None
 
 
-    def create_tokens(self, nip_expression: str, starting_section: NipSections = NipSections.PROP):
-        """Creates token from a nip expression string
+    def create_tokens(self, bnip_expression: str, starting_section: BNipSections = BNipSections.PROP):
+        """Creates token from a bnip expression string
 
             Args:
-                nip_expression (str): the nip expression string
-                starting_section (NipSections): the section to start parsing from
+                bnip_expression (str): the bnip expression string
+                starting_section (BNipSections): the section to start parsing from
             Returns:
                 A list of tokens
             Raises:
-                BNipSyntaxError: If there is a syntax error in the nip expression
+                BNipSyntaxError: If there is a syntax error in the bnip expression
         """
         self.current_section = starting_section
-        self.text = list(nip_expression)
+        self.text = list(bnip_expression)
         self._advance()
         self.tokens = []
         while self.current_token != None:
@@ -111,20 +111,20 @@ class Lexer:
                 self.tokens.append(self._create_keyword_lookup())
             elif self.current_token in CHARS:
                 self.tokens.append(self._create_d2r_image_data_lookup())
-            elif self.current_section == NipSections.PROP and self.text_i == 0 and self.current_token == "@":
+            elif self.current_section == BNipSections.PROP and self.text_i == 0 and self.current_token == "@":
                 self.tokens.append(Token(TokenType.NOTIFICATION, '@'))
                 self._advance()
             else:
-                raise BNipSyntaxError("NIP_0x1", f"Unknown token: '{self.current_token}'", self._get_text())
+                raise BNipSyntaxError("BNIP_0x1", f"Unknown token: '{self.current_token}'", self._get_text())
         return self.tokens
 
     def detokenize(self, tokens: list[Token]) -> str:
-        """Detokenizes a list of tokens into a nip expression string
+        """Detokenizes a list of tokens into a bnip expression string
 
             Args:
                 tokens (list[Token]): the list of tokens to detokenize
             Returns:
-                A nip expression string
+                A bnip expression string
             Raises:
                 None
 
@@ -256,9 +256,9 @@ class Lexer:
                         lookup_key += char
                     self._advance()
             else:
-                raise BNipSyntaxError("NIP_0x2", "Missing ] after keyword", self._get_text())
+                raise BNipSyntaxError("BNIP_0x2", "Missing ] after keyword", self._get_text())
         if lookup_key:
-            if self.current_section == NipSections.PROP:
+            if self.current_section == BNipSections.PROP:
                     match lookup_key:
                         case "name":
                             return Token(TokenType.KeywordNTIPAliasName, lookup_key)
@@ -286,7 +286,7 @@ class Lexer:
                     Logger.warning(f"Unknown property lookup: \"{lookup_key}\" {''.join(self.text)}  {self.current_section}")
 
                     return Token(TokenType.UNKNOWN, lookup_key)
-            elif self.current_section == NipSections.STAT:
+            elif self.current_section == BNipSections.STAT:
                 if lookup_key in NTIPAliasStat:
                     return Token(TokenType.KeywordNTIPAliasStat, NTIPAliasStat[lookup_key])
                 else:
@@ -294,9 +294,9 @@ class Lexer:
                     # for key in NTIPAliasStat:
                     #     if levenshtein(lookup_key, key) < 3:
                     #         spell_check = f", did you mean {key}?"
-                    # raise BNipSyntaxError("NIP_0x3", f"Unknown NTIPStat lookup: {lookup_key}{spell_check}", self._get_text())
+                    # raise BNipSyntaxError("BNIP_0x3", f"Unknown NTIPStat lookup: {lookup_key}{spell_check}", self._get_text())
                     return Token(TokenType.UNKNOWN, lookup_key)
-            elif self.current_section == NipSections.MAXQUANTITY:
+            elif self.current_section == BNipSections.MAXQUANTITY:
                 pass
 
         return Token(TokenType.UNKNOWN, lookup_key)
@@ -312,7 +312,7 @@ class Lexer:
                 self._advance()
             lookup_key = found
 
-        if self.current_section == NipSections.PROP:
+        if self.current_section == BNipSections.PROP:
             # TODO: The second checks (i.e NTIPAliasClass and self.tokens[-2].type == TokenType.CLASS:) seem a little misplaced, possibly put them inside the validation function that is inside transpiler.py and throw a warning accordingly.
             if len(self.tokens) >= 2:
                 if lookup_key in NTIPAliasClass and self.tokens[-2].type == TokenType.KeywordNTIPAliasClass:
@@ -328,9 +328,9 @@ class Lexer:
                 elif self.tokens[-2].type == TokenType.KeywordNTIPAliasIDName:
                     return Token(TokenType.ValueNTIPAliasIDName, lookup_key)
             else:
-                raise BNipSyntaxError("NIP_0x20", f"Bad token sequence: {self._get_text()}", self._get_text())
+                raise BNipSyntaxError("BNIP_0x20", f"Bad token sequence: {self._get_text()}", self._get_text())
             return Token(TokenType.UNKNOWN, lookup_key)
-        elif self.current_section == NipSections.STAT:
+        elif self.current_section == BNipSections.STAT:
             if lookup_key in NTIPAliasStat:
                 return Token(TokenType.ValueNTIPAliasStat, lookup_key)
             else:
@@ -368,4 +368,4 @@ class Lexer:
             pythonic_operator = found_text.replace("#", "and").replace("||", "or").replace("&&", "and")
             return Token(logical_operator_map[found_text], pythonic_operator)
         else:
-            raise BNipSyntaxError("NIP_0x5", f"Invalid logical operator: '{char}'", self._get_text())
+            raise BNipSyntaxError("BNIP_0x5", f"Invalid logical operator: '{char}'", self._get_text())

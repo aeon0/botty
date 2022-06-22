@@ -36,7 +36,7 @@ ITEM PROPERTIES THAT MAP TO STATS RATHER THAN A READ PROPERTY
 """
 PROPS_TO_SKILLID = {195, 196, 197, 198, 199, 201, 204}
 
-NIP_ALIAS_STAT_PATTERNS = {
+BNIP_ALIAS_STAT_PATTERNS = {
     "{:d} Defense": [
         "5006"
     ],
@@ -7056,20 +7056,20 @@ NIP_ALIAS_STAT_PATTERNS = {
     ]
 }
 
-NIP_ALIAS_STAT_PATTERNS_NO_INTS = dict(
+BNIP_ALIAS_STAT_PATTERNS_NO_INTS = dict(
     zip(
         list(
             map(
                 lambda mystr: ''.join(filter(lambda x: not x.isdigit(), mystr)).replace('+','').replace('-','').replace('{:d}','').upper(),
-                NIP_ALIAS_STAT_PATTERNS.keys()
+                BNIP_ALIAS_STAT_PATTERNS.keys()
             )
         ),
-        NIP_ALIAS_STAT_PATTERNS.keys()
+        BNIP_ALIAS_STAT_PATTERNS.keys()
     )
 )
 
 
-NIP_ITEM_TYPE_DATA = {
+BNIP_ITEM_TYPE_DATA = {
     "Cap": [
         "helm",
         "anyarmor"

@@ -1,33 +1,33 @@
 from d2r_image.d2data_lookup import find_base_item_from_magic_item_text, find_pattern_match, find_set_item_by_name, find_unique_item_by_name, get_base, get_rune, is_base, is_rune, is_consumable, get_consumable, get_by_name
 from d2r_image.data_models import HoveredItem, ItemQuality
-from d2r_image.nip_data import NIP_ALIAS_STAT_PATTERNS, NTIP_ALIAS_QUALITY_MAP, PROPS_TO_SKILLID, NIP_ALIAS_STAT_PATTERNS_NO_INTS, NIP_ITEM_TYPE_DATA
+from d2r_image.bnip_data import BNIP_ALIAS_STAT_PATTERNS, NTIP_ALIAS_QUALITY_MAP, PROPS_TO_SKILLID, BNIP_ALIAS_STAT_PATTERNS_NO_INTS, BNIP_ITEM_TYPE_DATA
 from d2r_image.processing_data import Runeword
 from rapidfuzz.string_metric import levenshtein
-from nip.NTIPAliasType import NTIPAliasType as NTIP_TYPES
-from nip.NTIPAliasStat import NTIPAliasStat as NTIP_STATS
+from bnip.NTIPAliasType import NTIPAliasType as NTIP_TYPES
+from bnip.NTIPAliasStat import NTIPAliasStat as NTIP_STATS
 from logger import Logger
 
 from parse import compile
 from functools import cache
 
 @cache
-def compiled_nip_patterns():
-    nip_patterns = {}
-    for pattern in NIP_ALIAS_STAT_PATTERNS.keys():
-        nip_patterns[pattern] = compile(pattern)
-    return nip_patterns
+def compiled_bnip_patterns():
+    bnip_patterns = {}
+    for pattern in BNIP_ALIAS_STAT_PATTERNS.keys():
+        bnip_patterns[pattern] = compile(pattern)
+    return bnip_patterns
 
 
 def basename_to_types(basename: str) -> list[int]:
     types=[]
-    if basename in NIP_ITEM_TYPE_DATA:
-        for x in NIP_ITEM_TYPE_DATA[basename]:
+    if basename in BNIP_ITEM_TYPE_DATA:
+        for x in BNIP_ITEM_TYPE_DATA[basename]:
             if x in NTIP_TYPES:
                 types.append(int(NTIP_TYPES[x]))
             else:
-                Logger.error(f"type: {x} does not exist in nip.NTIPAliasType")
+                Logger.error(f"type: {x} does not exist in bnip.NTIPAliasType")
     else:
-        Logger.error(f"basename: {basename} does not exist in NIP_ITEM_TYPE_DATA")
+        Logger.error(f"basename: {basename} does not exist in BNIP_ITEM_TYPE_DATA")
     return types
 
 
@@ -105,7 +105,7 @@ def parse_item(quality, item, _call_count=1):
                 raise Exception('0x2 Unable to find item for: ' + lines[0].replace(' ', ''))
         # parsed_item["item_data_matches"] = find_unique_item_by_name(parsed_item["display_name"]) | find_set_item_by_name(parsed_item["display_name"]) | get_base(parsed_item["base_item"])
         # The next few lines help us determine
-        ntip_alias_stat = find_nip_pattern_match(lines)
+        ntip_alias_stat = find_bnip_pattern_match(lines)
     else:
         if quality == ItemQuality.Set.value and len(base_item['sets']) == 1:
             found_item = find_set_item_by_name(base_item['sets'][0].replace('_', ' ').upper(), True)
@@ -113,7 +113,7 @@ def parse_item(quality, item, _call_count=1):
             found_item = find_unique_item_by_name(base_item['uniques'][0].replace('_', ' ').upper(), True)
     # print("base_item", base_item)
 
-    # nip_item = Nip(
+    # bnip_item = Nip(
     #     NTIPAliasType=base_item['NTIPAliasType'],
     #     NTIPAliasClassID = base_item['NTIPAliasClassID'],
     #     NTIPAliasClass = None if 'item_class' not in base_item else 2 if base_item['item_class'] == 'elite' else 1 if base_item['item_class'] == 'exceptional' else 0,
@@ -163,33 +163,33 @@ def parse_item(quality, item, _call_count=1):
         }
     )
 
-def find_nip_pattern_match(item_lines):
-    nip_alias_stat = {}
+def find_bnip_pattern_match(item_lines):
+    bnip_alias_stat = {}
 
     for line in item_lines:
         # print(f"  line: {line}") # ex: line: LEVEL 6 BASH (35/35 CHARGES)
         line_no_ints = ''.join(filter(lambda x: not x.isdigit(), line)).replace('+','').replace('-','')
         try:
             # check if line exists in pattern dict
-            pattern = NIP_ALIAS_STAT_PATTERNS_NO_INTS[line_no_ints]
-            #Logger.debug(f"{line_no_ints} found in NIP_ALIAS_STAT_PATTERNS_NO_INTS")
+            pattern = BNIP_ALIAS_STAT_PATTERNS_NO_INTS[line_no_ints]
+            #Logger.debug(f"{line_no_ints} found in BNIP_ALIAS_STAT_PATTERNS_NO_INTS")
         except:
-            #Logger.error(f"'{line_no_ints}' not found in NIP_ALIAS_STAT_PATTERNS_NO_INTS, skip")
+            #Logger.error(f"'{line_no_ints}' not found in BNIP_ALIAS_STAT_PATTERNS_NO_INTS, skip")
             continue
-        ntip_alias_keys = NIP_ALIAS_STAT_PATTERNS[pattern]
-        if (result := compiled_nip_patterns()[pattern].parse(line)):
+        ntip_alias_keys = BNIP_ALIAS_STAT_PATTERNS[pattern]
+        if (result := compiled_bnip_patterns()[pattern].parse(line)):
             # print(f"    result: {result}") # ex: result: <Result (6, 35, 35) {}>
             # print(f"    ntip_alias_keys: {ntip_alias_keys}") # ex: ntip_alias_keys: ['204,126']
             if len(result.fixed) == 0: # if result exists but there are no parsed items, then the match was likely a plain string; i.e., "HALF FREEZE DURATION"
                 for ntip_alias_key in ntip_alias_keys:
-                    nip_alias_stat[ntip_alias_key] = 1
+                    bnip_alias_stat[ntip_alias_key] = 1
             else:
                 for item_prop_cnt, item_prop in enumerate(result.fixed):
                     # print(f"      item_prop: {item_prop}, item_prop_cnt: {item_prop_cnt}") # ex: item_prop: 6, item_prop_cnt: 0 # ex: item_prop: 35, item_prop_cnt: 1
                     try:
                         if isinstance(ntip_alias_keys[item_prop_cnt], list):
                             for sub_alias_key in ntip_alias_keys[item_prop_cnt]:
-                                nip_alias_stat[sub_alias_key] = item_prop
+                                bnip_alias_stat[sub_alias_key] = item_prop
                         else:
                             # passivepierce (-x% to enemy y resist) is the only property treated as an opposite to the sign
                             if "% to enemy" in line.lower() and any([
@@ -203,8 +203,8 @@ def find_nip_pattern_match(item_lines):
                             ]):
                                 item_prop = -1 * item_prop
 
-                            # ex: nip_alias_stat['204,126'] = 6
-                            nip_alias_stat[ntip_alias_keys[item_prop_cnt]] = item_prop
+                            # ex: bnip_alias_stat['204,126'] = 6
+                            bnip_alias_stat[ntip_alias_keys[item_prop_cnt]] = item_prop
 
                     except IndexError:
                         # more item properties than read fields, skip
@@ -212,15 +212,15 @@ def find_nip_pattern_match(item_lines):
                         # Logger.warning(f"IndexError on line: {line}, ntip_alias_keys: {ntip_alias_keys}, result: {result}, item_prop: {item_prop}, item_prop_cnt: {item_prop_cnt}")
                     except Exception as e:
                         Logger.error(f"error {e} on line: {line}, ntip_alias_keys: {ntip_alias_keys}, result: {result}, item_prop: {item_prop}, item_prop_cnt: {item_prop_cnt}")
-    for key in nip_alias_stat.copy():
+    for key in bnip_alias_stat.copy():
         prop_list = key.split(',')
         if len(prop_list) > 1:
             # ex: '204,126' = skillbashcharges, '204' = itemchargedskill
             # set group stat value (index 0) to skill ID (index 1)
             if int(prop_list[0]) in PROPS_TO_SKILLID:
-                nip_alias_stat[prop_list[0]] = int(prop_list[1])
+                bnip_alias_stat[prop_list[0]] = int(prop_list[1])
             # ex: '83,3' = paladinskills, '83' = itemaddclassskills
             # set group stat value (index 0) to value of the parsed property (*+3* to paladin skills)
             else:
-                nip_alias_stat[prop_list[0]] = nip_alias_stat[key]
-    return nip_alias_stat
+                bnip_alias_stat[prop_list[0]] = bnip_alias_stat[key]
+    return bnip_alias_stat
