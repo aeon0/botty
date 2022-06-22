@@ -500,9 +500,9 @@ class Pather:
     def _convert_rel_to_abs(rel_loc: tuple[float, float], pos_abs: tuple[float, float]) -> tuple[float, float]:
         return (rel_loc[0] + pos_abs[0], rel_loc[1] + pos_abs[1])
 
-    def traverse_nodes_fixed(self, key: str | list[tuple[float, float]], char: IChar) -> bool:
+    def traverse_nodes_fixed(self, key: str | list[tuple[float, float]], char: IChar, require_teleport: bool = False) -> bool:
         # this will check if character can teleport. for charged or native teleporters, it'll select teleport
-        if not (char.capabilities.can_teleport_natively and char.can_teleport()):
+        if require_teleport and not (char.capabilities.can_teleport_natively and char.can_teleport()):
             error_msg = "Teleport is required for static pathing"
             Logger.error(error_msg)
             raise ValueError(error_msg)
@@ -668,9 +668,8 @@ class Pather:
                     else:
                         # Move the char
                         x_m, y_m = convert_abs_to_monitor(node_pos_abs)
-                        char.move((x_m, y_m), use_tp=use_tp, force_move=force_move)
+                        last_move = char.move((x_m, y_m), use_tp=use_tp, force_move=force_move, last_move_time=last_move)
                         last_direction = node_pos_abs
-                        last_move = time.time()
 
         return True
 

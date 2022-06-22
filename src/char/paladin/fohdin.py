@@ -133,7 +133,7 @@ class FoHdin(Paladin):
             self._pather.traverse_nodes([103], self, timeout=1.0, active_skill="conviction")
 
         cast_pos_abs = (pindle_pos_abs[0] * 0.9, pindle_pos_abs[1] * 0.9)
-        self._generic_foh_attack_sequence(cast_pos_abs=cast_pos_abs, min_duration=atk_len_dur, max_duration=atk_len_dur*3, spread_deg=11)
+        self._generic_foh_attack_sequence(cast_pos_abs=cast_pos_abs, min_duration=atk_len_dur, max_duration=atk_len_dur*3, spray = 20)
 
         if self.capabilities.can_teleport_natively:
             self._pather.traverse_nodes_fixed("pindle_end", self)

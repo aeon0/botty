@@ -379,12 +379,6 @@ class IChar:
     def pre_move(self):
         pass
 
-    def _teleport_to_position(self, pos_monitor: tuple[float, float], cooldown: bool = True):
-        factor = Config().advanced_options["pathing_delay_factor"]
-        mouse.move(*pos_monitor, randomize=3, delay_factor=[(2+factor)/25, (4+factor)/25])
-        wait(0.012, 0.02)
-        self._cast_teleport(cooldown = cooldown)
-
     def _teleport_to_origin(self):
         """
         Teleports to the origin
@@ -392,6 +386,12 @@ class IChar:
         random_abs = self._randomize_position(pos_abs = (0,0), spray = 5)
         pos_m = convert_abs_to_monitor(random_abs)
         self._teleport_to_position(pos_monitor = pos_m, cooldown = True)
+
+    def _teleport_to_position(self, pos_monitor: tuple[float, float], cooldown: bool = True):
+        factor = Config().advanced_options["pathing_delay_factor"]
+        mouse.move(*pos_monitor, randomize=3, delay_factor=[(2+factor)/25, (4+factor)/25])
+        wait(0.012, 0.02)
+        self._cast_teleport(cooldown = cooldown)
 
     def _walk_to_position(self, pos_monitor: tuple[float, float], force_move: bool = False):
         factor = Config().advanced_options["pathing_delay_factor"]
