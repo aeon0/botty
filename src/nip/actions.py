@@ -210,7 +210,7 @@ def _load_nip_expressions(filepath):
                 filepath = filepath.replace("\\", "/")
                 file = filepath.split('/config/')[1]
                 print(f"{file}:{e}:line {i + 1}") # TODO look at these errors
-                if True and traceback.print_exc(): # * Switch between True and False for debugging
+                if False and traceback.print_exc(): # * Switch between True and False for debugging
                     break
 
 
