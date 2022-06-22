@@ -247,10 +247,10 @@ class Pather:
             1501: {'DIA_AM_CS': (-24, 37)},    # outside cs stars bottom
 
             # CS Aisle
-            1502: {'DIA_AM_CS': (19, 13)},     # inside cs, aisle 1
-            1503: {'DIA_AM_CS': (63, -11)},    # inside cs, aisle 2
-            1504: {'DIA_AM_CS': (106, -35)},   # inside cs, aisle 3
-            1505: {'DIA_AM_CS': (150, -59)},   # inside cs, aisle 4 
+            1502: {'DIA_AM_CS': (19, 13)},     # inside cs, aisle 1/4
+            1503: {'DIA_AM_CS': (63, -11)},    # inside cs, aisle 2/4
+            1504: {'DIA_AM_CS': (106, -35)},   # inside cs, aisle 3/4
+            1505: {'DIA_AM_CS': (150, -59)},   # inside cs, aisle 4/4
             
             # CS Hall1
             1506: {'DIA_AM_CS': (192, -83)},   # cs hall1 center approach
@@ -273,10 +273,10 @@ class Pather:
             1520: {'DIA_AM_E_A': (192, -116), 'DIA_AM_E_B': (192, -116)},#cs hall2 -> hall3 traverse 3/n
             
             # CS Hall3
-            1521: {'DIA_AM_CS': (519, -259)},  # cs hall 3 center
-            1522: {'DIA_AM_CS': (591, -254)},  # cs hall3 lower
+            1521: {'DIA_AM_CS': (540, -257)},  # cs hall 3 center #'DIA_AM_E_B': (286, -110), 'DIA_AM_E_A': (286, -110),
+            1522: {'DIA_AM_CS': (591, -254), 'DIA_AM_E_A': (340, -102), 'DIA_AM_E_B': (340, -102)},  # cs hall3 lower 
             1523: {'DIA_AM_E_A': (406, -116), 'DIA_AM_E_B': (406, -116)}, # cs hall3 lower -> reveal cr4 template
-            1524: {'DIA_AM_CR4': (-55, -62)},  # cs hall3 center almost reveal pent
+            1524: {'DIA_AM_CR4': (-55, -62), 'DIA_AM_E_A': (372, -146),'DIA_AM_E_B': (372, -146),},  # cs hall3 center almost reveal pent - 
             1525: {'DIA_AM_CR4': (-111, -97)}, # cs hall3 center almost reveal CR1 template
             
             # CS Trash A (1529, 1627, 1620)
@@ -335,7 +335,7 @@ class Pather:
             # SEAL B (xxxx 1637  xxx 1638)
             1630: {'DIA_AM_CR1': (530, -140), 'DIA_AM_PENT': (364, -146)}, # Calibration & Departure Node Seal B
             1631: {'DIA_AM_PENT': (340, -142)}, # B1S BOSS SEAL Calibration Node
-            1632: {'DIA_AM_PENT': (252, -130)}, # B1S KILL VIZIER 
+            1632: {'DIA_AM_PENT': (252, -130)}, # B1S KILL DESEIS 
             1633: {'DIA_AM_PENT': (236, -56)}, # B1S approach 1
             1634: {}, #not used
             1635: {'DIA_AM_PENT': (252, -184)}, # B2U BOSS SEAL Calibration Node
@@ -760,15 +760,13 @@ class Pather:
                         return False
 
                 # Sometimes we get stuck at rocks and stuff, after a few seconds force a move into the last known direction
-                if not did_force_move and time.time() - last_move > 2.5:
-                    angle = random.random() * math.pi * 2
-                    pos_abs = (math.cos(angle) * 150, math.sin(angle) * 150)
+                if not did_force_move and time.time() - last_move > 3.1:
                     if last_direction is not None:
                         pos_abs = last_direction
                     else:
                         angle = random.random() * math.pi * 2
-                        pos_abs = (math.cos(angle) * 150, math.sin(angle) * 150)
-                    pos_abs = self._adjust_abs_range_to_screen(pos_abs)
+                        pos_abs = (round(math.cos(angle) * 150), round(math.sin(angle) * 150))
+                    pos_abs = get_closest_non_hud_pixel(pos = pos_abs, pos_type="abs")
                     Logger.debug(f"Pather: taking a random guess towards " + str(pos_abs))
                     x_m, y_m = convert_abs_to_monitor(pos_abs)
                     char.move((x_m, y_m), force_move=True)
@@ -875,23 +873,22 @@ if __name__ == "__main__":
 
     #display_all_nodes(pather, "DIA_AM") #use this function to explore the templates and nodes visibile in the area you are currently located ingame
        
-    nodes = [1500, 1501, 1502, 1503, 1504, 1505, 1506, 1507, 1508, 1509, 1510, 1511, 1512, 1513, 1514, 1515, 1516, 1517, 1516, 1514, 1518, 1519, 1520, 1521, 1522, 1523, 1524, 1610, 1525, 1526, 1527, 1528, 1529, 1627, 1620]
-    nodes2 = [1529, 1526, 1610, 1530, 1531, 1532, 1633,1638, 1632, 1635, 1630]
-    nodes3 = [1635, 1632, 1638, 1633, 1533, 1610, 1534, 1535, 1536, 1648, 1645, 1640]
-    nodes4 = [1645, 1648, 1536, 1537]
+    #nodes = [1500, 1501, 1502, 1503, 1504, 1505, 1506, 1507, 1508, 1509, 1510, 1511, 1512, 1513, 1514, 1515, 1516, 1517, 1516, 1514, 1518, 1519, 1520, 1521, 1522, 1523, 1524, 1610, 1525, 1526, 1527, 1528, 1529, 1627, 1620]
+    #nodes2 = [1529, 1526, 1610, 1530, 1531, 1532, 1633,1638, 1632, 1635, 1630]
+    #nodes3 = [1635, 1632, 1638, 1633, 1533, 1610, 1534, 1535, 1536, 1648, 1645, 1640]
+    #nodes4 = [1645, 1648, 1536, 1537]
     #pather.traverse_nodes([nodes], char) #use this function to test nodes
-    pather.traverse_nodes_automap(nodes, char, toggle_map=True) 
-    pather.traverse_nodes_automap(nodes2, char, toggle_map=True) 
-    pather.traverse_nodes_automap(nodes3, char, toggle_map=True) 
-    pather.traverse_nodes_automap(nodes4, char, toggle_map=True) 
+    #pather.traverse_nodes_automap(nodes, char, toggle_map=True) 
+    #pather.traverse_nodes_automap(nodes2, char, toggle_map=True) 
+    #pather.traverse_nodes_automap(nodes3, char, toggle_map=True) 
+    #pather.traverse_nodes_automap(nodes4, char, toggle_map=True) 
 
     #nodes = 1627
     #pather.traverse_nodes_automap([nodes], char, toggle_map=True) 
 
-    #nodes = 1620
-    #pather.traverse_nodes_automap([nodes], char, toggle_map=True) 
+    nodes = 1521
+    pather.traverse_nodes_automap([nodes], char, toggle_map=True) 
     
-    """
     if Config().general["use_automap_navigation"] == 1 :
         while True:
             keyboard.wait("f11")
@@ -899,7 +896,6 @@ if __name__ == "__main__":
             #print("1" + str(nodes) + ": {")
             #print("xxx: {")
             show_automap_pos(["DIA_AM_WP"])
-            show_automap_pos(["DIA_AM_TYRAEL"])
             show_automap_pos(["DIA_AM_CS"])
             show_automap_pos(["DIA_AM_E_B"])
             show_automap_pos(["DIA_AM_PENT"])
@@ -920,7 +916,5 @@ if __name__ == "__main__":
             #show_automap_pos(["A1_TOWN_AUTOMAP_SOUTH"])
             print("    },")
             toggle_automap(False)
-            Logger.warning("End of List - Press F12 to Stop")
-            nodes = nodes + 1
-    """        
+            # nodes = nodes + 1        
     stop_detecting_window

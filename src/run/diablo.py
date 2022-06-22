@@ -95,7 +95,7 @@ class Diablo:
         # WP to PENT #
         ##############
         
-        if not self._pather.traverse_nodes([600], self._char): return False #not using automap works better here
+        if not self._pather.traverse_nodes_automap([1600], self._char): return False #not using automap works better here
         Logger.debug("ROF: Calibrated at WAYPOINT")
 
         #Traverse ROF with minimal teleport charges
@@ -146,9 +146,9 @@ class Diablo:
             Logger.debug("ROF: Walking the rest to CS Entrance (direction Top Right) to make sure we reveal the CS Entrance Template")
             pos_m = convert_abs_to_monitor((700, -350))
             self._char.move(*pos_m, force_move=True)
-
+            
         #Teleport directly
-        elif self._char.capabilities.can_teleport_with_charges:
+        elif self._char.capabilities.can_teleport_natively:
             self._pather.traverse_nodes_fixed("dia_wp_cs-e", self._char) #Traverse River of Flame (no chance to traverse w/o fixed, there is no reference point between WP & CS Entrance) - minimum 3 teleports are needed, if we only cross the gaps (maybe loop template matching the gap, otherwise walking), otherwise its 9
 
         else: 
@@ -161,7 +161,7 @@ class Diablo:
         #make leecher TP
         if Config().char["dia_leecher_tp_cs"]:
             Logger.debug("CS: OPEN LEECHER TP AT ENTRANCE")
-            self._char.dia_kill_trash("dia_leecher_tp_cs") #clear the area aound TP #DIA_CLEAR_TRASH=1 , DIA_CS_LEECHER_TP=1
+            self._char.dia_kill_trash("aisle_2") #clear the area aound TP #DIA_CLEAR_TRASH=1 , DIA_CS_LEECHER_TP=1
             if not skills.has_tps(): Logger.warning("CS: failed to open TP, you should buy new TPs!")
             mouse.click(button="right")
                 
@@ -170,15 +170,114 @@ class Diablo:
         #############################
 
         if Config().char["dia_kill_trash"]:
-            Logger.debug("Kill Trash CS -> Pent not implemented yet")
+            #Logger.debug("Kill Trash CS -> Pent not implemented yet")
+
+            if not self._pather.traverse_nodes_automap([1500], self._char): return False
+            Logger.debug("CS TRASH: Killing Trash at: outside_cs")
+            self._char.dia_kill_trash("outside_cs")
+
+            if not self._pather.traverse_nodes_automap([1501], self._char): return False
+            Logger.debug("CS TRASH: Killing Trash at: outside_cs_stairs")
+            self._char.dia_kill_trash("outside_cs_stairs")
+
+            if not self._pather.traverse_nodes_automap([1502], self._char): return False
+            Logger.debug("CS TRASH: Killing Trash at: aisle_1")
+            self._char.dia_kill_trash("aisle_1")
+
+            if not self._pather.traverse_nodes_automap([1503], self._char): return False
+            Logger.debug("CS TRASH: Killing Trash at: aisle_2")
+            self._char.dia_kill_trash("aisle_2")
+
+            if not self._pather.traverse_nodes_automap([1504], self._char): return False
+            Logger.debug("CS TRASH: Killing Trash at: aisle_3")
+            self._char.dia_kill_trash("aisle_3")
+
+            if not self._pather.traverse_nodes_automap([1505], self._char): return False
+            Logger.debug("CS TRASH: Killing Trash at: aisle_4")
+            self._char.dia_kill_trash("aisle_4")
+
+            if not self._pather.traverse_nodes_automap([1506], self._char): return False
+            Logger.debug("CS TRASH: Killing Trash at: hall1_1")
+            self._char.dia_kill_trash("hall1_1")
+
+            if not self._pather.traverse_nodes_automap([1507], self._char): return False
+            Logger.debug("CS TRASH: Killing Trash at: hall1_2")
+            self._char.dia_kill_trash("hall1_2")
+
+            if not self._pather.traverse_nodes_automap([1508], self._char): return False
+            Logger.debug("CS TRASH: Killing Trash at: hall1_3")
+            self._char.dia_kill_trash("hall1_3")
+
+            if not self._pather.traverse_nodes_automap([1509], self._char): return False
+            Logger.debug("CS TRASH: Killing Trash at: hall1_4")
+            self._char.dia_kill_trash("hall1_4")
+
+            if not self._pather.traverse_nodes_automap([1510], self._char): return False
+            Logger.debug("CS TRASH: Killing Trash at: to_hall2_1")
+            self._char.dia_kill_trash("to_hall2_1")
+
+            if not self._pather.traverse_nodes_automap([1511], self._char): return False
+            Logger.debug("CS TRASH: Killing Trash at: to_hall2_2")
+            self._char.dia_kill_trash("to_hall2_2")
+
+            if not self._pather.traverse_nodes_automap([1512], self._char): return False
+            Logger.debug("CS TRASH: Killing Trash at: to_hall2_3")
+            self._char.dia_kill_trash("to_hall2_3")
+
+            if not self._pather.traverse_nodes_automap([1513], self._char): return False
+            Logger.debug("CS TRASH: Killing Trash at: to_hall2_4")
+            self._char.dia_kill_trash("to_hall2_4")
+
+            if not self._pather.traverse_nodes_automap([1514], self._char): return False
+            Logger.debug("CS TRASH: Killing Trash at: hall2_1")
+            self._char.dia_kill_trash("hall2_1")
+
+            if not self._pather.traverse_nodes_automap([1515], self._char): return False
+            Logger.debug("CS TRASH: Killing Trash at: hall2_2")
+            self._char.dia_kill_trash("hall2_2")
+
+            if not self._pather.traverse_nodes_automap([1516], self._char): return False
+            Logger.debug("CS TRASH: Killing Trash at: hall2_3")
+            self._char.dia_kill_trash("hall2_3")
+
+            if not self._pather.traverse_nodes_automap([1517], self._char): return False
+            Logger.debug("CS TRASH: Killing Trash at: hall2_4")
+            self._char.dia_kill_trash("hall2_4")
+
+            if not self._pather.traverse_nodes_automap([1516,1514,1518], self._char): return False
+            Logger.debug("CS TRASH: Killing Trash at: to_hall3_1")
+            self._char.dia_kill_trash("to_hall3_1")
+
+            if not self._pather.traverse_nodes_automap([1519], self._char): return False
+            Logger.debug("CS TRASH: Killing Trash at: to_hall3_2")
+            self._char.dia_kill_trash("to_hall3_2")
+
+            if not self._pather.traverse_nodes_automap([1520], self._char): return False
+            Logger.debug("CS TRASH: Killing Trash at: to_hall3_3")
+            self._char.dia_kill_trash("to_hall3_3")
+
+            if not self._pather.traverse_nodes_automap([1521], self._char): return False
+            Logger.debug("CS TRASH: Killing Trash at: hall3_1")
+            self._char.dia_kill_trash("hall3_1")
+
+            if not self._pather.traverse_nodes_automap([1522], self._char): return False
+            Logger.debug("CS TRASH: Killing Trash at: hall3_2")
+            self._char.dia_kill_trash("hall3_2")
+
+            if not self._pather.traverse_nodes_automap([1523], self._char): return False
+            Logger.debug("CS TRASH: Killing Trash at: hall3_3")
+            self._char.dia_kill_trash("hall3_3")
+
+            if not self._pather.traverse_nodes_automap([1524], self._char): return False
+            Logger.debug("CS TRASH: Killing Trash at: hall3_4")
+            self._char.dia_kill_trash("hall3_4")
+
+            if not self._pather.traverse_nodes_automap([1525], self._char): return False
+            Logger.debug("CS TRASH: Killing Trash at: hall3_5")
+            self._char.dia_kill_trash("hall3_5")
+
             #Trash to Pent Walking = [1500, 1501, 1502, 1503, 1504, 1505, 1506, 1507, 1508, 1509, 1510, 1511, 1512, 1513, 1514, 1515, 1516, 1517, 1516, 1514, 1518, 1519, 1520, 1521, 1522, 1523, 1524, 1610]
-            #Trash Pent to A LC = [1525, 1526, 1527, 1528, 1529, 1627, 1620]
-            #Trash Pent to B LC = [1530, 1531, 1532, 1633,1638, 1632, 1635, 1630]
-            #Trash B Back to Pent = [1635, 1632, 1638, 1633, 1533, 1610]
-            #Trash Pent to C LC = [1534, 1535, 1536, 1648, 1645, 1640]
-            #Trash C back to Pent = [1645, 1648, 1536, 1537]
-            #all attack sequences that brings us from CS to Pentagram (thereby revealing the key templates: DIA_AM_CR1, DIA_AM_CR2 & DIA_AM_PENT)
-        
+                    
         else:
             #we kill no trash
             Logger.debug("ROF: Teleporting directly to PENTAGRAM")
@@ -190,7 +289,7 @@ class Diablo:
         #make leecher TP
         if Config().char["dia_leecher_tp_pent"]:
             Logger.debug("CS: OPEN LEECHER TP AT ENTRANCE")
-            self._char.dia_kill_trash("dia_leecher_tp_pent")
+            self._char.dia_kill_trash("pent_before_a")
             if not skills.has_tps(): Logger.warning("CS: failed to open TP, you should buy new TPs!")
             mouse.click(button="right")
 
@@ -230,9 +329,32 @@ class Diablo:
         #############################
 
         if Config().char["dia_kill_trash"]:
-            Logger.debug("Kill Trash Pent -> A not implemented yet")
-            #all attack sequences that brings us from Pentagram to Layoutcheck A
-        
+            Logger.debug("CS TRASH: Kill Trash between Pentagram and Layoutcheck A")
+
+            if not self._pather.traverse_nodes_automap([1525], self._char): return False
+            Logger.debug("CS TRASH: Killing Trash at: hall3_5")
+            self._char.dia_kill_trash("hall3_5")
+
+            if not self._pather.traverse_nodes_automap([1526], self._char): return False
+            Logger.debug("CS TRASH: Killing Trash at: trash_to_a1")
+            self._char.dia_kill_trash("trash_to_a1")
+
+            if not self._pather.traverse_nodes_automap([1527], self._char): return False
+            Logger.debug("CS TRASH: Killing Trash at: trash_to_a2")
+            self._char.dia_kill_trash("trash_to_a2")
+
+            if not self._pather.traverse_nodes_automap([1528], self._char): return False
+            Logger.debug("CS TRASH: Killing Trash at: trash_to_a3")
+            self._char.dia_kill_trash("trash_to_a3")
+
+            if not self._pather.traverse_nodes_automap([1529], self._char): return False
+            Logger.debug("CS TRASH: Killing Trash at: trash_to_a4")
+            self._char.dia_kill_trash("trash_to_a4")
+
+            if not self._pather.traverse_nodes_automap([1627], self._char): return False
+            Logger.debug("CS TRASH: Killing Trash at: a_boss")
+            self._char.dia_kill_trash("a_boss")
+       
         ###############
         # LAYOUTCHECK #
         ###############
@@ -248,6 +370,7 @@ class Diablo:
         toggle_automap(True)
         pos_m = convert_abs_to_monitor((640, 360)) # move mouse away during LC to not hover items obscuring the minimap
         mouse.move(*pos_m, delay_factor=[0.1, 0.2]) # move mouse away during LC to not hover items obscuring the minimap
+        wait(0.25, 0.35)
         if not template_finder.search_and_wait(templates_primary, threshold =threshold_primary, timeout=0.2).valid: # check1 using primary templates
             toggle_automap(False)
             Logger.debug(f"{seal_layout1}: Layout_check step 1/2 - templates NOT found for "f"{seal_layout2}")
@@ -258,6 +381,7 @@ class Diablo:
             toggle_automap(True)
             pos_m = convert_abs_to_monitor((640, 360)) # move mouse away during LC to not hover items obscuring the minimap
             mouse.move(*pos_m, delay_factor=[0.1, 0.2]) # move mouse away during LC to not hover items obscuring the minimap
+            wait(0.25, 0.35)
             if not template_finder.search_and_wait(templates_confirmation, threshold=threshold_confirmation, timeout=0.2).valid:
                 toggle_automap(False)
                 Logger.warning(f"{seal_layout2}: Layout_check failure - could not determine the seal Layout at " f"{sealname} ("f"{boss}) - "+'\033[91m'+"aborting run"+'\033[0m')
@@ -292,7 +416,7 @@ class Diablo:
                     self._char.dia_kill_trash(seal_layout + "_02")
                     Logger.debug(seal_layout + "_03: Kill trash")
                     self._char.dia_kill_trash(seal_layout + "_03")
-
+            
                 #SEAL
                 toggle_automap(False) # just to be safe
                 Logger.info(seal_layout +": Starting to pop seals")
@@ -316,6 +440,7 @@ class Diablo:
             toggle_automap(True)
             pos_m = convert_abs_to_monitor((640, 360)) # move mouse away during LC to not hover items obscuring the minimap
             mouse.move(*pos_m, delay_factor=[0.1, 0.2]) # move mouse away during LC to not hover items obscuring the minimap
+            wait(0.25, 0.35)
             if not template_finder.search_and_wait(templates_confirmation, threshold=threshold_confirmation2, timeout=0.2).valid:
                 toggle_automap(False)
                 Logger.info(f"{seal_layout2}: Layout_check step 2/2 - templates NOT found for "f"{seal_layout1} - "+'\033[96m'+"all fine, proceeding with "f"{seal_layout2}"+'\033[0m')
@@ -404,8 +529,35 @@ class Diablo:
         #############################
 
         if Config().char["dia_kill_trash"]:
-            Logger.debug("Kill Trash Pent -> B not implemented yet")
-            #all attack sequences that brings us from Pentagram to Layoutcheck B
+            Logger.debug("CS TRASH: Kill Trash between Pentagram and Layoutcheck B")
+
+            if not self._pather.traverse_nodes_automap([1530], self._char): return False
+            Logger.debug("CS TRASH: Killing Trash at: hall3_5")
+            self._char.dia_kill_trash("hall3_5")
+
+            if not self._pather.traverse_nodes_automap([1531], self._char): return False
+            Logger.debug("CS TRASH: Killing Trash at: trash_to_b1")
+            self._char.dia_kill_trash("trash_to_b1")
+
+            if not self._pather.traverse_nodes_automap([1532], self._char): return False
+            Logger.debug("CS TRASH: Killing Trash at: trash_to_b2")
+            self._char.dia_kill_trash("trash_to_b2")
+
+            if not self._pather.traverse_nodes_automap([1633], self._char): return False
+            Logger.debug("CS TRASH: Killing Trash at: approach_b1s")
+            self._char.dia_kill_trash("approach_b1s")
+
+            if not self._pather.traverse_nodes_automap([1638], self._char): return False
+            Logger.debug("CS TRASH: Killing Trash at: approach_b2u")
+            self._char.dia_kill_trash("approach_b2u")
+
+            if not self._pather.traverse_nodes_automap([1632], self._char): return False
+            Logger.debug("CS TRASH: Killing Trash at: b_boss")
+            self._char.dia_kill_trash("a_boss")
+
+            if not self._pather.traverse_nodes_automap([1635], self._char): return False
+            Logger.debug("CS TRASH: Killing Trash at: b_boss_seal")
+            self._char.dia_kill_trash("b_boss_seal")
         
         ###############
         # LAYOUTCHECK #
@@ -422,6 +574,7 @@ class Diablo:
         toggle_automap(True)
         pos_m = convert_abs_to_monitor((640, 360)) # move mouse away during LC to not hover items obscuring the minimap
         mouse.move(*pos_m, delay_factor=[0.1, 0.2]) # move mouse away during LC to not hover items obscuring the minimap
+        wait(0.25, 0.35)
         if not template_finder.search_and_wait(templates_primary, threshold =threshold_primary, timeout=0.2).valid: #check1 using primary templates
             toggle_automap(False)
             Logger.debug(f"{seal_layout1}: Layout_check step 1/2 - templates NOT found for "f"{seal_layout2}")
@@ -432,6 +585,7 @@ class Diablo:
             toggle_automap(True)
             pos_m = convert_abs_to_monitor((640, 360)) # move mouse away during LC to not hover items obscuring the minimap
             mouse.move(*pos_m, delay_factor=[0.1, 0.2]) # move mouse away during LC to not hover items obscuring the minimap
+            wait(0.25, 0.35)
             if not template_finder.search_and_wait(templates_confirmation, threshold=threshold_confirmation, timeout=0.2).valid:
                 toggle_automap(False)
                 Logger.warning(f"{seal_layout2}: Layout_check failure - could not determine the seal Layout at " f"{sealname} ("f"{boss}) - "+'\033[91m'+"aborting run"+'\033[0m')
@@ -467,7 +621,7 @@ class Diablo:
                     self._char.dia_kill_trash(seal_layout + "_02")
                     Logger.debug(seal_layout + "_03: Kill trash")
                     self._char.dia_kill_trash(seal_layout + "_03")
-
+                   
                 #SEAL
                 toggle_automap(False) # just to be safe
                 Logger.info(seal_layout +": Starting to pop seals")
@@ -482,6 +636,7 @@ class Diablo:
                 if not self._pather.traverse_nodes_automap([1610], self._char): return False
                 Logger.info(seal_layout + ": finished seal & calibrated at PENTAGRAM")   
         
+                #Trash B Back to Pent = [1635, 1632, 1638, 1633, 1533, 1610]
         else:
             Logger.debug(f"{seal_layout2}: Layout_check step 1/2 - templates found for {seal_layout2}")
         
@@ -491,6 +646,7 @@ class Diablo:
             toggle_automap(True)
             pos_m = convert_abs_to_monitor((640, 360)) # move mouse away during LC to not hover items obscuring the minimap
             mouse.move(*pos_m, delay_factor=[0.1, 0.2]) # move mouse away during LC to not hover items obscuring the minimap
+            wait(0.25, 0.35)
             if not template_finder.search_and_wait(templates_confirmation, threshold=threshold_confirmation2, timeout=0.2).valid:
                 toggle_automap(False)
                 Logger.info(f"{seal_layout2}: Layout_check step 2/2 - templates NOT found for "f"{seal_layout1} - "+'\033[96m'+"all fine, proceeding with "f"{seal_layout2}"+'\033[0m')
@@ -532,6 +688,8 @@ class Diablo:
                 Logger.debug(seal_layout + ": Traversing back to Pentagram")
                 if not self._pather.traverse_nodes_automap([1610], self._char): return False
                 Logger.info(seal_layout + ": finished seal & calibrated at PENTAGRAM")
+
+                #Trash B Back to Pent = [1635, 1632, 1638, 1633, 1533, 1610]
 
             else:
                 Logger.warning(f"{seal_layout2}: Layout_check failure - could not determine the seal Layout at " f"{sealname} ("f"{boss}) - "+'\033[91m'+"aborting run"+'\033[0m')
@@ -577,7 +735,28 @@ class Diablo:
         #############################
 
         if Config().char["dia_kill_trash"]:
-            Logger.debug("Kill Trash Pent -> C not implemented yet")
+            Logger.debug("CS TRASH: Kill Trash between Pentagram and Layoutcheck C")
+
+            if not self._pather.traverse_nodes_automap([1534], self._char): return False
+            Logger.debug("CS TRASH: Killing Trash at: trash_to_c1")
+            self._char.dia_kill_trash("trash_to_c1")
+
+            if not self._pather.traverse_nodes_automap([1535], self._char): return False
+            Logger.debug("CS TRASH: Killing Trash at: trash_to_c2")
+            self._char.dia_kill_trash("trash_to_c2")
+
+            if not self._pather.traverse_nodes_automap([1536], self._char): return False
+            Logger.debug("CS TRASH: Killing Trash at: trash_to_c3")
+            self._char.dia_kill_trash("trash_to_c3")
+
+            if not self._pather.traverse_nodes_automap([1648], self._char): return False
+            Logger.debug("CS TRASH: Killing Trash at: approach_c2g")
+            self._char.dia_kill_trash("approach_c2g")
+
+            if not self._pather.traverse_nodes_automap([1645], self._char): return False
+            Logger.debug("CS TRASH: Killing Trash at: fake_c2g")
+            self._char.dia_kill_trash("fake_c2g")
+
         
         ###############
         # LAYOUTCHECK #
@@ -594,6 +773,7 @@ class Diablo:
         toggle_automap(True)
         pos_m = convert_abs_to_monitor((640, 360)) # move mouse away during LC to not hover items obscuring the minimap
         mouse.move(*pos_m, delay_factor=[0.1, 0.2]) # move mouse away during LC to not hover items obscuring the minimap
+        wait(0.25, 0.35)
         if not template_finder.search_and_wait(templates_primary, threshold =threshold_primary, timeout=0.2).valid: #check1 using primary templates
             toggle_automap(False)
             Logger.debug(f"{seal_layout1}: Layout_check step 1/2 - templates NOT found for "f"{seal_layout2}")
@@ -604,6 +784,7 @@ class Diablo:
             toggle_automap(True)
             pos_m = convert_abs_to_monitor((640, 360)) # move mouse away during LC to not hover items obscuring the minimap
             mouse.move(*pos_m, delay_factor=[0.1, 0.2]) # move mouse away during LC to not hover items obscuring the minimap
+            wait(0.25, 0.35)
             if not template_finder.search_and_wait(templates_confirmation, threshold=threshold_confirmation, timeout=0.2).valid:
                 toggle_automap(False)
                 Logger.warning(f"{seal_layout2}: Layout_check failure - could not determine the seal Layout at " f"{sealname} ("f"{boss}) - "+'\033[91m'+"aborting run"+'\033[0m')
@@ -643,7 +824,7 @@ class Diablo:
                     self._char.dia_kill_trash(seal_layout + "_02")
                     Logger.debug(seal_layout + "_03: Kill trash")
                     self._char.dia_kill_trash(seal_layout + "_03")
-
+               
                 #SEAL
                 toggle_automap(False) # just to be safe
                 Logger.info(seal_layout +": Starting to pop seals")
@@ -656,7 +837,9 @@ class Diablo:
                 Logger.debug(seal_layout + ": Traversing back to Pentagram")
                 if not self._pather.traverse_nodes_automap([1610], self._char): return False
                 Logger.info(seal_layout + ": finished seal & calibrated at PENTAGRAM")     
-        
+
+                #Trash C back to Pent = [1645, 1648, 1536, 1537]
+
         else:
             Logger.debug(f"{seal_layout2}: Layout_check step 1/2 - templates found for {seal_layout1}")
         
@@ -666,6 +849,7 @@ class Diablo:
             toggle_automap(True)
             pos_m = convert_abs_to_monitor((640, 360)) # move mouse away during LC to not hover items obscuring the minimap
             mouse.move(*pos_m, delay_factor=[0.1, 0.2]) # move mouse away during LC to not hover items obscuring the minimap
+            wait(0.25, 0.35)
             if not template_finder.search_and_wait(templates_confirmation, threshold=threshold_confirmation2, timeout=0.2).valid:
                 toggle_automap(False)
                 Logger.info(f"{seal_layout2}: Layout_check step 2/2 - templates NOT found for "f"{seal_layout1} - "+'\033[96m'+"all fine, proceeding with "f"{seal_layout2}"+'\033[0m')
@@ -698,6 +882,8 @@ class Diablo:
                     Logger.debug(seal_layout + "_03: Kill trash")
                     self._char.dia_kill_trash(seal_layout + "_03")
 
+                    #Trash Pent to C LC = [1534, 1535, 1536, 1648, 1645, 1640]
+
                 #SEAL
                 toggle_automap(False) # just to be safe
                 Logger.info(seal_layout +": Starting to pop seals")
@@ -710,6 +896,8 @@ class Diablo:
                 Logger.debug(seal_layout + ": Traversing back to Pentagram")
                 if not self._pather.traverse_nodes_automap([1610], self._char): return False
                 Logger.info(seal_layout + ": finished seal & calibrated at PENTAGRAM")
+
+                #Trash C back to Pent = [1645, 1648, 1536, 1537]
 
             else:
                 Logger.warning(f"{seal_layout2}: Layout_check failure - could not determine the seal Layout at " f"{sealname} ("f"{boss}) - "+'\033[91m'+"aborting run"+'\033[0m')
@@ -730,6 +918,7 @@ class Diablo:
         toggle_automap(False)
         pos_m = convert_abs_to_monitor((640, 360)) # move mouse away during LC to not hover items obscuring the minimap
         mouse.move(*pos_m, delay_factor=[0.1, 0.2]) # move mouse away during LC to not hover items obscuring the minimap
+        wait(0.25, 0.35)
         if template_finder.search_and_wait(["DIA_AM_SPAWN", "DIA_AM_CHAT"], threshold=0.85, timeout=0.2).valid:
             Logger.info("Diablo spawn indicator: positive"  + '\033[92m' + " :)" + '\033[0m')
             if Config().general["info_screenshots"]: cv2.imwrite(f"./log/screenshots/info/info_dia_spawnindicator_positive" + time.strftime("%Y%m%d_%H%M%S") + "automap.png", grab())
@@ -756,7 +945,6 @@ class Diablo:
         # TODO LIST #
         #############
         
-        # complete the remaing templates for each node in pather.py -> slows down automap
         # infector C1F is causing too many chicken right now
         # B1S occasionally misses de seis if he spawns far upwards and walks to top (out of vision) - might need to add a second attack pattern here
         # B2U if de seis spawns at new spawn, we miss him.
@@ -765,31 +953,12 @@ class Diablo:
         # implement safe_runs param for seal bosses to walk along the seal (and maybe clear it whilst doing so?)
         # implement river trasverse fixed using charges (or make a chain of "move" commands) - check if maybe we can loop that from WP until CS entrance template is found to avoid fixed path.
         # move mouse away during layout checks to avoid hovering an item that obscures the minimap (implemented, but still occasionally causes a missed seal)
-        # add a color check for the surrounding of the pentagram to see if diablo was spawned correctly.
         # consider a name-tag & name-lock for seal bosses & diablo
         # add walkadin pathing (Seal B is teleporting a lot right now)
 
 """
-case "rof_01": #node 603 - outside CS in ROF
-case "rof_02": #node 604 - inside ROF
-
-case "entrance_hall_01": ##static_path "diablo_entrance_hall_1", node 677, CS Entrance Hall1
-case "entrance_hall_02":  #node 670,671, CS Entrance Hall1, CS Entrance Hall1
-
-case "entrance1_01": #static_path "diablo_entrance_hall_2", Hall1 (before layout check)
-case "entrance1_02": #node 673
-case "entrance1_03": #node 674
-case "entrance1_04": #node 676- Hall3
-
-case "entrance2_01": #static_path "diablo_entrance_hall_2"
-case "entrance2_02": #node 682
-case "entrance2_03": #node 683
-case "entrance2_04": #node 686 - Hall3
-
 case "dia_trash_a" | "dia_trash_b" | "dia_trash_c": #trash before between Pentagramm and Seal A Layoutcheck
-
 case "layoutcheck_a" | "layoutcheck_b" | "layoutcheck_c": #layout check seal A, node 619 A1-L, node 620 A2-Y
-
 case "pent_before_a" | "pent_before_b" | "pent_before_c": #node 602, pentagram, before CTA buff & depature to layout check
 
 case "A1-L_01":  #node 611 seal layout A1-L: safe_dist

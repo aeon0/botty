@@ -218,399 +218,59 @@ class FoHdin(Paladin):
 
     def dia_kill_trash(self, location:str) -> bool:
 
-        ###########
-        # SEALDANCE
-        ###########
-
-        #these locations have no traverses and are basically identical.
-        #if location in ("sealdance", "rof_01", "rof_02", "entrance_hall_01", "entrance_hall_02", "entrance1_01", "entrance1_02", "entrance1_03", "entrance1_04", "entrance2_01", "entrance2_03"):
-
         match location:
-            case "sealdance": #if seal opening fails & trash needs to be cleared -> used at ANY seal
-                ### APPROACH
-                ### ATTACK ###
-                self._cs_trash_mobs_attack_sequence()
-                ### LOOT ###
-
-
-            ################
-            # CLEAR CS TRASH
-            ################
-
-            case "rof_01": #node 603 - outside CS in ROF
-                ### APPROACH ###
-                if not self._pather.traverse_nodes([603], self, timeout=3): return False #calibrate after static path
-                ### ATTACK ###
-                self._cs_trash_mobs_attack_sequence()
-                ### LOOT ###
-                self._cs_pickit()
-                if not self._pather.traverse_nodes([603], self): return False #calibrate after looting
-
-
-            case "rof_02": #node 604 - inside ROF
-                ### APPROACH ###
-                if not self._pather.traverse_nodes([604], self, timeout=3): return False  #threshold=0.8 (ex 601)
-                ### ATTACK ###
-                self._cs_trash_mobs_attack_sequence()
-                ### LOOT ###
-                self._cs_pickit()
-
-            case "entrance_hall_01": ##static_path "diablo_entrance_hall_1", node 677, CS Entrance Hall1
-                ### APPROACH ###
-                self._pather.traverse_nodes_fixed("diablo_entrance_hall_1", self) # 604 -> 671 Hall1
-                ### ATTACK ###
-                self._cs_trash_mobs_attack_sequence()
-                ### LOOT ###
-                self._cs_pickit()
-
-            case "entrance_hall_02":  #node 670,671, CS Entrance Hall1, CS Entrance Hall1
-                ### APPROACH ###
-                if not self._pather.traverse_nodes([670], self): return False # pull top mobs 672 to bottom 670
-                self._pather.traverse_nodes_fixed("diablo_entrance_1_670_672", self) # 604 -> 671 Hall1
-                if not self._pather.traverse_nodes([670], self): return False # pull top mobs 672 to bottom 670
-                ### ATTACK ###
-                self._cs_trash_mobs_attack_sequence()
-                ### LOOT ###
-                self._cs_pickit()
-                if not self._pather.traverse_nodes([671], self): return False # calibrate before static path
-                self._pather.traverse_nodes_fixed("diablo_entrance_hall_2", self) # 671 -> LC Hall2
-
-
-
-            # TRASH LAYOUT A
-
-            case "entrance1_01": #static_path "diablo_entrance_hall_2", Hall1 (before layout check)
+            
+            case "sealdance" | "layoutcheck_a" | "layoutcheck_b" | "layoutcheck_c" | "pent_before_a" | "pent_before_b" | "pent_before_c" | "outside_cs" | "outside_cs_stairs" | "aisle_1" | "aisle_2" | "aisle_3" | "aisle_4" | "hall1_1" | "hall1_2" | "hall1_3" | "hall1_4" | "to_hall2_1" | "to_hall2_2" | "to_hall2_3" | "to_hall2_4" | "hall2_1" | "hall2_2" | "hall2_3" | "hall2_4" | "to_hall3_1" | "to_hall3_2" | "to_hall3_3" | "hall3_1" | "hall3_2" | "hall3_3" | "hall3_4" | "hall3_5" | "trash_to_a1" | "trash_to_a2" | "trash_to_a3" |  "trash_to_a4" | "a_boss" | "trash_to_b1" | "trash_to_b2" | "trash_to_b3" | "trash_to_b4" | "approach_b1s" | "approach_b2u" | "b_boss" | "b_seal" | "trash_to_c1" | "trash_to_c2" | "trash_to_c3" | "approach_c2g" | "fake_c2g": #automap
                 ### APPROACH ###
                 ### ATTACK ###
                 self._cs_trash_mobs_attack_sequence()
                 ### LOOT ###
                 self._cs_pickit()
-                if not self._pather.traverse_nodes([673], self): return False # , timeout=3): # Re-adjust itself and continues to attack
+            
+            # Fear each seal-area: 3 positions to start fights & loot (triggered in diablo.py), followed by 1 position for each seal.
 
-            case "entrance1_02": #node 673
-                ### APPROACH ###
-                ### ATTACK ###
-                self._cs_trash_mobs_attack_sequence()
-                ### LOOT ###
-                self._cs_pickit()
-                self._pather.traverse_nodes_fixed("diablo_entrance_1_1", self) # Moves char to postion close to node 674 continues to attack
-                if not self._pather.traverse_nodes([674], self): return False#, timeout=3)
-
-            case "entrance1_03": #node 674
-                ### APPROACH ###
-                ### ATTACK ###
-                self._cs_trash_mobs_attack_sequence()
-                ### LOOT ###
-                self._cs_pickit()
-                if not self._pather.traverse_nodes([675], self): return False#, timeout=3) # Re-adjust itself
-                self._pather.traverse_nodes_fixed("diablo_entrance_1_1", self) #static path to get to be able to spot 676
-                if not self._pather.traverse_nodes([676], self): return False#, timeout=3)
-
-            case "entrance1_04": #node 676- Hall3
-                ### APPROACH ###
-                ### ATTACK ###
-                self._cs_trash_mobs_attack_sequence()
-                ### LOOT ###
-                self._cs_pickit()
-
-            # TRASH LAYOUT B
-
-            case "entrance2_01": #static_path "diablo_entrance_hall_2"
-                ### APPROACH ###
-                ### ATTACK ###
-                self._cs_trash_mobs_attack_sequence()
-                ### LOOT ###
-                self._cs_pickit()
-
-            case "entrance2_02": #node 682
-                ### APPROACH ###
-                #if not self._pather.traverse_nodes([682], self): return False # , timeout=3):
-                ### ATTACK ###
-                self._cs_trash_mobs_attack_sequence()
-                ### LOOT ###
-                self._cs_pickit()
-
-            case "entrance2_03": #node 683
-                ### APPROACH ###
-                #if not self._pather.traverse_nodes([682], self): return False # , timeout=3):
-                #self._pather.traverse_nodes_fixed("diablo_entrance2_1", self)
-                #if not self._pather.traverse_nodes([683], self): return False # , timeout=3):
-                self._pather.traverse_nodes_fixed("diablo_trash_b_hall2_605_top1", self) #pull mobs from top
-                wait (0.2, 0.5)
-                self._pather.traverse_nodes_fixed("diablo_trash_b_hall2_605_top2", self) #pull mobs from top
-                if not self._pather.traverse_nodes([605], self): return False#, timeout=3)
-                ### ATTACK ###
-                self._cs_trash_mobs_attack_sequence()
-                ### LOOT ###
-                self._cs_pickit()
-
-            case "entrance2_04": #node 686 - Hall3
-                ### APPROACH ###
-                if not self._pather.traverse_nodes([605], self): return False#, timeout=3)
-                #if not self._pather.traverse_nodes([683,684], self): return False#, timeout=3)
-                #self._pather.traverse_nodes_fixed("diablo_entrance2_2", self)
-                #if not self._pather.traverse_nodes([685,686], self): return False#, timeout=3)
-                self._pather.traverse_nodes_fixed("diablo_trash_b_hall2_605_hall3", self)
-                if not self._pather.traverse_nodes([609], self): return False#, timeout=3)
-                self._pather.traverse_nodes_fixed("diablo_trash_b_hall3_pull_609", self)
-                if not self._pather.traverse_nodes([609], self): return False#, timeout=3)
-                ### ATTACK ###
-                self._cs_trash_mobs_attack_sequence()
-                ### LOOT ###
-                self._cs_pickit(skip_inspect=True)
-                if not self._pather.traverse_nodes([609], self): return False#, timeout=3)
-                self._cs_pickit()
-                if not self._pather.traverse_nodes([609], self): return False#, timeout=3)
-
-            ####################
-            # PENT TRASH TO SEAL
-            ####################
-
-            case "dia_trash_a" | "dia_trash_b" | "dia_trash_c": #trash before between Pentagramm and Seal A Layoutcheck
-                ### APPROACH ###
-                ### ATTACK ###
-                self._cs_trash_mobs_attack_sequence()
-                ### LOOT ###
-                self._cs_pickit()
-
-            ###############
-            # LAYOUT CHECKS
-            ###############
-
-            case "layoutcheck_a" | "layoutcheck_b" | "layoutcheck_c": #layout check seal A, node 619 A1-L, node 620 A2-Y
-                ### APPROACH ###
-                ### ATTACK ###
-                self._cs_trash_mobs_attack_sequence()
-                ### LOOT ###
-                self._cs_pickit()
-
-            ##################
-            # PENT BEFORE SEAL
-            ##################
-
-            case "pent_before_a": #node 602, pentagram, before CTA buff & depature to layout check - not needed when trash is skipped & seals run in right order
+            case "A1-L_01" | "A1-L_02" | "A1-L_03" | "A1-L_seal1" | "A1-L_seal2":
                 ### APPROACH ###
                 ### ATTACK ###
                 ### LOOT ###
                 Logger.debug("No attack choreography available in fohdin.py for this node " + location + " - skipping to shorten run.")
 
-            case "pent_before_b" | "pent_before_c": #node 602, pentagram, before CTA buff & depature to layout check
+            case "A2-Y_01" | "A2-Y_02" | "A2-Y_03" | "A2-Y_seal1" | "A2-Y_seal2":
                 ### APPROACH ###
                 ### ATTACK ###
-                self._cs_trash_mobs_attack_sequence()
                 ### LOOT ###
-                self._cs_pickit()
+                Logger.debug("No attack choreography available in fohdin.py for this node " + location + " - skipping to shorten run.")
 
-            ###########
-            # SEAL A1-L
-            ###########
-
-            case "A1-L_01":  #node 611 seal layout A1-L: safe_dist
-                ### APPROACH ###
-                if not self._pather.traverse_nodes([611], self): return False # , timeout=3):
-                ### ATTACK ###
-                self._cs_trash_mobs_attack_sequence()
-                ### LOOT ###
-                # we loot at boss
-
-            case "A1-L_02":  #node 612 seal layout A1-L: center
-                ### APPROACH ###
-                if not self._pather.traverse_nodes([612], self): return False # , timeout=3):
-                ### ATTACK ###
-                self._cs_trash_mobs_attack_sequence()
-                ### LOOT ###
-                # we loot at boss
-
-            case "A1-L_03":  #node 613 seal layout A1-L: fake_seal
-                ### APPROACH ###
-                if not self._pather.traverse_nodes([613], self): return False # , timeout=3):
-                ### ATTACK ###
-                self._cs_trash_mobs_attack_sequence()
-                ### LOOT ###
-                self._cs_pickit()
-
-            case "A1-L_seal1":  #node 613 seal layout A1-L: fake_seal
-                ### APPROACH ###
-                self._cs_pickit()
-                if not self._pather.traverse_nodes([614], self): return False
-                ### ATTACK ###
-                self._activate_redemption_aura()
-                ### LOOT ###
-                # we loot at boss
-
-            case "A1-L_seal2":  #node 614 seal layout A1-L: boss_seal
-                ### APPROACH ###
-                if not self._pather.traverse_nodes([613, 615], self): return False # , timeout=3):
-                ### ATTACK ###
-                self._activate_redemption_aura()
-                ### LOOT ###
-                # we loot at boss
-
-            ###########
-            # SEAL A2-Y
-            ###########
-
-            case "A2-Y_01":  #node 622 seal layout A2-Y: safe_dist
-                ### APPROACH ###
-                if not self._pather.traverse_nodes_fixed("dia_a2y_hop_622", self): return False
-                Logger.debug("A2-Y: Hop!")
-                #if not self._pather.traverse_nodes([622], self): return False # , timeout=3):
-                if not self._pather.traverse_nodes([622], self): return False
-                ### ATTACK ###
-                self._cs_trash_mobs_attack_sequence()
-                ### LOOT ###
-                # we loot at boss
-
-            case "A2-Y_02":  #node 623 seal layout A2-Y: center
-                ### APPROACH ###
-                # if not self._pather.traverse_nodes([623,624], self): return False #
-                ### ATTACK ###
-                self._cs_trash_mobs_attack_sequence()
-                ### LOOT ###
-                # we loot at boss
-
-            case "A2-Y_03": #skipped
+            case "B1-S_01" | "B1-S_02" | "B1-S_03" | "B1-S_seal2":
                 ### APPROACH ###
                 ### ATTACK ###
                 ### LOOT ###
                 # we loot at boss
                 Logger.debug("No attack choreography available in fohdin.py for this node " + location + " - skipping to shorten run.")
 
-            case "A2-Y_seal1":  #node 625 seal layout A2-Y: fake seal
-                ### APPROACH ###
-                ### ATTACK ###
-                ### LOOT ###
-                # we loot at boss
-                if not self._pather.traverse_nodes([625], self): return False # , timeout=3):
-                self._activate_redemption_aura()
-
-            case "A2-Y_seal2":
-                ### APPROACH ###
-                ### ATTACK ###
-                ### LOOT ###
-                # we loot at boss
-                self._pather.traverse_nodes_fixed("dia_a2y_sealfake_sealboss", self) #instead of traversing node 626 which causes issues
-                self._activate_redemption_aura()
-
-            ###########
-            # SEAL B1-S
-            ###########
-
-            case "B1-S_01" | "B1-S_02" | "B1-S_03":
+            case "B2-U_01" | "B2-U_02" | "B2-U_03" | "B2-U_seal2":
                 ### APPROACH ###
                 ### ATTACK ###
                 ### LOOT ###
                 # we loot at boss
                 Logger.debug("No attack choreography available in fohdin.py for this node " + location + " - skipping to shorten run.")
 
-            case "B1-S_seal2": #B only has 1 seal, which is the boss seal = seal2
-                ### APPROACH ###
-                if not self._pather.traverse_nodes([634], self): return False # , timeout=3):
-                ### ATTACK ###
-                self._cs_trash_mobs_attack_sequence()
-                ### LOOT ###
-
-
-            ###########
-            # SEAL B2-U
-            ###########
-
-            case "B2-U_01" | "B2-U_02" | "B2-U_03":
+            case "C1-F_01" | "C1-F_02" | "C1-F_03" | "C1-F_seal1" | "C1-F_seal2":
                 ### APPROACH ###
                 ### ATTACK ###
                 ### LOOT ###
                 # we loot at boss
                 Logger.debug("No attack choreography available in fohdin.py for this node " + location + " - skipping to shorten run.")
 
-            case "B2-U_seal2": #B only has 1 seal, which is the boss seal = seal2
-                ### APPROACH ###
-                self._pather.traverse_nodes_fixed("dia_b2u_bold_seal", self)
-                if not self._pather.traverse_nodes([644], self): return False # , timeout=3):
-                ### ATTACK ###
-                self._activate_redemption_aura()
-                ### LOOT ###
-                # we loot at boss
-
-
-            ###########
-            # SEAL C1-F
-            ###########
-
-            case "C1-F_01" | "C1-F_02" | "C1-F_03":
+            case "C2-G_01" | "C2-G_02" | "C2-G_03" | "C2-G_seal1" | "C2-G_seal2":
                 ### APPROACH ###
                 ### ATTACK ###
                 ### LOOT ###
-                # we loot at boss
                 Logger.debug("No attack choreography available in fohdin.py for this node " + location + " - skipping to shorten run.")
-
-            case "C1-F_seal1":
-                ### APPROACH ###
-                wait(0.1,0.3)
-                self._pather.traverse_nodes_fixed("dia_c1f_hop_fakeseal", self)
-                wait(0.1,0.3)
-                if not self._pather.traverse_nodes([655], self): return False # , timeout=3):
-                ### ATTACK ###
-                self._cs_trash_mobs_attack_sequence()
-                ### LOOT ###
-                self._cs_pickit()
-                if not self._pather.traverse_nodes([655], self): return False # , timeout=3):
-                self._activate_redemption_aura()
-
-            case "C1-F_seal2":
-                ### APPROACH ###
-                self._pather.traverse_nodes_fixed("dia_c1f_654_651", self)
-                if not self._pather.traverse_nodes([652], self): return False # , timeout=3):
-                ### ATTACK ###
-                self._cs_trash_mobs_attack_sequence()
-                ### LOOT ###
-                self._cs_pickit()
-                if not self._pather.traverse_nodes([652], self): return False # , timeout=3):
-                self._activate_redemption_aura()
-
-            ###########
-            # SEAL C2-G
-            ###########
-
-            case "C2-G_01" | "C2-G_02" | "C2-G_03": #skipped
-                ### APPROACH ###
-                ### ATTACK ###
-                ### LOOT ###
-                # we loot at boss
-                Logger.debug("No attack choreography available in fohdin.py for this node " + location + " - skipping to shorten run.")
-
-            case "C2-G_seal1":
-                ### APPROACH ###
-                if not self._pather.traverse_nodes([663, 662], self) or not self._pather.traverse_nodes_fixed("dia_c2g_lc_661", self):
-                    return False
-                ### ATTACK ###
-                self._cs_trash_mobs_attack_sequence()
-                ### LOOT ###
-                self._cs_pickit()
-                if not self._pather.traverse_nodes([662], self): return False
-                self._activate_redemption_aura()
-
-
-            case "C2-G_seal2":
-                ### APPROACH ###
-                # Killing infector here, because for C2G its the only seal where a bossfight occures BETWEEN opening seals
-                seal_layout="C2-G"
-                if not self._pather.traverse_nodes([662], self) or not self._pather.traverse_nodes_fixed("dia_c2g_663", self):
-                    return False
-                ### ATTACK ###
-                atk_dur_min = Config().char["atk_len_diablo_infector"]
-                atk_dur_max = atk_dur_min * 3
-                Logger.debug(seal_layout + ": Attacking Infector at position 1/2")
-                self._cs_attack_sequence(min_duration=atk_dur_min, max_duration=atk_dur_max)
-                if not self._pather.traverse_nodes([663], self): return False # , timeout=3):
-                Logger.debug(seal_layout + ": Attacking Infector at position 2/2")
-                self._cs_attack_sequence(min_duration=2, max_duration=atk_dur_max)
-                ### LOOT ###
-                self._cs_pickit(skip_inspect=True) # inspect on other
-                if not self._pather.traverse_nodes([664, 665], self): return False # , timeout=3):
 
             case _:
                 ### APPROACH ###
-                Logger.error("No location argument given for dia_kill_trash(" + location + "), should not happen")
+                Logger.error("No location argument given for dia_kill_trash(" + location + "), should not happen - killing mobs instead just to be safe")
                 ### ATTACK ###
                 self._cs_trash_mobs_attack_sequence()
                 ### LOOT ###
