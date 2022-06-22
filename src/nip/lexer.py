@@ -109,8 +109,6 @@ class Lexer:
                     self._advance()
                 else:
                     self.tokens.append(self._create_digits())
-                print(self.tokens)
-                break
                 continue
 
                     
@@ -132,7 +130,6 @@ class Lexer:
                 self._advance()
             else:
                 raise NipSyntaxError("NIP_0x1", "Unknown token: " + self.current_token, self._get_text())
-        print(self.tokens)
         return self.tokens
 
     def detokenize(self, tokens: list[Token]) -> str:
