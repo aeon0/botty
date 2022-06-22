@@ -102,7 +102,8 @@ class Lexer:
                     TokenType.KeywordNTIPAliasMaxQuantity,
                     TokenType.KeywordNTIPAliasName,
                     TokenType.KeywordNTIPAliasQuality,
-                    TokenType.KeywordNTIPAliasType
+                    TokenType.KeywordNTIPAliasStat,
+                    TokenType.KeywordNTIPAliasType,
                 ]
                 if self.tokens[-1].type in NTIPAliasKeywords + [TokenType.NUMBER]:
                     self.tokens.append(self._create_math_operator())
