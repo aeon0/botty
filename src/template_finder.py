@@ -254,7 +254,7 @@ if __name__ == "__main__":
     #_template_list = ["A3_ARACH_CBL", "A3_ARACH_CBR", "A3_ARACH_CTL", "A3_ARACH_CTR", "A3_ARACH_EXIT", "A3_ARACH_ENTRANCE", "A3_ARACH_ENTR", "A3_ARACH_ENTR_MOUSEOVER"]
     #_template_list =["PINDLE_AM_1","PINDLE_AM_2","PINDLE_AM_3"]
     #_template_list = ["A2_TOWN_AUTOMAP","A3_TOWN_AUTOMAP", "A4_TOWN_AUTOMAP", "A5_TOWN_AUTOMAP","A1_TOWN_AUTOMAP_NORTH","A1_TOWN_AUTOMAP_SOUTH"]
-    _template_list = ["DIA_AM_WP", "DIA_AM_CS", "DIA_AM_E_B", "DIA_AM_PENT", "DIA_AM_PENT1", "DIA_AM_PENT2", "DIA_AM_CR1", "DIA_AM_CR2", "DIA_AM_CR3", "DIA_AM_CR4", "DIA_AM_A2Y", "DIA_AM_B2U", "DIA_AM_C2G", "DIA_AM_E_A", "DIA_AM_A1L", "DIA_AM_B1S", "DIA_AM_C1F",]
+    _template_list = ["DIA_AM_ROF_GAP", "DIA_AM_WP", "DIA_AM_CS", "DIA_AM_E_B", "DIA_AM_PENT", "DIA_AM_PENT1", "DIA_AM_PENT2", "DIA_AM_CR1", "DIA_AM_CR2", "DIA_AM_CR3", "DIA_AM_CR4", "DIA_AM_A2Y", "DIA_AM_B2U", "DIA_AM_C2G", "DIA_AM_E_A", "DIA_AM_A1L", "DIA_AM_B1S", "DIA_AM_C1F",]
     #_template_list += ["HIDDEN_STASH", "SHRINE", "SKULL_PILE"]
     #_template_list = ['DIA_AM_CHAT']
             

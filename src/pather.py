@@ -277,7 +277,7 @@ class Pather:
             1522: {'DIA_AM_CS': (591, -254), 'DIA_AM_E_A': (340, -102), 'DIA_AM_E_B': (340, -102)},  # cs hall3 lower 
             1523: {'DIA_AM_E_A': (406, -116), 'DIA_AM_E_B': (406, -116)}, # cs hall3 lower -> reveal cr4 template
             1524: {'DIA_AM_CR4': (-55, -62), 'DIA_AM_E_A': (372, -146),'DIA_AM_E_B': (372, -146),},  # cs hall3 center almost reveal pent - 
-            1525: {'DIA_AM_CR4': (-111, -97)}, # cs hall3 center almost reveal CR1 template
+            1525: {'DIA_AM_CR4': (-111, -97), 'DIA_AM_E_A': (316, -111),'DIA_AM_E_B': (316, -111),}, # cs hall3 center almost reveal CR1 template
             
             # CS Trash A (1529, 1627, 1620)
             1526: {'DIA_AM_CR1': (70, -30)},    # pent - trash A center

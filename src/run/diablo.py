@@ -9,7 +9,7 @@ from pather import Location, Pather
 from item.pickit import PickIt
 import template_finder
 from town.town_manager import TownManager, A4
-from utils.misc import wait
+from utils.misc import cut_roi, wait
 from utils.custom_mouse import mouse
 from screen import convert_abs_to_monitor, convert_monitor_to_screen, grab
 from ui_manager import detect_screen_object, ScreenObjects
@@ -98,58 +98,87 @@ class Diablo:
         if not self._pather.traverse_nodes_automap([1600], self._char): return False #not using automap works better here
         Logger.debug("ROF: Calibrated at WAYPOINT")
 
-        #Traverse ROF with minimal teleport charges
-        if self._char.capabilities.can_teleport_with_charges:
-            Logger.debug("ROF: Let's run to the ROF diving board! - LEEEEEEROOOOOOOYYYYYY!")
-            if not self._pather.traverse_nodes_automap([1594], self._char): return False # Dodge Tyrael so we dont get stuck in a chat with that guy.
-            if not self._pather.traverse_nodes_automap([1595], self._char): return False # go to the first jumping spot at ROF
-            toggle_automap(False) #just in case
-
-            """ # too hacky, does not work well
-            Logger.debug("ROF: Crossing Gap 1/3 using teleport")
-            pos_m = convert_abs_to_monitor((700, -350))
-            mouse.move(*pos_m, randomize=0, delay_factor=[0.5, 0.7])
-            skills.select_tp(Config().char["teleport"])
-            mouse.click(button="right")
-            wait(0.3,0.4)
-            current_time = None
-            start_time = time.time()
-            while start_time - current_time <= 3:
-                pos_m = convert_abs_to_monitor((700, -350))
-                self._char.move(*pos_m, force_move=True)
-                current_time = time.time()
-                if not self._pather.traverse_nodes_automap([1596], self._char, timeout=1):
-                   Logger.debug("ROF: Crossing Gap 2/3 using teleport")
-                   pos_m = convert_abs_to_monitor((700, -350))
-                   mouse.move(*pos_m, randomize=0, delay_factor=[0.5, 0.7])
-                   skills.select_tp(Config().char["teleport"])
-                   mouse.click(button="right")
-                   wait(0.3,0.4) 
-
-            Logger.debug("ROF: Crossing Gap 2/3 using teleport")
-            pos_m = convert_abs_to_monitor((700, -350))
-            mouse.move(*pos_m, randomize=0, delay_factor=[0.5, 0.7])
-            skills.select_tp(Config().char["teleport"])
-            mouse.click(button="right")
-            wait(0.3,0.4)
-
-            Logger.debug("ROF: Crossing Gap 3/3 using teleport")
-            pos_m = convert_abs_to_monitor((700, -350))
-            mouse.move(*pos_m, randomize=0, delay_factor=[0.5, 0.7])
-            skills.select_tp(Config().char["teleport"])
-            mouse.click(button="right")
-            wait(0.3,0.4)
-            """
-            
-            skills.select_tp(Config().char["teleport"]) #strangely, this is needed to avoid trying to walkt the fixed traverse
-            self._pather.traverse_nodes_fixed("dia_tyrael_cs-e", self._char) #never teleports, always walks...
-            Logger.debug("ROF: Walking the rest to CS Entrance (direction Top Right) to make sure we reveal the CS Entrance Template")
-            pos_m = convert_abs_to_monitor((700, -350))
-            self._char.move(*pos_m, force_move=True)
-            
         #Teleport directly
-        elif self._char.capabilities.can_teleport_natively:
+        if self._char.capabilities.can_teleport_natively:
             self._pather.traverse_nodes_fixed("dia_wp_cs-e", self._char) #Traverse River of Flame (no chance to traverse w/o fixed, there is no reference point between WP & CS Entrance) - minimum 3 teleports are needed, if we only cross the gaps (maybe loop template matching the gap, otherwise walking), otherwise its 9
+
+        #Traverse ROF with minimal teleport charges
+        elif self._char.capabilities.can_teleport_with_charges:
+            Logger.debug("ROF: Let's run to the ROF diving board!")
+            
+            toggle_automap(True) #just in case
+            count = 0
+            while not template_finder.search_and_wait(["DIA_AM_CS"], threshold=0.8, timeout=0.2).valid and count < 9: # check1 using primary templates
+                Logger.debug("ROF: Teleporting towards CS Entrance, searching for CS Entrance")
+                pos_m = convert_abs_to_monitor((620, -350))
+                mouse.move(*pos_m, randomize=0, delay_factor=[0.5, 0.7])
+                skills.select_tp(Config().char["teleport"])
+                mouse.click(button="right")
+                wait(0.3,0.4)
+                count =+ 1
+            """
+            # Minimal Teleport Charge Version, too hacky.
+            if not self._pather.traverse_nodes_automap([1601], self._char): return False # Dodge Tyrael so we dont get stuck in a chat with that guy.
+            if not self._pather.traverse_nodes_automap([1602], self._char): return False # go to the first jumping spot at ROF
+
+            toggle_automap(True) #just in case
+            Logger.debug("ROF: Teleporting across GAP1")
+            pos_m = convert_abs_to_monitor((620, -350))
+            mouse.move(*pos_m, randomize=0, delay_factor=[0.5, 0.7])
+            skills.select_tp(Config().char["teleport"])
+            mouse.click(button="right")
+            wait(0.3,0.4)
+
+            roi = Config().ui_roi["dia_am_rof"]
+            while not template_finder.search_and_wait(["DIA_AM_ROF_GAP"], threshold=0.8, timeout=0.2, roi=roi).valid: # check1 using primary templates
+                Logger.debug("ROF: Teleporting the rest towards CS Entrance")
+                pos_m = convert_abs_to_monitor((620, -350))
+                mouse.move(*pos_m, randomize=0, delay_factor=[0.5, 0.7])
+                #keyboard.send(Config().char["force_move"])
+                keyboard.send("e")
+                self._char.move(pos_m, force_move=True, force_tp=False)
+                #count =+ 1
+
+            Logger.debug("ROF: GAP found, teleporting across GAP2")
+            pos_m = convert_abs_to_monitor((620, -350))
+            mouse.move(*pos_m, randomize=0, delay_factor=[0.5, 0.7])
+            skills.select_tp(Config().char["teleport"])
+            mouse.click(button="right")
+            wait(0.3,0.4)
+
+            roi = Config().ui_roi["dia_am_rof"]
+            while not template_finder.search_and_wait(["DIA_AM_ROF_GAP"], threshold=0.8, timeout=0.2, roi=roi).valid: # check1 using primary templates
+                Logger.debug("ROF: Walking towards CS Entrance, searching for next GAP")
+                pos_m = convert_abs_to_monitor((620, -350))
+                mouse.move(*pos_m, randomize=0, delay_factor=[0.5, 0.7])
+                #keyboard.send(Config().char["force_move"])
+                keyboard.send("e")
+                self._char.move(pos_m, force_move=True, force_tp=False)
+                #count =+ 1
+                img = grab()
+                roi = Config().ui_roi["dia_am_rof"]
+                pic = cut_roi(img, roi)
+                cv2.imwrite("./log/cutroi.png", pic)
+
+            Logger.debug("ROF: GAP found, teleporting across GAP3")
+            pos_m = convert_abs_to_monitor((620, -350))
+            mouse.move(*pos_m, randomize=0, delay_factor=[0.5, 0.7])
+            skills.select_tp(Config().char["teleport"])
+            mouse.click(button="right")
+            wait(0.3,0.4)
+
+            while not template_finder.search_and_wait(["DIA_AM_CS"], threshold=0.8, timeout=0.2).valid: # check1 using primary templates
+                Logger.debug("ROF: Walking towards CS Entrance, searching for CS Entrance")
+                pos_m = convert_abs_to_monitor((620, -350))
+                mouse.move(*pos_m, randomize=0, delay_factor=[0.5, 0.7])
+                #keyboard.send(Config().char["force_move"])
+                keyboard.send("e")
+                #keyboard.send(self._skill_hotkeys["vigor"])
+                self._char.move(pos_m, force_move=True, force_tp=False)
+                #count =+ 1
+            """
+            Logger.debug("ROF: found CS Entrance!")
+            #self._pather.traverse_nodes_fixed("dia_tyrael_cs-e", self._char) #never teleports, always walks...
 
         else: 
             raise ValueError("Diablo requires teleport")
@@ -256,9 +285,9 @@ class Diablo:
             Logger.debug("CS TRASH: Killing Trash at: to_hall3_3")
             self._char.dia_kill_trash("to_hall3_3")
 
-            if not self._pather.traverse_nodes_automap([1521], self._char): return False
-            Logger.debug("CS TRASH: Killing Trash at: hall3_1")
-            self._char.dia_kill_trash("hall3_1")
+            #if not self._pather.traverse_nodes_automap([1521], self._char): return False #weak node, gets stuck often as walker, because the CS template is covered by the UI
+            #Logger.debug("CS TRASH: Killing Trash at: hall3_1")
+            #self._char.dia_kill_trash("hall3_1")
 
             if not self._pather.traverse_nodes_automap([1522], self._char): return False
             Logger.debug("CS TRASH: Killing Trash at: hall3_2")
