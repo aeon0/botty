@@ -94,11 +94,11 @@ def kill_thread(thread):
         ctypes.pythonapi.PyThreadState_SetAsyncExc(thread_id, 0)
         Logger.error('Exception raise failure')
 
-def cut_roi(img, roi):
+def cut_roi(img: np.ndarray, roi: list) -> np.ndarray:
     x, y, w, h = roi
     return img[y:y+h, x:x+w]
 
-def mask_by_roi(img, roi, type: str = "regular"):
+def mask_by_roi(img: np.ndarray, roi: list, type: str = "regular"):
     x, y, w, h = roi
     if type == "regular":
         masked = np.zeros(img.shape, dtype=np.uint8)
@@ -215,6 +215,28 @@ def image_is_equal(img1: np.ndarray, img2: np.ndarray) -> bool:
         Logger.debug("image_is_equal: Image shape is not equal")
         return False
     return not(np.bitwise_xor(img1, img2).any())
+
+def apply_mask(img: np.ndarray, mask: np.ndarray) -> np.ndarray:
+    if img.shape[:][:][0] == mask.shape[:][:][0]:
+        return cv2.bitwise_and(img, img, mask = mask)
+    Logger.warning("apply_mask: Image shape is not equal, failed to apply to img")
+    return img
+
+def image_diff(img1: np.ndarray, img2: np.ndarray, roi: list = None, mask: np.ndarray = None, threshold: int = 13) -> float:
+    if img1.shape != img2.shape:
+        Logger.warning("image_diff: Image shape is not equal, failed to calculate diff")
+        return 0
+    if mask is not None:
+        img1 = apply_mask(img1, mask)
+        img2 = apply_mask(img2, mask)
+    if roi is not None:
+        img1 = cut_roi(img1, roi)
+        img2 = cut_roi(img2, roi)
+    diff = cv2.absdiff(img1, img2)
+    diff = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
+    _, diff_mask = cv2.threshold(diff, threshold, 255, cv2.THRESH_BINARY)
+    score = (float(np.sum(diff_mask)) / diff_mask.size) * (1/255.0)
+    return score
 
 @dataclass
 class BestMatchResult:

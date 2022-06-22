@@ -419,6 +419,7 @@ class IChar:
         use_tp: bool = False,
         force_move: bool = False,
         last_move_time: float = time.time(),
+        skip_tp_cooldown: bool = False,
     ) -> float:
         """
         Moves character to position.
@@ -433,10 +434,11 @@ class IChar:
             # 7 frames is the fastest that teleport can be casted with 200 fcr on sorc
             self._teleport_to_position(pos_monitor, cooldown = False)
             move_time = time.time()
-            min_wait = get_cast_wait_time(class_base = self._base_class, skill_name = "teleport") + factor/25
-            # if there's still time remaining in cooldown, wait
-            while time.time() - last_move_time < min_wait:
-                wait(0.02)
+            if not skip_tp_cooldown:
+                min_wait = get_cast_wait_time(class_base = self._base_class, skill_name = "teleport") + factor/25
+                # if there's still time remaining in cooldown, wait
+                while time.time() - last_move_time < min_wait:
+                    wait(0.02)
         else:
             move_time = time.time()
             self._walk_to_position(pos_monitor = pos_monitor, force_move=force_move)

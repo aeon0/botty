@@ -6,14 +6,13 @@ import random
 import cv2
 import numpy as np
 from utils.custom_mouse import mouse
-from utils.misc import wait # for stash/shrine tele cancel detection in traverse node
-from utils.misc import is_in_roi
+from utils.misc import wait, image_diff
 from config import Config
 from logger import Logger
 from screen import convert_screen_to_monitor, convert_abs_to_screen, convert_abs_to_monitor, convert_screen_to_abs, grab, stop_detecting_window
 import template_finder
 from char import IChar
-from ui_manager import detect_screen_object, ScreenObjects, is_visible, select_screen_object_match, get_closest_non_hud_pixel
+from ui_manager import detect_screen_object, ScreenObjects, get_hud_mask, is_visible, select_screen_object_match, get_closest_non_hud_pixel
 
 class Location:
     # A5 Town
@@ -93,6 +92,12 @@ class Pather:
     def __init__(self):
         self._range_x = [-Config().ui_pos["center_x"] + 7, Config().ui_pos["center_x"] - 7]
         self._range_y = [-Config().ui_pos["center_y"] + 7, Config().ui_pos["center_y"] - Config().ui_pos["skill_bar_height"] - 33]
+        self._roi_middle_half = [round(x) for x in [
+            Config().ui_pos["screen_width"]/4,
+            Config().ui_pos["screen_height"]/4,
+            Config().ui_pos["screen_width"]/2,
+            Config().ui_pos["screen_height"]/2
+        ]]
         self._nodes = {
             # A5 town
             0: {'A5_TOWN_0': (27, 249), 'A5_TOWN_1': (-92, -137), 'A5_TOWN_11': (-313, -177)},
@@ -500,6 +505,14 @@ class Pather:
     def _convert_rel_to_abs(rel_loc: tuple[float, float], pos_abs: tuple[float, float]) -> tuple[float, float]:
         return (rel_loc[0] + pos_abs[0], rel_loc[1] + pos_abs[1])
 
+    @staticmethod
+    def _wait_for_screen_update(img_pre: np.ndarray, last_move: float, roi: list = None, max_wait: float = 1.5, score_threshold: float = 0.15):
+        while (score := image_diff(img_pre, (img_post := grab(force_new=True)), roi = roi)) < score_threshold:
+            wait(0.02)
+            if (time.time() - last_move) > max_wait:
+                break
+        return img_post, score
+
     def traverse_nodes_fixed(self, key: str | list[tuple[float, float]], char: IChar, require_teleport: bool = False) -> bool:
         # this will check if character can teleport. for charged or native teleporters, it'll select teleport
         if require_teleport and not (char.capabilities.can_teleport_natively and char.can_teleport()):
@@ -520,13 +533,8 @@ class Pather:
             y_m += int(random.random() * 6 - 3)
             t0 = grab(force_new=True)
             last_move_time = char.move((x_m, y_m), use_tp=True, last_move_time=last_move_time)
-            t1 = grab(force_new=True)
-            # check difference between the two frames to determine if tele was good or not
-            diff = cv2.absdiff(t0, t1)
-            diff = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
-            _, mask = cv2.threshold(diff, 13, 255, cv2.THRESH_BINARY)
-            score = (float(np.sum(mask)) / mask.size) * (1/255.0)
-            if score > 0.15:
+            _, score = self._wait_for_screen_update(t0, last_move=last_move_time, roi = self._roi_middle_half)
+            if score >= 0.15:
                 i += 1
             else:
                 stuck_count += 1
@@ -557,6 +565,7 @@ class Pather:
             node_pos_abs = get_closest_non_hud_pixel(pos = node_pos_abs, pos_type="abs")
             return node_pos_abs
         return None
+
 
     def traverse_nodes(
         self,
@@ -608,15 +617,17 @@ class Pather:
 
         last_direction = None
         last_move = time.time()
+        first_move = True
         for _, node_idx in enumerate(path):
             continue_to_next_node = False
             did_force_move = False
             teleport_count = 0
             while not continue_to_next_node:
-                img = grab(force_new=True)
-                elapsed = (time.time() - last_move)
+                if first_move:
+                    img = grab(force_new=True)
+                first_move = False
                 # Handle timeout
-                if elapsed > timeout:
+                if (elapsed := time.time() - last_move) > timeout:
                     if is_visible(ScreenObjects.WaypointLabel, img):
                         # sometimes bot opens waypoint menu, close it to find templates again
                         Logger.debug("Opened wp, closing it again")
@@ -669,7 +680,8 @@ class Pather:
                         x_m, y_m = convert_abs_to_monitor(node_pos_abs)
                         last_move = char.move((x_m, y_m), use_tp=use_tp, force_move=force_move, last_move_time=last_move)
                         last_direction = node_pos_abs
-
+                        # wait until there's a change on screen
+                        img, _ = self._wait_for_screen_update(img, last_move=last_move, roi = self._roi_middle_half)
         return True
 
 
