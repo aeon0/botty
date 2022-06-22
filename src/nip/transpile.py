@@ -8,7 +8,8 @@ from nip.NTIPAliasType import NTIPAliasType
 # ! The above imports are necessary, they are used within the eval statements. Your text editor probably is not showing them as not in use.
 
 from dataclasses import dataclass
-from nip.lexer import Lexer, NipSyntaxError, NipSections
+from nip.lexer import Lexer, NipSections
+from nip.BNipExceptions import BNipSyntaxError
 from nip.tokens import Token, TokenType
 from nip.utils import find_unique_or_set_base
 
@@ -72,8 +73,10 @@ def transpile(tokens: list[Token], isPickUpPhase: bool = False, transpiled_expre
                 if tokens[i + 1].type != TokenType.ValueNTIPAliasFlag:
                     expression += token_value
             case TokenType.EQ:
-                if tokens[i + 1].type == TokenType.ValueNTIPAliasFlag: continue
-                if isPickUpPhase and tokens[i + 1].type == TokenType.ValueNTIPAliasIDName: continue
+                if tokens[i + 1].type == TokenType.ValueNTIPAliasFlag: 
+                    continue
+                if isPickUpPhase and tokens[i + 1].type == TokenType.ValueNTIPAliasIDName: 
+                    continue
                 expression += "=="
             case TokenType.OR | TokenType.AND | TokenType.LPAREN | TokenType.RPAREN | TokenType.PLUS | TokenType.MINUS | TokenType.MULTIPLY | TokenType.DIVIDE:
                 expression += token_value
@@ -86,7 +89,7 @@ def transpile(tokens: list[Token], isPickUpPhase: bool = False, transpiled_expre
                 section_open_paranthesis_count -= 1
                 expression += "and"
                 section_start = True
-            case TokenType.ValueNTIPAliasStat:
+            case TokenType.KeywordNTIPAliasStat:
                 expression += "(int(item_data.get('NTIPAliasStat', {})" + f".get('{token_value}', 0)))"
             case TokenType.KeywordNTIPAliasIDName:
                 if not isPickUpPhase:
@@ -130,6 +133,7 @@ def validate_correct_math_syntax(left_token=None, right_token=None):
         TokenType.KeywordNTIPAliasName,
         TokenType.KeywordNTIPAliasQuality,
         TokenType.KeywordNTIPAliasType,
+        TokenType.KeywordNTIPAliasStat,
 
         TokenType.ValueNTIPAliasClass,
         TokenType.ValueNTIPAliasClassID,
@@ -144,17 +148,17 @@ def validate_correct_math_syntax(left_token=None, right_token=None):
         TokenType.RPAREN,
     ]
     if left_token and left_token.type not in allowed_left_and_right_tokens:
-        raise NipSyntaxError("NIP_0x3", "unexpected token on left of math operator")
+        raise BNipSyntaxError2("NIP_0x3", "unexpected token on left of math operator")
     if right_token and right_token.type not in allowed_left_and_right_tokens:
-        raise NipSyntaxError("NIP_0x4", "unexpected token on right of math operator")
+        raise BNipSyntaxError2("NIP_0x4", "unexpected token on right of math operator")
 
 OPENING_PARENTHESIS_COUNT = 0 # * This needs to be reset every time an validation error occurs
-
-oNipSyntaxError = NipSyntaxError
-def NipSyntaxError(error_code, error_message): # * "hook" the error constructor so every time the error is raised / called, we reset the opening parenthesis count
+CURRENT_EXPRESSION = ""
+def BNipSyntaxError2(error_code, error_message): # * "hook" the error constructor so every time the error is raised / called, we reset the opening parenthesis count
     global OPENING_PARENTHESIS_COUNT
     OPENING_PARENTHESIS_COUNT = 0
-    return oNipSyntaxError(error_code, error_message)
+    print(CURRENT_EXPRESSION)
+    return BNipSyntaxError(error_code, error_message, CURRENT_EXPRESSION)
 
 
 def validate_correct_parenthesis_syntax(current_pos, all_tokens, left_token=None, right_token=None):
@@ -183,10 +187,10 @@ def validate_correct_parenthesis_syntax(current_pos, all_tokens, left_token=None
     if token.type == TokenType.LPAREN:
         OPENING_PARENTHESIS_COUNT += 1
         if left_token and left_token.type not in allowed_left_and_right_tokens + [TokenType.LPAREN]:
-            raise NipSyntaxError("NIP_0x18", "unexpected token on left of parenthesis")
+            raise BNipSyntaxError2("NIP_0x18", "unexpected token on left of parenthesis")
     elif token.type == TokenType.RPAREN:
         if right_token and right_token.type not in allowed_left_and_right_tokens + [TokenType.RPAREN]:
-            raise NipSyntaxError("NIP_0x19", "unexpected token on right of parenthesis")
+            raise BNipSyntaxError2("NIP_0x19", "unexpected token on right of parenthesis")
         OPENING_PARENTHESIS_COUNT -= 1
 
 
@@ -196,16 +200,16 @@ def validate_correct_parenthesis_syntax(current_pos, all_tokens, left_token=None
         # for i in range(current_pos, -1, -1):
         #     # print(all_tokens[i].type)
         #     if all_tokens[i].type == TokenType.SECTIONAND:
-        #         raise NipSyntaxError("NIP_0x8", "parenthesis cannot cross the section and (#)")
+        #         raise BNipSyntaxError2("NIP_0x8", "parenthesis cannot cross the section and (#)")
 
     if current_pos == len(all_tokens) - 1:
         if OPENING_PARENTHESIS_COUNT != 0:
             if OPENING_PARENTHESIS_COUNT > 0:
                 OPENING_PARENTHESIS_COUNT = 0
-                raise NipSyntaxError("NIP_0x6", "unclosed parenthesis")
+                raise BNipSyntaxError2("NIP_0x6", "unclosed parenthesis")
             else:
                 OPENING_PARENTHESIS_COUNT = 0
-                raise NipSyntaxError("NIP_0x7", "unopened parenthesis")
+                raise BNipSyntaxError2("NIP_0x7", "unopened parenthesis")
         OPENING_PARENTHESIS_COUNT = 0
 
 def validate_digits_syntax(left=None, right=None):
@@ -236,10 +240,10 @@ def validate_digits_syntax(left=None, right=None):
 
     if left:
         if left.type not in allowed_left_and_right_tokens:
-            raise NipSyntaxError("NIP_0x8", "Expected operator on left of number")
+            raise BNipSyntaxError2("NIP_0x8", "Expected operator on left of number")
     if right:
         if right.type not in allowed_left_and_right_tokens:
-            raise NipSyntaxError("NIP_0x9", "Expected operator on right of number")
+            raise BNipSyntaxError2("NIP_0x9", "Expected operator on right of number")
 
 
 def validate_logical_operators(left=None, right=None):
@@ -262,25 +266,27 @@ def validate_logical_operators(left=None, right=None):
         TokenType.KeywordNTIPAliasName,
         TokenType.KeywordNTIPAliasIDName,
         TokenType.KeywordNTIPAliasMaxQuantity,
+        TokenType.KeywordNTIPAliasStat
     ]
 
     if left:
         if left.type not in allowed_left_and_right_tokens + [TokenType.RPAREN]:
-            raise NipSyntaxError("NIP_0x10", "Expected token on left of logical operator")
+            raise BNipSyntaxError2("NIP_0x10", "Expected token on left of logical operator")
     if right:
         if right.type not in allowed_left_and_right_tokens + [TokenType.LPAREN]:
-            raise NipSyntaxError("NIP_0x11", "Expected token on right of logical operator")
+            raise BNipSyntaxError2("NIP_0x11", "Expected token on right of logical operator")
     else:
-        raise NipSyntaxError("NIP_0x12", "Expected token on right of logical operator")
+        raise BNipSyntaxError2("NIP_0x12", "Expected token on right of logical operator")
 
 
 def validate_nip_expression_syntax(nip_expression): # * enforces that {property} # {stats} # {maxquantity}
     tokens = None
-
+    global CURRENT_EXPRESSION
     if not nip_expression:
         return
 
     all_tokens = []
+    CURRENT_EXPRESSION = nip_expression
 
     split_nip_expression = nip_expression.split("#")
     split_nip_expression_len = len(split_nip_expression)
@@ -289,7 +295,7 @@ def validate_nip_expression_syntax(nip_expression): # * enforces that {property}
         all_tokens.extend(tokens)
         for token in tokens:
             if token.type == TokenType.ValueNTIPAliasStat or token.type == TokenType.UNKNOWN:
-                raise NipSyntaxError("NIP_0x13", f"Invalid token '{token.value}' in property section")
+                raise BNipSyntaxError2("NIP_0x13", f"Invalid token '{token.value}' in property section")
     if split_nip_expression_len >= 2: # stats
         all_tokens.append(Token(TokenType.SECTIONAND, "#"))
         tokens = Lexer().create_tokens(split_nip_expression[1], NipSections.STAT)
@@ -305,7 +311,7 @@ def validate_nip_expression_syntax(nip_expression): # * enforces that {property}
             )
 
             if is_invalid_stat_lookup:
-                raise NipSyntaxError("NIP_0x14", f"Invalid token '{token.value}' in stats section")
+                raise BNipSyntaxError2("NIP_0x14", f"Invalid token '{token.value}' in stats section")
 
     if split_nip_expression_len >= 3: # maxquantity
         # all_tokens.append(Token(TokenType.SECTIONAND, "#"))
@@ -324,12 +330,12 @@ def validate_nip_expression_syntax(nip_expression): # * enforces that {property}
 
             if is_invalid_maxquantity_lookup:
                 pass
-                raise NipSyntaxError("NIP_0x15", "Invalid maxquantity lookup")
+                raise BNipSyntaxError2("NIP_0x15", "Invalid maxquantity lookup")
 
     # * Further syntax validation
     # print(all_tokens)
     if all_tokens[-1].type == TokenType.SECTIONAND:
-        raise NipSyntaxError("NIP_0x16", "unexpected sectionand (#) at end of expression")
+        raise BNipSyntaxError2("NIP_0x16", "unexpected sectionand (#) at end of expression")
     math_tokens = [TokenType.MULTIPLY, TokenType.PLUS, TokenType.MINUS, TokenType.DIVIDE, TokenType.MODULO, TokenType.POW]
     logical_tokens = [TokenType.AND, TokenType.OR, TokenType.EQ, TokenType.NE, TokenType.GT, TokenType.LT, TokenType.GE, TokenType.LE, TokenType.SECTIONAND]
     for i, token in enumerate(all_tokens):
@@ -344,7 +350,7 @@ def validate_nip_expression_syntax(nip_expression): # * enforces that {property}
         if token.type == TokenType.EQ:
             if i == len(all_tokens) - 1: # * Check to make sure the next token is a token.
                 # ! the logic only makes sense for the last token, what the f*ck
-                raise NipSyntaxError("NIP_0x17", "No value after equal sign")
+                raise BNipSyntaxError2("NIP_0x17", "No value after equal sign")
         elif token.type in math_tokens:
             validate_correct_math_syntax(left_token=left, right_token=right)
         # * Make sure two numbers aren't next to each other.
