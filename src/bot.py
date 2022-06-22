@@ -329,6 +329,7 @@ class Bot:
                 items = personal.inspect_items(game_stats=self._game_stats)
         keep_items = any([item.keep for item in items]) if items else None
         sell_items = any([item.sell for item in items]) if items else None
+        stash_gold = personal.get_inventory_gold_full()
 
         # Check if should need some healing
         img = grab()
@@ -353,7 +354,7 @@ class Bot:
             return self.trigger_or_stop("end_game", failed=True)
 
         # Stash stuff
-        if keep_items or personal.get_inventory_gold_full():
+        if keep_items or stash_gold:
             Logger.info("Stashing items")
             self._curr_loc, result_items = self._town_manager.stash(self._curr_loc, items=items)
             sell_items = any([item.sell for item in result_items]) if result_items else None
