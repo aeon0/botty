@@ -149,6 +149,8 @@ class PickIt:
                 counter += 1
                 self._log_data(items, img, counter, _uuid)
                 item_count=0
+                if not items:
+                    break
             # Otherwise continue to next item in the list
             item = items[item_count]
 
