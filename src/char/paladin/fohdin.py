@@ -35,10 +35,13 @@ class FoHdin(Paladin):
         cast_pos_abs: tuple[float, float],
         spray: float = 10,
         spread_deg: float = 10,
+        min_duration: float = 0,
         max_duration: float = 0,
+        teleport_frequency: float = 0,
+        use_target_detect: bool = False,
         aura: str = "conviction",
     ):
-        return self._cast_at_position(skill_name = "foh", cast_pos_abs = cast_pos_abs, spray = spray, spread_deg = spread_deg, max_duration = max_duration, aura = aura)
+        return self._cast_at_position(skill_name = "foh", cast_pos_abs = cast_pos_abs, spray = spray, spread_deg = spread_deg, min_duration = min_duration, max_duration = max_duration, use_target_detect = use_target_detect, teleport_frequency = teleport_frequency, aura = aura)
 
     def _cast_holy_bolt(
         self,
@@ -194,10 +197,10 @@ class FoHdin(Paladin):
         wait(0.05, 0.1)
 
         # bypass mob detect first
-        self._cast_foh((0, 0), spray=11, min_duration = 2, aura = "conviction")
+        self._cast_foh((0, 0), spray=11, min_duration = 2, aura = "conviction", use_target_detect=False)
         # then do generic mob detect sequence
         diff = atk_len_dur if atk_len_dur <= 2 else (atk_len_dur - 2)
-        self._generic_foh_attack_sequence(min_duration=atk_len_dur - diff, max_duration=atk_len_dur*3 - diff, spray=10, target_detect=False)
+        self._generic_foh_attack_sequence(min_duration=atk_len_dur - diff, max_duration=atk_len_dur*3 - diff, spray=10)
         self._activate_cleanse_redemption()
 
         return True

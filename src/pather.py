@@ -607,9 +607,9 @@ class Pather:
                 char._activate_aura(active_skill)
 
         last_direction = None
-        for i, node_idx in enumerate(path):
+        last_move = time.time()
+        for _, node_idx in enumerate(path):
             continue_to_next_node = False
-            last_move = time.time()
             did_force_move = False
             teleport_count = 0
             while not continue_to_next_node:
@@ -642,9 +642,8 @@ class Pather:
                     pos_abs = get_closest_non_hud_pixel(pos = pos_abs, pos_type="abs")
                     Logger.debug(f"Pather: taking a random guess towards " + str(pos_abs))
                     x_m, y_m = convert_abs_to_monitor(pos_abs)
-                    char.move((x_m, y_m), use_tp=use_tp, force_move=True)
+                    last_move = char.move((x_m, y_m), use_tp=use_tp, force_move=True)
                     did_force_move = True
-                    last_move = time.time()
 
                 # Sometimes we get stuck at a Shrine or Stash, after a few seconds check if the screen was different, if force a left click.
                 if (teleport_count + 1) % 30 == 0:

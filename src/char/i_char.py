@@ -354,10 +354,12 @@ class IChar:
     def _switch_to_main_weapon(self):
         if self.main_weapon_equipped == False:
             self._weapon_switch()
+            wait(0.04, 0.08)
 
     def _switch_to_offhand_weapon(self):
         if self.main_weapon_equipped:
             self._weapon_switch()
+            wait(0.04, 0.08)
 
     def _force_move(self):
         self._key_press(self._get_hotkey("force_move"))
@@ -389,7 +391,7 @@ class IChar:
 
     def _teleport_to_position(self, pos_monitor: tuple[float, float], cooldown: bool = True):
         factor = Config().advanced_options["pathing_delay_factor"]
-        mouse.move(*pos_monitor, randomize=3, delay_factor=[(2+factor)/25, (4+factor)/25])
+        mouse.move(*pos_monitor, randomize=3, delay_factor=[(0+factor)/25, (2+factor)/25])
         wait(0.012, 0.02)
         self._cast_teleport(cooldown = cooldown)
 
@@ -430,13 +432,15 @@ class IChar:
         if use_tp and self.can_teleport(): # can_teleport() activates teleport hotkey if True
             # 7 frames is the fastest that teleport can be casted with 200 fcr on sorc
             self._teleport_to_position(pos_monitor, cooldown = False)
+            move_time = time.time()
             min_wait = get_cast_wait_time(class_base = self._base_class, skill_name = "teleport") + factor/25
             # if there's still time remaining in cooldown, wait
             while time.time() - last_move_time < min_wait:
                 wait(0.02)
         else:
+            move_time = time.time()
             self._walk_to_position(pos_monitor = pos_monitor, force_move=force_move)
-        return time.time()
+        return move_time
 
     def tp_town(self) -> bool:
         # will check if tp is available and select the skill
@@ -462,7 +466,12 @@ class IChar:
                 if skills.has_tps():
                     self._cast_town_portal()
                 else:
-                    return False
+                    pos_m = convert_abs_to_monitor(Config().ui_pos["screen_width"]/2, Config().ui_pos["screen_height"]-5)
+                    mouse.move(*pos_m)
+                    if skills.has_tps():
+                        self._cast_town_portal()
+                    else:
+                        return False
             if (template_match := wait_until_visible(ScreenObjects.TownPortal, timeout=3)).valid:
                 pos = template_match.center_monitor
                 pos = (pos[0], pos[1] + 30)
