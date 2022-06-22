@@ -22,7 +22,7 @@ init()
 
 WHITESPACE = " \t\n\r\v\f"
 DIGITS = "0123456789.-" # ! Put % back in here when ready to use percentages.
-SYMBOLS = [">", "=> ", "<", "<=", "=", "!", "", "", ",", "&", "|", "#", "/"]
+SYMBOLS = [">", "=> ", "<", "<=", "=", "!", "", "", ",", "&", "|", "#"]
 MATH_SYMBOLS = ["(", ")", "^", "*", "/", "\\", "+", "-"]
 CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_'"
 
@@ -93,6 +93,16 @@ class Lexer:
         self._advance()
         self.tokens = []
         while self.current_token != None:
+
+            if self.current_token == "-": # * Since - is a math symbol and a negative sign for numbers, we need to handle it differently.
+                if self.tokens[-1].type == TokenType.NUMBER:
+                    self.tokens.append(self._create_math_operator())
+                    self._advance()
+                else:
+                    self.tokens.append(self._create_digits())
+                continue
+
+
             if self.current_token in DIGITS:
                 self.tokens.append(self._create_digits())
             elif self.current_token in WHITESPACE:

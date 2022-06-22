@@ -1377,8 +1377,8 @@
 [Name] == Demonhead && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 100 && [Lifeleech] >= 8 && [Strength] >= 25      // Andariel's Visage
 [Name] == Demonhead && [Quality] == Unique && [Flag] == Ethereal # [Enhanceddefense] >= 100 && [Lifeleech] >= 8 && [Strength] >= 25      // Eth Andariel's Visage
 //[Name] == Demonhead && [Quality] == Unique && [Flag] == Ethereal # [Enhanceddefense] == 150 && [Lifeleech] == 10 && [Strength] == 30      // Eth Andariel's Visage Perfect
-[Name] == Corona && [Quality] == Unique && [Flag] != Ethereal # [Plusdefense] >= 100 && [Normaldamagereduction] >= 10 && [Allres] >= 20 && [Sockets] >= 1        // Crown Of Ages
-//[Name] == Corona && [Quality] == Unique && [Flag] != Ethereal # [Plusdefense] == 150 && [Normaldamagereduction] == 15 && [Allres] == 30 && [Sockets] == 2        // Crown Of Ages Perfect
+[Name] == Corona && [Quality] == Unique && [Flag] != Ethereal # [Plusdefense] >= 100 && [DamageResist] >= 10 && [Allres] >= 20 && [Sockets] >= 1        // Crown Of Ages
+//[Name] == Corona && [Quality] == Unique && [Flag] != Ethereal # [Plusdefense] == 150 && [DamageResist] == 15 && [Allres] == 30 && [Sockets] == 2        // Crown Of Ages Perfect
 //[Name] == Bonevisage && [Quality] == Unique && [Flag] != Ethereal # [Plusdefense] >= 250 && [Strength] >= 25 && [Sockets] >= 1       // Giant Skull
 //[Name] == Bonevisage && [Quality] == Unique && [Flag] != Ethereal # [Plusdefense] == 320 && [Strength] == 35 && [Sockets] == 2       // Giant Skull Perfect
 [Name] == Bonevisage && [Quality] == Unique && [Flag] == Ethereal # [Plusdefense] == 320 && [Strength] == 35 && [Sockets] == 2       // Eth Giant Skull Perfect
@@ -1424,9 +1424,9 @@
 [Name] == Wirefleece && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] == 180 && [Normaldamagereduction] == 20 && [Magicdamagereduction] == 20      // The Gladiator's Bane Perfect
 //[Name] == Wirefleece && [Quality] == Unique && [Flag] == Ethereal # [Enhanceddefense] == 180 && [Normaldamagereduction] == 20 && [Magicdamagereduction] == 20      // Eth The Gladiator's Bane Perfect
 //[Name] == Balrogskin && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 150 && [Normaldamagereduction] >= 10       // Arkaine's Valor
-//[Name] == Balrogskin && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] == 180 && [Normaldamagereduction] == 15       // Arkaine's Valor Perfect
+//[Name] == Balrogskin && [Quality] == Unique && [Flag] != Ethereal # [Itemallskills] == 2 && [Enhanceddefense] == 180 && [Normaldamagereduction] == 15       // Arkaine's Valor Perfect
 //[Name] == Krakenshell && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 170 && [Plusdefense] >= 100 && [Strength] >= 40       // Leviathan
-//[Name] == Krakenshell && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] == 200 && [Plusdefense] == 150 && [Strength] == 50       // Leviathan Perfect
+//[Name] == Krakenshell && [Quality] == Unique && [Flag] != Ethereal # [DamageResist] == 25 && [Enhanceddefense] == 200 && [Plusdefense] == 150 && [Strength] == 50       // Leviathan Perfect
 //[Name] == Sacredarmor && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 120 && [Strength] >= 20 && [Allres] >= 20       // Tyrael's Might
 [Name] == Sacredarmor && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] == 150 && [Strength] == 30 && [Allres] == 30 && [Itemdemondamagepercent] == 100       // Tyrael's Might Perfect
 
@@ -1445,7 +1445,7 @@
 //[Name] == Pavise && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] == 240 && [Allres] == 30      // Gerke's Sanctuary Perfect
 //[Name] == Grimshield && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 80 && [Manarecovery] >= 3      // Lidless Wall
 //[Name] == Grimshield && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] == 130 && [Manarecovery] == 5      // Lidless Wall Perfect
-[Name] == Monarch && [Quality] == Unique && [Flag] != Ethereal # [Normaldamagereduction] >= 35 // Stormshield
+[Name] == Monarch && [Quality] == Unique && [Flag] != Ethereal # [DamageResist] >= 35    // Stormshield
 //[Name] == Monarch && [Quality] == Unique && [Flag] != Ethereal # [Defense] == 148 // Stormshield Perfect
 //[Name] == Aegis && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 150 && [Lifeleech] >= 5 && [Coldresist] >= 40       // Medusa's Gaze
 //[Name] == Aegis && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] == 180 && [Lifeleech] == 9 && [Coldresist] == 80       // Medusa's Gaze Perfect
