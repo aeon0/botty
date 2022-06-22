@@ -130,6 +130,7 @@ def validate_correct_math_syntax(left_token=None, right_token=None):
         TokenType.KeywordNTIPAliasName,
         TokenType.KeywordNTIPAliasQuality,
         TokenType.KeywordNTIPAliasType,
+        TokenType.KeywordNTIPAliasStat,
 
         TokenType.ValueNTIPAliasClass,
         TokenType.ValueNTIPAliasClassID,
@@ -262,6 +263,7 @@ def validate_logical_operators(left=None, right=None):
         TokenType.KeywordNTIPAliasName,
         TokenType.KeywordNTIPAliasIDName,
         TokenType.KeywordNTIPAliasMaxQuantity,
+        TokenType.KeywordNTIPAliasStat
     ]
 
     if left:

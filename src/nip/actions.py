@@ -210,7 +210,7 @@ def _load_nip_expressions(filepath):
                 filepath = filepath.replace("\\", "/")
                 file = filepath.split('/config/')[1]
                 print(f"{file}:{e}:line {i + 1}") # TODO look at these errors
-                if False and traceback.print_exc(): # * Switch between True and False for debugging
+                if True and traceback.print_exc(): # * Switch between True and False for debugging
                     break
 
 
@@ -246,4 +246,5 @@ Logger.info(f"Loaded {num_files} nip files with {len(nip_expressions)} total exp
 nip_expressions = sorted(nip_expressions, key=lambda x: len(x.raw))
 
 if __name__ == "__main__":
-    print(transpile_nip_expression("[name] == ring && [quality] == rare"))
+    pass
+    # print(transpile_nip_expression("[name] == ring && [quality] == rare"))

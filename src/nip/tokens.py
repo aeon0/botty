@@ -27,12 +27,12 @@ class TokenType(Enum):
     KeywordNTIPAliasClass       = auto()
     KeywordNTIPAliasFlag        = auto()
     KeywordNTIPAliasIDName      = auto()
-    KeywordNTIPAliasMaxQuantity = auto()
     KeywordNTIPAliasName        = auto()
     KeywordNTIPAliasQuality     = auto()
     KeywordNTIPAliasType        = auto()
+    KeywordNTIPAliasStat        = auto()
+    KeywordNTIPAliasMaxQuantity = auto()
 
-    ValueNTIPAlias              = auto()
     ValueNTIPAliasClass         = auto()
     ValueNTIPAliasClassID       = auto()
     ValueNTIPAliasFlag          = auto()
@@ -49,8 +49,6 @@ class TokenType(Enum):
     NOTIFICATION                = auto()
 
     UNKNOWN                     = auto()
-
-
 
 @dataclass
 class Token:
