@@ -12,11 +12,13 @@ from nip.NTIPAliasStat import NTIPAliasStat
 from nip.NTIPAliasType import NTIPAliasType
 from nip.tokens import Token, TokenType
 
-from nip.BNipExceptions import BNipSyntaxError
-
 from enum import Enum
 import re
+from colorama import init, Fore
 from rapidfuzz.string_metric import levenshtein
+
+
+init()
 
 WHITESPACE = " \t\n\r\v\f"
 DIGITS = "0123456789.-" # ! Put % back in here when ready to use percentages.
@@ -24,10 +26,23 @@ SYMBOLS = [">", "=> ", "<", "<=", "=", "!", "", "", ",", "&", "|", "#"]
 MATH_SYMBOLS = ["(", ")", "^", "*", "/", "\\", "+", "-"]
 CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_'"
 
+
 class NipSections(Enum):
     PROP = 1
     STAT = 2
     MAXQUANTITY = 3
+
+
+class NipSyntaxError(Exception):
+    def __init__(self, ecode: str|int = 0, message: str = '', expression: str = ''):
+        self.message = message
+        self.type = type
+        self.ecode = ecode
+        self.expression = expression
+
+    def __str__(self):
+        return f"{Fore.RED}{self.ecode}:{Fore.CYAN}{self.message}:{Fore.YELLOW}{self.expression.strip()}{Fore.WHITE}"
+
 
 class Lexer:
     def __init__(self):
@@ -71,7 +86,7 @@ class Lexer:
             Returns:
                 A list of tokens
             Raises:
-                BNipSyntaxError: If there is a syntax error in the nip expression
+                NipSyntaxError: If there is a syntax error in the nip expression
         """
         self.current_section = starting_section
         self.text = list(nip_expression)
@@ -80,24 +95,14 @@ class Lexer:
         while self.current_token != None:
 
             if self.current_token == "-": # * Since - is a math symbol and a negative sign for numbers, we need to handle it differently.
-                NTIPAliasKeywords = [
-                    TokenType.KeywordNTIPAliasClass,
-                    TokenType.KeywordNTIPAliasFlag,
-                    TokenType.KeywordNTIPAliasIDName,
-                    TokenType.KeywordNTIPAliasMaxQuantity,
-                    TokenType.KeywordNTIPAliasName,
-                    TokenType.KeywordNTIPAliasQuality,
-                    TokenType.KeywordNTIPAliasStat,
-                    TokenType.KeywordNTIPAliasType,
-                ]
-                if self.tokens[-1].type in NTIPAliasKeywords + [TokenType.NUMBER]:
+                if self.tokens[-1].type == TokenType.NUMBER:
                     self.tokens.append(self._create_math_operator())
                     self._advance()
                 else:
                     self.tokens.append(self._create_digits())
                 continue
 
-                    
+
             if self.current_token in DIGITS:
                 self.tokens.append(self._create_digits())
             elif self.current_token in WHITESPACE:
@@ -115,7 +120,7 @@ class Lexer:
                 self.tokens.append(Token(TokenType.NOTIFICATION, '@'))
                 self._advance()
             else:
-                raise BNipSyntaxError("NIP_0x1", f"Unknown token: '{self.current_token}'", self._get_text())
+                raise NipSyntaxError("NIP_0x1", "Unknown token: " + self.current_token, self._get_text())
         return self.tokens
 
     def detokenize(self, tokens: list[Token]) -> str:
@@ -162,6 +167,7 @@ class Lexer:
             TokenType.KeywordNTIPAliasQuality: '[quality]',
             TokenType.KeywordNTIPAliasType: '[type]',
 
+            TokenType.ValueNTIPAlias: '{}',
             TokenType.ValueNTIPAliasClass: '{}',
             TokenType.ValueNTIPAliasClassID: '{}',
             TokenType.ValueNTIPAliasFlag: '{}',
@@ -217,13 +223,10 @@ class Lexer:
         found_whole_number = re.match(r"^-*[0-9]+", self._get_current_iteration_of_text_raw())
         if found_whole_number:
             return self._create_custom_digit_token(found_whole_number.group(0))
-        if self.current_token:
-            return Token(TokenType.UNKNOWN, self.current_token)
-        else:
-            return Token(TokenType.UNKNOWN, "")
+        return Token(TokenType.UNKNOWN, self.current_token)
 
 
-    def _create_math_operator(self) -> Token:
+    def _create_math_operator(self):
         symbol_map = {
             '+': TokenType.PLUS,
             '-': TokenType.MINUS,
@@ -237,11 +240,11 @@ class Lexer:
 
         symbol = self.current_token
 
-        if symbol:
-            if symbol in symbol_map:
-                return Token(symbol_map[symbol], symbol)
-            return Token(TokenType.UNKNOWN, symbol)
-        return Token(TokenType.UNKNOWN, "")
+        if symbol in symbol_map:
+            return Token(symbol_map[symbol], symbol)
+
+        return Token(TokenType.UNKNOWN, symbol)
+
     def _create_keyword_lookup(self) -> Token:
         """
             item data lookup i.e [name]
@@ -256,7 +259,7 @@ class Lexer:
                         lookup_key += char
                     self._advance()
             else:
-                raise BNipSyntaxError("NIP_0x2", "Missing ] after keyword", self._get_text())
+                raise NipSyntaxError("NIP_0x2", "Missing ] after keyword", self._get_text())
         if lookup_key:
             if self.current_section == NipSections.PROP:
                     match lookup_key:
@@ -288,18 +291,18 @@ class Lexer:
                     return Token(TokenType.UNKNOWN, lookup_key)
             elif self.current_section == NipSections.STAT:
                 if lookup_key in NTIPAliasStat:
-                    return Token(TokenType.KeywordNTIPAliasStat, NTIPAliasStat[lookup_key])
+                    return Token(TokenType.ValueNTIPAliasStat, NTIPAliasStat[lookup_key])
                 else:
                     # spell_check = ""
                     # for key in NTIPAliasStat:
                     #     if levenshtein(lookup_key, key) < 3:
                     #         spell_check = f", did you mean {key}?"
-                    # raise BNipSyntaxError("NIP_0x3", f"Unknown NTIPStat lookup: {lookup_key}{spell_check}", self._get_text())
+                    # raise NipSyntaxError("NIP_0x3", f"Unknown NTIPStat lookup: {lookup_key}{spell_check}", self._get_text())
                     return Token(TokenType.UNKNOWN, lookup_key)
             elif self.current_section == NipSections.MAXQUANTITY:
                 pass
 
-        return Token(TokenType.UNKNOWN, lookup_key)
+            return Token(TokenType.UNKNOWN, lookup_key)
 
     def _create_d2r_image_data_lookup(self) -> Token:
         lookup_key = ""
@@ -328,7 +331,7 @@ class Lexer:
                 elif self.tokens[-2].type == TokenType.KeywordNTIPAliasIDName:
                     return Token(TokenType.ValueNTIPAliasIDName, lookup_key)
             else:
-                raise BNipSyntaxError("NIP_0x20", f"Bad token sequence: {self._get_text()}", self._get_text())
+                raise NipSyntaxError("NIP_0x20", f"Bad token sequence: {self._get_text()}", self._get_text())
             return Token(TokenType.UNKNOWN, lookup_key)
         elif self.current_section == NipSections.STAT:
             if lookup_key in NTIPAliasStat:
@@ -368,4 +371,4 @@ class Lexer:
             pythonic_operator = found_text.replace("#", "and").replace("||", "or").replace("&&", "and")
             return Token(logical_operator_map[found_text], pythonic_operator)
         else:
-            raise BNipSyntaxError("NIP_0x5", f"Invalid logical operator: '{char}'", self._get_text())
+            raise NipSyntaxError("NIP_0x5", f"Invalid logical operator: '{char}'", self._get_text())
