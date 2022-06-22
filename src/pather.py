@@ -66,6 +66,7 @@ class Location:
     A1_AKARA = "a1_akara"
     A1_CHARSI = "a1_charsi"
     A1_TOWN_TP = "a1_town_tp"
+    A1_WP ="a1_wp"
     # Trav
     A3_TRAV_START = "a3_trav_start"
     A3_TRAV_CENTER_STAIRS = "a3_trav_center_stairs"
@@ -103,18 +104,18 @@ class Pather:
             #################
 
             # A1 Town Automap
-            700: {}, # not used
-            701: {'A1_TOWN_AUTOMAP_NORTH': (-20, 56),'A1_TOWN_AUTOMAP_SOUTH': (-20, 56),},
-            701: {'A1_TOWN_AUTOMAP_NORTH': (-36, 48),'A1_TOWN_AUTOMAP_SOUTH': (-36, 48),},
-            702: {'A1_TOWN_AUTOMAP_NORTH': (4, 24),'A1_TOWN_AUTOMAP_SOUTH': (4, 24),},
-            703: {'A1_TOWN_AUTOMAP_NORTH': (-42, 6),'A1_TOWN_AUTOMAP_SOUTH': (-42, 6),},
-            704: {'A1_TOWN_AUTOMAP_NORTH': (-92, -4),'A1_TOWN_AUTOMAP_SOUTH': (-92, -4),},
-            705: {'A1_TOWN_AUTOMAP_NORTH': (28, 68),'A1_TOWN_AUTOMAP_SOUTH': (28, 68),},
-            706: {'A1_TOWN_AUTOMAP_NORTH': (94, 88),'A1_TOWN_AUTOMAP_SOUTH': (94, 88),},
-            707: {'A1_TOWN_AUTOMAP_NORTH': (152, 96),'A1_TOWN_AUTOMAP_SOUTH': (154, 96),},
-            708: {'A1_TOWN_AUTOMAP_NORTH': (178, 88),'A1_TOWN_AUTOMAP_SOUTH': (178, 88),},
-            709: {}, # not used
-
+            #kashya_cain
+            700:{'A1_TOWN_AUTOMAP_AKARA': (-194, -6),'A1_TOWN_AUTOMAP_GHEED': (218, 24),'A1_TOWN_AUTOMAP_CHARSI': (52, 104),},
+            701: {'A1_TOWN_AUTOMAP_AKARA': (-215, -26),'A1_TOWN_AUTOMAP_GHEED': (196, 4),'A1_TOWN_AUTOMAP_CHARSI': (31, 84),},
+            702: {'A1_TOWN_AUTOMAP_AKARA': (-184, -42),'A1_TOWN_AUTOMAP_GHEED': (228, -12),'A1_TOWN_AUTOMAP_CHARSI': (62, 68),},
+            703: {'A1_TOWN_AUTOMAP_AKARA': (-236, -72),'A1_TOWN_AUTOMAP_GHEED': (176, -42),'A1_TOWN_AUTOMAP_CHARSI': (10, 38),},
+            704: {'A1_TOWN_AUTOMAP_AKARA': (-275, -68),'A1_TOWN_AUTOMAP_GHEED': (136, -38),'A1_TOWN_AUTOMAP_CHARSI': (-29, 42),},
+            705: {'A1_TOWN_AUTOMAP_AKARA': (-148, -2),'A1_TOWN_AUTOMAP_GHEED': (264, 28),'A1_TOWN_AUTOMAP_CHARSI': (98, 108),},
+            706: {'A1_TOWN_AUTOMAP_AKARA': (-83, 16),'A1_TOWN_AUTOMAP_GHEED': (328, 46),'A1_TOWN_AUTOMAP_CHARSI': (163, 126),},
+            707: {'A1_TOWN_AUTOMAP_AKARA': (-26, 25),'A1_TOWN_AUTOMAP_GHEED': (386, 56),'A1_TOWN_AUTOMAP_CHARSI': (220, 135),},
+            708: {'A1_TOWN_AUTOMAP_GHEED': (398, 36),'A1_TOWN_AUTOMAP_CHARSI': (232, 116),},#'['A1_TOWN_AUTOMAP_AKARA']': (0, 0) < blocked by player marker
+            709: {'A1_TOWN_AUTOMAP_WP': (-2,24)}, #WP
+            
             # A2 Town Automap
             400: {'A3_TOWN_AUTOMAP': (-518, 56), },
             401: {'A3_TOWN_AUTOMAP': (-462, -1),},
@@ -371,30 +372,35 @@ class Pather:
             (Location.A1_TOWN_START, Location.A1_AKARA): [705, 706, 707],
             (Location.A1_TOWN_START, Location.A1_WP_NORTH): [702],
             (Location.A1_TOWN_START, Location.A1_WP_SOUTH): [705],
+            (Location.A1_TOWN_START, Location.A1_WP): [709],
             #from the stash to where?
             (Location.A1_STASH, Location.A1_KASHYA_CAIN): [700],
             (Location.A1_STASH, Location.A1_CHARSI): [701, 702, 703, 704],
             (Location.A1_STASH, Location.A1_AKARA): [701, 705, 706, 707],
             (Location.A1_STASH, Location.A1_WP_NORTH): [701, 702],
             (Location.A1_STASH, Location.A1_WP_SOUTH): [701, 705],
+            (Location.A1_STASH, Location.A1_WP): [701, 709],
             #from the Kashya/Cain to where?
             (Location.A1_KASHYA_CAIN, Location.A1_STASH): [700],
             (Location.A1_KASHYA_CAIN, Location.A1_CHARSI): [700, 702, 703, 704],
             (Location.A1_KASHYA_CAIN, Location.A1_AKARA): [700, 705, 706, 707],
             (Location.A1_KASHYA_CAIN, Location.A1_WP_NORTH): [700, 702],
             (Location.A1_KASHYA_CAIN, Location.A1_WP_SOUTH): [700, 705],
+            (Location.A1_KASHYA_CAIN, Location.A1_WP): [700, 709],
             #from the Charsi to where?
             (Location.A1_CHARSI, Location.A1_STASH): [704, 703, 702, 700],
             (Location.A1_CHARSI, Location.A1_KASHYA_CAIN): [704, 703, 702, 700],
             (Location.A1_CHARSI, Location.A1_AKARA): [704, 703, 702, 705, 706, 707],
             (Location.A1_CHARSI, Location.A1_WP_NORTH): [704, 703, 702],
             (Location.A1_CHARSI, Location.A1_WP_SOUTH): [704, 703, 702, 705],
+            (Location.A1_CHARSI, Location.A1_WP): [704, 703, 702, 701, 709],
             #from the Akara to where?
             (Location.A1_AKARA, Location.A1_STASH): [707, 706, 705, 700],
             (Location.A1_AKARA, Location.A1_KASHYA_CAIN): [707, 706, 705, 700],
             (Location.A1_AKARA, Location.A1_CHARSI): [707, 706, 705, 702, 703, 704],
             (Location.A1_AKARA, Location.A1_WP_NORTH): [707, 706, 705, 702],
             (Location.A1_AKARA, Location.A1_WP_SOUTH): [707, 706, 706],
+            (Location.A1_AKARA, Location.A1_WP_SOUTH): [707, 706, 701, 709],
             (Location.A1_WP_SOUTH, Location.A1_WP_NORTH): [702],
             #from town portal
             (Location.A1_TOWN_TP, Location.A1_KASHYA_CAIN): [708, 700],
@@ -871,7 +877,7 @@ if __name__ == "__main__":
     char = Hammerdin(Config().hammerdin, pather, PickIt) #Config().char,
     char.discover_capabilities()
 
-    #display_all_nodes(pather, "DIA_AM") #use this function to explore the templates and nodes visibile in the area you are currently located ingame
+    #display_all_nodes(pather, "A1_TOWN_AUTOMAP") #use this function to explore the templates and nodes visibile in the area you are currently located ingame
        
     #nodes = [1500, 1501, 1502, 1503, 1504, 1505, 1506, 1507, 1508, 1509, 1510, 1511, 1512, 1513, 1514, 1515, 1516, 1517, 1516, 1514, 1518, 1519, 1520, 1521, 1522, 1523, 1524, 1610, 1525, 1526, 1527, 1528, 1529, 1627, 1620]
     #nodes2 = [1529, 1526, 1610, 1530, 1531, 1532, 1633,1638, 1632, 1635, 1630]
@@ -883,18 +889,18 @@ if __name__ == "__main__":
     #pather.traverse_nodes_automap(nodes3, char, toggle_map=True) 
     #pather.traverse_nodes_automap(nodes4, char, toggle_map=True) 
 
-    #nodes = 1627
+    nodes = 709
+    #pather.traverse_nodes([nodes], char) #use this function to test nodes
     #pather.traverse_nodes_automap([nodes], char, toggle_map=True) 
-
-    nodes = 1521
-    pather.traverse_nodes_automap([nodes], char, toggle_map=True) 
     
     if Config().general["use_automap_navigation"] == 1 :
         while True:
             keyboard.wait("f11")
             toggle_automap(True)
             #print("1" + str(nodes) + ": {")
+            print(str(nodes) + ": {")
             #print("xxx: {")
+            """
             show_automap_pos(["DIA_AM_WP"])
             show_automap_pos(["DIA_AM_CS"])
             show_automap_pos(["DIA_AM_E_B"])
@@ -912,9 +918,13 @@ if __name__ == "__main__":
             show_automap_pos(["DIA_AM_A1L"])
             show_automap_pos(["DIA_AM_B1S"])
             show_automap_pos(["DIA_AM_C1F"])
-            #show_automap_pos(["A1_TOWN_AUTOMAP_NORTH"])
-            #show_automap_pos(["A1_TOWN_AUTOMAP_SOUTH"])
+            """
+            show_automap_pos(["A1_TOWN_AUTOMAP_AKARA"])
+            show_automap_pos(["A1_TOWN_AUTOMAP_GHEED"])
+            show_automap_pos(["A1_TOWN_AUTOMAP_CHARSI"])
+            show_automap_pos(["A1_TOWN_AUTOMAP_WP"])
             print("    },")
             toggle_automap(False)
-            # nodes = nodes + 1        
+            nodes = nodes + 1        
     stop_detecting_window
+

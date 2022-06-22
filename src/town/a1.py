@@ -30,11 +30,14 @@ class A1(IAct):
         return False
 
     def open_wp(self, curr_loc: Location) -> bool:
+        #toggle_automap(True)
+        if not self._pather.traverse_nodes_automap((curr_loc, Location.A1_WP), self._char, force_move=True): return False
+        """
         if not self._pather.traverse_nodes_automap((curr_loc, Location.A1_WP_SOUTH), self._char, force_move=True): return False
         toggle_automap(False)
         wait(0.5, 0.7)
-        toggle_automap(True)
-        if not template_finder.search("A1_TOWN_AUTOMAP_SOUTH", grab()).valid:
+        #toggle_automap(True)
+        if not template_finder.search("A1_WP", grab()).valid:
             toggle_automap(False)
             curr_loc = Location.A1_WP_SOUTH
             if not self._pather.traverse_nodes_automap((curr_loc, Location.A1_WP_NORTH), self._char, force_move=True): return False
@@ -42,6 +45,8 @@ class A1(IAct):
             wait(0.5, 0.7)
         found_wp_func = lambda: is_visible(ScreenObjects.WaypointLabel)
         # decreased threshold because we sometimes walk "over" it during pathing
+        """
+        found_wp_func = lambda: is_visible(ScreenObjects.WaypointLabel)
         return self._char.select_by_template(["A1_WP"], found_wp_func, threshold=0.62)
 
     def wait_for_tp(self) -> Location | bool:
