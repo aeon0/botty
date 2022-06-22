@@ -232,10 +232,13 @@ class Lexer:
         found_whole_number = re.match(r"^-*[0-9]+", self._get_current_iteration_of_text_raw())
         if found_whole_number:
             return self._create_custom_digit_token(found_whole_number.group(0))
-        return Token(TokenType.UNKNOWN, self.current_token)
+        if self.current_token:
+            return Token(TokenType.UNKNOWN, self.current_token)
+        else:
+            return Token(TokenType.UNKNOWN, "")
 
 
-    def _create_math_operator(self):
+    def _create_math_operator(self) -> Token:
         symbol_map = {
             '+': TokenType.PLUS,
             '-': TokenType.MINUS,
@@ -249,11 +252,11 @@ class Lexer:
 
         symbol = self.current_token
 
-        if symbol in symbol_map:
-            return Token(symbol_map[symbol], symbol)
-
-        return Token(TokenType.UNKNOWN, symbol)
-
+        if symbol:
+            if symbol in symbol_map:
+                return Token(symbol_map[symbol], symbol)
+            return Token(TokenType.UNKNOWN, symbol)
+        return Token(TokenType.UNKNOWN, "")
     def _create_keyword_lookup(self) -> Token:
         """
             item data lookup i.e [name]
@@ -311,7 +314,7 @@ class Lexer:
             elif self.current_section == NipSections.MAXQUANTITY:
                 pass
 
-            return Token(TokenType.UNKNOWN, lookup_key)
+        return Token(TokenType.UNKNOWN, lookup_key)
 
     def _create_d2r_image_data_lookup(self) -> Token:
         lookup_key = ""
