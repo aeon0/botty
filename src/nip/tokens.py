@@ -53,7 +53,7 @@ class TokenType(Enum):
 @dataclass
 class Token:
     type: TokenType
-    value: str | int
+    value: str | int | float
 
     def __repr__(self) -> str:
         return f"{self.type} : {self.value}"
