@@ -113,11 +113,11 @@ class Diablo:
     # OPEN SEALS
     def _sealdance(self, seal_opentemplates: list[str], seal_closedtemplates: list[str], seal_layout: str, seal_node: str) -> bool:
         i = 0
-        while i < 4:
+        while i < 8:
             Logger.debug(seal_layout + ": trying to open (try #" + str(i+1)+")")
             self._char.select_by_template(seal_closedtemplates, threshold=0.5, timeout=0.1, telekinesis=True)
             wait(i*0.5)
-            found = template_finder.search_and_wait(seal_opentemplates, threshold=0.75, timeout=0.1).valid
+            found = template_finder.search_and_wait(seal_opentemplates, threshold=0.7, timeout=0.1).valid
             if found:
                 Logger.info(seal_layout +": is open - "+'\033[92m'+" open"+'\033[0m')
                 break
