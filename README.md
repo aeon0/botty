@@ -15,7 +15,9 @@ All settings will automatically be set when you execute `main.exe` and press the
 
 ### 2) Supported builds
 
-Check the documentation for **params.ini** further down. Different Sorc builds, Hammerdin, Barb, Trapsin are already implemented to different extents. It is quite straightforward to implement new classes. Give it a go if you like!
+Botty will auto-detect hotkeys for the character using **params.ini** saved_games_folder and key_file and use the **params.ini** type to "pilot" the character.
+
+The logic for "piloting", as well as supported **params.ini** types can be found in the [char folder](https://github.com/bottytools/botty/tree/master/src/char).
 
 ### 3) Start Location
 
