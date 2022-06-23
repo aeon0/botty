@@ -251,6 +251,7 @@ def _determine_hotkey_from_block(byte_block):
         '\x10': 'shift',
         '\x11': 'ctrl',
         '\x12': 'alt',
+        '\x14': 'capslock',
         '\x1b': 'escape',
         'Ý': ']',
         'Û': '[',
