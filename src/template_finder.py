@@ -217,14 +217,17 @@ def search_all(
     roi: list[float] = None,
     use_grayscale: bool = False,
     color_match: list = False,
-    first_match: list = False
+    best_match: list = False
 ) -> list[TemplateMatch]:
     """
-    Returns a list of all templates scoring above set threshold on the screen
+    Returns:
+        - a list of all TemplateMatches scoring above set threshold on the screen (when not best_match)
+        - the first TemplateMatch above set threshold on the screen (when best_match)
     :Other params are the same as for template_finder.search()
     :return: Returns a list of TemplateMatch objects
     """
-    templates = ref if first_match else _process_template_refs(ref)
+    templates = ref if type(ref) == list and len(ref) > 0 and isinstance(ref[0], Template) \
+        else _process_template_refs(ref)
     matches = []
     img = inp_img.copy()
     while True:
@@ -233,10 +236,10 @@ def search_all(
             match = _single_template_match(template, img, roi, color_match, use_grayscale)
             if match.score >= threshold:
                 matches.append(match)
-                if not first_match and (ind_found := match.score >= threshold):
+                if not best_match and (ind_found := match.score >= threshold):
                     img = mask_by_roi(img, match.region, "inverse")
                     any_found |= ind_found
-        if not any_found or (first_match and len(matches) > 0):
+        if not any_found or (best_match and len(matches) > 0):
             break
     return matches
 
