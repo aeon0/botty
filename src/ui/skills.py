@@ -302,7 +302,7 @@ def get_selected_skill(template_list: list[template_finder.Template], img: np.nd
             threshold=0.9,
             roi=roi,
             use_grayscale=True,
-            first_match=True)
+            best_match=True)
     if len(matches) > 0:
         skill = SkillName(matches[0].name.lower())
         if skill:
