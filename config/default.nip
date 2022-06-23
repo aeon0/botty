@@ -629,6 +629,7 @@
 //[Name] == Scarabhusk && [Quality] == Normal && [Flag] != Ethereal # [Sockets] == 0          // Plain
 //[Name] == Wyrmhide && [Quality] == Normal && [Flag] != Ethereal # [Sockets] == 0          // Plain
 //[Name] == Lightplate && [Quality] == Normal && [Flag] != Ethereal # [Sockets] == 0          // Plain
+//[Name] == Shadowplate && [Quality] == Normal && [Flag] != Ethereal # [Sockets] == 0          // Plain
 //[Name] == Sacredarmor && [Quality] == Normal && [Flag] != Ethereal # [Sockets] == 0          // Plain
 
 // <<<<<<<<< [ Non-Ethereal Socketed Armor ] >>>>>>>>>
@@ -640,6 +641,7 @@
 //[Name] == Scarabhusk && [Quality] == Normal && [Flag] != Ethereal # [Sockets] >= 3          // Socketed
 //[Name] == Wyrmhide && [Quality] == Normal && [Flag] != Ethereal # [Sockets] >= 3          // Socketed
 //[Name] == Lightplate && [Quality] == Normal && [Flag] != Ethereal # [Sockets] >= 3          // Socketed
+//[Name] == Shadowplate && [Quality] == Normal && [Flag] != Ethereal # [Sockets] >= 4          // Socketed
 //[Name] == Sacredarmor && [Quality] == Normal && [Flag] != Ethereal # [Sockets] >= 4          // Socketed
 
 // <<<<<<<<< [ Non-Ethereal Superior Non-Socketed Armor ] >>>>>>>>>
@@ -651,6 +653,7 @@
 [Name] == Scarabhusk && [Quality] == Superior && [Flag] != Ethereal # [Sockets] == 0 && [Enhanceddefense] >= 10            // Plain Superior
 [Name] == Wyrmhide && [Quality] == Superior && [Flag] != Ethereal # [Sockets] == 0 && [Enhanceddefense] >= 10           // Plain Superior
 //[Name] == Lightplate && [Quality] == Superior && [Flag] != Ethereal # [Sockets] == 0 && [Enhanceddefense] >= 10           // Plain Superior
+//[Name] == Shadowplate && [Quality] == Superior && [Flag] != Ethereal # [Sockets] == 0 && [Enhanceddefense] >= 10           // Plain Superior
 //[Name] == Sacredarmor && [Quality] == Superior && [Flag] != Ethereal # [Sockets] == 0 && [Enhanceddefense] >= 10           // Plain Superior
 
 // <<<<<<<<< [ Non-Ethereal Superior Socketed Armor ] >>>>>>>>>
@@ -662,6 +665,7 @@
 [Name] == Scarabhusk && [Quality] == Superior && [Flag] != Ethereal # [Enhanceddefense] >= 10 && [Sockets] >= 3          // Socketed Sup
 [Name] == Wyrmhide && [Quality] == Superior && [Flag] != Ethereal # [Enhanceddefense] >= 10 && [Sockets] >= 3          // Socketed Sup
 //[Name] == Lightplate && [Quality] == Superior && [Flag] != Ethereal # [Enhanceddefense] >= 10 && [Sockets] >= 3          // Socketed Sup
+//[Name] == Shadowplate && [Quality] == Superior && [Flag] != Ethereal # [Enhanceddefense] >= 10 && [Sockets] >= 4          // Socketed Sup
 //[Name] == Sacredarmor && [Quality] == Superior && [Flag] != Ethereal # [Enhanceddefense] >= 10 && [Sockets] >= 4          // Socketed Sup
 
 // <<<<<<<<< [ Ethereal Socketed/Non-Socketed Armor ] >>>>>>>>>
@@ -673,6 +677,7 @@
 [Name] == Scarabhusk && [Quality] == Normal && [Flag] == Ethereal # ([Sockets] == 0 || [Sockets] >= 3)           // Socketed Eth
 [Name] == Wyrmhide && [Quality] == Normal && [Flag] == Ethereal # ([Sockets] == 0 || [Sockets] >= 3)           // Socketed Eth
 //[Name] == Lightplate && [Quality] == Normal && [Flag] == Ethereal # ([Sockets] == 0 || [Sockets] >= 3)           // Socketed Eth
+[Name] == Shadowplate && [Quality] == Normal && [Flag] == Ethereal # ([Sockets] == 0 || [Sockets] == 4)           // Socketed Eth
 [Name] == Sacredarmor && [Quality] == Normal && [Flag] == Ethereal # ([Sockets] == 0 || [Sockets] == 4)           // Socketed Eth
 
 // <<<<<<<<< [ Ethereal Superior Socketed/Non-Socketed Armor ] >>>>>>>>>
@@ -684,6 +689,7 @@
 [Name] == Scarabhusk && [Quality] == Superior && [Flag] == Ethereal # ([Sockets] == 0 || [Sockets] >= 3) && [Enhanceddefense] >= 10          // Socketed Eth Sup
 [Name] == Wyrmhide && [Quality] == Superior && [Flag] == Ethereal # ([Sockets] == 0 || [Sockets] >= 3) && [Enhanceddefense] >= 10          // Socketed Eth Sup
 [Name] == Lightplate && [Quality] == Superior && [Flag] == Ethereal # ([Sockets] == 0 || [Sockets] == 3) && [Enhanceddefense] >= 10           // Socketed Eth Sup
+[Name] == Shadowplate && [Quality] == Superior && [Flag] == Ethereal # ([Sockets] == 0 || [Sockets] >= 4) && [Enhanceddefense] >= 10           // Socketed Eth Sup
 [Name] == Sacredarmor && [Quality] == Superior && [Flag] == Ethereal # ([Sockets] == 0 || [Sockets] >= 4) && [Enhanceddefense] >= 10           // Socketed Eth Sup
 
 //-----------------------------------------------
