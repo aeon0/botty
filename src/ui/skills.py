@@ -201,7 +201,36 @@ class SkillName(str, Enum):
     SummonDireWolf = 'summon_dire_wolf',
     SolarCreeper = 'solar_creeper',
     SpiritOfBarbs = 'spirit_of_barbs',
-    SummonGrizzly = 'summon_grizzly'
+    SummonGrizzly = 'summon_grizzly',
+    # Amazon
+    ## Javelin and Spear
+    Jab = 'jab',
+    PowerStrike = 'power_strike',
+    PoisonJavelin = 'poison_javelin',
+    Impale = 'impale',
+    LightningBolt = 'lightning_bolt',
+    ChargedStrike = 'charged_strike',
+    PlagueJavelin = 'plague_javelin',
+    Fend = 'fend',
+    LightningStrike = 'lightning_strike',
+    LightningFury = 'lightning_fury',
+    ## Passive and Magic
+    InnerSight = 'inner_sight',
+    SlowMissiles = 'slow_missiles',
+    Decoy = 'decoy',
+    Valkyrie = 'valkyrie',
+    ## Bow and Crossbow
+    MagicArrow = 'magic_arrow',
+    FireArrow = 'fire_arrow',
+    ColdArrow = 'cold_arrow',
+    MultipleShot = 'multiple_shot',
+    ExplodingArrow = 'exploding_arrow',
+    IceArrow = 'ice_arrow',
+    GuidedArrow = 'guided_arrow',
+    Strafe = 'strafe',
+    ImmolationArrow = 'immolation_arrow',
+    FreezingArrow = 'freezing_arrow'
+
 
 
 def is_left_skill_selected(template_list: list[str]) -> bool:
