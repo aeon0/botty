@@ -17,7 +17,7 @@ class FoHdin(Paladin):
         super().__init__(*args, **kwargs)
         self._pather.adapt_path((Location.A3_TRAV_START, Location.A3_TRAV_CENTER_STAIRS), [220, 221, 222, 903, 904, 905, 906])
 
-    def _move_and_attack(self, abs_move: tuple[int, int], atk_len: float):
+    def _move_and_attack(self, abs_move: tuple[int, int], atk_len: float, aura: str = "concentration"):
         pos_m = convert_abs_to_monitor(abs_move)
         self.pre_move()
         self.move(pos_m, force_move=True)
@@ -83,9 +83,9 @@ class FoHdin(Paladin):
                 # frame 6 can cast HB
                 # frame 15 FOH able to be cast again
                 # frame 16 FOH startup
-                self._key_press(self._get_hotkey("foh"), hold_time=3/25)
+                self._send_skill("foh", hold_time=3/25, cooldown=False)
                 time.sleep(2/25) #total of 5 frame startup
-                self._key_press(self._get_hotkey("holy_bolt"), hold_time=(8/25)) # now at frame 6
+                self._send_skill("holy_bolt", hold_time=8/25, cooldown=False) # now at frame 6
                 time.sleep(2/25) # now at frame 15
                 # if teleport frequency is set, teleport every teleport_frequency seconds
                 if (elapsed_time - time_of_last_tp) >= 3.5:
@@ -173,15 +173,8 @@ class FoHdin(Paladin):
     def kill_eldritch(self) -> bool:
         eld_pos_abs = convert_screen_to_abs(Config().path["eldritch_end"][0])
         atk_len_dur = float(Config().char["atk_len_eldritch"])
-
         self._generic_foh_attack_sequence(cast_pos_abs=eld_pos_abs, min_duration=atk_len_dur, max_duration=atk_len_dur*3, spray=70)
-
-        # move to end node
-        pos_m = convert_abs_to_monitor((70, -200))
-        self.pre_move()
-        self.move(pos_m, force_move=True)
         self._pather.traverse_nodes((Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END), self, timeout=0.1)
-
         # check mobs one more time before pickit
         self._generic_foh_attack_sequence(cast_pos_abs=eld_pos_abs, max_duration=atk_len_dur, spray=70)
         self._activate_cleanse_redemption()
