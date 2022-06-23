@@ -50,7 +50,7 @@ def _gold_pickup(item_data: dict, expression: NIPExpression) -> bool | None:
     res = None
     for i, token in enumerate(expression.tokens):
         if (
-            token.type == TokenType.ValueNTIPAliasStat
+            token.type == TokenType.KeywordNTIPAliasStat
             and token.value == str(NTIPAliasStat["gold"])
             and "Amount" in item_data
             and item_data["Amount"] is not None
@@ -96,7 +96,7 @@ def _handle_pick_eth_sockets(item_data: dict, expression: NIPExpression) -> tupl
 
     if len(tokens_by_section) > 1 and soc_keyword_present:
         for i, token in enumerate(tokens := tokens_by_section[NipSections.STAT]):
-            if token.type == TokenType.ValueNTIPAliasStat and token.value == str(NTIPAliasStat["sockets"]):
+            if token.type == TokenType.KeywordNTIPAliasStat and token.value == str(NTIPAliasStat["sockets"]):
                 desired_sockets = int(tokens[i + 2].value)
                 if (desired_sockets > 0 and not (desired_sockets == 1 and tokens[i + 1].value == "<")) or (desired_sockets == 0 and tokens[i + 1].value == ">"):
                     soc = 1
@@ -246,4 +246,4 @@ Logger.info(f"Loaded {num_files} nip files with {len(nip_expressions)} total exp
 nip_expressions = sorted(nip_expressions, key=lambda x: len(x.raw))
 
 if __name__ == "__main__":
-    print(transpile_nip_expression("[name] == ring && [quality] == rare"))
+    print(transpile_nip_expression("[name] == ring && [quality] == rare # [strength] == 5"))

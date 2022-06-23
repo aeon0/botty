@@ -27,12 +27,12 @@ class TokenType(Enum):
     KeywordNTIPAliasClass       = auto()
     KeywordNTIPAliasFlag        = auto()
     KeywordNTIPAliasIDName      = auto()
-    KeywordNTIPAliasMaxQuantity = auto()
     KeywordNTIPAliasName        = auto()
     KeywordNTIPAliasQuality     = auto()
     KeywordNTIPAliasType        = auto()
+    KeywordNTIPAliasStat        = auto()
+    KeywordNTIPAliasMaxQuantity = auto()
 
-    ValueNTIPAlias              = auto()
     ValueNTIPAliasClass         = auto()
     ValueNTIPAliasClassID       = auto()
     ValueNTIPAliasFlag          = auto()
@@ -50,12 +50,10 @@ class TokenType(Enum):
 
     UNKNOWN                     = auto()
 
-
-
 @dataclass
 class Token:
     type: TokenType
-    value: str | int
+    value: str | int | float
 
     def __repr__(self) -> str:
         return f"{self.type} : {self.value}"
