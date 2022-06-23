@@ -254,6 +254,7 @@ def _determine_hotkey_from_block(byte_block):
         '\x1b': 'escape',
         'Ý': ']',
         'Û': '[',
+        'À': '~'
     }
     if key in key_correction_map:
         key = key_correction_map[key]
