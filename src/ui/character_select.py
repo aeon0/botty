@@ -61,21 +61,26 @@ def save_char_template():
         x, y, w, h = Config().ui_roi["character_name_sub_roi"]
         x, y = x + match.region[0], y + match.region[1]
         char_template = cut_roi(img, [x, y, w, h])
-        ocr_result = ocr.image_to_text(
-            images = char_template,
-            model = "hover-eng_inconsolata_inv_th_fast",
-            psm = 6,
-            scale = 1.2,
-            crop_pad = False,
-            erode = False,
-            invert = False,
-            threshold = 0,
-            digits_only = False,
-            fix_regexps = False,
-            check_known_errors = False,
-            correct_words = False,
-        )[0]
-        Logger.debug(f"Saved character template: {ocr_result.text.splitlines()[0]}")
+        msg=""
+        try:
+            ocr_result = ocr.image_to_text(
+                images = cut_roi(img, [x, y, w, h]),
+                model = "hover-eng_inconsolata_inv_th_fast",
+                psm = 6,
+                scale = 1.2,
+                crop_pad = False,
+                erode = False,
+                invert = False,
+                threshold = 0,
+                digits_only = False,
+                fix_regexps = False,
+                check_known_errors = False,
+                correct_words = False,
+            )[0]
+            msg += f": {ocr_result.text.splitlines()[0]}"
+        except:
+            pass
+        Logger.debug(f"Saved character template{msg}")
     else:
         Logger.error("save_char_template: Could not save character template")
         return
