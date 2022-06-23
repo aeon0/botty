@@ -506,12 +506,16 @@ class Pather:
         return (rel_loc[0] + pos_abs[0], rel_loc[1] + pos_abs[1])
 
     @staticmethod
-    def _wait_for_screen_update(img_pre: np.ndarray, last_move: float, roi: list = None, max_wait: float = 1.5, score_threshold: float = 0.15):
+    def _wait_for_screen_update(img_pre: np.ndarray, roi: list = None, timeout: float = 1.5, score_threshold: float = 0.15) -> tuple[np.ndarray, float, bool]:
+        start = time.perf_counter()
+        success = True
         while (score := image_diff(img_pre, (img_post := grab(force_new=True)), roi = roi)) < score_threshold:
             wait(0.02)
-            if (time.time() - last_move) > max_wait:
+            if (time.perf_counter() - start) > timeout:
+                success=False
                 break
-        return img_post, score
+        # print(f"spent {time.perf_counter() - start} seconds waiting for window change")
+        return img_post, score, success
 
     def traverse_nodes_fixed(self, key: str | list[tuple[float, float]], char: IChar, require_teleport: bool = False) -> bool:
         # this will check if character can teleport. for charged or native teleporters, it'll select teleport
@@ -526,14 +530,12 @@ class Pather:
             path = key
         i = 0
         stuck_count = 0
-        last_move_time = time.time()
         while i < len(path):
             x_m, y_m = convert_screen_to_monitor(path[i])
             x_m += int(random.random() * 6 - 3)
             y_m += int(random.random() * 6 - 3)
-            t0 = grab(force_new=True)
-            last_move_time = char.move((x_m, y_m), use_tp=True, last_move_time=last_move_time)
-            _, score = self._wait_for_screen_update(t0, last_move=last_move_time, roi = self._roi_middle_half)
+            char.move((x_m, y_m), use_tp=True)
+            _, score, _ = self._wait_for_screen_update(img_pre = grab(force_new = True), roi = self._roi_middle_half)
             if score >= 0.15:
                 i += 1
             else:
@@ -617,15 +619,14 @@ class Pather:
 
         last_direction = None
         last_move = time.time()
-        first_move = True
+        img = None
         for _, node_idx in enumerate(path):
             continue_to_next_node = False
             did_force_move = False
             teleport_count = 0
             while not continue_to_next_node:
-                if first_move:
+                if img is None or not use_tp:
                     img = grab(force_new=True)
-                first_move = False
                 # Handle timeout
                 if (elapsed := time.time() - last_move) > timeout:
                     if is_visible(ScreenObjects.WaypointLabel, img):
@@ -678,10 +679,10 @@ class Pather:
                     else:
                         # Move the char
                         x_m, y_m = convert_abs_to_monitor(node_pos_abs)
-                        last_move = char.move((x_m, y_m), use_tp=use_tp, force_move=force_move, last_move_time=last_move)
+                        last_move = char.move((x_m, y_m), use_tp=use_tp, force_move=force_move)
                         last_direction = node_pos_abs
                         # wait until there's a change on screen
-                        img, _ = self._wait_for_screen_update(img, last_move=last_move, roi = self._roi_middle_half)
+                        img, _, _ = self._wait_for_screen_update(img, roi = self._roi_middle_half)
         return True
 
 

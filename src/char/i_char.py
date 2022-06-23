@@ -37,6 +37,8 @@ class IChar:
         self._base_class = ""
         self.capabilities = None
         self.main_weapon_equipped = None
+        self.last_cast_time = 0
+        self.last_cast_skill = ""
 
     """
     MOUSE AND KEYBOARD METHODS
@@ -194,17 +196,25 @@ class IChar:
             pos_abs = calculations.spray(pos_abs = pos_abs, r = spray)
         return get_closest_non_hud_pixel(pos_abs, "abs")
 
-    def _send_skill(self, skill_name: str, cooldown = True):
-        self._key_press(self._get_hotkey(skill_name))
+    def _wait_for_cooldown(self):
+        min_wait = get_cast_wait_time(class_base = self._base_class, skill_name = self.last_cast_skill)
+        # if there's still time remaining in cooldown, wait
+        while (time.time() - self.last_cast_time) < (min_wait):
+            wait(0.02)
+
+    def _send_skill(self, skill_name: str, cooldown: bool = True, hold_time: float | list | tuple | None = None):
         if cooldown:
-            wait(get_cast_wait_time(class_base = self._base_class, skill_name = skill_name))
+            self._wait_for_cooldown()
+        self._key_press(self._get_hotkey(skill_name), hold_time = hold_time)
+        self.last_cast_time = time.time()
+        self.last_cast_skill = skill_name
 
     def _activate_aura(self, skill_name: str, delay: float | list | tuple | None = (0.04, 0.08)):
         if not self._get_hotkey(skill_name):
             return False
         if self._active_aura != skill_name: # if aura is already active, don't activate it again
             self._active_aura = skill_name
-            self._key_press(self._get_hotkey(skill_name), hold_time = delay)
+            self._send_skill(skill_name = skill_name, cooldown = False, hold_time = delay)
         return True
 
     def _cast_simple(self, skill_name: str, duration: float | list | tuple | None = None, cooldown = True) -> bool:
@@ -218,7 +228,9 @@ class IChar:
                 self._send_skill(skill_name = skill_name, cooldown = cooldown)
             else:
                 self._stand_still(True)
-                self._key_press(self._get_hotkey(skill_name), hold_time = duration)
+                self._send_skill(skill_name = skill_name, cooldown = cooldown, hold_time = duration)
+                self.last_cast_time = time.time()
+                self.last_cast_skill = skill_name
                 self._stand_still(False)
         return True
 
@@ -285,6 +297,8 @@ class IChar:
                 if use_target_detect and (elapsed_time > min_duration) and not targets:
                     break
             self._key_hold(self._get_hotkey(skill_name), False)
+            self.last_cast_time = time.time()
+            self.last_cast_skill = skill_name
             self._stand_still(False)
         else:
             random_abs = self._randomize_position(pos_abs = cast_pos_abs, spray = spray, spread_deg = spread_deg)
@@ -349,7 +363,7 @@ class IChar:
     def _weapon_switch(self):
         if self.main_weapon_equipped is not None:
             self.main_weapon_equipped = not self.main_weapon_equipped
-        return self._key_press(self._get_hotkey("weapon_switch"))
+        return self._send_skill("weapon_switch", cooldown=False)
 
     def _switch_to_main_weapon(self):
         if self.main_weapon_equipped == False:
@@ -362,7 +376,7 @@ class IChar:
             wait(0.04, 0.08)
 
     def _force_move(self):
-        self._key_press(self._get_hotkey("force_move"))
+        self._send_skill("force_move", cooldown=False)
 
     def _stand_still(self, enable: bool):
         if enable and not self._standing_still:
@@ -382,18 +396,15 @@ class IChar:
         pass
 
     def _teleport_to_origin(self):
-        """
-        Teleports to the origin
-        """
         random_abs = self._randomize_position(pos_abs = (0,0), spray = 5)
         pos_m = convert_abs_to_monitor(random_abs)
-        self._teleport_to_position(pos_monitor = pos_m, cooldown = True)
+        self._teleport_to_position(pos_monitor = pos_m)
 
-    def _teleport_to_position(self, pos_monitor: tuple[float, float], cooldown: bool = True):
+    def _teleport_to_position(self, pos_monitor: tuple[float, float]):
         factor = Config().advanced_options["pathing_delay_factor"]
-        mouse.move(*pos_monitor, randomize=3, delay_factor=[(0+factor)/25, (2+factor)/25])
+        mouse.move(*pos_monitor, randomize=3, delay_factor=[(1+factor)/25, (2+factor)/25])
         wait(0.012, 0.02)
-        self._cast_teleport(cooldown = cooldown)
+        self._cast_teleport()
 
     def _walk_to_position(self, pos_monitor: tuple[float, float], force_move: bool = False):
         factor = Config().advanced_options["pathing_delay_factor"]
@@ -418,31 +429,19 @@ class IChar:
         pos_monitor: tuple[float, float],
         use_tp: bool = False,
         force_move: bool = False,
-        last_move_time: float = time.time(),
-        skip_tp_cooldown: bool = False,
     ) -> float:
         """
         Moves character to position.
         :param pos_monitor: Position to move to (screen coordinates)
         :param use_tp: Use teleport if able to
         :param force_move: Use force_move hotkey to move if not teleporting
-        :param last_move_time: Time of last move.
         :return: Time of move completed.
         """
-        factor = Config().advanced_options["pathing_delay_factor"]
         if use_tp and self.can_teleport(): # can_teleport() activates teleport hotkey if True
-            # 7 frames is the fastest that teleport can be casted with 200 fcr on sorc
-            self._teleport_to_position(pos_monitor, cooldown = False)
-            move_time = time.time()
-            if not skip_tp_cooldown:
-                min_wait = get_cast_wait_time(class_base = self._base_class, skill_name = "teleport") + factor/25
-                # if there's still time remaining in cooldown, wait
-                while time.time() - last_move_time < min_wait:
-                    wait(0.02)
+            self._teleport_to_position(pos_monitor)
         else:
-            move_time = time.time()
             self._walk_to_position(pos_monitor = pos_monitor, force_move=force_move)
-        return move_time
+        return time.time()
 
     def tp_town(self) -> bool:
         # will check if tp is available and select the skill
@@ -468,7 +467,7 @@ class IChar:
                 if skills.has_tps():
                     self._cast_town_portal()
                 else:
-                    pos_m = convert_abs_to_monitor(Config().ui_pos["screen_width"]/2, Config().ui_pos["screen_height"]-5)
+                    pos_m = convert_abs_to_monitor(0, Config().ui_pos["screen_height"]/2 - 5)
                     mouse.move(*pos_m)
                     if skills.has_tps():
                         self._cast_town_portal()
@@ -496,6 +495,7 @@ class IChar:
             self._switch_to_offhand_weapon()
         self._cast_battle_command()
         self._cast_battle_orders()
+        self._wait_for_cooldown()
         self._switch_to_main_weapon()
 
     def pre_buff(self):
