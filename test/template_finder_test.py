@@ -56,7 +56,6 @@ def test_search_all_multiple_templates():
     empty = cv2.imread("test/assets/stash_slot_empty.png")
     slash = cv2.imread("test/assets/stash_slot_slash.png")
     matches = template_finder.search_all([empty, slash], image, threshold=0.98)
-    print(matches)
     assert len(matches) == 4
 
 if __name__ == "__main__":
