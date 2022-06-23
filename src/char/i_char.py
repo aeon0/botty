@@ -40,11 +40,15 @@ class IChar:
         self._active_skill[mouse_click_type] = skill
 
     def _select_skill(self, skill: SkillName, mouse_click_type: str = "left", delay: float | list | tuple = None):
-        if skill not in hotkeys.right_skill_key_map:
+        if mouse_click_type == 'right' and skill not in hotkeys.right_skill_key_map:
+            Logger.warning(f"No hotkey for skill: {skill.value}")
+            return False
+        elif mouse_click_type == 'left' and (skill not in hotkeys.left_skill_key_map or skill.value != hotkeys.left_skill):
             Logger.warning(f"No hotkey for skill: {skill.value}")
             return False
         if self._active_skill[mouse_click_type] != skill.value:
-            keyboard.send(hotkeys.right_skill_key_map[skill])
+            keyboard.send(hotkeys.right_skill_key_map[skill]) if mouse_click_type == 'right' else\
+                keyboard.send(hotkeys.left_skill_key_map[skill])
         self._set_active_skill(mouse_click_type, skill.value)
         if delay:
             try:

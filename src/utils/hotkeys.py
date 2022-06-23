@@ -232,18 +232,18 @@ def _determine_hotkey_from_block(byte_block):
         'i': 'NumPad9',
         '-': 'Insert',
         ',': 'ScreenShot',
-        'p': 'F1',
-        'q': 'F2',
-        'r': 'F3',
-        's': 'F4',
-        't': 'F5',
-        'u': 'F6',
-        'v': 'F7',
-        'w': 'F8',
-        'x': 'F9',
-        'y': 'F10',
-        'z': 'F11',
-        '{': 'F12',
+        'p': 'f1',
+        'q': 'f2',
+        'r': 'f3',
+        's': 'f4',
+        't': 'f5',
+        'u': 'f6',
+        'v': 'f7',
+        'w': 'f8',
+        'x': 'f9',
+        'y': 'f10',
+        'z': 'f11',
+        '{': 'f12',
         '\x01': 'Mouse4',
         '\x02': 'Mouse5',
         '\x03': 'MouseWheelUp',
@@ -301,7 +301,7 @@ def _find_keymapping(
     for i in range(0, len(key_list)):
         key = key_list[i]
         keyboard.send(key)
-        wait(0.1)
+        wait(0.3)
         img = grab()
         left_skill = get_selected_skill(templates, img, Config().ui_roi["skill_left"])
         right_skill = get_selected_skill(templates, img, Config().ui_roi["skill_right"])
