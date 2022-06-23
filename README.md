@@ -82,6 +82,7 @@ order=run_pindle, run_eldritch
 | name                     | Name used in terminal and discord messages. |
 | randomize_runs           | Randomize the order of `[routes]` specified in `params.ini`. |
 | saved_games_folder       | [Optional] Defaults to `~\Saved Games\Diablo II Resurrected`. Used to store configuration settings for `f9` / auto settings. |
+| key_file                 | Key(o) file for the character (found in the Saved Games folder). 'key' is offline characters, 'keyo' is online characters. Some online characters may have a hash added to them: Paladin53672482.keyo. |
 | custom_loot_message_hook      | Add your message hook here (such as Discord channel) to get info about loot |
 | custom_message_hook      | Add your message hook here (such as Discord channel) to get info about botty status updates, discord webhook is default. |
 | discord_log_chicken      | Set to `1` to enable messages about bot chickens, `0` to disable. |
