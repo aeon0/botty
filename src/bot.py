@@ -273,7 +273,7 @@ class Bot:
             hotkeys.discover_hotkey_mappings(saved_games_folder, key_file)
             self._hotkeys_discovered = True
         self._char.discover_capabilities()
-        teleport_selected = skills.select_tp(hotkeys.right_skill_key_map[SkillName.Teleport])
+        teleport_selected = skills.select_tp(hotkeys.right_skill_key_map[SkillName.Teleport]) if SkillName.Teleport in hotkeys.right_skill_key_map else None
         if corpse_present and self._char.capabilities.can_teleport_with_charges and not teleport_selected:
             keybind = hotkeys.right_skill_key_map[SkillName.Teleport]
             Logger.info(f"Teleport keybind is lost upon death. Rebinding teleport to '{keybind}'")
