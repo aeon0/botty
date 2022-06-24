@@ -1,5 +1,6 @@
 import keyboard
 from ui import skills
+from ui.skills import SkillName
 from utils import hotkeys
 from utils.custom_mouse import mouse
 from char import IChar
@@ -23,8 +24,8 @@ class Basic_Ranged(IChar):
         self._do_pre_move = True
 
     def _left_attack(self, cast_pos_abs: tuple[float, float], delay: tuple[float, float] = (0.2, 0.3), spray: int = 10):
-        if self._skill_hotkeys["left_attack"]:
-            keyboard.send(self._skill_hotkeys["left_attack"])
+        if SkillName.Attack in hotkeys.left_skill_key_map:
+            keyboard.send(hotkeys.left_skill_key_map[SkillName.Attack])
         for _ in range(4):
             x = cast_pos_abs[0] + (random.random() * 2 * spray - spray)
             y = cast_pos_abs[1] + (random.random() * 2 * spray - spray)
@@ -33,9 +34,9 @@ class Basic_Ranged(IChar):
             mouse.click(button="left")
 
     def _right_attack(self, cast_pos_abs: tuple[float, float], delay: tuple[float, float] = (0.2, 0.3), spray: float = 10):
-        if not self._skill_hotkeys["right_attack"]:
+        if not SkillName.Attack in hotkeys.right_skill_key_map:
             raise ValueError("You did not set right attack hotkey!")
-        keyboard.send(self._skill_hotkeys["right_attack"])
+        keyboard.send(hotkeys.right_skill_key_map[SkillName.Attack])
         for _ in range(3):
             x = cast_pos_abs[0] + (random.random() * 2 * spray - spray)
             y = cast_pos_abs[1] + (random.random() * 2 * spray - spray)
