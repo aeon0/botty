@@ -15,8 +15,8 @@ from inventory import personal
 from item import consumables
 from item.consumables import ITEM_CONSUMABLES_MAP
 from logger import Logger
-from nip.actions import should_pickup
-from nip.NTIPAliasType import NTIPAliasType as NTIP_TYPES
+from bnip.actions import should_pickup
+from bnip.NTIPAliasType import NTIPAliasType as NTIP_TYPES
 from screen import grab, convert_abs_to_monitor
 from ui_manager import ScreenObjects, is_visible
 from utils.custom_mouse import mouse

@@ -6,8 +6,8 @@ import math
 import copy
 
 from d2r_image.data_models import GroundItem, GroundItemList, ItemQuality, ItemQualityKeyword, ItemText
-from d2r_image.nip_data import NTIP_ALIAS_QUALITY_MAP
-from d2r_image.nip_helpers import basename_to_types
+from d2r_image.bnip_data import NTIP_ALIAS_QUALITY_MAP
+from d2r_image.bnip_helpers import basename_to_types
 from d2r_image.ocr import image_to_text
 from d2r_image.processing_data import Runeword
 import d2r_image.d2data_lookup as d2data_lookup
@@ -585,7 +585,7 @@ def build_d2_items(items_by_quality: dict) -> GroundItemList | None:
                     BaseItem=item['base'],
                     Item=item['item'] if 'item' in item and item['item'] != item['base'] else None,
                     NTIPAliasType=basename_to_types(item['base']['DisplayName']),
-                    # NTIPAliasType=None if item['base']['DisplayName'] not in NIP_ITEM_TYPE_DATA else NIP_ITEM_TYPE_DATA[item['base']['DisplayName']],
+                    # NTIPAliasType=None if item['base']['DisplayName'] not in BNIP_ITEM_TYPE_DATA else BNIP_ITEM_TYPE_DATA[item['base']['DisplayName']],
                     NTIPAliasClassID=item['base']['NTIPAliasClassID'],
                     NTIPAliasClass=item['base']['NTIPAliasClass'] if 'NTIPAliasClass' in item['base'] else None,
                     NTIPAliasQuality=NTIP_ALIAS_QUALITY_MAP[item['quality'].value],
