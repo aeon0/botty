@@ -332,11 +332,13 @@ def remap_skill_hotkey(skill_asset, hotkey, skill_roi, expanded_skill_roi):
 def log_hotkeys():
     left_skill_keys = []
     for skill, key in left_skill_key_map.items():
-        left_skill_keys.append(f'{skill.value}: {key}')
+        if skill:
+            left_skill_keys.append(f'{skill.value}: {key}')
     left_skills = '\n\t'.join(left_skill_keys)
     right_skill_keys = []
     for skill, key in right_skill_key_map.items():
-        right_skill_keys.append(f'{skill.value}: {key}')
+        if skill:
+            right_skill_keys.append(f'{skill.value}: {key}')
     right_skills = '\n\t'.join(right_skill_keys)
     Logger.info(f"====== Hotkeys detected ======\n"+
         f"active_left_skill: {left_skill}\tactive_right_skill: {right_skill}\n"+

@@ -380,7 +380,7 @@ class Bot:
         # Check if we are out of tps or need repairing
         need_repair = is_visible(ScreenObjects.NeedRepair)
         need_routine_repair = False if not Config().char["runs_per_repair"] else self._game_stats._run_counter % Config().char["runs_per_repair"] == 0
-        teleport_selected = skills.select_tp(hotkeys.right_skill_key_map[SkillName.Teleport])
+        teleport_selected = skills.select_tp(hotkeys.right_skill_key_map[SkillName.Teleport]) if SkillName.Teleport in hotkeys.right_skill_key_map else None
         need_refill_teleport = self._char.capabilities.can_teleport_with_charges and (not teleport_selected or self._char.is_low_on_teleport_charges())
         if need_repair or need_routine_repair or need_refill_teleport or sell_items:
             if need_repair:
