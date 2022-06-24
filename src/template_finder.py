@@ -209,7 +209,7 @@ def search_all(
     """
     templates = _process_template_refs(ref)
     matches = []
-    img = inp_img
+    img = inp_img.copy()
     while True:
         any_found = False
         for template in templates:

@@ -581,7 +581,6 @@
 //[Type] == Bow && [Quality] == Rare # [Itemskillonattack] == 66 && ([Enhanceddamage] >= 400 || ([Enhanceddamage] >= 300 && [Itemtohitperlevel] >= 1))
 //[Type] == Bow && [Quality] == Rare # ([Enhanceddamage] >= 400 || ([Enhanceddamage] >= 250 && [Itemskillonattack] == 66) || ([Enhanceddamage] >= 300 && [Itemtohitperlevel] >= 1)) && [Sockets] >= 0
 //[Type] == Bow && [Quality] == Rare # [Ias] >= 20 && ([Enhanceddamage] >= 300 || ([Enhanceddamage] >= 225 && [Itemskillonattack] == 66) || ([Enhanceddamage] >= 250 && [Itemtohitperlevel] >= 1)) && [Sockets] >= 0
-//[Type] == Bow && [Quality] == Rare && [Flag] != Ethereal # [Enhanceddamage] >= 250 && [218] >= 4 && [224] >= 33
 
 //----------------------------------------
 //================= Belts ================
@@ -899,16 +898,22 @@
 //-----------------------------------------------
 
 // <<<<<<<<< [ Ethereal/Non-Ethereal Superior/Non-Superior Socketed/Non-Socketed Staves ] >>>>>>>>>
-([Name] == Gnarledstaff || [Name] == Battlestaff) && ([Quality] == Normal || [Quality] == Superior) # [Skillenergyshield] == 3 && [Skillchillingarmor] >= 1 && [Sockets] == 0		// Memory
-([Name] == Gnarledstaff || [Name] == Battlestaff) && ([Quality] == Normal || [Quality] == Superior) # [Skillenergyshield] == 3 && [Skillchillingarmor] >= 1 && [Sockets] >= 4		// Memory Socketed
-([Name] == Gnarledstaff || [Name] == Battlestaff) && ([Quality] == Normal || [Quality] == Superior) # [Skillthunderstorm] == 3 && ([Skillenergyshield] == 3 || [Skillchillingarmor] >= 1) && [Sockets] == 0		// Memory
-([Name] == Gnarledstaff || [Name] == Battlestaff) && ([Quality] == Normal || [Quality] == Superior) # [Skillthunderstorm] == 3 && ([Skillenergyshield] == 3 || [Skillchillingarmor] >= 1) && [Sockets] >= 4  	// Memory Socketed
-([Name] == Gnarledstaff || [Name] == Battlestaff) && ([Quality] == Normal || [Quality] == Superior) # [Skillenergyshield] == 3 && [Skillenchant] >= 1 && [Sockets] == 0		// Memory
-([Name] == Gnarledstaff || [Name] == Battlestaff) && ([Quality] == Normal || [Quality] == Superior) # [Skillenergyshield] == 3 && [Skillenchant] >= 1 && [Sockets] >= 4		// Memory Socketed
-([Name] == Gnarledstaff || [Name] == Battlestaff) && ([Quality] == Normal || [Quality] == Superior) # [Skillthunderstorm] == 3 && ([Skillenergyshield] == 3 || [Skillenchant] >= 1) && [Sockets] == 0		// Memory
-([Name] == Gnarledstaff || [Name] == Battlestaff) && ([Quality] == Normal || [Quality] == Superior) # [Skillthunderstorm] == 3 && ([Skillenergyshield] == 3 || [Skillenchant] >= 1) && [Sockets] >= 4		// Memory Socketed
-([Name] == Warstaff || [Name] == Runestaff || [Name] == Archonstaff) && ([Quality] == Normal || [Quality] == Superior) # [Skilllightningmastery] == 3 && ([Skilllightning] == 3 || [Skillchainlightning] == 3 || [Skillthunderstorm] == 3) && [Skillenergyshield] >= 1 && [Sockets] == 0	// Cta/Obsession
-([Name] == Warstaff || [Name] == Runestaff || [Name] == Archonstaff) && ([Quality] == Normal || [Quality] == Superior) # [Skilllightningmastery] == 3 && ([Skilllightning] == 3 || [Skillchainlightning] == 3 || [Skillthunderstorm] == 3) && [Skillenergyshield] >= 1 && [Sockets] >= 5	// Cta/Obsession Socketed
+([Name] == Gnarledstaff || [Name] == Battlestaff) && ([Quality] == Normal || [Quality] == Superior) # [Skillenergyshield] >= 3 && ([Skillchillingarmor] >= 2 || [skillthunderstorm] >= 2) && [Sockets] == 0		// Energy Shield Memory
+([Name] == Gnarledstaff || [Name] == Battlestaff) && ([Quality] == Normal || [Quality] == Superior) # [Skillenergyshield] >= 3 && ([Skillchillingarmor] >= 2 || [skillthunderstorm] >= 2) && [Sockets] >= 4		// Energy Shield Memory Socketed
+([Name] == Gnarledstaff || [Name] == Battlestaff) && ([Quality] == Normal || [Quality] == Superior) # [Skillthunderstorm] >= 3 && ([Skillenergyshield] >= 2 || [Skillchillingarmor] >= 2) && [Sockets] == 0		// Thunderstorm Memory
+([Name] == Gnarledstaff || [Name] == Battlestaff) && ([Quality] == Normal || [Quality] == Superior) # [Skillthunderstorm] >= 3 && ([Skillenergyshield] >= 2 || [Skillchillingarmor] >= 2) && [Sockets] >= 4  	// Thunderstorm Memory Socketed
+([Name] == Gnarledstaff || [Name] == Battlestaff) && ([Quality] == Normal || [Quality] == Superior) # [Skillchillingarmor] >= 3 && ([Skillthunderstorm] >= 2 || [Skillenergyshield] >= 2) && [Sockets] == 0		// Chilling armor Memory
+([Name] == Gnarledstaff || [Name] == Battlestaff) && ([Quality] == Normal || [Quality] == Superior) # [Skillchillingarmor] >= 3 && ([Skillthunderstorm] >= 2 || [Skillenergyshield] >= 2) && [Sockets] >= 4  	// Chilling armor Memory Socketed
+([Name] == Gnarledstaff || [Name] == Battlestaff) && ([Quality] == Normal || [Quality] == Superior) # [Skillenchant] >= 3 && [Skillwarmth] == 2 && [Sockets] == 0		// Enchant Memory
+([Name] == Gnarledstaff || [Name] == Battlestaff) && ([Quality] == Normal || [Quality] == Superior) # [Skillenchant] >= 3 && [Skillwarmth] == 2 && [Sockets] >= 4		// Enchant Memory Socketed
+([Name] == Warstaff || [Name] == Runestaff || [Name] == Archonstaff) && ([Quality] == Normal || [Quality] == Superior) # [Skillchillingarmor] >= 2 && [Skillthunderstorm] >= 2 && ([Skillenergyshield] >= 2 || [Skillenchant] >= 2) && [Sockets] == 0	// Cta
+([Name] == Warstaff || [Name] == Runestaff || [Name] == Archonstaff) && ([Quality] == Normal || [Quality] == Superior) # [Skillchillingarmor] >= 2 && [Skillthunderstorm] >= 2 && ([Skillenergyshield] >= 2 || [Skillenchant] >= 2) && [Sockets] == 5	// Cta Socketed
+([Name] == Warstaff || [Name] == Runestaff || [Name] == Archonstaff) && ([Quality] == Normal || [Quality] == Superior) # [Skillchainlightning] >= 3 && ([Skilllightningmastery] >= 2 || [Skilllightning] >= 2 || [Skillthunderstorm] >= 2) && [Skillenergyshield] >= 0 && [Sockets] == 0	// Lightning Obsession
+([Name] == Warstaff || [Name] == Runestaff || [Name] == Archonstaff) && ([Quality] == Normal || [Quality] == Superior) # [Skillchainlightning] >= 3 && ([Skilllightningmastery] >= 2 || [Skilllightning] >= 2 || [Skillthunderstorm] >= 2) && [Skillenergyshield] >= 0 && [Sockets] == 6	// Lightning Obsession socketed
+([Name] == Warstaff || [Name] == Runestaff || [Name] == Archonstaff) && ([Quality] == Normal || [Quality] == Superior) # [Skillblizzard] >= 3 && ([Skilliceblast] >= 2 || [Skillfrozenorb] >= 2 || [Skillwarmth] >= 2) && [Skillchillingarmor] >= 0 && [Sockets] >= 0	// Blizzard Obsession
+([Name] == Warstaff || [Name] == Runestaff || [Name] == Archonstaff) && ([Quality] == Normal || [Quality] == Superior) # [Skillblizzard] >= 3 && ([Skilliceblast] >= 2 || [Skillfrozenorb] >= 2 || [Skillwarmth] >= 2) && [Skillchillingarmor] >= 0 && [Sockets] >= 6	// Obsession Socketed
+([Name] == Warstaff || [Name] == Runestaff || [Name] == Archonstaff) && ([Quality] == Normal || [Quality] == Superior) # [Skillfireball] >= 3 && ([Skillmeteor] >= 2 || [Skillfirebolt] >= 2 || [Skillwarmth] >= 2) && [Skillchillingarmor] >= 0 && [Sockets] >= 0	// Fireball  Obsession
+([Name] == Warstaff || [Name] == Runestaff || [Name] == Archonstaff) && ([Quality] == Normal || [Quality] == Superior) # [Skillfireball] >= 3 && ([Skillmeteor] >= 2 || [Skillfirebolt] >= 2 || [Skillwarmth] >= 2) && [Skillchillingarmor] >= 0 && [Sockets] >= 6	// Fireball Obsession socketed
 
 //---------------------------------------------------------
 //================= Necromancer Wand Bases ================
@@ -1117,7 +1122,7 @@
 //================= Griswold's Legacy ================
 //----------------------------------------------------
 
-//[Name] == Ornateplate && [Quality] == Set #    // Griswold's Heart
+//[Name] == Ornateplate && [Quality] == Set    // Griswold's Heart
 //[Name] == Corona && [Quality] == Set # [Itemmagicbonus] >= 20    // Griswold's Valor
 //[Name] == Corona && [Quality] == Set # [Itemmagicbonus] >= 30 && [Enhanceddefense] >= 75    // Griswold's Valor Perfect
 //[Name] == Caduceus && [Quality] == Set # [Sockets] >= 3 && [Enhanceddamage] >= 200  	// Griswold's Redemption
@@ -1441,7 +1446,7 @@
 
 //[Name] == Buckler && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 30      // Pelta Lunata
 //[Name] == Buckler && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] == 40      // Pelta Lunata Perfect
-///[Name] == Towershield && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 80       // Bverrit Keep
+//[Name] == Towershield && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 80       // Bverrit Keep
 //[Name] == Towershield && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] == 120       // Bverrit Keep Perfect
 //[Name] == Roundshield && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] >= 180        // Moser's Blessed Circle
 //[Name] == Roundshield && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddefense] == 220        // Moser's Blessed Circle Perfect
@@ -1473,7 +1478,7 @@
 //[Idname] == Bloodletter     // Bloodletter
 //[Idname] == Coldsteeleye        // Coldsteel Eye
 //[Idname] == Hexfire     // Hexfire
-//[Idname] == Bladeofalibaba && [Dexterity] >= 5     // Blade Of Ali Baba
+//[Idname] == Bladeofalibaba # [Dexterity] >= 5     // Blade Of Ali Baba
 [Idname] == Bladeofalibaba # [Dexterity] >= 15      // Blade Of Ali Baba Perfect Dex
 //[Idname] == Ginthersrift        // Ginther's Rift
 //[Name] == Battlesword && [Quality] == Unique && [Flag] != Ethereal # [Enhanceddamage] >= 150        // Headstriker
