@@ -74,10 +74,7 @@ def is_main_weapon_active(img: np.ndarray = None) -> bool | None:
     # inventory must be open
     img = grab() if img is None else img
     if (res := detect_screen_object(ScreenObjects.ActiveWeaponBound, img)).valid:
-        state = "main" in res.name.lower()
-        equipped = "Main" if state else "Offhand"
-        Logger.debug(f"{equipped} weapon is active")
-        return state
+        return "main" in res.name.lower()
     if not is_visible(ScreenObjects.InventoryBackground):
         Logger.warning("is_main_weapon_active(): Failed to detect active weapon, is inventory not open?")
     else:

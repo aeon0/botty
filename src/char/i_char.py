@@ -37,8 +37,9 @@ class IChar:
         self._base_class = ""
         self.capabilities = None
         self.main_weapon_equipped = None
-        self.last_cast_time = 0
-        self.last_cast_skill = ""
+        self._last_cast_time = 0
+        self._last_cast_skill = ""
+        self._current_fcr = Config().char["faster_cast_rate"]
 
     """
     MOUSE AND KEYBOARD METHODS
@@ -58,13 +59,13 @@ class IChar:
 
     def _key_press(self, key: str, hold_time: float | list | tuple | None = None):
         if not hold_time:
-            keyboard.send(key)
-        else:
-            self._key_held[key] = True
-            keyboard.send(key, do_release=False)
-            self._handle_delay(hold_time)
-            keyboard.send(key, do_press=False)
-            self._key_held[key] = False
+            hold_time = 0.04
+        self._key_held[key] = True
+        keyboard.send(key, do_release=False)
+        self._handle_delay(hold_time)
+        keyboard.send(key, do_press=False)
+        Logger.debug(f"Pressed key: {key} for {hold_time}s at {round(time.time(),3)}")
+        self._key_held[key] = False
 
     def _key_hold(self, key: str, enable: bool = True):
         if enable and not self._key_held[key]:
@@ -197,24 +198,25 @@ class IChar:
         return get_closest_non_hud_pixel(pos_abs, "abs")
 
     def _wait_for_cooldown(self):
-        min_wait = get_cast_wait_time(class_base = self._base_class, skill_name = self.last_cast_skill)
+        min_wait = get_cast_wait_time(class_base = self._base_class, skill_name = self._last_cast_skill)
         # if there's still time remaining in cooldown, wait
-        while (time.time() - self.last_cast_time) < (min_wait):
+        while (time.time() - self._last_cast_time) < (min_wait):
             wait(0.02)
 
     def _send_skill(self, skill_name: str, cooldown: bool = True, hold_time: float | list | tuple | None = None):
         if cooldown:
             self._wait_for_cooldown()
         self._key_press(self._get_hotkey(skill_name), hold_time = hold_time)
-        self.last_cast_time = time.time()
-        self.last_cast_skill = skill_name
+        self._last_cast_time = time.time()
+        self._last_cast_skill = skill_name
 
     def _activate_aura(self, skill_name: str, delay: float | list | tuple | None = (0.04, 0.08)):
         if not self._get_hotkey(skill_name):
             return False
         if self._active_aura != skill_name: # if aura is already active, don't activate it again
             self._active_aura = skill_name
-            self._send_skill(skill_name = skill_name, cooldown = False, hold_time = delay)
+            Logger.debug(f"Switch to aura {skill_name}")
+            self._send_skill(skill_name = skill_name, cooldown = True, hold_time = delay)
         return True
 
     def _cast_simple(self, skill_name: str, duration: float | list | tuple | None = None, cooldown = True) -> bool:
@@ -229,8 +231,6 @@ class IChar:
             else:
                 self._stand_still(True)
                 self._send_skill(skill_name = skill_name, cooldown = cooldown, hold_time = duration)
-                self.last_cast_time = time.time()
-                self.last_cast_skill = skill_name
                 self._stand_still(False)
         return True
 
@@ -297,8 +297,8 @@ class IChar:
                 if use_target_detect and (elapsed_time > min_duration) and not targets:
                     break
             self._key_hold(self._get_hotkey(skill_name), False)
-            self.last_cast_time = time.time()
-            self.last_cast_skill = skill_name
+            self._last_cast_time = time.time()
+            self._last_cast_skill = skill_name
             self._stand_still(False)
         else:
             random_abs = self._randomize_position(pos_abs = cast_pos_abs, spray = spray, spread_deg = spread_deg)
@@ -363,15 +363,19 @@ class IChar:
     def _weapon_switch(self):
         if self.main_weapon_equipped is not None:
             self.main_weapon_equipped = not self.main_weapon_equipped
-        return self._send_skill("weapon_switch", cooldown=False)
+            equipped = "main" if self.main_weapon_equipped else "offhand"
+            Logger.debug(f"Switch to {equipped} weapon")
+        return self._send_skill("weapon_switch", cooldown=True)
 
     def _switch_to_main_weapon(self):
         if self.main_weapon_equipped == False:
+            self._current_fcr = Config().char["faster_cast_rate"]
             self._weapon_switch()
             wait(0.04, 0.08)
 
     def _switch_to_offhand_weapon(self):
         if self.main_weapon_equipped:
+            self._current_fcr = Config().char["facter_cast_rate_offhand"]
             self._weapon_switch()
             wait(0.04, 0.08)
 
