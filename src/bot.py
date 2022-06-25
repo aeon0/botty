@@ -22,7 +22,7 @@ from char import IChar
 from item.pickit import PickIt
 from item import consumables
 from pather import Pather, Location
-from char.sorceress import LightSorc, BlizzSorc, NovaSorc,HydraSorc
+from char.sorceress import LightSorc, BlizzSorc, NovaSorc, HydraSorc, HydraOrbSorc
 from char.trapsin import Trapsin
 from char.paladin.hammerdin import Hammerdin
 from char.paladin import FoHdin
@@ -59,6 +59,8 @@ class Bot:
                 self._char: IChar = NovaSorc(Config().nova_sorc, self._pather)
             case "hydra_sorc":
                 self._char: IChar = HydraSorc(Config().hydra_sorc, self._pather)
+            case "hydra_orb_sorc":
+                self._char: IChar = HydraOrbSorc(Config().hydra_orb_sorc, self._pather, self._pickit)
             case "hammerdin" | "paladin":
                 self._char: IChar = Hammerdin(Config().hammerdin, self._pather, self._pickit) #pickit added for diablo
             case "fohdin":

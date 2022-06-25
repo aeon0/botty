@@ -32,6 +32,7 @@ class Config:
     light_sorc = {}
     nova_sorc = {}
     hydra_sorc = {}
+    hydra_orb_sorc = {}
     hammerdin = {}
     fohdin = {}
     trapsin = {}
@@ -235,6 +236,11 @@ class Config:
         if "hydra_sorc" in self.configs["custom"]["parser"]:
             self.hydra_sorc.update(dict(self.configs["custom"]["parser"]["hydra_sorc"]))
         self.hydra_sorc.update(sorc_base_cfg)
+        # hydra orb sorc
+        self.hydra_orb_sorc = dict(self.configs["config"]["parser"]["hydra_orb_sorc"])
+        if "hydra_orb_sorc" in self.configs["custom"]["parser"]:
+            self.hydra_orb_sorc.update(dict(self.configs["custom"]["parser"]["hydra_orb_sorc"]))
+        self.hydra_orb_sorc.update(sorc_base_cfg)
 
         # Paladin base config
         paladin_base_cfg = dict(self.configs["config"]["parser"]["paladin"])
