@@ -30,8 +30,7 @@ def kill_game():
 def restart_game(d2r_path, launch_options):
     kill_game()
     wait(1.0, 1.5)
-    # This method should function similar to opening the exe via double-click
-    os.startfile(f"{d2r_path}/D2R.exe", arguments = launch_options)
+    start_d2r(d2r_path, launch_options)
     wait(4.4, 5.5)
     for _ in range(20):
         keyboard.send("space")
@@ -50,6 +49,10 @@ def restart_game(d2r_path, launch_options):
         if attempts >= 5:
             return False
     return True
+
+def start_d2r(d2r_path, launch_options):
+    # This method should function similar to opening the exe via double-click
+    os.startfile(f"{d2r_path}/D2R.exe", arguments = launch_options)
 
 # For testing
 if __name__ == "__main__":

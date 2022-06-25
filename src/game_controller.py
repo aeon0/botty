@@ -1,6 +1,10 @@
 import threading
 import time
 import cv2
+import keyboard
+import ui
+from ui.character_select import select_offline_tab, select_online_tab
+from ui.main_menu import MAIN_MENU_MARKERS
 
 from utils.auto_settings import check_settings
 from bot import Bot
@@ -12,8 +16,9 @@ from health_manager import HealthManager
 from logger import Logger
 from messages import Messenger
 from screen import grab, get_offset_state
-from utils.restart import restart_game, safe_exit
-from utils.misc import kill_thread, set_d2r_always_on_top, restore_d2r_window_visibility
+from utils.restart import restart_game, safe_exit, start_d2r
+from utils.misc import get_d2r_window, kill_thread, set_d2r_always_on_top, restore_d2r_window_visibility, wait
+import template_finder
 
 
 class GameController:
@@ -103,7 +108,21 @@ class GameController:
         if len(diff) > 0:
             Logger.warning("Your D2R settings differ from the requiered ones. Please use Auto Settings to adjust them. The differences are:")
             Logger.warning(f"{diff}")
-        set_d2r_always_on_top()
+        if not get_d2r_window():
+            start_d2r(Config().general["d2r_path"], Config().advanced_options["launch_options"])
+            while not get_d2r_window():
+                wait(0.3)
+            set_d2r_always_on_top()
+            while not template_finder.search(MAIN_MENU_MARKERS, grab(), best_match=True).valid:
+                keyboard.send("space")
+                wait(2.0, 4.0)
+        else:
+            set_d2r_always_on_top()
+        wait(1.5)
+        if Config().general['key_file'] and Config().general['key_file'].endswith('o'):
+            select_online_tab()
+        else:
+            select_offline_tab()
         self.setup_screen()
         self.start_health_manager_thread()
         self.start_death_manager_thread()

@@ -36,6 +36,27 @@ def select_online_tab(region, center) -> bool:
     Logger.error(f"select_online_tab: unable to select {online_str} tab after {attempts} attempts")
     return False
 
+def select_offline_tab() -> bool:
+    if detect_screen_object(ScreenObjects.OfflineStatus).valid:
+        return True
+    if (match := detect_screen_object(ScreenObjects.OnlineStatus)).valid:
+        btn_width = match.center[0] - match.region[0]
+        Logger.debug(f"Selecting offline tab")
+        x = match.region[0] + (3 * btn_width / 2)
+        pos = convert_screen_to_monitor((x, match.center[1]))
+        # move cursor to appropriate tab and select
+        mouse.move(*pos)
+        wait(0.3, 0.5)
+        attempts = 0
+        while attempts <= 4:
+            attempts += 1
+            mouse.click(button="left")
+            if detect_screen_object(ScreenObjects.OfflineStatus, grab()).valid:
+                return True
+            wait(1.5)
+    Logger.error(f"select_offline_tab: unable to select Offline tab after {attempts} attempts")
+    return False
+
 def get_saved_char_template() -> np.ndarray | None:
     return None if not has_char_template_saved() else last_char_template
 
