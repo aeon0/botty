@@ -96,6 +96,7 @@ class Config:
         self.char["stash_gold"] = True
 
     def load_data(self):
+        from utils.auto_settings import find_d2r_folder
         Logger.debug("Loading config")
         self.configs = {
             "config": {"parser": configparser.ConfigParser(), "vars": {}},
@@ -126,7 +127,7 @@ class Config:
 
 
         self.general = {
-            "saved_games_folder": self._select_val("general", "saved_games_folder"),
+            "saved_games_folder": _default_iff(self._select_val("general", "saved_games_folder"), "", find_d2r_folder()),
             "key_file": self._select_val("general", "key_file"),
             "name": _default_iff(self._select_val("general", "name"), "", "botty"),
             "max_game_length_s": float(self._select_val("general", "max_game_length_s")),
