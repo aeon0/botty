@@ -194,6 +194,12 @@ order=run_pindle, run_eldritch
 | alt_attack     | Required Hotkey for any alternate attacking skill. Fireball,Lightning,Frozen Orb, etc. (must be bound to right skill)                             |
 | hydra         | Required Hotkey for Hydra (must be bound to right skill)                      |
 
+| [hydra_orb_sorc]  | Descriptions                                                                  |
+| ------------- | ----------------------------------------------------------------------------- |
+| fireball     | Required Hotkey for Fireball (must be bound to right skill)                             |
+| frozen_orb     | Required Hotkey for Frozen Orb (must be bound to right skill)                             |
+| hydra         | Required Hotkey for Hydra (must be bound to right skill)                      |
+
 | [paladin]    | Descriptions                                                                        |
 | -------------- | ----------------------------------------------------------------------------------- |
 | cleansing      | Optional Hotkey for Cleansing                                                       |
