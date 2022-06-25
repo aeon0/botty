@@ -15,21 +15,17 @@ def get_d2r_folder() -> str:
     :return: the D2r folder full path
     """
     d2_saved_games = Config().general["saved_games_folder"] if Config().general["saved_games_folder"] else find_d2r_folder()
-    validate_saved_games_folder(d2_saved_games)
-    return d2_saved_games
-
-def find_d2r_folder() -> str:
-    # assign default value for en-us Windows users
-    d2_saved_games = f"C:\\Users\\{os.getlogin()}\\Saved Games\\Diablo II Resurrected"
-    validate_saved_games_folder(d2_saved_games)
-    return d2_saved_games
-
-def validate_saved_games_folder(d2_saved_games):
     if not os.path.exists(d2_saved_games):
         print(f"Your D2R Saved Games folder could not be found here: {d2_saved_games}, input the correct location:")
         d2_saved_games = input()
     if not os.path.exists(d2_saved_games):
         assert(f"Could not find D2R Saved Games at {d2_saved_games}")
+    return d2_saved_games
+
+def find_d2r_folder() -> str:
+    # assign default value for en-us Windows users
+    d2_saved_games = f"C:\\Users\\{os.getlogin()}\\Saved Games\\Diablo II Resurrected"
+    return d2_saved_games
 
 def backup_settings():
     d2_saved_games = get_d2r_folder()
