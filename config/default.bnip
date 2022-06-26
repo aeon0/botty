@@ -368,7 +368,7 @@
 //([Name] == Crownshield || [Name] == Royalshield || [Name] == Sacredtarge || [Name] == Sacredrondache) && [Quality] == Magic # [Sockets] == 4 && [Itemfasterblockrate] == 30  // Paladin Jmoe
 //([Name] == Crownshield || [Name] == Royalshield || [Name] == Sacredtarge || [Name] == Sacredrondache) && [Quality] == Magic # [Sockets] == 4 && [Maxhp] >= 60 // Paladin Jmoc
 //([Name] == Crownshield || [Name] == Royalshield || [Name] == Sacredtarge || [Name] == Sacredrondache) && [Quality] == Magic # [Sockets] == 4 && [Itemreqpercent] == -30 // Paladin Jmos
-//[Type] == Voodooheads && [Quality] == Magic && [Class] >= Exceptional && [Flag] != Ethereal # ([Necromancerskills] >= 1 || [Poisonandboneskilltab] >= 1) && [Fbr] >= 30 && [Skillbonespear] == 1
+//[Type] == Voodooheads && [Quality] == Magic && [Class] >= Exceptional && [Flag] != Ethereal # ([Necromancerskills] >= 1 || [Poisonandboneskilltab] >= 1) && [Fbr] >= 30 && [Skillbonespear] >= 1
 
 //------------------------------------------
 //================= Weapons ================
