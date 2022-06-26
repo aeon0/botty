@@ -220,7 +220,7 @@ bnip_path = f"{os.getcwd()}/config/bnip"
 glob_bnip_path = os.path.join(bnip_path, '**', '*.bnip')
 glob_nip_path = os.path.join(bnip_path, '**', '*.nip')
 
-bnip_file_paths = glob.glob(glob_bnip_path + glob_nip_path, recursive=True)
+bnip_file_paths = glob.glob(glob_bnip_path, recursive=True) + glob.glob(glob_nip_path, recursive=True)
 
 # * Remove all directories or files that are in the .nipignore file from bnip_file_paths. (accepts glob patterns)
 if os.path.isfile(os.path.join(bnip_path, '.nipignore')):
