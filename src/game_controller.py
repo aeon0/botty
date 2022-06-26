@@ -122,8 +122,8 @@ class GameController:
             set_d2r_always_on_top()
         wait(1.5)
         character_select.online_character = True if Config().general['key_file'] and Config().general['key_file'].endswith('o') else False
-        match = detect_screen_object(ScreenObjects.OnlineStatus)
-        select_online_tab(match.region, match.center)
+        if (match := detect_screen_object(ScreenObjects.OnlineStatus)).valid:
+            select_online_tab(match.region, match.center)
         self.setup_screen()
         self.start_health_manager_thread()
         self.start_death_manager_thread()
