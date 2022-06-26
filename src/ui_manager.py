@@ -156,7 +156,7 @@ class ScreenObjects:
         threshold=0.83
     )
     TownPortalSkill=ScreenObject(
-        ref=["TP_ACTIVE", "TP_INACTIVE"],
+        ref=["TOWN_PORTAL"],
         roi="skill_right",
         best_match=True,
         threshold=0.79
