@@ -238,10 +238,7 @@ class Bot:
             character_select.save_char_online_status()
             character_select.save_char_template()
         else:
-            characted_selected = detect_screen_object(ScreenObjects.OfflineStatus) \
-                if Config().general["key_file"].lower().endswith('o') else \
-                    detect_screen_object(ScreenObjects.OnlineStatus)
-            if not characted_selected:
+            if not character_select.select_char():
                 if Config().general["info_screenshots"]:
                     timestamp = time.strftime("%Y%m%d_%H%M%S")
                     cv2.imwrite("./log/screenshots/info/info_failed_character_select_" + timestamp + ".png", grab())
