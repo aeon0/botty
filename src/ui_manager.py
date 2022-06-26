@@ -95,15 +95,10 @@ class ScreenObjects:
         use_grayscale=True
     )
     OnlineStatus=ScreenObject(
-        ref=["CHARACTER_STATE_ONLINE"],
+        ref=["CHARACTER_STATE_ONLINE", "CHARACTER_STATE_OFFLINE"],
         roi="character_online_status",
         best_match=True,
     )
-    OfflineStatus=ScreenObject(
-        ref=["CHARACTER_STATE_OFFLINE"],
-         roi="character_online_status",
-         best_match=True,
-     )
     SelectedCharacter=ScreenObject(
         ref=["CHARACTER_ACTIVE"],
         roi="character_select",

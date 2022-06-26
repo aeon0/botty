@@ -3,8 +3,10 @@ import time
 import cv2
 import keyboard
 import ui
-from ui.character_select import select_offline_tab, select_online_tab
+from ui import character_select
+from ui.character_select import select_online_tab
 from ui.main_menu import MAIN_MENU_MARKERS
+from ui_manager import ScreenObjects, detect_screen_object
 
 from utils.auto_settings import check_settings
 from bot import Bot
@@ -119,10 +121,9 @@ class GameController:
         else:
             set_d2r_always_on_top()
         wait(1.5)
-        if Config().general['key_file'] and Config().general['key_file'].endswith('o'):
-            select_online_tab()
-        else:
-            select_offline_tab()
+        character_select.online_character = True if Config().general['key_file'] and Config().general['key_file'].endswith('o') else False
+        match = detect_screen_object(ScreenObjects.OnlineStatus)
+        select_online_tab(match.region, match.center)
         self.setup_screen()
         self.start_health_manager_thread()
         self.start_death_manager_thread()

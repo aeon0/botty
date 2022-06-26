@@ -306,13 +306,13 @@ def _find_keymapping(
         left_skill = get_selected_skill(templates, img, Config().ui_roi["skill_left"])
         right_skill = get_selected_skill(templates, img, Config().ui_roi["skill_right"])
         if left_skill != previous_left_skill and left_skill not in left_key_template_map:
-            previous_left_skill = left_skill
             left_key_template_map[left_skill] = key
             found_keys.append(key)
         elif right_skill != previous_right_skill and right_skill not in right_key_template_map:
-            previous_right_skill = right_skill
             right_key_template_map[right_skill] = key
             found_keys.append(key)
+        previous_left_skill = left_skill
+        previous_right_skill = right_skill
 
 def remap_skill_hotkey(skill_asset, hotkey, skill_roi, expanded_skill_roi):
     x, y, w, h = skill_roi

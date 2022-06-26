@@ -13,46 +13,27 @@ from ui_manager import detect_screen_object, ScreenObjects
 last_char_template = None
 online_character = None
 
-def select_online_tab() -> bool:
-    if detect_screen_object(ScreenObjects.OnlineStatus).valid:
-        return True
-    if (match := detect_screen_object(ScreenObjects.OfflineStatus)).valid:
-        btn_width = match.center[0] - match.region[0]
-        x = match.region[0] + (btn_width / 2)
-        pos = convert_screen_to_monitor((x, match.center[1]))
-        # move cursor to appropriate tab and select
-        mouse.move(*pos)
-        wait(0.3, 0.5)
-        attempts = 0
-        while attempts <= 4:
-            attempts += 1
-            mouse.click(button="left")
-            if (match := detect_screen_object(ScreenObjects.OnlineStatus, grab())).valid and online_character == online_active(match):
-                return True
-            wait(1.5)
-        online_str = "online" if online_character else "offline"
-    Logger.error(f"select_online_tab: unable to select {online_str} tab after {attempts} attempts")
-    return False
-
-def select_offline_tab() -> bool:
-    if detect_screen_object(ScreenObjects.OfflineStatus).valid:
-        return True
-    if (match := detect_screen_object(ScreenObjects.OnlineStatus)).valid:
-        btn_width = match.center[0] - match.region[0]
+def select_online_tab(region, center) -> bool:
+    btn_width = center[0] - region[0]
+    if online_character:
+        Logger.debug(f"Selecting online tab")
+        x = region[0] + (btn_width / 2)
+    else:
         Logger.debug(f"Selecting offline tab")
-        x = match.region[0] + (3 * btn_width / 2)
-        pos = convert_screen_to_monitor((x, match.center[1]))
-        # move cursor to appropriate tab and select
-        mouse.move(*pos)
-        wait(0.3, 0.5)
-        attempts = 0
-        while attempts <= 4:
-            attempts += 1
-            mouse.click(button="left")
-            if detect_screen_object(ScreenObjects.OfflineStatus, grab()).valid:
-                return True
-            wait(1.5)
-    Logger.error(f"select_offline_tab: unable to select Offline tab after {attempts} attempts")
+        x = region[0] + (3 * btn_width / 2)
+    pos = convert_screen_to_monitor((x, center[1]))
+    # move cursor to appropriate tab and select
+    mouse.move(*pos)
+    wait(0.3, 0.5)
+    attempts = 0
+    while attempts <= 4:
+        attempts += 1
+        mouse.click(button="left")
+        if (match := detect_screen_object(ScreenObjects.OnlineStatus, grab())).valid and online_character == online_active(match):
+            return True
+        wait(1.5)
+    online_str = "online" if online_character else "offline"
+    Logger.error(f"select_online_tab: unable to select {online_str} tab after {attempts} attempts")
     return False
 
 def get_saved_char_template() -> np.ndarray | None:
