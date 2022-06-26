@@ -199,7 +199,7 @@ def _load_bnip_expressions(filepath):
         Returns:
             None
     """
-    with open(filepath, "r") as f:
+    with open(filepath, "r", encoding="utf-8") as f:
         for i, line in enumerate(f):
             line = line.strip()
             if line == "" or line.startswith("//"): # Empty or comment line
@@ -243,7 +243,7 @@ if len(bnip_file_paths) > 0:
 else:
     num_files = 1
     _load_bnip_expressions(default_bnip_file_path)
-    Logger.warning("No .nip files in config/nip/, fallback to default.nip")
+    Logger.warning("No .bnip files in config/nip/, fallback to default.bnip")
 Logger.info(f"Loaded {num_files} nip files with {len(bnip_expressions)} total expressions.")
 
 bnip_expressions = sorted(bnip_expressions, key=lambda x: len(x.raw))
