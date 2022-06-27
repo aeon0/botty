@@ -266,11 +266,10 @@ class Bot:
             view.pickup_corpse()
             wait_until_hidden(ScreenObjects.Corpse)
             belt.fill_up_belt_from_inventory(Config().char["num_loot_columns"])
-        if not self._hotkeys_discovered:
+        if not hotkeys.discovered:
             saved_games_folder = Config().general["saved_games_folder"]
             key_file = Config().general["key_file"]
             hotkeys.discover_hotkey_mappings(saved_games_folder, key_file)
-            self._hotkeys_discovered = True
         self._char.discover_capabilities()
         teleport_selected = skills.select_tp(hotkeys.right_skill_key_map[SkillName.Teleport]) if SkillName.Teleport in hotkeys.right_skill_key_map else None
         if corpse_present and self._char.capabilities.can_teleport_with_charges and not teleport_selected:
