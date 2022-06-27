@@ -4,7 +4,7 @@ import time
 import cv2
 import numpy as np
 from d2r_image.data_models import GroundItemList, HoveredItem, ItemQuality, ItemText
-from d2r_image.nip_helpers import parse_item
+from d2r_image.bnip_helpers import parse_item
 
 from d2r_image.processing_helpers import build_d2_items, crop_text_clusters, crop_item_tooltip, get_items_by_quality, consolidate_clusters, find_base_and_remove_items_without_a_base, set_set_and_unique_base_items
 import numpy as np
@@ -53,7 +53,7 @@ if __name__ == "__main__":
     from screen import start_detecting_window, stop_detecting_window, grab
     from d2r_image import processing as d2r_image
     from d2r_image.demo import draw_items_on_image_data, gen_truth_from_ground_loot
-    from nip.actions import should_keep, should_pickup
+    from bnip.actions import should_keep, should_pickup
     import json
     from logger import Logger
     start_detecting_window()

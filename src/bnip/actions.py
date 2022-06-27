@@ -9,25 +9,25 @@ import glob
 import traceback
 from logger import Logger
 from dataclasses import dataclass
-from nip.lexer import NipSections
-from nip.tokens import TokenType
-from nip.transpile import (
-    prepare_nip_expression,
-    transpile_nip_expression,
+from bnip.lexer import BNipSections
+from bnip.tokens import TokenType
+from bnip.transpile import (
+    prepare_bnip_expression,
+    transpile_bnip_expression,
     get_section_from_tokens,
-    NIPExpression,
-    nip_expressions,
-    load_nip_expression,
+    BNIPExpression,
+    bnip_expressions,
+    load_bnip_expression,
 )
 
 # ! The below imports are necessary, they are used within the eval statements. Your text editor probably is not showing them as not in use.
-from nip.NTIPAliasQuality import NTIPAliasQuality
-from nip.NTIPAliasClass import NTIPAliasClass
-from nip.NTIPAliasClassID import NTIPAliasClassID
-from nip.NTIPAliasFlag import NTIPAliasFlag
-from nip.NTIPAliasStat import NTIPAliasStat
-from nip.NTIPAliasType import NTIPAliasType
-from nip.utils import find_unique_or_set_base
+from bnip.NTIPAliasQuality import NTIPAliasQuality
+from bnip.NTIPAliasClass import NTIPAliasClass
+from bnip.NTIPAliasClassID import NTIPAliasClassID
+from bnip.NTIPAliasFlag import NTIPAliasFlag
+from bnip.NTIPAliasStat import NTIPAliasStat
+from bnip.NTIPAliasType import NTIPAliasType
+from bnip.utils import find_unique_or_set_base
 
 
 
@@ -41,12 +41,12 @@ def should_keep(item_data) -> tuple[bool, str]:
             str: The raw expression to use for the keep condition.
 
     """
-    for expression in nip_expressions:
+    for expression in bnip_expressions:
         if eval(expression.transpiled):
             return True, expression.raw
     return False, ""
 
-def _gold_pickup(item_data: dict, expression: NIPExpression) -> bool | None:
+def _gold_pickup(item_data: dict, expression: BNIPExpression) -> bool | None:
     res = None
     for i, token in enumerate(expression.tokens):
         if (
@@ -66,17 +66,17 @@ def _gold_pickup(item_data: dict, expression: NIPExpression) -> bool | None:
     return res
 
 
-def _handle_pick_eth_sockets(item_data: dict, expression: NIPExpression) -> tuple[bool, str]:
+def _handle_pick_eth_sockets(item_data: dict, expression: BNIPExpression) -> tuple[bool, str]:
     """Handles the pick condition for eth and sockets.
         Args:
             item_data (dict): The item data.
-            expression (NIPExpression): The expression to use.
+            expression (BNIPExpression): The expression to use.
         Returns:
             tuple[bool, str]: A tuple containing the following:
                 bool: Whether or not to keep the item.
-                NipExpression: The expression object that was used to evaluate the condition.
+                BNIPExpression: The expression object that was used to evaluate the condition.
         """
-    expression_raw = prepare_nip_expression(expression.raw)
+    expression_raw = prepare_bnip_expression(expression.raw)
     all_tokens = expression.tokens
 
     tokens_by_section = get_section_from_tokens(all_tokens)
@@ -86,7 +86,7 @@ def _handle_pick_eth_sockets(item_data: dict, expression: NIPExpression) -> tupl
     eth = 0 # * -1 = set to false, 0 = not set, 1 = set to true
     soc = 0
     if eth_keyword_present:
-        for i, token in enumerate(tokens := tokens_by_section[NipSections.PROP]):
+        for i, token in enumerate(tokens := tokens_by_section[BNipSections.PROP]):
             if token.type == TokenType.ValueNTIPAliasFlag and str(token.value).lower() == "ethereal":
                 if tokens[i - 1].value == "==":
                     eth = 1
@@ -95,7 +95,7 @@ def _handle_pick_eth_sockets(item_data: dict, expression: NIPExpression) -> tupl
                 break
 
     if len(tokens_by_section) > 1 and soc_keyword_present:
-        for i, token in enumerate(tokens := tokens_by_section[NipSections.STAT]):
+        for i, token in enumerate(tokens := tokens_by_section[BNipSections.STAT]):
             if token.type == TokenType.KeywordNTIPAliasStat and token.value == str(NTIPAliasStat["sockets"]):
                 desired_sockets = int(tokens[i + 2].value)
                 if (desired_sockets > 0 and not (desired_sockets == 1 and tokens[i + 1].value == "<")) or (desired_sockets == 0 and tokens[i + 1].value == ">"):
@@ -125,7 +125,7 @@ def _handle_pick_eth_sockets(item_data: dict, expression: NIPExpression) -> tupl
         raw = expression.raw.replace("&& [flag]", "[flag]").replace("|| [flag]", "[flag]")
         raw = re.sub(r"\[flag\] (==|!=)\sethereal", "", raw)
         # print(f"Modified raw expression: {raw}")
-        pick_eval_expr = transpile_nip_expression(raw.split("#")[0], isPickUpPhase=True)
+        pick_eval_expr = transpile_bnip_expression(raw.split("#")[0], isPickUpPhase=True)
         # print(f"Modified transpiled expression: {pick_eval_expr}")
 
     return ignore, pick_eval_expr
@@ -144,7 +144,7 @@ def should_pickup(item_data) -> tuple[bool, str]:
     pick_eval_expr = ""
     item_is_gold = item_data["BaseItem"]["DisplayName"] == "Gold"
 
-    for expression in nip_expressions:
+    for expression in bnip_expressions:
         if expression.raw:
             # check gold
             if item_is_gold and "[gold]" in expression.raw.lower():
@@ -181,7 +181,7 @@ def should_id(item_data) -> bool:
             [name] == ring && [quality] == rare -> True
             [name] == ring && [quality] == rare # [strength] == 5 -> Falsep
     """
-    for expression in nip_expressions:
+    for expression in bnip_expressions:
         if expression and expression.should_id_transpiled:
             split_expression = expression.raw.split("#")
             if "[idname]" in expression.raw.lower():
@@ -191,21 +191,21 @@ def should_id(item_data) -> bool:
                     return False
     return True
 
-def _load_nip_expressions(filepath):
+def _load_bnip_expressions(filepath):
     """
-        Loads the NIP expressions from the file.
+        Loads the BNIP expressions from the file.
         Args:
             filepath (str): The path to the file.
         Returns:
             None
     """
-    with open(filepath, "r") as f:
+    with open(filepath, "r", encoding="utf-8") as f:
         for i, line in enumerate(f):
             line = line.strip()
             if line == "" or line.startswith("//"): # Empty or comment line
                 continue
             try:
-                load_nip_expression(line)
+                load_bnip_expression(line)
             except Exception as e:
                 filepath = filepath.replace("\\", "/")
                 file = filepath.split('/config/')[1]
@@ -214,36 +214,39 @@ def _load_nip_expressions(filepath):
                     break
 
 
-default_nip_file_path = f"{os.getcwd()}/config/default.nip"
-nip_path = f"{os.getcwd()}/config/nip"
-glob_nip_path = os.path.join(nip_path, '**', '*.nip')
-nip_file_paths = glob.glob(glob_nip_path, recursive=True)
+default_bnip_file_path = f"{os.getcwd()}/config/default.bnip"
+bnip_path = f"{os.getcwd()}/config/bnip"
 
-# * Remove all directories or files that are in the .nipignore file from nip_file_paths. (accepts glob patterns)
-if os.path.isfile(os.path.join(nip_path, '.nipignore')):
-    with open(os.path.join(nip_path, '.nipignore'), "r") as f:
+glob_bnip_path = os.path.join(bnip_path, '**', '*.bnip')
+glob_nip_path = os.path.join(bnip_path, '**', '*.nip')
+
+bnip_file_paths = glob.glob(glob_bnip_path, recursive=True) + glob.glob(glob_nip_path, recursive=True)
+
+# * Remove all directories or files that are in the .nipignore file from bnip_file_paths. (accepts glob patterns)
+if os.path.isfile(os.path.join(bnip_path, '.nipignore')):
+    with open(os.path.join(bnip_path, '.nipignore'), "r") as f:
         for line in f:
             line = line.strip()
             line = line.replace("/", "\\")
-            remove_files = glob.glob(os.path.join(nip_path, line), recursive=True)
+            remove_files = glob.glob(os.path.join(bnip_path, line), recursive=True)
             for remove_file in remove_files:
-                if remove_file in nip_file_paths:
-                    nip_file_paths.remove(remove_file)
+                if remove_file in bnip_file_paths:
+                    bnip_file_paths.remove(remove_file)
 
 num_files = 0
 # load all nip expressions
-if len(nip_file_paths) > 0:
-    num_files = len(nip_file_paths)
-    for nip_file_path in nip_file_paths:
-        _load_nip_expressions(nip_file_path)
+if len(bnip_file_paths) > 0:
+    num_files = len(bnip_file_paths)
+    for bnip_file_path in bnip_file_paths:
+        _load_bnip_expressions(bnip_file_path)
 # fallback to default nip file if no custom nip files specified or existing files are excluded
 else:
     num_files = 1
-    _load_nip_expressions(default_nip_file_path)
-    Logger.warning("No .nip files in config/nip/, fallback to default.nip")
-Logger.info(f"Loaded {num_files} nip files with {len(nip_expressions)} total expressions.")
+    _load_bnip_expressions(default_bnip_file_path)
+    Logger.warning("No .bnip files in config/nip/, fallback to default.bnip")
+Logger.info(f"Loaded {num_files} nip files with {len(bnip_expressions)} total expressions.")
 
-nip_expressions = sorted(nip_expressions, key=lambda x: len(x.raw))
+bnip_expressions = sorted(bnip_expressions, key=lambda x: len(x.raw))
 
 if __name__ == "__main__":
-    print(transpile_nip_expression("[name] == ring && [quality] == rare # [strength] == 5"))
+    print(transpile_bnip_expression("[name] == ring && [quality] == rare # [strength] == 5"))

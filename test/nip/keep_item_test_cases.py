@@ -1,4 +1,4 @@
-NIP_KEEP_TESTS = {
+BNIP_KEEP_TESTS = {
     # monarch
     "D2R_0lR7EfbRGT": [
         {

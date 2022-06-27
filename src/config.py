@@ -183,7 +183,6 @@ class Config:
             "belt_mp_columns": int(self._select_val("char", "belt_mp_columns")),
             "stash_gold": bool(int(self._select_val("char", "stash_gold"))),
             "use_merc": bool(int(self._select_val("char", "use_merc"))),
-            "id_items": bool(int(self._select_val("char", "id_items"))),
             "open_chests": bool(int(self._select_val("char", "open_chests"))),
             "fill_shared_stash_first": bool(int(self._select_val("char", "fill_shared_stash_first"))),
             "pre_buff_every_run": bool(int(self._select_val("char", "pre_buff_every_run"))),

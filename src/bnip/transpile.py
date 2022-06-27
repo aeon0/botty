@@ -1,20 +1,20 @@
-from nip.NTIPAliasQuality import NTIPAliasQuality
-from nip.NTIPAliasClass import NTIPAliasClass
-from nip.NTIPAliasClassID import NTIPAliasClassID
-from nip.NTIPAliasFlag import NTIPAliasFlag
-from nip.NTIPAliasStat import NTIPAliasStat
-from nip.NTIPAliasType import NTIPAliasType
+from bnip.NTIPAliasQuality import NTIPAliasQuality
+from bnip.NTIPAliasClass import NTIPAliasClass
+from bnip.NTIPAliasClassID import NTIPAliasClassID
+from bnip.NTIPAliasFlag import NTIPAliasFlag
+from bnip.NTIPAliasStat import NTIPAliasStat
+from bnip.NTIPAliasType import NTIPAliasType
 
 # ! The above imports are necessary, they are used within the eval statements. Your text editor probably is not showing them as not in use.
 
 from dataclasses import dataclass
-from nip.lexer import Lexer, NipSections
-from nip.BNipExceptions import BNipSyntaxError
-from nip.tokens import Token, TokenType
-from nip.utils import find_unique_or_set_base
+from bnip.lexer import Lexer, BNipSections
+from bnip.BNipExceptions import BNipSyntaxError
+from bnip.tokens import Token, TokenType
+from bnip.utils import find_unique_or_set_base
 
 @dataclass
-class NIPExpression:
+class BNIPExpression:
     raw: str
     should_id_transpiled: str | None
     transpiled: str
@@ -22,7 +22,7 @@ class NIPExpression:
     tokens: list[Token]
 
 
-nip_expressions: list[NIPExpression] = []
+bnip_expressions: list[BNIPExpression] = []
 
 
 token_transpile_map = {
@@ -148,9 +148,9 @@ def validate_correct_math_syntax(left_token=None, right_token=None):
         TokenType.RPAREN,
     ]
     if left_token and left_token.type not in allowed_left_and_right_tokens:
-        raise BNipSyntaxError2("NIP_0x3", "unexpected token on left of math operator")
+        raise BNipSyntaxError2("BNIP_0x3", "unexpected token on left of math operator")
     if right_token and right_token.type not in allowed_left_and_right_tokens:
-        raise BNipSyntaxError2("NIP_0x4", "unexpected token on right of math operator")
+        raise BNipSyntaxError2("BNIP_0x4", "unexpected token on right of math operator")
 
 OPENING_PARENTHESIS_COUNT = 0 # * This needs to be reset every time an validation error occurs
 CURRENT_EXPRESSION = ""
@@ -187,10 +187,10 @@ def validate_correct_parenthesis_syntax(current_pos, all_tokens, left_token=None
     if token.type == TokenType.LPAREN:
         OPENING_PARENTHESIS_COUNT += 1
         if left_token and left_token.type not in allowed_left_and_right_tokens + [TokenType.LPAREN]:
-            raise BNipSyntaxError2("NIP_0x18", "unexpected token on left of parenthesis")
+            raise BNipSyntaxError2("BNIP_0x18", "unexpected token on left of parenthesis")
     elif token.type == TokenType.RPAREN:
         if right_token and right_token.type not in allowed_left_and_right_tokens + [TokenType.RPAREN]:
-            raise BNipSyntaxError2("NIP_0x19", "unexpected token on right of parenthesis")
+            raise BNipSyntaxError2("BNIP_0x19", "unexpected token on right of parenthesis")
         OPENING_PARENTHESIS_COUNT -= 1
 
 
@@ -200,16 +200,16 @@ def validate_correct_parenthesis_syntax(current_pos, all_tokens, left_token=None
         # for i in range(current_pos, -1, -1):
         #     # print(all_tokens[i].type)
         #     if all_tokens[i].type == TokenType.SECTIONAND:
-        #         raise BNipSyntaxError2("NIP_0x8", "parenthesis cannot cross the section and (#)")
+        #         raise BNipSyntaxError2("BNIP_0x8", "parenthesis cannot cross the section and (#)")
 
     if current_pos == len(all_tokens) - 1:
         if OPENING_PARENTHESIS_COUNT != 0:
             if OPENING_PARENTHESIS_COUNT > 0:
                 OPENING_PARENTHESIS_COUNT = 0
-                raise BNipSyntaxError2("NIP_0x6", "unclosed parenthesis")
+                raise BNipSyntaxError2("BNIP_0x6", "unclosed parenthesis")
             else:
                 OPENING_PARENTHESIS_COUNT = 0
-                raise BNipSyntaxError2("NIP_0x7", "unopened parenthesis")
+                raise BNipSyntaxError2("BNIP_0x7", "unopened parenthesis")
         OPENING_PARENTHESIS_COUNT = 0
 
 def validate_digits_syntax(left=None, right=None):
@@ -240,10 +240,10 @@ def validate_digits_syntax(left=None, right=None):
 
     if left:
         if left.type not in allowed_left_and_right_tokens:
-            raise BNipSyntaxError2("NIP_0x8", "Expected operator on left of number")
+            raise BNipSyntaxError2("BNIP_0x8", "Expected operator on left of number")
     if right:
         if right.type not in allowed_left_and_right_tokens:
-            raise BNipSyntaxError2("NIP_0x9", "Expected operator on right of number")
+            raise BNipSyntaxError2("BNIP_0x9", "Expected operator on right of number")
 
 
 def validate_logical_operators(left=None, right=None):
@@ -271,34 +271,34 @@ def validate_logical_operators(left=None, right=None):
 
     if left:
         if left.type not in allowed_left_and_right_tokens + [TokenType.RPAREN]:
-            raise BNipSyntaxError2("NIP_0x10", "Expected token on left of logical operator")
+            raise BNipSyntaxError2("BNIP_0x10", "Expected token on left of logical operator")
     if right:
         if right.type not in allowed_left_and_right_tokens + [TokenType.LPAREN]:
-            raise BNipSyntaxError2("NIP_0x11", "Expected token on right of logical operator")
+            raise BNipSyntaxError2("BNIP_0x11", "Expected token on right of logical operator")
     else:
-        raise BNipSyntaxError2("NIP_0x12", "Expected token on right of logical operator")
+        raise BNipSyntaxError2("BNIP_0x12", "Expected token on right of logical operator")
 
 
-def validate_nip_expression_syntax(nip_expression): # * enforces that {property} # {stats} # {maxquantity}
+def validate_bnip_expression_syntax(bnip_expression): # * enforces that {property} # {stats} # {maxquantity}
     tokens = None
     global CURRENT_EXPRESSION
-    if not nip_expression:
+    if not bnip_expression:
         return
 
     all_tokens = []
-    CURRENT_EXPRESSION = nip_expression
+    CURRENT_EXPRESSION = bnip_expression
 
-    split_nip_expression = nip_expression.split("#")
-    split_nip_expression_len = len(split_nip_expression)
-    if split_nip_expression_len >= 1: # property
-        tokens = Lexer().create_tokens(split_nip_expression[0], NipSections.PROP)
+    split_bnip_expression = bnip_expression.split("#")
+    split_bnip_expression_len = len(split_bnip_expression)
+    if split_bnip_expression_len >= 1: # property
+        tokens = Lexer().create_tokens(split_bnip_expression[0], BNipSections.PROP)
         all_tokens.extend(tokens)
         for token in tokens:
             if token.type == TokenType.ValueNTIPAliasStat or token.type == TokenType.UNKNOWN:
-                raise BNipSyntaxError2("NIP_0x13", f"Invalid token '{token.value}' in property section")
-    if split_nip_expression_len >= 2: # stats
+                raise BNipSyntaxError2("BNIP_0x13", f"Invalid token '{token.value}' in property section")
+    if split_bnip_expression_len >= 2: # stats
         all_tokens.append(Token(TokenType.SECTIONAND, "#"))
-        tokens = Lexer().create_tokens(split_nip_expression[1], NipSections.STAT)
+        tokens = Lexer().create_tokens(split_bnip_expression[1], BNipSections.STAT)
         all_tokens.extend(tokens)
         for token in tokens:
             is_invalid_stat_lookup = (
@@ -311,11 +311,11 @@ def validate_nip_expression_syntax(nip_expression): # * enforces that {property}
             )
 
             if is_invalid_stat_lookup:
-                raise BNipSyntaxError2("NIP_0x14", f"Invalid token '{token.value}' in stats section")
+                raise BNipSyntaxError2("BNIP_0x14", f"Invalid token '{token.value}' in stats section")
 
-    if split_nip_expression_len >= 3: # maxquantity
+    if split_bnip_expression_len >= 3: # maxquantity
         # all_tokens.append(Token(TokenType.SECTIONAND, "#"))
-        tokens = Lexer().create_tokens(split_nip_expression[2], NipSections.MAXQUANTITY)
+        tokens = Lexer().create_tokens(split_bnip_expression[2], BNipSections.MAXQUANTITY)
         all_tokens.extend(tokens)
         for token in tokens:
             is_invalid_maxquantity_lookup = (
@@ -330,12 +330,12 @@ def validate_nip_expression_syntax(nip_expression): # * enforces that {property}
 
             if is_invalid_maxquantity_lookup:
                 pass
-                raise BNipSyntaxError2("NIP_0x15", "Invalid maxquantity lookup")
+                raise BNipSyntaxError2("BNIP_0x15", "Invalid maxquantity lookup")
 
     # * Further syntax validation
     # print(all_tokens)
     if all_tokens[-1].type == TokenType.SECTIONAND:
-        raise BNipSyntaxError2("NIP_0x16", "unexpected sectionand (#) at end of expression")
+        raise BNipSyntaxError2("BNIP_0x16", "unexpected sectionand (#) at end of expression")
     math_tokens = [TokenType.MULTIPLY, TokenType.PLUS, TokenType.MINUS, TokenType.DIVIDE, TokenType.MODULO, TokenType.POW]
     logical_tokens = [TokenType.AND, TokenType.OR, TokenType.EQ, TokenType.NE, TokenType.GT, TokenType.LT, TokenType.GE, TokenType.LE, TokenType.SECTIONAND]
     for i, token in enumerate(all_tokens):
@@ -350,7 +350,7 @@ def validate_nip_expression_syntax(nip_expression): # * enforces that {property}
         if token.type == TokenType.EQ:
             if i == len(all_tokens) - 1: # * Check to make sure the next token is a token.
                 # ! the logic only makes sense for the last token, what the f*ck
-                raise BNipSyntaxError2("NIP_0x17", "No value after equal sign")
+                raise BNipSyntaxError2("BNIP_0x17", "No value after equal sign")
         elif token.type in math_tokens:
             validate_correct_math_syntax(left_token=left, right_token=right)
         # * Make sure two numbers aren't next to each other.
@@ -377,7 +377,7 @@ def remove_quantity(expression): # ! This is a bit ghetto, but since we're not u
     return expression
 
 
-def get_section_from_tokens(all_tokens: list[Token], section: NipSections | None = None) -> dict[NipSections, list[Token]]:
+def get_section_from_tokens(all_tokens: list[Token], section: BNipSections | None = None) -> dict[BNipSections, list[Token]]:
     tokens_split_by_section = []
     temp_section = []
 
@@ -393,29 +393,29 @@ def get_section_from_tokens(all_tokens: list[Token], section: NipSections | None
             temp_section.append(token)
     section_tokens_len = len(tokens_split_by_section)
 
-    nip_map = {
-            NipSections.PROP: tokens_split_by_section[0] if section_tokens_len >= 1 else [],
-            NipSections.STAT: tokens_split_by_section[1] if section_tokens_len >= 2 else [],
-            NipSections.MAXQUANTITY: tokens_split_by_section[2] if section_tokens_len >= 3 else []
+    bnip_map = {
+            BNipSections.PROP: tokens_split_by_section[0] if section_tokens_len >= 1 else [],
+            BNipSections.STAT: tokens_split_by_section[1] if section_tokens_len >= 2 else [],
+            BNipSections.MAXQUANTITY: tokens_split_by_section[2] if section_tokens_len >= 3 else []
         }
 
-    return nip_map
+    return bnip_map
 
 
-def prepare_nip_expression(expression: str) -> str:
+def prepare_bnip_expression(expression: str) -> str:
     if not expression.startswith("//") and not expression.startswith("-"):
         expression = expression.lower()
         expression = expression.replace("'", "")
         expression = expression.split("//")[0] # * Ignore the comments inside the nip expression
         expression = remove_quantity(expression)
-        if validate_nip_expression_syntax(expression):
+        if validate_bnip_expression_syntax(expression):
             return expression
     return ''
 
 
-def transpile_nip_expression(expression: str | list[Token], isPickUpPhase=False):
+def transpile_bnip_expression(expression: str | list[Token], isPickUpPhase=False):
     if isinstance(expression, str):
-        expression = prepare_nip_expression(expression)
+        expression = prepare_bnip_expression(expression)
         if expression:
             tokens = Lexer().create_tokens(expression)
             transpiled_expression = transpile(tokens, isPickUpPhase=isPickUpPhase)
@@ -426,27 +426,27 @@ def transpile_nip_expression(expression: str | list[Token], isPickUpPhase=False)
         if transpiled_expression:
             return transpiled_expression
 
-def generate_expression_object(nip_expression: str) -> NIPExpression | None:
-    nip_expression = prepare_nip_expression(nip_expression)
+def generate_expression_object(bnip_expression: str) -> BNIPExpression | None:
+    bnip_expression = prepare_bnip_expression(bnip_expression)
 
-    if nip_expression:
-        tokens = Lexer().create_tokens(nip_expression)
-        if transpiled_expression := transpile_nip_expression(tokens):
+    if bnip_expression:
+        tokens = Lexer().create_tokens(bnip_expression)
+        if transpiled_expression := transpile_bnip_expression(tokens):
             split_tokens = get_section_from_tokens(tokens)
-            expression_obj = NIPExpression(
-                    raw=nip_expression,
+            expression_obj = BNIPExpression(
+                    raw=bnip_expression,
                     tokens=tokens,
                     transpiled=transpiled_expression,
-                    should_id_transpiled=transpile_nip_expression(split_tokens[NipSections.PROP]),
-                    should_pickup=transpile_nip_expression(split_tokens[NipSections.PROP], isPickUpPhase=True) # * Some stuff gets transpiled differently in the pickup phase
+                    should_id_transpiled=transpile_bnip_expression(split_tokens[BNipSections.PROP]),
+                    should_pickup=transpile_bnip_expression(split_tokens[BNipSections.PROP], isPickUpPhase=True) # * Some stuff gets transpiled differently in the pickup phase
                 )
             return expression_obj
     return None
 
 
-def load_nip_expression(nip_expression: str):
-    if (expression_obj := generate_expression_object(nip_expression)) is not None:
-        nip_expressions.append(expression_obj)
+def load_bnip_expression(bnip_expression: str):
+    if (expression_obj := generate_expression_object(bnip_expression)) is not None:
+        bnip_expressions.append(expression_obj)
 
 
     

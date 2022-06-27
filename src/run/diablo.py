@@ -65,11 +65,10 @@ class Diablo:
                     force_stash = False
                     force_stash = personal.inventory_has_items(close_window=True)
                     if force_stash:
-                        if Config().char["id_items"]:
-                            Logger.debug(location + ": Identifying items")
-                            self._curr_loc = self._town_manager.identify(self._curr_loc)
-                            if not self._curr_loc:
-                                return self.trigger_or_stop("end_game", failed=True)
+                        Logger.debug(location + ": Identifying items")
+                        self._curr_loc = self._town_manager.identify(self._curr_loc)
+                        if not self._curr_loc:
+                            return self.trigger_or_stop("end_game", failed=True)
                         Logger.debug(location + ":Stashing items")
                         self._curr_loc = self._town_manager.stash(self._curr_loc)
                         if not self._curr_loc:
