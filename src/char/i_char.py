@@ -57,9 +57,7 @@ class IChar:
             except Exception as e:
                 Logger.warning(f"Failed to delay with delay: {delay}. Exception: {e}")
 
-    def _key_press(self, key: str, hold_time: float | list | tuple | None = None):
-        if not hold_time:
-            hold_time = 0.04
+    def _key_press(self, key: str, hold_time: float | list | tuple | None = 0.04):
         self._key_held[key] = True
         keyboard.send(key, do_release=False)
         self._handle_delay(hold_time)
@@ -450,7 +448,7 @@ class IChar:
     def tp_town(self) -> bool:
         # will check if tp is available and select the skill
         if not skills.has_tps():
-            pos_m = convert_abs_to_monitor(0, Config().ui_pos["screen_height"]/2 - 5)
+            pos_m = convert_abs_to_monitor((0, Config().ui_pos["screen_height"]/2 - 5))
             mouse.move(*pos_m)
             if not skills.has_tps():
                 return False
@@ -473,7 +471,7 @@ class IChar:
                 if skills.has_tps():
                     self._cast_town_portal()
                 else:
-                    pos_m = convert_abs_to_monitor(0, Config().ui_pos["screen_height"]/2 - 5)
+                    pos_m = convert_abs_to_monitor((0, Config().ui_pos["screen_height"]/2 - 5))
                     mouse.move(*pos_m)
                     if skills.has_tps():
                         self._cast_town_portal()

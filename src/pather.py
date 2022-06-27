@@ -509,7 +509,7 @@ class Pather:
     def _wait_for_screen_update(img_pre: np.ndarray, roi: list = None, timeout: float = 1.5, score_threshold: float = 0.15) -> tuple[np.ndarray, float, bool]:
         start = time.perf_counter()
         success = True
-        while (score := image_diff(img_pre, (img_post := grab(force_new=True)), roi = roi)) < score_threshold:
+        while (score := image_diff(img_pre, (img_post := grab(force_new = True)), roi = roi)) < score_threshold:
             wait(0.02)
             if (time.perf_counter() - start) > timeout:
                 success=False
@@ -673,18 +673,18 @@ class Pather:
                 # Find any template and calc node position from it
                 node_pos_abs = self.find_abs_node_pos(node_idx, img, threshold=threshold)
                 if node_pos_abs is not None:
-                    Logger.debug(f"move to node {node_idx} at {node_pos_abs}")
                     dist = math.dist(node_pos_abs, (0, 0))
                     if dist < Config().ui_pos["reached_node_dist"]:
                         Logger.debug(f"Continue to next node")
                         continue_to_next_node = True
                     else:
+                        Logger.debug(f"move to node {node_idx} at {node_pos_abs}")
                         # Move the char
                         x_m, y_m = convert_abs_to_monitor(node_pos_abs)
                         last_move = char.move((x_m, y_m), use_tp=use_tp, force_move=force_move)
                         last_direction = node_pos_abs
                         # wait until there's a change on screen
-                        img, _, _ = self._wait_for_screen_update(img, roi = self._roi_middle_half)
+                        img, _, _ = self._wait_for_screen_update(img, roi = self._roi_middle_half, score_threshold=0.3)
         return True
 
 
