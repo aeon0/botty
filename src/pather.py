@@ -692,7 +692,7 @@ class Pather:
 if __name__ == "__main__":
     # debug method to display all nodes
 
-    def display_all_nodes(pather: Pather, filter: str = None):
+    def display_all_nodes(pather: Pather, filters: list | str = None):
         start = time.time()
         while 1:
             img = grab()
@@ -700,13 +700,16 @@ if __name__ == "__main__":
             template_map = {}
             template_scores = {}
             for template_type in template_finder.stored_templates().keys():
-                if filter is None or filter in template_type:
-                    template_match = template_finder.search(template_type, img, use_grayscale=True, threshold=0.78)
-                    if template_match.valid:
-                        template_map[template_type] = template_match.center
-                        template_scores[template_type] = template_match.score
+                if type(filters) != list:
+                    filters = [filters]
+                for filter in filters:
+                    if filter is None or filter in template_type:
+                        template_match = template_finder.search(template_type, img, use_grayscale=True, threshold=0.78)
+                        if template_match.valid:
+                            template_map[template_type] = template_match.center
+                            template_scores[template_type] = round(template_match.score, 3)
             #print(f"{template_scores:0.2f}")
-            print(template_scores)
+            print(f"Matching template scores: {template_scores}")
             # print(template_map)
             for node_idx in pather._nodes:
                 for template_type in pather._nodes[node_idx]:
@@ -719,13 +722,15 @@ if __name__ == "__main__":
                         node_pos_abs = pather._convert_rel_to_abs(node_pos_rel, ref_pos_abs)
                         node_pos_abs = get_closest_non_hud_pixel(pos = node_pos_abs, pos_type="abs")
                         x, y = convert_abs_to_screen(node_pos_abs)
+                        print(f"Draw circle for node {node_idx} at abs coordinates: {node_pos_abs}")
                         cv2.circle(display_img, (x, y), 5, (255, 0, 0), 3)
                         cv2.putText(display_img, str(node_idx), (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
                         x, y = convert_abs_to_screen(ref_pos_abs)
                         cv2.circle(display_img, (x, y), 5, (0, 255, 0), 3)
                         cv2.putText(display_img, template_type, (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
                         wrt_origin = (-ref_pos_abs[0], -ref_pos_abs[1])
-                        print(f'"{template_type}": {wrt_origin}')
+                        print(f'Found template "{template_type}" at abs coordinates: {ref_pos_abs}')
+                        # print(f'Template: "{template_type}", coordinates with respect to origin: {wrt_origin}')
             # display_img = cv2.resize(display_img, None, fx=0.5, fy=0.5)
             # if round(time.time() - start) % 3 == 0:
             #     cv2.imwrite("./log/screenshots/info/pather_" + time.strftime("%Y%m%d_%H%M%S") + ".png", display_img)
@@ -746,7 +751,7 @@ if __name__ == "__main__":
     #char = Hammerdin(Config().hammerdin, pather, PickIt) #Config().char,
     #char.discover_capabilities()
 
-    display_all_nodes(pather, "SHENK_")
+    display_all_nodes(pather, ["ELD", "SHENK_"])
     #pather.traverse_nodes([120, 121, 122, 123, 122, 121, 120], char) #works!
     #pather.traverse_nodes_fixed("dia_trash_c", char)
     #display_all_nodes(pather, "SHENK")
