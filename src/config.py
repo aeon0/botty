@@ -293,6 +293,7 @@ class Config:
             "graphic_debugger_layer_creator": bool(int(self._select_val("advanced_options", "graphic_debugger_layer_creator"))),
             "logg_lvl": self._select_val("advanced_options", "logg_lvl"),
             "exit_key": self._select_val("advanced_options", "exit_key"),
+            "additional_wait": int(self._select_val("advanced_options", "additional_wait")),
             "resume_key": self._select_val("advanced_options", "resume_key"),
             "auto_settings_key": self._select_val("advanced_options", "auto_settings_key"),
             "restore_settings_from_backup_key": self._select_val("advanced_options", "restore_settings_from_backup_key"),

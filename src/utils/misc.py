@@ -24,6 +24,8 @@ import psutil
 from rapidfuzz.process import extractOne
 from rapidfuzz.string_metric import levenshtein
 
+from config import Config
+
 def close_down_d2():
     subprocess.call(["taskkill","/F","/IM","D2R.exe"], stderr=subprocess.DEVNULL)
 
@@ -81,11 +83,22 @@ def restore_d2r_window_visibility():
     else:
         print('OS not supported, unable to set D2R always on top')
 
-def wait(min_seconds, max_seconds = None):
+def wait(min_seconds, max_seconds = None, ping_sensitive = False):
+    """Wait for a random amount of time between min_seconds and max_seconds (inclusive).
+        Args:
+            min_seconds: Minimum number of seconds to wait.
+            max_seconds: Maximum number of seconds to wait.
+            ping_sensitive: Whether to add more time to the wait from the user's config settings.
+    """
+    if ping_sensitive:
+        additional_wait = Config().advanced_options['additional_wait']
+        min_seconds += additional_wait
+        max_seconds += additional_wait
+
     if max_seconds is None:
         max_seconds = min_seconds
+
     time.sleep(random.uniform(min_seconds, max_seconds))
-    return
 
 def kill_thread(thread):
     thread_id = thread.ident
