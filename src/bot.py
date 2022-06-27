@@ -127,7 +127,6 @@ class Bot:
         self._ran_no_pickup = False
         self._previous_run_failed = False
         self._timer = time.time()
-        self._hotkeys_discovered = False
 
         # Create State Machine
         self._states=['initialization','hero_selection', 'town', 'pindle', 'shenk', 'trav', 'nihlathak', 'arcane', 'diablo']

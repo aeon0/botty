@@ -10,6 +10,7 @@ from utils.misc import wait
 from logger import Logger
 
 # "Public" Variables
+discovered = False
 ## d2r_keymap represents a kvp of key: HotkeyName value: key
 d2r_keymap = {}
 ## left_skill and right_skill represent the (last) template names found during discover_hotkey_mappings
@@ -95,6 +96,7 @@ def discover_hotkey_mappings(saved_games_folder, key_name):
     Main entry point for discovering hotkey mapping for a character. This fn will use the provided saved_games_folder and key_name to load and parse the key file.
     Using the parsed key file, it will grab Skill1-Skill16 and the representative hotkey associated with it and try to deduce the hotkeys.
     """
+    global discovered
     global d2r_keymap
     global _default_left_skill_key_map, _swap_left_skill_key_map, left_skill_key_map, left_skill
     global _default_right_skill_key_map, _swap_right_skill_key_map, right_skill_key_map, right_skill
@@ -122,6 +124,7 @@ def discover_hotkey_mappings(saved_games_folder, key_name):
     right_skill = ending_right_skill
     left_skill_key_map = {**_default_left_skill_key_map, **_swap_left_skill_key_map}
     right_skill_key_map = {**_default_right_skill_key_map, **_swap_right_skill_key_map}
+    discovered = True
     log_hotkeys()
 
 def _parse_key_file(saved_games_folder, key_name):
