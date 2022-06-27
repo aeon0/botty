@@ -404,6 +404,7 @@ def transfer_items(items: list, action: str = "drop", img: np.ndarray = None) ->
                 # if dropping, drag item to middle if vendor/stash is open
                 if action == "drop" and left_panel_open:
                     center_mouse()
+                    wait(0.04, 0.08)
                     mouse.press(button="left")
                     wait(0.2, 0.3)
                     mouse.release(button="left")
