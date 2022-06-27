@@ -673,8 +673,10 @@ class Pather:
                 # Find any template and calc node position from it
                 node_pos_abs = self.find_abs_node_pos(node_idx, img, threshold=threshold)
                 if node_pos_abs is not None:
+                    Logger.debug(f"move to node {node_idx} at {node_pos_abs}")
                     dist = math.dist(node_pos_abs, (0, 0))
                     if dist < Config().ui_pos["reached_node_dist"]:
+                        Logger.debug(f"Continue to next node")
                         continue_to_next_node = True
                     else:
                         # Move the char

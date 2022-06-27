@@ -198,7 +198,7 @@ class IChar:
         return get_closest_non_hud_pixel(pos_abs, "abs")
 
     def _wait_for_cooldown(self):
-        min_wait = get_cast_wait_time(class_base = self._base_class, skill_name = self._last_cast_skill)
+        min_wait = get_cast_wait_time(class_base = self._base_class, skill_name = self._last_cast_skill, fcr = self._current_fcr)
         # if there's still time remaining in cooldown, wait
         while (time.time() - self._last_cast_time) < (min_wait):
             wait(0.02)
@@ -375,7 +375,7 @@ class IChar:
 
     def _switch_to_offhand_weapon(self):
         if self.main_weapon_equipped:
-            self._current_fcr = Config().char["facter_cast_rate_offhand"]
+            self._current_fcr = Config().char["faster_cast_rate_offhand"]
             self._weapon_switch()
             wait(0.04, 0.08)
 
@@ -407,7 +407,7 @@ class IChar:
     def _teleport_to_position(self, pos_monitor: tuple[float, float]):
         factor = Config().advanced_options["pathing_delay_factor"]
         mouse.move(*pos_monitor, randomize=3, delay_factor=[(1+factor)/25, (2+factor)/25])
-        wait(0.012, 0.02)
+        wait(0.04)
         self._cast_teleport()
 
     def _walk_to_position(self, pos_monitor: tuple[float, float], force_move: bool = False):
@@ -450,9 +450,11 @@ class IChar:
     def tp_town(self) -> bool:
         # will check if tp is available and select the skill
         if not skills.has_tps():
-            return False
+            pos_m = convert_abs_to_monitor(0, Config().ui_pos["screen_height"]/2 - 5)
+            mouse.move(*pos_m)
+            if not skills.has_tps():
+                return False
         self._cast_town_portal()
-
         roi_mouse_move = [
             round(Config().ui_pos["screen_width"] * 0.3),
             0,

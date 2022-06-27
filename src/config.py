@@ -193,6 +193,7 @@ class Config:
             "battle_command": self._select_val("char", "battle_command"),
             "extra_casting_frames": int(self._select_val("char", "extra_casting_frames")),
             "faster_cast_rate": int(self._select_val("char", "faster_cast_rate")),
+            "faster_cast_rate_offhand": int(self._select_val("char", "faster_cast_rate_offhand")),
             "atk_len_arc": float(self._select_val("char", "atk_len_arc")),
             "atk_len_trav": float(self._select_val("char", "atk_len_trav")),
             "atk_len_pindle": float(self._select_val("char", "atk_len_pindle")),
