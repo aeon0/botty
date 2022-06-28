@@ -1257,7 +1257,7 @@
 [Type] == Ring && [Quality] == Unique # [Lifeleech] >= 3 && [Itemallskills] == 1      // Bul-Kathos' Wedding Band
 //[Type] == Ring && [Quality] == Unique # [Lifeleech] == 5 && [Itemallskills] == 1      // Bul-Kathos' Wedding Band Perfect
 [Type] == Ring && [Quality] == Unique # [Poisonresist] >= 20 && [Normaldamagereduction] >= 7     // Nature's Peace
-//[Type] == Ring && [Quality] == Unique # [Poisonresist] == 30 && [Itemdamagetomana] == 11     // Nature's Peace Perfect
+//[Type] == Ring && [Quality] == Unique # [Poisonresist] == 30 && [Normaldamagereduction] == 11     // Nature's Peace Perfect
 [Type] == Ring && [Quality] == Unique # [Itemabsorblightpercent] >= 10 && [Itemmagicbonus] >= 10      	// Wisp Protector
 //[Type] == Ring && [Quality] == Unique # [Itemabsorblightpercent] == 20 && [Itemmagicbonus] == 20      	// Wisp Protector Perfect
 [Type] == Ring && [Quality] == Unique # [Lifeleech] >= 6 && [Armorclassvsmissile] >= 100     // Carrion Wind
