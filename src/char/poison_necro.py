@@ -81,18 +81,6 @@ class Poison_Necro(IChar):
         mouse.click(button="right")
         wait(self._cast_duration)
 
-    def amp_dmg(self, hork_time: int):
-        wait(0.5)
-        if self._skill_hotkeys["amp_dmg"]:
-            keyboard.send(self._skill_hotkeys["amp_dmg"])
-            wait(0.5, 0.15)
-        pos_m = convert_abs_to_monitor((0, -20))
-        mouse.move(*pos_m)
-        wait(0.5, 0.15)
-        mouse.press(button="right")
-        wait(hork_time)
-        mouse.release(button="right") 
-
     def bone_armor(self):
         if self._skill_hotkeys["bone_armor"]:
             keyboard.send(self._skill_hotkeys["bone_armor"])
@@ -111,7 +99,6 @@ class Poison_Necro(IChar):
             wait(0.04, 0.1)
             mouse.click(button="right")
             wait(self._cast_duration)
-
 
 
     def _left_attack(self, cast_pos_abs: tuple[float, float], spray: int = 10):
@@ -154,21 +141,7 @@ class Poison_Necro(IChar):
         wait(0.05, 0.15)
         mouse.press(button="right")
         wait(hork_time)
-        mouse.release(button="right") 
-
-    def _force_teleport(self, cast_pos_abs: tuple[float, float], spray: float = 10):
-        if not self._skill_hotkeys["force_teleport"]:
-            raise ValueError("You did not set a hotkey for force_teleport!")
-        keyboard.send(self._skill_hotkeys["force_teleport"])
-        x = cast_pos_abs[0] + (random.random() * 2 * spray - spray)
-        y = cast_pos_abs[1] + (random.random() * 2 * spray - spray)
-        cast_pos_monitor = convert_abs_to_monitor((x, y))
-        mouse.move(*cast_pos_monitor)
-        click_tries = random.randint(2, 4)
-        for _ in range(click_tries):
-            mouse.press(button="right")
-            wait(0.09, 0.12)
-            mouse.release(button="right")            
+        mouse.release(button="right")          
 
     def _raise_skeleton(self, cast_pos_abs: tuple[float, float], spray: float = 10):
         if not self._skill_hotkeys["raise_skeleton"]:
