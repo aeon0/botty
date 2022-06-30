@@ -113,6 +113,12 @@ def return_to_play() -> bool:
     return True
 
 def is_monster_immune(immunity: str, img: np.ndarray = grab()) -> bool:
+    """
+    Detects if a monster is immune to a given element based on "Immune to X" text under the monster's health bar
+    :param immunity: The immunity to detect
+    :param img: The image to detect on (assumes monster info is visible)
+    :return: True if monster is immune, False otherwise
+    """
     immunity = immunity.lower()
     if not any([immunity == x for x in IMMUNITY_COLOR_MAP.keys()]):
         Logger.error(f"is_immune: invalid immunity type {immunity}")
