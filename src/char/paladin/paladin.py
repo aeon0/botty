@@ -35,4 +35,5 @@ class Paladin(IChar):
         return self._cast_simple(skill_name="holy_shield")
 
     def _activate_cleanse_redemption(self) -> bool:
-        return self._activate_cleansing_aura([0.3, 0.5]) or self._activate_redemption_aura([0.3, 0.5])
+        self._activate_cleansing_aura([0.3, 0.5])
+        return self._activate_redemption_aura([0.3, 0.5])
