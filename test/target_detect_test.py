@@ -14,3 +14,11 @@ def test_target_detect(screen_path, expected_res):
     screen.set_window_position(0, 0)
     img = cv2.imread(screen_path)
     assert bool(len(get_visible_targets(img))) == expected_res
+
+@pytest.mark.parametrize("screen_path, expected_res", [
+    ("test/assets/monster_info.png", 0)
+])
+def test_ignore_immunity_text(screen_path, expected_res):
+    screen.set_window_position(0, 0)
+    img = cv2.imread(screen_path)
+    assert len(get_visible_targets(img)) == expected_res

@@ -58,7 +58,7 @@ def get_visible_targets(
         if positions:
             for cnt, position in enumerate(positions):
                 # ignore false positives matching immunity text
-                if is_in_roi("immunities_roi", position):
+                if is_in_roi(Config().ui_roi["immunities_roi"], position):
                     if is_monster_immune("poison", img): continue
                     if is_monster_immune("cold", img): continue
                 distance = _dist_to_center(position)

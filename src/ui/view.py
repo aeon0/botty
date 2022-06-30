@@ -9,6 +9,7 @@ from ui_manager import wait_until_hidden, wait_until_visible, detect_screen_obje
 from inventory import common
 from screen import convert_screen_to_monitor
 import numpy as np
+import template_finder
 
 IMMUNITY_COLOR_MAP = {
     "cold": "blue",
