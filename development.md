@@ -6,7 +6,7 @@
 
 ## Getting started
 ```bash
-git clone https://github.com/aeon0/botty.git
+git clone https://github.com/bottytools/botty.git
 cd botty
 conda env create environment.yml
 conda activate botty
