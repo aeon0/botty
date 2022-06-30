@@ -10,6 +10,7 @@ from dataclasses import dataclass
 from ui_manager import get_hud_mask
 from config import Config
 from ui.view import is_monster_immune
+import template_finder
 
 FILTER_RANGES=[
     {"erode": 1, "blur": 3, "lh": 38, "ls": 169, "lv": 50, "uh": 70, "us": 255, "uv": 255}, # poison
@@ -61,6 +62,16 @@ def get_visible_targets(
                 if is_in_roi(Config().ui_roi["immunities_roi"], position):
                     if is_monster_immune("poison", img): continue
                     if is_monster_immune("cold", img): continue
+                # ignore false positives matching merc/summon health bar
+                if is_in_roi(Config().ui_roi["summon_health"], position):
+                    within_merc_bar = False
+                    results = template_finder.search_all("summon_health_smallest", img, threshold=0.8, roi=Config().ui_roi["summon_health"], color_match=Config().colors["green"])
+                    if results:
+                        for result in results:
+                            if is_in_roi(result.region, position):
+                                within_merc_bar = True
+                                break
+                    if within_merc_bar: continue
                 distance = _dist_to_center(position)
                 condition = (radius_min <= distance <= radius_max) if use_radius else (not is_in_roi(ignore_roi, position))
                 if condition:
