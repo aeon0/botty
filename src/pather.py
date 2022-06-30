@@ -507,6 +507,14 @@ class Pather:
 
     @staticmethod
     def _wait_for_screen_update(img_pre: np.ndarray, roi: list = None, timeout: float = 1.5, score_threshold: float = 0.15) -> tuple[np.ndarray, float, bool]:
+        """
+        Waits for the screen to update.
+        :param img_pre: Image before the update
+        :param roi: Region of interest to be checked. If None, the whole screen is checked.
+        :param timeout: Timeout in seconds.
+        :param score_threshold: Threshold for the score. If the score is below this threshold, assume the screen has not updated.
+        :return: The image after the update, the score, and a boolean indicating if successful.
+        """
         start = time.perf_counter()
         success = True
         while (score := image_diff(img_pre, (img_post := grab(force_new = True)), roi = roi)) < score_threshold:
@@ -620,10 +628,12 @@ class Pather:
         last_direction = None
         last_move = time.time()
         img = None
+        last_node_pos_abs = None
         for _, node_idx in enumerate(path):
             continue_to_next_node = False
             did_force_move = False
             teleport_count = 0
+            identical_count = 0
             while not continue_to_next_node:
                 if img is None or not use_tp:
                     img = grab(force_new=True)
@@ -677,14 +687,20 @@ class Pather:
                     if dist < Config().ui_pos["reached_node_dist"]:
                         Logger.debug(f"Continue to next node")
                         continue_to_next_node = True
+                    # if relative node position is roughly identical to previous attempt, try another screengrab
+                    elif last_node_pos_abs is not None and math.dist(node_pos_abs, last_node_pos_abs) < 5 and identical_count <= 2:
+                        img = grab(force_new=True)
+                        Logger.debug(f"Identical node position {node_pos_abs} compared to previous {last_node_pos_abs}, trying another screengrab")
+                        identical_count += 1
                     else:
-                        Logger.debug(f"move to node {node_idx} at {node_pos_abs}")
                         # Move the char
                         x_m, y_m = convert_abs_to_monitor(node_pos_abs)
                         last_move = char.move((x_m, y_m), use_tp=use_tp, force_move=force_move)
                         last_direction = node_pos_abs
                         # wait until there's a change on screen
-                        img, _, _ = self._wait_for_screen_update(img, roi = self._roi_middle_half, score_threshold=0.3)
+                        img, score, _ = self._wait_for_screen_update(img, roi = self._roi_middle_half, score_threshold=0.5)
+                        Logger.debug(f"moved toward node {node_idx} at {node_pos_abs}, screen update score: {score}")
+                    last_node_pos_abs = node_pos_abs
         return True
 
 
