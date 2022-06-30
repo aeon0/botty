@@ -14,6 +14,14 @@ FILTER_RANGES=[
     {"erode": 1, "blur": 3, "lh": 110, "ls": 169, "lv": 50, "uh": 120, "us": 255, "uv": 255} # frozen
 ]
 
+FILTER_GREEN_RANGES=[
+    {"erode": 1, "blur": 3, "lh": 38, "ls": 169, "lv": 50, "uh": 70, "us": 255, "uv": 255}, # poison
+]
+
+FILTER_BLUE_RANGES=[
+    {"erode": 1, "blur": 3, "lh": 110, "ls": 169, "lv": 50, "uh": 120, "us": 255, "uv": 255} # frozen
+]
+
 @dataclass
 class TargetInfo:
     roi: tuple = None
@@ -68,6 +76,79 @@ def get_visible_targets(
     if targets:
         targets = sorted(targets, key=lambda obj: obj.distance)
     return targets
+
+def get_visible_green_targets(
+    img: np.ndarray = None,
+    radius_min: int = 150,
+    radius_max: int = 1280,
+    ignore_roi: list[int] = [600, 300, (1280/2 - 600)*2, (720/2 - 300)*2],
+    use_radius: bool = False
+) -> list[TargetInfo]:
+    """
+    :param img: The image to find targets in
+    :param radius_min: The minimum radius of the target [Default: 150, Integer 0 - 1280]
+    :param radius_max: The maximum radius of the target [Default: 1280, Integer 0 - 1280]
+    :param ignore_roi: The region of interest to ignore [Default: [600, 300, (1280/2 - 600)*2, (720/2 - 300)*2]]
+    :param use_radius: Whether to use the radius of the target (True) or the ignore_roi parameter (False)
+    Returns a list of TargetInfo objects
+    """
+    img = grab() if img is None else img
+    targets = []
+    for filter in FILTER_GREEN_RANGES:
+        filterimage, threshz = _process_image(img, mask_char=True, mask_hud=True, **filter) # HSV Filter for BLUE Only (Holy Freeze)
+        filterimage, rectangles, positions = _add_markers(filterimage, threshz, rect_min_size=100, rect_max_size=200, marker=True) # rather large rectangles
+        if positions:
+            for cnt, position in enumerate(positions):
+                distance = _dist_to_center(position)
+                condition = (radius_min <= distance <= radius_max) if use_radius else (not is_in_roi(ignore_roi, position))
+                if condition:
+                    targets.append(TargetInfo(
+                        roi = rectangles[cnt],
+                        center = position,
+                        center_monitor = convert_screen_to_monitor(position),
+                        center_abs = convert_screen_to_abs(position),
+                        distance = distance
+                    ))
+    if targets:
+        targets = sorted(targets, key=lambda obj: obj.distance)
+    return targets        
+
+def get_visible_blue_targets(
+    img: np.ndarray = None,
+    radius_min: int = 150,
+    radius_max: int = 1280,
+    ignore_roi: list[int] = [600, 300, (1280/2 - 600)*2, (720/2 - 300)*2],
+    use_radius: bool = False
+) -> list[TargetInfo]:
+    """
+    :param img: The image to find targets in
+    :param radius_min: The minimum radius of the target [Default: 150, Integer 0 - 1280]
+    :param radius_max: The maximum radius of the target [Default: 1280, Integer 0 - 1280]
+    :param ignore_roi: The region of interest to ignore [Default: [600, 300, (1280/2 - 600)*2, (720/2 - 300)*2]]
+    :param use_radius: Whether to use the radius of the target (True) or the ignore_roi parameter (False)
+    Returns a list of TargetInfo objects
+    """
+    img = grab() if img is None else img
+    targets = []
+    for filter in FILTER_BLUE_RANGES:
+        filterimage, threshz = _process_image(img, mask_char=True, mask_hud=True, **filter) # HSV Filter for BLUE Only (Holy Freeze)
+        filterimage, rectangles, positions = _add_markers(filterimage, threshz, rect_min_size=100, rect_max_size=200, marker=True) # rather large rectangles
+        if positions:
+            for cnt, position in enumerate(positions):
+                distance = _dist_to_center(position)
+                condition = (radius_min <= distance <= radius_max) if use_radius else (not is_in_roi(ignore_roi, position))
+                if condition:
+                    targets.append(TargetInfo(
+                        roi = rectangles[cnt],
+                        center = position,
+                        center_monitor = convert_screen_to_monitor(position),
+                        center_abs = convert_screen_to_abs(position),
+                        distance = distance
+                    ))
+    if targets:
+        targets = sorted(targets, key=lambda obj: obj.distance)
+    return targets    
+
 
 def _bright_contrast(img: np.ndarray, brightness: int = 255, contrast: int = 127):
     """
