@@ -1,8 +1,6 @@
 # <img src="assets/docs/header_green.png" width="370">
 
-Pixelbot for Diablo 2 Resurrected. This project is for informational and educational purposes only and is not meant for online usage. Feel free to dig around, add stuff, make PRs, or ask questions should you get stuck!
-
-Project is closed! Code is just for reference.
+Pixelbot for Diablo 2 Resurrected. This project is for informational and educational purposes only. Also, project is closed!
 
 ## Getting started & Prerequisites
 - D2R needs to be in English Language,
