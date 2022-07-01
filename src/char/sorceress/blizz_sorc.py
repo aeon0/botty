@@ -8,6 +8,7 @@ from pather import Location
 import numpy as np
 from screen import convert_abs_to_monitor, grab, convert_screen_to_abs
 from config import Config
+from ui.view import is_monster_immune
 import template_finder
 
 class BlizzSorc(Sorceress):
@@ -222,17 +223,17 @@ class BlizzSorc(Sorceress):
         # Find nilhlatak position
         atk_sequences = max(1, int(Config().char["atk_len_nihlathak"]) - 1)
         for i in range(atk_sequences):
-            nihlathak_pos_abs = self._pather.find_abs_node_pos(end_nodes[-1], grab())
+            img = grab()
+            nihlathak_pos_abs = self._pather.find_abs_node_pos(end_nodes[-1], img)
             if nihlathak_pos_abs is not None:
                 cast_pos_abs = np.array([nihlathak_pos_abs[0] * 1.0, nihlathak_pos_abs[1] * 1.0])
                 wait(0.5)
                 self._blizzard(cast_pos_abs, spray=0)
                 wait(0.2)
-                is_nihl = template_finder.search(["NIHL_BAR"], grab(), threshold=0.8, roi=Config().ui_roi["enemy_info"]).valid
-                nihl_immune = template_finder.search(["COLD_IMMUNE","COLD_IMMUNES"], grab(), threshold=0.8, roi=Config().ui_roi["enemy_info"]).valid
+                is_nihl = template_finder.search(["NIHL_BAR"], img, threshold=0.8, roi=Config().ui_roi["enemy_info"]).valid
                 if is_nihl:
                     Logger.info("Found him!")
-                    if nihl_immune:
+                    if is_monster_immune("cold", img):
                         Logger.info("Cold Immune! - Exiting")
                         return True
         wait(0.5)

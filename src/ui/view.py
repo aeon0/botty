@@ -8,6 +8,17 @@ from utils.misc import wait
 from ui_manager import wait_until_hidden, wait_until_visible, detect_screen_object, select_screen_object_match, ScreenObjects, list_visible_objects, is_visible
 from inventory import common
 from screen import convert_screen_to_monitor
+import numpy as np
+import template_finder
+
+IMMUNITY_COLOR_MAP = {
+    "cold": "blue",
+    "fire": "light_red",
+    "poison": "green",
+    "lightning": "yellow",
+    "physical": "gold",
+    "magic": "orange"
+}
 
 def enable_no_pickup() -> bool:
     # """
@@ -100,6 +111,32 @@ def return_to_play() -> bool:
         Logger.error("return_to_play(): failed to return to neutral play screen")
         return False
     return True
+
+def is_monster_immune(immunity: str, img: np.ndarray = grab()) -> bool:
+    """
+    Detects if a monster is immune to a given element based on "Immune to X" text under the monster's health bar
+    :param immunity: The immunity to detect
+    :param img: The image to detect on (assumes monster info is visible)
+    :return: True if monster is immune, False otherwise
+    """
+    immunity = immunity.lower()
+    if not any([immunity == x for x in IMMUNITY_COLOR_MAP.keys()]):
+        Logger.error(f"is_immune: invalid immunity type {immunity}")
+        return False
+    return template_finder.search(
+        f"IMMUNE_{immunity.upper()}",
+        img,
+        threshold=0.8,
+        roi=Config().ui_roi["immunities_roi"],
+        color_match=Config().colors[IMMUNITY_COLOR_MAP[immunity]],
+    ).valid
+
+def list_monster_immunities(img: np.ndarray = grab()) -> list:
+    immunities = []
+    for key in IMMUNITY_COLOR_MAP.keys():
+        if is_monster_immune(key, img):
+            immunities.append(key)
+    return immunities
 
 # Testing
 if __name__ == "__main__":
