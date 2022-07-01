@@ -27,11 +27,6 @@ You can either run from python. Follow [development.md](development.md) for that
 
 Check out the [development.md](development.md) docu for infos on how to build from source and details of the project structure and code.
 
-## Support this project 💓
-
-You can support this project by giving feedback, reporting bugs, or creating pull requests.
-Contributions are welcome, and we encourage you to contribute to this project if you would like to help out. Botty is a open source project and almost excessively maintained by contributors (there has been 50+ contributors! <3). In our [**discord**](https://discord.gg/Jf3J8cuXWg) there is a contributor role, and you can ping one of the admins and ask for the role to talk to other contributors! Though you don't need to be in the [**discord**](https://discord.gg/Jf3J8cuXWg) to contribute, we do encourage you to do so.
-
 ## BNIP Pickit
 
 Botty NIP (BNIP) is an extended version of Njaguar's Item Parser (NIP).
