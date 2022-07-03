@@ -10,6 +10,7 @@ from utils.misc import color_filter, wait
 from logger import Logger
 from utils.custom_mouse import mouse
 from math import sqrt
+from auto_label import label_vendor
 
 class Npc:
     #A1
@@ -269,6 +270,10 @@ def open_npc_menu(npc_key: Npc) -> bool:
             res_w = template_finder.search(npcs[npc_key]["name_tag_white"], filtered_inp_w, 0.9, roi=roi).valid
             res_g = template_finder.search(npcs[npc_key]["name_tag_gold"], filtered_inp_g, 0.9, roi=roi).valid
             if res_w:
+                # If we have auto label set, label this frame
+                if Config().advanced_options["auto_label"]:
+                    label_vendor(npc_key)
+
                 mouse.click(button="left")
                 attempts += 1
                 wait(0.7, 1.0)
@@ -309,10 +314,11 @@ def press_npc_btn(npc_key: Npc, action_btn_key: str):
 
 # Testing: Stand close to Qual-Kehk or Malah and run
 if __name__ == "__main__":
-    from screen import grab
+    from screen import grab, find_and_set_window_position
     from config import Config
     import os
     import keyboard
     keyboard.add_hotkey('f12', lambda: os._exit(1))
     keyboard.wait("f11")
-    open_npc_menu(Npc.MALAH)
+    find_and_set_window_position()
+    open_npc_menu(Npc.CAIN)

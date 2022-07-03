@@ -1,0 +1,1 @@
+from .vendors import label_vendor
