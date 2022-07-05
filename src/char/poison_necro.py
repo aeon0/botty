@@ -14,6 +14,8 @@ import numpy as np
 import time
 import os
 from ui_manager import get_closest_non_hud_pixel
+from screen import convert_abs_to_monitor, convert_screen_to_abs, grab
+from target_detect import get_visible_green_targets, get_visible_targets, get_visible_blue_targets
 
 class Poison_Necro(IChar):
     def __init__(self, skill_hotkeys: dict, pather: Pather):
@@ -41,56 +43,6 @@ class Poison_Necro(IChar):
         self._golem_count="none"
         self._revive_count=0
 
-
-    def _check_shenk_death(self):
-        ''' make sure shenk is dead checking for fireballs so we can exit combat sooner '''
-
-        roi = [640,0,640,720]
-        img = grab()
-
-        template_match = template_finder.search(
-            ['SHENK_DEATH_1','SHENK_DEATH_2','SHENK_DEATH_3','SHENK_DEATH_4'],
-            img,
-            threshold=0.6,
-            roi=roi,
-            use_grayscale = False
-        )
-        if template_match.valid:
-            self._shenk_dead=1
-            Logger.info('\33[31m'+"Shenks Dead, looting..."+'\033[0m')
-        else:
-            return True
-
-    def _count_revives(self):
-        roi = [15,14,400,45]
-        img = grab()
-        max_rev = 13
-
-        template_match = template_finder.search(
-            ['REV_BASE'],
-            img,
-            threshold=0.6,
-            roi=roi
-        )
-        if template_match.valid:
-            self._revive_count=max_rev
-        else:
-            self._revive_count=0
-            return True
-
-        for count in range(1,max_rev):
-            rev_num = "REV_"+str(count)
-            template_match = template_finder.search(
-                [rev_num],
-                img,
-                threshold=0.66,
-                roi=roi,
-                use_grayscale = False
-            )
-            if template_match.valid:
-                self._revive_count=count
-
-
     def poison_nova(self, time_in_s: float):
         if not self._skill_hotkeys["poison_nova"]:
             raise ValueError("You did not set poison nova hotkey!")
@@ -102,148 +54,7 @@ class Poison_Necro(IChar):
             mouse.press(button="right")
             wait(0.12, 0.2)
             mouse.release(button="right")
-
-    def _count_skeletons(self):
-        roi = [15,14,400,45]
-        img = grab()
-        max_skeles = 13
-
-        template_match = template_finder.search(
-            ['SKELE_BASE'],
-            img,
-            threshold=0.6,
-            roi=roi
-        )
-        if template_match.valid:
-            self._skeletons_count=max_skeles
-        else:
-            self._skeletons_count=0
-            return True
-
-        for count in range(1,max_skeles):
-            skele_num = "SKELE_"+str(count)
-            template_match = template_finder.search(
-                [skele_num],
-                img,
-                threshold=0.66,
-                roi=roi,
-                use_grayscale = False
-            )
-            if template_match.valid:
-                self._skeletons_count=count
-
-    def _count_gol(self):
-        roi = [15,14,400,45]
-        img = grab()
-
-        template_match = template_finder.search(
-            ['CLAY'],
-            img,
-            threshold=0.6,
-            roi=roi
-        )
-        if template_match.valid:
-            self._golem_count="clay gol"
-        else:
-            self._golem_count="none"
-            return True
-
-    def _summon_count(self):
-        ''' see how many summons and which golem are out '''
-
-        self._count_skeletons()
-        self._count_revives()
-        self._count_gol()
-    def _summon_stat(self):
-        ''' print counts for summons '''
-        Logger.info('\33[31m'+"Summon status | "+str(self._skeletons_count)+"skele | "+str(self._revive_count)+" rev | "+self._golem_count+" |"+'\033[0m')
-
-    def _revive(self, cast_pos_abs: tuple[float, float], spray: int = 10, cast_count: int=12):
-        Logger.info('\033[94m'+"raise revive"+'\033[0m')
-        keyboard.send(Config().char["stand_still"], do_release=False)
-        for _ in range(cast_count):
-            if self._skill_hotkeys["raise_revive"]:
-                keyboard.send(self._skill_hotkeys["raise_revive"])
-                #Logger.info("revive -> cast")
-            x = cast_pos_abs[0] + (random.random() * 2*spray - spray)
-            y = cast_pos_abs[1] + (random.random() * 2*spray - spray)
-            cast_pos_monitor = screen.convert_abs_to_monitor((x, y))
-
-            nx = cast_pos_monitor[0]
-            ny = cast_pos_monitor[1]
-            if(nx>1280):
-                nx=1275
-            if(ny>720):
-                ny=715
-            if(nx<0):
-                nx=0
-            if(ny<0):
-                ny=0
-            clamp = [nx,ny]
-
-            mouse.move(*clamp)
-            mouse.press(button="right")
-            wait(0.075, 0.1)
             mouse.release(button="right")
-        keyboard.send(Config().char["stand_still"], do_press=False)
-
-    def _raise_skeleton(self, cast_pos_abs: tuple[float, float], spray: int = 10, cast_count: int=16):
-        Logger.info('\033[94m'+"raise skeleton"+'\033[0m')
-        keyboard.send(Config().char["stand_still"], do_release=False)
-        for _ in range(cast_count):
-            if self._skill_hotkeys["raise_skeleton"]:
-                keyboard.send(self._skill_hotkeys["raise_skeleton"])
-                #Logger.info("raise skeleton -> cast")
-            x = cast_pos_abs[0] + (random.random() * 2*spray - spray)
-            y = cast_pos_abs[1] + (random.random() * 2*spray - spray)
-            cast_pos_monitor = screen.convert_abs_to_monitor((x, y))
-
-            nx = cast_pos_monitor[0]
-            ny = cast_pos_monitor[1]
-            if(nx>1280):
-                nx=1279
-            if(ny>720):
-                ny=719
-            if(nx<0):
-                nx=0
-            if(ny<0):
-                ny=0
-            clamp = [nx,ny]
-
-            mouse.move(*clamp)
-            mouse.press(button="right")
-            wait(0.02, 0.05)
-            mouse.release(button="right")
-        keyboard.send(Config().char["stand_still"], do_press=False)
-
-    def _raise_mage(self, cast_pos_abs: tuple[float, float], spray: int = 10, cast_count: int=16):
-        Logger.info('\033[94m'+"raise mage"+'\033[0m')
-        keyboard.send(Config().char["stand_still"], do_release=False)
-        for _ in range(cast_count):
-            if self._skill_hotkeys["raise_mage"]:
-                keyboard.send(self._skill_hotkeys["raise_mage"])
-                #Logger.info("raise skeleton -> cast")
-            x = cast_pos_abs[0] + (random.random() * 2*spray - spray)
-            y = cast_pos_abs[1] + (random.random() * 2*spray - spray)
-            cast_pos_monitor = screen.convert_abs_to_monitor((x, y))
-
-            nx = cast_pos_monitor[0]
-            ny = cast_pos_monitor[1]
-            if(nx>1280):
-                nx=1279
-            if(ny>720):
-                ny=719
-            if(nx<0):
-                nx=0
-            if(ny<0):
-                ny=0
-            clamp = [nx,ny]
-
-            mouse.move(*clamp)
-            mouse.press(button="right")
-            wait(0.02, 0.05)
-            mouse.release(button="right")
-        keyboard.send(Config().char["stand_still"], do_press=False)
 
 
     def pre_buff(self):
@@ -270,7 +81,6 @@ class Poison_Necro(IChar):
         mouse.click(button="right")
         wait(self._cast_duration)
 
-
     def bone_armor(self):
         if self._skill_hotkeys["bone_armor"]:
             keyboard.send(self._skill_hotkeys["bone_armor"])
@@ -289,7 +99,6 @@ class Poison_Necro(IChar):
             wait(0.04, 0.1)
             mouse.click(button="right")
             wait(self._cast_duration)
-
 
 
     def _left_attack(self, cast_pos_abs: tuple[float, float], spray: int = 10):
@@ -322,223 +131,454 @@ class Poison_Necro(IChar):
 
         keyboard.send(Config().char["stand_still"], do_press=False)
 
-    def _amp_dmg(self, cast_pos_abs: tuple[float, float], spray: float = 10):
-        if self._skill_hotkeys["amp_dmg"]:
-            keyboard.send(self._skill_hotkeys["amp_dmg"])
+    def _do_curse(self, hork_time: int):
+        wait(0.5)
+        if self._skill_hotkeys["curse"]:
+            keyboard.send(self._skill_hotkeys["curse"])
+            wait(0.05, 0.15)
+        pos_m = convert_abs_to_monitor((0, -20))
+        mouse.move(*pos_m)
+        wait(0.05, 0.15)
+        mouse.press(button="right")
+        wait(hork_time)
+        mouse.release(button="right")          
 
-        x = cast_pos_abs[0] + (random.random() * 2*spray - spray)
-        y = cast_pos_abs[1] + (random.random() * 2*spray - spray)
-        cast_pos_monitor = screen.convert_abs_to_monitor((x, y))
+    def _raise_skeleton(self, cast_pos_abs: tuple[float, float], spray: float = 10):
+        if not self._skill_hotkeys["raise_skeleton"]:
+            raise ValueError("You did not set a hotkey for raise_skeleton!")
+        keyboard.send(self._skill_hotkeys["raise_skeleton"])
+        x = cast_pos_abs[0] + (random.random() * 2 * spray - spray)
+        y = cast_pos_abs[1] + (random.random() * 2 * spray - spray)
+        cast_pos_monitor = convert_abs_to_monitor((x, y))
         mouse.move(*cast_pos_monitor)
-        mouse.press(button="right")
-        wait(0.25, 0.35)
-        mouse.release(button="right")
+        click_tries = random.randint(2, 4)
+        for _ in range(click_tries):
+            mouse.press(button="right")
+            wait(0.09, 0.12)
+            mouse.release(button="right") 
 
-    def _lower_res(self, cast_pos_abs: tuple[float, float], spray: float = 10):
-        if self._skill_hotkeys["lower_res"]:
-            keyboard.send(self._skill_hotkeys["lower_res"])
 
-        x = cast_pos_abs[0] + (random.random() * 2*spray - spray)
-        y = cast_pos_abs[1] + (random.random() * 2*spray - spray)
-        cast_pos_monitor = screen.convert_abs_to_monitor((x, y))
+    def corpse_explosion(self, cast_pos_abs: tuple[float, float], spray: float = 10):
+        if not self._skill_hotkeys["corpse_explosion"]:
+            raise ValueError("You did not set a hotkey for corpse_explosion!")
+        keyboard.send(self._skill_hotkeys["corpse_explosion"])
+        x = cast_pos_abs[0] + (random.random() * 2 * spray - spray)
+        y = cast_pos_abs[1] + (random.random() * 2 * spray - spray)
+        cast_pos_monitor = convert_abs_to_monitor((x, y))
         mouse.move(*cast_pos_monitor)
-        mouse.press(button="right")
-        wait(0.25, 0.35)
-        mouse.release(button="right")
+        click_tries = random.randint(2, 4)
+        for _ in range(click_tries):
+            mouse.press(button="right")
+            wait(0.09, 0.12)
+            mouse.release(button="right") 
 
-    def _corpse_explosion(self, cast_pos_abs: tuple[float, float], spray: int = 10,cast_count: int = 8):
-        keyboard.send(Config().char["stand_still"], do_release=False)
-        Logger.info('\033[93m'+"corpse explosion~> random cast"+'\033[0m')
-        for _ in range(cast_count):
-            if self._skill_hotkeys["corpse_explosion"]:
-                keyboard.send(self._skill_hotkeys["corpse_explosion"])
-                x = cast_pos_abs[0] + (random.random() * 2*spray - spray)
-                y = cast_pos_abs[1] + (random.random() * 2*spray - spray)
-                cast_pos_monitor = screen.convert_abs_to_monitor((x, y))
-                mouse.move(*cast_pos_monitor)
-                mouse.press(button="right")
-                wait(0.075, 0.1)
-                mouse.release(button="right")
-        keyboard.send(Config().char["stand_still"], do_press=False)
+    def _raise_mage(self, cast_pos_abs: tuple[float, float], delay: tuple[float, float] = (0.2, 0.3), spray: float = 10):
+        if not self._skill_hotkeys["raise_mage"]:
+            raise ValueError("You did not set raise_mage hotkey!")
+        keyboard.send(self._skill_hotkeys["raise_mage"])
+        for _ in range(3):
+            x = cast_pos_abs[0] + (random.random() * 2 * spray - spray)
+            y = cast_pos_abs[1] + (random.random() * 2 * spray - spray)
+            cast_pos_monitor = convert_abs_to_monitor((x, y))
+            mouse.move(*cast_pos_monitor, delay_factor=[0.3, 0.6])
+            mouse.press(button="right")
+            wait(delay[0], delay[1])
+            mouse.release(button="right")
+
+    def _raise_revive(self, cast_pos_abs: tuple[float, float], spray: float = 10):
+        if not self._skill_hotkeys["raise_revive"]:
+            raise ValueError("You did not set a hotkey for raise_revive!")
+        keyboard.send(self._skill_hotkeys["raise_revive"])
+        x = cast_pos_abs[0] + (random.random() * 2 * spray - spray)
+        y = cast_pos_abs[1] + (random.random() * 2 * spray - spray)
+        cast_pos_monitor = convert_abs_to_monitor((x, y))
+        mouse.move(*cast_pos_monitor)
+        click_tries = random.randint(2, 4)
+        for _ in range(click_tries):
+            mouse.press(button="right")
+            wait(0.09, 0.12)
+            mouse.release(button="right")        
+
+    def _pn_attack_sequence(
+        self,
+        default_target_abs: tuple[int, int] = (-50, -50),
+        min_duration: float = 0,
+        max_duration: float = 15,
+        blizz_to_ice_blast_ratio: int = 3,
+        target_detect: bool = True,
+        default_spray: int = 20,
+        #aura: str = ""
+    ) -> bool:
+        start = time.time()
+        target_check_count = 1
+        #foh_aura = aura if aura else "conviction"
+        #holy_bolt_aura = aura if aura else "concentration"
+        while (elapsed := (time.time() - start)) <= max_duration:
+            cast_pos_abs = default_target_abs
+            spray = default_spray
+            atk_len = Config().char["atk_len_cs_trashmobs"] * .50
+            # if targets are detected, switch to targeting with reduced spread rather than present default cast position and default spread
+            if target_detect and (targets := get_visible_green_targets()):
+                # log_targets(targets)
+                spray = 5
+                cast_pos_abs = targets[0].center_abs
+                target_check_count += 1
+                closest_target_position_monitor = targets[0].center_monitor
 
 
-    def _cast_circle(self, cast_dir: tuple[float,float],cast_start_angle: float=0.0, cast_end_angle: float=90.0,cast_div: int = 10,cast_v_div: int=4,cast_spell: str='raise_skeleton',delay: float=1.0,offset: float=1.0):
-        Logger.info('\033[93m'+"circle cast ~>"+cast_spell+'\033[0m')
-        keyboard.send(Config().char["stand_still"], do_release=False)
-        keyboard.send(self._skill_hotkeys[cast_spell])
-        mouse.press(button="right")
 
-        for i in range(cast_div):
-            angle = self._lerp(cast_start_angle,cast_end_angle,float(i)/cast_div)
-            target = unit_vector(rotate_vec(cast_dir, angle))
-            #Logger.info("current angle ~> "+str(angle))
-            for j in range(cast_v_div):
-                circle_pos_abs = get_closest_non_hud_pixel(pos = ((target*120.0*float(j+1.0))*offset), pos_type="abs")
-                circle_pos_monitor = screen.convert_abs_to_monitor(circle_pos_abs)
-                mouse.move(*circle_pos_monitor,delay_factor=[0.3*delay, .6*delay])
+            # if time > minimum and either targets aren't set or targets don't exist, exit loop
+            if elapsed > min_duration and (not target_detect or not targets):
+                break
+
+            targets = get_visible_green_targets()
+            if targets and len(targets) > 0:
+                # TODO: add delay between FOH casts--doesn't properly cast each FOH in sequence
+                # cast foh to holy bolt with preset ratio (e.g. 3 foh followed by 1 holy bolt if foh_to_holy_bolt_ratio = 3)
+                    Logger.info("Mob detected, Attacking mobs!")
+                    self.poison_nova(atk_len)
+                    self._raise_skeleton(cast_pos_abs, spray=spray)
+                    #self._raise_mage(cast_pos_abs, spray=spray)
+                    self._raise_revive(cast_pos_abs, spray=spray)
+                    targets = get_visible_green_targets()
+                    if targets:
+                        closest_target_position_monitor = targets[0].center_monitor
+                        self.pre_move()
+                        self.move(closest_target_position_monitor, force_move=True)
+                    pos_m = screen.convert_abs_to_monitor((50, 0))
+                    self.walk(pos_m, force_move=True)
+                    self.poison_nova(atk_len)
+                    targets = get_visible_green_targets()                    
+                    self._raise_revive(cast_pos_abs, spray=spray)
+                    self._raise_mage(cast_pos_abs, spray=spray)
+                    self._raise_skeleton(cast_pos_abs, spray=spray)
+
+            else:
+                    Logger.info("No minions detected yet, Default attack sequence")
+                    targets = get_visible_green_targets()
+                    self.poison_nova(atk_len)
+                    targets = get_visible_green_targets() 
+                    self._raise_skeleton((-25, -75), spray=50)
+                    pos_m = screen.convert_abs_to_monitor((0, 30))
+                    self.walk(pos_m, force_move=True)                   
+                    self._raise_revive((-35, -50), spray=50)
+                    self._raise_mage((0, -100), spray=50)
+                    self._raise_skeleton(cast_pos_abs, spray=spray)                    
 
 
-                #Logger.info("circle move")
-        mouse.release(button="right")
-        keyboard.send(Config().char["stand_still"], do_press=False)
+            target_check_count += 1
+        return True
 
+
+    def _trav_attack(
+        self,
+        default_target_abs: tuple[int, int] = (-50, -50),
+        min_duration: float = 0,
+        max_duration: float = 15,
+        blizz_to_ice_blast_ratio: int = 3,
+        target_detect: bool = True,
+        default_spray: int = 20,
+        #aura: str = ""
+    ) -> bool:
+        start = time.time()
+        target_check_count = 1
+        #foh_aura = aura if aura else "conviction"
+        #holy_bolt_aura = aura if aura else "concentration"
+        while (elapsed := (time.time() - start)) <= max_duration:
+            cast_pos_abs = default_target_abs
+            spray = default_spray
+            atk_len = Config().char["atk_len_cs_trashmobs"] * .50
+            # if targets are detected, switch to targeting with reduced spread rather than present default cast position and default spread
+            if target_detect and (targets := get_visible_targets()):
+                # log_targets(targets)
+                spray = 5
+                cast_pos_abs = targets[0].center_abs
+                target_check_count += 1
+                closest_target_position_monitor = targets[0].center_monitor
+
+
+
+            # if time > minimum and either targets aren't set or targets don't exist, exit loop
+            if elapsed > min_duration and (not target_detect or not targets):
+                break
+
+            targets = get_visible_targets()
+            if targets and len(targets) > 0:
+                # TODO: add delay between FOH casts--doesn't properly cast each FOH in sequence
+                # cast foh to holy bolt with preset ratio (e.g. 3 foh followed by 1 holy bolt if foh_to_holy_bolt_ratio = 3)
+                    Logger.info("Mob detected, Attacking mobs!")
+                    self.poison_nova(atk_len)
+                    #self._raise_revive(cast_pos_abs, spray=spray)
+                    self.corpse_explosion(cast_pos_abs, spray=spray) 
+                    targets = get_visible_targets()
+                    if targets:
+                        Logger.info("Teleporting to mob!")
+                        closest_target_position_monitor = targets[0].center_monitor
+                        self.pre_move()
+                        self.move(closest_target_position_monitor, force_move=True)
+                    pos_m = screen.convert_abs_to_monitor((50, 0))
+                    self.walk(pos_m, force_move=True)
+                    self.poison_nova(atk_len)
+                    targets = get_visible_targets()
+                    self.corpse_explosion(cast_pos_abs, spray=spray)    
+                    if targets:
+                        closest_target_position_monitor = targets[0].center_monitor
+                        self.pre_move()
+                        self.move(closest_target_position_monitor, force_move=True)
+                    pos_m = screen.convert_abs_to_monitor((-50, 0))
+                    self.walk(pos_m, force_move=True)
+                    self.corpse_explosion(cast_pos_abs, spray=spray)                    
+                    self._raise_revive(cast_pos_abs, spray=spray)
+                    #self._raise_mage(cast_pos_abs, spray=spray)
+                    self._raise_skeleton(cast_pos_abs, spray=spray)
+                    self.corpse_explosion(cast_pos_abs, spray=spray)
+
+            else:
+                    Logger.info("No minions detected yet, Default attack sequence")
+                    targets = get_visible_targets()
+                    self.poison_nova(atk_len)
+                    targets = get_visible_targets()
+                    self.corpse_explosion(cast_pos_abs, spray=spray)                    
+                    #self._raise_revive(cast_pos_abs, spray=spray)
+                    self._raise_mage(cast_pos_abs, spray=spray)
+                    self._raise_skeleton(cast_pos_abs, spray=spray)
+                    self.corpse_explosion(cast_pos_abs, spray=spray)
+
+            target_check_count += 1
+        return True        
+    
+    def _nihl_attack(
+        self,
+        default_target_abs: tuple[int, int] = (-50, -50),
+        min_duration: float = 0,
+        max_duration: float = 15,
+        blizz_to_ice_blast_ratio: int = 3,
+        target_detect: bool = True,
+        default_spray: int = 20,
+        #aura: str = ""
+    ) -> bool:
+        start = time.time()
+        target_check_count = 1
+        #foh_aura = aura if aura else "conviction"
+        #holy_bolt_aura = aura if aura else "concentration"
+        while (elapsed := (time.time() - start)) <= max_duration:
+            cast_pos_abs = default_target_abs
+            spray = default_spray
+            atk_len = Config().char["atk_len_nihlathak"] * .50
+            # if targets are detected, switch to targeting with reduced spread rather than present default cast position and default spread
+            if target_detect and (targets := get_visible_targets()):
+                # log_targets(targets)
+                spray = 5
+                cast_pos_abs = targets[0].center_abs
+                target_check_count += 1
+                closest_target_position_monitor = targets[0].center_monitor
+
+
+
+            # if time > minimum and either targets aren't set or targets don't exist, exit loop
+            if elapsed > min_duration and (not target_detect or not targets):
+                break
+
+            targets = get_visible_targets()
+            if targets and len(targets) > 0:
+                # TODO: add delay between FOH casts--doesn't properly cast each FOH in sequence
+                # cast foh to holy bolt with preset ratio (e.g. 3 foh followed by 1 holy bolt if foh_to_holy_bolt_ratio = 3)
+                    Logger.info("Mob detected, Attacking mobs!")
+                    self.poison_nova(1.5)
+                    #self._raise_revive(cast_pos_abs, spray=spray)
+                    targets = get_visible_targets()
+                    self.corpse_explosion(cast_pos_abs, spray=spray)                    
+                    targets = get_visible_targets()
+                    self.corpse_explosion(cast_pos_abs, spray=spray) 
+                    targets = get_visible_targets()
+                    self.corpse_explosion(cast_pos_abs, spray=spray) 
+                    if targets:
+                        Logger.info("Teleporting to mob!")
+                        closest_target_position_monitor = targets[0].center_monitor
+                        self.pre_move()
+                        self.move(closest_target_position_monitor, force_move=True)
+                    self.poison_nova(1.5)
+                    targets = get_visible_targets()
+                    self.corpse_explosion(cast_pos_abs, spray=spray)                    
+                    targets = get_visible_targets()
+                    self.corpse_explosion(cast_pos_abs, spray=spray) 
+            else:
+                    Logger.info("No minions detected yet, Default attack sequence")
+                    targets = get_visible_targets()
+                    self.poison_nova(1.5)
+                    targets = get_visible_targets()
+                    self.corpse_explosion(cast_pos_abs, spray=spray)                    
+                    targets = get_visible_targets()
+                    self.corpse_explosion(cast_pos_abs, spray=spray)
+                    targets = get_visible_targets()
+                    self.corpse_explosion(cast_pos_abs, spray=spray)                    
+                    targets = get_visible_targets()
+                    self.corpse_explosion(cast_pos_abs, spray=spray)  
+
+            target_check_count += 1
+        return True        
+    
+    def _pindle_attack(
+        self,
+        default_target_abs: tuple[int, int] = (-50, -50),
+        min_duration: float = 0,
+        max_duration: float = 15,
+        blizz_to_ice_blast_ratio: int = 3,
+        target_detect: bool = True,
+        default_spray: int = 20,
+        #aura: str = ""
+    ) -> bool:
+        start = time.time()
+        target_check_count = 1
+        #foh_aura = aura if aura else "conviction"
+        #holy_bolt_aura = aura if aura else "concentration"
+        while (elapsed := (time.time() - start)) <= max_duration:
+            cast_pos_abs = default_target_abs
+            spray = default_spray
+            atk_len = Config().char["atk_len_nihlathak"] * .50
+            # if targets are detected, switch to targeting with reduced spread rather than present default cast position and default spread
+            if target_detect and (targets := get_visible_blue_targets()):
+                # log_targets(targets)
+                spray = 5
+                cast_pos_abs = targets[0].center_abs
+                target_check_count += 1
+                closest_target_position_monitor = targets[0].center_monitor
+
+
+
+            # if time > minimum and either targets aren't set or targets don't exist, exit loop
+            if elapsed > min_duration and (not target_detect or not targets):
+                break
+
+            targets = get_visible_blue_targets()
+            if targets and len(targets) > 0:
+                # TODO: add delay between FOH casts--doesn't properly cast each FOH in sequence
+                # cast foh to holy bolt with preset ratio (e.g. 3 foh followed by 1 holy bolt if foh_to_holy_bolt_ratio = 3)
+                    Logger.info("Mob detected, Attacking mobs!")
+                    self.poison_nova(atk_len)
+                    #self._raise_revive(cast_pos_abs, spray=spray)
+                    self.corpse_explosion(cast_pos_abs, spray=spray) 
+                    targets = get_visible_blue_targets()
+                    if targets:
+                        closest_target_position_monitor = targets[0].center_monitor
+                        self.pre_move()
+                        self.move(closest_target_position_monitor, force_move=True)
+                    pos_m = screen.convert_abs_to_monitor((-50, 0))
+                    self.walk(pos_m, force_move=True)
+                    self.poison_nova(atk_len)                    
+                    self._raise_revive(cast_pos_abs, spray=spray)
+                    self._raise_mage(cast_pos_abs, spray=spray)
+                    self._raise_skeleton(cast_pos_abs, spray=spray)
+                    self.corpse_explosion(cast_pos_abs, spray=spray)
+
+            else:
+                    Logger.info("No minions detected yet, Default attack sequence")
+                    targets = get_visible_blue_targets()
+                    self.poison_nova(atk_len)
+                    targets = get_visible_blue_targets()
+                    self.corpse_explosion(cast_pos_abs, spray=spray)                    
+                    self._raise_revive(cast_pos_abs, spray=spray)
+                    self._raise_mage(cast_pos_abs, spray=spray)
+                    self._raise_skeleton(cast_pos_abs, spray=spray)
+                    self.corpse_explosion(cast_pos_abs, spray=spray)                   
+
+            target_check_count += 1
+        return True        
+
+    def _attack_sequence(self, min_duration: float = Config().char["atk_len_cs_trashmobs"], max_duration: float = Config().char["atk_len_cs_trashmobs"] * 2):
+        self._pn_attack_sequence(default_target_abs=(20,20), min_duration = min_duration, max_duration = max_duration, default_spray=10, blizz_to_ice_blast_ratio=2)
+
+    def _trav_attack_sequence(self, min_duration: float = Config().char["atk_len_trav"], max_duration: float = Config().char["atk_len_trav"] * 4):
+        self._trav_attack(default_target_abs=(20,20), min_duration = min_duration, max_duration = max_duration, default_spray=10, blizz_to_ice_blast_ratio=2)
+            
+    def _nihl_attack_sequence(self, min_duration: float = Config().char["atk_len_nihlathak"], max_duration: float = Config().char["atk_len_nihlathak"] * 4):
+        self._nihl_attack(default_target_abs=(20,20), min_duration = min_duration, max_duration = max_duration, default_spray=10, blizz_to_ice_blast_ratio=2)
+            
+    def _pindle_attack_sequence(self, min_duration: float = Config().char["atk_len_nihlathak"], max_duration: float = Config().char["atk_len_nihlathak"] * 4):
+        self._pindle_attack(default_target_abs=(20,20), min_duration = min_duration, max_duration = max_duration, default_spray=10, blizz_to_ice_blast_ratio=2)             
 
     def kill_pindle(self) -> bool:
-        pos_m = screen.convert_abs_to_monitor((0, 30))
-        self.walk(pos_m, force_move=True)
-        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=4,cast_v_div=3,cast_spell='lower_res',delay=1.0)
-        self.poison_nova(3.0)
-        pos_m = screen.convert_abs_to_monitor((0, -50))
-        self.pre_move()
-        self.move(pos_m, force_move=True)
-        pos_m = screen.convert_abs_to_monitor((50, 0))
-        self.walk(pos_m, force_move=True)
-        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=120,cast_div=5,cast_v_div=2,cast_spell='corpse_explosion',delay=1.1,offset=1.8)
-        self.poison_nova(3.0)
+        self.bone_armor()
+        self._do_curse(.5)
+        self._pindle_attack_sequence()
+        self._pindle_attack_sequence()
+        self._pindle_attack_sequence()
+        # Move to items
+        self._pather.traverse_nodes_fixed("pindle_end", self)
         return True
 
     def kill_eldritch(self) -> bool:
-        pos_m = screen.convert_abs_to_monitor((0, -100))
+        pos_m = screen.convert_abs_to_monitor((0, -60))
         self.pre_move()
         self.move(pos_m, force_move=True)
         self.bone_armor()
-        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=4,cast_v_div=3,cast_spell='lower_res',delay=1.0)
-        self.poison_nova(2.0)
-        self._summon_stat()
+        self._do_curse(.5)
+        self._attack_sequence()
+        self._attack_sequence()
         # move a bit back
-        pos_m = screen.convert_abs_to_monitor((0, 50))
-        self.pre_move()
-        self.move(pos_m, force_move=True)
-        self.poison_nova(2.0)
-        self._pather.traverse_nodes((Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END), self, timeout=0.6, force_tp=True)
-        pos_m = screen.convert_abs_to_monitor((0, 170))
-        self.pre_move()
-        self.move(pos_m, force_move=True)
-        #self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=8,cast_v_div=4,cast_spell='raise_revive',delay=1.2,offset=.8)
-        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=720,cast_div=8,cast_v_div=4,cast_spell='raise_skeleton',delay=1.1,offset=.8)
-        pos_m = screen.convert_abs_to_monitor((0, -50))
-        self.pre_move()
-        self.move(pos_m, force_move=True)
-        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=720,cast_div=8,cast_v_div=4,cast_spell='raise_mage',delay=1.1,offset=1.0)
-        pos_m = screen.convert_abs_to_monitor((-75, 0))
-        self.pre_move()
-        self.move(pos_m, force_move=True)
-        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=720,cast_div=8,cast_v_div=4,cast_spell='raise_skeleton',delay=1.1,offset=.5)
-        self._summon_count()
-        self._summon_stat()
-
         self._pather.traverse_nodes((Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END), self, timeout=0.6, force_tp=True)
         return True
 
 
     def kill_shenk(self) -> bool:
         self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, timeout=1.0)
-        #pos_m = self._screen.convert_abs_to_monitor((50, 0))
-        #self.walk(pos_m, force_move=True)
-        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=4,cast_v_div=3,cast_spell='lower_res',delay=1.0)
-        self.poison_nova(3.0)
-        pos_m = screen.convert_abs_to_monitor((0, -50))
-        self.pre_move()
-        self.move(pos_m, force_move=True)
-        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=720,cast_div=10,cast_v_div=4,cast_spell='raise_mage',delay=1.1,offset=.8)
         pos_m = screen.convert_abs_to_monitor((50, 0))
-        self.pre_move()
-        self.move(pos_m, force_move=True)
-        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=720,cast_div=10,cast_v_div=4,cast_spell='raise_revive',delay=1.1,offset=.8)
-        pos_m = screen.convert_abs_to_monitor((-20, -20))
-        self.pre_move()
-        self.move(pos_m, force_move=True)
-        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=10,cast_v_div=4,cast_spell='raise_skeleton',delay=1.1,offset=.8)
-        self._summon_count()
+        self.walk(pos_m, force_move=True)
+        self._do_curse(.5)
+        self._attack_sequence()
+        self._attack_sequence()
         #self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=2,cast_v_div=1,cast_spell='corpse_explosion',delay=3.0,offset=1.8)
         return True
 
 
     def kill_council(self) -> bool:
-        pos_m = screen.convert_abs_to_monitor((0, -200))
-        self.pre_move()
-        self.move(pos_m, force_move=True)
-        self._pather.traverse_nodes([229], self, timeout=2.5, force_tp=True, use_tp_charge=True)
-        pos_m = screen.convert_abs_to_monitor((50, 0))
+        self.bone_armor()
+        # Check out the node screenshot in assets/templates/trav/nodes to see where each node is at
+        atk_len = Config().char["atk_len_trav"]
+        # Go inside and hammer a bit
+        self._pather.traverse_nodes([228, 229], self, timeout=2.2, do_pre_move=False, force_tp=True, use_tp_charge=True)
+        pos_m = screen.convert_abs_to_monitor((50, 50))
         self.walk(pos_m, force_move=True)
-        #self._lower_res((-50, 0), spray=10)
-        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=4,cast_v_div=3,cast_spell='lower_res',delay=1.0)
-        self.poison_nova(2.0)
-        #self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=9,cast_v_div=3,cast_spell='raise_skeleton',delay=1.2,offset=.8)
-        pos_m = screen.convert_abs_to_monitor((200, 50))
-        self.pre_move()
-        self.move(pos_m, force_move=True)
-        pos_m = screen.convert_abs_to_monitor((30, -50))
+        # Move a bit back and another round
+        self._do_curse(.5)
+        self._trav_attack_sequence()
+        self._pather.traverse_nodes([229], self, timeout=2.2, do_pre_move=False, force_tp=True, use_tp_charge=True)
+        # Here we have two different attack sequences depending if tele is available or not
+            # Back to center stairs and more hammers
+            #self._pather.traverse_nodes([228], self, timeout=2.2, do_pre_move=False, force_tp=True, use_tp_charge=True)
+        self._pather.traverse_nodes([300], self, timeout=2.2, do_pre_move=False, force_tp=True, use_tp_charge=True)
+        pos_m = screen.convert_abs_to_monitor((50, -50))
         self.walk(pos_m, force_move=True)
-        self.poison_nova(2.0)
-        #self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=120,cast_div=2,cast_v_div=1,cast_spell='corpse_explosion',delay=3.0,offset=1.8)
-        #wait(self._cast_duration, self._cast_duration +.2)
-        pos_m = screen.convert_abs_to_monitor((-200, 200))
-        self.pre_move()
-        self.move(pos_m, force_move=True)
-        pos_m = screen.convert_abs_to_monitor((-100, 200))
-        self.pre_move()
-        self.move(pos_m, force_move=True)
-        self._pather.traverse_nodes([226], self, timeout=2.5, force_tp=True, use_tp_charge=True)
-        pos_m = screen.convert_abs_to_monitor((0, 30))
+        self._do_curse(.5)
+        self._trav_attack_sequence()
+        self._pather.traverse_nodes([300], self, timeout=2.2, do_pre_move=False, force_tp=True, use_tp_charge=True)
+        #self._pather.traverse_nodes([228], self, timeout=2.2, do_pre_move=False, force_tp=True, use_tp_charge=True)
+        self._pather.traverse_nodes([228], self, timeout=2.2, do_pre_move=False, force_tp=True, use_tp_charge=True)
+        self._pather.traverse_nodes([226], self, timeout=2.2, do_pre_move=False, force_tp=True, use_tp_charge=True)
+        pos_m = screen.convert_abs_to_monitor((50, -50))
         self.walk(pos_m, force_move=True)
-        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=4,cast_v_div=3,cast_spell='lower_res',delay=1.0)
-        wait(0.5)
-        self.poison_nova(4.0)
-        #self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=120,cast_div=2,cast_v_div=1,cast_spell='corpse_explosion',delay=3.0,offset=1.8)
-        #wait(self._cast_duration, self._cast_duration +.2)
-        #self.poison_nova(2.0)
-        pos_m = screen.convert_abs_to_monitor((50, 0))
-        self.pre_move()
-        self.move(pos_m, force_move=True)
-        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=120,cast_div=5,cast_v_div=2,cast_spell='corpse_explosion',delay=0.5,offset=1.8)
-        #self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=9,cast_v_div=3,cast_spell='raise_skeleton',delay=1.2,offset=.8)
-        #self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=9,cast_v_div=3,cast_spell='raise_mage',delay=1.2,offset=.8)
-        pos_m = screen.convert_abs_to_monitor((-200, -200))
-        self.pre_move()
-        self.move(pos_m, force_move=True)
-        self._pather.traverse_nodes([229], self, timeout=2.5, force_tp=True, use_tp_charge=True)
-        pos_m = screen.convert_abs_to_monitor((20, -50))
-        self.walk(pos_m, force_move=True)
-        self.poison_nova(2.0)
-        pos_m = screen.convert_abs_to_monitor((50, 0))
-        self.pre_move()
-        self.move(pos_m, force_move=True)
-        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=120,cast_div=5,cast_v_div=2,cast_spell='corpse_explosion',delay=3.0,offset=1.8)
-        pos_m = screen.convert_abs_to_monitor((-30, -20))
-        self.pre_move()
-        self.move(pos_m, force_move=True)
-        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=10,cast_v_div=4,cast_spell='raise_skeleton',delay=1.2,offset=.8)
-        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=10,cast_v_div=4,cast_spell='raise_mage',delay=1.2,offset=.8)
+        self._do_curse(.5)
+        self._trav_attack_sequence()
+            # move a bit to the top
+
         return True
 
     def kill_nihlathak(self, end_nodes: list[int]) -> bool:
+        self.bone_armor()
         # Move close to nihlathak
         self._pather.traverse_nodes(end_nodes, self, timeout=0.8, do_pre_move=True)
-        pos_m = screen.convert_abs_to_monitor((20, 20))
-        self.walk(pos_m, force_move=True)
-        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=4,cast_v_div=3,cast_spell='lower_res',delay=1.0)
-        self.poison_nova(3.0)
-        pos_m = screen.convert_abs_to_monitor((50, 0))
-        self.pre_move()
-        self.move(pos_m, force_move=True)
-        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=7200,cast_div=2,cast_v_div=2,cast_spell='corpse_explosion',delay=3.0,offset=1.8)
-        wait(self._cast_duration, self._cast_duration +.2)
-        self.poison_nova(3.0)
+        self._do_curse(.5)
+        self._nihl_attack_sequence()
         return True
 
     def kill_summoner(self) -> bool:
         # Attack
-        pos_m = screen.convert_abs_to_monitor((0, 30))
-        self.walk(pos_m, force_move=True)
-        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=4,cast_v_div=3,cast_spell='lower_res',delay=1.0)
-        wait(0.5)
-        self.poison_nova(3.0)
-        pos_m = screen.convert_abs_to_monitor((50, 0))
-        self.pre_move()
-        self.move(pos_m, force_move=True)
-        wait(self._cast_duration, self._cast_duration + 0.2)
-        self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=10,cast_v_div=4,cast_spell='raise_mage',delay=1.2,offset=.8)
+        pos_m = convert_abs_to_monitor((0, 20))
+        mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+        # Attack
+        self._do_curse(.5)
+        self.poison_nova(Config().char["atk_len_arc"])
+        # Move a bit back and another round
         return True
 
 
