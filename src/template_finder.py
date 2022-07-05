@@ -9,8 +9,10 @@ import os
 from config import Config
 from utils.misc import cut_roi, load_template, list_files_in_folder, alpha_to_mask, roi_center, color_filter, mask_by_roi
 from functools import cache
+import concurrent.futures
 
 templates_lock = threading.Lock()
+executor = concurrent.futures.ThreadPoolExecutor()
 
 @dataclass
 class Template:
@@ -147,13 +149,25 @@ def search(
     """
     templates = _process_template_refs(ref)
     matches = []
+    future_list = []
     for template in templates:
-        match = _single_template_match(template, inp_img, roi, color_match, use_grayscale)
-        if match.score >= threshold:
-            if not best_match:
-                return match
-            else:
-                matches.append(match)
+        future = executor.submit(
+            _single_template_match,
+            template,
+            inp_img,
+            roi,
+            color_match,
+            use_grayscale
+        )
+        future_list.append(future)
+    for i in range(len(future_list)):
+        match = future_list[i].result()
+        if match:
+            if match.score >= threshold:
+                if not best_match:
+                    return match
+                else:
+                    matches.append(match)
     if matches:
         matches = sorted(matches, key=lambda obj: obj.score, reverse=True)
         return matches[0]
