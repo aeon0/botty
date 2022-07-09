@@ -13,6 +13,7 @@ from logger import Logger
 from screen import convert_screen_to_monitor, convert_abs_to_screen, convert_abs_to_monitor, convert_screen_to_abs, grab, stop_detecting_window
 import template_finder
 from char import IChar
+from automap_finder import toggle_automap
 from ui_manager import detect_screen_object, ScreenObjects, is_visible, select_screen_object_match, get_closest_non_hud_pixel
 
 class Location:
@@ -348,6 +349,7 @@ class Pather:
             910: {"NECRO_TRAV_22": (287, 133), "NECRO_TRAV_21": (486, 269), },
             911: {"NECRO_TRAV_22": (13, 171), "NECRO_TRAV_21": (212, 307), },
         }
+        self._paths_automap = {}
         self._paths = {
 	        # A5 Town
             (Location.A5_TOWN_START, Location.A5_NIHLATHAK_PORTAL): [3, 4, 5, 6, 8, 9],
@@ -536,15 +538,15 @@ class Pather:
         return True
 
 
-    def find_abs_node_pos(self, node_idx: int, img: np.ndarray, threshold: float = 0.68) -> tuple[float, float]:
+    def find_abs_node_pos(self, node_idx: int, img: np.ndarray, threshold: float = 0.68, grayscale = True) -> tuple[float, float]:
         node = self._nodes[node_idx]
         template_match = template_finder.search(
             [*node],
             img,
-            best_match=False,
+            best_match=not grayscale,
             threshold=threshold,
             roi=Config().ui_roi["cut_skill_bar"],
-            use_grayscale=True
+            use_grayscale=grayscale
         )
         if template_match.valid:
             # Get reference position of template in abs coordinates
@@ -665,6 +667,129 @@ class Pather:
 
         return True
 
+    def traverse_nodes_automap(
+        self,
+        path: tuple[Location, Location] | list[int],
+        char: IChar,
+        timeout: float = 5,
+        do_pre_move: bool = True,
+        force_move: bool = False,
+        threshold: float = 0.75, #down from 0.78 to allow proper traverse in A1 town
+        toggle_map: bool = True,
+        force_tp: bool = False,
+        use_tp_charge: bool = False
+    ) -> bool:
+
+        if len(path) == 0:
+            Logger.error("Path must be a list of integers or a tuple with start and end location!")
+            return False
+        if type(path[0]) != int:
+            start_location = path[0]
+            end_location = path[1]
+            Logger.debug(f"Traverse from {start_location} to {end_location}")
+            try:
+                path = self._paths_automap[(start_location, end_location)]
+            except KeyError:
+                if start_location == end_location:
+                    return True
+                Logger.error(f"Don't know how to traverse from {start_location} to {end_location}")
+                return False
+        else:
+            Logger.debug(f"Traverse automap: {path}")
+
+        if toggle_map:
+            toggle_automap()
+            time.sleep(0.04)
+        if (force_tp or use_tp_charge) and char.select_tp():
+            # this means we want to use tele charge and we were able to select it
+            pass
+        elif do_pre_move:
+            # we either want to tele charge but have no charges or don't wanna use the charge falling back to default pre_move handling
+            char.pre_move()
+
+        if Config().char["type"] == "fohdin": # Walking FOHdin will want to have conviction on so that in case he force moves on mobs, he also kills them.
+            if char.capabilities.can_teleport_with_charges:
+                keyboard.send(Config().fohdin["conviction"])
+                wait(0.15)
+
+        last_direction = None
+        for i, node_idx in enumerate(path):
+            continue_to_next_node = False
+            last_move = time.time()
+            did_force_move = False
+            stuck_cnt = 0
+            last_node_pos_abs = (0, 0)
+            while not continue_to_next_node:
+                img = grab(force_new=True)
+                # Handle timeout
+                if (time.time() - last_move) > timeout:
+                    if is_visible(ScreenObjects.WaypointLabel, img):
+                        # sometimes bot opens waypoint menu, close it to find templates again
+                        Logger.debug("Opened wp, closing it again")
+                        keyboard.send("esc")
+                        last_move = time.time()
+                    else:
+                        # This is a bit hacky, but for moving into a boss location we set timeout usually quite low
+                        # because of all the spells and monsters it often can not determine the final template
+                        # Don't want to spam the log with errors in this case because it most likely worked out just fine
+                        if timeout > 3.1:
+                            if Config().general["info_screenshots"]: cv2.imwrite("./log/screenshots/info/info_pather_automap_got_stuck_" + time.strftime("%Y%m%d_%H%M%S") + ".png", img)
+                            toggle_automap(True)
+                            if Config().general["info_screenshots"]: cv2.imwrite("./log/screenshots/info/info_pather_automap_got_stuck_" + time.strftime("%Y%m%d_%H%M%S") + "_automap.png", img)
+                            Logger.error("Got stuck exit pather")
+                            # actually, typically pather gets stuck with automap if the automap is off whilst a traverse is performed, would be clever to just switch the map on and retry the traverse
+                        if toggle_map:
+                            Logger.debug("Got stuck, switching Automap:"+ '\033[91m' + " OFF" + '\033[0m')
+                            toggle_automap(False)
+                            if Config().general["info_screenshots"]: cv2.imwrite("./log/screenshots/info/info_pather_automap_got_stuck_AM_off" + time.strftime("%Y%m%d_%H%M%S") + "_automap.png", img)
+                        return False
+
+                # Sometimes we get stuck at rocks and stuff, after a few seconds force a move into the last known direction
+                if not did_force_move and time.time() - last_move > 3.1:
+                    if last_direction is not None:
+                        pos_abs = last_direction
+                    else:
+                        angle = random.random() * math.pi * 2
+                        pos_abs = (round(math.cos(angle) * 150), round(math.sin(angle) * 150))
+                    pos_abs = get_closest_non_hud_pixel(pos = pos_abs, pos_type="abs")
+                    Logger.debug(f"Pather: taking a random guess towards " + str(pos_abs))
+                    x_m, y_m = convert_abs_to_monitor(pos_abs)
+                    char.move((x_m, y_m), force_move=True)
+                    did_force_move = True
+                    last_move = time.time()
+
+                # Find any template and calc node position from it
+                node_pos_abs = self.find_abs_node_pos(node_idx, img, threshold=threshold, grayscale=False)
+                if node_pos_abs is not None:
+                    if node_pos_abs == last_node_pos_abs:
+                        stuck_cnt += 1
+                        # Sometimes we get stuck at a Shrine or Stash.
+                        # Check for shrine after a few failed moves, then force a left click.
+                        if stuck_cnt % 5 == 0 and (match := detect_screen_object(ScreenObjects.ShrineArea)).valid:
+                            if Config().general["info_screenshots"]: cv2.imwrite(f"./log/screenshots/info/info_shrine_check_before" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
+                            Logger.debug(f"Shrine found, activating it")
+                            #select_screen_object_match(match) #this does NOT work :(
+                            x_m, y_m = convert_abs_to_monitor((0, -130)) #above head
+                            mouse.move(x_m, y_m)
+                            wait(0.1, 0.15)
+                            mouse.click(button="left")
+                            if Config().general["info_screenshots"]: cv2.imwrite(f"./log/screenshots/info/info_shrine_check_after" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
+                    else:
+                        last_node_pos_abs = node_pos_abs
+                        stuck_cnt = 0
+
+                    dist = math.dist(node_pos_abs, (0, 0)) * 6
+                    if dist < Config().ui_pos["reached_node_dist"]:
+                        continue_to_next_node = True
+                    else:
+                        # Move the char
+                        last_direction = (node_pos_abs[0]*8, node_pos_abs[1]*8)
+                        x_m, y_m = convert_abs_to_monitor(last_direction, avoid_hud=True)
+                        char.move((x_m, y_m), force_tp=force_tp, force_move=force_move)
+                        last_move = time.time()
+        if toggle_map:
+            toggle_automap(False)
+        return True
 
 # Testing: Move char to whatever Location to start and run
 if __name__ == "__main__":
@@ -714,6 +839,15 @@ if __name__ == "__main__":
             #     cv2.imwrite("./log/screenshots/info/pather_" + time.strftime("%Y%m%d_%H%M%S") + ".png", display_img)
             cv2.imshow("debug", display_img)
             cv2.waitKey(1)
+    
+    def show_automap_pos(template: list[str], threshold=0.78):
+        match = template_finder.search_and_wait(template, threshold=threshold, timeout=0.1, suppress_debug=True)
+        if match.valid:
+            ref_pos_abs = convert_screen_to_abs(match.center)
+            #Logger.info(f"{match.name}: {-ref_pos_abs[0], -ref_pos_abs[1]}")
+            print("    '" + str(match.name) + "': (" + str(-ref_pos_abs[0]) + ", " + str(-ref_pos_abs[1]) + "),")
+        else:
+            print("    #'" + str(template) + "': (0, 0),")
 
     import keyboard
     from screen import start_detecting_window, stop_detecting_window, grab
