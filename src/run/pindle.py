@@ -48,9 +48,8 @@ class Pindle:
         # move to pindle
         if self._char.capabilities.can_teleport_natively:
             self._pather.traverse_nodes_fixed("pindle_safe_dist", self._char)
-        else:
-            if not self._pather.traverse_nodes((Location.A5_PINDLE_START, Location.A5_PINDLE_SAFE_DIST), self._char):
-                return False
+        elif not self._pather.traverse_nodes_automap((Location.A5_PINDLE_START, Location.A5_PINDLE_SAFE_DIST), self._char):
+            return False
         self._char.kill_pindle()
         wait(0.2, 0.3)
         picked_up_items = self._pickit.pick_up_items(self._char)

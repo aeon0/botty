@@ -1,6 +1,7 @@
 from char import IChar
 from logger import Logger
 from pather import Location, Pather
+from automap_finder import toggle_automap
 from item.pickit import PickIt
 import template_finder
 from town.town_manager import TownManager
@@ -44,8 +45,15 @@ class ShenkEld:
             self._char.pre_buff()
         if self._char.capabilities.can_teleport_natively:
             self._pather.traverse_nodes_fixed("eldritch_safe_dist", self._char)
+        elif self._char.capabilities.can_teleport_with_charges:
+            toggle_automap()
+            success = self._pather.traverse_nodes_automap([1121], self._char, force_move=True, toggle_map=False) and \
+                      self._pather.traverse_nodes_automap([1122], self._char, use_tp_charge=True, toggle_map=False)  #teleport to safe dist, to grab the merc
+            toggle_automap(False)
+            if not success:
+                return False
         else:
-            if not self._pather.traverse_nodes((Location.A5_ELDRITCH_START, Location.A5_ELDRITCH_SAFE_DIST), self._char, force_move=True):
+            if not self._pather.traverse_nodes_automap((Location.A5_ELDRITCH_START, Location.A5_ELDRITCH_SAFE_DIST), self._char, force_move=True):
                 return False
         self._char.kill_eldritch()
         loc = Location.A5_ELDRITCH_END
@@ -58,7 +66,12 @@ class ShenkEld:
             game_stats.update_location("Shk")
             self._curr_loc = Location.A5_SHENK_START
             # No force move, otherwise we might get stuck at stairs!
-            if not self._pather.traverse_nodes((Location.A5_SHENK_START, Location.A5_SHENK_SAFE_DIST), self._char):
+            if self._char.capabilities.can_teleport_natively:
+                self._pather.traverse_nodes_fixed([(1128, 710)]*4, self._char)
+                success = self._pather.traverse_nodes_automap([1148], self._char, force_tp=True) #safe dist
+            else:
+                success = self._pather.traverse_nodes_automap((Location.A5_SHENK_START, Location.A5_SHENK_SAFE_DIST), self._char) # safe dist
+            if not success:
                 return False
             self._char.kill_shenk()
             loc = Location.A5_SHENK_END

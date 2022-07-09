@@ -115,17 +115,28 @@ class Pather:
             1018: {'A5_TOWN_AUTOMAP': (-330, 88)},
             1019: {'A5_TOWN_AUTOMAP': (-288, 102)},
             # Pindle
+            1103: {'PINDLE_AM_1': (118, -81)},#,'PINDLE_AM_1': (118, -81),'PINDLE_AM_3': (-76, 38),PINDLE_AM_2': (310, -276)
+            1104: {'PINDLE_AM_1': (172, -100)},#'PINDLE_AM_2': (68, -18),'PINDLE_AM_3': (-22, 20),
             100: {'PINDLE_7': (384, -92), 'PINDLE_0': (-97, -40), 'PINDLE_1': (-13, 223), 'PINDLE_2': (-366, 85)},
             101: {'PINDLE_1': (371, -45), 'PINDLE_2': (18, -184), 'PINDLE_3': (-123, 261)},
             102: {'PINDLE_3': (223, 88), 'PINDLE_4': (95, 215)},
             103: {'PINDLE_3': (395, -75), 'PINDLE_4': (267, 52)},
             104: {'PINDLE_4': (717, -117), 'PINDLE_3': (843, -244), 'PINDLE_5': (-187, 237), 'PINDLE_6': (-467, 89)},
             # Eldritch
+            1120: {'SHENK_WP_AUTOMAP': (2, -12),'SHENK_ROCK_AUTOMAP': (60, -2)},
+            1121: {'SHENK_WP_AUTOMAP': (-3, -36),'SHENK_ROCK_AUTOMAP': (55, -26)},
+            1122: {'SHENK_WP_AUTOMAP': (-7, -74),'SHENK_ROCK_AUTOMAP': (51, -64)}, # A5_ELDRITCH_SAFE_DIST
+            1123: {'SHENK_WP_AUTOMAP': (-3, -90),'SHENK_ROCK_AUTOMAP': (55, -80)}, # A5_ELDRITCH_END
             120: {'ELDRITCH_0': (293, 24), 'ELDRITCH_0_V2': (293, 24), 'ELDRITCH_0_V3': (293, 24), 'ELDRITCH_1': (-307, 76), 'ELDRITCH_1_V2': (-307, 76), 'ELDRITCH_5': (27, -164), 'ELDRITCH_6': (400, -50)},
             121: {'ELDRITCH_6': (360, -244), 'ELDRITCH_1': (-329, -103), 'ELDRITCH_1_V2': (-329, -103), 'ELDRITCH_2': (411, 171), 'ELDRITCH_2_V2': (411, 171), 'ELDRITCH_3': (-91, 198), 'ELDRITCH_7': (409, 180), 'ELDRITCH_7_V2': (409, 180), 'ELDRITCH_8': (465, 345), 'ELDRITCH_8_V2': (465, 345)},
             122: {'ELDRITCH_2': (353, -145), 'ELDRITCH_2_V2': (353, -145), 'ELDRITCH_3': (-149, -119), 'ELDRITCH_9': (-253, -118), 'ELDRITCH_7': (352, -134), 'ELDRITCH_7_V2': (352, -134), 'ELDRITCH_8': (404, 29), 'ELDRITCH_8_V2': (404, 29)},
             123: {'ELDRITCH_3': (-99, -252), 'ELDRITCH_2': (403, -279), 'ELDRITCH_2_V2': (403, -279), 'ELDRITCH_4': (-62, -109), 'ELDRITCH_9': (-204, -254), 'ELDRITCH_8': (454, -104),  'ELDRITCH_8_V2': (454, -104)},
             # Shenk
+            1146: {'SHENK_WP_AUTOMAP': (66, 28), 'SHENK_ROCK_AUTOMAP': (124, 38)},
+            1147: {'SHENK_WP_AUTOMAP': (137, 108), 'SHENK_ROCK_AUTOMAP': (195, 118)},
+            1148: {'SHENK_WP_AUTOMAP': (213, 138), 'SHENK_ROCK_AUTOMAP': (271, 148)}, # A5_SHENK_SAFE_DIST
+            1149: {'SHENK_WP_AUTOMAP': (293, 172),'SHENK_ROCK_AUTOMAP': (351, 182)}, # kill shenk telestomp
+            1150: {'SHENK_WP_AUTOMAP': (233, 154),'SHENK_ROCK_AUTOMAP': (291, 164)}, # tp outside of fire
             141: {'SHENK_0': (-129, 44), 'SHENK_1': (464, 107), 'SHENK_2': (-167, -34), 'SHENK_17': (-520, 528), 'SHENK_15': (77, 293), 'SHENK_18': (518, 512)},
             142: {'SHENK_1': (584, 376), 'SHENK_4': (-443, -103), 'SHENK_2': (-52, 235), 'SHENK_3': (357, -129),
                 "ELDRITCH_2_V2": (516, 195), 'ELDRITCH_1': (-233, -77), "ELDRITCH_0_V2": (360, -140), "ELDRITCH_3": (20, 219)
@@ -393,17 +404,17 @@ class Pather:
             (Location.A5_LARZUK, Location.A5_MALAH): [1014, 1007, 1003, 1000, 1001],
             (Location.A5_NIHLATHAK_PORTAL, Location.A5_STASH): [1009, 1008, 1006, 1005],
             (Location.A5_NIHLATHAK_PORTAL, Location.A5_WP): [1009, 1008, 1006],
+            # Pindle
+            (Location.A5_PINDLE_START, Location.A5_PINDLE_SAFE_DIST): [1103],
+            (Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END): [1104],
+            # Eldritch
+            (Location.A5_ELDRITCH_START, Location.A5_ELDRITCH_SAFE_DIST): [1122],
+            (Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END): [1123],
+            # Shenk
+            (Location.A5_SHENK_START, Location.A5_SHENK_SAFE_DIST): [1146, 1147, 1148],
+            (Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END): [1149],
         }
         self._paths = {
-            # Pindle
-            (Location.A5_PINDLE_START, Location.A5_PINDLE_SAFE_DIST): [100, 101, 102, 103],
-            (Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END): [104],
-            # Eldritch
-            (Location.A5_ELDRITCH_START, Location.A5_ELDRITCH_SAFE_DIST): [120, 121, 122],
-            (Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END): [123],
-            # Shenk
-            (Location.A5_SHENK_START, Location.A5_SHENK_SAFE_DIST): [141, 142, 143, 144, 145, 146, 147, 148],
-            (Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END): [149],
             # A4 Town
             (Location.A4_TOWN_START, Location.A4_WP): [162],
             (Location.A4_TOWN_START, Location.A4_TYRAEL_STASH): [160, 161],
@@ -485,6 +496,15 @@ class Pather:
             (Location.A1_WP_SOUTH, Location.A1_WP_NORTH): [702],
             #from town portal
             (Location.A1_TOWN_TP, Location.A1_KASHYA_CAIN): [708, 700],
+            # Pindle
+            (Location.A5_PINDLE_START, Location.A5_PINDLE_SAFE_DIST): [100, 101, 102, 103],
+            (Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END): [104],
+            # Eldritch
+            (Location.A5_ELDRITCH_START, Location.A5_ELDRITCH_SAFE_DIST): [120, 121, 122],
+            (Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END): [123],
+            # Shenk
+            (Location.A5_SHENK_START, Location.A5_SHENK_SAFE_DIST): [141, 142, 143, 144, 145, 146, 147, 148],
+            (Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END): [149],
             # Trav
             (Location.A3_TRAV_START, Location.A3_TRAV_CENTER_STAIRS): [220, 221, 222, 223, 224, 225, 226],
         }
