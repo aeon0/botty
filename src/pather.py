@@ -658,7 +658,7 @@ class Pather:
                         continue_to_next_node = True
                     else:
                         # Move the char
-                        x_m, y_m = convert_abs_to_monitor(node_pos_abs)
+                        x_m, y_m = convert_abs_to_monitor(node_pos_abs, avoid_hud=True)
                         char.move((x_m, y_m), force_tp=force_tp, force_move=force_move)
                         last_direction = node_pos_abs
                         last_move = time.time()
