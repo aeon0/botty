@@ -10,7 +10,7 @@ from utils.misc import wait # for stash/shrine tele cancel detection in traverse
 from utils.misc import is_in_roi
 from config import Config
 from logger import Logger
-from screen import convert_screen_to_monitor, convert_abs_to_screen, convert_abs_to_monitor, convert_screen_to_abs, grab, stop_detecting_window
+from screen import convert_screen_to_monitor, convert_abs_to_screen, convert_abs_to_monitor, convert_screen_to_abs, grab
 import template_finder
 from char import IChar
 from automap_finder import toggle_automap
@@ -910,22 +910,67 @@ if __name__ == "__main__":
             print("    #'" + str(template) + "': (0, 0),")
 
     import keyboard
-    from screen import start_detecting_window, stop_detecting_window, grab
+    from screen import find_and_set_window_position, set_window_position
     keyboard.add_hotkey('f12', lambda: Logger.info('Force Exit (f12)') or os._exit(1))
+    Logger.warning("Press F11 to Run Pather.py")
     keyboard.wait("f11")
-    start_detecting_window()
+    find_and_set_window_position()
     from config import Config
-    from char.sorceress import LightSorc
     from char.paladin.hammerdin import Hammerdin
     from item.pickit import PickIt
+    from automap_finder import toggle_automap
     pather = Pather()
 
-    #char = Hammerdin(Config().hammerdin, pather, PickIt) #Config().char,
-    #char.discover_capabilities()
+    char = Hammerdin(Config().hammerdin, pather, PickIt) #Config().char,
+    char.discover_capabilities()
 
-    display_all_nodes(pather, ["ELD", "SHENK_"])
-    #pather.traverse_nodes([120, 121, 122, 123, 122, 121, 120], char) #works!
-    #pather.traverse_nodes_fixed("dia_trash_c", char)
-    #display_all_nodes(pather, "SHENK")
-    #pather.traverse_nodes([141,142,143], char)
-    #stop_detecting_window()
+    #display_all_nodes(pather, "TRAV") #use this function to explore the templates and nodes visibile in the area you are currently located ingame
+       
+    #nodes = [1500, 1501, 1502, 1503, 1504, 1505, 1506, 1507, 1508, 1509, 1510, 1511, 1512, 1513, 1514, 1515, 1516, 1517, 1516, 1514, 1518, 1519, 1520, 1521, 1522, 1523, 1524, 1610, 1525, 1526, 1527, 1528, 1529, 1627, 1620]
+    #nodes2 = [1529, 1526, 1610, 1530, 1531, 1532, 1633,1638, 1632, 1635, 1630]
+    #nodes3 = [1635, 1632, 1638, 1633, 1533, 1610, 1534, 1535, 1536, 1648, 1645, 1640]
+    #nodes4 = [1645, 1648, 1536, 1537]
+    #pather.traverse_nodes([nodes], char) #use this function to test nodes
+    #pather.traverse_nodes_automap(nodes, char, toggle_map=True) 
+    #pather.traverse_nodes_automap(nodes2, char, toggle_map=True) 
+    #pather.traverse_nodes_automap(nodes3, char, toggle_map=True) 
+    #pather.traverse_nodes_automap(nodes4, char, toggle_map=True) 
+
+    nodes = 1622
+    #nodes2 = 1529
+    #pather.traverse_nodes([nodes], char) #use this function to test nodes
+    #pather.traverse_nodes_automap([nodes], char, toggle_map=True) 
+    #pather.traverse_nodes_automap([nodes2], char, toggle_map=True) 
+    
+    while True:
+        keyboard.wait("f11")
+        #toggle_automap(True)
+        #print("1" + str(nodes) + ": {")
+        #print(str(nodes) + ": {")
+        #print("xxx: {")
+        #show_automap_pos(["DIA_AM_WP"])
+        #show_automap_pos(["DIA_AM_CS"])
+        ##show_automap_pos(["DIA_AM_E_B"])
+        #show_automap_pos(["DIA_AM_PENT"])
+        #show_automap_pos(["DIA_AM_PENT1"])
+        #show_automap_pos(["DIA_AM_PENT2"])
+        show_automap_pos(["DIA_AM_CR1_2"], 0.9)
+        show_automap_pos(["DIA_AM_SEAL"], 0.85)
+        #show_automap_pos(["DIA_AM_CR2"])
+        #show_automap_pos(["DIA_AM_CR3"])
+        #show_automap_pos(["DIA_AM_CR4"])
+        #show_automap_pos(["DIA_AM_A2Y"])
+        #show_automap_pos(["DIA_AM_B2U"])
+        #show_automap_pos(["DIA_AM_C2G"])
+        #show_automap_pos(["DIA_AM_E_A"])
+        #show_automap_pos(["DIA_AM_A1L"])
+        #show_automap_pos(["DIA_AM_B1S"])
+        #show_automap_pos(["DIA_AM_C1F"])
+        #show_automap_pos(["A1_TOWN_AUTOMAP_AKARA"])
+        #show_automap_pos(["A1_TOWN_AUTOMAP_GHEED"])
+        #show_automap_pos(["A1_TOWN_AUTOMAP_CHARSI"])
+        #show_automap_pos(["A1_TOWN_AUTOMAP_WP"])
+        #show_automap_pos(["SHENK_WP_AUTOMAP"])
+        #show_automap_pos(["shenk_rock_automap"])
+        #toggle_automap(False)
+        nodes = nodes + 1
