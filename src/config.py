@@ -203,15 +203,17 @@ class Config:
             "atk_len_diablo_infector": float(self._select_val("char", "atk_len_diablo_infector")),
             "atk_len_diablo": float(self._select_val("char", "atk_len_diablo")),
             "atk_len_cs_trashmobs": float(self._select_val("char", "atk_len_cs_trashmobs")),
-            "kill_cs_trash": bool(int(self._select_val("char", "kill_cs_trash"))),
-            "cs_town_visits": bool(int(self._select_val("char", "cs_town_visits"))),
-            "cs_mob_detect": bool(int(self._select_val("char", "cs_mob_detect"))),
             "runs_per_stash": False if not self._select_val("char", "runs_per_stash") else int(self._select_val("char", "runs_per_stash")),
             "runs_per_repair": False if not self._select_val("char", "runs_per_repair") else int(self._select_val("char", "runs_per_repair")),
             "gamble_items": False if not self._select_val("char", "gamble_items") else self._select_val("char", "gamble_items").replace(" ","").split(","),
             "sell_junk": bool(int(self._select_val("char", "sell_junk"))),
             "enable_no_pickup": bool(int(self._select_val("char", "enable_no_pickup"))),
             "safer_routines": bool(int(self._select_val("char", "safer_routines"))),
+            "mob_detection": bool(int(self._select_val("char", "mob_detection"))),
+            "dia_town_visits": bool(int(self._select_val("char", "dia_town_visits"))),
+            "dia_kill_trash": bool(int(self._select_val("char", "dia_kill_trash"))),
+            "dia_leecher_tp_cs": bool(int(self._select_val("char", "dia_leecher_tp_cs"))),
+            "dia_leecher_tp_pent": bool(int(self._select_val("char", "dia_leecher_tp_pent"))),
         }
         # Sorc base config
         sorc_base_cfg = dict(self.configs["config"]["parser"]["sorceress"])
@@ -306,6 +308,7 @@ class Config:
             "ocr_during_pickit": bool(int(self._select_val("advanced_options", "ocr_during_pickit"))),
             "launch_options": self._select_val("advanced_options", "launch_options").replace("<name>", only_lowercase_letters(self.general["name"].lower())),
             "override_capabilities": _default_iff(Config()._select_optional("advanced_options", "override_capabilities"), ""),
+            "gather_mob_screenshots_for_modelling": _default_iff(Config()._select_optional("advanced_options", "gather_mob_screenshots_for_modelling"), ""),
         }
 
         self.colors = {}

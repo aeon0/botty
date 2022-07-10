@@ -1,15 +1,15 @@
 import keyboard
 from ui import skills
-import time
-import random
+import time, random, math
 from utils.custom_mouse import mouse
 from char import IChar, CharacterCapabilities
 from pather import Pather
 from logger import Logger
 from config import Config
 from utils.misc import wait
-from screen import convert_abs_to_screen, convert_abs_to_monitor
+from screen import convert_abs_to_screen, convert_abs_to_monitor, convert_screen_to_monitor, grab
 from pather import Pather
+from automap_finder import toggle_automap
 #import cv2 #for Diablo
 from item.pickit import PickIt #for Diablo
 
@@ -99,3 +99,31 @@ class Paladin(IChar):
     def _activate_cleanse_redemption(self):
         self._activate_cleanse_aura()
         self._activate_redemption_aura()
+
+    def run_to_cs(self) -> bool:
+        # Charge to first jumping spot
+        self._select_skill("vigor")
+        if not self._select_skill("charge"):
+            return False
+        x, y = convert_screen_to_monitor((1270, 30))
+        mouse.move(x, y)
+        keyboard.send(Config().char["stand_still"], do_release=False)
+        start_time = time.time()
+        mouse.press("left")
+        toggle_automap(True)
+        prev_dist = 1000
+        while time.time() - start_time < 5.0:
+            pos = self._pather.find_abs_node_pos(1602, grab(), threshold=0.9, grayscale=False)
+            if pos is not None:
+                new_dist = math.dist(pos, (0,0))
+                if prev_dist <= new_dist or new_dist < 30:
+                    break
+                prev_dist = new_dist
+            time.sleep(0.1)
+        mouse.release("left")
+        keyboard.send(Config().char["stand_still"], do_press=False)
+        time.sleep(0.25)
+
+        # Teleport to cs entrance
+        path_to_cs_entrance = [convert_abs_to_screen((620, -350))] * 7
+        return self._pather.traverse_nodes_fixed(path_to_cs_entrance, self)

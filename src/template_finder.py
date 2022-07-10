@@ -187,10 +187,11 @@ def search_and_wait(
             template_match = search(ref, img, roi=roi, threshold=threshold, use_grayscale=use_grayscale, color_match=color_match, best_match=best_match)
             if template_match.valid:
                 break
-    if not time_remains:
-        Logger.debug(f"Could not find desired templates")
-    else:
-        Logger.debug(f"Found match: {template_match.name} ({template_match.score*100:.1f}% confidence)")
+    if not suppress_debug:
+        if not time_remains:
+            Logger.debug(f"Could not find desired templates")
+        else:
+            Logger.debug(f"Found match: {template_match.name} ({template_match.score*100:.1f}% confidence)")
     return template_match
 
 
