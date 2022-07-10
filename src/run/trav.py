@@ -44,8 +44,14 @@ class Trav:
             self._char.pre_buff()
         if self._char.capabilities.can_teleport_natively:
             self._pather.traverse_nodes_fixed("trav_safe_dist", self._char)
+        elif self._char.capabilities.can_teleport_with_charges:
+            self._pather.traverse_nodes([220], self._char, force_move=True)
+            if not self._pather.traverse_nodes_automap([1221, 1222, 1223, 1224], self._char, force_move=True):
+                return False
+            self._pather.traverse_nodes_automap([1226], self._char, timeout=2.5, force_tp=True)
         else:
-            if not self._pather.traverse_nodes((Location.A3_TRAV_START, Location.A3_TRAV_CENTER_STAIRS), self._char, force_move=True):
+            self._pather.traverse_nodes([220], self._char, force_move=True)
+            if not self._pather.traverse_nodes_automap([1221, 1222, 1223, 1224, 1225, 1226], self._char, force_move=True):
                 return False
         self._char.kill_council()
         picked_up_items = self._pickit.pick_up_items(self._char)
@@ -58,5 +64,5 @@ class Trav:
         # If travincal run is not the last run
         if self.name != self._runs[-1]:
             # Make sure we go back to the center to not hide the tp
-            self._pather.traverse_nodes([230], self._char, timeout=2.5)
+            self._pather.traverse_nodes_automap([1230], self._char, timeout=2.5)
         return (Location.A3_TRAV_CENTER_STAIRS, picked_up_items)

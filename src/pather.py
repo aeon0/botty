@@ -175,6 +175,17 @@ class Pather:
             1191: {'A3_TOWN_AUTOMAP': (108, -113)},
             1192: {'A3_TOWN_AUTOMAP': (56, -140)},
             # Trav
+            1220: {'TRAV_AUTOMAP': (32, 26)},
+            1221: {'TRAV_AUTOMAP': (86, 5)},    
+            1222: {'TRAV_AUTOMAP': (166, 20)},
+            1223: {'TRAV_AUTOMAP': (244, 20)},
+            1224: {'TRAV_AUTOMAP': (318, 24)},
+            1225: {'TRAV_AUTOMAP': (352, 44)},
+            1226: {'TRAV_AUTOMAP': (404, 28)},
+            1227: {'TRAV_AUTOMAP': (358, 14)},
+            1228: {'TRAV_AUTOMAP': (430, 10)},
+            1229: {'TRAV_AUTOMAP': (442, -8)},
+            1230: {'TRAV_AUTOMAP': (406, -25)},
             220: {"TRAV_0": (445, 384), "TRAV_20": (-259, 267), "TRAV_1": (-248, -139), "TRAV_2": (-682, 21), "TRAV_21": (25, 180)},
             221: {"TRAV_2": (-153, -101), "TRAV_3": (-125, 201), "TRAV_20": (270, 145), "TRAV_1": (281, -261), "TRAV_4": (-459, 122)},
             222: {"TRAV_5": (-218, 106), "TRAV_4": (120, 230), "TRAV_2": (426, 7), "TRAV_7": (-719, -166), "TRAV_7_V2": (-719, -166), "TRAV_1": (862, -153)},
@@ -186,12 +197,19 @@ class Pather:
             228: {"TRAV_13": (8, 9), "TRAV_17": (29, 56), "TRAV_25": (58, -152), "TRAV_16": (-198, -110), "TRAV_18": (-251, 188)},
             229: {"TRAV_18": (-250, 58), "TRAV_25": (59, -282), "TRAV_17": (30, -74), "TRAV_13": (9, -121), "TRAV_16": (-138, -241)},
             230: {"TRAV_19": (157, 39), "TRAV_18": (-392, -28), "TRAV_17": (-112, -160), "TRAV_13": (-133, -207), "TRAV_25": (-83, -368)},
-            300: {"TRAV_V3_4": (-101, 134), "TRAV_V3_5": (72, 220), "TRAV_V3_1": (237, -24), "TRAV_V3_3": (-318, 224), "TRAV_V3_11": (472, 39),
-                "TRAV_16": (129, -86), "TRAV_V2_0": (472, 65), "TRAV_17": (357, 84), "TRAV_12": (512, -333),
-            },
-            301: {"TRAV_V3_7": (178, -33), "TRAV_V3_6": (170, 157), "TRAV_V3_0": (88, -235), "TRAV_V3_5": (-335, -95), "TRAV_V3_8": (444, -108)},
-            302: {"TRAV_V3_0": (-18, 6), "TRAV_V3_7": (73, 208), "TRAV_V3_8": (339, 133), "TRAV_V3_6": (65, 398), "TRAV_V3_5": (-440, 146)},
-            304: {"TRAV_V2_4": (125, -148), "TRAV_V2_3": (-187, 55), "TRAV_V2_1": (-207, 59), "TRAV_V2_2": (267, 183), "TRAV_V2_0": (-159, 403)},
+            #extra necro walking waypoints
+            900: {"NECRO_TRAV_1": (-102, 46)},
+            901: {"NECRO_TRAV_4": (-37, -69), "NECRO_TRAV_0": (354, 28), "NECRO_TRAV_6": (-339, 117), "NECRO_TRAV_5": (426, 140), "NECRO_TRAV_3": (433, -269), "NECRO_TRAV_2": (775, -176)},
+            902: {"NECRO_TRAV_6": (271, 358), "NECRO_TRAV_4": (573, 172)},
+            903: {"NECRO_TRAV_12": (-20, -155), "NECRO_TRAV_9": (-250, 37), "NECRO_TRAV_7": (146, 235), "NECRO_TRAV_8": (-155, 361), "NECRO_TRAV_16": (-725, -197)},
+            904: {"NECRO_TRAV_16": (-185, 82), "NECRO_TRAV_9": (290, 316), "NECRO_TRAV_12": (520, 124)},
+            905: {"NECRO_TRAV_14": (-284, -28), "NECRO_TRAV_11": (-166, 314), "NECRO_TRAV_15": (-558, 115), "NECRO_TRAV_17": (-421, 387), "NECRO_TRAV_13": (597, -64), "NECRO_TRAV_18": (-747, 292), "NECRO_TRAV_19": (-777, 328)},
+            906: {"NECRO_TRAV_14": (27, -177), "NECRO_TRAV_13": (908, -213)},
+            907: {"NECRO_TRAV_19": (-28, -66), "NECRO_TRAV_18": (2, -102), "NECRO_TRAV_17": (328, -7), "NECRO_TRAV_15": (191, -279), "NECRO_TRAV_11": (583, -80), "NECRO_TRAV_21": (-486, 380), "NECRO_TRAV_22": (-685, 244)},
+            908: {"NECRO_TRAV_19": (264, 51), "NECRO_TRAV_18": (244, -211), "NECRO_TRAV_21": (-244, 271), "NECRO_TRAV_22": (-443, 135), "NECRO_TRAV_17": (570, -116)},
+            909: {"NECRO_TRAV_21": (-38, 101), "NECRO_TRAV_22": (-237, -35), "NECRO_TRAV_18": (450, -381), "NECRO_TRAV_17": (776, -286)},
+            910: {"NECRO_TRAV_22": (287, 133), "NECRO_TRAV_21": (486, 269)},
+            911: {"NECRO_TRAV_22": (13, 171), "NECRO_TRAV_21": (212, 307)},
             # A2 town
             1400: {'A2_TOWN_AUTOMAP': (-518, 56)},
             1401: {'A2_TOWN_AUTOMAP': (-462, -1)},
@@ -342,20 +360,6 @@ class Pather:
             1707: {'A1_TOWN_AUTOMAP_AKARA': (-26, 25),'A1_TOWN_AUTOMAP_GHEED': (386, 56),'A1_TOWN_AUTOMAP_CHARSI': (220, 135)},
             1708: {'A1_TOWN_AUTOMAP_GHEED': (398, 36),'A1_TOWN_AUTOMAP_CHARSI': (232, 116)},#'['A1_TOWN_AUTOMAP_AKARA']': (0, 0) < blocked by player marker
             1709: {'A1_TOWN_AUTOMAP_WP': (-2,24)}, #WP
-
-            #extra necro walking waypoints
-            900: {"NECRO_TRAV_1": (-102, 46), },
-            901: {"NECRO_TRAV_4": (-37, -69), "NECRO_TRAV_0": (354, 28), "NECRO_TRAV_6": (-339, 117), "NECRO_TRAV_5": (426, 140), "NECRO_TRAV_3": (433, -269), "NECRO_TRAV_2": (775, -176), },
-            902: {"NECRO_TRAV_6": (271, 358), "NECRO_TRAV_4": (573, 172), },
-            903: {"NECRO_TRAV_12": (-20, -155), "NECRO_TRAV_9": (-250, 37), "NECRO_TRAV_7": (146, 235), "NECRO_TRAV_8": (-155, 361), "NECRO_TRAV_16": (-725, -197), },
-            904: {"NECRO_TRAV_16": (-185, 82), "NECRO_TRAV_9": (290, 316), "NECRO_TRAV_12": (520, 124), },
-            905: {"NECRO_TRAV_14": (-284, -28), "NECRO_TRAV_11": (-166, 314), "NECRO_TRAV_15": (-558, 115), "NECRO_TRAV_17": (-421, 387), "NECRO_TRAV_13": (597, -64), "NECRO_TRAV_18": (-747, 292), "NECRO_TRAV_19": (-777, 328), },
-            906: {"NECRO_TRAV_14": (27, -177), "NECRO_TRAV_13": (908, -213), },
-            907: {"NECRO_TRAV_19": (-28, -66), "NECRO_TRAV_18": (2, -102), "NECRO_TRAV_17": (328, -7), "NECRO_TRAV_15": (191, -279), "NECRO_TRAV_11": (583, -80), "NECRO_TRAV_21": (-486, 380), "NECRO_TRAV_22": (-685, 244), },
-            908: {"NECRO_TRAV_19": (264, 51), "NECRO_TRAV_18": (244, -211), "NECRO_TRAV_21": (-244, 271), "NECRO_TRAV_22": (-443, 135), "NECRO_TRAV_17": (570, -116), },
-            909: {"NECRO_TRAV_21": (-38, 101), "NECRO_TRAV_22": (-237, -35), "NECRO_TRAV_18": (450, -381), "NECRO_TRAV_17": (776, -286), },
-            910: {"NECRO_TRAV_22": (287, 133), "NECRO_TRAV_21": (486, 269), },
-            911: {"NECRO_TRAV_22": (13, 171), "NECRO_TRAV_21": (212, 307), },
         }
         self._paths_automap = {
             # A5 Town
