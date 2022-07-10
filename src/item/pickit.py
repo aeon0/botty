@@ -17,7 +17,7 @@ from item.consumables import ITEM_CONSUMABLES_MAP
 from logger import Logger
 from bnip.actions import should_pickup
 from bnip.NTIPAliasType import NTIPAliasType as NTIP_TYPES
-from screen import grab, convert_abs_to_monitor
+from screen import grab, convert_abs_to_monitor, convert_screen_to_monitor
 from ui_manager import ScreenObjects, is_visible
 from utils.custom_mouse import mouse
 from utils.misc import wait
@@ -181,6 +181,10 @@ class PickIt:
             item_count+=1
 
         keyboard.send(Config().char["show_items"])
+        # Get rid of item on mouse
+        mouse.move(*convert_screen_to_monitor((640, 355)))
+        keyboard.send(Config().char["force_move"])
+
         return len(self._picked_up_items) >= 1
 
 
