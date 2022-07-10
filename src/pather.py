@@ -65,6 +65,7 @@ class Location:
     A1_AKARA = "a1_akara"
     A1_CHARSI = "a1_charsi"
     A1_TOWN_TP = "a1_town_tp"
+    A1_WP ="a1_wp"
     # Trav
     A3_TRAV_START = "a3_trav_start"
     A3_TRAV_CENTER_STAIRS = "a3_trav_center_stairs"
@@ -331,20 +332,16 @@ class Pather:
 
             # A1 town
             #kashya_cain
-            700: {"A1_TOWN_3": (174, -40), "A1_TOWN_4": (202, 52), "A1_TOWN_0": (226, 196), "A1_TOWN_1": (385, 293), "A1_TOWN_6": (290, 653), "A1_TOWN_5": (439, 610), },
-            #stash
-            701: {"A1_TOWN_4": (56, -71), "A1_TOWN_0": (80, 73), "A1_TOWN_3": (28, -163), "A1_TOWN_1": (239, 170), "A1_TOWN_6": (104, 530), "A1_TOWN_5": (293, 487), },
-            #wp check (north)
-            702: {"A1_TOWN_0": (279, -83), "A1_TOWN_4": (255, -227), "A1_TOWN_3": (227, -319), "A1_TOWN_1": (438, 14), "A1_TOWN_6": (303, 374), "A1_TOWN_5": (492, 331), },
-            703: {"A1_TOWN_6": (-36, 161), "A1_TOWN_5": (153, 118), "A1_TOWN_1": (99, -199), "A1_TOWN_0": (-60, -296), "A1_TOWN_4": (-84, -440), "A1_TOWN_3": (-112, -532), },
-            #charsi
-            704: {"A1_TOWN_5": (-104, 108), "A1_TOWN_1": (-158, -209), "A1_TOWN_6": (-293, 151), "A1_TOWN_0": (-317, -306), "A1_TOWN_4": (-341, -450), "A1_TOWN_3": (-369, -542), },
-            #wp check (south)
-            705: {"A1_TOWN_3": (457, -29), "A1_TOWN_4": (485, 63), "A1_TOWN_0": (509, 207), "A1_TOWN_7": (-608, -188), "A1_TOWN_1": (668, 304), },
-            706: {"A1_TOWN_7": (-79, -33), "A1_TOWN_8": (-666, 21), "A1_TOWN_3": (986, 126), "A1_TOWN_4": (1014, 218), },
-            #akara
-            707: {"A1_TOWN_8": (-230, 93), "A1_TOWN_7": (357, 39), },
-            708: {"A1_TOWN_3": (-32, 200), "A1_TOWN_7": (533, -103), "A1_TOWN_9": (505, -298)},
+            1700: {'A1_TOWN_AUTOMAP_AKARA': (-194, -6),'A1_TOWN_AUTOMAP_GHEED': (218, 24),'A1_TOWN_AUTOMAP_CHARSI': (52, 104)},
+            1701: {'A1_TOWN_AUTOMAP_AKARA': (-215, -26),'A1_TOWN_AUTOMAP_GHEED': (196, 4),'A1_TOWN_AUTOMAP_CHARSI': (31, 84)},
+            1702: {'A1_TOWN_AUTOMAP_AKARA': (-184, -42),'A1_TOWN_AUTOMAP_GHEED': (228, -12),'A1_TOWN_AUTOMAP_CHARSI': (62, 68)},
+            1703: {'A1_TOWN_AUTOMAP_AKARA': (-236, -72),'A1_TOWN_AUTOMAP_GHEED': (176, -42),'A1_TOWN_AUTOMAP_CHARSI': (10, 38)},
+            1704: {'A1_TOWN_AUTOMAP_AKARA': (-275, -68),'A1_TOWN_AUTOMAP_GHEED': (136, -38),'A1_TOWN_AUTOMAP_CHARSI': (-29, 42)},
+            1705: {'A1_TOWN_AUTOMAP_AKARA': (-148, -2),'A1_TOWN_AUTOMAP_GHEED': (264, 28),'A1_TOWN_AUTOMAP_CHARSI': (98, 108)},
+            1706: {'A1_TOWN_AUTOMAP_AKARA': (-83, 16),'A1_TOWN_AUTOMAP_GHEED': (328, 46),'A1_TOWN_AUTOMAP_CHARSI': (163, 126)},
+            1707: {'A1_TOWN_AUTOMAP_AKARA': (-26, 25),'A1_TOWN_AUTOMAP_GHEED': (386, 56),'A1_TOWN_AUTOMAP_CHARSI': (220, 135)},
+            1708: {'A1_TOWN_AUTOMAP_GHEED': (398, 36),'A1_TOWN_AUTOMAP_CHARSI': (232, 116)},#'['A1_TOWN_AUTOMAP_AKARA']': (0, 0) < blocked by player marker
+            1709: {'A1_TOWN_AUTOMAP_WP': (-2,24)}, #WP
 
             #extra necro walking waypoints
             900: {"NECRO_TRAV_1": (-102, 46), },
@@ -457,43 +454,48 @@ class Pather:
             (Location.A2_DROGNAN, Location.A2_LYSANDER): [1411, 1410, 1409, 1403, 1402],
             (Location.A2_DROGNAN, Location.A2_WP): [1411, 1410, 1409, 1404],
             (Location.A2_DROGNAN, Location.A2_FARA_STASH): [1411, 1410, 1409, 1403, 1405],
-        }
-        self._paths = {
             # A1 Town
             #spawned in where do we go?
             (Location.A1_TOWN_START, Location.A1_STASH): [],
             (Location.A1_TOWN_START, Location.A1_KASHYA_CAIN): [],
-            (Location.A1_TOWN_START, Location.A1_CHARSI): [702, 703, 704],
-            (Location.A1_TOWN_START, Location.A1_AKARA): [705, 706, 707],
-            (Location.A1_TOWN_START, Location.A1_WP_NORTH): [702],
-            (Location.A1_TOWN_START, Location.A1_WP_SOUTH): [705],
+            (Location.A1_TOWN_START, Location.A1_CHARSI): [1702, 1703, 1704],
+            (Location.A1_TOWN_START, Location.A1_AKARA): [1705, 1706, 1707],
+            (Location.A1_TOWN_START, Location.A1_WP_NORTH): [1702],
+            (Location.A1_TOWN_START, Location.A1_WP_SOUTH): [1705],
+            (Location.A1_TOWN_START, Location.A1_WP): [1709],
             #from the stash to where?
-            (Location.A1_STASH, Location.A1_KASHYA_CAIN): [700],
-            (Location.A1_STASH, Location.A1_CHARSI): [701, 702, 703, 704],
-            (Location.A1_STASH, Location.A1_AKARA): [701, 705, 706, 707],
-            (Location.A1_STASH, Location.A1_WP_NORTH): [701, 702],
-            (Location.A1_STASH, Location.A1_WP_SOUTH): [701, 705],
+            (Location.A1_STASH, Location.A1_KASHYA_CAIN): [1700],
+            (Location.A1_STASH, Location.A1_CHARSI): [1701, 1702, 1703, 1704],
+            (Location.A1_STASH, Location.A1_AKARA): [1701, 1705, 1706, 1707],
+            (Location.A1_STASH, Location.A1_WP_NORTH): [1701, 1702],
+            (Location.A1_STASH, Location.A1_WP_SOUTH): [1701, 1705],
+            (Location.A1_STASH, Location.A1_WP): [1701, 1709],
             #from the Kashya/Cain to where?
-            (Location.A1_KASHYA_CAIN, Location.A1_STASH): [700],
-            (Location.A1_KASHYA_CAIN, Location.A1_CHARSI): [700, 702, 703, 704],
-            (Location.A1_KASHYA_CAIN, Location.A1_AKARA): [700, 705, 706, 707],
-            (Location.A1_KASHYA_CAIN, Location.A1_WP_NORTH): [700, 702],
-            (Location.A1_KASHYA_CAIN, Location.A1_WP_SOUTH): [700, 705],
+            (Location.A1_KASHYA_CAIN, Location.A1_STASH): [1700],
+            (Location.A1_KASHYA_CAIN, Location.A1_CHARSI): [1700, 1702, 1703, 1704],
+            (Location.A1_KASHYA_CAIN, Location.A1_AKARA): [1700, 1705, 1706, 1707],
+            (Location.A1_KASHYA_CAIN, Location.A1_WP_NORTH): [1700, 1702],
+            (Location.A1_KASHYA_CAIN, Location.A1_WP_SOUTH): [1700, 1705],
+            (Location.A1_KASHYA_CAIN, Location.A1_WP): [1700, 1709],
             #from the Charsi to where?
-            (Location.A1_CHARSI, Location.A1_STASH): [704, 703, 702, 700],
-            (Location.A1_CHARSI, Location.A1_KASHYA_CAIN): [704, 703, 702, 700],
-            (Location.A1_CHARSI, Location.A1_AKARA): [704, 703, 702, 705, 706, 707],
-            (Location.A1_CHARSI, Location.A1_WP_NORTH): [704, 703, 702],
-            (Location.A1_CHARSI, Location.A1_WP_SOUTH): [704, 703, 702, 705],
+            (Location.A1_CHARSI, Location.A1_STASH): [1704, 1703, 1702, 1700],
+            (Location.A1_CHARSI, Location.A1_KASHYA_CAIN): [1704, 1703, 1702, 1700],
+            (Location.A1_CHARSI, Location.A1_AKARA): [1704, 1703, 1702, 1705, 1706, 1707],
+            (Location.A1_CHARSI, Location.A1_WP_NORTH): [1704, 1703, 1702],
+            (Location.A1_CHARSI, Location.A1_WP_SOUTH): [1704, 1703, 1702, 1705],
+            (Location.A1_CHARSI, Location.A1_WP): [1704, 1703, 1702, 1701, 1709],
             #from the Akara to where?
-            (Location.A1_AKARA, Location.A1_STASH): [707, 706, 705, 700],
-            (Location.A1_AKARA, Location.A1_KASHYA_CAIN): [707, 706, 705, 700],
-            (Location.A1_AKARA, Location.A1_CHARSI): [707, 706, 705, 702, 703, 704],
-            (Location.A1_AKARA, Location.A1_WP_NORTH): [707, 706, 705, 702],
-            (Location.A1_AKARA, Location.A1_WP_SOUTH): [707, 706, 706],
-            (Location.A1_WP_SOUTH, Location.A1_WP_NORTH): [702],
+            (Location.A1_AKARA, Location.A1_STASH): [1707, 1706, 1705, 1700],
+            (Location.A1_AKARA, Location.A1_KASHYA_CAIN): [1707, 1706, 1705, 1700],
+            (Location.A1_AKARA, Location.A1_CHARSI): [1707, 1706, 1705, 1702, 1703, 1704],
+            (Location.A1_AKARA, Location.A1_WP_NORTH): [1707, 1706, 1705, 1702],
+            (Location.A1_AKARA, Location.A1_WP_SOUTH): [1707, 1706, 1706],
+            (Location.A1_AKARA, Location.A1_WP): [1707, 1706, 1701, 1709],
+            (Location.A1_WP_SOUTH, Location.A1_WP_NORTH): [1702],
             #from town portal
-            (Location.A1_TOWN_TP, Location.A1_KASHYA_CAIN): [708, 700],
+            (Location.A1_TOWN_TP, Location.A1_KASHYA_CAIN): [1708, 1700],
+        }
+        self._paths = {
             # Pindle
             (Location.A5_PINDLE_START, Location.A5_PINDLE_SAFE_DIST): [100, 101, 102, 103],
             (Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END): [104],
