@@ -10,17 +10,21 @@ from pather import Location
 from pather import Pather
 from pather import Pather, Location
 from screen import convert_abs_to_monitor, convert_screen_to_abs, grab
-from target_detect import get_visible_targets
+from target_detect import get_visible_targets, log_targets
 from ui import skills
 from utils.custom_mouse import mouse
 from utils.misc import wait
+from item.pickit import PickIt
+from health_manager import set_panel_check_paused
+from inventory.personal import inspect_items
 
 class Hammerdin(Paladin):
     def __init__(self, *args, **kwargs):
         Logger.info("Setting up Hammerdin")
         super().__init__(*args, **kwargs)
         #hammerdin needs to be closer to shenk to reach it with hammers
-        self._pather.offset_node(149, (70, 10))
+        self._pather.offset_node(149, (70, 10)) # THIS NODE NODE LONGER EXISTS FOR AUTMAP CHARS
+        self._pather.offset_node(1149, (70, 10)) # not sure this node has to be offset for automap, keeping it to be safe
 
     def _cast_hammers(self, time_in_s: float, aura: str = "concentration"):
         if aura in self._skill_hotkeys and self._skill_hotkeys[aura]:
@@ -63,6 +67,157 @@ class Hammerdin(Paladin):
         self.pre_move()
         self.move(pos_m, force_move=True)
         self._cast_hammers(atk_len)
+
+    def _cs_pickit(self, skip_inspect: bool = False):
+        new_items = self._pickit.pick_up_items(self)
+        self._picked_up_items |= new_items
+        if not skip_inspect and new_items:
+            set_panel_check_paused(True)
+            inspect_items(grab(), ignore_sell=True)
+            set_panel_check_paused(False)        
+
+    def _generic_hammer_attack_sequence(
+        self,
+        #default_target_abs: tuple[int, int] = (0, 0),
+        min_duration: float = 0,
+        max_duration: float = 15,
+        target_detect: bool = True,
+        aura: str = ""
+    ) -> bool:
+        start = time.time()
+        target_check_count = 1
+        hammer_aura = aura if aura else "concentration"
+        while (elapsed := (time.time() - start)) <= max_duration:
+            #cast_pos_abs = default_target_abs
+            # if targets are detected, switch to targeting with reduced spread rather than present default cast position and default spread
+            if target_detect and (targets := get_visible_targets()):
+                #log_targets(targets)
+                target_check_count += 1
+
+            # if time > minimum and either targets aren't set or targets don't exist, exit loop
+            if elapsed > min_duration and (not target_detect or not targets):
+                    Logger.debug("No More Targets Skip to next Area")
+                    break
+            #else:
+
+                # TODO: add delay between FOH casts--doesn't properly cast each FOH in sequence
+                # cast foh to holy bolt with preset ratio (e.g. 3 foh followed by 1 holy bolt if foh_to_holy_bolt_ratio = 3)
+                #self._cast_hammers(Config().char["atk_len_cs_trashmobs"] * 0.4)
+            targets = get_visible_targets()
+            if targets:
+                        Logger.debug("Targets Found Attacking")
+                        closest_target_position_monitor = targets[0].center_monitor
+                        self.pre_move()
+                        self.move(closest_target_position_monitor, force_move=True)
+                        self._cast_hammers(Config().char["atk_len_cs_trashmobs"] * 0.4)
+                        self._cast_hammers(1.0, "redemption")
+
+            else:            
+                    self._cast_hammers(1.0, "redemption")   
+                    target_check_count += 1
+                    Logger.debug("Couldn't Locate Targets Checking Again")
+        return True
+
+    def _fast_hammer_attack_sequence(
+        self,
+        #default_target_abs: tuple[int, int] = (0, 0),
+        min_duration: float = 0,
+        max_duration: float = 15,
+        target_detect: bool = True,
+        aura: str = ""
+    ) -> bool:
+        start = time.time()
+        target_check_count = 1
+        hammer_aura = aura if aura else "concentration"
+        while (elapsed := (time.time() - start)) <= max_duration:
+            #cast_pos_abs = default_target_abs
+            # if targets are detected, switch to targeting with reduced spread rather than present default cast position and default spread
+            if target_detect and (targets := get_visible_targets()):
+                #log_targets(targets)
+                target_check_count += 1
+
+            # if time > minimum and either targets aren't set or targets don't exist, exit loop
+            if elapsed > min_duration and (not target_detect or not targets):
+                    Logger.debug("No More Targets Skip to next Area")
+                    break
+            #else:
+
+                # TODO: add delay between FOH casts--doesn't properly cast each FOH in sequence
+                # cast foh to holy bolt with preset ratio (e.g. 3 foh followed by 1 holy bolt if foh_to_holy_bolt_ratio = 3)
+                #self._cast_hammers(Config().char["atk_len_cs_trashmobs"] * 0.4)
+            targets = get_visible_targets()
+            if targets:
+                        Logger.debug("Targets Found Attacking")
+                        closest_target_position_monitor = targets[0].center_monitor
+                        self.pre_move()
+                        self.move(closest_target_position_monitor, force_move=True)
+                        self._cast_hammers(Config().char["atk_len_cs_trashmobs"] * 0.4)
+                        self._cast_hammers(1.0, "redemption")
+
+            else:            
+                    self._cast_hammers(1.0, "redemption")   
+                    target_check_count += 1
+                    Logger.debug("Couldn't Locate Targets Checking Again")
+        return True    
+
+    def _dia_hammer_attack_sequence(
+        self,
+        #default_target_abs: tuple[int, int] = (0, 0),
+        min_duration: float = 0,
+        max_duration: float = 15,
+        target_detect: bool = True,
+        aura: str = ""
+    ) -> bool:
+        start = time.time()
+        target_check_count = 1
+        hammer_aura = aura if aura else "concentration"
+        while (elapsed := (time.time() - start)) <= max_duration:
+            #cast_pos_abs = default_target_abs
+            # if targets are detected, switch to targeting with reduced spread rather than present default cast position and default spread
+            if target_detect and (targets := get_visible_targets()):
+                #log_targets(targets)
+                target_check_count += 1
+
+            # if time > minimum and either targets aren't set or targets don't exist, exit loop
+            if elapsed > min_duration and (not target_detect or not targets):
+                    Logger.debug("No More Targets Skip to next Area")
+                    break
+            #else:
+
+                # TODO: add delay between FOH casts--doesn't properly cast each FOH in sequence
+                # cast foh to holy bolt with preset ratio (e.g. 3 foh followed by 1 holy bolt if foh_to_holy_bolt_ratio = 3)
+                #self._cast_hammers(Config().char["atk_len_cs_trashmobs"] * 0.4)
+            targets = get_visible_targets()
+            if targets:
+                        Logger.debug("Targets Found Attacking")
+                        closest_target_position_monitor = targets[0].center_monitor
+                        self.pre_move()
+                        self.move(closest_target_position_monitor, force_move=True)
+                        self._cast_hammers(Config().char["atk_len_cs_trashmobs"] * 0.4)
+
+            else:            
+                    self._cast_hammers(Config().char["atk_len_cs_trashmobs"] * 0.4)
+                    target_check_count += 1
+                    Logger.debug("Couldn't Locate Targets Checking Again")
+        return True                
+
+        #Sorc Attack Sequence Optimized for trash
+    def _cs_attack_sequence(self, min_duration: float = Config().char["atk_len_cs_trashmobs"], max_duration: float = Config().char["atk_len_cs_trashmobs"] * 3):
+        self._generic_hammer_attack_sequence()
+
+        #Sorc Attack Sequence Optimized for trash
+    def _cs_attack_sequence_static(self, min_duration: float = Config().char["atk_len_cs_trashmobs"], max_duration: float = Config().char["atk_len_cs_trashmobs"] * 3):
+        self._generic_hammer_attack_sequence()
+
+        #Sorc Attack Sequence Optimized for trash
+    def _cs_fast_attack_sequence(self, min_duration: float = Config().char["atk_len_cs_trashmobs"], max_duration: float = Config().char["atk_len_cs_trashmobs"] * 1):
+        self._fast_hammer_attack_sequence()
+
+    def _cs_dia_attack_sequence(self, min_duration: float = Config().char["atk_len_cs_trashmobs"], max_duration: float = Config().char["atk_len_diablo"] * 3):
+        self._dia_hammer_attack_sequence()                                       
+
+    def _cs_trash_mobs_attack_sequence(self, min_duration: float = 1.2, max_duration: float = Config().char["atk_len_cs_trashmobs"]):
+        self._cs_attack_sequence()        
 
     def kill_pindle(self) -> bool:
         wait(0.1, 0.15)
@@ -162,1105 +317,250 @@ class Hammerdin(Paladin):
      # Chaos Sanctuary, Trash, Seal Bosses (a = Vizier, b = De Seis, c = Infector) & Diablo #
      ########################################################################################
 
-    def kill_cs_trash(self, location:str) -> bool:
+    def dia_kill_trash(self, location:str) -> bool:
 
-        ###########
-        # SEALDANCE
-        ###########
         match location:
-            case "sealdance": #if seal opening fails & trash needs to be cleared -> used at ANY seal
-                ### APPROACH
-                ### ATTACK ###
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
-                    pos_m = convert_abs_to_monitor((0, 0))
-                    mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                    self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-                    self._cast_hammers(0.75, "redemption")
-                    self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-                    if self._skill_hotkeys["cleansing"]:
-                        keyboard.send(self._skill_hotkeys["cleansing"])
-                        wait(0.1, 0.2)
-                    if self._skill_hotkeys["redemption"]:
-                        keyboard.send(self._skill_hotkeys["redemption"])
-                        wait(0.5, 1.0) #clear seal from corpses
-                    ### LOOT ###
-                    self._picked_up_items |= self._pickit.pick_up_items(self)
+            
+            case "outside_cs" | "outside_cs_stairs" | "aisle_1" | "aisle_3" | "hall1_4" | "to_hall2_4" | "hall2_1" | "hall2_3" | "hall2_4" | "to_hall3_1" | "trash_to_a1" | "trash_to_a3" | "a_boss" | "trash_to_b3" | "trash_to_b4" | "b_boss" | "trash_to_c2":
+                if self._use_safer_routines or Config().char["dia_kill_trash"]:  
+                    self._cs_attack_sequence()
+                    self._cs_pickit()    
+                else:
+                    wait(.30)
+                    Logger.debug("Skip attack Sequence")      
 
-            ################
-            # CLEAR CS TRASH
-            ################
+            # faster seal skips
+            case "approach_b1s" | "b_seal" | "approach_c2g" | "fake_c2g" | "layoutcheck_a" | "layoutcheck_c" | "layoutcheck_b" :
 
-            case "rof_01": #node 603 - outside CS in ROF
-                ### APPROACH ###
-                if not self._pather.traverse_nodes([603], self, timeout=3): return False #calibrate after static path
-                pos_m = convert_abs_to_monitor((0, 0))
-                ### ATTACK ###
-                wait(1)#give merc the chance to activate holy freeze
-                #print("mercwait")
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
+                if self._use_safer_routines or Config().char["dia_kill_trash"]:  
+                    self._cs_attack_sequence()
+                    self._cs_pickit()    
+                else:
+                    wait(.30)
+                    Logger.debug("Skip attack Sequence")        
 
-                    mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                    self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
-                    self._cast_hammers(0.75, "redemption")
-                    self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"])
-                    ### LOOT ###
-                    if self._skill_hotkeys["cleansing"]:
-                        keyboard.send(self._skill_hotkeys["cleansing"])
-                        wait(0.1, 0.2)
-                    if self._skill_hotkeys["redemption"]:
-                        keyboard.send(self._skill_hotkeys["redemption"])
-                        wait(0.3, 0.6)
-                    ### LOOT ###
-                    self._picked_up_items |= self._pickit.pick_up_items(self)
-                if not self._pather.traverse_nodes([603], self): return False #calibrate after looting
+            case "pent_before_a" | "pent_before_b" | "pent_before_c":
+                if self._use_safer_routines or Config().char["dia_kill_trash"]:  
+                    self._cs_attack_sequence()
+                    self._cs_pickit()    
+                else:
+                    wait(.30)
+                    Logger.debug("Skip attack Sequence")    
 
+            case "aisle_2"| "hall1_1"| "hall1_2" | "hall1_3" | "to_hall2_2" | "to_hall2_3" | "hall2_2"  | "to_hall3_2" | "to_hall3_3" | "hall3_4" | "hall3_5" :
+                if self._use_safer_routines or Config().char["dia_kill_trash"]:  
+                    self._cs_attack_sequence()
+                    self._cs_pickit()    
+                else:
+                    wait(.30)
+                    Logger.debug("Skip attack Sequence")    
 
-            case "rof_02": #node 604 - inside ROF
-                ### APPROACH ###
-                if not self._pather.traverse_nodes([604], self, timeout=3): return False  #threshold=0.8 (ex 601)
-                ### ATTACK ###
-                wait(1)#give merc the chance to activate holy freeze
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
-                    pos_m = convert_abs_to_monitor((0, 0))
-                    mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                    self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
-                    self._cast_hammers(0.75, "redemption")
-                    self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"])
-                    if self._skill_hotkeys["cleansing"]:
-                        keyboard.send(self._skill_hotkeys["cleansing"])
-                        wait(0.1, 0.2)
-                    if self._skill_hotkeys["redemption"]:
-                        keyboard.send(self._skill_hotkeys["redemption"])
-                        wait(0.3, 0.6)
-                    ### LOOT ###
-                    self._picked_up_items |= self._pickit.pick_up_items(self)
+            #Cast frost nova first interaction and while hole freeze procs
+            case "to_hall2_1" | "aisle_4" | "hall3_3" | "sealdance":
+                    self._cs_attack_sequence()
+                    self._cs_pickit()    
+          
 
-            case "entrance_hall_01": ##static_path "diablo_entrance_hall_1", node 677, CS Entrance Hall1
-                ### APPROACH ###
-                self._pather.traverse_nodes_fixed("diablo_entrance_hall_1", self) # 604 -> 671 Hall1
-                ### ATTACK ###
-                wait(1)#give merc the chance to activate holy freeze
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
-                    pos_m = convert_abs_to_monitor((0, 0))
-                    mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                    self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
-                    self._cast_hammers(0.75, "redemption")
-                    self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"])
-                    if self._skill_hotkeys["cleansing"]:
-                        keyboard.send(self._skill_hotkeys["cleansing"])
-                        wait(0.1, 0.2)
-                    if self._skill_hotkeys["redemption"]:
-                        keyboard.send(self._skill_hotkeys["redemption"])
-                        wait(0.3, 0.6)
-                    ### LOOT ###
-                    self._picked_up_items |= self._pickit.pick_up_items(self)
+            # at these spots (and after each seal boss) checks if inv is full and discards items
+            case "to_hall2_2" | "to_hall3_1" | "trash_to_a4" | "approach_b2u" | "approach_c2g":
+                if self._use_safer_routines or Config().char["dia_kill_trash"]:  
+                    self._cs_attack_sequence()
+                    self._cs_pickit()    
+                else:
+                    wait(.30)
+                    Logger.debug("Skip attack Sequence")      
+            
+            # For each seal-area: 3 positions to start fights & loot (triggered in diablo.py), followed by 1 position for each seal.
 
-            case "entrance_hall_02":  #node 670,671, CS Entrance Hall1, CS Entrance Hall1
-                ### APPROACH ###
-                if not self._pather.traverse_nodes([670], self): return False # pull top mobs 672 to bottom 670
-                self._pather.traverse_nodes_fixed("diablo_entrance_1_670_672", self) # 604 -> 671 Hall1
-                if not self._pather.traverse_nodes([670], self): return False # pull top mobs 672 to bottom 670
-                ### ATTACK ###
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
-                    pos_m = convert_abs_to_monitor((0, 0))
-                    mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                    self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
-                    self._cast_hammers(0.75, "redemption")
-                    self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"])
-                    if self._skill_hotkeys["cleansing"]:
-                        keyboard.send(self._skill_hotkeys["cleansing"])
-                        wait(0.1, 0.2)
-                    if self._skill_hotkeys["redemption"]:
-                        keyboard.send(self._skill_hotkeys["redemption"])
-                        wait(0.3, 0.6)
-                    ### LOOT ###
-                    self._picked_up_items |= self._pickit.pick_up_items(self)
-                #Move to Layout Check
-                if not self._pather.traverse_nodes([671], self): return False # calibrate before static path
-                self._pather.traverse_nodes_fixed("diablo_entrance_hall_2", self) # 671 -> LC Hall2
+            case "trash_to_a2" |  "trash_to_a4" | "trash_to_b1" | "trash_to_b2" | "approach_b2u" | "trash_to_c1" | "trash_to_c3":
+                if self._use_safer_routines or Config().char["dia_kill_trash"]:  
+                    self._cs_attack_sequence()
+                    self._cs_pickit()    
+                else:
+                    wait(.30)
+                    Logger.debug("Skip attack Sequence")      
 
 
-
-            # TRASH LAYOUT A
-
-            case "entrance1_01": #static_path "diablo_entrance_hall_2", Hall1 (before layout check)
+            case "A1-L_01":
                 ### APPROACH ###
                 ### ATTACK ###
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
-                    pos_m = convert_abs_to_monitor((0, 0))
-                    mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                    self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
-                    self._cast_hammers(0.75, "redemption")
-                    self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"])
-                    if self._skill_hotkeys["cleansing"]:
-                        keyboard.send(self._skill_hotkeys["cleansing"])
-                        wait(0.1, 0.2)
-                    if self._skill_hotkeys["redemption"]:
-                        keyboard.send(self._skill_hotkeys["redemption"])
-                        wait(0.3, 0.6)
-                    ### LOOT ###
-                    self._picked_up_items |= self._pickit.pick_up_items(self)
-                if not self._pather.traverse_nodes([673], self): return False # , timeout=3): # Re-adjust itself and continues to attack
+            #    self._frost_nova(.2)
+            #    wait(.20)
+                ### LOOT ###
+                Logger.debug("Skip attack Sequence")
 
-            case "entrance1_02": #node 673
-                ### APPROACH ###
-                ### ATTACK ###
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
-                    pos_m = convert_abs_to_monitor((0, 0))
-                    mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                    self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
-                    self._cast_hammers(0.75, "redemption")
-                    self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"])
-                    if self._skill_hotkeys["cleansing"]:
-                        keyboard.send(self._skill_hotkeys["cleansing"])
-                        wait(0.1, 0.2)
-                    if self._skill_hotkeys["redemption"]:
-                        keyboard.send(self._skill_hotkeys["redemption"])
-                        wait(0.3, 0.6)
-                    ### LOOT ###
-                    self._picked_up_items |= self._pickit.pick_up_items(self)
-                self._pather.traverse_nodes_fixed("diablo_entrance_1_1", self) # Moves char to postion close to node 674 continues to attack
-                if not self._pather.traverse_nodes([674], self): return False#, timeout=3)
-
-            case "entrance1_03": #node 674
-                ### APPROACH ###
-                ### ATTACK ###
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
-                    pos_m = convert_abs_to_monitor((0, 0))
-                    mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                    self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
-                    self._cast_hammers(0.75, "redemption")
-                    self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"])
-                    if self._skill_hotkeys["cleansing"]:
-                        keyboard.send(self._skill_hotkeys["cleansing"])
-                        wait(0.1, 0.2)
-                    if self._skill_hotkeys["redemption"]:
-                        keyboard.send(self._skill_hotkeys["redemption"])
-                        wait(0.3, 0.6)
-                    ### LOOT ###
-                    self._picked_up_items |= self._pickit.pick_up_items(self)
-                    self._picked_up_items |= self._pickit.pick_up_items(self)
-                if not self._pather.traverse_nodes([675], self): return False#, timeout=3) # Re-adjust itself
-                self._pather.traverse_nodes_fixed("diablo_entrance_1_1", self) #static path to get to be able to spot 676
-                if not self._pather.traverse_nodes([676], self): return False#, timeout=3)
-
-            case "entrance1_04": #node 676- Hall3
-                ### APPROACH ###
-                ### ATTACK ###
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
-                    pos_m = convert_abs_to_monitor((0, 0))
-                    mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                    self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
-                    self._cast_hammers(0.75, "redemption")
-                    self._move_and_attack((-50, -150), Config().char["atk_len_cs_trashmobs"])
-                    self._move_and_attack((50, 150), Config().char["atk_len_cs_trashmobs"] * 0.5)
-                    if self._skill_hotkeys["cleansing"]:
-                        keyboard.send(self._skill_hotkeys["cleansing"])
-                        wait(0.1, 0.2)
-                    if self._skill_hotkeys["redemption"]:
-                        keyboard.send(self._skill_hotkeys["redemption"])
-                        wait(0.3, 0.6)
-                    ### LOOT ###
-                    self._picked_up_items |= self._pickit.pick_up_items(self)
-
-            # TRASH LAYOUT B
-
-            case "entrance2_01": #static_path "diablo_entrance_hall_2"
-                ### APPROACH ###
-                ### ATTACK ###
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
-                    pos_m = convert_abs_to_monitor((0, 0))
-                    mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                    self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
-                    self._cast_hammers(0.75, "redemption")
-                    self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"])
-                    if self._skill_hotkeys["cleansing"]:
-                        keyboard.send(self._skill_hotkeys["cleansing"])
-                        wait(0.1, 0.2)
-                    if self._skill_hotkeys["redemption"]:
-                        keyboard.send(self._skill_hotkeys["redemption"])
-                        wait(0.3, 0.6)
-                    ### LOOT ###
-                    self._picked_up_items |= self._pickit.pick_up_items(self)
-
-            case "entrance2_02": #node 682
-                ### APPROACH ###
-                #if not self._pather.traverse_nodes([682], self): return False # , timeout=3):
-                self._pather.traverse_nodes_fixed("diablo_trash_b_hall2_605_right", self) #pull mobs from the right
-                wait (0.2, 0.5)
-                if not self._pather.traverse_nodes([605], self): return False#, timeout=3)
-                ### ATTACK ###
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
-                    pos_m = convert_abs_to_monitor((0, 0))
-                    mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                    self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
-                    self._cast_hammers(0.75, "redemption")
-                    self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"])
-                    if self._skill_hotkeys["cleansing"]:
-                        keyboard.send(self._skill_hotkeys["cleansing"])
-                        wait(0.1, 0.2)
-                    if self._skill_hotkeys["redemption"]:
-                        keyboard.send(self._skill_hotkeys["redemption"])
-                        wait(0.3, 0.6)
-                    ### LOOT ###
-                    self._picked_up_items |= self._pickit.pick_up_items(self)
-
-            case "entrance2_03": #node 683
-                ### APPROACH ###
-                #if not self._pather.traverse_nodes([682], self): return False # , timeout=3):
-                #self._pather.traverse_nodes_fixed("diablo_entrance2_1", self)
-                #if not self._pather.traverse_nodes([683], self): return False # , timeout=3):
-                self._pather.traverse_nodes_fixed("diablo_trash_b_hall2_605_top1", self) #pull mobs from top
-                wait (0.2, 0.5)
-                self._pather.traverse_nodes_fixed("diablo_trash_b_hall2_605_top2", self) #pull mobs from top
-                if not self._pather.traverse_nodes([605], self): return False#, timeout=3)
-                ### ATTACK ###
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
-                    pos_m = convert_abs_to_monitor((0, 0))
-                    mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                    self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
-                    self._cast_hammers(0.75, "redemption")
-                    self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"])
-                    if self._skill_hotkeys["cleansing"]:
-                        keyboard.send(self._skill_hotkeys["cleansing"])
-                        wait(0.1, 0.2)
-                    if self._skill_hotkeys["redemption"]:
-                        keyboard.send(self._skill_hotkeys["redemption"])
-                        wait(0.3, 0.6)
-                    ### LOOT ###
-                    self._picked_up_items |= self._pickit.pick_up_items(self)
-
-            case "entrance2_04": #node 686 - Hall3
-                ### APPROACH ###
-                if not self._pather.traverse_nodes([605], self): return False#, timeout=3)
-                #if not self._pather.traverse_nodes([683,684], self): return False#, timeout=3)
-                #self._pather.traverse_nodes_fixed("diablo_entrance2_2", self)
-                #if not self._pather.traverse_nodes([685,686], self): return False#, timeout=3)
-                self._pather.traverse_nodes_fixed("diablo_trash_b_hall2_605_hall3", self)
-                if not self._pather.traverse_nodes([609], self): return False#, timeout=3)
-                self._pather.traverse_nodes_fixed("diablo_trash_b_hall3_pull_609", self)
-                if not self._pather.traverse_nodes([609], self): return False#, timeout=3)
-                ### ATTACK ###
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
-                    pos_m = convert_abs_to_monitor((0, 0))
-                    mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                    self._move_and_attack((0, 0), Config().char["atk_len_cs_trashmobs"])
-                    self._cast_hammers(0.75, "redemption")
-                    self._move_and_attack((-50, -150), Config().char["atk_len_cs_trashmobs"] * 0.5)
-                    self._move_and_attack((50, 150), Config().char["atk_len_cs_trashmobs"] * 0.2)
-                    self._move_and_attack((250, -150), Config().char["atk_len_cs_trashmobs"] * 0.5)
-                    self._move_and_attack((-250, -150), Config().char["atk_len_cs_trashmobs"] * 0.2)
-                    if self._skill_hotkeys["cleansing"]:
-                        keyboard.send(self._skill_hotkeys["cleansing"])
-                        wait(0.1, 0.2)
-                    if self._skill_hotkeys["redemption"]:
-                        keyboard.send(self._skill_hotkeys["redemption"])
-                        wait(0.3, 0.6)
-                    ### LOOT ###
-                    self._picked_up_items |= self._pickit.pick_up_items(self)
-                    self._picked_up_items |= self._pickit.pick_up_items(self)
-                    if not self._pather.traverse_nodes([609], self): return False#, timeout=3)
-                    self._picked_up_items |= self._pickit.pick_up_items(self)
-                if not self._pather.traverse_nodes([609], self): return False#, timeout=3)
-
-            ####################
-            # PENT TRASH TO SEAL
-            ####################
-
-            case "dia_trash_a": #trash before between Pentagramm and Seal A Layoutcheck
-                ### APPROACH ###
-                ### ATTACK ###
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
-                    pos_m = convert_abs_to_monitor((0, 0))
-                    mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                    self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
-                    self._cast_hammers(0.75, "redemption")
-                    self._move_and_attack((-30, -100), Config().char["atk_len_cs_trashmobs"])
-                    self._move_and_attack((30, 100), Config().char["atk_len_cs_trashmobs"] * 0.5)
-                    if self._skill_hotkeys["cleansing"]:
-                        keyboard.send(self._skill_hotkeys["cleansing"])
-                        wait(0.1, 0.2)
-                    if self._skill_hotkeys["redemption"]:
-                        keyboard.send(self._skill_hotkeys["redemption"])
-                        wait(0.3, 0.6)
-                    ### LOOT ###
-                    self._picked_up_items |= self._pickit.pick_up_items(self)
-
-            case "dia_trash_b": #trash before between Pentagramm and Seal B Layoutcheck
-                ### APPROACH ###
-                ### ATTACK ###
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
-                    pos_m = convert_abs_to_monitor((0, 0))
-                    mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                    self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
-                    self._cast_hammers(0.75, "redemption")
-                    self._move_and_attack((-30, -100), Config().char["atk_len_cs_trashmobs"])
-                    self._move_and_attack((30, 100), Config().char["atk_len_cs_trashmobs"] * 0.5)
-                    if self._skill_hotkeys["cleansing"]:
-                        keyboard.send(self._skill_hotkeys["cleansing"])
-                        wait(0.1, 0.2)
-                    if self._skill_hotkeys["redemption"]:
-                        keyboard.send(self._skill_hotkeys["redemption"])
-                        wait(0.3, 0.6)
-                    ### LOOT ###
-                    self._picked_up_items |= self._pickit.pick_up_items(self)
-
-            case "dia_trash_c": ##trash before between Pentagramm and Seal C Layoutcheck
-                ### APPROACH ###
-                ### ATTACK ###
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
-                    pos_m = convert_abs_to_monitor((0, 0))
-                    mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                    self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"])
-                    self._cast_hammers(0.75, "redemption")
-                    self._move_and_attack((-30, -100), Config().char["atk_len_cs_trashmobs"])
-                    self._move_and_attack((30, 100), Config().char["atk_len_cs_trashmobs"])
-                    if self._skill_hotkeys["cleansing"]:
-                        keyboard.send(self._skill_hotkeys["cleansing"])
-                        wait(0.1, 0.2)
-                    if self._skill_hotkeys["redemption"]:
-                        keyboard.send(self._skill_hotkeys["redemption"])
-                        wait(0.3, 0.6)
-                    ### LOOT ###
-                    self._picked_up_items |= self._pickit.pick_up_items(self)
-
-            ###############
-            # LAYOUT CHECKS
-            ###############
-
-            case "layoutcheck_a": #layout check seal A, node 619 A1-L, node 620 A2-Y
-                ### APPROACH ###
-                ### ATTACK ###
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
-                    pos_m = convert_abs_to_monitor((0, 0))
-                    mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                    self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-                    self._cast_hammers(0.75, "redemption")
-                    self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-                    if self._skill_hotkeys["cleansing"]:
-                        keyboard.send(self._skill_hotkeys["cleansing"])
-                        wait(0.1, 0.2)
-                    if self._skill_hotkeys["redemption"]:
-                        keyboard.send(self._skill_hotkeys["redemption"])
-                        wait(0.3, 0.6)
-                    ### LOOT ###
-                    self._picked_up_items |= self._pickit.pick_up_items(self)
-                #Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
-
-            case "layoutcheck_b": #layout check seal B, node 634 B1-S, node 649 B2-U
-                ### APPROACH ###
-                ### ATTACK ###
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
-                    pos_m = convert_abs_to_monitor((0, 0))
-                    mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                    self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-                    self._cast_hammers(0.75, "redemption")
-                    self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-                    if self._skill_hotkeys["cleansing"]:
-                        keyboard.send(self._skill_hotkeys["cleansing"])
-                        wait(0.1, 0.2)
-                    if self._skill_hotkeys["redemption"]:
-                        keyboard.send(self._skill_hotkeys["redemption"])
-                        wait(0.3, 0.6)
-                    ### LOOT ###
-                    self._picked_up_items |= self._pickit.pick_up_items(self)
-
-            case "layoutcheck_c": #layout check seal C, node 656 C1-F, node 664 C2-G
-                ### APPROACH ###
-                ### ATTACK ###
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
-                    pos_m = convert_abs_to_monitor((0, 0))
-                    mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                    self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-                    self._cast_hammers(0.75, "redemption")
-                    self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-                    if self._skill_hotkeys["cleansing"]:
-                        keyboard.send(self._skill_hotkeys["cleansing"])
-                        wait(0.1, 0.2)
-                    if self._skill_hotkeys["redemption"]:
-                        keyboard.send(self._skill_hotkeys["redemption"])
-                        wait(0.3, 0.6)
-                    ### LOOT ###
-                    self._picked_up_items |= self._pickit.pick_up_items(self)
-
-            ##################
-            # PENT BEFORE SEAL
-            ##################
-
-            case "pent_before_a": #node 602, pentagram, before CTA buff & depature to layout check - not needed when trash is skipped & seals run in right order
+            case "A1-L_02" | "A1-L_03" | "A1-L_seal1" | "A1-L_seal2":
                 ### APPROACH ###
                 ### ATTACK ###
                 ### LOOT ###
-                Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
+                Logger.debug("Skip attack Sequence")                
 
-            case "pent_before_b": #node 602, pentagram, before CTA buff & depature to layout check
+            case "A2-Y_01":
                 ### APPROACH ###
                 ### ATTACK ###
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
-                    pos_m = convert_abs_to_monitor((0, 0))
-                    mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                    self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-                    self._cast_hammers(0.75, "redemption")
-                    self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-                    if self._skill_hotkeys["cleansing"]:
-                        keyboard.send(self._skill_hotkeys["cleansing"])
-                        wait(0.1, 0.2)
-                    if self._skill_hotkeys["redemption"]:
-                        keyboard.send(self._skill_hotkeys["redemption"])
-                        wait(0.3, 0.6)
-                    ### LOOT ###
-                    self._picked_up_items |= self._pickit.pick_up_items(self)
-
-            case "pent_before_c": #node 602, pentagram, before CTA buff & depature to layout check
-                ### APPROACH ###
-                ### ATTACK ###
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
-                    pos_m = convert_abs_to_monitor((0, 0))
-                    mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                    self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-                    self._cast_hammers(0.75, "redemption")
-                    self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-                    if self._skill_hotkeys["cleansing"]:
-                        keyboard.send(self._skill_hotkeys["cleansing"])
-                        wait(0.1, 0.2)
-                    if self._skill_hotkeys["redemption"]:
-                        keyboard.send(self._skill_hotkeys["redemption"])
-                        wait(0.3, 0.6)
-                    ### LOOT ###
-                    self._picked_up_items |= self._pickit.pick_up_items(self)
-
-            ###########
-            # SEAL A1-L
-            ###########
-
-            case "A1-L_01":  #node 611 seal layout A1-L: safe_dist
-                ### APPROACH ###
-                if not self._pather.traverse_nodes([611], self): return False # , timeout=3):
-                ### ATTACK ###
-                wait(1)#give merc the chance to activate holy freeze
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
-                    pos_m = convert_abs_to_monitor((0, 0))
-                    mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                    self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-                    self._cast_hammers(0.75, "redemption")
-                    self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-                    if self._skill_hotkeys["cleansing"]:
-                        keyboard.send(self._skill_hotkeys["cleansing"])
-                        wait(0.1, 0.2)
-                    if self._skill_hotkeys["redemption"]:
-                        keyboard.send(self._skill_hotkeys["redemption"])
-                        wait(0.3, 0.6)
+            #    self._frost_nova(.2)
+            #    wait(.20)
                 ### LOOT ###
-                # we loot at boss
-
-            case "A1-L_02":  #node 612 seal layout A1-L: center
+                Logger.debug("Skip attack Sequence")
+                            
+                            
+            case "A2-Y_02" | "A2-Y_03" | "A2-Y_seal1" | "A2-Y_seal2":
                 ### APPROACH ###
-                if not self._pather.traverse_nodes([612], self): return False # , timeout=3):
                 ### ATTACK ###
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
-                    if self._skill_hotkeys["redemption"]:
-                        keyboard.send(self._skill_hotkeys["redemption"])
-                        wait(0.3, 0.6)
-                    pos_m = convert_abs_to_monitor((0, 0))
-                    mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                    self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-                    self._cast_hammers(0.75, "redemption")
-                    self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-                    self._cast_hammers(0.75, "redemption")
-                    self._cast_hammers(0.5, "cleansing")
-                    if self._skill_hotkeys["cleansing"]:
-                        keyboard.send(self._skill_hotkeys["cleansing"])
-                        wait(0.1, 0.2)
-                    if self._skill_hotkeys["redemption"]:
-                        keyboard.send(self._skill_hotkeys["redemption"])
-                        wait(0.3, 0.6)
                 ### LOOT ###
-                # we loot at boss
+                Logger.debug("Skip attack Sequence")
 
-            case "A1-L_03":  #node 613 seal layout A1-L: fake_seal
-                ### APPROACH ###
-                if not self._pather.traverse_nodes([613], self): return False # , timeout=3):
-                ### ATTACK ###
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
-                    pos_m = convert_abs_to_monitor((0, 0))
-                    mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                    self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-                    self._cast_hammers(0.75, "redemption")
-                    self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-                    self._cast_hammers(0.75, "redemption")
-                    self._cast_hammers(0.5, "cleansing")
-                    ### LOOT ###
-                    self._picked_up_items |= self._pickit.pick_up_items(self)
-                    if self._skill_hotkeys["cleansing"]:
-                        keyboard.send(self._skill_hotkeys["cleansing"])
-                        wait(0.1, 0.2)
-                    if self._skill_hotkeys["redemption"]:
-                        keyboard.send(self._skill_hotkeys["redemption"])
-                        wait(0.3, 0.6)
-
-            case "A1-L_seal1":  #node 613 seal layout A1-L: fake_seal
-                ### APPROACH ###
-                self._picked_up_items |= self._pickit.pick_up_items(self)
-                if not self._pather.traverse_nodes([614], self): return False
-                ### ATTACK ###
-                if self._skill_hotkeys["redemption"]:
-                    keyboard.send(self._skill_hotkeys["redemption"])
-                    wait(0.3, 0.6)
-                ### LOOT ###
-                # we loot at boss
-
-            case "A1-L_seal2":  #node 614 seal layout A1-L: boss_seal
-                ### APPROACH ###
-                if not self._pather.traverse_nodes([613, 615], self): return False # , timeout=3):
-                ### ATTACK ###
-                if self._skill_hotkeys["redemption"]:
-                    keyboard.send(self._skill_hotkeys["redemption"])
-                    wait(0.3, 0.6)
-                ### LOOT ###
-                # we loot at boss
-
-            ###########
-            # SEAL A2-Y
-            ###########
-
-            case "A2-Y_01":  #node 622 seal layout A2-Y: safe_dist
-                ### APPROACH ###
-                if not self._pather.traverse_nodes_fixed("dia_a2y_hop_622", self): return False
-                Logger.debug("A2-Y: Hop!")
-                #if not self._pather.traverse_nodes([622], self): return False # , timeout=3):
-                if not self._pather.traverse_nodes([622], self): return False
-                wait(1)#give merc the chance to activate holy freeze
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
-                    if self._skill_hotkeys["redemption"]:
-                        keyboard.send(self._skill_hotkeys["redemption"])
-                        wait(0.3, 0.6)
-                    ### ATTACK ###
-                    pos_m = convert_abs_to_monitor((0, 0))
-                    mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                    self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-                    self._cast_hammers(0.75, "redemption")
-                    self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-                    if self._skill_hotkeys["cleansing"]:
-                        keyboard.send(self._skill_hotkeys["cleansing"])
-                        wait(0.1, 0.2)
-                    if self._skill_hotkeys["redemption"]:
-                        keyboard.send(self._skill_hotkeys["redemption"])
-                        wait(0.3, 0.6)
-                ### LOOT ###
-                # we loot at boss
-
-            case "A2-Y_02":  #node 623 seal layout A2-Y: center
-                ### APPROACH ###
-                # if not self._pather.traverse_nodes([623,624], self): return False #
-                ### ATTACK ###
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
-                    pos_m = convert_abs_to_monitor((0, 0))
-                    mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                    self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-                    self._cast_hammers(0.75, "redemption")
-                    self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-                    if self._skill_hotkeys["cleansing"]:
-                        keyboard.send(self._skill_hotkeys["cleansing"])
-                        wait(0.1, 0.2)
-                    if self._skill_hotkeys["redemption"]:
-                        keyboard.send(self._skill_hotkeys["redemption"])
-                        wait(0.3, 0.6)
-                ### LOOT ###
-                # we loot at boss
-
-            case "A2-Y_03": #skipped
+            case "B1-S_01" | "B1-S_02" | "B1-S_03" | "B1-S_seal2":
                 ### APPROACH ###
                 ### ATTACK ###
                 ### LOOT ###
                 # we loot at boss
-                Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
+                Logger.debug("Skip attack Sequence")
 
-            case "A2-Y_seal1":  #node 625 seal layout A2-Y: fake seal
+            case "B2-U_01" | "B2-U_02" | "B2-U_03" | "B2-U_seal2":
                 ### APPROACH ###
                 ### ATTACK ###
                 ### LOOT ###
                 # we loot at boss
-                if not self._pather.traverse_nodes([625], self): return False # , timeout=3):
-                if self._skill_hotkeys["redemption"]:
-                    keyboard.send(self._skill_hotkeys["redemption"])
-                    wait(0.3, 0.6)
+                Logger.debug("Skip attack Sequence")
 
-            case "A2-Y_seal2":
+            case "C1-F_01" | "C1-F_02" | "C1-F_03" | "C1-F_seal1" | "C1-F_seal2":
                 ### APPROACH ###
                 ### ATTACK ###
                 ### LOOT ###
                 # we loot at boss
-                self._pather.traverse_nodes_fixed("dia_a2y_sealfake_sealboss", self) #instead of traversing node 626 which causes issues
-                if self._skill_hotkeys["redemption"]:
-                    keyboard.send(self._skill_hotkeys["redemption"])
-                    wait(0.3, 0.6)
+                Logger.debug("Skip attack Sequence")
 
-            ###########
-            # SEAL B1-S
-            ###########
-
-            case "B1-S_01":
+            case "C2-G_01" | "C2-G_02" | "C2-G_03" | "C2-G_seal1" | "C2-G_seal2":
                 ### APPROACH ###
                 ### ATTACK ###
                 ### LOOT ###
-                # we loot at boss
-                Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
+                Logger.debug("Skip attack Sequence")
 
-            case "B1-S_02":
-                ### APPROACH ###
-                ### ATTACK ###
-                ### LOOT ###
-                # we loot at boss
-                Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
-
-            case "B1-S_03":
-                ### APPROACH ###
-                ### ATTACK ###
-                ### LOOT ###
-                # we loot at boss
-                Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
-
-            case "B1-S_seal2": #B only has 1 seal, which is the boss seal = seal2
-                ### APPROACH ###
-                if not self._pather.traverse_nodes([634], self): return False # , timeout=3):
-                ### ATTACK ###
-                if self._skill_hotkeys["redemption"]:
-                    keyboard.send(self._skill_hotkeys["redemption"])
-                    wait(0.3, 0.6)
-                ### LOOT ###
-
-
-            ###########
-            # SEAL B2-U
-            ###########
-
-            case "B2-U_01":
-                ### APPROACH ###
-                ### ATTACK ###
-                ### LOOT ###
-                # we loot at boss
-                Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
-
-            case "B2-U_02":
-                ### APPROACH ###
-                ### ATTACK ###
-                ### LOOT ###
-                # we loot at boss
-                Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
-
-            case "B2-U_03":
-                ### APPROACH ###
-                ### ATTACK ###
-                ### LOOT ###
-                # we loot at boss
-                Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
-
-            case "B2-U_seal2": #B only has 1 seal, which is the boss seal = seal2
-                ### APPROACH ###
-                self._pather.traverse_nodes_fixed("dia_b2u_bold_seal", self)
-                if not self._pather.traverse_nodes([644], self): return False # , timeout=3):
-                ### ATTACK ###
-                ### LOOT ###
-                # we loot at boss
-                if self._skill_hotkeys["redemption"]:
-                    keyboard.send(self._skill_hotkeys["redemption"])
-                    wait(0.3, 0.6)
-
-
-            ###########
-            # SEAL C1-F
-            ###########
-
-            case "C1-F_01":
-                ### APPROACH ###
-                ### ATTACK ###
-                ### LOOT ###
-                # we loot at boss
-                Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
-
-            case "C1-F_02":
-                ### APPROACH ###
-                ### ATTACK ###
-                ### LOOT ###
-                # we loot at boss
-                Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
-
-            case "C1-F_03":
-                ### APPROACH ###
-                ### ATTACK ###
-                ### LOOT ###
-                # we loot at boss
-                Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
-
-            case "C1-F_seal1":
-                ### APPROACH ###
-                wait(0.1,0.3)
-                self._pather.traverse_nodes_fixed("dia_c1f_hop_fakeseal", self)
-                wait(0.1,0.3)
-                if not self._pather.traverse_nodes([655], self): return False # , timeout=3):
-                ### ATTACK ###
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
-                    pos_m = convert_abs_to_monitor((0, 0))
-                    mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                    self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-                    self._cast_hammers(0.75, "redemption")
-                    self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-                    if self._skill_hotkeys["cleansing"]:
-                        keyboard.send(self._skill_hotkeys["cleansing"])
-                        wait(0.1, 0.2)
-                    if self._skill_hotkeys["redemption"]:
-                        keyboard.send(self._skill_hotkeys["redemption"])
-                        wait(0.3, 0.6)
-                    ### LOOT ###
-                    self._picked_up_items |= self._pickit.pick_up_items(self)
-                    if not self._pather.traverse_nodes([655], self): return False # , timeout=3):
-                    if self._skill_hotkeys["redemption"]:
-                        keyboard.send(self._skill_hotkeys["redemption"])
-                        wait(0.3, 0.6)
-
-            case "C1-F_seal2":
-                ### APPROACH ###
-                self._pather.traverse_nodes_fixed("dia_c1f_654_651", self)
-                if not self._pather.traverse_nodes([652], self): return False # , timeout=3):
-                ### ATTACK ###
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
-                    pos_m = convert_abs_to_monitor((0, 0))
-                    mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                    self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-                    self._cast_hammers(0.75, "redemption")
-                    self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-                    if self._skill_hotkeys["cleansing"]:
-                        keyboard.send(self._skill_hotkeys["cleansing"])
-                        wait(0.1, 0.2)
-                    if self._skill_hotkeys["redemption"]:
-                        keyboard.send(self._skill_hotkeys["redemption"])
-                        wait(0.3, 0.6)
-                    ### LOOT ###
-                    self._picked_up_items |= self._pickit.pick_up_items(self)
-                    if not self._pather.traverse_nodes([652], self): return False # , timeout=3):
-                    if self._skill_hotkeys["redemption"]:
-                        keyboard.send(self._skill_hotkeys["redemption"])
-                        wait(0.3, 0.6)
-
-            ###########
-            # SEAL C2-G
-            ###########
-
-            case "C2-G_01": #skipped
-                ### APPROACH ###
-                ### ATTACK ###
-                ### LOOT ###
-                # we loot at boss
-                Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
-
-            case "C2-G_02": #skipped
-                ### APPROACH ###
-                ### ATTACK ###
-                ### LOOT ###
-                # we loot at boss
-                Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
-
-            case "C2-G_03": #skipped
-                ### APPROACH ###
-                ### ATTACK ###
-                ### LOOT ###
-                # we loot at boss
-                Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
-
-            case "C2-G_seal1":
-                ### APPROACH ###
-                #if not self._pather.traverse_nodes([663, 662], self): return False # , timeout=3): #caused 7% failed runs, replaced by static path.
-                self._pather.traverse_nodes_fixed("dia_c2g_lc_661", self)
-                ### ATTACK ###
-                ### LOOT ###
-                # we loot at boss
-                Logger.debug("No attack choreography available in hammerdin.py for this node " + location + " - skipping to shorten run.")
-                """
-                pos_m = convert_abs_to_monitor((0, 0))
-                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-                self._cast_hammers(0.75, "redemption")
-                self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-                if self._skill_hotkeys["cleansing"]:
-                    keyboard.send(self._skill_hotkeys["cleansing"])
-                    wait(0.1, 0.2)
-                if self._skill_hotkeys["redemption"]:
-                    keyboard.send(self._skill_hotkeys["redemption"])
-                    wait(0.3, 0.6)
-                ### LOOT ###
-                self._picked_up_items |= self._pickit.pick_up_items(self)
-                if self._skill_hotkeys["redemption"]:
-                    keyboard.send(self._skill_hotkeys["redemption"])
-                    wait(0.3, 0.6)
-                """
-
-            case "C2-G_seal2":
-                ### APPROACH ###
-                # Killing infector here, because for C2G its the only seal where a bossfight occures BETWEEN opening seals
-                seal_layout="C2-G"
-                self._pather.traverse_nodes_fixed("dia_c2g_663", self)
-                ### ATTACK ###
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
-                    pos_m = convert_abs_to_monitor((0, 0))
-                    mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                    Logger.debug(seal_layout + ": Attacking Infector at position 1/1")
-                    self._cast_hammers(Config().char["atk_len_diablo_infector"])
-                    self._cast_hammers(0.8, "redemption")
-                    self._move_and_attack((30, 15), Config().char["atk_len_diablo_infector"])
-                    self._cast_hammers(0.8, "redemption")
-                    self._move_and_attack((30, -15), Config().char["atk_len_diablo_infector"])
-                    wait(0.1, 0.15)
-                    self._cast_hammers(1.2, "redemption")
-                    ### LOOT ###
-                    self._picked_up_items |= self._pickit.pick_up_items(self)
-                    if self._skill_hotkeys["redemption"]:
-                        keyboard.send(self._skill_hotkeys["redemption"])
-                        wait(0.3, 0.6)
-                if not self._pather.traverse_nodes([664, 665], self): return False # , timeout=3):
 
             case _:
                 ### APPROACH ###
-                Logger.warning("I have no location argument given for kill_cs_trash(" + location + "), should not happen. Throwing some random hammers")
+                Logger.error("No location argument given for dia_kill_trash(" + location + "), should not happen - killing mobs instead just to be safe")
                 ### ATTACK ###
-                if not Config().char['cs_mob_detect'] or get_visible_targets():
-                    pos_m = convert_abs_to_monitor((0, 0))
-                    mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                    self._move_and_attack((30, 15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-                    self._cast_hammers(0.75, "redemption")
-                    self._move_and_attack((-30, -15), Config().char["atk_len_cs_trashmobs"] * 0.5)
-                    if self._skill_hotkeys["cleansing"]:
-                        keyboard.send(self._skill_hotkeys["cleansing"])
-                        wait(0.1, 0.2)
-                    if self._skill_hotkeys["redemption"]:
-                        keyboard.send(self._skill_hotkeys["redemption"])
-                        wait(0.3, 0.6)
-                    ### LOOT ###
-                    self._picked_up_items |= self._pickit.pick_up_items(self)
+                self._cs_trash_mobs_attack_sequence()
+                ### LOOT ###
+                self._cs_pickit()
+                return True
+
+    
+    def kill_vizier_automap(self, seal_layout:str) -> bool:
+        atk_dur_min = Config().char["atk_len_diablo_vizier"]
+        atk_dur_max = atk_dur_min * 3
+        match seal_layout:
+            case "A1-L":
+                if not self._pather.traverse_nodes_automap([1623], self, use_tp_charge=True): return False
+                Logger.debug(seal_layout + ": Attacking Vizier")
+                self._cs_attack_sequence(min_duration=atk_dur_min, max_duration=atk_dur_max)
+                self._cs_pickit(skip_inspect=True)
+                self._activate_cleanse_redemption()
+                self._cs_attack_sequence(min_duration=atk_dur_min, max_duration=atk_dur_max)
+                self._cs_pickit()
+                self._activate_cleanse_redemption()
+            case "A2-Y":
+                if not self._pather.traverse_nodes_automap([1627], self, use_tp_charge=True): return False
+                Logger.debug(seal_layout + ": Attacking Vizier")
+                self._cs_attack_sequence(min_duration=atk_dur_min, max_duration=atk_dur_max)
+                self._cs_pickit(skip_inspect=True)
+                self._activate_cleanse_redemption()
+                self._cs_attack_sequence(min_duration=atk_dur_min, max_duration=atk_dur_max)
+                self._cs_pickit()
+                self._activate_cleanse_redemption()
+            case _:
+                Logger.warning(seal_layout + ": Invalid location for kill_vizier("+ seal_layout +"), should not happen.")
+                return False
         return True
 
 
+    def kill_deseis_automap(self, seal_layout:str) -> bool:
+        atk_dur_min = Config().char["atk_len_diablo_deseis"]
+        atk_dur_max = atk_dur_min * 3
+        match seal_layout:
+            case "B1-S":
+                if not self._pather.traverse_nodes_automap([1632], self, use_tp_charge=True): return False #this node requres teleport, quite aggressive
+                Logger.debug(seal_layout + ": Attacking DeSeis")
+                self._cs_attack_sequence(min_duration=atk_dur_min, max_duration=atk_dur_max)
+                self._cs_pickit(skip_inspect=True)
+                self._activate_cleanse_redemption()
+                if not self._pather.traverse_nodes_automap([1635], self, use_tp_charge=True): return False #this node requres teleport, quite aggressive
+                self._cs_attack_sequence(min_duration=atk_dur_min, max_duration=atk_dur_max)
+                self._cs_pickit(skip_inspect=True)
+                self._activate_cleanse_redemption()
+                if not self._pather.traverse_nodes_automap([1632], self, use_tp_charge=True): return False #this node requres teleport, quite aggressive
+                self._cs_fast_attack_sequence(min_duration=atk_dur_min, max_duration=atk_dur_max)
+                self._cs_pickit()
+                self._activate_cleanse_redemption()
+                
+            case "B2-U":
+                if not self._pather.traverse_nodes_automap([1636], self, use_tp_charge=True): return False #this node requres teleport, quite aggressive
+                Logger.debug(seal_layout + ": Attacking DeSeis")
+                self._cs_attack_sequence(min_duration=atk_dur_min, max_duration=atk_dur_max)
+                self._cs_pickit(skip_inspect=True)
+                self._activate_cleanse_redemption()
+                if not self._pather.traverse_nodes_automap([1637], self, use_tp_charge=True): return False #this node requres teleport, quite aggressive
+                self._cs_attack_sequence(min_duration=atk_dur_min, max_duration=atk_dur_max)
+                self._cs_pickit(skip_inspect=True)
+                self._activate_cleanse_redemption()
+                if not self._pather.traverse_nodes_automap([1636], self, use_tp_charge=True): return False #this node requres teleport, quite aggressive
+                self._cs_fast_attack_sequence(min_duration=atk_dur_min, max_duration=atk_dur_max)
+                self._cs_pickit()
+                self._activate_cleanse_redemption()
 
-    def kill_vizier(self, seal_layout:str) -> bool:
-        if seal_layout == "A1-L":
-            ### APPROACH ###
-            if not self._pather.traverse_nodes([612], self): return False # , timeout=3):
-            ### ATTACK ###
-            Logger.debug(seal_layout + ": Attacking Vizier at position 1/2")
-            if not Config().char['cs_mob_detect'] or get_visible_targets():
-                pos_m = convert_abs_to_monitor((0, 0))
-                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                self._move_and_attack((30, 15), Config().char["atk_len_diablo_vizier"] * 0.5)
-                self._move_and_attack((-30, -15), Config().char["atk_len_diablo_vizier"] * 0.5)
-                self._cast_hammers(1, "redemption")
-            Logger.debug(seal_layout + ": Attacking Vizier at position 2/2")
-            self._pather.traverse_nodes([611], self, timeout=3)
-            if not Config().char['cs_mob_detect'] or get_visible_targets():
-                self._move_and_attack((30, 15), Config().char["atk_len_diablo_vizier"] * 0.5)
-                self._move_and_attack((-30, -15), Config().char["atk_len_diablo_vizier"]) # no factor, so merc is not reset by teleport and he his some time to move & kill stray bosses
-                self._cast_hammers(1, "redemption")
-                if self._skill_hotkeys["cleansing"]:
-                    keyboard.send(self._skill_hotkeys["cleansing"])
-                    wait(0.1, 0.2)
-                if self._skill_hotkeys["redemption"]:
-                    keyboard.send(self._skill_hotkeys["redemption"])
-                    wait(0.3, 0.6)
-                wait(0.3, 1.2)
-            ### LOOT ###
-            self._picked_up_items |= self._pickit.pick_up_items(self)
-            if not self._pather.traverse_nodes([612], self): return False # , timeout=3):
-            if self._skill_hotkeys["redemption"]:
-                keyboard.send(self._skill_hotkeys["redemption"])
-                wait(0.3, 0.6)
-            self._picked_up_items |= self._pickit.pick_up_items(self)
-            if not self._pather.traverse_nodes([612], self): return False # , timeout=3): # recalibrate after loot
-
-        elif seal_layout == "A2-Y":
-            ### APPROACH ###
-            if not self._pather.traverse_nodes([627, 622], self): return False # , timeout=3):
-            ### ATTACK ###
-            Logger.debug(seal_layout + ": Attacking Vizier at position 1/2")
-            if not Config().char['cs_mob_detect'] or get_visible_targets():
-                pos_m = convert_abs_to_monitor((0, 0))
-                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                self._move_and_attack((30, 15), Config().char["atk_len_diablo_vizier"] * 0.5)
-                self._move_and_attack((-30, -15), Config().char["atk_len_diablo_vizier"] * 0.5)
-                self._cast_hammers(1, "redemption")
-            Logger.debug(seal_layout + ": Attacking Vizier at position 2/2")
-            self._pather.traverse_nodes([623], self, timeout=3)
-            if not Config().char['cs_mob_detect'] or get_visible_targets():
-                self._move_and_attack((30, 15), Config().char["atk_len_diablo_vizier"] * 0.5)
-                self._move_and_attack((-30, -15), Config().char["atk_len_diablo_vizier"] * 0.5)
-                self._cast_hammers(1, "redemption")
-            Logger.debug(seal_layout + ": Attacking Vizier at position 3/3")
-            if not self._pather.traverse_nodes([624], self): return False
-            if not Config().char['cs_mob_detect'] or get_visible_targets():
-                self._move_and_attack((30, 15), Config().char["atk_len_diablo_vizier"] * 0.5)
-                self._move_and_attack((-30, -15), Config().char["atk_len_diablo_vizier"])
-                wait(0.1, 0.15)
-                self._cast_hammers(2, "redemption")
-                self._cast_hammers(1, "cleansing")
-                if self._skill_hotkeys["redemption"]:
-                    keyboard.send(self._skill_hotkeys["redemption"])
-                    wait(0.3, 0.6)
-            ### LOOT ###
-            self._picked_up_items |= self._pickit.pick_up_items(self)
-            if not self._pather.traverse_nodes([624], self): return False
-            if not self._pather.traverse_nodes_fixed("dia_a2y_hop_622", self): return False
-            Logger.debug(seal_layout + ": Hop!")
-            if self._skill_hotkeys["redemption"]:
-                keyboard.send(self._skill_hotkeys["redemption"])
-                wait(0.3, 0.6)
-            if not self._pather.traverse_nodes([622], self): return False #, timeout=3):
-            if self._skill_hotkeys["redemption"]:
-                keyboard.send(self._skill_hotkeys["redemption"])
-                wait(0.3, 0.6)
-            self._picked_up_items |= self._pickit.pick_up_items(self)
-            if not self._pather.traverse_nodes([622], self): return False # , timeout=3): #recalibrate after loot
-
-        else:
-            Logger.warning(seal_layout + ": Invalid location for kill_deseis("+ seal_layout +"), should not happen.")
-            return False
+            case _:
+                Logger.warning(seal_layout + ": Invalid location for kill_deseis("+ seal_layout +"), should not happen.")
+                return False
         return True
 
 
-
-    def kill_deseis(self, seal_layout:str) -> bool:
-        if seal_layout == "B1-S":
-            ### APPROACH ###
-            self._pather.traverse_nodes_fixed("dia_b1s_seal_deseis", self) # quite aggressive path, but has high possibility of directly killing De Seis with first hammers, for 50% of his spawn locations
-            nodes1 = [632]
-            nodes2 = [631]
-            nodes3 = [632]
-            ### ATTACK ###
-            Logger.debug(seal_layout + ": Attacking De Seis at position 1/4")
-            if not Config().char['cs_mob_detect'] or get_visible_targets():
-                pos_m = convert_abs_to_monitor((0, 0))
-                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                self._move_and_attack((30, 15), Config().char["atk_len_diablo_deseis"] * 0.2)
-                self._move_and_attack((-30, -15), Config().char["atk_len_diablo_deseis"] * 0.2)
-                self._cast_hammers(1, "redemption")
-            Logger.debug(seal_layout + ": Attacking De Seis at position 2/4")
-            self._pather.traverse_nodes(nodes1, self, timeout=3)
-            if not Config().char['cs_mob_detect'] or get_visible_targets():
-                self._move_and_attack((30, 15), Config().char["atk_len_diablo_deseis"] * 0.2)
-                self._move_and_attack((-30, -15), Config().char["atk_len_diablo_deseis"] * 0.2)
-                self._cast_hammers(1, "redemption")
-            Logger.debug(seal_layout + ": Attacking De Seis at position 3/4")
-            self._pather.traverse_nodes(nodes2, self, timeout=3)
-            if not Config().char['cs_mob_detect'] or get_visible_targets():
-                self._move_and_attack((0, 0), Config().char["atk_len_diablo_deseis"] * 0.5)
-                self._cast_hammers(1, "redemption")
-            Logger.debug(seal_layout + ": Attacking De Seis at position 4/4")
-            self._pather.traverse_nodes(nodes3, self, timeout=3)
-            if not Config().char['cs_mob_detect'] or get_visible_targets():
-                self._move_and_attack((0, 0), Config().char["atk_len_diablo_deseis"])  # no factor, so merc is not reset by teleport and he his some time to move & kill stray bosses
-                wait(0.1, 0.2)
-                self._cast_hammers(2, "redemption")
-                self._cast_hammers(1, "cleansing")
-            if self._skill_hotkeys["redemption"]:
-                keyboard.send(self._skill_hotkeys["redemption"])
-                wait(2.5, 3.5) # to keep redemption on for a couple of seconds before the next teleport to have more corpses cleared & increase chance to find next template
-                Logger.debug(seal_layout + ": Waiting with Redemption active to clear more corpses.")
-            #if Config().general["info_screenshots"]: cv2.imwrite(f"./log/screenshots/info/info_check_deseis_dead" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
-            ### LOOT ###
-            self._picked_up_items |= self._pickit.pick_up_items(self)
-
-        elif seal_layout == "B2-U":
-            ### APPROACH ###
-            self._pather.traverse_nodes_fixed("dia_b2u_644_646", self) # We try to breaking line of sight, sometimes makes De Seis walk into the hammercloud. A better attack sequence here could make sense.
-            #self._pather.traverse_nodes_fixed("dia_b2u_seal_deseis", self) # We try to breaking line of sight, sometimes makes De Seis walk into the hammercloud. A better attack sequence here could make sense.
-            nodes1 = [640]
-            nodes2 = [646]
-            nodes3 = [641]
-            ### ATTACK ###
-            Logger.debug(seal_layout + ": Attacking De Seis at position 1/4")
-            if not Config().char['cs_mob_detect'] or get_visible_targets():
-                pos_m = convert_abs_to_monitor((0, 0))
-                mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-                self._move_and_attack((30, 15), Config().char["atk_len_diablo_deseis"] * 0.2)
-                self._move_and_attack((-30, -15), Config().char["atk_len_diablo_deseis"] * 0.2)
-                self._cast_hammers(1, "redemption")
-            Logger.debug(seal_layout + ": Attacking De Seis at position 2/4")
-            self._pather.traverse_nodes(nodes1, self, timeout=3)
-            if not Config().char['cs_mob_detect'] or get_visible_targets():
-                self._move_and_attack((30, 15), Config().char["atk_len_diablo_deseis"] * 0.2)
-                self._move_and_attack((-30, -15), Config().char["atk_len_diablo_deseis"] * 0.2)
-                self._cast_hammers(1, "redemption")
-            Logger.debug(seal_layout + ": Attacking De Seis at position 3/4")
-            self._pather.traverse_nodes(nodes2, self, timeout=3)
-            if not Config().char['cs_mob_detect'] or get_visible_targets():
-                self._move_and_attack((0, 0), Config().char["atk_len_diablo_deseis"] * 0.5)
-                self._cast_hammers(1, "redemption")
-            Logger.debug(seal_layout + ": Attacking De Seis at position 4/4")
-            self._pather.traverse_nodes(nodes3, self, timeout=3)
-            if not Config().char['cs_mob_detect'] or get_visible_targets():
-                self._move_and_attack((0, 0), Config().char["atk_len_diablo_deseis"])  # no factor, so merc is not reset by teleport and he his some time to move & kill stray bosses
-                wait(0.1, 0.2)
-                self._cast_hammers(2, "redemption")
-                self._cast_hammers(1, "cleansing")
-                if self._skill_hotkeys["redemption"]:
-                    keyboard.send(self._skill_hotkeys["redemption"])
-                    wait(0.3, 0.6)
-            #if Config().general["info_screenshots"]: cv2.imwrite(f"./log/screenshots/info/info_check_deseis_dead" + seal_layout + "_" + time.strftime("%Y%m%d_%H%M%S") + ".png", grab())
-            ### LOOT ###
-            self._picked_up_items |= self._pickit.pick_up_items(self)
-            if not self._pather.traverse_nodes([641], self): return False # , timeout=3):
-            if not self._pather.traverse_nodes([646], self): return False # , timeout=3):
-            self._picked_up_items |= self._pickit.pick_up_items(self)
-            if not self._pather.traverse_nodes([646], self): return False # , timeout=3):
-            if not self._pather.traverse_nodes([640], self): return False # , timeout=3):
-            self._picked_up_items |= self._pickit.pick_up_items(self)
-
-        else:
-            Logger.warning(seal_layout + ": Invalid location for kill_deseis("+ seal_layout +"), should not happen.")
-            return False
+    def kill_infector_automap(self, seal_layout:str) -> bool:
+        atk_dur_min = Config().char["atk_len_diablo_infector"]
+        atk_dur_max = atk_dur_min * 3
+        match seal_layout:
+            case "C1-F":
+                #if not self._pather.traverse_nodes_automap([1643], self, use_tp_charge=True): return False
+                Logger.debug(seal_layout + ": Attacking Infector")
+                self._cs_attack_sequence(min_duration=atk_dur_min, max_duration=atk_dur_max)
+                self._cs_pickit(skip_inspect=True)
+                self._activate_cleanse_redemption()
+                if not self._pather.traverse_nodes_automap([1643], self, use_tp_charge=True): return False
+                self._cs_attack_sequence(min_duration=atk_dur_min, max_duration=atk_dur_max)
+                self._cs_pickit()
+                self._activate_cleanse_redemption()
+            case "C2-G":
+                if not self._pather.traverse_nodes_automap([1647], self, use_tp_charge=True): return False
+                Logger.debug(seal_layout + ": Attacking Infector")
+                self._cs_attack_sequence(min_duration=atk_dur_min, max_duration=atk_dur_max)
+                self._cs_pickit(skip_inspect=True)
+                self._activate_cleanse_redemption()
+                if not self._pather.traverse_nodes_automap([1645], self, use_tp_charge=True): return False
+                self._cs_attack_sequence(min_duration=atk_dur_min, max_duration=atk_dur_max)
+                self._cs_pickit()
+                self._activate_cleanse_redemption()
+            case _:
+                Logger.warning(seal_layout + ": Invalid location for kill_infector("+ seal_layout +"), should not happen.")
+                return False
         return True
 
 
-
-    def kill_infector(self, seal_layout:str) -> bool:
-        if seal_layout == "C1-F":
-            ### APPROACH ###
-            self._pather.traverse_nodes_fixed("dia_c1f_652", self)
-            ### ATTACK ###
-            pos_m = convert_abs_to_monitor((0, 0))
-            mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
-            Logger.debug(seal_layout + ": Attacking Infector at position 1/1")
-            self._cast_hammers(Config().char["atk_len_diablo_infector"] * 0.4)
-            self._cast_hammers(0.8, "redemption")
-            self._move_and_attack((30, 15), Config().char["atk_len_diablo_infector"] * 0.3)
-            self._cast_hammers(0.8, "redemption")
-            self._move_and_attack((30, -15), Config().char["atk_len_diablo_infector"] * 0.4)
-            wait(0.1, 0.15)
-            self._cast_hammers(1.2, "redemption")
-            ### LOOT ###
-            self._picked_up_items |= self._pickit.pick_up_items(self)
-
-        elif seal_layout == "C2-G":
-            # NOT killing infector here, because for C2G its the only seal where a bossfight occures BETWEEN opening seals his attack sequence can be found in C2-G_seal2
-            Logger.debug(seal_layout + ": No need for attacking Infector at position 1/1 - he was killed during clearing the seal")
-
-        else:
-            Logger.warning(seal_layout + ": Invalid location for kill_infector("+ seal_layout +"), should not happen.")
-            return False
-        return True
-
-
-    def kill_diablo(self) -> bool:
+    def kill_diablo(self) -> bool: #dia cannot be frozen, but be poisoned, so can be identified by mob detection!
         ### APPROACH ###
         ### ATTACK ###
-        pos_m = convert_abs_to_monitor((0, 0))
-        mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])
+        atk_dur_min = Config().char["atk_len_diablo"]
+        atk_dur_max = atk_dur_min * 3
         Logger.debug("Attacking Diablo at position 1/1")
-        self._cast_hammers(Config().char["atk_len_diablo"])
-        self._cast_hammers(0.8, "redemption")
-        self._move_and_attack((60, 30), Config().char["atk_len_diablo"])
-        self._cast_hammers(0.8, "redemption")
-        self._move_and_attack((-60, -30), Config().char["atk_len_diablo"])
-        wait(0.1, 0.15)
-        self._cast_hammers(1.2, "redemption")
+        diablo_abs = [100,-100] #hardcoded dia pos.
+        pos_m = convert_abs_to_monitor((0, -75))
+        self.pre_move()
+        self.move(pos_m, force_move=True)
+        self._cs_dia_attack_sequence(min_duration=atk_dur_min, max_duration=atk_dur_max)
+        self._cs_dia_attack_sequence(min_duration=atk_dur_min, max_duration=atk_dur_max)
+        self._cs_pickit(skip_inspect=True)
         ### LOOT ###
-        self._picked_up_items |= self._pickit.pick_up_items(self)
+        #self._cs_pickit()
         return True
 
 
