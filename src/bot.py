@@ -54,7 +54,7 @@ class Bot:
             case "sorceress" | "light_sorc":
                 self._char: IChar = LightSorc(Config().light_sorc, self._pather)
             case "blizz_sorc":
-                self._char: IChar = BlizzSorc(Config().blizz_sorc, self._pather)
+                self._char: IChar = BlizzSorc(Config().blizz_sorc, self._pather, self._pickit) #pickit added for diablo)
             case "nova_sorc":
                 self._char: IChar = NovaSorc(Config().nova_sorc, self._pather)
             case "hydra_sorc":
