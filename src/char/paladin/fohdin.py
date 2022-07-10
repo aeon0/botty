@@ -2,6 +2,7 @@ import random
 import keyboard
 import time
 import numpy as np
+from automap_finder import toggle_automap
 
 from health_manager import get_panel_check_paused, set_panel_check_paused
 from inventory.personal import inspect_items
@@ -96,21 +97,25 @@ class FoHdin(Paladin):
         atk_len_dur = float(Config().char["atk_len_pindle"])
         pindle_pos_abs = convert_screen_to_abs(Config().path["pindle_end"][0])
 
-        if (self.capabilities.can_teleport_natively or self.capabilities.can_teleport_with_charges) and self._use_safer_routines:
+        if (self.capabilities.can_teleport_natively) and self._use_safer_routines:
+            toggle_automap(True)
             # Slightly retreating, so the Merc gets charged
-            if not self._pather.traverse_nodes([102], self, timeout=1.0, do_pre_move=False, force_move=True,force_tp=False, use_tp_charge=False):
-                return False
+            self._pather.traverse_nodes_automap([1102], self, timeout=1.0, do_pre_move=False, force_move=True, force_tp=False, use_tp_charge=False, toggle_map=False)
             # Doing one Teleport to safe_dist to grab our Merc
             Logger.debug("Teleporting backwards to let Pindle charge the MERC. Looks strange, but is intended!") #I would leave this message in, so users dont complain that there is a strange movement pattern.
-            if not self._pather.traverse_nodes([103], self, timeout=1.0, do_pre_move=False, force_tp=True, use_tp_charge=True):
-                return False
+            self._pather.traverse_nodes_automap([1103], self, timeout=1.0, do_pre_move=False, force_tp=True, use_tp_charge=True, toggle_map=False)
             # Slightly retreating, so the Merc gets charged
-            if not self._pather.traverse_nodes([103], self, timeout=1.0, do_pre_move=False, force_move=True, force_tp=False, use_tp_charge=False):
-                return False
+            self._pather.traverse_nodes_automap([1103], self, timeout=1.0, do_pre_move=False, force_move=True, force_tp=False, use_tp_charge=False, toggle_map=False)
+            toggle_automap(False)
+        elif (self.capabilities.can_teleport_with_charges) and self._use_safer_routines:
+            toggle_automap(True)
+            self._pather.traverse_nodes_automap([1102], self, timeout=1.0, do_pre_move=False, toggle_map=False)
+            self._pather.traverse_nodes_automap([1103], self, timeout=1.0, do_pre_move=False, use_tp_charge=True, toggle_map=False)
+            toggle_automap(False)
         else:
             keyboard.send(self._skill_hotkeys["conviction"])
             wait(0.15)
-            self._pather.traverse_nodes([103], self, timeout=1.0, do_pre_move=False)
+            self._pather.traverse_nodes_automap([1103], self, timeout=1.0, do_pre_move=False)
 
         cast_pos_abs = [pindle_pos_abs[0] * 0.9, pindle_pos_abs[1] * 0.9]
         self._generic_foh_attack_sequence(default_target_abs=cast_pos_abs, min_duration=atk_len_dur, max_duration=atk_len_dur*3, default_spray=11)
@@ -118,10 +123,9 @@ class FoHdin(Paladin):
         if self.capabilities.can_teleport_natively:
             self._pather.traverse_nodes_fixed("pindle_end", self)
         else:
-            
             keyboard.send(self._skill_hotkeys["redemption"])
             wait(0.15)
-            self._pather.traverse_nodes((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, timeout=1.0, do_pre_move=False)
+            self._pather.traverse_nodes_automap((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, timeout=1.0, do_pre_move=False)
 
         # Use target-based attack sequence one more time before pickit
         self._generic_foh_attack_sequence(default_target_abs=cast_pos_abs, max_duration=atk_len_dur, default_spray=11)
@@ -155,13 +159,18 @@ class FoHdin(Paladin):
         eld_pos_abs = convert_screen_to_abs(Config().path["eldritch_end"][0])
         atk_len_dur = float(Config().char["atk_len_eldritch"])
 
+        if (self.capabilities.can_teleport_natively or self.capabilities.can_teleport_with_charges) and self._use_safer_routines:
+            Logger.debug("Slightly retreating, so the Merc gets hit. Looks strange, but is intended!") #I would leave this message in, so users dont complain that there is a strange movement pattern.
+            if not self._pather.traverse_nodes_automap([1121], self, timeout=1.0, do_pre_move=False, force_move=True, force_tp=False, use_tp_charge=False):
+                return False
+
         self._generic_foh_attack_sequence(default_target_abs=eld_pos_abs, min_duration=atk_len_dur, max_duration=atk_len_dur*3, default_spray=70)
 
         # move to end node
         pos_m = convert_abs_to_monitor((70, -200))
         self.pre_move()
         self.move(pos_m, force_move=True)
-        self._pather.traverse_nodes((Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END), self, timeout=0.1)
+        self._pather.traverse_nodes_automap((Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END), self, timeout=0.1)
 
         # check mobs one more time before pickit
         self._generic_foh_attack_sequence(default_target_abs=eld_pos_abs, max_duration=atk_len_dur, default_spray=70)
@@ -174,9 +183,19 @@ class FoHdin(Paladin):
         atk_len_dur = float(Config().char["atk_len_shenk"])
 
         # traverse to shenk
-        keyboard.send(self._skill_hotkeys["conviction"])
-        wait(0.15)
-        self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, timeout=1.0, do_pre_move=False, force_tp=True, use_tp_charge=True)
+        if self.capabilities.can_teleport_natively:
+            self.select_tp()
+            if not self._pather.traverse_nodes_automap((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, timeout=1.0, force_tp=True):
+                return False
+        elif self.capabilities.can_teleport_with_charges:
+            self.select_tp()
+            if not self._pather.traverse_nodes_automap((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, timeout=1.0, use_tp_charge=True, do_pre_move=False): 
+                return False
+        else:
+            self.select_tp()
+            wait(0.15)
+            if not self._pather.traverse_nodes_automap((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, timeout=1.0, do_pre_move=False): 
+                return False
         wait(0.05, 0.1)
 
         # bypass mob detect first
