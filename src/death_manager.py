@@ -1,3 +1,4 @@
+from utils import hotkeys
 from utils.misc import wait
 from screen import grab
 from config import Config
@@ -44,9 +45,9 @@ class DeathManager:
                 self._callback()
                 self._callback = None
             # clean up key presses that might be pressed
-            keyboard.release(Config().char["stand_still"])
+            keyboard.release(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill])
             wait(0.1, 0.2)
-            keyboard.release(Config().char["show_items"])
+            keyboard.release(hotkeys.d2r_keymap[hotkeys.HotkeyName.ShowItems])
             wait(0.1, 0.2)
             mouse.release(button="right")
             wait(0.1, 0.2)
@@ -55,7 +56,7 @@ class DeathManager:
             if is_visible(ScreenObjects.MainMenu):
                 # in this case chicken executed and left the game, but we were still dead.
                 return True
-            keyboard.send("esc")
+            keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.OpenMenu])
             self._died = True
             return True
         return False

@@ -1,9 +1,12 @@
+import keyboard
 from char import IChar
 from logger import Logger
 from pather import Location, Pather
 from item.pickit import PickIt
 import template_finder
 from town.town_manager import TownManager
+from ui.skills import SkillName
+from utils import hotkeys
 from utils.misc import wait
 from ui import loading
 
@@ -46,7 +49,7 @@ class Pindle:
         if do_pre_buff:
             self._char.pre_buff()
         # move to pindle
-        if self._char.capabilities.can_teleport_natively:
+        if SkillName.Teleport in hotkeys.right_skill_key_map:
             self._pather.traverse_nodes_fixed("pindle_safe_dist", self._char)
         else:
             if not self._pather.traverse_nodes((Location.A5_PINDLE_START, Location.A5_PINDLE_SAFE_DIST), self._char):

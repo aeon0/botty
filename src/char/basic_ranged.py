@@ -1,5 +1,7 @@
 import keyboard
 from ui import skills
+from ui.skills import SkillName
+from utils import hotkeys
 from utils.custom_mouse import mouse
 from char import IChar
 import template_finder
@@ -22,8 +24,8 @@ class Basic_Ranged(IChar):
         self._do_pre_move = True
 
     def _left_attack(self, cast_pos_abs: tuple[float, float], delay: tuple[float, float] = (0.2, 0.3), spray: int = 10):
-        if self._skill_hotkeys["left_attack"]:
-            keyboard.send(self._skill_hotkeys["left_attack"])
+        if SkillName.Attack in hotkeys.left_skill_key_map:
+            keyboard.send(hotkeys.left_skill_key_map[SkillName.Attack])
         for _ in range(4):
             x = cast_pos_abs[0] + (random.random() * 2 * spray - spray)
             y = cast_pos_abs[1] + (random.random() * 2 * spray - spray)
@@ -32,9 +34,9 @@ class Basic_Ranged(IChar):
             mouse.click(button="left")
 
     def _right_attack(self, cast_pos_abs: tuple[float, float], delay: tuple[float, float] = (0.2, 0.3), spray: float = 10):
-        if not self._skill_hotkeys["right_attack"]:
+        if not SkillName.Attack in hotkeys.right_skill_key_map:
             raise ValueError("You did not set right attack hotkey!")
-        keyboard.send(self._skill_hotkeys["right_attack"])
+        keyboard.send(hotkeys.right_skill_key_map[SkillName.Attack])
         for _ in range(3):
             x = cast_pos_abs[0] + (random.random() * 2 * spray - spray)
             y = cast_pos_abs[1] + (random.random() * 2 * spray - spray)
@@ -63,7 +65,7 @@ class Basic_Ranged(IChar):
         pindle_pos_abs = convert_screen_to_abs(Config().path["pindle_end"][0])
         cast_pos_abs = [pindle_pos_abs[0] * 0.9, pindle_pos_abs[1] * 0.9]
         start = time.time()
-        keyboard.send(Config().char["stand_still"], do_release=False)
+        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_release=False)
         while (time.time() - start) < Config().char["atk_len_pindle"]:
             if skills.is_right_skill_active():
                 wait(0.05, 0.1)
@@ -71,7 +73,7 @@ class Basic_Ranged(IChar):
             else:
                 wait(0.05, 0.1)
                 self._left_attack(cast_pos_abs, spray=11)
-        keyboard.send(Config().char["stand_still"], do_press=False)
+        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_press=False)
         wait(self._cast_duration, self._cast_duration + 0.2)
         # Move to items
         self._pather.traverse_nodes((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, timeout=1.4, force_tp=True)
@@ -82,7 +84,7 @@ class Basic_Ranged(IChar):
         eld_pos_abs = convert_screen_to_abs(Config().path["eldritch_end"][0])
         cast_pos_abs = [eld_pos_abs[0] * 0.9, eld_pos_abs[1] * 0.9]
         start = time.time()
-        keyboard.send(Config().char["stand_still"], do_release=False)
+        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_release=False)
         while (time.time() - start) < Config().char["atk_len_eldritch"]:
             if skills.is_right_skill_active():
                 wait(0.05, 0.1)
@@ -90,7 +92,7 @@ class Basic_Ranged(IChar):
             else:
                 wait(0.05, 0.1)
                 self._left_attack(cast_pos_abs, spray=11)
-        keyboard.send(Config().char["stand_still"], do_press=False)
+        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_press=False)
         wait(self._cast_duration, self._cast_duration + 0.2)
         # Move to items
         self._pather.traverse_nodes((Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END), self, timeout=1.4, force_tp=True)
@@ -102,7 +104,7 @@ class Basic_Ranged(IChar):
             shenk_pos_abs = convert_screen_to_abs(Config().path["shenk_end"][0])
         cast_pos_abs = [shenk_pos_abs[0] * 0.9, shenk_pos_abs[1] * 0.9]
         start = time.time()
-        keyboard.send(Config().char["stand_still"], do_release=False)
+        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_release=False)
         while (time.time() - start) < Config().char["atk_len_shenk"]:
             if skills.is_right_skill_active():
                 wait(0.05, 0.1)
@@ -110,7 +112,7 @@ class Basic_Ranged(IChar):
             else:
                 wait(0.05, 0.1)
                 self._left_attack(cast_pos_abs, spray=11)
-        keyboard.send(Config().char["stand_still"], do_press=False)
+        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_press=False)
         wait(self._cast_duration, self._cast_duration + 0.2)
         # Move to items
         self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, timeout=1.4, force_tp=True)

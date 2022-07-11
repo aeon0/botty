@@ -1,5 +1,6 @@
 import keyboard
 from ui import skills
+from utils import hotkeys
 from utils.custom_mouse import mouse
 from char import IChar,CharacterCapabilities
 import template_finder
@@ -25,7 +26,7 @@ class Basic(IChar):
             self._pather.offset_node(149, [120, 70])
 
     def _cast_attack_pattern(self, time_in_s: float):
-        keyboard.send(Config().char["stand_still"], do_release=False)
+        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_release=False)
         wait(0.05, 0.1)
         keyboard.send(self._skill_hotkeys["left_attack"])
         wait(0.05, 0.1)
@@ -40,7 +41,7 @@ class Basic(IChar):
                 wait(0.05, 0.1)
                 mouse.click(button="left")
         wait(0.01, 0.05)
-        keyboard.send(Config().char["stand_still"], do_press=False)
+        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_press=False)
 
     def pre_buff(self):
         if Config().char["cta_available"]:

@@ -19,6 +19,7 @@ from bnip.actions import should_pickup
 from bnip.NTIPAliasType import NTIPAliasType as NTIP_TYPES
 from screen import grab, convert_abs_to_monitor
 from ui_manager import ScreenObjects, is_visible
+from utils import hotkeys
 from utils.custom_mouse import mouse
 from utils.misc import wait
 
@@ -132,7 +133,7 @@ class PickIt:
             TODO :return: return a list of the items that were picked up
         """
         self._reset_state()
-        keyboard.send(Config().char["show_items"])
+        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.ShowItems])
         wait(0.15, 0.25)
         pickit_phase_start = time.time()
 
@@ -180,7 +181,7 @@ class PickIt:
             self._picked_up_item = pick_up_res == PickedUpResult.PickedUp
             item_count+=1
 
-        keyboard.send(Config().char["show_items"])
+        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.ShowItems])
         return len(self._picked_up_items) >= 1
 
 

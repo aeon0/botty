@@ -1,5 +1,7 @@
 import keyboard
 from char.sorceress import Sorceress
+from ui.skills import SkillName
+from utils import hotkeys
 from utils.custom_mouse import mouse
 from logger import Logger
 from utils.misc import wait, rotate_vec, unit_vector
@@ -28,9 +30,9 @@ class BlizzSorc(Sorceress):
         self._pather.offset_node(501, (10, -33))
 
     def _ice_blast(self, cast_pos_abs: tuple[float, float], delay: tuple[float, float] = (0.16, 0.23), spray: float = 10):
-        keyboard.send(Config().char["stand_still"], do_release=False)
-        if self._skill_hotkeys["ice_blast"]:
-            keyboard.send(self._skill_hotkeys["ice_blast"])
+        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_release=False)
+        if SkillName.IceBlast in hotkeys.right_skill_key_map:
+            keyboard.send(hotkeys.right_skill_key_map[SkillName.IceBlast])
         for _ in range(5):
             x = cast_pos_abs[0] + (random.random() * 2*spray - spray)
             y = cast_pos_abs[1] + (random.random() * 2*spray - spray)
@@ -39,12 +41,12 @@ class BlizzSorc(Sorceress):
             mouse.press(button="left")
             wait(delay[0], delay[1])
             mouse.release(button="left")
-        keyboard.send(Config().char["stand_still"], do_press=False)
+        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_press=False)
 
     def _blizzard(self, cast_pos_abs: tuple[float, float], spray: float = 10):
-        if not self._skill_hotkeys["blizzard"]:
+        if SkillName.Blizzard not in hotkeys.right_skill_key_map:
             raise ValueError("You did not set a hotkey for blizzard!")
-        keyboard.send(self._skill_hotkeys["blizzard"])
+        keyboard.send(hotkeys.right_skill_key_map[SkillName.Blizzard])
         x = cast_pos_abs[0] + (random.random() * 2 * spray - spray)
         y = cast_pos_abs[1] + (random.random() * 2 * spray - spray)
         cast_pos_monitor = convert_abs_to_monitor((x, y))

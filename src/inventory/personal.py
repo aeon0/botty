@@ -10,6 +10,7 @@ import parse
 from logger import Logger
 from config import Config
 import template_finder
+from utils import hotkeys
 from utils.misc import wait, is_in_roi, mask_by_roi
 from utils.custom_mouse import mouse
 from inventory import stash, common, vendor
@@ -161,11 +162,11 @@ def stash_all_items(items: list = None):
 def open(img: np.ndarray = None) -> np.ndarray:
     img = grab() if img is None else img
     if not common.inventory_is_open():
-        keyboard.send(Config().char["inventory_screen"])
+        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.InventoryScreen])
         if not wait_until_visible(ScreenObjects.RightPanel, 1).valid:
             if not view.return_to_play():
                 return None
-            keyboard.send(Config().char["inventory_screen"])
+            keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.InventoryScreen])
             if not wait_until_visible(ScreenObjects.RightPanel, 1).valid:
                 Logger.error(f"personal.open(): Failed to open inventory")
                 return None

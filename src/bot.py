@@ -11,6 +11,7 @@ from collections import OrderedDict
 
 from health_manager import set_pause_state
 from transmute import Transmute
+from utils import hotkeys
 from utils.misc import wait, hms
 from utils.restart import safe_exit, restart_game
 from game_stats import GameStats
@@ -34,6 +35,7 @@ from char.basic import Basic
 from char.basic_ranged import Basic_Ranged
 from ui_manager import wait_until_hidden, wait_until_visible, ScreenObjects, is_visible, detect_screen_object
 from ui import meters, skills, view, character_select, main_menu
+from ui.skills import SkillName
 from inventory import personal, vendor, belt, common
 
 from run import Pindle, ShenkEld, Trav, Nihlathak, Arcane, Diablo
@@ -218,7 +220,8 @@ class Bot:
 
     def on_init(self):
         self._game_stats.log_start_game()
-        keyboard.release(Config().char["stand_still"])
+        if hotkeys.HotkeyName.StandStill in hotkeys.d2r_keymap:
+            keyboard.release(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill])
         transition_to_screens = Bot._rebuild_as_asset_to_trigger({
             "select_character": main_menu.MAIN_MENU_MARKERS,
             "start_from_town": town_manager.TOWN_MARKERS,
@@ -248,7 +251,7 @@ class Bot:
         # Start a game from hero selection
         if (m := wait_until_visible(ScreenObjects.MainMenu)).valid:
             if "DARK" in m.name:
-                keyboard.send("esc")
+                keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.OpenMenu])
             main_menu.start_game()
             view.move_to_corpse()
         else:
@@ -257,19 +260,27 @@ class Bot:
 
     def on_start_from_town(self):
         self._curr_loc = self._town_manager.wait_for_town_spawn()
-
         # Handle picking up corpse in case of death
         if (corpse_present := is_visible(ScreenObjects.Corpse)):
             self._previous_run_failed = True
             view.pickup_corpse()
             wait_until_hidden(ScreenObjects.Corpse)
             belt.fill_up_belt_from_inventory(Config().char["num_loot_columns"])
+        if not hotkeys.discovered:
+            saved_games_folder = Config().general["saved_games_folder"]
+            key_file = Config().general["key_file"]
+            hotkeys.discover_hotkey_mappings(saved_games_folder, key_file)
         self._char.discover_capabilities()
-        if corpse_present and self._char.capabilities.can_teleport_with_charges and not self._char.select_tp():
-            keybind = Config().char["teleport"]
+        teleport_selected = skills.select_tp(hotkeys.right_skill_key_map[SkillName.Teleport]) if SkillName.Teleport in hotkeys.right_skill_key_map else None
+        if corpse_present and self._char.capabilities.can_teleport_with_charges and not teleport_selected:
+            keybind = hotkeys.right_skill_key_map[SkillName.Teleport]
             Logger.info(f"Teleport keybind is lost upon death. Rebinding teleport to '{keybind}'")
-            self._char.remap_right_skill_hotkey("TELE_ACTIVE", Config().char["teleport"])
-
+            hotkeys.remap_skill_hotkey(
+                SkillName.Teleport.value,
+                keybind,
+                Config().ui_roi["skill_right"],
+                Config().ui_roi["skill_right_expanded"]
+            )
         # Run /nopickup command to avoid picking up stuff on accident
         if Config().char["enable_no_pickup"] and (not self._ran_no_pickup and not self._game_stats._nopickup_active):
             self._ran_no_pickup = True
@@ -286,7 +297,6 @@ class Bot:
     def on_maintenance(self):
         # Pause health manager if not already paused
         set_pause_state(True)
-
         # Dismiss skill/quest/help/stats icon if they are on screen
         if not view.dismiss_skills_icon():
             view.return_to_play()
@@ -368,7 +378,8 @@ class Bot:
         # Check if we are out of tps or need repairing
         need_repair = is_visible(ScreenObjects.NeedRepair)
         need_routine_repair = False if not Config().char["runs_per_repair"] else self._game_stats._run_counter % Config().char["runs_per_repair"] == 0
-        need_refill_teleport = self._char.capabilities.can_teleport_with_charges and (not self._char.select_tp() or self._char.is_low_on_teleport_charges())
+        teleport_selected = skills.select_tp(hotkeys.right_skill_key_map[SkillName.Teleport]) if SkillName.Teleport in hotkeys.right_skill_key_map else None
+        need_refill_teleport = self._char.capabilities.can_teleport_with_charges and (not teleport_selected or self._char.is_low_on_teleport_charges())
         if need_repair or need_routine_repair or need_refill_teleport or sell_items:
             if need_repair:
                 Logger.info("Repair needed. Gear is about to break")

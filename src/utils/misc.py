@@ -61,14 +61,20 @@ def find_d2r_window(spec: WindowSpec, offset = (0, 0)) -> tuple[int, int]:
 
 def set_d2r_always_on_top():
     if os.name == 'nt':
-        windows_list = []
-        EnumWindows(lambda w, l: l.append((w, GetWindowText(w))), windows_list)
-        for w in windows_list:
-            if w[1] == "Diablo II: Resurrected":
-                SetWindowPos(w[0], HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE)
-                print("Set D2R to be always on top")
+        d2r_window = get_d2r_window()
+        if d2r_window:
+            SetWindowPos(d2r_window[0], HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE)
+            print("Set D2R to be always on top")
     else:
         print('OS not supported, unable to set D2R always on top')
+
+def get_d2r_window():
+    windows_list = []
+    EnumWindows(lambda w, l: l.append((w, GetWindowText(w))), windows_list)
+    for w in windows_list:
+        if w[1] == "Diablo II: Resurrected":
+            return w
+    return None
 
 def restore_d2r_window_visibility():
     if os.name == 'nt':

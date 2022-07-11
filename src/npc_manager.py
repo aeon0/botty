@@ -6,6 +6,7 @@ import template_finder
 from config import Config
 from screen import grab
 from ui_manager import ScreenObjects, center_mouse, is_visible, wait_until_hidden
+from utils import hotkeys
 from utils.misc import color_filter, wait
 from logger import Logger
 from utils.custom_mouse import mouse
@@ -221,7 +222,7 @@ npcs = {
 
 def escape_dialogue(img) -> np.ndarray:
     while is_visible(ScreenObjects.NPCDialogue, img):
-        keyboard.send("esc")
+        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.OpenMenu])
         if wait_until_hidden(ScreenObjects.NPCDialogue, 0.5):
             break
         img = grab()
@@ -304,7 +305,7 @@ def press_npc_btn(npc_key: Npc, action_btn_key: str):
         center_mouse()
     else:
         Logger.error(f"Could not find {action_btn_key} btn. Should not happen! Continue...")
-        keyboard.send("esc")
+        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.OpenMenu])
 
 
 # Testing: Stand close to Qual-Kehk or Malah and run

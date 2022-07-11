@@ -1,5 +1,7 @@
 import keyboard
 from typing import Callable
+from ui.skills import SkillName
+from utils import hotkeys
 from utils.custom_mouse import mouse
 from char import IChar
 import template_finder
@@ -17,8 +19,8 @@ class Sorceress(IChar):
         self._pather = pather
 
     def pick_up_item(self, pos: tuple[float, float], item_name: str = None, prev_cast_start: float = 0):
-        if self._skill_hotkeys["telekinesis"] and any(x in item_name for x in ['potion', 'misc_gold', 'tp_scroll']):
-            keyboard.send(self._skill_hotkeys["telekinesis"])
+        if SkillName.Telekinesis in hotkeys.right_skill_key_map and any(x in item_name for x in ['potion', 'misc_gold', 'tp_scroll']):
+            keyboard.send(hotkeys.right_skill_key_map[SkillName.Telekinesis])
             wait(0.1, 0.2)
             mouse.move(pos[0], pos[1])
             wait(0.1, 0.2)
@@ -42,17 +44,17 @@ class Sorceress(IChar):
         telekinesis: bool = False
     ) -> bool:
         # In case telekinesis is False or hotkey is not set, just call the base implementation
-        if not self._skill_hotkeys["telekinesis"] or not telekinesis:
+        if SkillName.Telekinesis not in hotkeys.right_skill_key_map or not telekinesis:
             return super().select_by_template(template_type, success_func, timeout, threshold)
         if type(template_type) == list and "A5_STASH" in template_type:
             # sometimes waypoint is opened and stash not found because of that, check for that
             if is_visible(ScreenObjects.WaypointLabel):
-                keyboard.send("esc")
+                keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.OpenMenu])
         start = time.time()
         while timeout is None or (time.time() - start) < timeout:
             template_match = template_finder.search(template_type, grab(), threshold=threshold)
             if template_match.valid:
-                keyboard.send(self._skill_hotkeys["telekinesis"])
+                keyboard.send(hotkeys.right_skill_key_map[SkillName.Telekinesis])
                 wait(0.1, 0.2)
                 mouse.move(*template_match.center_monitor)
                 wait(0.2, 0.3)
@@ -68,25 +70,25 @@ class Sorceress(IChar):
     def pre_buff(self):
         if Config().char["cta_available"]:
             self._pre_buff_cta()
-        if self._skill_hotkeys["energy_shield"]:
-            keyboard.send(self._skill_hotkeys["energy_shield"])
+        if SkillName.EnergyShield in hotkeys.right_skill_key_map:
+            keyboard.send(hotkeys.right_skill_key_map[SkillName.EnergyShield])
             wait(0.1, 0.13)
             mouse.click(button="right")
             wait(self._cast_duration)
-        if self._skill_hotkeys["thunder_storm"]:
-            keyboard.send(self._skill_hotkeys["thunder_storm"])
+        if SkillName.ThunderStorm in hotkeys.right_skill_key_map:
+            keyboard.send(hotkeys.right_skill_key_map[SkillName.ThunderStorm])
             wait(0.1, 0.13)
             mouse.click(button="right")
             wait(self._cast_duration)
-        if self._skill_hotkeys["frozen_armor"]:
-            keyboard.send(self._skill_hotkeys["frozen_armor"])
+        if SkillName.FrozenArmor in hotkeys.right_skill_key_map:
+            keyboard.send(hotkeys.right_skill_key_map[SkillName.FrozenArmor])
             wait(0.1, 0.13)
             mouse.click(button="right")
             wait(self._cast_duration)
 
     def _cast_static(self, duration: float = 1.4):
-        if self._skill_hotkeys["static_field"]:
-            keyboard.send(self._skill_hotkeys["static_field"])
+        if SkillName.StaticField in hotkeys.right_skill_key_map:
+            keyboard.send(hotkeys.right_skill_key_map[SkillName.StaticField])
             wait(0.1, 0.13)
             start = time.time()
             while time.time() - start < duration:

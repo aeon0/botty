@@ -58,6 +58,18 @@ def test_search_all_multiple_templates():
     matches = template_finder.search_all([empty, slash], image, threshold=0.98)
     assert len(matches) == 4
 
+def test_search_all_multiple_templates_best_match():
+    """
+    Test all best matches with multiple templates in argument
+    - searches for empty slots and slash with high threshold
+    - test passes if 2 matches result
+    """
+    image = cv2.imread("test/assets/stash_slots.png")
+    empty = cv2.imread("test/assets/stash_slot_empty.png")
+    slash = cv2.imread("test/assets/stash_slot_slash.png")
+    matches = template_finder.search_all([empty, slash], image, best_match = True, threshold=0.98)
+    assert len(matches) == 2
+
 if __name__ == "__main__":
     image = cv2.imread("test/assets/stash_slots.png")
     empty = cv2.imread("test/assets/stash_slot_empty.png")

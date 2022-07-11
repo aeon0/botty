@@ -1,4 +1,6 @@
 import keyboard
+from ui.skills import SkillName
+from utils import hotkeys
 from utils.custom_mouse import mouse
 from char import IChar
 from pather import Pather
@@ -20,24 +22,24 @@ class Trapsin(IChar):
     def pre_buff(self):
         if Config().char["cta_available"]:
             self._pre_buff_cta()
-        if self._skill_hotkeys["fade"]:
-            keyboard.send(self._skill_hotkeys["fade"])
+        if SkillName.Fade in hotkeys.right_skill_key_map:
+            keyboard.send(hotkeys.right_skill_key_map[SkillName.Fade])
             wait(0.1, 0.13)
             mouse.click(button="right")
             wait(self._cast_duration)
-        if self._skill_hotkeys["shadow_warrior"]:
-            keyboard.send(self._skill_hotkeys["shadow_warrior"])
+        if SkillName.ShadowWarrior in hotkeys.right_skill_key_map:
+            keyboard.send(hotkeys.right_skill_key_map[SkillName.ShadowWarrior])
             wait(0.1, 0.13)
             mouse.click(button="right")
             wait(self._cast_duration)
-        if self._skill_hotkeys["burst_of_speed"]:
-            keyboard.send(self._skill_hotkeys["burst_of_speed"])
+        if SkillName.BurstOfSpeed in hotkeys.right_skill_key_map:
+            keyboard.send(hotkeys.right_skill_key_map[SkillName.BurstOfSpeed])
             wait(0.1, 0.13)
             mouse.click(button="right")
             wait(self._cast_duration)
 
     def _left_attack(self, cast_pos_abs: tuple[float, float], spray: int = 10):
-        keyboard.send(Config().char["stand_still"], do_release=False)
+        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_release=False)
         if self._skill_hotkeys["skill_left"]:
             keyboard.send(self._skill_hotkeys["skill_left"])
         for _ in range(4):
@@ -48,11 +50,11 @@ class Trapsin(IChar):
             mouse.press(button="left")
             wait(0.2, 0.3)
             mouse.release(button="left")
-        keyboard.send(Config().char["stand_still"], do_press=False)
+        keyboard.send(hotkeys.d2r_keymap[hotkeys.HotkeyName.StandStill], do_press=False)
 
 
     def _right_attack(self, cast_pos_abs: tuple[float, float], spray: float = 10):
-        keyboard.send(self._skill_hotkeys["lightning_sentry"])
+        keyboard.send(hotkeys.right_skill_key_map[SkillName.LightningSentry])
         x = cast_pos_abs[0] + (random.random() * 2 * spray - spray)
         y = cast_pos_abs[1] + (random.random() * 2 * spray - spray)
         cast_pos_monitor = convert_abs_to_monitor((x, y))
@@ -64,7 +66,7 @@ class Trapsin(IChar):
                 mouse.release(button="right")
                 wait(0.15)
         atk(4)
-        keyboard.send(self._skill_hotkeys["death_sentry"])
+        keyboard.send(hotkeys.right_skill_key_map[SkillName.DeathSentry])
         atk(1)
 
     def kill_pindle(self) -> bool:

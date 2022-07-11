@@ -1,3 +1,4 @@
+import re
 import cv2
 import threading
 from screen import convert_screen_to_monitor, grab
@@ -48,6 +49,8 @@ def stored_templates() -> dict[Template]:
         paths += list_files_in_folder(path)
     for file_path in paths:
         file_name: str = os.path.basename(file_path)
+        file_abs_path = os.path.abspath(os.path.join(file_path, os.pardir))
+        parent_path_key = re.sub(r'.*\\assets', 'assets', file_abs_path)
         if file_name.lower().endswith('.png'):
             key = file_name[:-4].upper()
             template_img = load_template(file_path)
@@ -58,11 +61,24 @@ def stored_templates() -> dict[Template]:
                 img_gray = cv2.cvtColor(template_img, cv2.COLOR_BGRA2GRAY),
                 alpha_mask = alpha_to_mask(template_img)
             )
+            if parent_path_key not in templates:
+                templates[parent_path_key] = []
+            templates[parent_path_key].append(key)
     return templates
 
 def get_template(key):
+    return get_template_value_by_key(key).img_bgr
+
+def get_templates(template_names):
     with templates_lock:
-        return stored_templates()[key].img_bgr
+        templates = []
+        for template_name in template_names:
+            templates.append(stored_templates()[template_name])
+        return templates
+
+def get_template_value_by_key(key):
+    with templates_lock:
+        return stored_templates()[key]
 
 def _process_template_refs(ref: str | np.ndarray | list[str]) -> list[Template]:
     templates = []
@@ -195,33 +211,37 @@ def search_and_wait(
 
 
 def search_all(
-    ref: str | np.ndarray | list[str],
+    ref: str | np.ndarray | list[str] | list[Template],
     inp_img: np.ndarray,
     threshold: float = 0.68,
     roi: list[float] = None,
     use_grayscale: bool = False,
     color_match: list = False,
+    best_match: list = False
 ) -> list[TemplateMatch]:
     """
-    Returns a list of all templates scoring above set threshold on the screen
+    Returns:
+        - a list of all TemplateMatches scoring above set threshold on the screen (when not best_match)
+        - the first TemplateMatch above set threshold on the screen (when best_match)
     :Other params are the same as for template_finder.search()
     :return: Returns a list of TemplateMatch objects
     """
-    templates = _process_template_refs(ref)
+    templates = ref if type(ref) == list and len(ref) > 0 and isinstance(ref[0], Template) \
+        else _process_template_refs(ref)
     matches = []
     img = inp_img.copy()
     while True:
         any_found = False
         for template in templates:
             match = _single_template_match(template, img, roi, color_match, use_grayscale)
-            if (ind_found := match.score >= threshold):
+            if match.score >= threshold:
                 matches.append(match)
-                img = mask_by_roi(img, match.region, "inverse")
-                any_found |= ind_found
-        if not any_found:
+                if not best_match and (ind_found := match.score >= threshold):
+                    img = mask_by_roi(img, match.region, "inverse")
+                    any_found |= ind_found
+        if not any_found or (best_match and len(matches) > 0):
             break
     return matches
-
 
 # Testing: Have whatever you want to find on the screen
 if __name__ == "__main__":
