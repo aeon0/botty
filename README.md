@@ -145,6 +145,7 @@ order=run_pindle, run_eldritch
 | merc_chicken       | Will chicken (leave game) when merc health percentage drops below set value, range 0 to 1. Set to 0 to not chicken. |
 | enable_no_pickup   | When enabled, will type `/nopickup` into chat at game start, which can help reduce accidental pickups especially for walking characters. |
 | fill_shared_stash_first | Fill stash tabs starting from right to left, filling personal stash last |
+| end_run_in_act       | Changes the act town at the end of a run (any of 1,2,3,4,5), default set to 0 to end the run in the act of your last run |
 | gamble_items       | List of items to gamble when stash fills with gold. Leave blank to disable. Supported items currently include circlet, ring, coronet, talon, amulet
 | open_chests        | Open up chests in some places. E.g. on dead ends of arcane. |
 | pre_buff_every_run | 0: Will only prebuff on first run, 1: Will prebuff after each run/boss |
