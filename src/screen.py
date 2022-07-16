@@ -16,6 +16,7 @@ detect_window_thread = None
 last_grab = None
 cached_img = None
 cached_img_lock = threading.Lock()
+hud_limits = np.load("./assets/hud_limits.npy")
 
 FIND_WINDOW = WindowSpec(
     title_regex=Config().advanced_options["hwnd_window_title"],
@@ -92,21 +93,24 @@ def convert_monitor_to_screen(screen_coord: tuple[float, float]) -> tuple[float,
         return None
     return (screen_coord[0] - monitor_roi["left"], screen_coord[1] - monitor_roi["top"])
 
-def convert_screen_to_monitor(screen_coord: tuple[float, float]) -> tuple[float, float]:
+def convert_screen_to_monitor(screen_coord: tuple[float, float], avoid_hud: bool = False) -> tuple[float, float]:
     global monitor_roi
     if screen_coord is None:
         Logger.error("convert_screen_to_monitor: empty coordinates passed")
         return None
-    x = screen_coord[0] + monitor_roi["left"]
-    y = screen_coord[1] + monitor_roi["top"]
-    return (np.clip(x, *monitor_x_range), np.clip(y, *monitor_y_range))
+    x = np.clip(screen_coord[0], 9, monitor_roi["width"] - 10)
+    if avoid_hud:
+        y = np.clip(screen_coord[1], 9, min(hud_limits[x], monitor_roi["height"] - 10))
+    else:
+        y = np.clip(screen_coord[1], 9, monitor_roi["height"] - 10)
+    return (x + monitor_roi["left"], y + monitor_roi["top"])
 
 def convert_abs_to_screen(abs_coord: tuple[float, float]) -> tuple[float, float]:
     global monitor_roi
     if abs_coord is None:
-        Logger.error("convert_screen_to_monitor: empty coordinates passed")
+        Logger.error("convert_abs_to_screen: empty coordinates passed")
         return None
-    # abs has it's center on char which is the center of the screen
+    # abs has its center on char which is the center of the screen
     return ((monitor_roi["width"] // 2) + abs_coord[0], (monitor_roi["height"] // 2) + abs_coord[1])
 
 def convert_screen_to_abs(screen_coord: tuple[float, float]) -> tuple[float, float]:
@@ -116,10 +120,39 @@ def convert_screen_to_abs(screen_coord: tuple[float, float]) -> tuple[float, flo
         return None
     return (screen_coord[0] - (monitor_roi["width"] // 2), screen_coord[1] - (monitor_roi["height"] // 2))
 
-def convert_abs_to_monitor(abs_coord: tuple[float, float]) -> tuple[float, float]:
+def convert_abs_to_monitor(abs_coord: tuple[float, float], avoid_hud: bool = False) -> tuple[float, float]:
+    global monitor_roi
     if abs_coord is None:
         Logger.error("convert_abs_to_monitor: empty coordinates passed")
         return None
-    screen_coord = convert_abs_to_screen(abs_coord)
-    monitor_coord = convert_screen_to_monitor(screen_coord)
-    return monitor_coord
+    w2 = monitor_roi["width"] // 2
+    h2 = monitor_roi["height"] // 2
+    if avoid_hud:
+        x, y = abs_coord
+        if -10 < x < 10:
+            x += w2
+            y = np.clip(h2 + y, 8, hud_limits[x])
+        else:
+            slope = y / x
+            x1 = np.clip(x, 8 - w2, w2 - 9)
+            if x1 != x:
+                y = x1 * slope
+            y1 = np.clip(y, 8 - h2, hud_limits[x1 + w2] - h2)
+            if y1 != y:
+                x = np.clip(round(y1 / slope) + w2, 8, w2*2 - 9)
+                y = np.clip(y1 + h2, 8, hud_limits[x])
+            else:
+                x = x1 + w2
+                y = y1 + h2
+    else:
+        x = np.clip(w2 + abs_coord[0], 8, w2*2 - 9)
+        y = np.clip(h2 + abs_coord[1], 8, h2*2 - 9)
+    return (x + monitor_roi["left"], y + monitor_roi["top"])
+
+map_center = (642, 350)
+map_scale = 8
+map_offset = ((1 - map_scale) * map_center[0], (1 - map_scale) * map_center[1])
+def convert_map_to_screen(map_coord: tuple[float, float]) -> tuple[float, float]:
+    x = map_coord[0] * map_scale + map_offset[0]
+    y = map_coord[1] * map_scale + map_offset[1]
+    return (x, y)

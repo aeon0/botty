@@ -54,7 +54,7 @@ class Bot:
             case "sorceress" | "light_sorc":
                 self._char: IChar = LightSorc(Config().light_sorc, self._pather)
             case "blizz_sorc":
-                self._char: IChar = BlizzSorc(Config().blizz_sorc, self._pather)
+                self._char: IChar = BlizzSorc(Config().blizz_sorc, self._pather, self._pickit) #pickit added for diablo)
             case "nova_sorc":
                 self._char: IChar = NovaSorc(Config().nova_sorc, self._pather)
             case "hydra_sorc":
@@ -111,7 +111,7 @@ class Bot:
         self._trav = Trav(self._pather, self._town_manager, self._char, self._pickit, runs)
         self._nihlathak = Nihlathak(self._pather, self._town_manager, self._char, self._pickit, runs)
         self._arcane = Arcane(self._pather, self._town_manager, self._char, self._pickit, runs)
-        self._diablo = Diablo(self._pather, self._town_manager, self._char, self._pickit, runs)
+        self._diablo = Diablo(self._pather, self._town_manager, self._char, self._pickit, runs, self._game_stats) #gamestats for cs_townvisits
 
         # Create member variables
         self._picked_up_items = False

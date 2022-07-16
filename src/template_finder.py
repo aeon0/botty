@@ -187,10 +187,11 @@ def search_and_wait(
             template_match = search(ref, img, roi=roi, threshold=threshold, use_grayscale=use_grayscale, color_match=color_match, best_match=best_match)
             if template_match.valid:
                 break
-    if not time_remains:
-        Logger.debug(f"Could not find desired templates")
-    else:
-        Logger.debug(f"Found match: {template_match.name} ({template_match.score*100:.1f}% confidence)")
+    if not suppress_debug:
+        if not time_remains:
+            Logger.debug(f"Could not find desired templates")
+        else:
+            Logger.debug(f"Found match: {template_match.name} ({template_match.score*100:.1f}% confidence)")
     return template_match
 
 
@@ -248,9 +249,28 @@ if __name__ == "__main__":
 
     # enter the template names you are trying to detect here
 
-    _template_list = ["SHENK_0","SHENK_1","SHENK_10","SHENK_11","SHENK_12","SHENK_13","SHENK_15","SHENK_16","SHENK_17","SHENK_18","SHENK_19","SHENK_2","SHENK_20","SHENK_3","SHENK_4","SHENK_6","SHENK_7","SHENK_8","SHENK_9","SHENK_DEATH_0","SHENK_DEATH_1","SHENK_DEATH_2","SHENK_DEATH_3","SHENK_DEATH_4","SHENK_V2_3","SHENK_V2_4","SHENK_V2_6","SHENK_V2_7","SHENK_V2_8"]
+    #_template_list = ["DIA_AM_ROF","DIA_AM_ROF1","DIA_AM_ROF2","DIA_AM_ROF3","DIA_AM_ROF4","DIA_AM_ROF5"]
+    #_template_list = ["A3_ARACH_CBL", "A3_ARACH_CBR", "A3_ARACH_CTL", "A3_ARACH_CTR", "A3_ARACH_EXIT", "A3_ARACH_ENTRANCE", "A3_ARACH_ENTR", "A3_ARACH_ENTR_MOUSEOVER"]
+    #_template_list =["PINDLE_AM_1","PINDLE_AM_2","PINDLE_AM_3"]
+    #_template_list = ["A2_TOWN_AUTOMAP","A3_TOWN_AUTOMAP", "A4_TOWN_AUTOMAP", "A5_TOWN_AUTOMAP","A1_TOWN_AUTOMAP_NORTH","A1_TOWN_AUTOMAP_SOUTH"]
+    _template_list = ["DIA_AM_SEAL"]
+    #_template_list = ["DIA_AM_ROF_GAP", "DIA_AM_WP", "DIA_AM_CS", "DIA_AM_E_B", "DIA_AM_PENT", "DIA_AM_PENT1", "DIA_AM_PENT2", "DIA_AM_CR1", "DIA_AM_CR1_1", "DIA_AM_CR1_2", "DIA_AM_CR2", "DIA_AM_CR3", "DIA_AM_CR4", "DIA_AM_A2Y", "DIA_AM_B2U", "DIA_AM_C2G", "DIA_AM_E_A", "DIA_AM_A1L", "DIA_AM_B1S", "DIA_AM_C1F",]
+    #_template_list = ["DIA_AM_A2Y", "DIA_AM_B2U", "DIA_AM_C2G", "DIA_AM_C2G_1", "DIA_AM_C2G_2", "DIA_AM_A1L", "DIA_AM_B1S", "DIA_AM_C1F", "DIA_AM_B1S", "DIA_AM_B1S_1", "DIA_AM_B1S_2"] #test layout checks to find good threshold
+    #_template_list += ["HIDDEN_STASH", "SHRINE", "SKULL_PILE"]
+    #_template_list = ['DIA_AM_CHAT']
+            
 
-    _template_list += ["ELDRITCH_0","ELDRITCH_0_V2","ELDRITCH_0_V3","ELDRITCH_1","ELDRITCH_1_V2","ELDRITCH_2","ELDRITCH_2_V2","ELDRITCH_3","ELDRITCH_4","ELDRITCH_5","ELDRITCH_6","ELDRITCH_7","ELDRITCH_7_V2","ELDRITCH_8","ELDRITCH_8_V2","ELDRITCH_9","ELDRITCH_START","ELDRITCH_START_V2"]
+    """
+    _template_list =["DIA_A1L2_14_OPEN","DIA_A1L2_14_CLOSED", "DIA_A1L2_14_CLOSED_DARK", "DIA_A1L2_14_MOUSEOVER","DIA_A1L2_5_OPEN","DIA_A1L2_5_CLOSED","DIA_A1L2_5_MOUSEOVER",]
+    _template_list +=["DIA_B2U2_16_OPEN","DIA_B2U2_16_CLOSED", "DIA_B2U2_16_MOUSEOVER"]
+    _template_list +=["DIA_B1S2_23_OPEN","DIA_B1S2_23_CLOSED","DIA_B1S2_23_MOUSEOVER"]
+    _template_list +=["DIA_C1F_OPEN_NEAR"]
+    _template_list +=["DIA_C1F_CLOSED_NEAR","DIA_C1F_MOUSEOVER_NEAR"]
+    _template_list +=["DIA_B2U2_16_OPEN", "DIA_C1F_BOSS_OPEN_RIGHT", "DIA_C1F_BOSS_OPEN_LEFT"]
+    _template_list +=["DIA_C1F_BOSS_MOUSEOVER_LEFT", "DIA_C1F_BOSS_CLOSED_NEAR_LEFT", "DIA_C1F_BOSS_CLOSED_NEAR_RIGHT"]
+    _template_list = ["DIA_C2G2_7_OPEN","DIA_C2G2_7_CLOSED", "DIA_C2G2_7_MOUSEOVER", "DIA_C2G2_21_OPEN", "DIA_C2G2_21_CLOSED", "DIA_C2G2_21_MOUSEOVER"]             
+    """
+    
 
     _current_template_idx = -1
     _last_stored_idx = 0
@@ -309,7 +329,7 @@ if __name__ == "__main__":
             template_match = template_finder.search(key, img, threshold=_current_threshold)
             if template_match.valid:
                 x, y = template_match.center
-                cv2.putText(display_img, str(template_match.name), template_match.center, cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
+                cv2.putText(display_img, str(template_match.name), template_match.center, cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
                 cv2.circle(display_img, template_match.center, 7, (255, 0, 0), thickness=5)
                 cv2.rectangle(display_img, template_match.region[:2], (template_match.region[0] + template_match.region[2], template_match.region[1] + template_match.region[3]), (0, 0, 255), 1)
                 print(f"Name: {template_match.name} Pos: {template_match.center}, Dist: {625-x, 360-y}, Score: {template_match.score}")

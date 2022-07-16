@@ -1,12 +1,13 @@
 from char import IChar
 from town.i_act import IAct
 from screen import grab
-from npc_manager import Npc, open_npc_menu, press_npc_btn
+from npc_manager import Npc, open_npc_menu, press_npc_btn, open_npc_menu_map
 from pather import Pather, Location
 import template_finder
 from utils.misc import wait
 from ui_manager import ScreenObjects, is_visible
-
+from config import Config
+from automap_finder import toggle_automap
 
 class A5(IAct):
     def __init__(self, pather: Pather, char: IChar):
@@ -22,34 +23,42 @@ class A5(IAct):
     def can_trade_and_repair(self) -> bool: return True
 
     def heal(self, curr_loc: Location) -> Location | bool:
-        if not self._pather.traverse_nodes((curr_loc, Location.A5_MALAH), self._char, force_move=True): return False
-        if not open_npc_menu(Npc.MALAH): return False
-        if not self._pather.traverse_nodes((Location.A5_MALAH, Location.A5_TOWN_START), self._char, force_move=True): return False
-        return Location.A5_TOWN_START
+        toggle_automap(True)
+        if self._pather.traverse_nodes_automap((curr_loc, Location.A5_MALAH), self._char, force_move=True, toggle_map=False):
+            if open_npc_menu_map(Npc.MALAH, toggle_map=False) or open_npc_menu(Npc.MALAH, 10):
+                return Location.A5_MALAH
+        toggle_automap(False)
+        return False
 
     def open_trade_menu(self, curr_loc: Location) -> Location | bool:
-        if not self._pather.traverse_nodes((curr_loc, Location.A5_MALAH), self._char, force_move=True): return False
-        if open_npc_menu(Npc.MALAH):
+        toggle_automap(True)
+        if not self._pather.traverse_nodes_automap((curr_loc, Location.A5_MALAH), self._char, force_move=True, toggle_map=False):
+            toggle_automap(False)
+        elif open_npc_menu_map(Npc.MALAH, toggle_map=False) or open_npc_menu(Npc.MALAH, 10):
             press_npc_btn(Npc.MALAH, "trade")
             return Location.A5_MALAH
         return False
 
     def resurrect(self, curr_loc: Location) -> Location | bool:
-        if not self._pather.traverse_nodes((curr_loc, Location.A5_QUAL_KEHK), self._char, force_move=True): return False
-        if open_npc_menu(Npc.QUAL_KEHK):
+        toggle_automap(True)
+        if not self._pather.traverse_nodes_automap((curr_loc, Location.A5_QUAL_KEHK), self._char, force_move=True, toggle_map=False):
+            toggle_automap(False)
+        elif open_npc_menu_map(Npc.QUAL_KEHK, 'topleft', toggle_map=False) or open_npc_menu(Npc.QUAL_KEHK, 10):
             press_npc_btn(Npc.QUAL_KEHK, "resurrect")
             return Location.A5_QUAL_KEHK
         return False
 
     def identify(self, curr_loc: Location) -> Location | bool:
-        if not self._pather.traverse_nodes((curr_loc, Location.A5_QUAL_KEHK), self._char, force_move=True): return False
-        if open_npc_menu(Npc.CAIN):
+        toggle_automap(True)
+        if not self._pather.traverse_nodes_automap((curr_loc, Location.A5_QUAL_KEHK), self._char, force_move=True, toggle_map=False):
+            toggle_automap(False)
+        elif open_npc_menu_map(Npc.CAIN, 'bottom', toggle_map=False) or open_npc_menu(Npc.CAIN, 10):
             press_npc_btn(Npc.CAIN, "identify")
             return Location.A5_QUAL_KEHK
         return False
 
     def open_stash(self, curr_loc: Location) -> Location | bool:
-        if not self._pather.traverse_nodes((curr_loc, Location.A5_STASH), self._char, force_move=True):
+        if not self._pather.traverse_nodes_automap((curr_loc, Location.A5_STASH), self._char, force_move=True):
             return False
         wait(0.5, 0.6)
         def stash_is_open_func():
@@ -62,13 +71,16 @@ class A5(IAct):
         return Location.A5_STASH
 
     def open_trade_and_repair_menu(self, curr_loc: Location) -> Location | bool:
-        if not self._pather.traverse_nodes((curr_loc, Location.A5_LARZUK), self._char, force_move=True): return False
-        open_npc_menu(Npc.LARZUK)
-        press_npc_btn(Npc.LARZUK, "trade_repair")
+        toggle_automap(True)
+        if not self._pather.traverse_nodes_automap((curr_loc, Location.A5_LARZUK), self._char, force_move=True, toggle_map=False):
+            toggle_automap(False)
+            return False
+        if open_npc_menu_map(Npc.LARZUK, toggle_map=False) or open_npc_menu(Npc.LARZUK, 10):
+            press_npc_btn(Npc.LARZUK, "trade_repair")
         return Location.A5_LARZUK
 
     def open_wp(self, curr_loc: Location) -> bool:
-        if not self._pather.traverse_nodes((curr_loc, Location.A5_WP), self._char, force_move=True): return False
+        if not self._pather.traverse_nodes_automap((curr_loc, Location.A5_WP), self._char, force_move=True): return False
         wait(0.5, 0.7)
         found_wp_func = lambda: is_visible(ScreenObjects.WaypointLabel)
         return self._char.select_by_template("A5_WP", found_wp_func, telekinesis=True)

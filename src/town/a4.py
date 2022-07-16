@@ -23,7 +23,7 @@ class A4(IAct):
     def can_trade_and_repair(self) -> bool: return True
 
     def resurrect(self, curr_loc: Location) -> Location | bool:
-        if not self._pather.traverse_nodes((curr_loc, Location.A4_TYRAEL_STASH), self._char, force_move=True):
+        if not self._pather.traverse_nodes_automap((curr_loc, Location.A4_TYRAEL_STASH), self._char, force_move=True):
             return False
         if open_npc_menu(Npc.TYRAEL):
             press_npc_btn(Npc.TYRAEL, "resurrect")
@@ -31,7 +31,7 @@ class A4(IAct):
         return False
 
     def open_wp(self, curr_loc: Location) -> bool:
-        if not self._pather.traverse_nodes((curr_loc, Location.A4_WP), self._char, force_move=True): return False
+        if not self._pather.traverse_nodes_automap((curr_loc, Location.A4_WP), self._char, force_move=True): return False
         wait(0.5, 0.7)
         found_wp_func = lambda: is_visible(ScreenObjects.WaypointLabel)
         # decreased threshold because we sometimes walk "over" it during pathing
@@ -44,28 +44,28 @@ class A4(IAct):
         return False
 
     def identify(self, curr_loc: Location) -> Location | bool:
-        if not self._pather.traverse_nodes((curr_loc, Location.A4_TYRAEL_STASH), self._char, force_move=True): return False
+        if not self._pather.traverse_nodes_automap((curr_loc, Location.A4_TYRAEL_STASH), self._char, force_move=True): return False
         if open_npc_menu(Npc.CAIN):
             press_npc_btn(Npc.CAIN, "identify")
             return Location.A4_TYRAEL_STASH
         return False
 
-    def gamble (self, curr_loc: Location) -> Location | bool:
-        if not self._pather.traverse_nodes((curr_loc, Location.A4_JAMELLA), self._char, force_move=True): return False
+    def gamble(self, curr_loc: Location) -> Location | bool:
+        if not self._pather.traverse_nodes_automap((curr_loc, Location.A4_JAMELLA), self._char, force_move=True): return False
         if open_npc_menu(Npc.JAMELLA):
             press_npc_btn(Npc.JAMELLA, "gamble")
             return Location.A4_JAMELLA
         return False
 
     def open_trade_menu(self, curr_loc: Location) -> Location | bool:
-        if not self._pather.traverse_nodes((curr_loc, Location.A4_JAMELLA), self._char, force_move=True): return False
+        if not self._pather.traverse_nodes_automap((curr_loc, Location.A4_JAMELLA), self._char, force_move=True): return False
         if open_npc_menu(Npc.JAMELLA):
             press_npc_btn(Npc.JAMELLA, "trade")
             return Location.A4_JAMELLA
         return False
 
     def open_stash(self, curr_loc: Location) -> Location | bool:
-        if not self._pather.traverse_nodes((curr_loc, Location.A4_TYRAEL_STASH), self._char, force_move=True):
+        if not self._pather.traverse_nodes_automap((curr_loc, Location.A4_TYRAEL_STASH), self._char, force_move=True):
             return False
         wait(0.5, 0.6)
         def stash_is_open_func():
@@ -78,13 +78,13 @@ class A4(IAct):
         return Location.A4_TYRAEL_STASH
 
     def heal(self, curr_loc: Location) -> Location | bool:
-        if not self._pather.traverse_nodes((curr_loc, Location.A4_JAMELLA), self._char, force_move=True): return False
+        if not self._pather.traverse_nodes_automap((curr_loc, Location.A4_JAMELLA), self._char, force_move=True): return False
         if open_npc_menu(Npc.JAMELLA):
             return Location.A4_JAMELLA
         return False
 
     def open_trade_and_repair_menu(self, curr_loc: Location) -> Location | bool:
-        if not self._pather.traverse_nodes((curr_loc, Location.A4_HALBU), self._char, force_move=True): return False
+        if not self._pather.traverse_nodes_automap((curr_loc, Location.A4_HALBU), self._char, force_move=True): return False
         if open_npc_menu(Npc.HALBU):
             press_npc_btn(Npc.HALBU, "trade_repair")
             return Location.A4_HALBU

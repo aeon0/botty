@@ -209,7 +209,7 @@ class IChar:
             else:
                 mouse.click(button="left")
 
-    def walk(self, pos_monitor: tuple[float, float], force_tp: bool = False, force_move: bool = False):
+    def walk(self, pos_monitor: tuple[float, float], force_move: bool = False):
         factor = Config().advanced_options["pathing_delay_factor"]
             # in case we want to walk we actually want to move a bit before the point cause d2r will always "overwalk"
         pos_screen = convert_monitor_to_screen(pos_monitor)
@@ -366,6 +366,9 @@ class IChar:
 
     def kill_summoner(self) -> bool:
         raise ValueError("Arcane is not implemented!")
+
+    def run_to_cs(self) -> bool:
+        return False
 
     def kill_diablo(self) -> bool:
         raise ValueError("Diablo is not implemented!")

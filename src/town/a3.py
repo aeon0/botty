@@ -6,7 +6,7 @@ from pather import Pather, Location
 import template_finder
 from utils.misc import wait
 from ui_manager import ScreenObjects, is_visible
-
+from automap_finder import toggle_automap
 
 class A3(IAct):
     def __init__(self, pather: Pather, char: IChar):
@@ -21,20 +21,19 @@ class A3(IAct):
     def can_stash(self) -> bool: return True
 
     def heal(self, curr_loc: Location) -> Location | bool:
-        if not self._pather.traverse_nodes((curr_loc, Location.A3_ORMUS), self._char, force_move=True): return False
+        if not self._pather.traverse_nodes_automap((curr_loc, Location.A3_ORMUS), self._char, force_move=True): return False
         open_npc_menu(Npc.ORMUS)
         return Location.A3_ORMUS
 
     def open_trade_menu(self, curr_loc: Location) -> Location | bool:
-        if not self._pather.traverse_nodes((curr_loc, Location.A3_ORMUS), self._char, force_move=True): return False
+        if not self._pather.traverse_nodes_automap((curr_loc, Location.A3_ORMUS), self._char, force_move=True): return False
         if open_npc_menu(Npc.ORMUS):
             press_npc_btn(Npc.ORMUS, "trade")
             return Location.A3_ORMUS
         return False
 
     def open_stash(self, curr_loc: Location) -> Location | bool:
-        if not self._pather.traverse_nodes((curr_loc, Location.A3_STASH_WP), self._char, force_move=True):
-            return False
+        if not self._pather.traverse_nodes_automap((curr_loc, Location.A3_STASH_WP), self._char, force_move=True):return False
         wait(0.3)
         def stash_is_open_func():
             img = grab()
@@ -46,7 +45,7 @@ class A3(IAct):
         return Location.A3_STASH_WP
 
     def open_wp(self, curr_loc: Location) -> bool:
-        if not self._pather.traverse_nodes((curr_loc, Location.A3_STASH_WP), self._char, force_move=True): return False
+        if not self._pather.traverse_nodes_automap((curr_loc, Location.A3_STASH_WP), self._char, force_move=True): return False
         wait(0.5, 0.7)
         found_wp_func = lambda: is_visible(ScreenObjects.WaypointLabel)
         return self._char.select_by_template("A3_WP", found_wp_func, telekinesis=True)
@@ -59,7 +58,7 @@ class A3(IAct):
         return False
 
     def identify(self, curr_loc: Location) -> Location | bool:
-        if not self._pather.traverse_nodes((curr_loc, Location.A3_STASH_WP), self._char, force_move=True): return False
+        if not self._pather.traverse_nodes_automap((curr_loc, Location.A3_STASH_WP), self._char, force_move=True): return False
         if open_npc_menu(Npc.CAIN):
             press_npc_btn(Npc.CAIN, "identify")
             return Location.A3_STASH_WP
