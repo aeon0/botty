@@ -210,6 +210,8 @@ class Config:
             "sell_junk": bool(int(self._select_val("char", "sell_junk"))),
             "enable_no_pickup": bool(int(self._select_val("char", "enable_no_pickup"))),
             "safer_routines": bool(int(self._select_val("char", "safer_routines"))),
+            "clear_screen": self._select_val("char", "clear_screen"),
+                        
         }
         # Sorc base config
         sorc_base_cfg = dict(self.configs["config"]["parser"]["sorceress"])
