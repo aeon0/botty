@@ -13,7 +13,7 @@ from pyparsing import Regex
 from logger import Logger
 import cv2
 import os
-from math import cos, sin, dist
+from math import cos, sin, dist, pi
 import subprocess
 from win32con import HWND_TOPMOST, SWP_NOMOVE, SWP_NOSIZE, HWND_NOTOPMOST
 from win32gui import GetWindowText, SetWindowPos, EnumWindows, GetClientRect, ClientToScreen
@@ -94,11 +94,11 @@ def kill_thread(thread):
         ctypes.pythonapi.PyThreadState_SetAsyncExc(thread_id, 0)
         Logger.error('Exception raise failure')
 
-def cut_roi(img, roi):
+def cut_roi(img: np.ndarray, roi: list) -> np.ndarray:
     x, y, w, h = roi
     return img[y:y+h, x:x+w]
 
-def mask_by_roi(img, roi, type: str = "regular"):
+def mask_by_roi(img: np.ndarray, roi: list, type: str = "regular"):
     x, y, w, h = roi
     if type == "regular":
         masked = np.zeros(img.shape, dtype=np.uint8)
@@ -209,14 +209,6 @@ def list_files_in_folder(path: str):
             r.append(os.path.join(root, name))
     return r
 
-def rotate_vec(vec: np.ndarray, deg: float) -> np.ndarray:
-    theta = np.deg2rad(deg)
-    rot_matrix = np.array([[cos(theta), -sin(theta)], [sin(theta), cos(theta)]])
-    return np.dot(rot_matrix, vec)
-
-def unit_vector(vec: np.ndarray) -> np.ndarray:
-    return vec / dist(vec, (0, 0))
-
 def image_is_equal(img1: np.ndarray, img2: np.ndarray) -> bool:
     shape_equal = img1.shape == img2.shape
     if not shape_equal:
@@ -224,16 +216,27 @@ def image_is_equal(img1: np.ndarray, img2: np.ndarray) -> bool:
         return False
     return not(np.bitwise_xor(img1, img2).any())
 
-def arc_spread(cast_dir: tuple[float,float], spread_deg: float=10, radius_spread: tuple[float, float] = [.95, 1.05]):
-    """
-        Given an x,y vec (target), generate a new target that is the same vector but rotated by +/- spread_deg/2
-    """
-    cast_dir = np.array(cast_dir)
-    length = dist(cast_dir, (0, 0))
-    adj = (radius_spread[1] - radius_spread[0])*random.random() + radius_spread[0]
-    rot = spread_deg*(random.random() - .5)
-    return rotate_vec(unit_vector(cast_dir)*(length+adj), rot)
+def apply_mask(img: np.ndarray, mask: np.ndarray) -> np.ndarray:
+    if img.shape[:][:][0] == mask.shape[:][:][0]:
+        return cv2.bitwise_and(img, img, mask = mask)
+    Logger.warning("apply_mask: Image shape is not equal, failed to apply to img")
+    return img
 
+def image_diff(img1: np.ndarray, img2: np.ndarray, roi: list = None, mask: np.ndarray = None, threshold: int = 13) -> float:
+    if img1.shape != img2.shape:
+        Logger.warning("image_diff: Image shape is not equal, failed to calculate diff")
+        return 0
+    if mask is not None:
+        img1 = apply_mask(img1, mask)
+        img2 = apply_mask(img2, mask)
+    if roi is not None:
+        img1 = cut_roi(img1, roi)
+        img2 = cut_roi(img2, roi)
+    diff = cv2.absdiff(img1, img2)
+    diff = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
+    _, diff_mask = cv2.threshold(diff, threshold, 255, cv2.THRESH_BINARY)
+    score = (float(np.sum(diff_mask)) / diff_mask.size) * (1/255.0)
+    return score
 
 @dataclass
 class BestMatchResult:

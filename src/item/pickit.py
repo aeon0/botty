@@ -187,6 +187,7 @@ class PickIt:
 if __name__ == "__main__":
     import os
     from config import Config
+    from screen import start_detecting_window, stop_detecting_window
     from char.sorceress import LightSorc
     from char.paladin import Hammerdin
     from pather import Pather

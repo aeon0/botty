@@ -1,17 +1,12 @@
 import keyboard
-import random
-import time
 
-from char import CharacterCapabilities
 from char.paladin import Paladin
 from config import Config
 from logger import Logger
-from pather import Location
 from pather import Pather
 from pather import Pather, Location
 from screen import convert_abs_to_monitor, convert_screen_to_abs, grab
 from target_detect import get_visible_targets
-from ui import skills
 from utils.custom_mouse import mouse
 from utils.misc import wait
 
@@ -22,41 +17,8 @@ class Hammerdin(Paladin):
         #hammerdin needs to be closer to shenk to reach it with hammers
         self._pather.offset_node(149, (70, 10))
 
-    def _cast_hammers(self, time_in_s: float, aura: str = "concentration"):
-        if aura in self._skill_hotkeys and self._skill_hotkeys[aura]:
-            keyboard.send(self._skill_hotkeys[aura])
-            wait(0.05, 0.1)
-            keyboard.send(Config().char["stand_still"], do_release=False)
-            wait(0.05, 0.1)
-            if self._skill_hotkeys["blessed_hammer"]:
-                keyboard.send(self._skill_hotkeys["blessed_hammer"])
-            wait(0.05, 0.1)
-            start = time.time()
-            while (time.time() - start) < time_in_s:
-                wait(0.06, 0.08)
-                mouse.press(button="left")
-                wait(0.1, 0.2)
-                mouse.release(button="left")
-            wait(0.01, 0.05)
-            keyboard.send(Config().char["stand_still"], do_press=False)
-
-    def pre_buff(self):
-        if Config().char["cta_available"]:
-            self._pre_buff_cta()
-        keyboard.send(self._skill_hotkeys["holy_shield"])
-        wait(0.04, 0.1)
-        mouse.click(button="right")
-        wait(self._cast_duration, self._cast_duration + 0.06)
-
-    def pre_move(self):
-        # select teleport if available
-        super().pre_move()
-        # in case teleport hotkey is not set or teleport can not be used, use vigor if set
-        should_cast_vigor = self._skill_hotkeys["vigor"] and not skills.is_right_skill_selected(["VIGOR"])
-        can_teleport = self.capabilities.can_teleport_natively and skills.is_right_skill_active()
-        if should_cast_vigor and not can_teleport:
-            keyboard.send(self._skill_hotkeys["vigor"])
-            wait(0.15, 0.25)
+    def _cast_hammers(self, duration: float = 0, aura: str = "concentration"): #for nihlathak
+        return self._cast_at_position(skill_name = "blessed_hammer", spray = 0, duration = duration, aura = aura)
 
     def _move_and_attack(self, abs_move: tuple[int, int], atk_len: float):
         pos_m = convert_abs_to_monitor(abs_move)
@@ -67,15 +29,13 @@ class Hammerdin(Paladin):
     def kill_pindle(self) -> bool:
         wait(0.1, 0.15)
         if self.capabilities.can_teleport_with_charges:
-            if not self._pather.traverse_nodes([104], self, timeout=1.0, force_tp=True, use_tp_charge=True):
+            if not self._pather.traverse_nodes([104], self, timeout=1.0, force_tp=True):
                 return False
         elif self.capabilities.can_teleport_natively:
             if not self._pather.traverse_nodes_fixed("pindle_end", self):
                 return False
         else:
-            keyboard.send(self._skill_hotkeys["concentration"])
-            wait(0.15)
-            self._pather.traverse_nodes((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, timeout=1.0, do_pre_move=False, force_tp=True, use_tp_charge=True)
+            self._pather.traverse_nodes((Location.A5_PINDLE_SAFE_DIST, Location.A5_PINDLE_END), self, timeout=1.0, active_skill="concentration")
         self._cast_hammers(Config().char["atk_len_pindle"])
         wait(0.1, 0.15)
         self._cast_hammers(1.6, "redemption")
@@ -86,10 +46,7 @@ class Hammerdin(Paladin):
             # Custom eld position for teleport that brings us closer to eld
             self._pather.traverse_nodes_fixed([(675, 30)], self)
         else:
-            keyboard.send(self._skill_hotkeys["concentration"])
-            wait(0.15)
-            # Traverse without pre_move, because we don't want to activate vigor when walking!
-            self._pather.traverse_nodes((Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END), self, timeout=1.0, do_pre_move=False, force_tp=True, use_tp_charge=True)
+            self._pather.traverse_nodes((Location.A5_ELDRITCH_SAFE_DIST, Location.A5_ELDRITCH_END), self, timeout=1.0, force_tp=True, active_skill="concentration")
         wait(0.05, 0.1)
         self._cast_hammers(Config().char["atk_len_eldritch"])
         wait(0.1, 0.15)
@@ -97,9 +54,7 @@ class Hammerdin(Paladin):
         return True
 
     def kill_shenk(self):
-        keyboard.send(self._skill_hotkeys["concentration"])
-        wait(0.15)
-        self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, timeout=1.0, do_pre_move=False, force_tp=True, use_tp_charge=True)
+        self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, timeout=1.0, force_tp=True, active_skill="concentration")
         wait(0.05, 0.1)
         self._cast_hammers(Config().char["atk_len_shenk"])
         wait(0.1, 0.15)
@@ -107,18 +62,16 @@ class Hammerdin(Paladin):
         return True
 
     def kill_council(self) -> bool:
-        keyboard.send(self._skill_hotkeys["concentration"])
-        wait(.15)
-        # Check out the node screenshot in assets/templates/trav/nodes to see where each node is at
         atk_len = Config().char["atk_len_trav"]
         # Go inside and hammer a bit
-        self._pather.traverse_nodes([228, 229], self, timeout=2.2, do_pre_move=False, force_tp=True, use_tp_charge=True)
+        self._pather.traverse_nodes([228, 229], self, timeout=2.5, force_tp=True, active_skill="concentration")
+        self._cast_hammers(atk_len)
         # Move a bit back and another round
         self._move_and_attack((40, 20), atk_len)
         # Here we have two different attack sequences depending if tele is available or not
-        if self.capabilities.can_teleport_natively or self.capabilities.can_teleport_with_charges:
+        if self.can_teleport():
             # Back to center stairs and more hammers
-            self._pather.traverse_nodes([226], self, timeout=2.2, do_pre_move=False, force_tp=True, use_tp_charge=True)
+            self._pather.traverse_nodes([226], self, timeout=2.5, force_tp=True)
             self._cast_hammers(atk_len)
             # move a bit to the top
             self._move_and_attack((65, -30), atk_len)
@@ -131,7 +84,7 @@ class Hammerdin(Paladin):
 
     def kill_nihlathak(self, end_nodes: list[int]) -> bool:
         # Move close to nihlathak
-        self._pather.traverse_nodes(end_nodes, self, timeout=0.8, do_pre_move=False)
+        self._pather.traverse_nodes(end_nodes, self, timeout=0.8)
         # move mouse to center, otherwise hammers sometimes dont fly, not sure why
         pos_m = convert_abs_to_monitor((0, 0))
         mouse.move(*pos_m, randomize=80, delay_factor=[0.5, 0.7])

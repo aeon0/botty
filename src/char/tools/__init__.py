@@ -1,0 +1,1 @@
+from .capabilities import CharacterCapabilities

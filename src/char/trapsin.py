@@ -5,7 +5,8 @@ from pather import Pather
 from logger import Logger
 from screen import convert_abs_to_monitor, convert_screen_to_abs, grab
 from config import Config
-from utils.misc import wait, rotate_vec, unit_vector
+from utils.misc import wait
+from char.tools import calculations
 import random
 from pather import Location, Pather
 import numpy as np
@@ -18,8 +19,7 @@ class Trapsin(IChar):
         self._pather = pather
 
     def pre_buff(self):
-        if Config().char["cta_available"]:
-            self._pre_buff_cta()
+        self._pre_buff_cta()
         if self._skill_hotkeys["fade"]:
             keyboard.send(self._skill_hotkeys["fade"])
             wait(0.1, 0.13)
@@ -36,7 +36,7 @@ class Trapsin(IChar):
             mouse.click(button="right")
             wait(self._cast_duration)
 
-    def _left_attack(self, cast_pos_abs: tuple[float, float], spray: int = 10):
+    def _left_attack(self, cast_pos_abs: tuple[float, float], spray: float = 10):
         keyboard.send(Config().char["stand_still"], do_release=False)
         if self._skill_hotkeys["skill_left"]:
             keyboard.send(self._skill_hotkeys["skill_left"])
@@ -124,7 +124,7 @@ class Trapsin(IChar):
             # Do some tele "dancing" after each sequence
             if i < atk_len - 1:
                 rot_deg = random.randint(-10, 10) if i % 2 == 0 else random.randint(170, 190)
-                tele_pos_abs = unit_vector(rotate_vec(cast_pos_abs, rot_deg)) * 100
+                tele_pos_abs = calculations.unit_vector(calculations.rotate_vec(cast_pos_abs, rot_deg)) * 100
                 pos_m = convert_abs_to_monitor(tele_pos_abs)
                 self.pre_move()
                 self.move(pos_m)

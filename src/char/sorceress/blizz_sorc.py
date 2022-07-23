@@ -2,10 +2,11 @@ import keyboard
 from char.sorceress import Sorceress
 from utils.custom_mouse import mouse
 from logger import Logger
-from utils.misc import wait, rotate_vec, unit_vector
+from utils.misc import wait
 import random
 from pather import Location
 import numpy as np
+from char.tools import calculations
 from screen import convert_abs_to_monitor, grab, convert_screen_to_abs
 from config import Config
 import template_finder

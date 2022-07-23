@@ -10,6 +10,7 @@ import time
 from pather import Pather
 from config import Config
 from ui_manager import ScreenObjects, is_visible
+from screen import convert_screen_to_abs
 
 class Sorceress(IChar):
     def __init__(self, skill_hotkeys: dict, pather: Pather):
@@ -17,12 +18,8 @@ class Sorceress(IChar):
         self._pather = pather
 
     def pick_up_item(self, pos: tuple[float, float], item_name: str = None, prev_cast_start: float = 0):
-        if self._skill_hotkeys["telekinesis"] and any(x in item_name for x in ['potion', 'misc_gold', 'tp_scroll']):
-            keyboard.send(self._skill_hotkeys["telekinesis"])
-            wait(0.1, 0.2)
-            mouse.move(pos[0], pos[1])
-            wait(0.1, 0.2)
-            mouse.click(button="right")
+        if any(x in item_name for x in ['potion', 'misc_gold', 'tp_scroll']) and self._set_active_skill(mouse_click_type="right", skill="telekinesis"):
+            self._cast_telekinesis(*pos)
             # need about 0.4s delay before next capture for the item not to persist on screen
             cast_start = time.time()
             interval = (cast_start - prev_cast_start)
@@ -42,7 +39,7 @@ class Sorceress(IChar):
         telekinesis: bool = False
     ) -> bool:
         # In case telekinesis is False or hotkey is not set, just call the base implementation
-        if not self._skill_hotkeys["telekinesis"] or not telekinesis:
+        if not (telekinesis and self._get_hotkey("telekinesis")):
             return super().select_by_template(template_type, success_func, timeout, threshold)
         if type(template_type) == list and "A5_STASH" in template_type:
             # sometimes waypoint is opened and stash not found because of that, check for that
@@ -52,11 +49,8 @@ class Sorceress(IChar):
         while timeout is None or (time.time() - start) < timeout:
             template_match = template_finder.search(template_type, grab(), threshold=threshold)
             if template_match.valid:
-                keyboard.send(self._skill_hotkeys["telekinesis"])
-                wait(0.1, 0.2)
-                mouse.move(*template_match.center_monitor)
-                wait(0.2, 0.3)
-                mouse.click(button="right")
+                pos_abs = convert_screen_to_abs(template_match.center)
+                self._cast_telekinesis(*pos_abs)
                 # check the successfunction for 2 sec, if not found, try again
                 check_success_start = time.time()
                 while time.time() - check_success_start < 2:
@@ -66,29 +60,26 @@ class Sorceress(IChar):
         return super().select_by_template(template_type, success_func, timeout, threshold)
 
     def pre_buff(self):
-        if Config().char["cta_available"]:
-            self._pre_buff_cta()
-        if self._skill_hotkeys["energy_shield"]:
-            keyboard.send(self._skill_hotkeys["energy_shield"])
-            wait(0.1, 0.13)
-            mouse.click(button="right")
-            wait(self._cast_duration)
-        if self._skill_hotkeys["thunder_storm"]:
-            keyboard.send(self._skill_hotkeys["thunder_storm"])
-            wait(0.1, 0.13)
-            mouse.click(button="right")
-            wait(self._cast_duration)
-        if self._skill_hotkeys["frozen_armor"]:
-            keyboard.send(self._skill_hotkeys["frozen_armor"])
-            wait(0.1, 0.13)
-            mouse.click(button="right")
-            wait(self._cast_duration)
+        if self._pre_buff_cta():
+            wait(self._cast_duration + 0.1)
+        if self._cast_energy_shield():
+            wait(self._cast_duration + 0.1)
+        if self._cast_thunder_storm():
+            wait(self._cast_duration + 0.1)
+        if self._cast_frozen_armor():
+            wait(self._cast_duration + 0.1)
 
-    def _cast_static(self, duration: float = 1.4):
-        if self._skill_hotkeys["static_field"]:
-            keyboard.send(self._skill_hotkeys["static_field"])
-            wait(0.1, 0.13)
-            start = time.time()
-            while time.time() - start < duration:
-                mouse.click(button="right")
-                wait(self._cast_duration)
+    def _cast_static(self, duration: float = 1.4) -> bool:
+        return self._cast_simple(skill_name="static_field", mouse_click_type = "right", duration=duration)
+
+    def _cast_telekinesis(self, cast_pos_abs: tuple[float, float]) -> bool:
+        return self._cast_at_position(skill_name="telekinesis", cast_pos_abs = cast_pos_abs, spray = 0, mouse_click_type = "right")
+
+    def _cast_thunder_storm(self) -> bool:
+        return self._cast_simple(skill_name="thunder_storm", mouse_click_type="right")
+
+    def _cast_energy_shield(self) -> bool:
+        return self._cast_simple(skill_name="energy_shield", mouse_click_type="right")
+
+    def _cast_frozen_armor(self) -> bool:
+        return self._cast_simple(skill_name="frozen_armor", mouse_click_type="right")

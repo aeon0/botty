@@ -160,6 +160,7 @@ class Config:
             "inventory_screen": self._select_val("char", "inventory_screen"),
             "teleport": self._select_val("char", "teleport"),
             "stand_still": self._select_val("char", "stand_still"),
+            "use_charged_teleport": bool(int(self._select_val("char", "use_charged_teleport"))),
             "force_move": self._select_val("char", "force_move"),
             "num_loot_columns": int(self._select_val("char", "num_loot_columns")),
             "take_health_potion": float(self._select_val("char", "take_health_potion")),
@@ -189,7 +190,9 @@ class Config:
             "weapon_switch": self._select_val("char", "weapon_switch"),
             "battle_orders": self._select_val("char", "battle_orders"),
             "battle_command": self._select_val("char", "battle_command"),
-            "casting_frames": int(self._select_val("char", "casting_frames")),
+            "extra_casting_frames": int(self._select_val("char", "extra_casting_frames")),
+            "faster_cast_rate": int(self._select_val("char", "faster_cast_rate")),
+            "faster_cast_rate_offhand": int(self._select_val("char", "faster_cast_rate_offhand")),
             "atk_len_arc": float(self._select_val("char", "atk_len_arc")),
             "atk_len_trav": float(self._select_val("char", "atk_len_trav")),
             "atk_len_pindle": float(self._select_val("char", "atk_len_pindle")),
@@ -303,7 +306,6 @@ class Config:
             "window_client_area_offset": tuple(map(int, Config()._select_val("advanced_options", "window_client_area_offset").split(","))),
             "ocr_during_pickit": bool(int(self._select_val("advanced_options", "ocr_during_pickit"))),
             "launch_options": self._select_val("advanced_options", "launch_options").replace("<name>", only_lowercase_letters(self.general["name"].lower())),
-            "override_capabilities": _default_iff(Config()._select_optional("advanced_options", "override_capabilities"), ""),
         }
 
         self.colors = {}

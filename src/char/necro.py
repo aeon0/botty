@@ -7,7 +7,8 @@ from pather import Pather
 from logger import Logger
 from screen import grab, convert_abs_to_monitor, convert_screen_to_abs
 from config import Config
-from utils.misc import wait, rotate_vec, unit_vector
+from utils.misc import wait
+from char.tools import calculations
 import random
 from pather import Location, Pather
 import numpy as np
@@ -150,7 +151,7 @@ class Necro(IChar):
         ''' print counts for summons '''
         Logger.info('\33[31m'+"Summon status | "+str(self._skeletons_count)+"skele | "+str(self._revive_count)+" rev | "+self._golem_count+" |"+'\033[0m')
 
-    def _revive(self, cast_pos_abs: tuple[float, float], spray: int = 10, cast_count: int=12):
+    def _revive(self, cast_pos_abs: tuple[float, float], spray: float = 10, cast_count: int=12):
         Logger.info('\033[94m'+"raise revive"+'\033[0m')
         keyboard.send(Config().char["stand_still"], do_release=False)
         for _ in range(cast_count):
@@ -179,7 +180,7 @@ class Necro(IChar):
             mouse.release(button="right")
         keyboard.send(Config().char["stand_still"], do_press=False)
 
-    def _raise_skeleton(self, cast_pos_abs: tuple[float, float], spray: int = 10, cast_count: int=16):
+    def _raise_skeleton(self, cast_pos_abs: tuple[float, float], spray: float = 10, cast_count: int=16):
         Logger.info('\033[94m'+"raise skeleton"+'\033[0m')
         keyboard.send(Config().char["stand_still"], do_release=False)
         for _ in range(cast_count):
@@ -208,7 +209,7 @@ class Necro(IChar):
             mouse.release(button="right")
         keyboard.send(Config().char["stand_still"], do_press=False)
 
-    def _raise_mage(self, cast_pos_abs: tuple[float, float], spray: int = 10, cast_count: int=16):
+    def _raise_mage(self, cast_pos_abs: tuple[float, float], spray: float = 10, cast_count: int=16):
         Logger.info('\033[94m'+"raise mage"+'\033[0m')
         keyboard.send(Config().char["stand_still"], do_release=False)
         for _ in range(cast_count):
@@ -240,8 +241,7 @@ class Necro(IChar):
 
     def pre_buff(self):
         #only CTA if pre trav
-        if Config().char["cta_available"]:
-            self._pre_buff_cta()
+        self._pre_buff_cta()
         if self._shenk_dead==1:
             Logger.info("trav buff?")
             #self._heart_of_wolverine()
@@ -284,7 +284,7 @@ class Necro(IChar):
 
 
 
-    def _left_attack(self, cast_pos_abs: tuple[float, float], spray: int = 10):
+    def _left_attack(self, cast_pos_abs: tuple[float, float], spray: float = 10):
         keyboard.send(Config().char["stand_still"], do_release=False)
         if self._skill_hotkeys["skill_left"]:
             keyboard.send(self._skill_hotkeys["skill_left"])
@@ -299,7 +299,7 @@ class Necro(IChar):
 
         keyboard.send(Config().char["stand_still"], do_press=False)
 
-    def _left_attack_single(self, cast_pos_abs: tuple[float, float], spray: int = 10, cast_count: int=6):
+    def _left_attack_single(self, cast_pos_abs: tuple[float, float], spray: float = 10, cast_count: int=6):
         keyboard.send(Config().char["stand_still"], do_release=False)
         if self._skill_hotkeys["skill_left"]:
             keyboard.send(self._skill_hotkeys["skill_left"])
@@ -326,7 +326,7 @@ class Necro(IChar):
         wait(0.25, 0.35)
         mouse.release(button="right")
 
-    def _corpse_explosion(self, cast_pos_abs: tuple[float, float], spray: int = 10,cast_count: int = 8):
+    def _corpse_explosion(self, cast_pos_abs: tuple[float, float], spray: float = 10,cast_count: int = 8):
         keyboard.send(Config().char["stand_still"], do_release=False)
         Logger.info('\033[93m'+"corpse explosion~> random cast"+'\033[0m')
         for _ in range(cast_count):
@@ -348,8 +348,8 @@ class Necro(IChar):
         mouse.press(button="right")
 
         for i in range(cast_div):
-            angle = self._lerp(cast_start_angle,cast_end_angle,float(i)/cast_div)
-            target = unit_vector(rotate_vec(cast_dir, angle))
+            angle = calculations.lerp(cast_start_angle,cast_end_angle,float(i)/cast_div)
+            target = calculations.unit_vector(calculations.rotate_vec(cast_dir, angle))
             #Logger.info("current angle ~> "+str(angle))
             for j in range(cast_v_div):
                 circle_pos_abs = get_closest_non_hud_pixel(pos = (target*120.0*float(j+1.0))*offset, pos_type="abs")
@@ -425,12 +425,12 @@ class Necro(IChar):
 
 
             for _ in range(2):
-                corpse_pos = unit_vector(rotate_vec(cast_pos_abs, rot_deg)) * 200
+                corpse_pos = calculations.unit_vector(calculations.rotate_vec(cast_pos_abs, rot_deg)) * 200
                 self._corpse_explosion(pc,40,cast_count=2)
                 rot_deg-=7
             rot_deg=0
             for _ in range(2):
-                corpse_pos = unit_vector(rotate_vec(cast_pos_abs, rot_deg)) * 200
+                corpse_pos = calculations.unit_vector(calculations.rotate_vec(cast_pos_abs, rot_deg)) * 200
                 self._corpse_explosion(pc,40,cast_count=2)
                 rot_deg+=7
 

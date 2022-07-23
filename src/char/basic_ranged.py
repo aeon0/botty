@@ -19,9 +19,8 @@ class Basic_Ranged(IChar):
         Logger.info("Setting up Basic Ranged Character")
         super().__init__(skill_hotkeys)
         self._pather = pather
-        self._do_pre_move = True
 
-    def _left_attack(self, cast_pos_abs: tuple[float, float], delay: tuple[float, float] = (0.2, 0.3), spray: int = 10):
+    def _left_attack(self, cast_pos_abs: tuple[float, float], delay: tuple[float, float] = (0.2, 0.3), spray: float = 10):
         if self._skill_hotkeys["left_attack"]:
             keyboard.send(self._skill_hotkeys["left_attack"])
         for _ in range(4):
@@ -43,8 +42,7 @@ class Basic_Ranged(IChar):
             mouse.click(button="right")
 
     def pre_buff(self):
-        if Config().char["cta_available"]:
-            self._pre_buff_cta()
+        self._pre_buff_cta()
         if self._skill_hotkeys["buff_1"]:
             keyboard.send(self._skill_hotkeys["buff_1"])
             wait(0.5, 0.15)

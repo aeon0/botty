@@ -264,11 +264,12 @@ class Bot:
             view.pickup_corpse()
             wait_until_hidden(ScreenObjects.Corpse)
             belt.fill_up_belt_from_inventory(Config().char["num_loot_columns"])
-        self._char.discover_capabilities()
-        if corpse_present and self._char.capabilities.can_teleport_with_charges and not self._char.select_tp():
+        if self._char.capabilities is None or not self._char.capabilities.can_teleport_natively:
+            self._char.discover_capabilities()
+        if corpse_present and self._char.capabilities.can_teleport_with_charges:
             keybind = Config().char["teleport"]
             Logger.info(f"Teleport keybind is lost upon death. Rebinding teleport to '{keybind}'")
-            self._char.remap_right_skill_hotkey("TELE_ACTIVE", Config().char["teleport"])
+            skills.remap_right_skill_hotkey("TELE_ACTIVE", keybind)
 
         # Run /nopickup command to avoid picking up stuff on accident
         if Config().char["enable_no_pickup"] and (not self._ran_no_pickup and not self._game_stats._nopickup_active):
@@ -301,6 +302,9 @@ class Bot:
             need_inspect |= (self._game_stats._run_counter - 1) % Config().char["runs_per_stash"] == 0
         if need_inspect:
             img = personal.open()
+            # Check which weapon is bound (main vs offhand)
+            if self._char.main_weapon_equipped is None:
+                self._char.main_weapon_equipped = personal.is_main_weapon_active(img)
             # Update TP, ID, key needs
             if self._game_stats._game_counter == 1:
                 self._use_id_tome = common.tome_state(img, 'id')[0] is not None
@@ -368,7 +372,7 @@ class Bot:
         # Check if we are out of tps or need repairing
         need_repair = is_visible(ScreenObjects.NeedRepair)
         need_routine_repair = False if not Config().char["runs_per_repair"] else self._game_stats._run_counter % Config().char["runs_per_repair"] == 0
-        need_refill_teleport = self._char.capabilities.can_teleport_with_charges and (not self._char.select_tp() or self._char.is_low_on_teleport_charges())
+        need_refill_teleport = self._char.capabilities.can_teleport_with_charges and (not self._char.select_teleport() or self._char.is_low_on_teleport_charges())
         if need_repair or need_routine_repair or need_refill_teleport or sell_items:
             if need_repair:
                 Logger.info("Repair needed. Gear is about to break")

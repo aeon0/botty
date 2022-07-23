@@ -939,7 +939,7 @@ NTIPAliasStat["skillpoisonoverridelength"] = 101;
 NTIPAliasStat["itemfasterblockrate"] = 102;	NTIPAliasStat["fbr"] = 102;
 NTIPAliasStat["skillbypassundead"] = 103;
 NTIPAliasStat["skillbypassdemons"] = 104;
-NTIPAliasStat["itemfastercastrate"] = 105;	NTIPAliasStat["fcr"] = 105;
+NTIPAliasStat["itemfastercastrate"] = 105;	NTIPAliasStat["faster_cast_rate"] = 105;
 NTIPAliasStat["skillbypassbeasts"] = 106;
 
 NTIPAliasStat["itemsingleskill"] = 107;

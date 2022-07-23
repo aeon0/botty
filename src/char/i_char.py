@@ -1,84 +1,158 @@
 from typing import Callable
+import keyboard
+import math
 import random
 import time
-import cv2
-import math
-from item import consumables
-import keyboard
-import numpy as np
-from char.capabilities import CharacterCapabilities
-from ui_manager import is_visible, wait_until_visible
-from ui import skills
-from utils.custom_mouse import mouse
-from utils.misc import wait, cut_roi, is_in_roi, color_filter, arc_spread
-from logger import Logger
+from functools import cached_property
+
+from char.tools.capabilities import CharacterCapabilities
+from char.tools.skill_data import get_cast_wait_time
+from char.tools import calculations
 from config import Config
-from screen import grab, convert_monitor_to_screen, convert_screen_to_abs, convert_abs_to_monitor, convert_screen_to_monitor
+from item import consumables
+from logger import Logger
+from screen import grab, convert_monitor_to_screen, convert_screen_to_abs, convert_abs_to_monitor, convert_abs_to_screen
+from ui import skills
+from ui_manager import ScreenObjects, get_closest_non_hud_pixel, is_visible, wait_until_visible
+from utils.custom_mouse import mouse
+from utils.misc import wait, is_in_roi
 import template_finder
-from ui_manager import detect_screen_object, ScreenObjects, get_closest_non_hud_pixel
+from target_detect import get_visible_targets
 
 class IChar:
     _CrossGameCapabilities: None | CharacterCapabilities = None
 
     def __init__(self, skill_hotkeys: dict):
-        self._skill_hotkeys = skill_hotkeys
-        self._last_tp = time.time()
-        # Add a bit to be on the save side
-        self._cast_duration = Config().char["casting_frames"] * 0.04 + 0.01
-        self.damage_scaling = float(Config().char.get("damage_scaling", 1.0))
-        self.capabilities = None
-        self._active_skill = {
-            "left": "",
-            "right": ""
+        self._active_aura = ""
+        self._mouse_click_held = {
+            "left": False,
+            "right": False
         }
+        self._key_held = dict.fromkeys([v[0] for v in keyboard._winkeyboard.official_virtual_keys.values()], False)
+        self._skill_hotkeys = skill_hotkeys
+        self._standing_still = False
+        self.default_move_skill = ""
+        self.damage_scaling = float(Config().char.get("damage_scaling", 1.0))
         self._use_safer_routines = Config().char["safer_routines"]
+        self._base_class = ""
+        self.capabilities = None
+        self.main_weapon_equipped = None
+        self._last_cast_time = 0
+        self._last_cast_skill = ""
+        self._current_fcr = Config().char["faster_cast_rate"]
 
-    def _set_active_skill(self, mouse_click_type: str = "left", skill: str =""):
-        self._active_skill[mouse_click_type] = skill
+    """
+    MOUSE AND KEYBOARD METHODS
+    """
 
-    def _select_skill(self, skill: str, mouse_click_type: str = "left", delay: float | list | tuple = None):
+    @staticmethod
+    def _handle_delay(delay: float | list | tuple | None = None):
+        if delay is None:
+            return
+        if isinstance(delay, (list, tuple)):
+            wait(*delay)
+        else:
+            try:
+                wait(delay)
+            except Exception as e:
+                Logger.warning(f"Failed to delay with delay: {delay}. Exception: {e}")
+
+    def _key_press(self, key: str, hold_time: float | list | tuple | None = 0.04):
+        self._key_held[key] = True
+        keyboard.send(key, do_release=False)
+        self._handle_delay(hold_time)
+        keyboard.send(key, do_press=False)
+        Logger.debug(f"Pressed key: {key} for {hold_time}s at {round(time.time(),3)}")
+        self._key_held[key] = False
+
+    def _key_hold(self, key: str, enable: bool = True):
+        if enable and not self._key_held[key]:
+            self._key_held[key] = True
+            keyboard.send(key, do_release=False)
+        elif not enable:
+            self._key_held[key] = False
+            keyboard.send(key, do_press=False)
+
+    def _click(self, mouse_click_type: str = "left", hold_time: float | list | tuple | None = None):
+        if not hold_time:
+            mouse.click(button = mouse_click_type)
+        else:
+            mouse.press(button = mouse_click_type)
+            self._handle_delay(hold_time)
+            mouse.release(button = mouse_click_type)
+
+    def _click_hold(self, mouse_click_type: str = "left", enable: bool = True):
+        if enable:
+            if not self._mouse_click_held[mouse_click_type]:
+                self._mouse_click_held[mouse_click_type] = True
+                mouse.press(button = mouse_click_type)
+        else:
+            if self._mouse_click_held[mouse_click_type]:
+                self._mouse_click_held[mouse_click_type] = False
+                mouse.release(button = mouse_click_type)
+
+    def _click_left(self, hold_time: float | list | tuple | None = None):
+        self._click("left", hold_time = hold_time)
+
+    def _click_right(self, hold_time: float | list | tuple | None = None):
+        self._click("right", hold_time = hold_time)
+
+    def _get_hotkey(self, skill: str) -> str | None:
         if not (
-            skill in self._skill_hotkeys and (hotkey := self._skill_hotkeys[skill])
+            (skill in self._skill_hotkeys and (hotkey := self._skill_hotkeys[skill]))
             or (skill in Config().char and (hotkey := Config().char[skill]))
         ):
-            Logger.warning(f"No hotkey for skill: {skill}")
-            self._set_active_skill(mouse_click_type, "")
-            return False
+            # Logger.warning(f"No hotkey for skill: {skill}")
+            return None
+        return hotkey
 
-        if self._active_skill[mouse_click_type] != skill:
-            keyboard.send(hotkey)
-        self._set_active_skill(mouse_click_type, skill)
-        if delay:
-            try:
-                wait(*delay)
-            except:
-                try:
-                    wait(delay)
-                except Exception as e:
-                    Logger.warning(f"_select_skill: Failed to delay with delay: {delay}. Exception: {e}")
-        return True
+    """
+    CAPABILITIES METHODS
+    """
+
+    def _get_teleport_type(self) -> str:
+        """
+        1. player can teleport natively
+            a. and has teleport bound and is visible
+            b. and does not have teleport hotkey bound
+        2. player can teleport with charges
+            a. and has teleport bound and is visible
+            b. and does not have teleport hotkey bound
+            c. and has run out of teleport charges
+        3. player can't teleport
+        """
+
+        # 3. player can't teleport
+        if Config().char["use_charged_teleport"] and not self._get_hotkey("teleport"):
+            Logger.error("No hotkey for teleport even though param.ini 'use_charged_teleport' is set to True")
+            return "walk"
+        if not self._get_hotkey("teleport"):
+            return "walk"
+        # 2. player can teleport with charges
+        if Config().char["use_charged_teleport"]:
+            if not skills.is_skill_bound(["BAR_TP_ACTIVE", "BAR_TP_INACTIVE"]):
+                # 2c.
+                Logger.debug("can_teleport: player can teleport with charges, but has no teleport bound. Likely needs repair.")
+            # 2a.
+            return "charges"
+        # 1. player can teleport natively
+        if not Config().char["use_charged_teleport"] and skills.is_skill_bound(["BAR_TP_ACTIVE", "BAR_TP_INACTIVE"]):
+            return "native"
+        return "walk"
+
+    @staticmethod
+    def _teleport_active():
+        return skills.is_teleport_active()
+
+    def can_teleport(self):
+        return (self.capabilities.can_teleport_natively or self.capabilities.can_teleport_with_charges) and self._teleport_active()
 
     def _discover_capabilities(self) -> CharacterCapabilities:
-        override = Config().advanced_options["override_capabilities"]
-        if override is None:
-            if Config().char["teleport"]:
-                if self.select_tp():
-                    if self.skill_is_charged():
-                        return CharacterCapabilities(can_teleport_natively=False, can_teleport_with_charges=True)
-                    else:
-                        return CharacterCapabilities(can_teleport_natively=True, can_teleport_with_charges=False)
-                return CharacterCapabilities(can_teleport_natively=False, can_teleport_with_charges=True)
-            else:
-                return CharacterCapabilities(can_teleport_natively=False, can_teleport_with_charges=False)
-        else:
-            Logger.debug(f"override_capabilities is set to {override}")
-            return CharacterCapabilities(
-                can_teleport_natively="can_teleport_natively" in override,
-                can_teleport_with_charges="can_teleport_with_charges" in override
-            )
+        type = self._get_teleport_type()
+        return CharacterCapabilities(can_teleport_natively=(type == "native"), can_teleport_with_charges=(type == "charges"))
 
-    def discover_capabilities(self, force = False):
-        if IChar._CrossGameCapabilities is None or force:
+    def discover_capabilities(self):
+        if IChar._CrossGameCapabilities is None:
             capabilities = self._discover_capabilities()
             self.capabilities = capabilities
         Logger.info(f"Capabilities: {self.capabilities}")
@@ -87,12 +161,353 @@ class IChar:
     def on_capabilities_discovered(self, capabilities: CharacterCapabilities):
         pass
 
-    def pick_up_item(self, pos: tuple[float, float], item_name: str = None, prev_cast_start: float = 0):
-        mouse.move(pos[0], pos[1])
-        time.sleep(0.1)
-        mouse.click(button="left")
-        wait(0.25, 0.3)
+    """
+    SKILL / CASTING METHODS
+    """
+
+    @staticmethod
+    def _log_cast(skill_name: str, cast_pos_abs: tuple[float, float], spray: float, spread_deg: float, min_duration: float, max_duration: float, aura: str):
+        msg = f"Casting skill {skill_name}"
+        if cast_pos_abs:
+            msg += f" at screen coordinate {convert_abs_to_screen(cast_pos_abs)}"
+        if spray:
+            msg += f" with spray of {spray}"
+        if spread_deg:
+            msg += f" with spread of {spread_deg}"
+        if min_duration or max_duration:
+            msg += f" for "
+        if min_duration:
+            msg += f"{round(min_duration, 1)}"
+        if min_duration and max_duration:
+            msg += f" to "
+        if max_duration:
+            msg += f"{round(min_duration, 1)}"
+        if min_duration or max_duration:
+            msg += f" sec"
+        if aura:
+            msg += f" with {aura} active"
+        Logger.debug(msg)
+
+    def _randomize_position(self, pos_abs: tuple[float, float], spray: float = 0, spread_deg: float = 0) -> tuple[int, int]:
+        if spread_deg:
+            pos_abs = calculations.spread(pos_abs = pos_abs, spread_deg = spread_deg)
+        if spray:
+            pos_abs = calculations.spray(pos_abs = pos_abs, r = spray)
+        return get_closest_non_hud_pixel(pos_abs, "abs")
+
+    def _wait_for_cooldown(self):
+        min_wait = get_cast_wait_time(class_base = self._base_class, skill_name = self._last_cast_skill, fcr = self._current_fcr)
+        # if there's still time remaining in cooldown, wait
+        while (time.time() - self._last_cast_time) < (min_wait):
+            wait(0.02)
+
+    def _send_skill(self, skill_name: str, cooldown: bool = True, hold_time: float | list | tuple | None = None):
+        if cooldown:
+            self._wait_for_cooldown()
+        self._key_press(self._get_hotkey(skill_name), hold_time = hold_time)
+        self._last_cast_time = time.time()
+        self._last_cast_skill = skill_name
+
+    def _activate_aura(self, skill_name: str, delay: float | list | tuple | None = (0.04, 0.08)):
+        if not self._get_hotkey(skill_name):
+            return False
+        if self._active_aura != skill_name: # if aura is already active, don't activate it again
+            self._active_aura = skill_name
+            Logger.debug(f"Switch to aura {skill_name}")
+            self._send_skill(skill_name = skill_name, cooldown = True, hold_time = delay)
+        return True
+
+    def _cast_simple(self, skill_name: str, duration: float | list | tuple | None = None, cooldown = True) -> bool:
+        """
+        Casts a skill
+        """
+        if not (hotkey := self._get_hotkey(skill_name)):
+            return False
+        if not self._key_held[hotkey]: # if skill is already active, don't activate it again
+            if not duration:
+                self._send_skill(skill_name = skill_name, cooldown = cooldown)
+            else:
+                self._stand_still(True)
+                self._send_skill(skill_name = skill_name, cooldown = cooldown, hold_time = duration)
+                self._stand_still(False)
+        return True
+
+    def _cast_at_position(
+        self,
+        skill_name: str,
+        cast_pos_abs: tuple[float, float] = (0, 0),
+        spray: float = 0,
+        spread_deg: float = 0,
+        min_duration: float = 0,
+        max_duration: float = 0,
+        teleport_frequency: float = 0,
+        use_target_detect = False,
+        aura: str = None,
+    ) -> bool:
+        """
+        Casts a skill toward a given target.
+        :param skill_name: name of skill to cast
+        :param cast_pos_abs: default absolute position to cast at. Defaults to origin (0, 0)
+        :param spray: apply randomization within circle of radius 'spray' centered at cast_pos_abs
+        :param spread_deg: apply randomization of cast position distributed along arc between theta of spread_deg
+        :param min_duration: hold down skill key for minimum 'duration' seconds
+        :param max_duration: hold down skill key for maximum 'duration' seconds
+        :param teleport_frequency: teleport to origin every 'teleport_frequency' seconds
+        :param use_target_detect: override cast_pos_abs with closest target position
+        :param aura: name of aura to attempt to keep active while casting
+        :return: True if function finished, False otherwise
+        """
+        if not self._get_hotkey(skill_name):
+            return False
+        self._log_cast(skill_name, cast_pos_abs, spray, spread_deg, min_duration, max_duration, aura)
+        if aura:
+            self._activate_aura(aura)
+
+        mouse_move_delay = [0.4, 0.6]
+        if min_duration > max_duration:
+            max_duration = min_duration
+
+        if max_duration:
+            self._stand_still(True)
+            start = time_of_last_tp = time.perf_counter()
+            # cast while time is less than max duration
+            while (elapsed_time := time.perf_counter() - start) < max_duration:
+                targets = None
+                # if target detection is enabled, use it to get target position
+                if use_target_detect:
+                    targets = get_visible_targets()
+                    pos_abs = targets[0].center_abs
+                    pos_abs = self._randomize_position(pos_abs = pos_abs, spray = 5, spread_deg = 0)
+                # otherwise, use the given position with randomization parameters
+                else:
+                    pos_abs = self._randomize_position(pos_abs = cast_pos_abs, spray = spray, spread_deg = spread_deg)
+                pos_m = convert_abs_to_monitor(pos_abs)
+                mouse.move(*pos_m, delay_factor=mouse_move_delay)
+                # start keyhold, if not already started
+                self._key_hold(self._get_hotkey(skill_name), True)
+                # if teleport frequency is set, teleport every teleport_frequency seconds
+                if teleport_frequency and (elapsed_time - time_of_last_tp) >= teleport_frequency:
+                    self._key_hold(self._get_hotkey(skill_name), False)
+                    wait(0.04, 0.08)
+                    self._teleport_to_origin()
+                    time_of_last_tp = elapsed_time
+                # if target detection is enabled and minimum time has elapsed and no targets remain, end casting
+                if use_target_detect and (elapsed_time > min_duration) and not targets:
+                    break
+            self._key_hold(self._get_hotkey(skill_name), False)
+            self._last_cast_time = time.time()
+            self._last_cast_skill = skill_name
+            self._stand_still(False)
+        else:
+            random_abs = self._randomize_position(pos_abs = cast_pos_abs, spray = spray, spread_deg = spread_deg)
+            pos_m = convert_abs_to_monitor(random_abs)
+            mouse.move(*pos_m, delay_factor = [x/2 for x in mouse_move_delay])
+            self._cast_simple(skill_name)
+
+        return True
+
+    """
+    TODO: Update this fn
+
+    def _cast_in_arc(self, skill_name: str, cast_pos_abs: tuple[float, float] = [0,-100], time_in_s: float = 3, spread_deg: float = 10, hold=True):
+        #scale cast time by damage_scaling
+        time_in_s *= self.damage_scaling
+        Logger.debug(f'Casting {skill_name} for {time_in_s:.02f}s at {cast_pos_abs} with {spread_deg}°')
+        if not self._skill_hotkeys[skill_name]:
+            raise ValueError(f"You did not set {skill_name} hotkey!")
+        self._stand_still(True)
+
+        target = convert_abs_to_monitor(calculations.arc_spread(cast_pos_abs, spread_deg=spread_deg))
+        mouse.move(*target,delay_factor=[0.95, 1.05])
+        if hold:
+            self._hold_click("right", True)
+        start = time.time()
+        while (time.time() - start) < time_in_s:
+            target = convert_abs_to_monitor(calculations.arc_spread(cast_pos_abs, spread_deg=spread_deg))
+            if hold:
+                mouse.move(*target, delay_factor=[3, 8])
+            if not hold:
+                mouse.move(*target, delay_factor=[.2, .4])
+                self._click_right(0.04)
+                wait(self._cast_duration, self._cast_duration)
+
+        if hold:
+            self._hold_click("right", False)
+        self._stand_still(False)
+    """
+
+    """
+    GLOBAL SKILLS
+    """
+
+    def _cast_teleport(self, cooldown: bool = True) -> bool:
+        return self._cast_simple(skill_name="teleport", cooldown=cooldown)
+
+    def _cast_battle_orders(self) -> bool:
+        return self._cast_simple(skill_name="battle_orders")
+
+    def _cast_battle_command(self) -> bool:
+        return self._cast_simple(skill_name="battle_command")
+
+    def _cast_town_portal(self) -> bool:
+        if res := self._cast_simple(skill_name="town_portal"):
+            consumables.increment_need("tp", 1)
+        return res
+
+    """
+    CHARACTER ACTIONS AND MOVEMENT METHODS
+    """
+
+    def _weapon_switch(self):
+        if self.main_weapon_equipped is not None:
+            self.main_weapon_equipped = not self.main_weapon_equipped
+            equipped = "main" if self.main_weapon_equipped else "offhand"
+            Logger.debug(f"Switch to {equipped} weapon")
+        return self._send_skill("weapon_switch", cooldown=True)
+
+    def _switch_to_main_weapon(self):
+        if self.main_weapon_equipped == False:
+            self._current_fcr = Config().char["faster_cast_rate"]
+            self._weapon_switch()
+            wait(0.04, 0.08)
+
+    def _switch_to_offhand_weapon(self):
+        if self.main_weapon_equipped:
+            self._current_fcr = Config().char["faster_cast_rate_offhand"]
+            self._weapon_switch()
+            wait(0.04, 0.08)
+
+    def _force_move(self):
+        self._send_skill("force_move", cooldown=False)
+
+    def _stand_still(self, enable: bool):
+        if enable and not self._standing_still:
+            keyboard.send(self._get_hotkey("stand_still"), do_release=False)
+            self._standing_still = True
+        elif not enable and self._standing_still:
+            keyboard.send(self._get_hotkey("stand_still"), do_press=False)
+            self._standing_still = False
+
+    def pick_up_item(self, pos: tuple[float, float], item_name: str = None, prev_cast_start: float = 0) -> float:
+        mouse.move(*pos)
+        self._click_left()
+        wait(0.25, 0.35)
         return prev_cast_start
+
+    def pre_move(self):
+        pass
+
+    def _teleport_to_origin(self):
+        random_abs = self._randomize_position(pos_abs = (0,0), spray = 5)
+        pos_m = convert_abs_to_monitor(random_abs)
+        self._teleport_to_position(pos_monitor = pos_m)
+
+    def _teleport_to_position(self, pos_monitor: tuple[float, float]):
+        factor = Config().advanced_options["pathing_delay_factor"]
+        mouse.move(*pos_monitor, randomize=3, delay_factor=[(1+factor)/25, (2+factor)/25])
+        wait(0.04)
+        self._cast_teleport()
+
+    def _walk_to_position(self, pos_monitor: tuple[float, float], force_move: bool = False):
+        factor = Config().advanced_options["pathing_delay_factor"]
+        # in case we want to walk we actually want to move a bit before the point cause d2r will always "overwalk"
+        pos_screen = convert_monitor_to_screen(pos_monitor)
+        pos_abs = convert_screen_to_abs(pos_screen)
+        dist = math.dist(pos_abs, (0, 0))
+        min_wd = max(10, Config().ui_pos["min_walk_dist"])
+        max_wd = random.randint(int(Config().ui_pos["max_walk_dist"] * 0.65), Config().ui_pos["max_walk_dist"])
+        adjust_factor = max(max_wd, min(min_wd, dist - 50)) / max(min_wd, dist)
+        pos_abs = [int(pos_abs[0] * adjust_factor), int(pos_abs[1] * adjust_factor)]
+        x, y = convert_abs_to_monitor(pos_abs)
+        mouse.move(x, y, randomize=3, delay_factor=[(2+factor)/25, (4+factor)/25])
+        wait(0.012, 0.02)
+        if force_move:
+            self._force_move()
+        else:
+            self._click_left()
+
+    def move(
+        self,
+        pos_monitor: tuple[float, float],
+        use_tp: bool = False,
+        force_move: bool = False,
+    ) -> float:
+        """
+        Moves character to position.
+        :param pos_monitor: Position to move to (screen coordinates)
+        :param use_tp: Use teleport if able to
+        :param force_move: Use force_move hotkey to move if not teleporting
+        :return: Time of move completed.
+        """
+        if use_tp and self.can_teleport(): # can_teleport() activates teleport hotkey if True
+            self._teleport_to_position(pos_monitor)
+        else:
+            self._walk_to_position(pos_monitor = pos_monitor, force_move=force_move)
+        return time.time()
+
+    def tp_town(self) -> bool:
+        # will check if tp is available and select the skill
+        if not skills.has_tps():
+            pos_m = convert_abs_to_monitor((0, Config().ui_pos["screen_height"]/2 - 5))
+            mouse.move(*pos_m)
+            if not skills.has_tps():
+                return False
+        self._cast_town_portal()
+        roi_mouse_move = [
+            round(Config().ui_pos["screen_width"] * 0.3),
+            0,
+            round(Config().ui_pos["screen_width"] * 0.4),
+            round(Config().ui_pos["screen_height"] * 0.7)
+        ]
+        start = time.time()
+        retry_count = 0
+        while (time.time() - start) < 8:
+            if time.time() - start > 3.7 and retry_count == 0:
+                retry_count += 1
+                Logger.debug("Move to another position and try to open tp again")
+                pos_m = convert_abs_to_monitor((random.randint(-70, 70), random.randint(-70, 70)))
+                self.pre_move()
+                self.move(pos_m)
+                if skills.has_tps():
+                    self._cast_town_portal()
+                else:
+                    pos_m = convert_abs_to_monitor((0, Config().ui_pos["screen_height"]/2 - 5))
+                    mouse.move(*pos_m)
+                    if skills.has_tps():
+                        self._cast_town_portal()
+                    else:
+                        return False
+            if (template_match := wait_until_visible(ScreenObjects.TownPortal, timeout=3)).valid:
+                pos = template_match.center_monitor
+                pos = (pos[0], pos[1] + 30)
+                # Note: Template is top of portal, thus move the y-position a bit to the bottom
+                mouse.move(*pos, randomize=6, delay_factor=[0.4, 0.6])
+                self._click_left()
+                if wait_until_visible(ScreenObjects.Loading, 2).valid:
+                    return True
+            # move mouse away to not overlay with the town portal if mouse is in center
+            pos_screen = convert_monitor_to_screen(mouse.get_position())
+            if is_in_roi(roi_mouse_move, pos_screen):
+                pos_away = convert_abs_to_monitor((-167, -30))
+                mouse.move(*pos_away, randomize=40, delay_factor=[0.8, 1.4])
+        return False
+
+    def _pre_buff_cta(self) -> bool:
+        if not self._get_hotkey("cta_available"):
+            return False
+        if self.main_weapon_equipped:
+            self._switch_to_offhand_weapon()
+        self._cast_battle_command()
+        self._cast_battle_orders()
+        self._wait_for_cooldown()
+        self._switch_to_main_weapon()
+
+    def pre_buff(self):
+        pass
+
+    """
+    OTHER METHODS
+    """
 
     def select_by_template(
         self,
@@ -121,7 +536,7 @@ class IChar:
                 Logger.debug(f"Select {template_match.name} ({template_match.score*100:.1f}% confidence)")
                 mouse.move(*template_match.center_monitor)
                 wait(0.2, 0.3)
-                mouse.click(button="left")
+                self._click_left()
                 # check the successfunction for 2 sec, if not found, try again
                 check_success_start = time.time()
                 while time.time() - check_success_start < 2:
@@ -130,224 +545,9 @@ class IChar:
         Logger.error(f"Wanted to select {template_type}, but could not find it")
         return False
 
-    def skill_is_charged(self, img: np.ndarray = None) -> bool:
-        if img is None:
-            img = grab()
-        skill_img = cut_roi(img, Config().ui_roi["skill_right"])
-        charge_mask, _ = color_filter(skill_img, Config().colors["blue"])
-        if np.sum(charge_mask) > 0:
-            return True
-        return False
-
-    def is_low_on_teleport_charges(self):
-        img = grab()
-        charges_remaining = skills.get_skill_charges(img)
-        if charges_remaining:
-            Logger.debug(f"{charges_remaining} teleport charges remain")
-            return charges_remaining <= 3
-        else:
-            charges_present = self.skill_is_charged(img)
-            if charges_present:
-                Logger.error("is_low_on_teleport_charges: unable to determine skill charges, assume zero")
-            return True
-
-    def _remap_skill_hotkey(self, skill_asset, hotkey, skill_roi, expanded_skill_roi):
-        x, y, w, h = skill_roi
-        x, y = convert_screen_to_monitor((x, y))
-        mouse.move(x + w/2, y + h / 2)
-        mouse.click("left")
-        wait(0.3)
-        match = template_finder.search(skill_asset, grab(), threshold=0.84, roi=expanded_skill_roi)
-        if match.valid:
-            mouse.move(*match.center_monitor)
-            wait(0.3)
-            keyboard.send(hotkey)
-            wait(0.3)
-            mouse.click("left")
-            wait(0.3)
-
-    def remap_right_skill_hotkey(self, skill_asset, hotkey):
-        return self._remap_skill_hotkey(skill_asset, hotkey, Config().ui_roi["skill_right"], Config().ui_roi["skill_right_expanded"])
-
-    def select_tp(self):
-        return skills.select_tp(Config().char["teleport"])
-
-    def pre_move(self):
-        # if teleport hotkey is set and if teleport is not already selected
-        if self.capabilities.can_teleport_natively:
-            self.select_tp()
-            self._set_active_skill("right", "teleport")
-
-    def move(self, pos_monitor: tuple[float, float], force_tp: bool = False, force_move: bool = False):
-        factor = Config().advanced_options["pathing_delay_factor"]
-        if "teleport" in Config().char and Config().char["teleport"] and (
-            force_tp
-            or (
-                skills.is_right_skill_selected(["TELE_ACTIVE"])
-                and skills.is_right_skill_active()
-            )
-        ):
-            self._set_active_skill("right", "teleport")
-            mouse.move(pos_monitor[0], pos_monitor[1], randomize=3, delay_factor=[factor*0.1, factor*0.14])
-            wait(0.012, 0.02)
-            mouse.click(button="right")
-            wait(self._cast_duration, self._cast_duration + 0.02)
-        else:
-            # in case we want to walk we actually want to move a bit before the point cause d2r will always "overwalk"
-            pos_screen = convert_monitor_to_screen(pos_monitor)
-            pos_abs = convert_screen_to_abs(pos_screen)
-            dist = math.dist(pos_abs, (0, 0))
-            min_wd = max(10, Config().ui_pos["min_walk_dist"])
-            max_wd = random.randint(int(Config().ui_pos["max_walk_dist"] * 0.65), Config().ui_pos["max_walk_dist"])
-            adjust_factor = max(max_wd, min(min_wd, dist - 50)) / max(min_wd, dist)
-            pos_abs = [int(pos_abs[0] * adjust_factor), int(pos_abs[1] * adjust_factor)]
-            x, y = convert_abs_to_monitor(pos_abs)
-            mouse.move(x, y, randomize=5, delay_factor=[factor*0.1, factor*0.14])
-            wait(0.012, 0.02)
-            if force_move:
-                keyboard.send(Config().char["force_move"])
-            else:
-                mouse.click(button="left")
-
-    def walk(self, pos_monitor: tuple[float, float], force_tp: bool = False, force_move: bool = False):
-        factor = Config().advanced_options["pathing_delay_factor"]
-            # in case we want to walk we actually want to move a bit before the point cause d2r will always "overwalk"
-        pos_screen = convert_monitor_to_screen(pos_monitor)
-        pos_abs = convert_screen_to_abs(pos_screen)
-        dist = math.dist(pos_abs, (0, 0))
-        min_wd = max(10, Config().ui_pos["min_walk_dist"])
-        max_wd = random.randint(int(Config().ui_pos["max_walk_dist"] * 0.65), Config().ui_pos["max_walk_dist"])
-        adjust_factor = max(max_wd, min(min_wd, dist - 50)) / max(min_wd, dist)
-        pos_abs = [int(pos_abs[0] * adjust_factor), int(pos_abs[1] * adjust_factor)]
-        x, y = convert_abs_to_monitor(pos_abs)
-        mouse.move(x, y, randomize=5, delay_factor=[factor*0.1, factor*0.14])
-        wait(0.012, 0.02)
-        if force_move:
-            keyboard.send(Config().char["force_move"])
-        else:
-            mouse.click(button="left")
-
-    def tp_town(self):
-        # will check if tp is available and select the skill
-        if not skills.has_tps():
-            return False
-        mouse.click(button="right")
-        consumables.increment_need("tp", 1)
-        roi_mouse_move = [
-            int(Config().ui_pos["screen_width"] * 0.3),
-            0,
-            int(Config().ui_pos["screen_width"] * 0.4),
-            int(Config().ui_pos["screen_height"] * 0.7)
-        ]
-        pos_away = convert_abs_to_monitor((-167, -30))
-        wait(0.8, 1.3) # takes quite a while for tp to be visible
-        start = time.time()
-        retry_count = 0
-        while (time.time() - start) < 8:
-            if time.time() - start > 3.7 and retry_count == 0:
-                retry_count += 1
-                Logger.debug("Move to another position and try to open tp again")
-                pos_m = convert_abs_to_monitor((random.randint(-70, 70), random.randint(-70, 70)))
-                self.pre_move()
-                self.move(pos_m)
-                if skills.has_tps():
-                    mouse.click(button="right")
-                    consumables.increment_need("tp", 1)
-                wait(0.8, 1.3) # takes quite a while for tp to be visible
-            if (template_match := detect_screen_object(ScreenObjects.TownPortal)).valid:
-                pos = template_match.center_monitor
-                pos = (pos[0], pos[1] + 30)
-                # Note: Template is top of portal, thus move the y-position a bit to the bottom
-                mouse.move(*pos, randomize=6, delay_factor=[0.9, 1.1])
-                wait(0.08, 0.15)
-                mouse.click(button="left")
-                if wait_until_visible(ScreenObjects.Loading, 2).valid:
-                    return True
-            # move mouse away to not overlay with the town portal if mouse is in center
-            pos_screen = convert_monitor_to_screen(mouse.get_position())
-            if is_in_roi(roi_mouse_move, pos_screen):
-                mouse.move(*pos_away, randomize=40, delay_factor=[0.8, 1.4])
-        return False
-
-    def _pre_buff_cta(self):
-        # Save current skill img
-        skill_before = cut_roi(grab(), Config().ui_roi["skill_right"])
-        # Try to switch weapons and select bo until we find the skill on the right skill slot
-        start = time.time()
-        switch_sucess = False
-        while time.time() - start < 4:
-            keyboard.send(Config().char["weapon_switch"])
-            wait(0.3, 0.35)
-            self._select_skill(skill = "battle_command", mouse_click_type="right", delay=(0.1, 0.2))
-            if skills.is_right_skill_selected(["BC", "BO"]):
-                switch_sucess = True
-                break
-
-        if not switch_sucess:
-            Logger.warning("You dont have Battle Command bound, or you do not have CTA. ending CTA buff")
-            Config().char["cta_available"] = 0
-        else:
-            # We switched succesfully, let's pre buff
-            mouse.click(button="right")
-            wait(self._cast_duration + 0.16, self._cast_duration + 0.18)
-            self._select_skill(skill = "battle_orders", mouse_click_type="right", delay=(0.1, 0.2))
-            mouse.click(button="right")
-            wait(self._cast_duration + 0.16, self._cast_duration + 0.18)
-
-        # Make sure the switch back to the original weapon is good
-        start = time.time()
-        while time.time() - start < 4:
-            keyboard.send(Config().char["weapon_switch"])
-            wait(0.3, 0.35)
-            skill_after = cut_roi(grab(), Config().ui_roi["skill_right"])
-            _, max_val, _, _ = cv2.minMaxLoc(cv2.matchTemplate(skill_after, skill_before, cv2.TM_CCOEFF_NORMED))
-            if max_val > 0.9:
-                break
-            else:
-                Logger.warning("Failed to switch weapon, try again")
-                wait(0.5)
-
-
-    def vec_to_monitor(self, target):
-        circle_pos_abs = get_closest_non_hud_pixel(pos = target, pos_type="abs")
-        return convert_abs_to_monitor(circle_pos_abs)
-
-    def _lerp(self,a: float,b: float, f:float):
-        return a + f * (b - a)
-
-    def cast_in_arc(self, ability: str, cast_pos_abs: tuple[float, float] = [0,-100], time_in_s: float = 3, spread_deg: float = 10, hold=True):
-        #scale cast time by damage_scaling
-        time_in_s *= self.damage_scaling
-        Logger.debug(f'Casting {ability} for {time_in_s:.02f}s at {cast_pos_abs} with {spread_deg}°')
-        if not self._skill_hotkeys[ability]:
-            raise ValueError(f"You did not set {ability} hotkey!")
-        keyboard.send(Config().char["stand_still"], do_release=False)
-        self._select_skill(skill = ability, mouse_click_type="right", delay=(0.02, 0.08))
-
-        target = self.vec_to_monitor(arc_spread(cast_pos_abs, spread_deg=spread_deg))
-        mouse.move(*target,delay_factor=[0.95, 1.05])
-        if hold:
-            mouse.press(button="right")
-        start = time.time()
-        while (time.time() - start) < time_in_s:
-            target = self.vec_to_monitor(arc_spread(cast_pos_abs, spread_deg=spread_deg))
-            if hold:
-                mouse.move(*target,delay_factor=[3, 8])
-            if not hold:
-                mouse.move(*target,delay_factor=[.2, .4])
-                wait(0.02, 0.04)
-                mouse.press(button="right")
-                wait(0.02, 0.06)
-                mouse.release(button="right")
-                wait(self._cast_duration, self._cast_duration)
-
-        if hold:
-            mouse.release(button="right")
-        keyboard.send(Config().char["stand_still"], do_press=False)
-
-
-    def pre_buff(self):
-        pass
+    """
+    KILL ROUTINES
+    """
 
     def kill_pindle(self) -> bool:
         raise ValueError("Pindle is not implemented!")

@@ -52,8 +52,8 @@ class Trav:
         wait(0.2, 0.3)
         # If we can teleport we want to move back inside and also check loot there
         if self._char.capabilities.can_teleport_natively or self._char.capabilities.can_teleport_with_charges:
-            if not self._pather.traverse_nodes([229], self._char, timeout=2.5, use_tp_charge=self._char.capabilities.can_teleport_natively):
-                self._pather.traverse_nodes([228, 229], self._char, timeout=2.5, use_tp_charge=True)
+            if not self._pather.traverse_nodes([229], self._char, timeout=2.5, force_tp=self._char.capabilities.can_teleport_natively):
+                self._pather.traverse_nodes([228, 229], self._char, timeout=2.5, force_tp=True)
             picked_up_items |= self._pickit.pick_up_items(self._char)
         # If travincal run is not the last run
         if self.name != self._runs[-1]:

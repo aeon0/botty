@@ -6,14 +6,13 @@ import random
 import cv2
 import numpy as np
 from utils.custom_mouse import mouse
-from utils.misc import wait # for stash/shrine tele cancel detection in traverse node
-from utils.misc import is_in_roi
+from utils.misc import wait, image_diff
 from config import Config
 from logger import Logger
 from screen import convert_screen_to_monitor, convert_abs_to_screen, convert_abs_to_monitor, convert_screen_to_abs, grab, stop_detecting_window
 import template_finder
 from char import IChar
-from ui_manager import detect_screen_object, ScreenObjects, is_visible, select_screen_object_match, get_closest_non_hud_pixel
+from ui_manager import detect_screen_object, ScreenObjects, get_hud_mask, is_visible, select_screen_object_match, get_closest_non_hud_pixel
 
 class Location:
     # A5 Town
@@ -93,6 +92,12 @@ class Pather:
     def __init__(self):
         self._range_x = [-Config().ui_pos["center_x"] + 7, Config().ui_pos["center_x"] - 7]
         self._range_y = [-Config().ui_pos["center_y"] + 7, Config().ui_pos["center_y"] - Config().ui_pos["skill_bar_height"] - 33]
+        self._roi_middle_half = [round(x) for x in [
+            Config().ui_pos["screen_width"]/4,
+            Config().ui_pos["screen_height"]/4,
+            Config().ui_pos["screen_width"]/2,
+            Config().ui_pos["screen_height"]/2
+        ]]
         self._nodes = {
             # A5 town
             0: {'A5_TOWN_0': (27, 249), 'A5_TOWN_1': (-92, -137), 'A5_TOWN_11': (-313, -177)},
@@ -500,8 +505,29 @@ class Pather:
     def _convert_rel_to_abs(rel_loc: tuple[float, float], pos_abs: tuple[float, float]) -> tuple[float, float]:
         return (rel_loc[0] + pos_abs[0], rel_loc[1] + pos_abs[1])
 
-    def traverse_nodes_fixed(self, key: str | list[tuple[float, float]], char: IChar) -> bool:
-        if not char.capabilities.can_teleport_natively:
+    @staticmethod
+    def _wait_for_screen_update(img_pre: np.ndarray, roi: list = None, timeout: float = 1.5, score_threshold: float = 0.15) -> tuple[np.ndarray, float, bool]:
+        """
+        Waits for the screen to update.
+        :param img_pre: Image before the update
+        :param roi: Region of interest to be checked. If None, the whole screen is checked.
+        :param timeout: Timeout in seconds.
+        :param score_threshold: Threshold for the score. If the score is below this threshold, assume the screen has not updated.
+        :return: The image after the update, the score, and a boolean indicating if successful.
+        """
+        start = time.perf_counter()
+        success = True
+        while (score := image_diff(img_pre, (img_post := grab(force_new = True)), roi = roi)) < score_threshold:
+            wait(0.02)
+            if (time.perf_counter() - start) > timeout:
+                success=False
+                break
+        # print(f"spent {time.perf_counter() - start} seconds waiting for window change")
+        return img_post, score, success
+
+    def traverse_nodes_fixed(self, key: str | list[tuple[float, float]], char: IChar, require_teleport: bool = False) -> bool:
+        # this will check if character can teleport. for charged or native teleporters, it'll select teleport
+        if require_teleport and not (char.capabilities.can_teleport_natively and char.can_teleport()):
             error_msg = "Teleport is required for static pathing"
             Logger.error(error_msg)
             raise ValueError(error_msg)
@@ -516,15 +542,9 @@ class Pather:
             x_m, y_m = convert_screen_to_monitor(path[i])
             x_m += int(random.random() * 6 - 3)
             y_m += int(random.random() * 6 - 3)
-            t0 = grab(force_new=True)
-            char.move((x_m, y_m))
-            t1 = grab(force_new=True)
-            # check difference between the two frames to determine if tele was good or not
-            diff = cv2.absdiff(t0, t1)
-            diff = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
-            _, mask = cv2.threshold(diff, 13, 255, cv2.THRESH_BINARY)
-            score = (float(np.sum(mask)) / mask.size) * (1/255.0)
-            if score > 0.15:
+            char.move((x_m, y_m), use_tp=True)
+            _, score, _ = self._wait_for_screen_update(img_pre = grab(force_new = True), roi = self._roi_middle_half)
+            if score >= 0.15:
                 i += 1
             else:
                 stuck_count += 1
@@ -556,6 +576,7 @@ class Pather:
             return node_pos_abs
         return None
 
+
     def traverse_nodes(
         self,
         path: tuple[Location, Location] | list[int],
@@ -565,13 +586,17 @@ class Pather:
         do_pre_move: bool = True,
         force_move: bool = False,
         threshold: float = 0.68,
-        use_tp_charge: bool = False
+        active_skill: str = "",
     ) -> bool:
         """Traverse from one location to another
         :param path: Either a list of node indices or a tuple with (start_location, end_location)
         :param char: Char that is traversing the nodes
         :param timeout: Timeout in second. If no more move was found in that time it will cancel traverse
         :param force_move: Bool value if force move should be used for pathing
+        :param force_tp: Bool value if teleport should be used for pathing for charged characters
+        :param do_pre_move: Bool value if pre-move function should be used prior to moving
+        :param threshold: Threshold for template matching
+        :param active_skill: Name of the skill/aura that should be active during the traverse for walking chars or charged TP chars not using TP
         :return: Bool if traversed successful or False if it got stuck
         """
         if len(path) == 0:
@@ -591,23 +616,29 @@ class Pather:
         else:
             Logger.debug(f"Traverse: {path}")
 
-        if use_tp_charge and char.select_tp():
-            # this means we want to use tele charge and we were able to select it
-            pass
-        elif do_pre_move:
-            # we either want to tele charge but have no charges or don't wanna use the charge falling back to default pre_move handling
+        use_tp = (char.capabilities.can_teleport_natively or (char.capabilities.can_teleport_with_charges and force_tp)) and char.can_teleport()
+        if do_pre_move:
             char.pre_move()
+        if not use_tp:
+            if active_skill == "":
+                active_skill = char.default_move_skill
+            if active_skill is not None:
+                char._activate_aura(active_skill)
 
         last_direction = None
-        for i, node_idx in enumerate(path):
+        last_move = time.time()
+        img = None
+        last_node_pos_abs = None
+        for _, node_idx in enumerate(path):
             continue_to_next_node = False
-            last_move = time.time()
             did_force_move = False
             teleport_count = 0
+            identical_count = 0
             while not continue_to_next_node:
-                img = grab(force_new=True)
+                if img is None or not use_tp:
+                    img = grab(force_new=True)
                 # Handle timeout
-                if (time.time() - last_move) > timeout:
+                if (elapsed := time.time() - last_move) > timeout:
                     if is_visible(ScreenObjects.WaypointLabel, img):
                         # sometimes bot opens waypoint menu, close it to find templates again
                         Logger.debug("Opened wp, closing it again")
@@ -624,7 +655,7 @@ class Pather:
                         return False
 
                 # Sometimes we get stuck at rocks and stuff, after a few seconds force a move into the last known direction
-                if not did_force_move and time.time() - last_move > 3.1:
+                if not did_force_move and elapsed > 3.1:
                     if last_direction is not None:
                         pos_abs = last_direction
                     else:
@@ -633,9 +664,8 @@ class Pather:
                     pos_abs = get_closest_non_hud_pixel(pos = pos_abs, pos_type="abs")
                     Logger.debug(f"Pather: taking a random guess towards " + str(pos_abs))
                     x_m, y_m = convert_abs_to_monitor(pos_abs)
-                    char.move((x_m, y_m), force_move=True)
+                    last_move = char.move((x_m, y_m), use_tp=use_tp, force_move=True)
                     did_force_move = True
-                    last_move = time.time()
 
                 # Sometimes we get stuck at a Shrine or Stash, after a few seconds check if the screen was different, if force a left click.
                 if (teleport_count + 1) % 30 == 0:
@@ -655,14 +685,22 @@ class Pather:
                 if node_pos_abs is not None:
                     dist = math.dist(node_pos_abs, (0, 0))
                     if dist < Config().ui_pos["reached_node_dist"]:
+                        Logger.debug(f"Continue to next node")
                         continue_to_next_node = True
+                    # if relative node position is roughly identical to previous attempt, try another screengrab
+                    elif last_node_pos_abs is not None and math.dist(node_pos_abs, last_node_pos_abs) < 5 and identical_count <= 2:
+                        img = grab(force_new=True)
+                        Logger.debug(f"Identical node position {node_pos_abs} compared to previous {last_node_pos_abs}, trying another screengrab")
+                        identical_count += 1
                     else:
                         # Move the char
                         x_m, y_m = convert_abs_to_monitor(node_pos_abs)
-                        char.move((x_m, y_m), force_tp=force_tp, force_move=force_move)
+                        last_move = char.move((x_m, y_m), use_tp=use_tp, force_move=force_move)
                         last_direction = node_pos_abs
-                        last_move = time.time()
-
+                        # wait until there's a change on screen
+                        img, score, _ = self._wait_for_screen_update(img, roi = self._roi_middle_half, score_threshold=0.5)
+                        Logger.debug(f"moved toward node {node_idx} at {node_pos_abs}, screen update score: {score}")
+                    last_node_pos_abs = node_pos_abs
         return True
 
 

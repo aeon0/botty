@@ -35563,7 +35563,7 @@ REF_PATTERNS = {
         "cast1",
         "item_fastercastrate",
         "itemfastercastrate",
-        "fcr",
+        "faster_cast_rate",
         "fastercastrate",
         "cast2",
         "cast3"

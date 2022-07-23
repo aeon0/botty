@@ -31,7 +31,7 @@ class Pindle:
         loc = self._town_manager.go_to_act(5, start_loc)
         if not loc:
             return False
-        if not self._pather.traverse_nodes((loc, Location.A5_NIHLATHAK_PORTAL), self._char):
+        if not self._pather.traverse_nodes((loc, Location.A5_NIHLATHAK_PORTAL), self._char, force_move=True):
             return False
         wait(0.5, 0.6)
         found_loading_screen_func = lambda: loading.wait_for_loading_screen(2.0)

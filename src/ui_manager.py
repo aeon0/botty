@@ -161,6 +161,12 @@ class ScreenObjects:
         best_match=True,
         threshold=0.79
     )
+    BarTownPortalSkill=ScreenObject(
+        ref=["BAR_TP_ACTIVE", "BAR_TP_INACTIVE"],
+        roi="active_skills_bar",
+        best_match=True,
+        threshold=0.79
+    )
     RepairBtn=ScreenObject(
         ref="REPAIR_BTN",
         roi="repair_btn",
@@ -263,6 +269,13 @@ class ScreenObjects:
         ref="INVENTORY_BG_PATTERN",
         roi="inventory_bg_pattern",
         threshold=0.8,
+    )
+    ActiveWeaponBound=ScreenObject(
+        ref=["ACTIVE_WEAPON_MAIN", "ACTIVE_WEAPON_OFFHAND"],
+        #roi="active_weapon_tabs",
+        threshold=0.8,
+        use_grayscale=True,
+        best_match=True,
     )
 
 def detect_screen_object(screen_object: ScreenObject, img: np.ndarray = None) -> TemplateMatch:

@@ -6,11 +6,11 @@ from pather import Pather
 from logger import Logger
 from screen import grab
 from config import Config
-from utils.misc import wait, rotate_vec, unit_vector
+from utils.misc import wait
+from char.tools import calculations
 import random
 from pather import Location, Pather
 import screen as screen
-import numpy as np
 import time
 import os
 from ui_manager import get_closest_non_hud_pixel
@@ -158,7 +158,7 @@ class Poison_Necro(IChar):
         ''' print counts for summons '''
         Logger.info('\33[31m'+"Summon status | "+str(self._skeletons_count)+"skele | "+str(self._revive_count)+" rev | "+self._golem_count+" |"+'\033[0m')
 
-    def _revive(self, cast_pos_abs: tuple[float, float], spray: int = 10, cast_count: int=12):
+    def _revive(self, cast_pos_abs: tuple[float, float], spray: float = 10, cast_count: int=12):
         Logger.info('\033[94m'+"raise revive"+'\033[0m')
         keyboard.send(Config().char["stand_still"], do_release=False)
         for _ in range(cast_count):
@@ -187,7 +187,7 @@ class Poison_Necro(IChar):
             mouse.release(button="right")
         keyboard.send(Config().char["stand_still"], do_press=False)
 
-    def _raise_skeleton(self, cast_pos_abs: tuple[float, float], spray: int = 10, cast_count: int=16):
+    def _raise_skeleton(self, cast_pos_abs: tuple[float, float], spray: float = 10, cast_count: int=16):
         Logger.info('\033[94m'+"raise skeleton"+'\033[0m')
         keyboard.send(Config().char["stand_still"], do_release=False)
         for _ in range(cast_count):
@@ -216,7 +216,7 @@ class Poison_Necro(IChar):
             mouse.release(button="right")
         keyboard.send(Config().char["stand_still"], do_press=False)
 
-    def _raise_mage(self, cast_pos_abs: tuple[float, float], spray: int = 10, cast_count: int=16):
+    def _raise_mage(self, cast_pos_abs: tuple[float, float], spray: float = 10, cast_count: int=16):
         Logger.info('\033[94m'+"raise mage"+'\033[0m')
         keyboard.send(Config().char["stand_still"], do_release=False)
         for _ in range(cast_count):
@@ -248,8 +248,7 @@ class Poison_Necro(IChar):
 
     def pre_buff(self):
         #only CTA if pre trav
-        if Config().char["cta_available"]:
-            self._pre_buff_cta()
+        self._pre_buff_cta()
         if self._shenk_dead==1:
             Logger.info("trav buff?")
             #self._heart_of_wolverine()
@@ -292,7 +291,7 @@ class Poison_Necro(IChar):
 
 
 
-    def _left_attack(self, cast_pos_abs: tuple[float, float], spray: int = 10):
+    def _left_attack(self, cast_pos_abs: tuple[float, float], spray: float = 10):
         keyboard.send(Config().char["stand_still"], do_release=False)
         if self._skill_hotkeys["skill_left"]:
             keyboard.send(self._skill_hotkeys["skill_left"])
@@ -307,7 +306,7 @@ class Poison_Necro(IChar):
 
         keyboard.send(Config().char["stand_still"], do_press=False)
 
-    def _left_attack_single(self, cast_pos_abs: tuple[float, float], spray: int = 10, cast_count: int=6):
+    def _left_attack_single(self, cast_pos_abs: tuple[float, float], spray: float = 10, cast_count: int=6):
         keyboard.send(Config().char["stand_still"], do_release=False)
         if self._skill_hotkeys["skill_left"]:
             keyboard.send(self._skill_hotkeys["skill_left"])
@@ -346,7 +345,7 @@ class Poison_Necro(IChar):
         wait(0.25, 0.35)
         mouse.release(button="right")
 
-    def _corpse_explosion(self, cast_pos_abs: tuple[float, float], spray: int = 10,cast_count: int = 8):
+    def _corpse_explosion(self, cast_pos_abs: tuple[float, float], spray: float = 10,cast_count: int = 8):
         keyboard.send(Config().char["stand_still"], do_release=False)
         Logger.info('\033[93m'+"corpse explosion~> random cast"+'\033[0m')
         for _ in range(cast_count):
@@ -369,8 +368,8 @@ class Poison_Necro(IChar):
         mouse.press(button="right")
 
         for i in range(cast_div):
-            angle = self._lerp(cast_start_angle,cast_end_angle,float(i)/cast_div)
-            target = unit_vector(rotate_vec(cast_dir, angle))
+            angle = calculations.lerp(cast_start_angle,cast_end_angle,float(i)/cast_div)
+            target = calculations.unit_vector(calculations.rotate_vec(cast_dir, angle))
             #Logger.info("current angle ~> "+str(angle))
             for j in range(cast_v_div):
                 circle_pos_abs = get_closest_non_hud_pixel(pos = ((target*120.0*float(j+1.0))*offset), pos_type="abs")
@@ -385,14 +384,14 @@ class Poison_Necro(IChar):
 
     def kill_pindle(self) -> bool:
         pos_m = screen.convert_abs_to_monitor((0, 30))
-        self.walk(pos_m, force_move=True)
+        self._walk_to_position(pos_m, force_move=True)
         self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=4,cast_v_div=3,cast_spell='lower_res',delay=1.0)
         self.poison_nova(3.0)
         pos_m = screen.convert_abs_to_monitor((0, -50))
         self.pre_move()
         self.move(pos_m, force_move=True)
         pos_m = screen.convert_abs_to_monitor((50, 0))
-        self.walk(pos_m, force_move=True)
+        self._walk_to_position(pos_m, force_move=True)
         self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=120,cast_div=5,cast_v_div=2,cast_spell='corpse_explosion',delay=1.1,offset=1.8)
         self.poison_nova(3.0)
         return True
@@ -434,7 +433,7 @@ class Poison_Necro(IChar):
     def kill_shenk(self) -> bool:
         self._pather.traverse_nodes((Location.A5_SHENK_SAFE_DIST, Location.A5_SHENK_END), self, timeout=1.0)
         #pos_m = self._screen.convert_abs_to_monitor((50, 0))
-        #self.walk(pos_m, force_move=True)
+        #self._walk_to_position(pos_m, force_move=True)
         self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=4,cast_v_div=3,cast_spell='lower_res',delay=1.0)
         self.poison_nova(3.0)
         pos_m = screen.convert_abs_to_monitor((0, -50))
@@ -458,9 +457,9 @@ class Poison_Necro(IChar):
         pos_m = screen.convert_abs_to_monitor((0, -200))
         self.pre_move()
         self.move(pos_m, force_move=True)
-        self._pather.traverse_nodes([229], self, timeout=2.5, force_tp=True, use_tp_charge=True)
+        self._pather.traverse_nodes([229], self, timeout=2.5, force_tp=True)
         pos_m = screen.convert_abs_to_monitor((50, 0))
-        self.walk(pos_m, force_move=True)
+        self._walk_to_position(pos_m, force_move=True)
         #self._lower_res((-50, 0), spray=10)
         self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=4,cast_v_div=3,cast_spell='lower_res',delay=1.0)
         self.poison_nova(2.0)
@@ -469,7 +468,7 @@ class Poison_Necro(IChar):
         self.pre_move()
         self.move(pos_m, force_move=True)
         pos_m = screen.convert_abs_to_monitor((30, -50))
-        self.walk(pos_m, force_move=True)
+        self._walk_to_position(pos_m, force_move=True)
         self.poison_nova(2.0)
         #self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=120,cast_div=2,cast_v_div=1,cast_spell='corpse_explosion',delay=3.0,offset=1.8)
         #wait(self._cast_duration, self._cast_duration +.2)
@@ -479,9 +478,9 @@ class Poison_Necro(IChar):
         pos_m = screen.convert_abs_to_monitor((-100, 200))
         self.pre_move()
         self.move(pos_m, force_move=True)
-        self._pather.traverse_nodes([226], self, timeout=2.5, force_tp=True, use_tp_charge=True)
+        self._pather.traverse_nodes([226], self, timeout=2.5, force_tp=True)
         pos_m = screen.convert_abs_to_monitor((0, 30))
-        self.walk(pos_m, force_move=True)
+        self._walk_to_position(pos_m, force_move=True)
         self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=4,cast_v_div=3,cast_spell='lower_res',delay=1.0)
         wait(0.5)
         self.poison_nova(4.0)
@@ -497,9 +496,9 @@ class Poison_Necro(IChar):
         pos_m = screen.convert_abs_to_monitor((-200, -200))
         self.pre_move()
         self.move(pos_m, force_move=True)
-        self._pather.traverse_nodes([229], self, timeout=2.5, force_tp=True, use_tp_charge=True)
+        self._pather.traverse_nodes([229], self, timeout=2.5, force_tp=True)
         pos_m = screen.convert_abs_to_monitor((20, -50))
-        self.walk(pos_m, force_move=True)
+        self._walk_to_position(pos_m, force_move=True)
         self.poison_nova(2.0)
         pos_m = screen.convert_abs_to_monitor((50, 0))
         self.pre_move()
@@ -514,9 +513,9 @@ class Poison_Necro(IChar):
 
     def kill_nihlathak(self, end_nodes: list[int]) -> bool:
         # Move close to nihlathak
-        self._pather.traverse_nodes(end_nodes, self, timeout=0.8, do_pre_move=True)
+        self._pather.traverse_nodes(end_nodes, self, timeout=0.8)
         pos_m = screen.convert_abs_to_monitor((20, 20))
-        self.walk(pos_m, force_move=True)
+        self._walk_to_position(pos_m, force_move=True)
         self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=4,cast_v_div=3,cast_spell='lower_res',delay=1.0)
         self.poison_nova(3.0)
         pos_m = screen.convert_abs_to_monitor((50, 0))
@@ -530,7 +529,7 @@ class Poison_Necro(IChar):
     def kill_summoner(self) -> bool:
         # Attack
         pos_m = screen.convert_abs_to_monitor((0, 30))
-        self.walk(pos_m, force_move=True)
+        self._walk_to_position(pos_m, force_move=True)
         self._cast_circle(cast_dir=[-1,1],cast_start_angle=0,cast_end_angle=360,cast_div=4,cast_v_div=3,cast_spell='lower_res',delay=1.0)
         wait(0.5)
         self.poison_nova(3.0)

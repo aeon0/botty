@@ -89,7 +89,7 @@ class Nihlathak:
             # If it is found, move down that hallway
             if template_match.valid and template_match.name.endswith("_SAFE_DIST"):
                 self._pather.traverse_nodes_fixed(data.destination_static_path_key, self._char)
-                self._pather.traverse_nodes(data.save_dist_nodes, self._char, timeout=2, do_pre_move=False)
+                self._pather.traverse_nodes(data.save_dist_nodes, self._char, timeout=2)
                 end_nodes = data.end_nodes
                 break
 
@@ -97,7 +97,7 @@ class Nihlathak:
         if end_nodes is None:
             self._pather.traverse_nodes_fixed("ni2_circle_back_to_a", self._char)
             self._pather.traverse_nodes_fixed(check_arr[0].destination_static_path_key, self._char)
-            self._pather.traverse_nodes(check_arr[0].save_dist_nodes, self._char, timeout=2, do_pre_move=False)
+            self._pather.traverse_nodes(check_arr[0].save_dist_nodes, self._char, timeout=2)
             end_nodes = check_arr[0].end_nodes
 
         # Attack & Pick items

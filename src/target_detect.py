@@ -67,6 +67,7 @@ def get_visible_targets(
                     ))
     if targets:
         targets = sorted(targets, key=lambda obj: obj.distance)
+        Logger.debug(f"{len(targets)} targets detected, closest at {targets[0].center_abs} {targets[0].distance} px away")
     return targets
 
 def _bright_contrast(img: np.ndarray, brightness: int = 255, contrast: int = 127):
@@ -248,22 +249,17 @@ if __name__ == "__main__":
     start_detecting_window()
     print("Move to d2r window and press f11")
     keyboard.wait("f11")
-    # l = LiveViewer()
+    l = LiveViewer()
 
-    masked_image = False
 
-    def _toggle_masked_image():
-        global masked_image
-        masked_image = not masked_image
-
-    while 1:
-        img = grab()
-        targets = get_visible_targets()
-
-        display_img = img.copy()
-
-        for target in targets:
-            x, y = target.center
-            cv2.rectangle(display_img, target.roi[:2], (target.roi[0] + target.roi[2], target.roi[1] + target.roi[3]), (0, 0, 255), 1)
-        cv2.imshow('test', display_img)
-        key = cv2.waitKey(1)
+#    while 1:
+#        img = grab()
+#        targets = get_visible_targets()
+#
+#        display_img = img.copy()
+#
+#        for target in targets:
+#            x, y = target.center
+#            cv2.rectangle(display_img, target.roi[:2], (target.roi[0] + target.roi[2], target.roi[1] + target.roi[3]), (0, 0, 255), 1)
+#        cv2.imshow('test', display_img)
+#        key = cv2.waitKey(1)
