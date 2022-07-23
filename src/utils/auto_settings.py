@@ -44,10 +44,13 @@ def backup_settings():
             return
     f = open(current_file)
     curr_settings = json.load(f)
-    launch_options = curr_settings["Games"]["osi"]["AdditionalLaunchArguments"]
-    with open(backup_file, 'w') as f:
-        f.write(launch_options)
-    print("D2R launch options backed up successfully.")
+    try:
+        launch_options = curr_settings["Games"]["osi"]["AdditionalLaunchArguments"]
+        with open(backup_file, 'w') as f:
+            f.write(launch_options)
+        print("D2R launch options backed up successfully.")
+    except KeyError:
+        pass
 
 def restore_settings_from_backup():
     d2_saved_games = get_d2r_folder()
