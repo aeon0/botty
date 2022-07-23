@@ -307,6 +307,41 @@ class IChar:
                 Logger.warning("Failed to switch weapon, try again")
                 wait(0.5)
 
+    def switch_to_tele_offhand(self): #for teleport on switch
+        # Save current skill img
+        skill_before = cut_roi(grab(), Config().ui_roi["skill_right"])
+        # Try to switch weapons and select bo until we find the skill on the right skill slot
+        start = time.time()
+        switch_sucess = False
+        while time.time() - start < 4:
+            keyboard.send(Config().char["weapon_switch"])
+            wait(0.3, 0.35)
+            self._select_skill(skill = "teleport", mouse_click_type="right", delay=(0.1, 0.2))
+            if skills.is_right_skill_selected(["teleport"]):
+                switch_sucess = True
+                break
+
+        if not switch_sucess:
+            Logger.warning("You dont have Teleport bound, or you do not have NAJs Puzzler on offhand. Switching off teleport_weapon_swap")
+            Config().char["teleport_weapon_swap"] = 0
+        else:
+            # We switched succesfully, we can now teleport as long as we have charges!
+            return skill_before
+
+        # Make sure the switch back to the original weapon is good
+    def switch_from_tele_offhand(self, skill_before):
+        start = time.time()
+        while time.time() - start < 4:
+            keyboard.send(Config().char["weapon_switch"])
+            wait(0.3, 0.35)
+            skill_after = cut_roi(grab(), Config().ui_roi["skill_right"])
+            _, max_val, _, _ = cv2.minMaxLoc(cv2.matchTemplate(skill_after, skill_before, cv2.TM_CCOEFF_NORMED))
+            if max_val > 0.9:
+                break
+            else:
+                Logger.warning("Failed to switch weapon, try again")
+                wait(0.5)
+        
 
     def vec_to_monitor(self, target):
         circle_pos_abs = get_closest_non_hud_pixel(pos = target, pos_type="abs")
